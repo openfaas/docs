@@ -1,4 +1,5 @@
 # Copyright (c) 2016-2017 Martin Donath <martin.donath@squidfunk.com>
+# Copyright (c) 2018 OpenFaaS Project
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to
@@ -20,14 +21,14 @@
 
 # Project information
 site_name: OpenFaaS
-site_description: OpenFaaS is a serverless framework for Docker & Kubernetes
-site_author: OpenFaaS Authors
+site_description: OpenFaaS - Serverless Functions Made Simple
+site_author: OpenFaaS Project
 site_url: https://www.openfaas.com/
 
 
 # Repository
-repo_name: openfaas-incubator/docs-poc
-repo_url: https://github.com/openfaas-incubator/docs-poc
+repo_name: openfaas/docs
+repo_url: https://github.com/openfaas/docs
 edit_uri: ""
 
 # edit_uri: edit/docs-revamp/docs/
@@ -55,7 +56,7 @@ theme:
   logo: images/logo.svg
 
 # Copyright
-copyright: 'Copyright &copy; 2017 OpenFaaS Project'
+copyright: 'Copyright &copy; 2019 OpenFaaS Project'
 
 # Options
 extra:
@@ -65,9 +66,9 @@ extra:
     - type: globe
       link: https://www.openfaas.com/
     - type: github-alt
-      link: https://github.com/openfaas-incubator/docs-poc
+      link: https://github.com/openfaas
     - type: twitter
-      link: https://twitter.com/openfaas-incubator
+      link: https://twitter.com/openfaas
 
 extra_css:
   - stylesheets/extra.css
