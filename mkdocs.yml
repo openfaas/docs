@@ -27,8 +27,8 @@ site_url: https://www.openfaas.com/
 
 
 # Repository
-repo_name: openfaas/docs
-repo_url: https://github.com/openfaas/docs
+repo_name: openfaas/faas
+repo_url: https://github.com/openfaas/faas
 edit_uri: ""
 
 # edit_uri: edit/docs-revamp/docs/
