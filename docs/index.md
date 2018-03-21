@@ -18,112 +18,27 @@ OpenFaaS (Functions as a Service) is a framework for building serverless functio
 * [CLI](http://github.com/openfaas/faas-cli) available with YAML format for templating and defining functions
 * Auto-scales as demand increases
 
-## New: become an OpenFaaS backer or sponsor
+> Serverless Functions Made Simple.
 
-We need your support to keep delivering on Serverless Functions Made Simple so pledge to OpenFaaS and [become a backer or a sponsor](https://www.patreon.com/alexellis) with a unique set of rewards. Help us hit our goals and get to back a great project at the same time.
-
-View the [List of backers and sponsors](https://github.com/openfaas/faas/blob/master/BACKERS.md)
-
-## Press-kit/media/swag
-
-For stickers, swag, media or press-kit information head over to [openfaas/media](https://github.com/openfaas/media/blob/master/README.md)
+![Stack](https://pbs.twimg.com/media/DFrkF4NXoAAJwN2.jpg)
 
 ## Governance
 
 OpenFaaS is an independent project created by [Alex Ellis](https://www.alexellis.io) which is now being built and shaped by a growing community of contributors. Project website: [openfaas.com](https://www.openfaas.com).
 
-## Overview of OpenFaaS
-
-> Serverless Functions Made Simple.
-
-![Stack](https://pbs.twimg.com/media/DFrkF4NXoAAJwN2.jpg)
-
-### Function Watchdog
-
-* You can make any Docker image into a serverless function by adding the *Function Watchdog* (a tiny Golang HTTP server)
-* The *Function Watchdog* is the entrypoint allowing HTTP requests to be forwarded to the target process via STDIN. The response is sent back to the caller by writing to STDOUT from your application.
-
-### API Gateway / UI Portal
-
-* The API Gateway provides an external route into your functions and collects Cloud Native metrics through Prometheus.
-* Your API Gateway will scale functions according to demand by altering the service replica count in the Docker Swarm or Kubernetes API.
-* A UI is baked in allowing you to invoke functions in your browser and create new ones as needed.
-
-> The API Gateway is a RESTful micro-service and you can view the [Swagger docs here](https://github.com/openfaas/faas/tree/master/api-docs).
-
-### CLI
-
-Any container or process in a Docker container can be a serverless function in FaaS. Using the [FaaS CLI](http://github.com/openfaas/faas-cli) you can deploy your functions quickly.
-
-Create new functions from templates for Node.js, Python, [Go](https://blog.alexellis.io/serverless-golang-with-openfaas/) and many more. If you can't find a suitable template you can also use a Dockerfile.
-
-> The CLI is effectively a RESTful client for the API Gateway.
-
-When you have OpenFaaS configured you can [get started with the CLI here](https://blog.alexellis.io/quickstart-openfaas-cli/)
-
-### Function examples
-
-You can generate new functions using the FaaS-CLI and built-in templates or use any binary for Windows or Linux in a Docker container.
-
-* Python example:
-
-```python
-import requests
-
-def handle(req):
-    r =  requests.get(req, timeout = 1)
-    print(req +" => " + str(r.status_code))
-```
-*handler.py*
-
-* Node.js example:
-
-```js
-"use strict"
-
-module.exports = (callback, context) => {
-    callback(null, {"message": "You said: " + context})
-}
-```
-*handler.js*
-
-Other [Sample functions](https://github.com/openfaas/faas/tree/master/sample-functions) are available in the Github repository in a range of programming languages.
-
-## Documentation
-
-[View our guides](https://github.com/openfaas/faas/tree/master/guide) for documentation, deployment guides and tutorials.
-
 ## Get started with OpenFaaS
-
-### TestDrive
-
-**Docker Swarm**
-
-The deployment guide for Docker Swarm contains a simple one-line command to get you up and running in around 60 seconds. It also includes a set of [sample functions](https://github.com/openfaas/faas/tree/master/sample-functions) which you can use with the TestDrive instructions below.
-
-[Deployment guide for Docker Swarm](https://github.com/openfaas/faas/blob/master/guide/deployment_swarm.md)
-
-**Kubernetes**
-
-OpenFaaS is Kubernetes-native - you can follow the [deployment guide here](https://github.com/openfaas/faas/blob/master/guide/deployment_k8s.md).
-
-The new login feature breaks the one-click deployment to PWD.
-**Docker Playground**
-
-You can quickly start OpenFaaS on Docker Swarm online using the community-run Docker playground: play-with-docker.com (PWD) by clicking the button below:
-
-[![Try in PWD](https://cdn.rawgit.com/play-with-docker/stacks/cff22438/assets/images/button.png)](http://play-with-docker.com?stack=https://raw.githubusercontent.com/openfaas/faas/master/docker-compose.yml&stack_name=func)
-
-
-#### Begin the TestDrive
-
-* [Begin the TestDrive with Docker Swarm](https://github.com/openfaas/faas/blob/master/TestDrive.md)
-
-Here is a screenshot of the API gateway portal - designed for ease of use.
 
 ![Portal](https://pbs.twimg.com/media/C7bkpZbWwAAnKsx.jpg)
 
-## Find out more about OpenFaaS
+*Pictured: API gateway portal - designed for ease of use*
+
+Read the [deployment guide](./deployment/)
+
+## Presentations
+
+### TechFieldDay presentation (Dockercon EU)
+
+15 minute overview with demos on Kubernetes and with Alexa - [HD YouTube video](https://www.youtube.com/watch?v=C3agSKv2s_w&list=PLlIapFDp305AiwA17mUNtgi5-u23eHm5j&index=1)
 
 ### SkillsMatter video presentation
 
@@ -171,16 +86,10 @@ Highlights:
 * New: Windows function support
 * New: Asynchronous/long-running OpenFaaS functions via [NATS Streaming](https://nats.io/documentation/streaming/nats-streaming-intro/) - [Follow this guide](https://github.com/openfaas/faas/blob/master/guide/asynchronous.md)
 
-### How do I become a contributor?
-
-Anyone is invited to contribute to the project in-line with the [contribution guide](https://github.com/openfaas/faas/blob/master/CONTRIBUTING.md) - you can also read the guide for ideas on how to get involved. We invite new contributors to join our Slack community. We would also ask you to propose any changes or contributions ahead of time, especially when there is no issue or proposal already tracking it.
-
 ### Other
 
 Example of a Grafana dashboards linked to OpenFaaS showing auto-scaling live in action: [here](https://grafana.com/dashboards/3526)
 
-
 ![](https://pbs.twimg.com/media/C9caE6CXUAAX_64.jpg:large)
-
 
 An alternative community dashboard is [available here](https://grafana.com/dashboards/3434)

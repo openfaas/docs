@@ -103,4 +103,11 @@ markdown_extensions:
 # Page tree
 pages:
   - Overview: index.md
-  - Community: community.md
+    - Community: community.md
+    - Conceptual: conceptual.md
+  - Getting Started:
+    - Deployment: deployment.md
+  - Design & Architecture:
+    - Swagger: swagger.yml
+
+    
