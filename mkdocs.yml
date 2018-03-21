@@ -108,6 +108,6 @@ pages:
   - Getting Started:
     - Deployment: deployment.md
   - Design & Architecture:
-    - Swagger: swagger.yml
+    - Swagger: swagger.md
 
     
