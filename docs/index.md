@@ -1,9 +1,5 @@
 ## OpenFaaS - Serverless Functions Made Simple
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/openfaas/faas)](https://goreportcard.com/report/github.com/openfaas/faas) [![Build
-Status](https://travis-ci.org/openfaas/faas.svg?branch=master)](https://travis-ci.org/openfaas/faas) [![GoDoc](https://godoc.org/github.com/openfaas/faas?status.svg)](https://godoc.org/github.com/openfaas/faas) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![OpenFaaS](https://img.shields.io/badge/openfaas-serverless-blue.svg)](https://www.openfaas.com)
-
 ![OpenFaaS Logo](https://blog.alexellis.io/content/images/2017/08/faas_side.png)
 
 OpenFaaS (Functions as a Service) is a framework for building serverless functions with Docker and Kubernetes which has first class support for metrics. Any process can be packaged as a function enabling you to consume a range of web events without repetitive boiler-plate coding.
@@ -18,8 +14,6 @@ OpenFaaS (Functions as a Service) is a framework for building serverless functio
 * [CLI](http://github.com/openfaas/faas-cli) available with YAML format for templating and defining functions
 * Auto-scales as demand increases
 
-> Serverless Functions Made Simple.
-
 ![Stack](https://pbs.twimg.com/media/DFrkF4NXoAAJwN2.jpg)
 
 ## Governance
@@ -32,7 +26,7 @@ OpenFaaS is an independent project created by [Alex Ellis](https://www.alexellis
 
 *Pictured: API gateway portal - designed for ease of use*
 
-Read the [deployment guide](./deployment/)
+Get started with one of our [deployment guides](./deployment/) for Kubernetes or Docker Swarm.
 
 ## Presentations
 
@@ -64,29 +58,23 @@ This is my original blog post on FaaS from January: [Functions as a Service blog
 
 ### Community
 
+OpenFaaS has a thriving community of Open Source contributors and users.
+
+* Find out more on the [community page](/community/)
+
 Have you written a blog about OpenFaaS? Send a Pull Request to the community page below.
 
 * [Read blogs/articles and find events about OpenFaaS](https://github.com/openfaas/faas/blob/master/community.md)
 
 If you'd like to join OpenFaaS community Slack channel to chat with contributors or get some help - then send a Tweet to [@alexellisuk](https://twitter.com/alexellisuk/) or email alex@openfaas.com.
 
-### Roadmap and contributing
+### Contributing
 
 OpenFaaS is written in Golang and is MIT licensed - contributions are welcomed whether that means providing feedback, testing existing and new feature or hacking on the source.
 
-To get started you can read the [roadmap](https://github.com/openfaas/faas/blob/master/ROADMAP.md) and [contribution guide](https://github.com/openfaas/faas/blob/master/CONTRIBUTING.md) or:
+* View the [contributing page](/community/#contribute)
 
-* [Browse FaaS issues on Github](https://github.com/openfaas/faas/issues).
-* [Browse FaaS-CLI issues on Github](https://github.com/openfaas/faas-cli/issues).
-
-Highlights:
-
-* New: Kubernetes support via [FaaS-netes](https://github.com/openfaas/faas-netes) plugin
-* New: FaaS CLI and easy install via `curl` and `brew`
-* New: Windows function support
-* New: Asynchronous/long-running OpenFaaS functions via [NATS Streaming](https://nats.io/documentation/streaming/nats-streaming-intro/) - [Follow this guide](https://github.com/openfaas/faas/blob/master/guide/asynchronous.md)
-
-### Other
+### Grafana dashboards
 
 Example of a Grafana dashboards linked to OpenFaaS showing auto-scaling live in action: [here](https://grafana.com/dashboards/3526)
 
