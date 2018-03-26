@@ -110,7 +110,10 @@ pages:
     - Deployment: deployment.md
     - Kubernetes: ./deployment/kubernetes.md
     - Docker Swarm: ./deployment/docker-swarm.md
+  - Tutorials:
+    - Workshop: ./tutorials/workshop.md
   - Design & Architecture:
-    - Swagger: swagger.md
+    - Gateway: ./architecture/gateway.md
+    - Watchdog: ./architecture/watchdog.md
 
     
