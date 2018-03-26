@@ -115,5 +115,3 @@ pages:
   - Design & Architecture:
     - Gateway: ./architecture/gateway.md
     - Watchdog: ./architecture/watchdog.md
-
-    
