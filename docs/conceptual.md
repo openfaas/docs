@@ -15,7 +15,7 @@
 * Your API Gateway will scale functions according to demand by altering the service replica count in the Docker Swarm or Kubernetes API.
 * A UI is baked in allowing you to invoke functions in your browser and create new ones as needed.
 
-> The API Gateway is a RESTful micro-service and you can view the [Swagger docs here](https://github.com/openfaas/faas/tree/master/api-docs).
+> The API Gateway is a RESTful micro-service and you can view the [Swagger docs here](/architecture/gateway/#swagger).
 
 ### CLI
 

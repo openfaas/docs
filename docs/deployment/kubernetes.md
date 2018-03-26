@@ -184,6 +184,13 @@ $ echo -n "" | faas-cli invoke --gateway http://kubernetes-ip:31112 nodeinfo
 $ echo -n "verbose" | faas-cli invoke --gateway http://kubernetes-ip:31112 nodeinfo
 ```
 
+
+## 3.1 Start the hands-on labs
+
+Learn how to build serverless functions with OpenFaaS and Python in our half-day workshop. You can follow along online at your own pace.
+
+* [OpenFaaS workshop](/tutorials/workshop/)
+
 ## Troubleshooting
 
 If you are running into any issues please check out the troubleshooting guide and search the documentation / past issues before raising an issue.
