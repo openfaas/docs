@@ -108,6 +108,8 @@ pages:
     - Conceptual: conceptual.md
   - Getting Started:
     - Deployment: deployment.md
+    - Kubernetes: ./deployment/kubernetes.md
+    - Docker Swarm: ./deployment/docker-swarm.md
   - Design & Architecture:
     - Swagger: swagger.md
 
