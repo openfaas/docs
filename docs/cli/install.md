@@ -32,17 +32,6 @@ $version = (Invoke-WebRequest "https://api.github.com/repos/openfaas/faas-cli/re
 (New-Object System.Net.WebClient).DownloadFile("https://github.com/openfaas/faas-cli/releases/download/$version/faas-cli.exe", "faas-cli.exe")
 ```
 
-## Windows
-
-The easiest way to install the faas-cli is through `scoop`:
-
-```powershell
-scoop install faas-cli
-```
-
-!!! note
-    The `scoop` release may not run the latest minor release but is updated regularly.
-
 ## Build from source
 
 The [contributing guide](../contributing) has instructions for building from source and for configuring a Golang development environment.
