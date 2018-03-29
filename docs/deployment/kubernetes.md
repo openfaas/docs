@@ -25,7 +25,7 @@ We have a special guide for minikube here:
     Are you using Google Kubernetes Engine (GKE)? You'll need to create an RBAC role with the following command:
 
     ```bash
-    # kubectl create clusterrolebinding "cluster-admin-$(whoami)" \
+    $ kubectl create clusterrolebinding "cluster-admin-$(whoami)" \
       --clusterrole=cluster-admin \
       --user="$(gcloud config get-value core/account)"
     ```
@@ -47,7 +47,7 @@ This step assumes you are running `kubectl` on a master host.
 * Clone the code
 
     ```bash
-    git clone https://github.com/openfaas/faas-netes
+    $ git clone https://github.com/openfaas/faas-netes
     ```
 
     Deploy a stack with asynchronous functionality provided by NATS Streaming.
@@ -60,7 +60,7 @@ This step assumes you are running `kubectl` on a master host.
     * openfaas-fn - for functions
 
     ```bash
-    cd faas-netes && \
+    $ cd faas-netes && \
     kubectl apply -f ./namespaces.yml,./yaml
     ```
 
@@ -100,7 +100,7 @@ There are currently no sample functions built into this stack, but we can deploy
 * Install the CLI
 
     ```bash
-    curl -sL https://cli.openfaas.com | sudo sh
+    $ curl -sL https://cli.openfaas.com | sudo sh
     ```
 
     If you like you can also run the script via a non-root user. Then the faas-cli binary is downloaded to the current working directory instead.
@@ -108,7 +108,7 @@ There are currently no sample functions built into this stack, but we can deploy
 * Then clone some samples to deploy on your cluster.
 
     ```bash
-    git clone https://github.com/openfaas/faas-cli
+    $ git clone https://github.com/openfaas/faas-cli
     ```
 
     Edit samples.yml and change your gateway URL from `localhost:8080` to `kubernetes-node-ip:31112` or pass the `--gateway` / `-g` flag to commands.
@@ -124,7 +124,7 @@ There are currently no sample functions built into this stack, but we can deploy
     Now deploy the samples:
 
     ```bash
-    faas-cli deploy -f samples.yml
+    $ faas-cli deploy -f samples.yml
     ```
 
     !!! info
@@ -137,7 +137,7 @@ There are currently no sample functions built into this stack, but we can deploy
 #### List the functions
 
 ```bash
-faas-cli list -f samples.yml
+$ faas-cli list -f samples.yml
 
 or
 
@@ -181,8 +181,8 @@ Your function will appear after a few seconds and you can click "Invoke"
 The function can also be invoked through the CLI:
 
 ```bash
-echo -n "" | faas-cli invoke --gateway http://kubernetes-ip:31112 nodeinfo
-echo -n "verbose" | faas-cli invoke --gateway http://kubernetes-ip:31112 nodeinfo
+$ echo -n "" | faas-cli invoke --gateway http://kubernetes-ip:31112 nodeinfo
+$ echo -n "verbose" | faas-cli invoke --gateway http://kubernetes-ip:31112 nodeinfo
 ```
 
 

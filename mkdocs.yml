@@ -110,6 +110,7 @@ pages:
     - Deployment: deployment.md
     - Kubernetes: ./deployment/kubernetes.md
     - Docker Swarm: ./deployment/docker-swarm.md
+  - CLI: ./cli/install.md
   - Tutorials:
     - Workshop: ./tutorials/workshop.md
   - Design & Architecture:

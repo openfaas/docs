@@ -35,3 +35,6 @@ $version = (Invoke-WebRequest "https://api.github.com/repos/openfaas/faas-cli/re
 ## Build from source
 
 The [contributing guide](../contributing) has instructions for building from source and for configuring a Golang development environment.
+## Learn about the CLI
+
+[Morning coffee with the OpenFaaS CLI](https://blog.alexellis.io/quickstart-openfaas-cli/)
