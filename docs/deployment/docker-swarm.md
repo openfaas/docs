@@ -7,7 +7,7 @@ You can create a single-host Docker Swarm on your laptop with a single command. 
 This is how you initialize your master node:
 
 ```bash
-docker swarm init
+$ docker swarm init
 ```
 
 If you have more than one IP address you may need to pass a string like `--advertise-addr eth0` to this command.
@@ -28,7 +28,7 @@ It's also important to pass the `--advertise-addr` string to any hosts which hav
 Clone OpenFaaS and then checkout the latest stable release:
 
 ```bash
-git clone https://github.com/openfaas/faas && \
+$ git clone https://github.com/openfaas/faas && \
   cd faas && \
   git checkout 0.7.7 && \
   ./deploy_stack.sh
