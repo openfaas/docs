@@ -116,6 +116,7 @@ pages:
     - CLI with Node.js: ./tutorials/CLI-with-node.md
     - First Python Function: ./tutorials/first-python-function.md
     - Workshop: ./tutorials/workshop.md
+    - Featured: ./tutorials/featured.md
   - Design & Architecture:
     - Gateway: ./architecture/gateway.md
     - Watchdog: ./architecture/watchdog.md
