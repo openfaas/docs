@@ -113,6 +113,8 @@ pages:
     - Troubleshooting: ./deployment/troubleshooting.md
   - CLI: ./cli/install.md
   - Tutorials:
+    - CLI with Node.js: ./tutorials/CLI-with-node.md
+    - First Python Function: ./tutorials/first-python-function.md
     - Workshop: ./tutorials/workshop.md
   - Design & Architecture:
     - Gateway: ./architecture/gateway.md
