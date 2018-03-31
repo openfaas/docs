@@ -20,7 +20,7 @@ The minimum (initial) and maximum replica count can be set at deployment time by
 
 * `com.openfaas.scale.max` The current default value is `20` for 20 replicas
 
-> Note: Setting `com.openfaas.scale.max=1` allows to disable the auto-scaling functionality of openfaas.
+> Note: Setting `com.openfaas.scale.min` and `com.openfaas.scale.max` to the same value, allows to disable the auto-scaling functionality of openfaas.
 
 
 For each alert fired the auto-scaler will add 5 replicas, but we are currently working on making the step configurable as a pre-defined step or proportional percentage. Once an alert is resolved due to a lower load than is needed for scaling the replica count will be scaled to the minimum replica count.
