@@ -110,9 +110,11 @@ pages:
     - Deployment: deployment.md
     - Kubernetes: ./deployment/kubernetes.md
     - Docker Swarm: ./deployment/docker-swarm.md
+    - Troubleshooting: ./deployment/troubleshooting.md
   - CLI: ./cli/install.md
   - Tutorials:
     - Workshop: ./tutorials/workshop.md
   - Design & Architecture:
     - Gateway: ./architecture/gateway.md
     - Watchdog: ./architecture/watchdog.md
+    - Autoscaling: ./architecture/autoscaling.md

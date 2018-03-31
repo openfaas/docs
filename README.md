@@ -16,4 +16,4 @@ This page is published through the use of `mkdocs` and is hosted on https://netl
 
 * https://docs.openfaas.com/
 
-All commits into master (or merged PRs) will emerge on the front-page after being rebuilt.
+All commits into master (or merged PRs) will appear on the front-page after being rebuilt.
