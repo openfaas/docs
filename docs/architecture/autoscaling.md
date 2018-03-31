@@ -16,13 +16,12 @@ The AlertManager rules ([alert.rules](https://github.com/openfaas/faas/blob/mast
 
 The minimum (initial) and maximum replica count can be set at deployment time by adding a label to the function.
 
-* `com.openfaas.scale.min`
+* `com.openfaas.scale.min` By default this is set to `1`
 
-By default this is set to `1`
+* `com.openfaas.scale.max` The current default value is `20` for 20 replicas
 
-* `com.openfaas.scale.max`
+> Note: Setting `com.openfaas.scale.max=1` allows to disable the auto-scaling functionality of openfaas.
 
-The current default value is `20` for 20 replicas
 
 For each alert fired the auto-scaler will add 5 replicas, but we are currently working on making the step configurable as a pre-defined step or proportional percentage. Once an alert is resolved due to a lower load than is needed for scaling the replica count will be scaled to the minimum replica count.
 
