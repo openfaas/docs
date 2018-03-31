@@ -232,3 +232,7 @@ Type in `faas-cli rm --help` for more information.
 > Did you know we also have a UI and Prometheus metrics built-into the stack? Head over to the [GitHub repo](https://github.com/alexellis/faas) to read more and to **Star** the repository.
 
 That concludes the coffee break - we just built and deployed our first Serverless Node.js OpenFaaS function - "Look Ma! No UI!" You can find help for any of the commands by passing in the `--help` parameter.
+
+* Acknowledgements:
+
+This post is based upon [Morning coffee with the OpenFaaS CLI](https://blog.alexellis.io/quickstart-openfaas-cli/) by Alex Ellis

@@ -301,3 +301,7 @@ Want to know more about the OpenFaaS Serverless framework for containers?
 
 **Learn Docker**
 If you want to learn more about [Docker](https://www.docker.com/community-edition) for DevOps and developers, checkout [my Docker series](https://blog.alexellis.io/tag/docker/).
+
+* Acknowledgements:
+
+This post is based upon [Your first serverless Python function with OpenFaaS](https://blog.alexellis.io/first-faas-python-function/) by Alex Ellis
