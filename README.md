@@ -17,3 +17,7 @@ This page is published through the use of `mkdocs` and is hosted on https://netl
 * https://docs.openfaas.com/
 
 All commits into master (or merged PRs) will appear on the front-page after being rebuilt.
+
+## mkocs-material Extensions
+
+To view the special formatting extensions avaialble for these docs read the mkdoc-material documentation [here](https://squidfunk.github.io/mkdocs-material/extensions/admonition/)
