@@ -20,10 +20,14 @@ The minimum (initial) and maximum replica count can be set at deployment time by
 
 * `com.openfaas.scale.max` The current default value is `20` for 20 replicas
 
-> Note: Setting `com.openfaas.scale.min` and `com.openfaas.scale.max` to the same value, allows to disable the auto-scaling functionality of openfaas.
+* `com.openfaas.scale.factor` By default this is set to `20%` and has to be a value between 0-100 (including borders)
+
+> Note: 
+Setting `com.openfaas.scale.min` and `com.openfaas.scale.max` to the same value, allows to disable the auto-scaling functionality of openfaas. 
+Setting `com.openfaas.scale.factor=0` also allows to disable the auto-scaling functionality of openfaas.
 
 
-For each alert fired the auto-scaler will add 5 replicas, but we are currently working on making the step configurable as a pre-defined step or proportional percentage. Once an alert is resolved due to a lower load than is needed for scaling the replica count will be scaled to the minimum replica count.
+For each alert fired the auto-scaler will add a number of replicas, which is a defined percentage of the max replicas. This percentage can be set using `com.openfaas.scale.factor`. For example setting `com.openfaas.scale.factor=100` will instantly scale to max replicas. This label enables to define the overall scaling behavior of the function.
 
 > Note: Active alerts can be viewed in the "Alerts" tab of Prometheus which is deployed with OpenFaaS.
 
