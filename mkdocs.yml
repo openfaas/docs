@@ -121,3 +121,6 @@ pages:
     - Gateway: ./architecture/gateway.md
     - Watchdog: ./architecture/watchdog.md
     - Autoscaling: ./architecture/autoscaling.md
+  - Contributing:
+    - Get Started: ./contributing/get-started.md
+
