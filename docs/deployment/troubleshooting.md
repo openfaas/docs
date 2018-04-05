@@ -205,6 +205,24 @@ $ kubectl logs -n openfaas-fn deploy/FUNCTION_NAME
 $ kubectl describe -n openfaas-fn deploy/FUNCTION_NAME
 ```
 
+```
+$ kubectl get events --sort-by=.metadata.creationTimestamp -n openfaas-fn
+```
+
+### Check logs of the core services
+
+```
+$ kubectl logs -n openfaas-fn deploy/faas-netes
+$ kubectl logs -n openfaas-fn deploy/gateway
+$ kubectl logs -n openfaas-fn deploy/queue-worker
+```
+
+Check for events too
+
+```
+$ kubectl get events --sort-by=.metadata.creationTimestamp -n openfaas
+```
+
 ### Remove the OpenFaaS deployment
 
 From within the `faas-netes` folder:
