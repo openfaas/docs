@@ -111,7 +111,7 @@ There are currently no sample functions built into this stack, but we can deploy
     $ git clone https://github.com/openfaas/faas-cli
     ```
 
-    Edit samples.yml and change your gateway URL from `localhost:8080` to `kubernetes-node-ip:31112` or pass the `--gateway` / `-g` flag to commands.
+    Edit stack.yml and change your gateway URL from `localhost:8080` to `kubernetes-node-ip:31112` or pass the `--gateway` / `-g` flag to commands.
 
     i.e.
 
@@ -124,20 +124,20 @@ There are currently no sample functions built into this stack, but we can deploy
     Now deploy the samples:
 
     ```bash
-    $ faas-cli deploy -f samples.yml
+    $ faas-cli deploy -f stack.yml
     ```
 
     !!! info
         The `faas-cli` also supports an override of `--gateway http://...` for example:
 
         ```bash
-        faas-cli deploy -f samples.yml --gateway http://127.0.0.1:31112
+        faas-cli deploy -f stack.yml --gateway http://127.0.0.1:31112
         ```
 
 #### List the functions
 
 ```bash
-$ faas-cli list -f samples.yml
+$ faas-cli list -f stack.yml
 
 or
 
