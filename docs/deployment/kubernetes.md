@@ -185,6 +185,91 @@ $ echo -n "" | faas-cli invoke --gateway http://kubernetes-ip:31112 nodeinfo
 $ echo -n "verbose" | faas-cli invoke --gateway http://kubernetes-ip:31112 nodeinfo
 ```
 
+### 4.0 Use a private registry with Kubernetes
+
+If you are using a hosted private Docker registry ([Docker Hub](https://hub.docker.com/), or other),
+in order to check how to configure it, please visit the Kubernetes [documentation](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry).
+
+####  Deploy a function from a private Docker image
+
+With the following commands you can deploy a function from a private Docker image, tag and push it to your docker registry account:
+
+```bash
+$ docker pull functions/alpine:latest
+$ docker tag functions/alpine:latest $DOCKER_USERNAME/private-alpine:latest
+$ docker push $DOCKER_USERNAME/private-alpine:latest
+```
+
+Log into the [Hub](https://hub.docker.com/) and make your image `private-alpine` private.
+
+Then create your openfaas project:
+
+```bash
+$ mkdir privatefuncs && cd privatefuncs
+$ touch stack.yaml
+```
+
+In your favorite editor, open stack.yaml and add
+
+```yml
+provider:
+  name: faas
+  gateway: http://localhost:8080
+
+functions:
+  protectedapi:
+    lang: Dockerfile
+    skip_build: true
+    image: username/private-alpine:latest
+```
+
+#### Create an image pull secret
+
+If you try to deploy using `faas-cli deploy` it will fail because Kubernetes can not pull the image. You can verify this in the Kubernetes dashboard or via the CLI using the `kubectl describe` command.
+
+To deploy the function, you need to create an [Image Pull Secret](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
+
+You should set the following environmental variables:
+
+```bash
+export DOCKER_USERNAME=<your_docker_username>
+export DOCKER_PASSWORD=<your_docker_password>
+export DOCKER_EMAIL=<your_docker_email>
+```
+
+Then run this command to create the secret:
+
+```bash
+$ kubectl create secret docker-registry dockerhub \
+    --docker-username=$DOCKER_USERNAME \
+    --docker-password=$DOCKER_PASSWORD \
+    --docker-email=$DOCKER_EMAIL
+```
+
+Then you need to add the secret to your `stack.yml` file:
+
+```yml
+secrets:
+      - dockerhub
+```
+
+This is a `stack.yml` example with the secret added in it:
+
+```yml
+ provider:
+   name: faas
+   gateway: http://localhost:8080
+
+ functions:
+   protectedapi:
+     lang: Dockerfile
+     skip_build: true
+     image: username/private-alpine:latest
+     secrets:
+      - dockerhub
+```
+
+You can deploy your function using `faas-cli deploy`. If you inspect the Kubernetes pods, you will see that it can pull the docker image.
 
 ## 3.1 Start the hands-on labs
 
