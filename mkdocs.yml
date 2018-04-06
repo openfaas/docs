@@ -117,6 +117,8 @@ pages:
     - First Python Function: ./tutorials/first-python-function.md
     - Workshop: ./tutorials/workshop.md
     - Featured: ./tutorials/featured.md
+  - Reference:
+    - Secrets: ./reference/secrets.md
   - Design & Architecture:
     - Gateway: ./architecture/gateway.md
     - Watchdog: ./architecture/watchdog.md
