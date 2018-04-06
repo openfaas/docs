@@ -4,8 +4,6 @@ This page shows how to use secrets within your functions for API tokens, passwor
 
 Using secrets is a two step process. First we need to define the secret in your cluster and then you need to 'use' the secret to your function. You can find a simple example function [ApiKeyProtected in the OpenFaaS repo](https://github.com/openfaas/faas/tree/master/sample-functions/ApiKeyProtected-Secrets). When we deploy this function we provide a secret key that it uses to authenticate requests.
 
-_Note_: The examples in the following section require `faas-cli` version `>=0.5.1`
-
 ## Creating the secret
 
 It is generally easiest to read your secret values from files. For our examples we have created a simple text file `~/secrets/secret_api_key.txt` that looks like
@@ -40,26 +38,44 @@ docker secret create secret_api_key ~/secrets/secret_api_key.txt
 
 ## Use the secret in your function
 
-This is the simplest part, update your stack file to include the secret:
+Now, update your stack file to include the secret:
 
-    ```yaml
-     provider:
-       name: faas
-       gateway: http://localhost:8080
+```yaml
+  provider:
+    name: faas
+    gateway: http://localhost:8080
 
-     functions:
-       protectedapi:
-         lang: Dockerfile
-         skip_build: true
-         image: functions/api-key-protected:latest
-         secrets:
-          - secret_api_key
-    ```
+  functions:
+    protectedapi:
+      lang: Dockerfile
+      skip_build: true
+      image: functions/api-key-protected:latest
+      secrets:
+      - secret_api_key
+```
 
 and then deploy `faas-cli deploy -f ./stack.yaml`
 
-Once the deploy is done you can test the function using
+Once the deploy is done you can test the function using the cli. The function is very simply, it reads the secret value that is mounted into the container for you and then returns a success or failure message based on if your header matches that secret value. For example,
 
 ```sh
 faas-cli invoke protectedapi -H "X-Api-Key=R^YqzKzSJw51K9zPpQ3R3N"
+```
+
+Resulting in
+
+```txt
+Unlocked the function!
+```
+
+When you use the wrong api key,
+
+```sh
+faas-cli invoke protectedapi -H "X-Api-Key=thisiswrong"
+```
+
+You get
+
+```txt
+Access denied!
 ```
