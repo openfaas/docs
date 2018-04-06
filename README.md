@@ -17,3 +17,7 @@ This page is published through the use of `mkdocs` and is hosted on https://netl
 * https://docs.openfaas.com/
 
 All commits into master (or merged PRs) will appear on the front-page after being rebuilt.
+
+## mkdocs-material markdown extensions
+
+There are several markdown extensions that can be used to create special formatting. Look at the docs [here](https://squidfunk.github.io/mkdocs-material/extensions/admonition/) for all available extensions. 
