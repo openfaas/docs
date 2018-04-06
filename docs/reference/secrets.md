@@ -57,3 +57,9 @@ This is the simplest part, update your stack file to include the secret:
     ```
 
 and then deploy `faas-cli deploy -f ./stack.yaml`
+
+Once the deploy is done you can test the function using
+
+```sh
+faas-cli invoke protectedapi -H "X-Api-Key=R^YqzKzSJw51K9zPpQ3R3N"
+```
