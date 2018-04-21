@@ -132,7 +132,7 @@ Received JSON webook. Elements: 10
 $ kubectl logs deploy/json-hook -n openfaas-fn
 2018/01/28 20:50:27 Writing lock-file to: /tmp/.lock
 2018/01/28 20:50:35 Forking fprocess.
-2018/01/28 20:50:35 Query  
+2018/01/28 20:50:35 Query
 2018/01/28 20:50:35 Path  /function/json-hook
 Received JSON webook. Elements: 10
 2018/01/28 20:50:35 Duration: 0.001857 seconds
@@ -154,11 +154,11 @@ Checklist:
 
 On certain Linux distributions the name `localhost` maps to an IPv6 alias meaning that the CLI may hang. In these circumstances you have two options:
 
-1. Use the `-g` or `--gateway` argument with `127.0.0.1:8080` or similar
+1.  Use the `-g` or `--gateway` argument with `127.0.0.1:8080` or similar
 
-2. Set the `OPENFAAS_URL` environmental variable to `127.0.0.1:8080` or similar
+2.  Set the `OPENFAAS_URL` environmental variable to `127.0.0.1:8080` or similar
 
-3. Edit the `/etc/hosts` file on your machine and remove the IPv6 alias for localhost (this forces the use of IPv4)
+3.  Edit the `/etc/hosts` file on your machine and remove the IPv6 alias for localhost (this forces the use of IPv4)
 
 ## Troubleshooting Swarm or Kubernetes
 
@@ -196,7 +196,7 @@ If you have additional services / functions remove the remaining ones like this:
 $ docker service ls -q | xargs docker service rm
 ```
 
-*Use with caution*
+_Use with caution_
 
 #### I forgot my gateway password
 
@@ -253,8 +253,8 @@ These instructions may differ depending on whether you are using faas-netes (def
 ##### Get logs using faas-netes
 
 ```
-$ kubectl logs -n openfaas deploy/faas-netes
-$ kubectl logs -n openfaas deploy/gateway
+$ kubectl logs -n openfaas deploy/gateway -c faas-netes
+$ kubectl logs -n openfaas deploy/gateway -c gateway
 ```
 
 ##### Check the queue-worker
