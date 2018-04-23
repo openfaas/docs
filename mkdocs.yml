@@ -111,7 +111,9 @@ pages:
     - Kubernetes: ./deployment/kubernetes.md
     - Docker Swarm: ./deployment/docker-swarm.md
     - Troubleshooting: ./deployment/troubleshooting.md
-  - CLI: ./cli/install.md
+  - CLI:
+    - Installation: ./cli/install.md
+    - Create functions: ./cli/templates.md
   - Tutorials:
     - CLI with Node.js: ./tutorials/CLI-with-node.md
     - First Python Function: ./tutorials/first-python-function.md
