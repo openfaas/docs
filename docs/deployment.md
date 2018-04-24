@@ -14,7 +14,7 @@ OpenFaaS is Kubernetes native and you can follow the [deployment guide here](/de
 
 ## Docker Swarm
 
-You can follow the [deployment guide for Docker Swarm](/deployment/swarm/) or use the Docker Playground below if you don't have direct access to Docker.
+You can follow the [deployment guide for Docker Swarm](/deployment/docker-swarm/) or use the Docker Playground below if you don't have direct access to Docker.
 
 ### Docker Playground
 
