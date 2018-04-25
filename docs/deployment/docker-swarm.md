@@ -1,5 +1,7 @@
 # Deployment guide for Docker Swarm
 
+> Note: If you need to use `sudo` to access the `docker` CLI then you should prefix this behind any shell scripts or CLIs used in this guide or any related tutorials.
+
 ## 1.0 Initialize Swarm Mode
 
 You can create a single-host Docker Swarm on your laptop with a single command. You don't need any additional software to Docker 17.06 or greater. You can also run these commands on a Linux VM or cloud host.
