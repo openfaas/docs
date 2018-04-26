@@ -4,13 +4,15 @@ Auto-scaling in OpenFaaS allows a function to scale up or down depending on dema
 
 ## Scaling by requests per second
 
-OpenFaaS ships with a single auto-scaling rule defined in the configuration for AlertManager. AlertManager reads usage (requests per second) metrics from Prometheus in order to know when to fire an alert to the API Gateway.
+OpenFaaS ships with a single auto-scaling rule defined in the mounted configuration file for AlertManager. AlertManager reads usage (requests per second) metrics from Prometheus in order to know when to fire an alert to the API Gateway.
 
 The API Gateway handles AlertManager alerts through its `/system/alert` route.
 
 The auto-scaling provided by this method can be disabled by either deleting the AlertManager deployment or by scaling the deployment to zero replicas.
 
 The AlertManager rules ([alert.rules](https://github.com/openfaas/faas/blob/master/prometheus/alert.rules.yml)) for Swarm can be viewed here and altered as a configuration map.
+
+All calls made through the gateway whether to a synchronous function `/function/` route or via the asynchronous `/async-function` route count towards this method of auto-scaling.
 
 ### Min/max replicas
 

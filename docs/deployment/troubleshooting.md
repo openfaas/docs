@@ -1,5 +1,25 @@
 # Troubleshooting guide
 
+## Asynchronous functions
+
+Any function can be invoked asynchronously by changing the route on the gateway from `/function/<name>` to `/async-function/<name>`. A `202 Accepted` message will be issued in response to asynchronous calls.
+
+If you would like to receive a value from an asynchronous call you should pass a HTTP header with the URL to be used for the call-back.
+
+```
+$ faas invoke figlet --Header "X-Callback-Url=https://request.bin/mybin"
+```
+
+Alternatively you can specify another asynchronous or synchronous function to run instead.
+
+* Parallelism
+
+By default there is one queue-worker replica deployed which is set up to run a single task of up to 30 seconds in duration with one task in parallel. You can increase the parallelism by scaling the queue-worker up - i.e. 5 replicas for 5 parallel tasks.
+
+You can tune the values for the number of tasks each queue worker may run in parallel as well as the maximum duration of any asynchronous task that worker processes. Edit the Kubernetes helm chart, YAML or Swarm docker-compose.yml files.
+
+The [OpenFaaS workshop](https://github.com/openfaas/workshop) has more instructions on running tasks asynchronously.
+
 ## Timeouts
 
 Default timeouts are configured at the HTTP level and must be set both on the gateway and the function.
