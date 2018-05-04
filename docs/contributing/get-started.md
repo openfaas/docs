@@ -39,20 +39,20 @@ Git is used for version control and all repositories are public available under 
 
 OpenFaaS started as a single mono-repo called `faas` and has been broken out into separate repositories. For this reason you should always collate Issues, PRs, contributor counts, stars and similar statistics from the organisation as a whole. The data in the `faas` repo is not representive of the whole project.
 
-| Repository       | Headline                        |
-|------------------|---------------------------------|
-| faas              | Main repository for project issues, suggestions, documentation and roadmap/backlog items. Also includes UI portal and API gateway | 
-| certifier         | End-to-end tests written in Go for verifying OpenFaaS with Swarm or Kubernetes after a release, this also runs through CI for the `faas` repo      |
-| faas-swarm        | Docker Swarm provider for OpenFaaS contains a stack file for deployment |
-| faas-netes        | Kubernetes provider for OpenFaaS contains YAML and helm for deployment |
-| faas-cloud        | An incubator project for a closed-loop CI/CD system between GitHub and OpenFaaS |
-| faas-cli          | CLI for operating with OpenFaaS similar to `kubectl` or `docker` CLI    |
-| templates         | Official templates for OpenFaaS CLI used to scaffold a new function |
-| media             | Press-kit and media for the project branding and swag             |
-| docs              | Official docs repository for this site - i.e. https://docs.openfaas.com             |
-| workshop          | Hands-on training lab for learning OpenFaaS                                |
-| nats-queue-worker | Asynchronous processing for deferred / queued work with OpenFaaS, based upon NATS Streaming |
-| www               | Webpages for https://www.openfaas.com   |
+| Repository        | Headline                         |
+|:------------------|:---------------------------------|
+| [faas](https://github.com/openfaas/faas)              | Main repository for project issues, suggestions, documentation and roadmap/backlog items. Also includes UI portal and API gateway |
+| [certifier](https://github.com/openfaas/certifier)         | End-to-end tests written in Go for verifying OpenFaaS with Swarm or Kubernetes after a release, this also runs through CI for the `faas` repo      |
+| [faas-swarm](https://github.com/openfaas/faas-swarm)        | Docker Swarm provider for OpenFaaS contains a stack file for deployment |
+| [faas-netes](https://github.com/openfaas/faas-netes)        | Kubernetes provider for OpenFaaS contains YAML and helm for deployment |
+| [openfaas-cloud](https://github.com/openfaas/openfaas-cloud)        | An incubator project for a closed-loop CI/CD system between GitHub and OpenFaaS |
+| [faas-cli](https://github.com/openfaas/faas-cli)          | CLI for operating with OpenFaaS similar to `kubectl` or `docker` CLI    |
+| [templates](https://github.com/openfaas/templates)         | Official templates for OpenFaaS CLI used to scaffold a new function |
+| [media](https://github.com/openfaas/media)             | Press-kit and media for the project branding and swag             |
+| [docs](https://github.com/openfaas/docs)              | Official docs repository for this site - i.e. https://docs.openfaas.com             |
+| [workshop](https://github.com/openfaas/workshop)          | Hands-on training lab for learning OpenFaaS                                |
+| [nats-queue-worker](https://github.com/openfaas/nats-queue-worker) | Asynchronous processing for deferred / queued work with OpenFaaS, based upon NATS Streaming |
+| [www](https://github.com/openfaas/www)               | Webpages for https://www.openfaas.com   |
 
 https://github.com/openfaas/
 
