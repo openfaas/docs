@@ -21,7 +21,7 @@ In Kubernetes we can leverage the [secrets api](https://kubernetes.io/docs/conce
 From the commandline use
 
 ```sh
-kubectl create secret generic secret-api-key --from-file=secret-api-key=~/secrets/secret_api_key.txt
+kubectl create secret generic secret-api-key --from-file=secret-api-key=~/secrets/secret_api_key.txt --namespace openfaas-fn
 ```
 
 Here we have explicitly named the key of the secret value so that when it is mounted into the function container, it will be named exactly `secret-api-key` instead of `secret_api_key.txt`.
