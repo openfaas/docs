@@ -36,10 +36,14 @@ $ git clone https://github.com/openfaas/faas && \
   ./deploy_stack.sh
 ```
 
-`./deploy_stack.sh` can be run at any time and includes a set of sample functions. You can read more about these in the [TestDrive document](https://github.com/openfaas/faas/blob/master/TestDrive.md)
-
 !!! note
     If you want to try newer features you can checkout the `master` branch, but we do not recommend that for first-time users.
+
+To deploy a set of sample functions, [install the OpenFaaS CLI](cli/install/) then deploy the functions in `stack.yml` by running:
+
+```
+faas deploy
+```
 
 ## 2.1 Test out the UI
 
