@@ -145,6 +145,7 @@ You can then find the logs of the function using Docker Swarm or Kubernetes as l
 Most problems reported via GitHub or Slack stem from a configuration problem or issue with a function. Here is a checklist of things you can try before digging deeper:
 
 Checklist:
+
 * [ ] All core services are deployed: i.e. gateway
 * [ ] Check functions are deployed and started
 * [ ] Check request isn't timing out at the gateway or the function level
