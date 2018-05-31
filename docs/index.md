@@ -74,6 +74,8 @@ OpenFaaS is written in Golang and is MIT licensed - contributions are welcomed w
 
 * View the [contributing page](/community/#contribute)
 
+If you would like to contribute to the documentation site or find out more check out the [docs repo](https://github.com/openfaas/docs).
+
 ### Grafana dashboards
 
 Example of a Grafana dashboards linked to OpenFaaS showing auto-scaling live in action: [here](https://grafana.com/dashboards/3526)
