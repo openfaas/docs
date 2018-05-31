@@ -12,7 +12,7 @@ These APIs exist at:
 
 We recommend using basic authentication and a strong password to protect the `/system/` route, but it is not the only option. If you prefer you can use a reverse proxy project such as [Kong](https://getkong.org/docs/) to enable OAuth or a similar strategy.
 
-The API Gateway as of version 0.8.2 provides built-in basic authentication. To use it set the environmental variable `basic_auth` to true. Then create two secrets named `basic-auth-user` and `basiic-auth-password`.
+The API Gateway as of version 0.8.2 provides built-in basic authentication. To use it set the environmental variable `basic_auth` to true. Then create two secrets named `basic-auth-user` and `basic-auth-password`.
 
 Once basic authentication is enabled you will need to use `faas-cli login` before using the CLI.
 
