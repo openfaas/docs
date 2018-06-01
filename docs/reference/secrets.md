@@ -38,6 +38,29 @@ docker secret create secret-api-key ~/secrets/secret_api_key.txt
 
 ## Use the secret in your function
 
+Secrets are mounted as files to `/var/openfaas/secrets` inside your function. Using secrets is as simple as adding code to read the value from `/var/openfaas/secrets/secret-api-key`.
+
+_Note_: prior to version `0.8.2` secrets were mounted to `/run/secrets`. The example functions demonstrate a smooth upgrade implementation.
+
+A simple `go` implementation could look like this
+
+```go
+func getAPISecret(secretName string) (secretBytes []byte, err error) {
+	// read from the openfaas secrets folder
+	secretBytes, err = ioutil.ReadFile("/var/openfaas/secrets/" + secretName)
+	if err != nil {
+		// read from the original location for backwards compatibility with openfaas <= 0.8.2
+		secretBytes, err = ioutil.ReadFile("/run/secrets/" + secretName)
+	}
+
+	return secretBytes, err
+}
+```
+
+This example comes from the [`ApiKeyProtected`](https://github.com/openfaas/faas/tree/master/sample-functions/ApiKeyProtected-Secrets) sample function.
+
+## Deploy a function with secrets
+
 Now, update your stack file to include the secret:
 
 ```yaml
