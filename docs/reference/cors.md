@@ -27,3 +27,29 @@ Mainly there are two ways to deal with this problem. Either set a CORS header (w
 This way, the request from the browser doesn't violate the **Same-origin policy** and under the hood, would be proxied to the OpenFaaS gateway.
 
 ## An Example with a Vue.js + Webpack Application
+
+Let's look at a very minimal Vue.js Single Page application setup with webpack to actually see how it works. A developer will run `npm run dev` to spin up a local dev server via webpack. Suppose this was served on `http://localhost:8081`. By default, the OpenFaaS gateway will be exposed on `http://localhost:8080`. This means the local dev server and the OpenFaaS gateway have **different origins**. Therefore, if the Vue.js application requests data from the OpenFaaS gateway (`http://localhost:8080`), it will fail because it violates the **Same-origin policy**.
+
+The code below is accessing an `echo` function from the Vue.js application:
+
+```js
+// url to the echo function
+const url = 'http://localhost:8080/function/echo';
+
+// sample payload
+const data = {
+  test: 'test'
+};
+
+// ajax request
+fetch(url, {
+  body: JSON.stringify(data),
+  method: 'POST'
+}).then(res => res.json())
+```
+
+and ends up with the following error:
+
+```
+Failed to load http://localhost:8080/function/echo: No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://localhost:8081' is therefore not allowed access. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
+```
