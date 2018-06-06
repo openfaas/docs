@@ -18,6 +18,4 @@ You can follow the [deployment guide for Docker Swarm](/deployment/docker-swarm/
 
 ### Docker Playground
 
-You can quickly start OpenFaaS on Docker Swarm online using the community-run Docker playground: play-with-docker.com (PWD) by clicking the button below:
-
-[![Try in PWD](https://cdn.rawgit.com/play-with-docker/stacks/cff22438/assets/images/button.png)](http://play-with-docker.com?stack=https://raw.githubusercontent.com/openfaas/faas/master/docker-compose.yml&stack_name=func)
+You can quickly start OpenFaaS on Docker Swarm online using the community-run Docker playground: play-with-docker.com (PWD) by following the [Play with Docker guide](/deployment/play-with-docker/)

@@ -110,6 +110,7 @@ pages:
     - Deployment: deployment.md
     - Kubernetes: ./deployment/kubernetes.md
     - Docker Swarm: ./deployment/docker-swarm.md
+    - Docker Playground: ./deployment/play-with-docker.md
     - Troubleshooting: ./deployment/troubleshooting.md
   - CLI:
     - Installation: ./cli/install.md
