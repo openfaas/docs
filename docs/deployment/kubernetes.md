@@ -6,9 +6,6 @@ This guide is for deployment to a vanilla Kubernetes 1.8 or 1.9 cluster running 
 
 OpenFaaS is Kubernetes-native and uses *Deployments*, *Services* and *Secrets*. For more detail check out the ["faas-netes" repository](https://github.com/openfaas/faas-netes).
 
-!!! note
-    For deploying on a cloud that supports Kubernetes *LoadBalancers* you may also want to apply the configuration in: `cloud/lb.yml`.
-
 ### 1.0 Build a cluster
 
 You can start evaluating FaaS and building functions on your laptop or on a VM (cloud or on-prem).
@@ -60,16 +57,18 @@ This step assumes you are running `kubectl` on a master host.
     * openfaas-fn - for functions
 
     ```bash
+    $ kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
+    ```
+
+    Now deploy OpenFaaS:
+
+    ```bash
     $ cd faas-netes && \
-    kubectl apply -f ./namespaces.yml,./yaml
+    kubectl apply -f ./yaml
     ```
 
     !!! note
-        RBAC is optional but encouraged and enabled by default.
-
-    Asynchronous invocation works by queuing requests with NATS Streaming.
-
-    See: [Asynchronous function guide](../../advanced/async)
+        For deploying on a cloud that supports Kubernetes *LoadBalancers* you may also want to apply the configuration in: `cloud/lb.yml`.
 
 ### 3.0 Use OpenFaaS
 
