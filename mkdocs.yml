@@ -120,6 +120,7 @@ pages:
     - First Python Function: ./tutorials/first-python-function.md
     - Workshop: ./tutorials/workshop.md
     - Featured: ./tutorials/featured.md
+  - OpenFaaS Cloud: openfaas-cloud/intro.md
   - Reference:
     - Secrets: ./reference/secrets.md
     - Auth: ./reference/authentication.md
