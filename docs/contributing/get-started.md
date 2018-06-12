@@ -20,15 +20,17 @@ Before raising a PR or an issue request that you read our [Contributing guide](h
 
 If you are new with Docker, Kubernetes or Go and would like to learn or just improve your skills, you may find the following links useful:
 
-* [Docker Documentation](https://docs.docker.com)
+* **Docker**
+    * [Docker Swarm Documentation](https://docs.docker.com/engine/swarm/)
+    * [Docker Documentation](https://docs.docker.com)
 * [Kubernetes Documentation](https://kubernetes.io/docs/home/?path=browse)
-* Golang
-  - [The Go Programming Language](https://golang.org)
-  - [Go Documentation](https://golang.org/doc/)
-  - Alex Ellis' [golang basics](https://blog.alexellis.io/tag/golang-basics/) blog posts
-  - [The Case For Go](https://gist.github.com/ungerik/3731476) - a list of sources collected by Erik Unger
-  - Another interesting blog post - [Why should you learn Go?](https://medium.com/@kevalpatel2106/why-should-you-learn-go-f607681fad65) by Keval Patel
-  - Official Golang [GitHUb](https://github.com/golang) account
+* **Golang**
+    * [The Go Programming Language](https://golang.org)
+    * [Go Documentation](https://golang.org/doc/)
+    * Alex Ellis' [golang basics](https://blog.alexellis.io/tag/golang-basics/) blog posts
+    * [The Case For Go](https://gist.github.com/ungerik/3731476) - a list of sources collected by Erik Unger
+    * Another interesting blog post - [Why should you learn Go?](https://medium.com/@kevalpatel2106/why-should-you-learn-go-f607681fad65) by Keval Patel
+    * Official Golang [GitHUb](https://github.com/golang) account
 * [Travis CI User Documentation](https://docs.travis-ci.com)
 
 ### Main Git repositories
