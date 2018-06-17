@@ -125,6 +125,7 @@ pages:
     - Secrets: ./reference/secrets.md
     - Auth: ./reference/authentication.md
     - CORS: ./reference/cors.md
+    - Cron: ./reference/cron.md
   - Design & Architecture:
     - Gateway: ./architecture/gateway.md
     - Watchdog: ./architecture/watchdog.md
