@@ -38,20 +38,22 @@ $ git clone https://github.com/openfaas/faas && \
 !!! note
     If you want to try newer features you can checkout the `master` branch, but we do not recommend that for first-time users.
 
-To deploy a set of sample functions, [install the OpenFaaS CLI](cli/install/) then deploy the functions in `stack.yml` by running:
-
-```
-faas deploy
-```
-
 ## 2.1 Test out the UI
 
-Within a few seconds (or minutes if on a poor WiFi connection) the API gateway and sample functions will be pulled into your local Docker library and you will be able to access the UI at:
+Within a few seconds (or minutes if on a poor WiFi connection) the API gateway and associated OpenFaaS images will be pulled into your local Docker library and you will be able to access the UI at:
 
 `http://127.0.0.1:8080`
 
 !!! tip
     If you're running on Linux you may find that accessing `localhost` times out. We recommend using an IPv4 address such as http://127.0.0.1:8080 to prevent any ambiguity.
+
+## 2.2 Deploy the sample functions
+
+The earlier `git clone` included a set of sample functions in `stack.yml`, to deploy them [install the OpenFaaS CLI](cli/install/) and run:
+
+```
+faas deploy
+```
 
 ## 3.0 Start the hands-on labs
 
