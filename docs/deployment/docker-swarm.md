@@ -49,7 +49,7 @@ Within a few seconds (or minutes if on a poor WiFi connection) the API gateway a
 
 ## 2.2 Deploy the sample functions
 
-The earlier `git clone` included a set of sample functions in `stack.yml`, to deploy them [install the OpenFaaS CLI](cli/install/) and run:
+The earlier `git clone` included a set of sample functions in `stack.yml`, to deploy them [install the OpenFaaS CLI](/cli/install/) and run:
 
 ```
 faas deploy
