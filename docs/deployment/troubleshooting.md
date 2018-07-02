@@ -160,11 +160,11 @@ On certain Linux distributions the name `localhost` maps to an IPv6 alias meanin
 
 3. Edit the `/etc/hosts` file on your machine and remove the IPv6 alias for localhost (this forces the use of IPv4)
 
-# Troubleshooting Swarm or Kubernetes
+## Troubleshooting Swarm or Kubernetes
 
-## Docker Swarm
+### Docker Swarm
 
-### List all functions
+#### List all functions
 
 ```
 $ docker service ls
@@ -172,19 +172,19 @@ $ docker service ls
 
 You are looking for 1/1 for the replica count of each service listed.
 
-### Find a function's logs
+#### Find a function's logs
 
 ```
 $ docker service logs --tail 100 FUNCTION
 ```
 
-### Find out if a function failed to start
+#### Find out if a function failed to start
 
 ```
 $ docker service ps --no-trunc=true FUNCTION
 ```
 
-### Stop and remove OpenFaaS
+#### Stop and remove OpenFaaS
 
 ```
 $ docker stack rm func
@@ -198,29 +198,29 @@ $ docker service ls -q | xargs docker service rm
 
 *Use with caution*
 
-## Kubernetes
+### Kubernetes
 
 If you have deployed OpenFaaS to the recommended namespaces then functions are in the `openfaas-fn` namespace and the core services are in the `openfaas` namespace. The `-n` flag to `kubectl` sets the namespace to look at.
 
-### List OpenFaaS services
+#### List OpenFaaS services
 
 ```
 $ kubectl get deploy -n openfaas
 ```
 
-### List all functions
+#### List all functions
 
 ```
 $ kubectl get deploy -n openfaas-fn
 ```
 
-### Find a function's logs
+#### Find a function's logs
 
 ```
 $ kubectl logs -n openfaas-fn deploy/FUNCTION_NAME
 ```
 
-### Find out if a function failed to start
+#### Find out if a function failed to start
 
 ```
 $ kubectl describe -n openfaas-fn deploy/FUNCTION_NAME
@@ -230,7 +230,7 @@ $ kubectl describe -n openfaas-fn deploy/FUNCTION_NAME
 $ kubectl get events --sort-by=.metadata.creationTimestamp -n openfaas-fn
 ```
 
-### Check logs of the core services
+#### Check logs of the core services
 
 Check for any relevant events:
 
@@ -240,27 +240,27 @@ $ kubectl get events --sort-by=.metadata.creationTimestamp -n openfaas
 
 These instructions may differ depending on whether you are using faas-netes (default) or the OpenFaaS Operator
 
-#### Get logs using faas-netes
+##### Get logs using faas-netes
 
 ```
 $ kubectl logs -n openfaas deploy/faas-netes
 $ kubectl logs -n openfaas deploy/gateway
 ```
 
-#### Check the queue-worker
+##### Check the queue-worker
 
 ```
 $ kubectl logs -n openfaas-fn deploy/queue-worker
 ```
 
-#### Get logs using OpenFaaS Operator
+##### Get logs using OpenFaaS Operator
 
 ```
 $ kubectl logs -n openfaas deploy/gateway -c operator
 $ kubectl logs -n openfaas deploy/gateway -c gateway
 ```
 
-### Remove the OpenFaaS deployment
+#### Remove the OpenFaaS deployment
 
 From within the `faas-netes` folder:
 
@@ -268,9 +268,9 @@ From within the `faas-netes` folder:
 $ kubectl delete -f namespaces.yml,./yaml/
 ```
 
-# Watchdog
+## Watchdog
 
-## Debug your function without deploying it
+### Debug your function without deploying it
 
 Here's an example of how you can deploy a function without using an orchestrator and the API gateeway. It is especially useful for testing:
 
@@ -286,7 +286,7 @@ Now you can access the function with one of the supported HTTP methods such as G
 $ curl -4 127.0.0.1:8081
 ```
 
-## Edit your function without rebuilding it
+### Edit your function without rebuilding it
 
 You can bind-mount code straight into your function and work with it locally, until you are ready to re-build. This is a common flow with containers, but should be used sparingly.
 
