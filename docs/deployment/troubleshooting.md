@@ -232,16 +232,32 @@ $ kubectl get events --sort-by=.metadata.creationTimestamp -n openfaas-fn
 
 ### Check logs of the core services
 
-```
-$ kubectl logs -n openfaas-fn deploy/faas-netes
-$ kubectl logs -n openfaas-fn deploy/gateway
-$ kubectl logs -n openfaas-fn deploy/queue-worker
-```
-
-Check for events too
+Check for any relevant events:
 
 ```
 $ kubectl get events --sort-by=.metadata.creationTimestamp -n openfaas
+```
+
+These instructions may differ depending on whether you are using faas-netes (default) or the OpenFaaS Operator
+
+#### Get logs using faas-netes
+
+```
+$ kubectl logs -n openfaas deploy/faas-netes
+$ kubectl logs -n openfaas deploy/gateway
+```
+
+#### Check the queue-worker
+
+```
+$ kubectl logs -n openfaas-fn deploy/queue-worker
+```
+
+#### Get logs using OpenFaaS Operator
+
+```
+$ kubectl logs -n openfaas deploy/gateway -c operator
+$ kubectl logs -n openfaas deploy/gateway -c gateway
 ```
 
 ### Remove the OpenFaaS deployment
