@@ -35,8 +35,26 @@ $ git clone https://github.com/openfaas/faas && \
   ./deploy_stack.sh
 ```
 
-!!! note
-    If you want to try newer features you can checkout the `master` branch, but we do not recommend that for first-time users.
+!!! info
+    Basic authentication is now enabled by default for your protection. If you need to disable it pass the flag --no-auth to the ./deploy_stack.sh command above.
+
+### 2.1 Store your admin credentials
+
+The default configuration will create a username and password combination for you:
+
+```
+Attempting to create credentials for gateway..
+...
+[Credentials]
+ username: admin
+ password: <some_hash_secret>
+ echo -n <some_hash_secret> | faas-cli login --username=admin --
+password-stdin
+```
+
+Run the command as you see it in your console, do not copy/paste the login command.
+
+You will need the password for using the UI and REST API on the gateway, but you can invoke your functions without it.
 
 ## 2.1 Test out the UI
 
@@ -52,7 +70,8 @@ Within a few seconds (or minutes if on a poor WiFi connection) the API gateway a
 The earlier `git clone` included a set of sample functions in `stack.yml`, to deploy them [install the OpenFaaS CLI](/cli/install/) and run:
 
 ```
-faas deploy
+$ faas deploy -f \
+  https://raw.githubusercontent.com/openfaas/faas/master/stack.yml
 ```
 
 ## 3.0 Start the hands-on labs

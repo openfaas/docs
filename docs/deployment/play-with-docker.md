@@ -46,6 +46,9 @@ git clone https://github.com/openfaas/faas && \
   ./deploy_stack.sh
 ```
 
+!!! info
+    Basic authentication is now enabled by default for your protection so note down your credentials. If you need to disable it pass the flag --no-auth to the ./deploy_stack.sh command above.
+
 `./deploy_stack.sh` can be run at any time and deploys the core OpenFaas components. You can read more about these in the [TestDrive document](https://github.com/openfaas/faas/blob/master/TestDrive.md)
 
 ## 2.1 Test out the UI
