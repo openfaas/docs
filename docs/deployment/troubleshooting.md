@@ -20,6 +20,11 @@ You can tune the values for the number of tasks each queue worker may run in par
 
 The [OpenFaaS workshop](https://github.com/openfaas/workshop) has more instructions on running tasks asynchronously.
 
+
+* Verbose Output
+
+The Queue Worker component enables asynchronous processing of function requests. The default verbosity level hides the message content, but this can be viewed by setting write_debug to true when deploying.
+
 ## Timeouts
 
 Default timeouts are configured at the HTTP level and must be set both on the gateway and the function.
