@@ -20,4 +20,5 @@ All commits into master (or merged PRs) will appear on the front-page after bein
 
 ## mkdocs-material markdown extensions
 
-There are several markdown extensions that can be used to create special formatting. Look at the docs [here](https://squidfunk.github.io/mkdocs-material/extensions/admonition/) for all available extensions. 
+There are several markdown extensions that can be used to create special formatting. Look at the docs [here](https://squidfunk.github.io/mkdocs-material/extensions/admonition/) for all available extensions.
+
