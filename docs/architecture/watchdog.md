@@ -1,6 +1,8 @@
 ## OpenFaaS watchdog
 
-The OpenFaaS watchdog is responsible for starting and monitoring functions in OpenFaaS. Any binary can become a function through use of the watchdog.
+The OpenFaaS watchdog is responsible for starting and monitoring functions in OpenFaaS. Any binary can become a function through the use of watchdog.
+
+The watchdog becomes an "init process" with an embedded HTTP server written in Golang, it can support concurrent requests, timeouts and healthchecks. The newer of-watchdog mentioned below is similar, but ideal for streaming use-cases or when an expensive resource needs to be maintained between requests such as a database connection, ML model or other data. 
 
 ## Classic watchdog
 
@@ -22,6 +24,7 @@ of-watchdog is our next-generation watchdog which is in incubation within our [o
 
 *Pictured: various modes for the of-watchdog component*
 
-This brings version of the watchdog brings new features for high-throughput systems. The primary difference is the ability to keep a process warm between invocations. The classic watchdog forks one process per request and the new version enables a mode where that same process can be re-used repeatedly to reduce latency.
+This version of the of-watchdog brings new features for high-throughput systems. The primary difference is the ability to keep a process warm between invocations. The classic watchdog forks one process per request giving the highest level of portability, but the newer version enables a mode where that same process can be re-used repeatedly to offset the latency of forking.
 
 * [Read more on the of-watchdog](https://github.com/openfaas-incubator/of-watchdog)
+
