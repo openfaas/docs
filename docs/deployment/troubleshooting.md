@@ -198,6 +198,16 @@ $ docker service ls -q | xargs docker service rm
 
 *Use with caution*
 
+#### I forgot my gateway password
+
+```
+$ docker service rm print-password \
+ ; docker service create --detach --secret basic-auth-password --restart-condition=none --name=print-password alpine:3.7 cat /run/secrets/basic-auth-password
+
+$ docker service logs print-password
+21f596c9cd75a0fe5e335fb743995d18399e83418a37a79e719576a724efbbb6
+```
+
 ### Kubernetes
 
 If you have deployed OpenFaaS to the recommended namespaces then functions are in the `openfaas-fn` namespace and the core services are in the `openfaas` namespace. The `-n` flag to `kubectl` sets the namespace to look at.
@@ -266,6 +276,21 @@ From within the `faas-netes` folder:
 
 ```
 $ kubectl delete -f namespaces.yml,./yaml/
+```
+
+#### I forgot my gateway password
+
+Use the following:
+
+```
+kubectl get -n openfaas secret -o yaml
+```
+
+Then copy/paste the value as below:
+
+```
+$ echo -n "YWRtaW4xMjM0Cg==" | base64 --decode
+admin1234
 ```
 
 ## Watchdog
