@@ -36,7 +36,7 @@ $ git clone https://github.com/openfaas/faas && \
 ```
 
 !!! info
-    Basic authentication is now enabled by default for your protection. If you need to disable it pass the flag --no-auth to the ./deploy_stack.sh command above.
+    As of OpenFaaS 0.8.6 basic authentication will be enabled by default when running ./deploy\_stack.sh. If you need to disable it pass the flag `--no-auth` to the ./deploy_stack.sh script as above.
 
 ### 2.1 Store your admin credentials
 
@@ -52,9 +52,9 @@ Attempting to create credentials for gateway..
 password-stdin
 ```
 
-Run the command as you see it in your console, do not copy/paste the login command.
+Run the command as you see it in your console, do not copy/paste the login command. Once you run `faas-cli login` your password will be stored as a hash at `~/.openfaas/config.yaml`.
 
-You will need the password for using the UI and REST API on the gateway, but you can invoke your functions without it.
+You will need the password for the CLI, UI and REST API on the gateway, but you can invoke your functions without it.
 
 ## 2.1 Test out the UI
 
