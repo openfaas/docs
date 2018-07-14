@@ -8,34 +8,18 @@ For details and examples run
 faas-cli build --help
 ```
 
-## 1.0 Pass custom build arguments
+## 1.0 Apply build options
 
-You can pass build-time arguments to Docker with
+The OpenFaaS CLI enables functions to be built with different options, e.g. `dev`, `debug`, etc.
 
-```bash
-faas-cli build --build-arg ARGNAME1=argvalue1 --build-arg ARGNAME2=argvalue2
-``` 
- and use them in the template's Dockerfile with
-
- ```dockerfile
- ARG ARGNAME1
- ARG ARGNAME2
- ```
-
- For more information about passing build arguments to Docker, please visit the [Docker documentation](https://docs.docker.com/engine/reference/commandline/build/)
-
-## 2.0 Apply build options
-
-The OpenFaaS CLI allows you to run a build with different options, f.e. `dev`, `debug`, etc.
-
-By default all templates are restricted to a minor build, which doesn't allow you to use third-party dependencies that require native (f.e C/C++) modules,
-like `libssh` in Ruby, `numpy` or `pandas` in Python, etc.
+By default all templates provide a minimal build as this optimizes function image sizes. Where appropriate, 3rd-party dependencies can be specified via `requirements.txt`. In scenarios where third-party dependencies also require native (e.g. C/C++) modules,
+like `libssh` in Ruby and `numpy` or `pandas` in Python, then `--build-option` can be used.
 
 * How to use
 
-The OpenFaaS CLI provides a solution by running a build in a dev mode, adding all required native modules.  
+The OpenFaaS CLI provides a `--build-option` flag which enables named sets of native modules to be specified for inclusion in the function build.  
 
-You can do this with
+There are two ways to achieve this:
 
 ```bash
 faas-cli build --lang python3 --build-option dev [--build-option debug]
@@ -49,15 +33,17 @@ or in YAML:
     - dev
 ```
 
-If you are building multiple functions, we recommend using YAML configuration instead of CLI flag, as the flag is going to be applied to all functions listed in the YAML file.
+Where multiple functions are being built, the YAML configuration is recommended over use of the CLI flag, as the CLI flag applies the `--build-option` to all functions involved in the build activity.
 
-> Currently only python and ruby templates are edited to support the feature.
+> Currently, of the official templates, Python and Ruby templates include named build options.
 
-* Edit templates to support dev build
+* Edit templates to support additional build options
 
-One may want to support dev build for a custom template or edit the list of additional packages.
+It is possible to amend build options in both official and custom templates.  
 
-In order to modify a template to support dev build option, you should edit the `template.yml` with the following:
+> Altering of official templates should be carefully considered in the context of repeatable builds
+
+In order to modify a template to support further build options, edit the `template.yml` using the following pattern:
 
 ```yaml
 build_options: 
@@ -74,7 +60,7 @@ build_options:
       #- etc.
 ```
 
-and edit `Dockerfile` with
+and if not already present edit `Dockerfile` with:
 
 ```dockerfile
 # Add the following line
@@ -84,3 +70,35 @@ ARG ADDITIONAL_PACKAGE
 RUN apk --no-cache add curl ${ADDITIONAL_PACKAGE} \  
 
 ```
+## 2.0 Pass ADDITIONAL_PACKAGE through `--build-arg`
+
+There may be scenarios where a single native module need to be added to a build.  A single-package build option could be added as described above.  Alternatively a package could be specified through a `--build-arg`.
+
+```bash
+faas-cli build --lang python3 --build-arg ADDITIONAL_PACKAGE=jq
+```
+
+In the event a `build-option` is set the effect will be cumulative:
+
+```bash
+faas-cli build --lang python3 --build-option dev --build-arg ADDITIONAL_PACKAGE=jq
+```
+
+The entries in the template's Dockerfile described in 1.0 above need to be present for this mode of operation.
+
+## 3.0 Pass custom build arguments
+
+You can pass `ARG` values to Docker via the CLI.
+
+```bash
+faas-cli build --build-arg ARGNAME1=argvalue1 --build-arg ARGNAME2=argvalue2
+``` 
+
+Remeber to add any `ARG` values to the template's Dockerfile:
+
+ ```dockerfile
+ ARG ARGNAME1
+ ARG ARGNAME2
+ ```
+
+ For more information about passing build arguments to Docker, please visit the [Docker documentation](https://docs.docker.com/engine/reference/commandline/build/)
