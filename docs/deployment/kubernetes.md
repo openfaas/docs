@@ -69,7 +69,30 @@ This step assumes you are running `kubectl` on a master host.
 
     !!! note
         For deploying on a cloud that supports Kubernetes *LoadBalancers* you may also want to apply the configuration in: `cloud/lb.yml`.
+        
+        
+    Verify the deployment:
+    
+    ```bash
+    $ kubectl --namespace=openfaas get deploy
+    ```
+    
+    You should see an output similar to:
+    ```bash
+    NAME           DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+    alertmanager   1         1         1            1           1m
+    faas-netesd    1         1         1            1           1m
+    gateway        1         1         1            1           1m
+    nats           1         1         1            1           1m
+    prometheus     1         1         1            1           1m
+    queue-worker   1         1         1            1           1m
+    ```
 
+    Open the gateway UI:
+    
+    ```bash
+    $ minikube --namespace=openfaas service gateway
+    ```
 ### 3.0 Use OpenFaaS
 
 After deploying OpenFaaS you can start using one of the guides or blog posts to create Serverless functions or test [community functions](https://github.com/openfaas/faas/blob/master/community.md).
@@ -111,6 +134,9 @@ There are currently no sample functions built into this stack, but we can deploy
     ```
 
     Edit stack.yml and change your gateway URL from `localhost:8080` to `kubernetes-node-ip:31112` or pass the `--gateway` / `-g` flag to commands.
+
+    !!! info
+        If you are using minikube, you can obtain the node ip address using: `minikube ip`
 
     i.e.
 
