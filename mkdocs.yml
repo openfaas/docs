@@ -127,6 +127,7 @@ pages:
     - Auth: ./reference/authentication.md
     - CORS: ./reference/cors.md
     - Cron: ./reference/cron.md
+    - Triggers: ./reference/triggers.md
   - Design & Architecture:
     - Gateway: ./architecture/gateway.md
     - Watchdog: ./architecture/watchdog.md
