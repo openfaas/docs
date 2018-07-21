@@ -119,7 +119,7 @@ hello-python        latest       e0344b26305f     one minute ago
 
 **Testing on a single host**
 
-If you're trying thing out on a single host, then you don't need to push your images to a registry, they'll just be used from the local Docker library.
+If you're trying this out on a single Docker Swarm cluster, then you don't need to push your images to a registry, they'll just be used from the local Docker library. If you're using Kubernetes and `minikube` and don't want to push to a remote container registry, then see the helm chart for how to set the `ImagePullPolicy`. This will enable use of images from the local library on Kubernetes.
 
 **Remote host, or multi-node cluster**
 
