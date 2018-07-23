@@ -16,18 +16,18 @@ The API Gateway as of version 0.8.2 provides built-in basic authentication. To u
 
 **To create the secrets there are two options:**
 
-Option 1 (simpler, but doesn't works under Windows and docker complains about security)
+Option 1 (simpler, but doesn't works on Windows. Besides Docker discourages it for security reasons)
 ```bash
-echo myusername | docker secret create basic-auth-user -
-echo secr3t | docker secret create basic-auth-password -
+$ echo myusername | docker secret create basic-auth-user -
+$ echo secr3t | docker secret create basic-auth-password -
 ```
 
-Option 2 (safer, must work under any OS)
+Option 2 (safer, must work on any OS)
 ```bash
-echo myusername > myusername.txt
-docker secret create basic-auth-user myusername.txt
-echo secr3t > mypassword.txt
-docker secret create basic-auth-password mypassword.txt
+$ echo myusername > myusername.txt
+$ echo secr3t > mypassword.txt
+$ docker secret create basic-auth-user myusername.txt
+$ docker secret create basic-auth-password mypassword.txt
 ```
 
 Once basic authentication is enabled you will need to use `faas-cli login` before using the CLI.
@@ -42,4 +42,3 @@ Functions are exposed at:
 Functions exposed on OpenFaaS often do not need to have authentication enabled, this is because they may be responding to webhooks from an external system such as GitHub or Patreon. Neither GitHub, nor Patreon will support authenticating with OAuth or basic authentication strategies, but rely on HMAC.
 
 HMAC involves a shared symmetric secret - both parties store the key securely. The sender computes a hash of the body of the request with their symmetric key and sends this data to the receiver along with the has value in the HTTP header. The receiver then computes a hash of the body with their copy of the key and checks that this matches what the sender supplied in the HTTP header.
-
