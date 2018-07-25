@@ -101,4 +101,75 @@ Remeber to add any `ARG` values to the template's Dockerfile:
  ARG ARGNAME2
  ```
 
+## 4.0 Personalize your image tags through ```--tag```
+
+In one of our stack.yml files we have this block:
+
+```yaml
+...
+functions:
+  example_name:
+    lang: dockerfile
+    handler: ./example_name
+    image: example_name
+...
+```
+
+We are concerned with `image: example_name` field and if we use:
+
+```bash
+faas-cli build -f ./stack.yml
+faas-cli push -f ./stack.yml
+faas-cli deploy -f ./stack.yml
+docker image ls
+```
+
+under TAG field we will see `latest` this is the default tag.
+
+How to personalize that tag?
+
+Well we just need to add `:example_tag` to the image name above so our field looks like that `image: example_name:example_tag`:
+
+```yaml
+...
+functions:
+  example_name:
+    lang: dockerfile
+    handler: ./example_name
+    image: example_name:example_tag
+...
+```
+
+```bash
+faas-cli build -f ./stack.yml
+faas-cli push -f ./stack.yml
+faas-cli deploy -f ./stack.yml
+docker image ls
+```
+
+Now under TAG instead of `latest` we have `example_tag`.
+
+To further personalize your naming every time you commit to github, your commit get unique sha which you can append to your TAG with the following command `--tag=sha` like so:
+
+```bash
+faas-cli build -f ./stack.yml --tag=sha
+faas-cli push -f ./stack.yml --tag=sha
+faas-cli deploy -f ./stack.yml --tag=sha
+docker image ls
+```
+
+Now under TAG will see `example_tag` changed with `example_tag-example_sha`
+
+Now we want to extend this even further by adding the branch in which we commit so we swap `sha` with `branch`
+and it becomes `--tag=branch`:
+
+```bash
+faas-cli build -f ./stack.yml --tag=branch
+faas-cli push -f ./stack.yml --tag=branch
+faas-cli deploy -f ./stack.yml --tag=branch
+docker image ls
+```
+
+The TAG field will be named `example_tag-example_branch-example_sha`.
+
  For more information about passing build arguments to Docker, please visit the [Docker documentation](https://docs.docker.com/engine/reference/commandline/build/)
