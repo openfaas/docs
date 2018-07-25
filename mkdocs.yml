@@ -116,6 +116,7 @@ pages:
     - Installation: ./cli/install.md
     - Create functions: ./cli/templates.md
     - Build functions: ./cli/build.md
+    - Working with tags: ./cli/tags.md
   - Tutorials:
     - CLI with Node.js: ./tutorials/CLI-with-node.md
     - First Python Function: ./tutorials/first-python-function.md
