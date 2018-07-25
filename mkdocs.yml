@@ -130,6 +130,7 @@ pages:
     - CORS: ./reference/cors.md
     - Cron: ./reference/cron.md
     - Triggers: ./reference/triggers.md
+    - YAML: ./reference/yaml.md
   - Design & Architecture:
     - Gateway: ./architecture/gateway.md
     - Watchdog: ./architecture/watchdog.md
