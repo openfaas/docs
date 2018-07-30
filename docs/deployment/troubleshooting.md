@@ -297,7 +297,7 @@ admin1234
 
 ### Debug your function without deploying it
 
-Here's an example of how you can deploy a function without using an orchestrator and the API gateeway. It is especially useful for testing:
+Here's an example of how you can deploy a function without using an orchestrator and the API gateway. It is especially useful for testing:
 
 ```
 $ docker run --name debug-alpine \
