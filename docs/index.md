@@ -18,7 +18,22 @@ OpenFaaS (Functions as a Service) is a framework for building serverless functio
 
 ## Governance
 
-OpenFaaS is an independent project created by [Alex Ellis](https://www.alexellis.io) which is now being built and shaped by a growing community of contributors. Project website: [openfaas.com](https://www.openfaas.com).
+OpenFaaS is an independent project created by [Alex Ellis](https://www.alexellis.io) which is now being built and shaped by a growing community of contributors. Project website and blog: [openfaas.com](https://www.openfaas.com).
+
+## Users of OpenFaaS
+
+Some of our users include:
+
+* [Citrix](https://www.citrix.com/)
+* [Iconscout](https://iconscout.com/)
+* [Contiamo](https://www.contiamo.com)
+* [University of Calgary](https://www.ucalgary.ca)
+* [University of Washington](https://www.washington.edu)
+* [VMware](https://www.vmware.com)
+* [Form3](https://form3.tech/)
+* [Dim Solution](https://dimsolution.com/)
+* [Packet Host](https://www.packet.net/)
+* [Scaleway](https://scaleway.com/)
 
 ## Get started with OpenFaaS
 
@@ -60,7 +75,7 @@ This is my original blog post on FaaS from January: [Functions as a Service blog
 
 OpenFaaS has a thriving community of Open Source contributors and users.
 
-* Find out more on the [community page](/community/)
+* Find out more on the [community page](/community/) and join the Slack workspace
 
 Have you written a blog about OpenFaaS? Send a Pull Request to the community page below.
 
