@@ -57,7 +57,6 @@ The function `handler` field refers to a folder where the function's source code
 
 The `image` field refers to a Docker image reference, this could be on the Docker Hub, in your local Docker library or on another remote server.
 
-
 #### Function: Environmental variables
 
 You can set configuration via environmental variables either in-line within the YAML file or in a separate external file. Do not store confidential or private data in environmental variables. See: secrets.
@@ -91,11 +90,23 @@ Environment file format:
 
 ```yaml
 environment:
-  access_key: key1
-  secret_key: key2
+  rss_feed_url: key1
+  include_images: key2
 ```
 
 > Note: external files take priority over in-line environmental variables. This allows you to specify a default and then have overrides within an external file.
+
+#### Function: Secure secrets
+
+OpenFaaS functions can make use of secure secrets using the secret store from Kubernetes or Docker Swarm. This is the recommended way to store secure access keys, tokens and other private data.
+
+Create the secret with your orchestration tool i.e. `kubectl` or `docker secret create` then list the secret name as part of an array of secrets.
+
+```yaml
+secrets:
+  - s3_access_key
+  - s3_secret_key
+```
 
 #### Function: Constraints
 
