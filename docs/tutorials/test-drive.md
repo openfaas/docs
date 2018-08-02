@@ -12,23 +12,23 @@ OpenFaaS (or Functions as a Service) is a framework for building serverless func
 
 > Please support the project and put a **Star** on the repo.
 
+OpenFaaS is Kubernetes and Docker-native. In this test-drive we'll be using Docker Inc's online lab for Docker Swarm called play-with-docker.
+
 # Overview
 
-We have provided several sample functions which are built-into the *Docker Stack* file we deploy during the test drive. You'll be up and running in a few minutes and invoking functions via the Web UI or `curl`. When you're ready to deploy your own function click "Deploy Function" in the UI or head over to the CLI tutorial:
+You'll be up and running in a few minutes and invoking functions via the UI, the CLI or via `curl`. You can deploy one of the ready-made functions from the built-in Function Store and try out everything from figlet, to OCR, to colorisation with machine-learning.
+
+When you're ready to build your own function head over to the following tutorial:
 
 * [Morning coffee with the OpenFaaS CLI](https://blog.alexellis.io/quickstart-openfaas-cli/)
 
 ## Pre-reqs
 
-The guide makes use of a cloud playground service called [play-with-docker.com](https://play-with-docker.com/) that provides free Docker hosts for around 5 hours. If you want to try this on your own laptop just follow along.
-
-Background info:
-
-* There is also a [blog post](http://blog.alexellis.io/functions-as-a-service/) that goes into the background of the project.
+The guide makes use of a cloud playground service called [play-with-docker.com](https://play-with-docker.com/) that provides free Docker hosts that expire after around 5 hours. Once you are familiar with the workflow, you can also deploy to your own laptop or cloud host.
 
 ## Start here
 
-* So let's head over to [https://play-with-docker.com/](https://play-with-docker.com/) and start a new session. You will probably have to fill out a Captcha.
+Head over to [https://play-with-docker.com/](https://play-with-docker.com/) and start a new session. You may have to have to fill out a Captcha and log in with your [Docker Hub account](https://hub.docker.com).
 
 * Click "Add New Instance" to create a single Docker host (more can be added later)
 
@@ -38,9 +38,7 @@ This one-shot script clones the code, sets up a Docker Swarm master node then de
 # docker swarm init --advertise-addr eth0 && \
   git clone https://github.com/openfaas/faas && \
   cd faas && \
-  git checkout 0.8.0 && \
-  ./deploy_stack.sh && \
-  docker service ls
+  ./deploy_stack.sh --no-auth
 ```
 
 *The shell script makes use of a v3 docker-compose.yml file - read the `deploy_stack.sh` file for more details.*
@@ -54,26 +52,11 @@ This one-shot script clones the code, sets up a Docker Swarm master node then de
 
 ![](https://user-images.githubusercontent.com/6358735/31058899-b34f2108-a6f3-11e7-853c-6669ffacd320.jpg)
 
-## Sample functions
-
-Deploy the sample functions by deploying the `stack.yml` file in the `faas/` repo folder:
-
-```
-faas deploy
-```
-
-You don't need to specify a `-f` or `--yaml` option to the `faas` command. By default the `stack.yml` file is used if it is present.
-
-Here are a few of the functions:
-
-* Markdown to HTML renderer (markdownrender) - takes .MD input and produces HTML (Golang)
-* Docker Hub Stats function (hubstats) - queries the count of images for a user on the Docker Hub (Golang)
-* Node Info (nodeinfo) function - gives you the OS architecture and detailled info about the CPUS (Node.js)
-* Webhook stasher function (webhookstash) - saves webhook body into container's filesystem - even binaries (Golang)
+We passed a flag of `--no-auth` to disable authentication, you can leave this off to enable authentication for the OpenFaaS gateway.
 
 ## Install FaaS-CLI
 
-We will also install the OpenFaaS CLI which can be used to create, list, invoke and remove functions.
+We will also install the OpenFaaS CLI which can be used to create, list, invoke and remove functions. You can do this on the play-with-docker (PWD) manager directly, or on your laptop. If you install this on your laptop then make sure you pass the `--gateway` flag with the address provided on PWD.
 
 ```shell
 $ curl -sL cli.openfaas.com | sh
@@ -87,19 +70,42 @@ On your own machine change ` | sh` to ` | sudo sh`, for MacOS you can just use `
 $ faas-cli --help
 ```
 
-### Invoke the sample functions with curl or Postman:
+## Deploy the classic sample functions
 
-Head over to the [Github and Star the project](https://github.com/openfaas/faas), or read on to see the input/output from the sample functions.
-
-### Working with the sample functions
-
-You can access the sample functions via the command line with a HTTP POST request, the FaaS-CLI or by using the built-in UI portal.
-
-* Invoke the markdown function with the CLI:
+OpenFaaS functions can be deployed from a YAML file called a stack file. Deploy the classic sample functions by running the following command:
 
 ```
-$ echo "# Test *Drive*"| faas-cli invoke func_markdown
+faas-cli deploy -f stack.yml
+```
+
+If your stack file is called `stack.yml`, then you can leave off the `-f` parameter. The flag `-f` or `--yaml` can also accept a HTTP(s) address to deploy straight from GitHub raw or similar.
+
+Some of the functions in the stack include:
+
+* Markdown to HTML renderer (markdownrender) - takes .MD input and produces HTML (Golang)
+* Docker Hub Stats function (hubstats) - queries the count of images for a user on the Docker Hub (Golang)
+* Node Info (nodeinfo) function - gives you the OS architecture and detailled info about the CPUS (Node.js)
+* Webhook stasher function (webhookstash) - saves webhook body into container's filesystem - even binaries (Golang)
+
+### Invoke the sample functions
+
+You can access functions via the command line using `curl` with a HTTP request, by using the `faas-cli`, with the built-in UI or even [Postman](https://www.getpostman.com).
+
+* Invoke the markdown render function with the CLI:
+
+```
+$ echo "# Test *Drive*" | faas-cli invoke markdown
 <h1>Test <em>Drive</em></h1>
+```
+
+You can also type in multiple lines followed by Control + D:
+```
+$ faas-cli invoke markdown
+# Line 1
+## Line 2
+
+<h1>Line 1</h1>
+<h2>Line 2</h2>
 ```
 
 * List your functions
@@ -107,17 +113,29 @@ $ echo "# Test *Drive*"| faas-cli invoke func_markdown
 ```
 $ faas-cli list
 Function                        Invocations     Replicas
-func_echoit                     0               1
-func_base64                     0               1
-func_decodebase64               0               1
-func_markdown                   3               1
-func_nodeinfo                   0               1
-func_wordcount                  0               1
-func_hubstats                   0               1
-func_webhookstash               0               1
+echoit                     0               1
+base64                     0               1
+decodebase64               0               1
+markdown                   3               1
+nodeinfo                   0               1
+wordcount                  0               1
+hubstats                   0               1
+webhookstash               0               1
 ```
 
-**UI portal:**
+You can also pass the flag `-v` to see the Docker images being used.
+
+* Use `curl` or HTTP
+
+If you get `$OPENFAAS_URL` to the URL for your gateway the following will work:
+
+```
+export OPENFAAS_URL="http://..."
+
+curl -d "# Line1" -i http://$OPENFAAS_URL/function/markdown
+```
+
+* UI portal:
 
 The UI portal is accessible on: http://127.0.0.1:8080/ - it show a list of functions deployed on your swarm and allows you to test them out.
 
@@ -135,26 +153,43 @@ func  3
 # docker stack ps func
 ID            NAME               IMAGE                                  NODE  DESIRED STATE  CURRENT STATE         
 rhzej73haufd  func_gateway.1     alexellis2/faas-gateway:latest         moby  Running        Running 26 minutes ago
-fssz6unq3e74  func_hubstats.1    alexellis2/faas-dockerhubstats:latest  moby  Running        Running 27 minutes ago
+fssz6unq3e74  hubstats.1    alexellis2/faas-dockerhubstats:latest  moby  Running        Running 27 minutes ago
 nnlzo6u3pilg  func_prometheus.1  quay.io/prometheus/prometheus:latest   moby  Running        Running 27 minutes ago
 ```
 
 * Head over to http://127.0.0.1:9090 for your Prometheus metrics
  * A saved Prometheus view is available here: [metrics overview](http://127.0.0.1:9090/graph?g0.range_input=15m&g0.expr=rate(gateway_function_invocation_total%5B20s%5D)&g0.tab=0&g1.range_input=15m&g1.expr=gateway_functions_seconds_sum+%2F+gateway_functions_seconds_counts&g1.tab=0&g2.range_input=15m&g2.expr=gateway_service_count&g2.tab=0)
 
-* Your functions can be accessed via the gateway UI or read on for `curl`
-
 ## Build functions from templates and the CLI
 
 The following guides show how to use the CLI and code templates to build functions.
 
-Using a template means you only have to write a handler file in your chosen programming language such as:
+Using a template means you only have to write a handler file in your chosen programming language. To see a list of the official language templates:
 
-* Ruby
-* Node.js
-* Python
-* CSharp
-* Or propose a template for another programming languae
+```
+faas-cli template pull
+
+faas-cli new --list
+
+Languages available as templates:
+- csharp
+- dockerfile
+- go
+- go-armhf
+- java8
+- node
+- node-arm64
+- node-armhf
+- python
+- python-armhf
+- python3
+- python3-armhf
+- ruby
+```
+
+> PHP and other languages are available by running `faas-cli template pull` with various Git repos maintained by the wider OpenFaaS community.
+
+For anything else you can build your own template or use the `dockerfile` type to use an existing containerized microservice as your function.
 
 Guides:
 
@@ -195,15 +230,11 @@ Creating a function via the UI:
 
 Once the create button is clicked, faas will provision a new Docker Swarm service. The newly created function will shortly be available in the list of functions on the left hand side of the UI.
 
-**Option 3: Through docker-compose.yml stack file** 
-
-Edit the docker-compose stack file, then run ./deploy_stack.sh - this will only update changed/added services, not existing ones.
-
-**Option 4: Programatically through a HTTP POST to the API Gateway**
+**Option 3: Programatically through a HTTP POST to the API Gateway**
 
 A HTTP post can also be sent via `curl` etc to the endpoint used by the UI (HTTP post to `/system/functions`)
 
-```
+```go
 // CreateFunctionRequest create a function in the swarm.
 type CreateFunctionRequest struct {
 	Service    string `json:"service"`
@@ -212,6 +243,8 @@ type CreateFunctionRequest struct {
 	EnvProcess string `json:"envProcess"`
 }
 ```
+
+Check the [Swagger API](https://raw.githubusercontent.com/openfaas/faas/master/api-docs/swagger.yml) for more details of additional fields such as `Labels` and `Constraints`.
 
 Example:
 
@@ -234,7 +267,7 @@ curl 127.0.0.1:8080/system/functions -d '
 You can delete a function through the FaaS-CLI or with the Docker CLI
 
 ```
-$ docker service rm func_echoit
+$ faas-cli remove echoit
 ```
 
 ### Exploring the functions with `curl`
@@ -242,7 +275,7 @@ $ docker service rm func_echoit
 **Sample function: Docker Hub Stats (hubstats)**
 
 ```
-# curl -X POST http://127.0.0.1:8080/function/func_hubstats -d "alexellis2"
+# curl -X POST http://127.0.0.1:8080/function/hubstats -d "alexellis2"
 The organisation or user alexellis2 has 99 repositories on the Docker hub.
 ```
 
@@ -251,7 +284,7 @@ The `-d` value passes in the argument for your function. This is read via STDIN 
 You can also invoke functions using the OpenFaaS CLI:
 
 ```
-# echo -n "library" | faas-cli invoke func_hubstats
+# echo -n "library" | faas-cli invoke hubstats
 The organisation or user library has 128 repositories on the Docker hub.
 ```
 
@@ -263,13 +296,13 @@ If you invoke this method in a while loop or with a load-generator tool then it 
 
 Here is a loop that can be used to invoke the function in a loop to trigger auto-scaling.
 ```
-while [ true ] ; do curl -X POST http://127.0.0.1:8080/function/func_nodeinfo -d ''; done
+while [ true ] ; do curl -X POST http://127.0.0.1:8080/function/nodeinfo -d ''; done
 ```
 
 Example:
 
 ```
-# curl -X POST http://127.0.0.1:8080/function/func_nodeinfo -d ''
+# curl -X POST http://127.0.0.1:8080/function/nodeinfo -d ''
 
 Hostname: 9b077a81a489
 
@@ -292,7 +325,7 @@ To control scaling behaviour you can set a min/max scale value with a label when
 Another cool sample function is the Webhook Stasher which saves the body of any data posted to the service to the container's filesystem. Each file is written with the filename of the UNIX time.
 
 ```
-# curl -X POST http://127.0.0.1:8080/function/func_webhookstash -d '{"event": "fork", "repo": "alexellis2/faas"}'
+# curl -X POST http://127.0.0.1:8080/function/webhookstash -d '{"event": "fork", "repo": "alexellis2/faas"}'
 Webhook stashed
 
 # docker ps|grep stash
@@ -312,3 +345,7 @@ d769ca70729d        alexellis2/faas-webhookstash@sha256:b378f1a144202baa8fb008f2
 ```
 
 > Why not start the code on play-with-docker.com and then configure a Github repository to send webhooks to the API Gateway?
+
+### Wrapping up
+
+Please show your support for Open Source and head over to the [Github repo and Star the project](https://github.com/openfaas/faas).
