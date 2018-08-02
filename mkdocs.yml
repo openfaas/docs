@@ -118,9 +118,10 @@ pages:
     - Build functions: ./cli/build.md
     - Working with tags: ./cli/tags.md
   - Tutorials:
+    - Workshop: ./tutorials/workshop.md
     - CLI with Node.js: ./tutorials/CLI-with-node.md
     - First Python Function: ./tutorials/first-python-function.md
-    - Workshop: ./tutorials/workshop.md
+    - Test Drive: ./tutorials/test-drive.md
     - Featured: ./tutorials/featured.md
   - OpenFaaS Cloud: openfaas-cloud/intro.md
   - Reference:
