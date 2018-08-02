@@ -14,6 +14,22 @@ We recommend using basic authentication and a strong password to protect the `/s
 
 The API Gateway as of version 0.8.2 provides built-in basic authentication. To use it set the environmental variable `basic_auth` to true. Then create two secrets named `basic-auth-user` and `basic-auth-password`.
 
+**To create the secrets there are two options:**
+
+Option 1 (simpler, but doesn't works on Windows. Besides Docker discourages it for security reasons)
+```bash
+$ echo myusername | docker secret create basic-auth-user -
+$ echo secr3t | docker secret create basic-auth-password -
+```
+
+Option 2 (safer, must work on any OS)
+```bash
+$ echo myusername > myusername.txt
+$ echo secr3t > mypassword.txt
+$ docker secret create basic-auth-user myusername.txt
+$ docker secret create basic-auth-password mypassword.txt
+```
+
 Once basic authentication is enabled you will need to use `faas-cli login` before using the CLI.
 
 ## For functions
