@@ -29,7 +29,7 @@ Some of our users include:
 * [Dim Solution](https://dimsolution.com/)
 * [Form3](https://form3.tech/)
 * [Iconscout](https://iconscout.com/)
-* [Intraffic](https://www.intraffic.nl)
+* [InTraffic](https://www.intraffic.nl)
 * [Packet Host](https://www.packet.net/)
 * [Scaleway](https://scaleway.com/)
 * [University of Calgary](https://www.ucalgary.ca)
