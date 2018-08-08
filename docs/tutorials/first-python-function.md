@@ -239,7 +239,7 @@ $ curl 127.0.0.1:8080/function/hello-python --data-binary '{
 
 You can also access the function just as easily via the UI.
 
-![](/content/images/2017/08/invoke.png)
+![](https://blog.alexellis.io/content/images/2017/08/invoke.png)
 
 
 **Logging and troubleshooting**
