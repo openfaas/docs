@@ -283,7 +283,7 @@ Here are two top tips:
 
 > Please show support and **Star** the project on [Github](https://github.com/openfaas/faas)
 
-![](/content/images/2017/08/faas_side.png)
+![](https://blog.alexellis.io/content/images/2017/08/faas_side.png)
 
 Now that you've built your first function, why not checkout some of the examples built by the OpenFaaS community? You can share your first serverless OpenFaaS function with us on [Twitter](https://twitter.com/open_faas) or [Github](https://github.com/openfaas/faas/).
 
