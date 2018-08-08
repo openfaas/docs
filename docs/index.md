@@ -24,17 +24,20 @@ OpenFaaS is an independent project created by [Alex Ellis](https://www.alexellis
 
 Some of our users include:
 
-* [University of Calgary](https://www.ucalgary.ca)
-* [University of Washington](https://www.washington.edu)
 * [Citrix](https://www.citrix.com/)
 * [Contiamo](https://www.contiamo.com)
-* [Iconscout](https://iconscout.com/)
-* [VMware](https://www.vmware.com)
-* [Vision Banco SAECA](https://www.visionbanco.com)
-* [Form3](https://form3.tech/)
 * [Dim Solution](https://dimsolution.com/)
+* [Form3](https://form3.tech/)
+* [Iconscout](https://iconscout.com/)
+* [Intraffic](https://www.intraffic.nl)
 * [Packet Host](https://www.packet.net/)
 * [Scaleway](https://scaleway.com/)
+* [University of Calgary](https://www.ucalgary.ca)
+* [University of Washington](https://www.washington.edu)
+* [Vision Banco SAECA](https://www.visionbanco.com)
+* [VMware](https://www.vmware.com)
+
+To have your company listed as a user [comment here](https://github.com/openfaas/faas/issues/776)
 
 ## Get started with OpenFaaS
 
