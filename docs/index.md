@@ -35,6 +35,7 @@ Some of our users include:
 * [University of Calgary](https://www.ucalgary.ca)
 * [University of Washington](https://www.washington.edu)
 * [Vision Banco SAECA](https://www.visionbanco.com)
+* [Virality](https://www.virality.de)
 * [VMware](https://www.vmware.com)
 
 To have your company listed as a user [comment here](https://github.com/openfaas/faas/issues/776)
