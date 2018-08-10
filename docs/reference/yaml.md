@@ -128,21 +128,35 @@ Or only using nodes running with Windows:
 
 #### Function: Labels
 
-Labels can be applied through a map which are passed directly to the container scheduler. Labels are also available from the OpenFaaS REST API for querying or grouping functions.
+Labels can be applied through a map which is passed directly to the container scheduler. 
+Labels are also available from the OpenFaaS REST API for querying or grouping functions.
 
-Example of setting a "topic" for the Kafka event connector:
-
-```yaml
-   labels:
-     topic: "kafka.payments-received"
-```
-
-You may also want to group functions by user or apply a `canary` label:
+Example of using a label to group by user or apply a `canary` label:
 
 ```yaml
    labels:
      canary: true
      Git-Owner: alexellis
+```
+
+> Important note: When used with a Kubernetes provider, labels support a restricted character set and length. 
+*"Valid label values must be 63 characters or less and must be empty or begin and end with an alphanumeric character 
+([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.), and alphanumerics between."*
+> 
+>See [Syntax and character set](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#syntax-and-character-set)
+for more information
+
+#### Function: Annotations
+
+Annotations are a collection of meta-data which is stored with the function by the provider.
+Annotations are also available from the OpenFaaS REST API for querying.
+
+Example of setting a "topic" for the Kafka event connector:
+
+```yaml
+   annotations:
+     topic: "kafka.payments-received"
+     expire-date: "Wed Aug  8 07:40:18 BST 2018"
 ```
 
 #### Function: Memory/CPU limits
