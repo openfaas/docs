@@ -1,5 +1,24 @@
 # Scheduling function runs
 
+## Docker Swarm
+
+For Kubernetes read on in the next section where we will use Kubernetes CronJobs.
+
+Docker Swarm has no concepts of scheduled tasks or cron, but we have a good recommendation which you can use with Swarm. If you deploy a Jenkins master service then you can use that to manage your scheduled tasks. It will handle distributed locking, concurrency and queueing.
+
+Example usage:
+
+* Deploy Swarm service for Jenkins using [Official Docker Hub image](https://hub.docker.com/r/jenkins/jenkins/)
+* Define a Freestyle job for each scheduled task
+* Add a CRON entry for the schedule
+* Install the OpenFaaS CLI
+* Run `faas-cli login --gateway`
+* Invoke the function
+
+Here is an example of how to do this with a [Pipeline job](https://gist.github.com/alexellis/dfa1b8790ac3d26614e342746c64cbc8).
+
+## Kubernetes
+
 If you are deploying OpenFaaS to [Kubernetes][k8s], then we can easily run functions as cron jobs using the aptley named [Cron Job resource][k8scron].
 
 We assume that you have used the [recommended install of `faas-netes`][faasdeploy] which menas that you have OpenFaaS deployed into two namespaces:
