@@ -25,7 +25,6 @@ site_description: OpenFaaS - Serverless Functions Made Simple
 site_author: OpenFaaS Project
 site_url: https://www.openfaas.com/
 
-
 # Repository
 repo_name: openfaas/faas
 repo_url: https://github.com/openfaas/faas
@@ -56,12 +55,12 @@ theme:
   logo: images/logo.svg
 
 # Copyright
-copyright: 'Copyright &copy; 2019 OpenFaaS Project'
+copyright: "Copyright &copy; 2019 OpenFaaS Project"
 
 # Options
 extra:
   search:
-    languages: 'en'
+    languages: "en"
   social:
     - type: globe
       link: https://www.openfaas.com/
@@ -103,29 +102,31 @@ markdown_extensions:
 # Page tree
 nav:
   - Overview:
-    - Introduction: index.md
-    - Community: community.md
-    - Conceptual: conceptual.md
+      - Introduction: index.md
+      - Community: community.md
+      - Conceptual: conceptual.md
   - Getting Started:
-    - Deployment: deployment.md
-    - Kubernetes: ./deployment/kubernetes.md
-    - Docker Swarm: ./deployment/docker-swarm.md
-    - Docker Playground: ./deployment/play-with-docker.md
-    - Troubleshooting: ./deployment/troubleshooting.md
+      - Deployment: deployment.md
+      - Kubernetes: ./deployment/kubernetes.md
+      - Docker Swarm: ./deployment/docker-swarm.md
+      - Docker Playground: ./deployment/play-with-docker.md
+      - Troubleshooting: ./deployment/troubleshooting.md
   - CLI:
-    - Installation: ./cli/install.md
-    - Create functions: ./cli/templates.md
-    - Build functions: ./cli/build.md
-    - Working with tags: ./cli/tags.md
+      - Installation: ./cli/install.md
+      - Create functions: ./cli/templates.md
+      - Build functions: ./cli/build.md
+      - Working with tags: ./cli/tags.md
   - Tutorials:
-    - Workshop: ./tutorials/workshop.md
-    - CLI with Node.js: ./tutorials/CLI-with-node.md
-    - First Python Function: ./tutorials/first-python-function.md
-    - Test Drive: ./tutorials/test-drive.md
-    - Featured: ./tutorials/featured.md
+      - Workshop: ./tutorials/workshop.md
+      - CLI with Node.js: ./tutorials/CLI-with-node.md
+      - First Python Function: ./tutorials/first-python-function.md
+      - Test Drive: ./tutorials/test-drive.md
+      - Featured: ./tutorials/featured.md
   - OpenFaaS Cloud: openfaas-cloud/intro.md
   - Reference:
     - Secrets: ./reference/secrets.md
+    - SSL:
+      - Using cert-manager: ./reference/ingress/kubernetes-with-cert-manager.md
     - Auth: ./reference/authentication.md
     - CORS: ./reference/cors.md
     - Cron: ./reference/cron.md
@@ -133,8 +134,8 @@ nav:
     - Workloads: ./reference/workloads.md
     - YAML: ./reference/yaml.md
   - Design & Architecture:
-    - Gateway: ./architecture/gateway.md
-    - Watchdog: ./architecture/watchdog.md
-    - Autoscaling: ./architecture/autoscaling.md
+      - Gateway: ./architecture/gateway.md
+      - Watchdog: ./architecture/watchdog.md
+      - Autoscaling: ./architecture/autoscaling.md
   - Contributing:
-    - Get Started: ./contributing/get-started.md
+      - Get Started: ./contributing/get-started.md
