@@ -203,7 +203,13 @@ $ docker service ls -q | xargs docker service rm
 
 _Use with caution_
 
-#### I forgot my gateway password
+### I forgot my gateway password
+
+If you've logged into the OpenFaaS CLI then you can retrieve the credentials from `config.yaml` in `~/.openfaas/`. Use the value from the `token` field such as: `echo -n HASHED_VALUE | base64 -D/-d` to view the contents in plain-text. If you don't have access to bash or the base64 utility then type in `docker run -ti alpine:3.7` to run a shell in Docker.
+
+If you never logged in via the CLI then you can retrieve the contents from the cluster secret store:
+
+#### Swarm
 
 ```
 $ docker service rm print-password \
@@ -213,7 +219,7 @@ $ docker service logs print-password
 21f596c9cd75a0fe5e335fb743995d18399e83418a37a79e719576a724efbbb6
 ```
 
-### Kubernetes
+#### Kubernetes
 
 If you have deployed OpenFaaS to the recommended namespaces then functions are in the `openfaas-fn` namespace and the core services are in the `openfaas` namespace. The `-n` flag to `kubectl` sets the namespace to look at.
 
