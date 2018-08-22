@@ -24,18 +24,23 @@ OpenFaaS is an independent project created by [Alex Ellis](https://www.alexellis
 
 Some of our users include:
 
-* [Citrix](https://www.citrix.com/)
-* [Contiamo](https://www.contiamo.com)
-* [Dim Solution](https://dimsolution.com/)
-* [Form3](https://form3.tech/)
-* [Iconscout](https://iconscout.com/)
-* [InTraffic](https://www.intraffic.nl)
-* [Packet Host](https://www.packet.net/)
-* [Scaleway](https://scaleway.com/)
-* [University of Calgary](https://www.ucalgary.ca)
-* [University of Washington](https://www.washington.edu)
-* [Vision Banco SAECA](https://www.visionbanco.com)
-* [Virality](https://www.virality.de)
+<div class="row logos">
+
+<a href="https://www.contiamo.com" target="_blank"><img src="images/logos/contiamo.svg" alt="Contiamo" title="Contiamo"></a>
+<a href="https://www.citrix.com/" target="_blank"><img src="images/logos/citrix.svg" alt="Citrix" title="Citrix"></a>
+<a href="https://dimsolution.com/" target="_blank"><img src="images/logos/dim-solution.png" alt="Dim Solution" title="Dim Solution"></a>
+<a href="https://form3.tech/"target="_blank"><img src="images/logos/form3.svg" alt="Form3" title="Form3" ></a>
+<a href="https://iconscout.com/" target="_blank"><img src="images/logos/iconscout.svg" alt="Iconscout" title="Iconscout"></a>
+<a href="https://www.intraffic.nl" target="_blank"><img src="images/logos/intraffic.svg" alt="InTraffic" title="InTraffic"></a>
+<a href="https://www.packet.net/" target="_blank"><img src="images/logos/packet.png" alt="Packet Host" title="Packet Host"></a>
+<a href="https://scaleway.com/" target="_blank"><img src="images/logos/scaleway.svg" alt="Scaleway" title="Scaleway"></a>
+<a href="https://github.com/ucalgary" target="_blank"><img src="images/logos/ucalgary.png" alt="University of Calgary" title="University of Calgary"></a>
+<a href="https://www.washington.edu" target="_blank"><img src="images/logos/universityofwashington.png" alt="University of Washington" title="University of Washington"></a>
+<a href="https://www.virality.de" target="_blank"><img src="images/logos/virality.png" alt="Virality" title="Virality"></a>
+<a href="https://www.visionbanco.com" target="_blank"><img src="images/logos/vision.png" alt="Vision Banco SAECA" title="Vision Banco SAECA"></a>
+</div>
+
+
 * [VMware](https://www.vmware.com)
 
 To have your company listed as a user [comment here](https://github.com/openfaas/faas/issues/776)
