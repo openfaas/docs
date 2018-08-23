@@ -1,4 +1,4 @@
-# Deploying with SSL on Kubernetes using Cert-Manager and Nginx
+# SSL on Kubernetes
 
 The quickest way to get automated SSL/TLS certificates for your project is to use [cert-manager][cert-manager]. In this tutorial, we will deploy OpenFaaS using the [Helm Chart][openfaas-helm], [cert-manager][cert-manager], and [nginx-ingress][nginx-ingress]
 
@@ -27,7 +27,7 @@ The full configuration options for nginx [can be found here][nginx-configuration
 
 ## Install cert-manager
 
-We will treat `cert-manager` like a core component of the cluster, so we install it into the `kube-system` namespace using the following command:
+We install it into the `kube-system` namespace using the following command:
 
 ```sh
 $ helm install \
@@ -89,7 +89,7 @@ This will allow `cert-manager` to automatically provision Certificates just in t
 The OpenFaaS Helm Chart already supports the nginx-ingress, but we want to customize it further. This is easiest with a custom values file. Below, we enable and configure the ingress object to use our certificate and expose just the gateway
 
 ```yaml
-# our-values.yaml
+# tls.yml
 functionNamespace: openfaas-fn
 ingress:
     enabled: true
@@ -114,11 +114,11 @@ $ helm repo update
 $ helm upgrade openfaas \
     --install \
     --namespace openfaas \
-    --values our-values.yaml \
+    --values tls.yml \
     openfaas/openfaas
 ```
 
-## Create a certificate for your openfaas
+## Create a certificate
 
 Finally, we can create the Certificate resource which triggers the actual creation of the certificate by `cert-manager`
 
@@ -155,6 +155,35 @@ In your projects containing OpenFaaS functions, you can now update the `provider
 provider:
   name: faas
   gateway: https://openfaas.mydomain.com
+```
+
+## Verify and Debug
+
+There are several commands we can use to verify that the required kubernetes objects have been created.
+
+- To check that the cert-manager issuers were created:
+```sh
+$ kubectl -n openfaas get issuer letsencrypt-prod letsencrypt-staging
+```
+
+- To check that your certificate was created and that cert-manager created the required secret with the actual ssl certificate:
+```sh
+$ kubectl -n openfaas get certificate,secret openfaas-crt
+```
+
+- To check the access and error logs in Nginx
+```sh
+$ kubectl logs -l "app=nginxingress, component=controller"
+```
+note that this will print the entire log file, which can be pretty long so we recommend piping the output to `less`
+```sh
+$ kubectl logs -l "app=nginxingress, component=controller" | less
+```
+
+
+- If you want to tail the Nginx logs, you can use
+```sh
+$ kubectl logs -f $(kubectl get po -l "app=nginxingress,component=controller" -o jsonpath="{.items[0].metadata.name}")
 ```
 
 ## Profit!
