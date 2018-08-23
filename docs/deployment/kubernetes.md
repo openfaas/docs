@@ -39,7 +39,7 @@ A Helm chart is provided in the `faas-netes` repository. Follow the link below t
 
 To enable SSL while using Helm, try one of the following references:
 
-- [Using nginx-ingress and cert-manager](/reference/ingress/kubernetes-with-cert-manager.md)
+- [Using nginx-ingress and cert-manager](/reference/ssl/kubernetes-with-cert-manager.md)
 
 ### 2.0b Deploy OpenFaaS
 
