@@ -36,6 +36,7 @@ Some of our users include:
 <a href="https://scaleway.com/" target="_blank"><img src="images/logos/scaleway.svg" alt="Scaleway" title="Scaleway"></a>
 <a href="https://github.com/ucalgary" target="_blank"><img src="images/logos/ucalgary.png" alt="University of Calgary" title="University of Calgary"></a>
 <a href="https://www.washington.edu" target="_blank"><img src="images/logos/universityofwashington.png" alt="University of Washington" title="University of Washington"></a>
+<a href="http://ustore.com.br/" target="_blank"><img src="images/logos/ustore.png" alt="Ustore" title="Ustore"></a>
 <a href="https://www.virality.de" target="_blank"><img src="images/logos/virality.png" alt="Virality" title="Virality"></a>
 <a href="https://www.visionbanco.com" target="_blank"><img src="images/logos/vision.png" alt="Vision Banco SAECA" title="Vision Banco SAECA"></a>
 </div>
