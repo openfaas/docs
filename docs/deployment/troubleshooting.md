@@ -165,6 +165,47 @@ On certain Linux distributions the name `localhost` maps to an IPv6 alias meanin
 
 3.  Edit the `/etc/hosts` file on your machine and remove the IPv6 alias for localhost (this forces the use of IPv4)
 
+## Uninstall OpenFaaS
+
+If you'd like to uninstall or remove OpenFaaS from a host follow the steps below.
+
+### CLI
+
+If you'd like to remove the CLI and you installed it with `brew`, then use `brew` to remove it.
+
+If you installed via the `curl/sh` utility script:
+
+* Run `rm -rf /usr/local/bin/faas-cli`
+* Delete saved gateway login details: `rm -rf ~/.openfaas`
+
+### Swarm
+
+Remove any functions you deployed:
+
+```
+$ docker service ls --filter="label=function" -q | xargs docker service rm
+```
+
+Remove the whole stack
+
+```
+$ docker stack rm func
+```
+
+### Kubernetes
+
+If deployed via Helm:
+
+```
+helm delete --purge openfaas
+```
+
+If installed via YAML files:
+
+```
+kubectl delete namespace openfaas,openfaas-fn
+```
+
 ## Troubleshooting Swarm or Kubernetes
 
 ### Docker Swarm
@@ -188,20 +229,6 @@ $ docker service logs --tail 100 FUNCTION
 ```
 $ docker service ps --no-trunc=true FUNCTION
 ```
-
-#### Stop and remove OpenFaaS
-
-```
-$ docker stack rm func
-```
-
-If you have additional services / functions remove the remaining ones like this:
-
-```
-$ docker service ls -q | xargs docker service rm
-```
-
-_Use with caution_
 
 ### I forgot my gateway password
 
@@ -279,14 +306,6 @@ $ kubectl logs -n openfaas-fn deploy/queue-worker
 ```
 $ kubectl logs -n openfaas deploy/gateway -c operator
 $ kubectl logs -n openfaas deploy/gateway -c gateway
-```
-
-#### Remove the OpenFaaS deployment
-
-From within the `faas-netes` folder:
-
-```
-$ kubectl delete -f namespaces.yml,./yaml/
 ```
 
 #### I forgot my gateway password
