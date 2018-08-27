@@ -1,19 +1,20 @@
 # SSL on Kubernetes
 
-The quickest way to get automated SSL/TLS certificates for your project is to use [cert-manager][cert-manager]. In this tutorial, we will deploy OpenFaaS using the [Helm Chart][openfaas-helm], [cert-manager][cert-manager], and [nginx-ingress][nginx-ingress]
+The quickest way to get automated SSL/TLS certificates for your project if it is expose to the web is to use [cert-manager][cert-manager]. In this tutorial, we will deploy OpenFaaS using the [Helm Chart][openfaas-helm], [cert-manager][cert-manager], and [nginx-ingress][nginx-ingress]
 
-**RBAC** We will assume that your cluster is configured for [RBAC][k8s-rbac].
+**RBAC** You will need to have [RBAC][k8s-rbac] enabled.
+
+## Create an A record
+
+If your domain is `.domain.com` then create an A record using your DNS administration panel such as `gateway.domain.com` or `openfaas.domain.com`. The required steps will vary depending on your domain provider and your cluster provider. For example; [on Google Cloud](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip) or [on AWS ith KOPS](https://kubernetes.io/docs/setup/custom-cloud/kops/#2-5-create-a-route53-domain-for-your-cluster).
 
 ## Configure Helm and Tiller
 
 First install Helm and the Tiller [following the instructions provided by Helm][helm-install]
 
-## Create namespaces
+## Install OpenFaaS
 
-```sh
-$ kubectl create namespace openfaas
-$ kubectl create namespace openfaas-fn
-```
+Follow the instructions found in the [OpenFaaS Helm Chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#deploy-openfaas), make sure to [secure your gateway with basic auth](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#secure-the-gateway-administrative-api-and-ui-with-basic-auth) before you continue.
 
 ## Install nginx-ingress
 
@@ -40,7 +41,7 @@ This configuration will work for most deployments, but you can also see https://
 
 ## Configure cert-manager
 
-In additional to the controller installed in the previous step, we must also configure an "Issuer" before `cert-manager` can create certificates for our services. For convenience we will create an Issuer for both Let's Encrypt's production API and their staging API. The staging API has much kinder rate limits and is useful for testing.
+In additional to the controller installed in the previous step, we must also configure an "Issuer" before `cert-manager` can create certificates for our services. For convenience we will create an Issuer for both Let's Encrypt's production API and their staging API. The staging API has much higher rate limits. We will use it to issue a test certificate before switching over to a production certificate if everything works as expected.
 
 Replace `<your-email-here>` with the contact email that will be shown with the SSL certificate.
 
@@ -84,18 +85,17 @@ $ kubectl apply -f letsencrypt-issuer.yaml
 
 This will allow `cert-manager` to automatically provision Certificates just in the `openfaas` namespace.
 
-## Install openfaas
+## Add TLS to openfaas
 
 The OpenFaaS Helm Chart already supports the nginx-ingress, but we want to customize it further. This is easiest with a custom values file. Below, we enable and configure the ingress object to use our certificate and expose just the gateway
 
 ```yaml
 # tls.yml
-functionNamespace: openfaas-fn
 ingress:
     enabled: true
     annotations:
         kubernetes.io/ingress.class: nginx
-        certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+        certmanager.k8s.io/cluster-issuer: letsencrypt-staging
     ingress:
         tls:
         - hosts:
@@ -108,19 +108,18 @@ ingress:
             path: /
 ```
 
+
 ```sh
-$ helm repo add openfaas https://openfaas.github.io/faas-netes/
-$ helm repo update
 $ helm upgrade openfaas \
-    --install \
     --namespace openfaas \
+    ----reuse-values \
     --values tls.yml \
     openfaas/openfaas
 ```
 
 ## Create a certificate
 
-Finally, we can create the Certificate resource which triggers the actual creation of the certificate by `cert-manager`
+Finally, we can create the Certificate resource which triggers the actual creation of the certificate by `cert-manager`, edit the file below and replace the text `openfaas.mydomain.com` with your address for the API Gateway.
 
 ```yaml
 # openfaas-crt.yaml
@@ -139,7 +138,7 @@ spec:
         domains:
           - openfaas.mydomain.com
   issuerRef:
-    name: letsencrypt-prod
+    name: letsencrypt-staging
     kind: ClusterIssuer
 ```
 
@@ -147,14 +146,21 @@ spec:
 $ kubectl apply -f openfaas-crt.yaml
 ```
 
+You can validate that certificate has been obtained successfully using
+
+```sh
+$ kubectl describe certificate openfaas-crt
+```
+
+If it was successful you can change to the production Let's Encrypt issuer by replacing `letsencrypt-staging` with `letsencrypt-prod` in the Certificate object.
+
 ## Deploy and Invoke a function
 
-In your projects containing OpenFaaS functions, you can now update the `provider` defined in the `stack.yaml` to be
+In your projects containing OpenFaaS functions, you can now deploy using your domain as the gateway, replace `openfaas.mydomain.com` with your domain as well as adding the username and password you created when you deployed OpenFaaS.
 
-```yaml
-provider:
-  name: faas
-  gateway: https://openfaas.mydomain.com
+```sh
+faas-cli login --gateway https://openfaas.mydomain.com --username <username> --password <password>
+faas-cli deploy --gateway https://openfaas.mydomain.com
 ```
 
 ## Verify and Debug
