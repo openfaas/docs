@@ -12,6 +12,10 @@
     background-image: linear-gradient(45deg, rgb(53, 112, 227) 0%, rgb(53, 112, 227) 24%, rgb(42, 125, 227) 53%, rgb(27, 141, 226) 78%, rgb(8, 162, 225) 100%);
 }
 
+.logos {
+    text-align: center;
+}
+
 .logos img {
     flex: 1 1 auto;
     padding: 22px;
