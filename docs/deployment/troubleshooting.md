@@ -238,12 +238,29 @@ If you never logged in via the CLI then you can retrieve the contents from the c
 
 #### Swarm
 
+Use the [jaas](https://github.com/alexellis/jaas) task-runner for Swarm (easiest option):
+
+```
+$ docker run -ti -v /var/run/docker.sock:/var/run/docker.sock \
+  alexellis2/jaas:1.0.0 \
+  run --secret basic-auth-password \
+  --image alpine:3.7 \
+  --command "cat /run/secrets/basic-auth-password"
+
+Printing service logs
+2018-08-28T07:50:46.431268693Z  21f596c9cd75a0fe5e335fb743995d18399e83418a37a79e719576a724efbbb6
+```
+
+* Or use a one-shot Docker Service:
+
 ```
 $ docker service rm print-password \
- ; docker service create --detach --secret basic-auth-password --restart-condition=none --name=print-password alpine:3.7 cat /run/secrets/basic-auth-password
+ ; docker service create --detach --secret basic-auth-password \
+   --restart-condition=none --name=print-password \
+   alpine:3.7 cat /run/secrets/basic-auth-password
 
 $ docker service logs print-password
-21f596c9cd75a0fe5e335fb743995d18399e83418a37a79e719576a724efbbb6
+print-password.1.59bwe0bb4d99@nuc    | 21f596c9cd75a0fe5e335fb743995d18399e83418a37a79e719576a724efbbb6
 ```
 
 ### Troubleshoot Kubernetes
