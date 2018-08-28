@@ -41,3 +41,30 @@ Find out more in Stefan Prodan's blog post below:
 
 https://stefanprodan.com/2018/kubernetes-scaleway-baremetal-arm-terraform-installer/#horizontal-pod-autoscaling
 
+## Zero-scale
+
+Scaling to zero is available in OpenFaaS but is not turned on by default. There are two parts that make up scaling to zero or (zero-scale) in the project. You can read more about how this works on the [OpenFaaS blog](https://www.openfaas.com/blog/zero-scale/).
+
+### Scaling up from zero replicas
+
+Scaling up from zero replicas or 0/0 can be configured through an optional flag in the API Gateway.
+
+To turn on scaling from 0 to your minimum replica count set `zero_scale` to true for the gateway deployment using Helm or the `docker-compose.yml`.
+
+The latency between accepting a request for an unavailable function and serving the request is sometimes called a "Cold Start". The Cold Start varies depending on whether you are using Kubernetes or Swarm and whether the image is pre-pulled on any Nodes in the cluster. For Kubernetes (faas-netes) you can fine-tune the function's intial check delays to reduce the total latency.
+
+When `zero_scale` is enabled then each HTTP connection is blocked, the function is scaled to min replicas, and as soon as a replica is available the request is proxied through as per normal.
+
+### Scaling down to zero
+
+Scaling down to zero replicas is also called "idling". There are two options available for idling functions.
+
+* Option 1 - faas-idler
+
+You can use the [faas-idler](https://github.com/openfaas-incubator/faas-idler) project which is incubating in the openfaas-incubator organisation. faas-idler allows some basic presents to be configured and then monitors the built-in Prometheus metrics on a regular basis and then uses the OpenFaaS REST API to scale idle functions to zero replicas.
+
+The [faas-idler](https://github.com/openfaas-incubator/faas-idler) component is easy to deploy with a docker-compose.yml file or Kubernetes YAML file.
+
+* Option 2 - OpenFaaS REST API
+
+If you want to use your own set of criteria for idling functions then you can make use of the OpenFaaS REST API to decide when to scale functions to zero. 
