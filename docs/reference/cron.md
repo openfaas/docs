@@ -21,7 +21,7 @@ Here is an example of how to do this with a [Pipeline job](https://gist.github.c
 
 If you are deploying OpenFaaS to [Kubernetes][k8s], then we can easily run functions as cron jobs using the aptley named [Cron Job resource][k8scron].
 
-We assume that you have used the [recommended install of `faas-netes`][faasdeploy] which menas that you have OpenFaaS deployed into two namespaces:
+We assume that you have used the [recommended install of `faas-netes`][faasdeploy] which means that you have OpenFaaS deployed into two namespaces:
 
 1.  `openfaas` for the core componentes (ui, gateway, etc)
 2.  `openfaas-fn` for the function deployments
@@ -93,7 +93,7 @@ nodeinfo   */1 * * * *   False     1         2s        1m
 nodeinfo   */1 * * * *   False     0         12s       1m
 ```
 
-Unfortunately, there is no one-line command in `kubectl` for getting the logs from a cron job. Kuberenets creates new Job objects for each run of the CronJob, so we can look up that last run of our CronJob using
+Unfortunately, there is no one-line command in `kubectl` for getting the logs from a cron job. Kubernetes creates new Job objects for each run of the CronJob, so we can look up that last run of our CronJob using
 
 ```sh
 $ kubectl -n openfaas get job
@@ -151,15 +151,11 @@ This simple example uses the default deployment of OpenFaaS without any authenti
 
 ### Multiple Namespaces
 
-In this example, I created the CronJob in the same namespace as the `gateway`. If we deploy the CronJob in a different namespace, then we need to update the job arguments to accomidate. Fortunately, with Kubernetes DNS, this is simply changing the gateway parameter like this `./faas-cli invoke nodeinfo -g http://gateway.othernamespace:8080`
+In this example, I created the CronJob in the same namespace as the `gateway`. If we deploy the CronJob in a different namespace, then we need to update the job arguments to accommodate. Fortunately, with Kubernetes DNS, this is simply changing the gateway parameter like this `./faas-cli invoke nodeinfo -g http://gateway.othernamespace:8080`
 
 ### Authentication
 
-If you have enabled basic auth on the gateway, then the invoke command will also need to be updated to first login the cli client. Assuming that you have created a secret with a file for the username and a separate file for the password, like this
-
-```sh
-$ kubectl -n openfaas create secret generic faas-basic-auth --from-file=./username --from-file=./password
-```
+If you have enabled basic auth on the gateway, then the invoke command will also need to be updated to first login the cli client. Assuming that you have created the basic auth secret as in the [Helm install guide](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#secure-the-gateway-administrative-api-and-ui-with-basic-auth)
 
 You could then update the CronJob to login, like this
 
@@ -186,13 +182,13 @@ spec:
               - name: FAAS_USERNAME
                 valueFrom:
                   secretKeyRef:
-                    name: faas-basic-auth
-                    key: username
+                    name: basic-auth
+                    key: basic-auth-user
               - name: FAAS_PASSWORD
                 valueFrom:
                   secretKeyRef:
-                    name: faas-basic-auth
-                    key: password
+                    name: basic-auth
+                    key: basic-auth-password
             args:
             - /bin/sh
             - -c
