@@ -208,7 +208,7 @@ kubectl delete namespace openfaas,openfaas-fn
 
 ## Troubleshooting Swarm or Kubernetes
 
-### Docker Swarm
+### Troubleshoot Docker Swarm
 
 #### List all functions
 
@@ -246,7 +246,7 @@ $ docker service logs print-password
 21f596c9cd75a0fe5e335fb743995d18399e83418a37a79e719576a724efbbb6
 ```
 
-#### Kubernetes
+### Troubleshoot Kubernetes
 
 If you have deployed OpenFaaS to the recommended namespaces then functions are in the `openfaas-fn` namespace and the core services are in the `openfaas` namespace. The `-n` flag to `kubectl` sets the namespace to look at.
 
@@ -310,18 +310,13 @@ $ kubectl logs -n openfaas deploy/gateway -c gateway
 
 #### I forgot my gateway password
 
-Use the following:
+Use the following to print the secret on the terminal:
 
 ```
-kubectl get -n openfaas secret -o yaml
+echo $(kubectl get secret -n openfaas gateway-basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode; echo)
 ```
 
-Then copy/paste the value as below:
-
-```
-$ echo -n "YWRtaW4xMjM0Cg==" | base64 --decode
-admin1234
-```
+If you installed OpenFaaS into a custom namespace then change the value `-n openfaas` to `-n custom-ns`.
 
 ## Watchdog
 
