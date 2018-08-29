@@ -70,11 +70,11 @@ spec:
         spec:
           containers:
           - name: faas-cli
-            image: openfaas/faas-cli:0.6.9
+            image: openfaas/faas-cli:0.7.1
             args:
             - /bin/sh
             - -c
-            - echo "verbose" | ./faas-cli invoke nodeinfo -g http://gateway:8080
+            - echo "verbose" | ./faas-cli invoke nodeinfo -g http://gateway.openfaas:8080
           restartPolicy: OnFailure
 ```
 
@@ -177,14 +177,14 @@ spec:
         spec:
           containers:
           - name: faas-cli
-            image: openfaas/faas-cli:0.6.9
+            image: openfaas/faas-cli:0.7.1
             env:
-              - name: FAAS_USERNAME
+              - name: USERNAME
                 valueFrom:
                   secretKeyRef:
                     name: basic-auth
                     key: basic-auth-user
-              - name: FAAS_PASSWORD
+              - name: PASSWORD
                 valueFrom:
                   secretKeyRef:
                     name: basic-auth
@@ -192,8 +192,8 @@ spec:
             args:
             - /bin/sh
             - -c
-            - ./faas-cli login -g http://gateway:8080 -u $FAAS_USERNAME -p $FAAS_PASSWORD
-            - echo "verbose" | ./faas-cli invoke nodeinfo -g http://gateway:8080
+            - echo -n $PASSWORD | ./faas-cli login -g http://gateway.openfaas:8080 -u $USERNAME --password-stdin
+            - echo "verbose" | ./faas-cli invoke nodeinfo -g http://gateway.openfaas:8080
           restartPolicy: OnFailure
 ```
 
