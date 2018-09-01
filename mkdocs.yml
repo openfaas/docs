@@ -133,7 +133,6 @@ nav:
     - Triggers: ./reference/triggers.md
     - Workloads: ./reference/workloads.md
     - YAML: ./reference/yaml.md
-    - ImagePullPolicy: ./reference/image-pull-policy.md
   - Design & Architecture:
       - Gateway: ./architecture/gateway.md
       - Watchdog: ./architecture/watchdog.md
