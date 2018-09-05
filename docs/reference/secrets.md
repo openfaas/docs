@@ -79,7 +79,7 @@ Now, update your stack file to include the secret:
 
 and then deploy `faas-cli deploy -f ./stack.yaml`
 
-Once the deploy is done you can test the function using the cli. The function is very simply, it reads the secret value that is mounted into the container for you and then returns a success or failure message based on if your header matches that secret value. For example,
+Once the deploy is done you can test the function using the cli. The function is very simple, it reads the secret value that is mounted into the container for you and then returns a success or failure message based on if your header matches that secret value. For example,
 
 ```sh
 faas-cli invoke protectedapi -H "X-Api-Key=R^YqzKzSJw51K9zPpQ3R3N"
