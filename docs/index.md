@@ -30,6 +30,7 @@ Some of our users include:
 <a href="https://www.citrix.com/" target="_blank"><img src="images/logos/citrix.svg" alt="Citrix" title="Citrix"></a>
 <a href="https://dimsolution.com/" target="_blank"><img src="images/logos/dim-solution.png" alt="Dim Solution" title="Dim Solution"></a>
 <a href="https://form3.tech/"target="_blank"><img src="images/logos/form3.svg" alt="Form3" title="Form3" ></a>
+<a href="https://www.galaxycard.in/"target="_blank"><img src="images/logos/galaxycard.png" alt="GalaxyCard" title="GalaxyCard" ></a>
 <a href="https://iconscout.com/" target="_blank"><img src="images/logos/iconscout.svg" alt="Iconscout" title="Iconscout"></a>
 <a href="https://www.intraffic.nl" target="_blank"><img src="images/logos/intraffic.svg" alt="InTraffic" title="InTraffic"></a>
 <a href="https://www.packet.net/" target="_blank"><img src="images/logos/packet.png" alt="Packet Host" title="Packet Host"></a>
