@@ -6,7 +6,7 @@ The quickest way to get automated SSL/TLS certificates for your project if it is
 
 ## Create an A record
 
-If your domain is `.domain.com` then create an A record using your DNS administration panel such as `gateway.domain.com` or `openfaas.domain.com`. The required steps will vary depending on your domain provider and your cluster provider. For example; [on Google Cloud](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip) or [on AWS ith KOPS](https://kubernetes.io/docs/setup/custom-cloud/kops/#2-5-create-a-route53-domain-for-your-cluster).
+If your domain is `.domain.com` then create an A record using your DNS administration panel such as `gateway.domain.com` or `openfaas.domain.com`. The required steps will vary depending on your domain provider and your cluster provider. For example; [on Google Cloud DNS](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip) or [with Route53 using AWS](https://kubernetes.io/docs/setup/custom-cloud/kops/#2-5-create-a-route53-domain-for-your-cluster).
 
 ## Configure Helm and Tiller
 
