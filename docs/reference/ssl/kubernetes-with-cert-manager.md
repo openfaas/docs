@@ -2,8 +2,6 @@
 
 The quickest way to get automated SSL/TLS certificates for your project if it is expose to the web is to use [cert-manager][cert-manager]. In this tutorial, we will deploy OpenFaaS using the [Helm Chart][openfaas-helm], [cert-manager][cert-manager], and [nginx-ingress][nginx-ingress]
 
-**RBAC** You will need to have [RBAC][k8s-rbac] enabled.
-
 ## Create an A record
 
 If your domain is `.domain.com` then create an A record using your DNS administration panel such as `gateway.domain.com` or `openfaas.domain.com`. The required steps will vary depending on your domain provider and your cluster provider. For example; [on Google Cloud DNS](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip) or [with Route53 using AWS](https://kubernetes.io/docs/setup/custom-cloud/kops/#2-5-create-a-route53-domain-for-your-cluster).
