@@ -112,7 +112,7 @@ ingress:
 ```sh
 $ helm upgrade openfaas \
     --namespace openfaas \
-    ----reuse-values \
+    --reuse-values \
     --values tls.yml \
     openfaas/openfaas
 ```
@@ -152,7 +152,7 @@ You can validate that certificate has been obtained successfully using
 $ kubectl describe certificate openfaas-crt
 ```
 
-If it was successful you can change to the production Let's Encrypt issuer by replacing `letsencrypt-staging` with `letsencrypt-prod` in the Certificate object.
+If it was successful you can change to the production Let's Encrypt issuer by replacing `letsencrypt-staging` with `letsencrypt-prod` in the Certificate object in `openfaas-crt.yaml` and re-run `kubectl apply -f openfaas-crt.yaml`.
 
 ## Deploy and Invoke a function
 
@@ -176,16 +176,6 @@ $ kubectl -n openfaas get issuer letsencrypt-prod letsencrypt-staging
 ```sh
 $ kubectl -n openfaas get certificate,secret openfaas-crt
 ```
-
-- To check the access and error logs in Nginx
-```sh
-$ kubectl logs -l "app=nginxingress, component=controller"
-```
-note that this will print the entire log file, which can be pretty long so we recommend piping the output to `less`
-```sh
-$ kubectl logs -l "app=nginxingress, component=controller" | less
-```
-
 
 - If you want to tail the Nginx logs, you can use
 ```sh
