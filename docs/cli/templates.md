@@ -56,7 +56,7 @@ $ dep ensure -add github.com/cnf/structhash
 
 You can now edit your function and add an import statement in `handler.go` to `github.com/cnf/structhash`.
 
-## 2.0 Python
+## 2.0 Python 3
 
 To create a Python function named `pycon` type in:
 
@@ -71,6 +71,8 @@ pycon.yml
 pycon/handler.py
 pycon/requirements.txt
 ```
+
+> Note: Python 2.7 is also available with the language template `python`.
 
 ### 2.1 Python: dependencies
 
@@ -129,7 +131,27 @@ npm i --save cheerio
 
 You can now add a `require('cheerio')` statement into your function and make use of this library.
 
-## 4.0 Java
+## 4.0 CSharp / .NET Core 2.1
+
+You can create functions in .NET Core 2.1 using C# / CSharp.
+
+* Write a function named csharp-function
+
+```
+faas-cli new --lang csharp csharp-function
+```
+
+Now you can open your current folder in a tool such as Visual Studio Code and add dependencies using the project (csproj) file.
+
+## 5.0 Ruby
+
+OpenFaaS has first-class support for Ruby.
+
+Just create a new function by passing in `--lang ruby` as an argument.
+
+Manage your dependencies through your `Gemfile` placed in the function's folder.
+
+## 6.0 Java
 
 A Java 8 template is provided which uses Gradle 4.8.1 as a build-system.
 
