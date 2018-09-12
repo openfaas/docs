@@ -33,6 +33,7 @@ Some of our users include:
 <a href="https://www.galaxycard.in/"target="_blank"><img src="images/logos/galaxycard.png" alt="GalaxyCard" title="GalaxyCard" ></a>
 <a href="https://iconscout.com/" target="_blank"><img src="images/logos/iconscout.svg" alt="Iconscout" title="Iconscout"></a>
 <a href="https://www.intraffic.nl" target="_blank"><img src="images/logos/intraffic.svg" alt="InTraffic" title="InTraffic"></a>
+<a href="https://www.moneylion.com/" target="_blank"><img src="images/logos/moneylion.svg" alt="MoneyLion" title="MoneyLion"></a>
 <a href="https://www.packet.net/" target="_blank"><img src="images/logos/packet.png" alt="Packet Host" title="Packet Host"></a>
 <a href="https://scaleway.com/" target="_blank"><img src="images/logos/scaleway.svg" alt="Scaleway" title="Scaleway"></a>
 <a href="https://github.com/ucalgary" target="_blank"><img src="images/logos/ucalgary.png" alt="University of Calgary" title="University of Calgary"></a>
