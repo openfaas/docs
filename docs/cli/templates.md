@@ -8,7 +8,7 @@ Before creating a new function make sure you pull in the official OpenFaaS langu
 $ faas-cli template pull
 ```
 
-This page shows how to generate functions in three of the most common languages and explains how to manage their dependencies.
+This page shows how to generate functions in the most popular languages and explains how you can manage their dependencies too.
 
 ## 1.0 Go
 
@@ -182,13 +182,13 @@ You can use `getHeader(k)` on the Request interface to query a header.
 
 To set a header such as content-type you can use `setHeader(k, v)` on the Response interface.
 
-## 5.0 Customise a template
+## 7.0 Customise a template
 
 It is recommended that you use the official templates as they are provided and if there is a short-coming that you raise a GitHub issue so we can improve the templates for everyone.
 
 All templates are driven by a Dockerfile and can be customised by editing the files found in the ./template folder.
 
-### 5.1 Update the Dockerfile
+### 7.1 Update the Dockerfile
 
 There are several reasons why you may want to update your Dockerfile, just edit `./template/<language_name>/Dockerfile`.
 
@@ -198,7 +198,7 @@ There are several reasons why you may want to update your Dockerfile, just edit 
 
 * Try a new version of a base-image - it may be that the project is showing support for Node.js LTS, but you want the cutting-edge version, you can do that too
 
-### 5.2 Update a template's configuration
+### 7.2 Update a template's configuration
 
 The name of a template is read from a "template.yml" file kept within the template folder: `./template/<language_name>/template.yml`
 
@@ -212,13 +212,13 @@ fprocess: dotnet ./root.dll
 * `language` is the display name used for `faas-cli new --list`.
 * `fprocess` provides the process to run for each invocation - i.e. your function
 
-### 5.3 Use your own templates
+### 7.3 Use your own templates
 
 You can use your own Git repository for a custom or forked set of templates. This can be public or private.
 
 See `faas-cli template pull` for more information.
 
-### 6.0 ARM / Raspberry Pi
+### 8.0 ARM / Raspberry Pi
 
 Templates for ARM and Raspberry Pi are provided on a best-effort basis. If you can help with maintenance please let the project contributors know.
 
@@ -231,4 +231,3 @@ Type in `faas-cli new --list` and look for any languages ending in `-armhf`. You
 For these platforms do the same as above and look for the `-arm64` suffix.
 
 > It is easy to make your own templates so if you need to use this platform please convert one of the "regular" templates for your platform.
-
