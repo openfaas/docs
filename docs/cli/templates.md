@@ -76,7 +76,7 @@ pycon/requirements.txt
 
 ### 2.1 Python: dependencies
 
-You should edit `pycon/requirements.txt` and add any pip modules you want with each one on a new line, for instance `requests`. 
+You should edit `pycon/requirements.txt` and add any pip modules you want with each one on a new line, for instance `requests`.
 
 The primary Python template uses Alpine Linux as a runtime environment due to its minimal size, but if you need a Debian environment so that you can compile `numpy` or other modules then read on to the next section.
 
@@ -145,11 +145,86 @@ Now you can open your current folder in a tool such as Visual Studio Code and ad
 
 ## 5.0 Ruby
 
-OpenFaaS has first-class support for Ruby.
 
-Just create a new function by passing in `--lang ruby` as an argument.
+Create a function called `ruby-function`:
 
-Manage your dependencies through your `Gemfile` placed in the function's folder.
+```
+$ faas-cli new --lang ruby ruby-function
+```
+
+The directory structure is:
+
+```
+├── ruby-function
+│   ├── Gemfile
+│   └── handler.rb
+├── ruby-function.yml
+```
+
+Your code should be in the handler.rb file
+
+### 5.1 Adding a Gem (Library)
+
+Open the `Gemfile` in the ruby-function directory
+
+Add the following line
+
+```
+gem 'httparty'
+```
+
+### 5.1 Using our Gem
+
+Replace your `handler.rb` code with the following
+
+```
+require 'httparty'
+
+class Handler
+    def run(req)
+        return HTTParty.get("http://api.stackexchange.com/2.2/questions?site=stackoverflow&tagged=#{req}")
+    end
+end
+```
+
+### 5.3 Building / Deploy / Run
+
+Edit the `ruby-function.yml` and point your image to your dockerhub, for example
+`${your_user}/ruby-function`
+
+```
+$ faas-cli up -f ruby-function.yml
+...
+Using bundler 1.16.4
+Fetching multi_xml 0.6.0
+Installing multi_xml 0.6.0
+Fetching httparty 0.16.2
+Installing httparty 0.16.2
+Bundle complete! 1 Gemfile dependency, 3 gems now installed.
+Bundled gems are installed into `/usr/local/bundle`
+Post-install message from httparty:
+When you HTTParty, you must party hard!
+...
+```
+
+### 5.4 Invoke!
+
+```
+$ echo 'OpenFaaS' | faas-cli invoke ruby-function
+{
+   "quota_remaining" : 298,
+   "quota_max" : 300,
+   "has_more" : false,
+   "items" : [
+      {
+         "title" : "Scaling with GPU usage",
+         "creation_date" : 1536315498,
+         "answer_count" : 0,
+         "view_count" : 10,
+         "is_answered" : false,
+...
+```
+
 
 ## 6.0 Java
 
