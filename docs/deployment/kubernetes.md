@@ -25,7 +25,7 @@ We have a special guide for minikube here:
       --user="$(gcloud config get-value core/account)"
     ```
 
-### Pick helm or YAML files for deployment
+### Pick helm or YAML files for deployment (A or B)
 
 It is recommended to use `helm` to install OpenFaaS so that you can configure your installation to suit your needs. This configuration is considered to be production-ready.
 
@@ -33,7 +33,7 @@ If you have issues using `helm` in a locked-down environment then you can still 
 
 Plain YAML files are also provided for x86_64 and armhf, but since they cannot be customized easily it is recommended that you only use these for local development.
 
-#### Deploy with Helm
+#### A. Deploy with Helm (for production)
 
 A Helm chart is provided in the `faas-netes` repository. Follow the link below then come back to this guide.
 
@@ -43,7 +43,7 @@ To enable SSL while using Helm, try one of the following references:
 
 - [Using nginx-ingress and cert-manager](/reference/ssl/kubernetes-with-cert-manager.md)
 
-#### Deploy OpenFaaS
+#### B. Deploy using kubectl/YAML (for development-only)
 
 This step assumes you are running `kubectl` on a master host.
 
