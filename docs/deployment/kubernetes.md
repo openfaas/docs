@@ -188,7 +188,21 @@ $ echo -n "" | faas-cli invoke --gateway http://kubernetes-ip:31112 nodeinfo
 $ echo -n "verbose" | faas-cli invoke --gateway http://kubernetes-ip:31112 nodeinfo
 ```
 
-## Customizing the install
+## Start the hands-on labs
+
+Learn how to build Serverless functions with OpenFaaS and Python in our half-day workshop. You can follow along online at your own pace.
+
+* [OpenFaaS workshop](/tutorials/workshop/)
+## Troubleshooting
+
+If you are running into any issues please check out the troubleshooting guide and search the documentation / past issues before raising an issue.
+
+* [Troubleshooting guide](https://github.com/openfaas/faas/blob/master/guide/troubleshooting.md)
+
+## Advanced
+
+This section covers additional advanced topics beyond the initial deployment.
+
 ### Use a private registry with Kubernetes
 
 If you are using a hosted private Docker registry ([Docker Hub](https://hub.docker.com/), or other),
@@ -303,31 +317,31 @@ imagePullSecrets:
 Save your changes.
 OpenFaaS will now deploy functions with images in private repositories without having to specify the secret in the deployment manifests.
 
-### Setting the ImagePullPolicy with OpenFaaS
+### Set a custom ImagePullPolicy
 
-Kubernetes allows you to control the conditions for when Docker images are pulled onto a node via the [imagePullPolicy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) config. Your options are
+Kubernetes allows you to control the conditions for when the Docker images for your functions are pulled onto a node. This is configured through an [imagePullPolicy](https://kubernetes.io/docs/concepts/containers/images/#updating-images).
 
-- `Always` : Kuberenetes will pull the Docker image from the registry every time
-- `IfNotPresent` : Kuberentes will only pull the image if it does not exist in the local registry cache
-- `Never` : Kuberenetes will never try to pull the image, you must manually ensure that the image already exists in the local cache
+There are three options:
 
-By default, deployed functions will use an `imagePullPolicy` of `Always`, which ensures functions using static image tags (e.g. "latest" tags) are refreshed during an update. This behavior is configurable in `faas-netes` via the `image_pull_policy` environment variable. When installing via helm you can easily set this value during install using
+- `Always` - pull the Docker image from the registry every time a deployment changes
+- `IfNotPresent` - only pull the image if it does not exist in the local registry cache
+- `Never` - never attempt to pull an image
+
+By default, deployed functions will use an `imagePullPolicy` of `Always`, which ensures functions using static image tags (e.g. "latest" tags) are refreshed during an update. This behavior is configurable in `faas-netes` via the `image_pull_policy` environment variable.
+
+If you're using helm you can pass a configuration flag:
 
 ```
 helm upgrade openfaas openfaas/openfaas --install --set "faasnetesd.imagePullPolicy=IfNotPresent"
 ```
 
-If installing via a custom yaml manifest, ensure that your `faas-netes` contain spec includes
-
+If you're using the plain YAML files then edit `gateway-dep.yml` and set the following for `faas-netes`:
 ```
-env:
   - name: image_pull_policy
     value: "IfNotPresent"
 ```
 
-[See here](/deployment/kubernetes/) for more details on deploying OpenFaaS in Kubernetes.
-
-#### Which imagePullPolicy should you use
+#### Notes on picking an "imagePullPolicy"
 
 As mentioned above, the default value is `Always`. Every time a function is deployed or is scaled up, Kubernetes will pull a potentially updated copy of the image from the registry. If you are using static image tags like `latest`, this is necessary.
 
@@ -335,18 +349,3 @@ When set to `IfNotPresent`, function deployments may not be updated when using s
 
 When set to `Never`, only local (or pulled) images will work. This is useful if you want to tightly control which images are available and run in your Kubernetes cluster.
 
-
-
-
-
-
-## Start the hands-on labs
-
-Learn how to build serverless functions with OpenFaaS and Python in our half-day workshop. You can follow along online at your own pace.
-
-* [OpenFaaS workshop](/tutorials/workshop/)
-## Troubleshooting
-
-If you are running into any issues please check out the troubleshooting guide and search the documentation / past issues before raising an issue.
-
-* [Troubleshooting guide](https://github.com/openfaas/faas/blob/master/guide/troubleshooting.md)
