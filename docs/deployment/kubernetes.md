@@ -1,8 +1,8 @@
 # Deployment guide for Kubernetes
 
-This guide is for deployment to a vanilla Kubernetes 1.8 or 1.9 cluster running on Linux hosts. It is not a hand-book, please see the set of guides and blogs posts available at [openfaas/guide](https://github.com/openfaas/faas/tree/master/guide).
-
 OpenFaaS is Kubernetes-native and uses *Deployments*, *Services* and *Secrets*. For more detail check out the ["faas-netes" repository](https://github.com/openfaas/faas-netes).
+
+Use this guide to deploy OpenFaaS to a vanilla Kubernetes distribution running Kubernetes version 1.8, 1.9 or 1.10.
 
 ## Build a cluster
 
