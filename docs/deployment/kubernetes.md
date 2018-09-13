@@ -2,11 +2,9 @@
 
 This guide is for deployment to a vanilla Kubernetes 1.8 or 1.9 cluster running on Linux hosts. It is not a hand-book, please see the set of guides and blogs posts available at [openfaas/guide](https://github.com/openfaas/faas/tree/master/guide).
 
-## Kubernetes
-
 OpenFaaS is Kubernetes-native and uses *Deployments*, *Services* and *Secrets*. For more detail check out the ["faas-netes" repository](https://github.com/openfaas/faas-netes).
 
-### Build a cluster
+## Build a cluster
 
 You can start evaluating FaaS and building functions on your laptop or on a VM (cloud or on-prem).
 
@@ -29,9 +27,13 @@ We have a special guide for minikube here:
 
 ### Pick helm or YAML files for deployment
 
-If you'd like to use helm follow the instructions in 2.0a and then come back here, otherwise follow 2.0b to use plain `kubectl`.
+It is recommended to use `helm` to install OpenFaaS so that you can configure your installation to suit your needs. This configuration is considered to be production-ready.
 
-### Deploy with Helm
+If you have issues using `helm` in a locked-down environment then you can still use the `helm template` command to generate a custom set of YAML to apply using `kubectl`.
+
+Plain YAML files are also provided for x86_64 and armhf, but since they cannot be customized easily it is recommended that you only use these for local development.
+
+#### Deploy with Helm
 
 A Helm chart is provided in the `faas-netes` repository. Follow the link below then come back to this guide.
 
@@ -41,7 +43,7 @@ To enable SSL while using Helm, try one of the following references:
 
 - [Using nginx-ingress and cert-manager](/reference/ssl/kubernetes-with-cert-manager.md)
 
-### Deploy OpenFaaS
+#### Deploy OpenFaaS
 
 This step assumes you are running `kubectl` on a master host.
 
@@ -74,7 +76,7 @@ This step assumes you are running `kubectl` on a master host.
     !!! note
         For deploying on a cloud that supports Kubernetes *LoadBalancers* you may also want to apply the configuration in: `cloud/lb.yml`.
 
-### Use OpenFaaS
+#### Use OpenFaaS
 
 After deploying OpenFaaS you can start using one of the guides or blog posts to create Serverless functions or test [community functions](https://github.com/openfaas/faas/blob/master/community.md).
 
@@ -82,7 +84,7 @@ After deploying OpenFaaS you can start using one of the guides or blog posts to 
 
 You can also watch a complete walk-through of OpenFaaS on Kubernetes which demonstrates auto-scaling in action and how to use the Prometheus UI. [Video walk-through](https://www.youtube.com/watch?v=0DbrLsUvaso).
 
-## Deploy a function
+### Deploy a function
 
 For simplicity the default configuration uses NodePorts rather than an IngressController (which is more complicated to setup).
 
@@ -98,7 +100,7 @@ For simplicity the default configuration uses NodePorts rather than an IngressCo
 
 There are currently no sample functions built into this stack, but we can deploy them quickly via the UI or FaaS-CLI.
 
-### Use the CLI
+#### Use the CLI
 
 * Install the CLI
 
@@ -137,7 +139,7 @@ There are currently no sample functions built into this stack, but we can deploy
         faas-cli deploy -f stack.yml --gateway http://127.0.0.1:31112
         ```
 
-#### List the functions
+##### List the functions
 
 ```bash
 $ faas-cli list -f stack.yml
@@ -164,7 +166,7 @@ c6ee9e33cf5c6715a1d148fd73f7318884b41adcb916021e2bc0e800a5c5dd97f5142178f6ae88c8
 
 [Your first serverless Python function with OpenFaaS](https://blog.alexellis.io/first-faas-python-function/)
 
-### Use the UI
+#### Use the UI
 
 The UI is exposed on NodePort 31112.
 
@@ -188,27 +190,27 @@ $ echo -n "" | faas-cli invoke --gateway http://kubernetes-ip:31112 nodeinfo
 $ echo -n "verbose" | faas-cli invoke --gateway http://kubernetes-ip:31112 nodeinfo
 ```
 
-## Start the hands-on labs
+### Start the hands-on labs
 
 Learn how to build Serverless functions with OpenFaaS and Python in our half-day workshop. You can follow along online at your own pace.
 
 * [OpenFaaS workshop](/tutorials/workshop/)
-## Troubleshooting
+### Troubleshooting
 
 If you are running into any issues please check out the troubleshooting guide and search the documentation / past issues before raising an issue.
 
 * [Troubleshooting guide](https://github.com/openfaas/faas/blob/master/guide/troubleshooting.md)
 
-## Advanced
+### Advanced
 
 This section covers additional advanced topics beyond the initial deployment.
 
-### Use a private registry with Kubernetes
+#### Use a private registry with Kubernetes
 
 If you are using a hosted private Docker registry ([Docker Hub](https://hub.docker.com/), or other),
 in order to check how to configure it, please visit the Kubernetes [documentation](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry).
 
-####  Deploy a function from a private Docker image
+#####  Deploy a function from a private Docker image
 
 With the following commands you can deploy a function from a private Docker image, tag and push it to your docker registry account:
 
@@ -232,7 +234,7 @@ In your favorite editor, open stack.yaml and add
 ```yml
 provider:
   name: faas
-  gateway: http://localhost:8080
+  gateway: http://127.0.0.1:8080
 
 functions:
   protectedapi:
@@ -241,7 +243,7 @@ functions:
     image: username/private-alpine:latest
 ```
 
-#### Create an image pull secret
+##### Create an image pull secret
 
 If you try to deploy using `faas-cli deploy` it will fail because Kubernetes can not pull the image. You can verify this in the Kubernetes dashboard or via the CLI using the `kubectl describe` command.
 
@@ -276,7 +278,7 @@ This is a `stack.yml` example with the secret added in it:
 ```yml
  provider:
    name: faas
-   gateway: http://localhost:8080
+   gateway: http://127.0.0.1:8080
 
  functions:
    protectedapi:
@@ -289,7 +291,7 @@ This is a `stack.yml` example with the secret added in it:
 
 You can deploy your function using `faas-cli deploy`. If you inspect the Kubernetes pods, you will see that it can pull the docker image.
 
-#### Link the image pull secret to a namespace service account
+##### Link the image pull secret to a namespace service account
 
 Instead of always editing the function .yml you can link your private Docker repository secret to the Kubernetes namespace service account manifest. This will auto add the `imagePullSecret` property to any deployment/pod manifest refrencing an image in that particular private repo.
 
@@ -317,7 +319,7 @@ imagePullSecrets:
 Save your changes.
 OpenFaaS will now deploy functions with images in private repositories without having to specify the secret in the deployment manifests.
 
-### Set a custom ImagePullPolicy
+#### Set a custom ImagePullPolicy
 
 Kubernetes allows you to control the conditions for when the Docker images for your functions are pulled onto a node. This is configured through an [imagePullPolicy](https://kubernetes.io/docs/concepts/containers/images/#updating-images).
 
@@ -341,11 +343,10 @@ If you're using the plain YAML files then edit `gateway-dep.yml` and set the fol
     value: "IfNotPresent"
 ```
 
-#### Notes on picking an "imagePullPolicy"
+##### Notes on picking an "imagePullPolicy"
 
 As mentioned above, the default value is `Always`. Every time a function is deployed or is scaled up, Kubernetes will pull a potentially updated copy of the image from the registry. If you are using static image tags like `latest`, this is necessary.
 
 When set to `IfNotPresent`, function deployments may not be updated when using static image tags like `latest`. `IfNotPresent` is particularly useful when developing locally with minikube. In this case, you can set your local environment to use [minikube's docker](https://github.com/kubernetes/minikube/blob/master/docs/reusing_the_docker_daemon.md) so `faas-cli build` builds directly into minikube's image store. `faas-cli push` is unnecessary in this workflow - use faas-cli build then faas-cli deploy.
 
 When set to `Never`, only local (or pulled) images will work. This is useful if you want to tightly control which images are available and run in your Kubernetes cluster.
-
