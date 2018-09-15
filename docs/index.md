@@ -26,8 +26,8 @@ Some of our users include:
 
 <div class="row logos">
 
-<a href="https://www.contiamo.com" target="_blank"><img src="images/logos/contiamo.svg" alt="Contiamo" title="Contiamo"></a>
 <a href="https://www.citrix.com/" target="_blank"><img src="images/logos/citrix.svg" alt="Citrix" title="Citrix"></a>
+<a href="https://www.contiamo.com" target="_blank"><img src="images/logos/contiamo.svg" alt="Contiamo" title="Contiamo"></a>
 <a href="https://dimsolution.com/" target="_blank"><img src="images/logos/dim-solution.png" alt="Dim Solution" title="Dim Solution"></a>
 <a href="https://form3.tech/"target="_blank"><img src="images/logos/form3.svg" alt="Form3" title="Form3" ></a>
 <a href="https://www.galaxycard.in/"target="_blank"><img src="images/logos/galaxycard.png" alt="GalaxyCard" title="GalaxyCard" ></a>
@@ -35,6 +35,7 @@ Some of our users include:
 <a href="https://www.intraffic.nl" target="_blank"><img src="images/logos/intraffic.svg" alt="InTraffic" title="InTraffic"></a>
 <a href="https://www.moneylion.com/" target="_blank"><img src="images/logos/moneylion.svg" alt="MoneyLion" title="MoneyLion"></a>
 <a href="https://www.packet.net/" target="_blank"><img src="images/logos/packet.png" alt="Packet Host" title="Packet Host"></a>
+<a href="https://www.pentium.network/" target="_blank"><img src="images/logos/pentiumlogo.svg" alt="Pentium Network" title="Pentium Network"></a>
 <a href="https://scaleway.com/" target="_blank"><img src="images/logos/scaleway.svg" alt="Scaleway" title="Scaleway"></a>
 <a href="https://github.com/ucalgary" target="_blank"><img src="images/logos/ucalgary.png" alt="University of Calgary" title="University of Calgary"></a>
 <a href="https://www.washington.edu" target="_blank"><img src="images/logos/universityofwashington.png" alt="University of Washington" title="University of Washington"></a>
@@ -42,7 +43,6 @@ Some of our users include:
 <a href="https://www.virality.de" target="_blank"><img src="images/logos/virality.png" alt="Virality" title="Virality"></a>
 <a href="https://www.visionbanco.com" target="_blank"><img src="images/logos/vision.png" alt="Vision Banco SAECA" title="Vision Banco SAECA"></a>
 <a href="https://www.wireline.io/" target="_blank"><img src="images/logos/wirelineio.svg" alt="Wireline.io" title="Wireline.io"></a>
-<a href="https://www.pentium.network/" target="_blank"><img src="images/logos/pentiumlogo.svg" alt="Pentium Network" title="Pentium Network"></a>
 </div>
 
 
