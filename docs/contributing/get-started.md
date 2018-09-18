@@ -62,5 +62,11 @@ https://github.com/openfaas/
 
 The incubator organisation is for experiments, research and for getting quick feedback. Only some of the projects incubated here will make it into the main project.
 
+| Repository        | Headline                         |
+|:------------------|:---------------------------------|
+| [of-watchdog](https://github.com/openfaas-incubator/of-watchdog)              | The OpenFaaS watchdog re-written with mode-abstractions for both STDIO & HTTP |
+| [faas-idler](https://github.com/openfaas-incubator/faas-idler)         | Scale OpenFaaS functions to zero replicas after specified period of inactivity   |
+
+
 https://github.com/openfaas-incubator/
 
