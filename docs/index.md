@@ -26,6 +26,7 @@ Some of our users include:
 
 <div class="row logos">
 
+<a href="https://www.bulletproof.co.uk" target="_blank"><img src="images/logos/bulletproof.png" alt="Bulletproof" title="Bulletproof"></a>
 <a href="https://www.citrix.com/" target="_blank"><img src="images/logos/citrix.svg" alt="Citrix" title="Citrix"></a>
 <a href="https://www.contiamo.com" target="_blank"><img src="images/logos/contiamo.svg" alt="Contiamo" title="Contiamo"></a>
 <a href="https://dimsolution.com/" target="_blank"><img src="images/logos/dim-solution.png" alt="Dim Solution" title="Dim Solution"></a>
