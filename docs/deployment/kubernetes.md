@@ -298,7 +298,7 @@ Instead of always editing the function .yml you can link your private Docker rep
 Create the image pull secret in the `openfaas-fn` namespace:
 
 ```bash
-$ kubectl create secret docker-registry myPrivateRepo \
+$ kubectl create secret docker-registry my-private-repo \
     --docker-username=$DOCKER_USERNAME \
     --docker-password=$DOCKER_PASSWORD \
     --docker-email=$DOCKER_EMAIL \
@@ -313,7 +313,7 @@ At the bottom of the manifest add:
 
 ``` yaml
 imagePullSecrets:
-- name: myPrivateRepo
+- name: my-private-repo
 ```
 
 Save your changes.
