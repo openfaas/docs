@@ -210,46 +210,17 @@ This section covers additional advanced topics beyond the initial deployment.
 If you are using a hosted private Docker registry ([Docker Hub](https://hub.docker.com/), or other),
 in order to check how to configure it, please visit the Kubernetes [documentation](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry).
 
-#####  Deploy a function from a private Docker image
+If you try to deploy using `faas-cli deploy` it will fail because the Kubernetes kubelet component will not have credentials to authorize the pull request. 
 
-With the following commands you can deploy a function from a private Docker image, tag and push it to your docker registry account:
+Once you have pushed an image to a private registry using `faas-cli push` follow the instructions below to either create a pull secret that can be referenced by each function which needs it, or create a secret for the ServiceAccount in the `openfaas-fn` namespace so that any functions which need it can make use of it.
 
-```bash
-$ docker pull functions/alpine:latest
-$ docker tag functions/alpine:latest $DOCKER_USERNAME/private-alpine:latest
-$ docker push $DOCKER_USERNAME/private-alpine:latest
-```
+If you need to troubleshoot the use of a private image then see the Kubernetes section of the [troubleshooting guide](./troubleshooting.md).
 
-Log into the [Hub](https://hub.docker.com/) and make your image `private-alpine` private.
+##### Option 1 - use an ad-hoc image pull secret
 
-Then create your openfaas project:
+To deploy your function(s) first you need to create an [Image Pull Secret](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) with the commands below.
 
-```bash
-$ mkdir privatefuncs && cd privatefuncs
-$ touch stack.yaml
-```
-
-In your favorite editor, open stack.yaml and add
-
-```yml
-provider:
-  name: faas
-  gateway: http://127.0.0.1:8080
-
-functions:
-  protectedapi:
-    lang: Dockerfile
-    skip_build: true
-    image: username/private-alpine:latest
-```
-
-##### Create an image pull secret
-
-If you try to deploy using `faas-cli deploy` it will fail because Kubernetes can not pull the image. You can verify this in the Kubernetes dashboard or via the CLI using the `kubectl describe` command.
-
-To deploy the function, you need to create an [Image Pull Secret](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
-
-You should set the following environmental variables:
+Setup some environmental variables:
 
 ```bash
 export DOCKER_USERNAME=<your_docker_username>
@@ -261,41 +232,37 @@ Then run this command to create the secret:
 
 ```bash
 $ kubectl create secret docker-registry dockerhub \
+    -n openfaas-fn \
     --docker-username=$DOCKER_USERNAME \
     --docker-password=$DOCKER_PASSWORD \
     --docker-email=$DOCKER_EMAIL
 ```
 
-Then you need to add the secret to your `stack.yml` file:
+> Note if not using the Docker Hub you will also need to pass `--docker-server` and the address of your remote registry.
+
+The secret *must* be created in the `openfaas-fn` namespace or the equivalent if you have customised this.
+
+Create a sample function with a `--prefix` variable:
+
+```sh
+faas-cli new --lang go private-fn --prefix=registry:port/repo
+mv private-fn.yml stack.yml
+```
+
+Update the `stack.yml` file and add a reference to the new secret:
 
 ```yml
 secrets:
       - dockerhub
 ```
 
-This is a `stack.yml` example with the secret added in it:
+Now deploy the function using `faas-cli up`.
 
-```yml
- provider:
-   name: faas
-   gateway: http://127.0.0.1:8080
+##### Option 2 - Link an image pull secret to the namespace's ServiceAccount
 
- functions:
-   protectedapi:
-     lang: Dockerfile
-     skip_build: true
-     image: username/private-alpine:latest
-     secrets:
-      - dockerhub
-```
+Rather than specifying the pull secret for each function that needs it you can bind the secret to the namespace's ServiceAccount. With this option you do not need to update the `secrets:` section of the `stack.yml` file.
 
-You can deploy your function using `faas-cli deploy`. If you inspect the Kubernetes pods, you will see that it can pull the docker image.
-
-##### Link the image pull secret to a namespace service account
-
-Instead of always editing the function .yml you can link your private Docker repository secret to the Kubernetes namespace service account manifest. This will auto add the `imagePullSecret` property to any deployment/pod manifest refrencing an image in that particular private repo.
-
-Create the image pull secret in the `openfaas-fn` namespace:
+Create the image pull secret in the `openfaas-fn` namespace (or equivalent):
 
 ```bash
 $ kubectl create secret docker-registry my-private-repo \
@@ -305,9 +272,13 @@ $ kubectl create secret docker-registry my-private-repo \
     --namespace openfaas-fn
 ```
 
-Open up the service account manifest for editing:
+If needed, pass in the `--docker-server` address.
 
-`kubectl edit serviceaccount default -n openfaas-fn`
+Use the following command to edit the default ServiceAccount's configuration:
+
+```sh
+$ kubectl edit serviceaccount default -n openfaas-fn
+```
 
 At the bottom of the manifest add:
 
@@ -316,8 +287,9 @@ imagePullSecrets:
 - name: my-private-repo
 ```
 
-Save your changes.
-OpenFaaS will now deploy functions with images in private repositories without having to specify the secret in the deployment manifests.
+Save the changes in the editor and this configuration will be applied.
+
+The OpenFaaS controller will now deploy functions with images in private repositories without having to specify the secret in the `stack.yml` file.
 
 #### Set a custom ImagePullPolicy
 
