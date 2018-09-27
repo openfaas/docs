@@ -12,7 +12,7 @@ You can start evaluating FaaS and building functions on your laptop or on a VM (
 
 Additional information on [setting up Kubernetes](https://kubernetes.io/docs/setup/pick-right-solution/).
 
-We have a special guide for minikube here:
+A guide is available for configuring minikube here:
 
 * [Getting started with OpenFaaS on minikube](https://medium.com/devopslinks/getting-started-with-openfaas-on-minikube-634502c7acdf)
 
@@ -305,12 +305,13 @@ By default, deployed functions will use an `imagePullPolicy` of `Always`, which 
 
 If you're using helm you can pass a configuration flag:
 
-```
+```sh
 helm upgrade openfaas openfaas/openfaas --install --set "faasnetesd.imagePullPolicy=IfNotPresent"
 ```
 
 If you're using the plain YAML files then edit `gateway-dep.yml` and set the following for `faas-netes`:
-```
+
+```yaml
   - name: image_pull_policy
     value: "IfNotPresent"
 ```
@@ -319,6 +320,6 @@ If you're using the plain YAML files then edit `gateway-dep.yml` and set the fol
 
 As mentioned above, the default value is `Always`. Every time a function is deployed or is scaled up, Kubernetes will pull a potentially updated copy of the image from the registry. If you are using static image tags like `latest`, this is necessary.
 
-When set to `IfNotPresent`, function deployments may not be updated when using static image tags like `latest`. `IfNotPresent` is particularly useful when developing locally with minikube. In this case, you can set your local environment to use [minikube's docker](https://github.com/kubernetes/minikube/blob/master/docs/reusing_the_docker_daemon.md) so `faas-cli build` builds directly into minikube's image store. `faas-cli push` is unnecessary in this workflow - use faas-cli build then faas-cli deploy.
+When set to `IfNotPresent`, function deployments may not be updated when using static image tags like `latest`. `IfNotPresent` is particularly useful when developing locally with minikube. In this case, you can set your local environment to use [minikube's docker](https://github.com/kubernetes/minikube/blob/master/docs/reusing_the_docker_daemon.md) so `faas-cli build` builds directly into the Docker library used by minikube. `faas-cli push` is unnecessary in this workflow - use faas-cli build then faas-cli deploy.
 
 When set to `Never`, only local (or pulled) images will work. This is useful if you want to tightly control which images are available and run in your Kubernetes cluster.
