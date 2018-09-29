@@ -330,7 +330,15 @@ $ kubectl logs -n openfaas deploy/gateway -c gateway
 Use the following to print the secret on the terminal:
 
 ```
-echo $(kubectl get secret -n openfaas gateway-basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode; echo)
+PASSWORD=$(kubectl get secret -n openfaas basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode; echo)
+
+echo $PASSWORD
+```
+
+Set `OPENFAAS_URL` then log into the gateway:
+
+```
+echo -n $PASSWORD | faas-cli login --username admin --password-stdin
 ```
 
 If you installed OpenFaaS into a custom namespace then change the value `-n openfaas` to `-n custom-ns`.
