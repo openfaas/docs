@@ -125,7 +125,13 @@ There are currently no sample functions built into this stack, but we can deploy
       name: faas
       gateway: http://192.168.4.95:31112
     ```
+   
+    Before deploying the gateway changes make sure you pull the [templates from GitHub:](https://github.com/openfaas/templates)
 
+   ```bash
+   $ faas-cli template pull
+   ```
+    
     Now deploy the samples:
 
     ```bash
