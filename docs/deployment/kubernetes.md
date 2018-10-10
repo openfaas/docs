@@ -29,8 +29,6 @@ A guide is available for configuring minikube here:
 
 It is recommended to use `helm` to install OpenFaaS so that you can configure your installation to suit your needs. This configuration is considered to be production-ready.
 
-If you have issues using `helm` in a locked-down environment then you can still use the `helm template` command to generate a custom set of YAML to apply using `kubectl`.
-
 Plain YAML files are also provided for x86_64 and armhf, but since they cannot be customized easily it is recommended that you only use these for local development.
 
 #### A. Deploy with Helm (for production)
@@ -39,9 +37,8 @@ A Helm chart is provided in the `faas-netes` repository. Follow the link below t
 
 * [OpenFaaS Helm chart](https://github.com/openfaas/faas-netes/blob/master/HELM.md)
 
-To enable SSL while using Helm, try one of the following references:
 
-- [Using nginx-ingress and cert-manager](/reference/ssl/kubernetes-with-cert-manager.md)
+**Tiller-less install:** If you have issues using `helm` in a locked-down environment then you can still use the `helm template` command to generate a custom set of YAML to apply using `kubectl`. See the [Chart readme](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md#deployment-with-helm-template) for detailed instructions.
 
 #### B. Deploy using kubectl/YAML (for development-only)
 
@@ -204,12 +201,17 @@ If you are running into any issues please check out the troubleshooting guide an
 
 This section covers additional advanced topics beyond the initial deployment.
 
+#### Deploy with SSL
+To enable SSL while using Helm, try one of the following references:
+
+- [Using nginx-ingress and cert-manager](/reference/ssl/kubernetes-with-cert-manager.md)
+
 #### Use a private registry with Kubernetes
 
 If you are using a hosted private Docker registry ([Docker Hub](https://hub.docker.com/), or other),
 in order to check how to configure it, please visit the Kubernetes [documentation](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry).
 
-If you try to deploy using `faas-cli deploy` it will fail because the Kubernetes kubelet component will not have credentials to authorize the pull request. 
+If you try to deploy using `faas-cli deploy` it will fail because the Kubernetes kubelet component will not have credentials to authorize the pull request.
 
 Once you have pushed an image to a private registry using `faas-cli push` follow the instructions below to either create a pull secret that can be referenced by each function which needs it, or create a secret for the ServiceAccount in the `openfaas-fn` namespace so that any functions which need it can make use of it.
 
