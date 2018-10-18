@@ -21,6 +21,19 @@ Check out the roadmap in the GitHub repo for what's coming next and how to get i
 
 OpenFaaS Cloud is for anyone who wants to focus on shipping functions without worrying about the CI/CD pipeline or underlying infrastructure. OpenFaaS comes in two flavours - a free community-run hosted version and self-hosted on your own cluster. 
 
+
+|         | OpenFaaS                 |OpenFaaS Cloud |
+|:--------|:-------------------------|:--------------|
+| Installation |   Helm, Docker YAML | GitHub App    |
+| RBAC |   Shared team / single user | Multi-user    |
+| Administration | faas-cli, API, UI | "git-push" or GitHub UI |
+| Policy |  Specify in stack.yml | Default limits set, read-only filesystem |
+| CI/CD |  Jenkins, Travis, etc | Built-in (via Buildkit)  |
+| UI |  OpenFaaS Portal | Personal dashboard    |
+| URLs |  Gateway | Personal sub-domains    |
+| Source control |  Any | GitHub & GitLab    |
+| Secrets |  Kubernetes/Swarm secrets | SealedSecrets    |
+
 #### Community cluster
 
 The community-run cluster means you can do a `git push` and get a free, TLS-enabled endpoint without thinking about servers or Kubernetes. We do everything for you
