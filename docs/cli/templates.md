@@ -306,3 +306,32 @@ Type in `faas-cli new --list` and look for any languages ending in `-armhf`. You
 For these platforms do the same as above and look for the `-arm64` suffix.
 
 > It is easy to make your own templates so if you need to use this platform please convert one of the "regular" templates for your platform.
+
+## 9.0 PHP 7
+
+To create a PHP7 function named `my-function` type in:
+
+    $ faas-cli new my-function --lang php7
+
+You'll see:
+
+    my-function.yml
+    my-function/src/Handler.php
+    my-function/composer.json
+    my-function/php-extension.sh
+
+Add any dependencies/extensions as described below and implement your functions business logic in `Handler.php`.
+
+### 9.1 Composer Dependencies
+
+You should edit `composer.json` and add any required package dependencies, referring to the [Composer Documentation](https://getcomposer.org/doc/) for instructions on using `composer.json`.
+
+**Private Composer Repositories**
+
+Refer to the [PHP7 Template Documentation](https://github.com/openfaas/templates/tree/master/template/php7) for instructions on how to use [Composers]((https://getcomposer.org/doc/)) `COMPOSER_AUTH` environment variable to configure access to dependencies in private repositories.
+
+### 9.1 PHP Extensions
+
+The PHP7 template is based upon the [Docker Library PHP image](https://hub.docker.com/_/php/) and provides the `php-extension.sh` script which exposes the ability to customise extensions installed in a function image.
+
+Refer to the [PHP7 Template Documentation](https://github.com/openfaas/templates/tree/master/template/php7) for instructions on customising installed extensions.
