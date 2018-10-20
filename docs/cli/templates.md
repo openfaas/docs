@@ -293,7 +293,7 @@ You can use your own Git repository for a custom or forked set of templates. Thi
 
 See `faas-cli template pull` for more information.
 
-### 8.0 ARM / Raspberry Pi
+## 8.0 ARM / Raspberry Pi
 
 Templates for ARM and Raspberry Pi are provided on a best-effort basis. If you can help with maintenance please let the project contributors know.
 
