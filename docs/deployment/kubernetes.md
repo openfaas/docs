@@ -38,7 +38,8 @@ A Helm chart is provided in the `faas-netes` repository. Follow the link below t
 * [OpenFaaS Helm chart](https://github.com/openfaas/faas-netes/blob/master/HELM.md)
 
 
-**Tiller-less install:** If you have issues using `helm` in a locked-down environment then you can still use the `helm template` command to generate a custom set of YAML to apply using `kubectl`. See the [Chart readme](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md#deployment-with-helm-template) for detailed instructions.
+##### Tiller-less Helm install
+If you have issues using `helm` in a locked-down environment then you can still use the `helm template` command to generate a custom set of YAML to apply using `kubectl`. See the [Chart readme](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md#deployment-with-helm-template) for detailed instructions.
 
 #### B. Deploy using kubectl/YAML (for development-only)
 
