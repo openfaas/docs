@@ -25,6 +25,17 @@ The [OpenFaaS workshop](https://github.com/openfaas/workshop) has more instructi
 
 The Queue Worker component enables asynchronous processing of function requests. The default verbosity level hides the message content, but this can be viewed by setting write_debug to true when deploying.
 
+### Callback request headers
+
+The following additional request headers will be set when invoking the call back URL:
+
+| Header             | Description |
+|--------------------|-------------|
+| X-Call-Id          | The original function call's [tracing UUID](https://github.com/openfaas/faas/blob/master/gateway/README.md#tracing) |
+| X-Duration-Seconds | Time taken in seconds to execute the original function call |
+| X-Function-Status  | [HTTP status code](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) returned by the original function call |
+
+
 ## Timeouts
 
 Default timeouts are configured at the HTTP level and must be set both on the gateway and the function.
