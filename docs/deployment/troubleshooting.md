@@ -1,5 +1,7 @@
 # Troubleshooting guide
 
+The most common questions and user-issues can be resolved by reading the documentation carefully. After consulting this page, please work through the <a href="https://github.com/openfaas/workshop/">OpenFaaS workshop</a> where many concepts are explained in detail with worked-examples.
+
 ## Asynchronous functions
 
 Any function can be invoked asynchronously by changing the route on the gateway from `/function/<name>` to `/async-function/<name>`. A `202 Accepted` message will be issued in response to asynchronous calls.
@@ -35,6 +37,23 @@ The following additional request headers will be set when invoking the call back
 | X-Duration-Seconds | Time taken in seconds to execute the original function call |
 | X-Function-Status  | [HTTP status code](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) returned by the original function call |
 
+## Chaining / workflows
+
+> See also <a href="#Timeouts">Timeouts</a> (below)
+
+When chaning or invoking another function, do this by calling it via the gateway either using the external IP address of the cluster / gateway, or by the internal DNS name.
+
+A common user-error is to try to invoke the gateway from within a function using `http://127.0.0.1` or `localhost` - this address simply points back to the container the function is running in and is invalid.
+
+> Note: If you access the gateway via its DNS entry/name then it is recommended to configure the gateway URL via an environmental variable (such as `gateway_url`) to make sure you can port the function between OpenFaaS providers.
+
+### On Kubernetes
+
+The default address for the gateway on Kubernetes is `http://gateway.openfaas:8080`.
+
+### On Docker Swarm
+
+The default address for the gateway is `http://gateway:8080`
 
 ## Timeouts
 
