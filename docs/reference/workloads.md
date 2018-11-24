@@ -36,6 +36,6 @@ Custom binaries can also be used as a function. Just use the `dockerfile` langua
 
 A stateless microservice can be built using the `dockerfile` language type and the OpenFaaS CLI - or by building a custom Docker image which serves traffic on port `8080` and deploying that via the RESTful API, CLI or UI.
 
-An example of a stateless microservice may be an Express.js & Node.js app, a Sinatra Ruby app or an ASP.NET 2.0 site.
+An example of a stateless microservice may be an Express.js application using Node.js, a Sinatra app with Ruby or an ASP.NET 2.0 Core web-site.
 
 Use of the [OpenFaaS next-gen of-watchdog](https://github.com/openfaas-incubator/of-watchdog) is optional, but recommended for stateless microservices to provide a consistent experience for timeouts, logging and configuration.
