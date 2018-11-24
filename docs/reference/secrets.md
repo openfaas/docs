@@ -21,7 +21,9 @@ In Kubernetes we can leverage the [secrets api](https://kubernetes.io/docs/conce
 From the commandline use
 
 ```sh
-kubectl create secret generic secret-api-key --from-file=secret-api-key=~/secrets/secret_api_key.txt --namespace openfaas-fn
+kubectl create secret generic secret-api-key \
+  --from-file=secret-api-key=~/secrets/secret_api_key.txt \
+  --namespace openfaas-fn
 ```
 
 Here we have explicitly named the key of the secret value so that when it is mounted into the function container, it will be named exactly `secret-api-key` instead of `secret_api_key.txt`.
@@ -33,7 +35,8 @@ For sensitive value we can leverage the [Docker Swarm Secrets](https://docs.dock
 From the command line use
 
 ```sh
-docker secret create secret-api-key ~/secrets/secret_api_key.txt
+docker secret create secret-api-key \
+ ~/secrets/secret_api_key.txt
 ```
 
 ## Use the secret in your function
