@@ -13,4 +13,6 @@
 
 * [Get storage for your Severless Functions with Minio & Docker](https://blog.alexellis.io/openfaas-storage-for-your-functions/)
 
+* [Micro-tutorial for Redis and Node.js](https://gist.github.com/alexellis/e05a7b573ae22b209f0214d5766ff07e)
+
 There are many more great tutorials and events by our community listed in our main [Community file](https://github.com/openfaas/faas/blob/master/community.md).
