@@ -28,23 +28,35 @@ echo "triggered" | faas-cli invoke figlet
 ### Other Event Sources
 
 #### Kafka
+
 Connect your function(s) to Kafka topics
 
 More information in the Incubator repository: [openfaas-incubator/kafka-connector](https://github.com/openfaas-incubator/kafka-connector)
 
 #### AWS SNS
+
 Trigger a function from AWS SNS Notifications and Subscriptions
 
 More information in the repository: [affix/OpenFaaS-SNS](https://github.com/affix/OpenFaaS-SNS)
 
 #### CloudEvents
+
 CloudEvents is a specification for describing event data in a common way. More information on [CloudEvents](https://cloudevents.io/)
 
 Trigger functions from Azure EventGrid with the CloudEvents standard
 
 More information in the repository: [johnmccabe/cloudevents-slack-demo](https://github.com/johnmccabe/cloudevents-slack-demo)
 
-#### RabbitMQ
+#### Redis (third-party project)
+
+Invoke functions using Redis pub/sub and the [Sidekiq model](https://sidekiq.org).
+
+View the [sidekiq-connector](https://github.com/affix/sidekiq-connector)
+
+#### RabbitMQ (third-party project)
+
 Invoke functions from RabbitMQ topics
 
 More information in the repository: [Templum/rabbitmq-connector](https://github.com/Templum/rabbitmq-connector)
+
+> Note: the RabbitMQ connector currently has no support for gateways using Basic Authentication, but [this is being worked on](https://github.com/Templum/rabbitmq-connector/issues/2) by the author.
