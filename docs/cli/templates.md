@@ -337,3 +337,28 @@ Type in `faas-cli new --list` and look for any languages ending in `-armhf`. You
 For these platforms do the same as above and look for the `-arm64` suffix.
 
 > It is easy to make your own templates so if you need to use this platform please convert one of the "regular" templates for your platform.
+
+## Template store
+
+You can browse templates from our official store or create your own store and add your own official templates there.
+
+To see what templates are available type `faas-cli template store list` and you should see the following in the terminal:
+```
+$ ./faas-cli template store list
+
+NAME                    SOURCE             DESCRIPTION
+csharp                  openfaas           Official C# template
+dockerfile              openfaas           Official Dockerfile template
+go-armhf                openfaas           Official Golang armhf 
+...
+node10-express-armhf    openfaas-incubator NodeJS 10 Express armhf template
+node10-express          openfaas-incubator NodeJS 10 Express template
+ruby-http               openfaas-incubator Ruby 2.4 HTTP template
+...
+```
+
+Choose one or more templates and pull them with the command `faas-cli template store pull node10-express ruby-http csharp` and your templates should be downloaded.
+
+You can add your own store just by specifying the `--url` flag for both commands to pull and list your custom templates store.
+
+> Note: The feature is in experimental stage and the verbs may change also the structure in which you keep your templates should follow the structure of the official store found [here](https://github.com/openfaas/store/blob/master/templates.json).
