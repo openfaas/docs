@@ -69,6 +69,13 @@ The incubator organisation is for experiments, research and for getting quick fe
 | [of-watchdog](https://github.com/openfaas-incubator/of-watchdog)              | The OpenFaaS watchdog re-written with mode-abstractions for both STDIO & HTTP |
 | [faas-idler](https://github.com/openfaas-incubator/faas-idler)         | Scale OpenFaaS functions to zero replicas after specified period of inactivity   |
 | [openfaas-operator](https://github.com/openfaas-incubator/openfaas-operator)         | The OpenFaaS CRD Operator for Kubernetes   |
+| [kafka-connector](https://github.com/openfaas-incubator/kafka-connector)         | The Kafka connector connects OpenFaaS functions to Kafka topics   | 
+| [node10-express-template](https://github.com/openfaas-incubator/node10-express-template) | Node.js 10 Express template providing additional context and control over the HTTP response from your function |
+| [golang-http-template](https://github.com/openfaas-incubator/golang-http-template) | Golang template providing additional control over the HTTP request and response.|
+| [powershell-http](https://github.com/openfaas-incubator/powershell-http-template) | PowerShell HTTP template |
+| [ruby-http](https://github.com/openfaas-incubator/ruby-http) | A Ruby HTTP template for OpenFaaS |
+| [python-flask-template](https://github.com/openfaas-incubator/python-flask-template) | OpenFaaS templates for Python 2.7/3.6 with Flask |
+| [node8-express-template](https://github.com/openfaas-incubator/node8-express-template) | Node.js 8 template for OpenFaaS with HTTP via Express.js |
 
 
 https://github.com/openfaas-incubator/
