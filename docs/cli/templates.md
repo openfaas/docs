@@ -324,6 +324,54 @@ You can use your own Git repository for a custom or forked set of templates. Thi
 
 See `faas-cli template pull` for more information.
 
+If you want to set up your own default template location, specify the `OPENFAAS_TEMPLATE_URL` environmental variable the following way:
+
+```bash
+export OPENFAAS_TEMPLATE_URL=https://raw.githubusercontent.com/user/mytemplate/customtemplates
+```
+
+#### 8.4 Download templates from the template store
+
+> Note: In order to access the template store you need `0.8.1` version of the CLI or higher
+
+Check what templates are available in the template store with the CLI by typing:
+
+```bash
+faas-cli template store list
+```
+
+Pull the desired template by specifying `NAME` attribute only:
+
+```bash
+faas-cli template store pull go
+```
+
+or pull the template by mixing the `REPOSITORY` and `NAME` attributes the following way:
+
+```bash
+faas-cli template store pull openfaas/go
+```
+
+To get more information on specific store use the `describe` verb like:
+
+```bash
+faas-cli template store describe openfaas/go
+```
+
+or if there is no collision between names use only the name field:
+
+```bash
+faas-cli template store describe go
+```
+
+If you have your own store with templates, you can set that as your default official store by setting the environmental variable `OPENFAAS_TEMPLATE_STORE_URL` the following way:
+
+```bash
+export OPENFAAS_TEMPLATE_STORE_URL=https://raw.githubusercontent.com/user/openfaas-templates/templates.json
+```
+
+Now the source of the store is changed to the URL you have specified above.
+
 ## ARM / Raspberry Pi
 
 Templates for ARM and Raspberry Pi are provided on a best-effort basis. If you can help with maintenance please let the project contributors know.
