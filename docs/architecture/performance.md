@@ -18,6 +18,7 @@ Method:
 * [ ] I understand the difference between a benchmark and a "DoS attack"
 
 HA:
+
 * [ ] I have scaled the gateway service in proportion to the load with more than one replica
 * [ ] I have set min / max replicas and [understand how auto-scaling works](http://docs.openfaas.com/architecture/autoscaling/)
 
