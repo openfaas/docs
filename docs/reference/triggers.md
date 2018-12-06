@@ -29,6 +29,16 @@ echo "triggered" | faas-cli invoke figlet
 
 ### Other Event Sources
 
+#### Event-connector pattern
+
+The OpenFaaS connector-pattern allows you to create a broker or separate microservice which maps functions to topics and invokes functions via the OpenFaaS Gateway meaning that the OpenFaaS code does not need to be modified per trigger/event-source.
+
+![](../images/connector-pattern.png)
+
+##### Add your own event source
+
+If you'd like to add an event source which is not listed below you can fork the OpenFaaS event [connector SDK](https://github.com/openfaas-incubator/connector-sdk) which is written in Go and use this to connect your pub/sub topics or message queues to functions in OpenFaaS.
+
 #### Apache Kafka
 
 Connect your function(s) to [Apache Kafka](https://kafka.apache.org) topics.
@@ -83,9 +93,3 @@ Invoke functions from RabbitMQ topics
 More information in the repository: [Templum/rabbitmq-connector](https://github.com/Templum/rabbitmq-connector)
 
 > Note: the RabbitMQ connector currently has no support for gateways using Basic Authentication, but [this is being worked on](https://github.com/Templum/rabbitmq-connector/issues/2) by the author.
-
-
-#### Add your own event source
-
-If you'd like to add an event source which is not listed below you can fork the OpenFaaS event [connector SDK](https://github.com/openfaas-incubator/connector-sdk) which is written in Go and use this to connect your pub/sub topics or message queues to functions in OpenFaaS.
-
