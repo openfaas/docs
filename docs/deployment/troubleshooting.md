@@ -9,7 +9,33 @@ Any function can be invoked asynchronously by changing the route on the gateway 
 If you would like to receive a value from an asynchronous call you should pass a HTTP header with the URL to be used for the call-back.
 
 ```
-$ faas invoke figlet --Header "X-Callback-Url=https://request.bin/mybin"
+$ faas invoke figlet -H "X-Callback-Url: https://request.bin/mybin"
+```
+
+It will pass back the X-Call-Id you had when you sent the initial request.
+
+You can use `netcat` to check the Call Id during invocation:
+
+```
+$ curl -d "Hello" http://127.0.0.1:8080/async-function/figlet "X-Callback-Url: http://<your-ip>:8888"
+```
+
+```
+$ nc -l 8888
+HTTP/1.1 200 OK
+Content-Length: 174
+Content-Type: application/x-www-form-urlencoded
+Date: Tue, 04 Dec 2018 09:24:55 GMT
+X-Call-Id: eb8283f5-1679-48e0-afec-194544b054aa
+X-Duration-Seconds: 0.002885
+X-Start-Time: 1543915495384346700
+
+ _   _      _ _       
+| | | | ___| | | ___  
+| |_| |/ _ \ | |/ _ \ 
+|  _  |  __/ | | (_) |
+|_| |_|\___|_|_|\___/ 
+
 ```
 
 Alternatively you can specify another asynchronous or synchronous function to run instead.
