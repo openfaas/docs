@@ -27,19 +27,19 @@ echo "triggered" | faas-cli invoke figlet
 
 > CLI invocation can also be async by passing the `-a` flag to the `invoke` call
 
-### Other Event Sources
+## Other Event Sources
 
-#### Event-connector pattern
+### Event-connector pattern
 
 The OpenFaaS connector-pattern allows you to create a broker or separate microservice which maps functions to topics and invokes functions via the OpenFaaS Gateway meaning that the OpenFaaS code does not need to be modified per trigger/event-source.
 
 ![](../images/connector-pattern.png)
 
-##### Add your own event source
+#### Add your own event source
 
 If you'd like to add an event source which is not listed below you can fork the OpenFaaS event [connector SDK](https://github.com/openfaas-incubator/connector-sdk) which is written in Go and use this to connect your pub/sub topics or message queues to functions in OpenFaaS.
 
-#### Apache Kafka
+### Apache Kafka
 
 Connect your function(s) to [Apache Kafka](https://kafka.apache.org) topics.
 
@@ -47,20 +47,28 @@ More information in the Incubator repository: [openfaas-incubator/kafka-connecto
 
 Support is available for OpenFaaS Gateways using Basic Authentication.
 
-#### AWS SNS
+### AWS SNS
 
 You can use AWS SNS to trigger functions using AWS SNS Notifications and Subscriptions. This approach can be used to export almost any data-source or event from your Amazon Web Services (AWS) console such as S3 of DynamoDB to an OpenFaaS function.
 
 Find more information in the following repository: [affix/OpenFaaS-SNS](https://github.com/affix/OpenFaaS-SNS)
 
-#### Minio / S3
+### Minio / S3
 
 You can trigger OpenFaaS functions using Minio's webhook or Kafka integration.
 
 * [Minio's webhook integration](https://blog.minio.io/introducing-webhooks-for-minio-e2c3ad26deb2)
 * [Minio's Kafka integration](https://docs.minio.io/docs/minio-bucket-notification-guide.html#apache-kafka)
 
-#### IFTTT
+### CloudEvents
+
+[CloudEvents](https://cloudevents.io/) is a specification for describing event data in a common way.
+
+Follow this example to learn how to trigger functions using the Azure EventGrid and CloudEvents.
+
+More information in the repository: [johnmccabe/cloudevents-slack-demo](https://github.com/johnmccabe/cloudevents-slack-demo)
+
+### IFTTT
 
 You can trigger OpenFaaS functions using webhooks sent via the (if this, then that) service.
 
@@ -70,15 +78,7 @@ See an example of a function built to forward Tweets from IFTTTT to Slack using 
 
 Visit [ifttt.com](https://ifttt.com) to learn more.
 
-#### CloudEvents
-
-[CloudEvents](https://cloudevents.io/) is a specification for describing event data in a common way.
-
-Follow this example to learn how to trigger functions using the Azure EventGrid and CloudEvents.
-
-More information in the repository: [johnmccabe/cloudevents-slack-demo](https://github.com/johnmccabe/cloudevents-slack-demo)
-
-#### Redis (third-party project)
+### Redis (third-party project)
 
 Invoke functions using Redis pub/sub and the [Sidekiq model](https://sidekiq.org).
 
@@ -86,7 +86,7 @@ View the [sidekiq-connector](https://github.com/affix/sidekiq-connector)
 
 > Note: the Redis connector currently has no support for gateways using Basic Authentication, but [this is being worked on](https://github.com/affix/sidekiq-connector/issues/1) by the author.
 
-#### RabbitMQ (third-party project)
+### RabbitMQ (third-party project)
 
 Invoke functions from RabbitMQ topics
 
