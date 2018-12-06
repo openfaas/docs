@@ -13,9 +13,9 @@ Using secrets is a two step process. First you need to define a new secret in yo
 
 ### A note on environmental variables
 
-The OpenFaaS contributors believe that enviromental variables should be reserved for non-confidential data only. You can read how to use environmental variables in the YAML reference page.
+The OpenFaaS contributors believe that enviromental variables should be reserved for non-confidential data only. All secrets are made available in the container file-system and should be read from the following location: `/var/openfaas/secrets/<secret-name>`. Both Kubernetes and Swarm have excellent stores for secrets. In the sample below we show how to create and consume a secret in a function.
 
-All secrets are made available in the container file-system and should be read from the following location: `/var/openfaas/secrets/<secret-name>`. Both Kubernetes and Swarm have excellent stores for secrets. In the sample below we show how to create and consume a secret in a function.
+> See also: [YAML reference: environmental variables](yaml.md).
 
 ## Sample
 
