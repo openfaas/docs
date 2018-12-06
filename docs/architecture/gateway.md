@@ -1,8 +1,14 @@
 ## OpenFaaS API Gateway / Portal
 
-*Pictured: OpenFaaS conceptual design with Kubernetes*
+Conceptual design using the OpenFaaS operator faas-provider. Each function is built into an immutable Docker image before being deployed via the faas-cli, UI or REST API.
 
-<a href="https://raw.githubusercontent.com/openfaas/faas/master/docs/of-overview.png"><img src="https://raw.githubusercontent.com/openfaas/faas/master/docs/of-overview.png"></a>
+Click below to view the image full-size:
+
+[![OpenFaaS Conceptual architecture](../images/of-conceptual-operator.png)](../images/of-conceptual-operator.png)
+
+When deployed each function creates 1 to many Pods/containers depending on the minimum and maximum scaling parameters requested by the user. Functions can also scale to zero and back again through use of the [faas-idler](https://github.com/openfaas-incubator/faas-idler/) or REST API.
+
+See also: [auto-scaling](autoscaling.md).
 
 ## Reference documentation
 
