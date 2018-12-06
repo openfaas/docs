@@ -30,9 +30,11 @@ Project tuning:
 * [ ] I have turned off `write_debug` and `read_debug` so that the logs for the function are kept sparse
 * [ ] I am monitoring / collecting logs from the core services and function under test
 * [ ] I am monitoring the system for feedback through Prometheus and / or Grafana - i.e. throughput and 200/500 errors
-* [ ] I am using Kubernetes 1.9 or newer
+* [ ] I am using Kubernetes 1.10 or newer
 * [ ] I am not using Docker Swarm
 * [ ] ~~If running on Docker Swarm I've verified that I am using a proper HEALTHCHECK (read up more on watchdog readme)~~
+
+> A note on DNS: You are likely to get better performance by switching out kube-dns for CoreDNS.
 
 * Watchdog differences
 
