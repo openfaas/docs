@@ -137,5 +137,6 @@ nav:
       - Gateway: ./architecture/gateway.md
       - Watchdog: ./architecture/watchdog.md
       - Autoscaling: ./architecture/autoscaling.md
+      - Performance: ./architecture/performance.md
   - Contributing:
       - Get Started: ./contributing/get-started.md
