@@ -25,7 +25,7 @@ HA:
 Project tuning:
 
 * [ ] I have extended or removed memory limits / quotas for each service and function
-* [ ] I have created my own function using one of the new HTTP templates (see below for a list)
+* [ ] I have created my own function using one of the new HTTP templates and the of-watchdog (see below for a list)
 * [ ] I understand the difference between the original default watchdog which forks one process per request and the new of-watchdog's HTTP mode and I am using that
 * [ ] I have turned off `write_debug` and `read_debug` so that the logs for the function are kept sparse
 * [ ] I am monitoring / collecting logs from the core services and function under test
@@ -71,6 +71,10 @@ The test environment needs to replicate the production environment you are likel
 * Poor choice of test function
 
 There are several sample functions provided in the project, but that does not automatically qualify them for benchmarking or load-testing. It's important to create your own function and understand exactly what is being put into it so you can measure it efficiently.
+
+* Not using the of-watchdog
+
+Only the watchdog and of-watchdog implement the correct healthcheck and shutdown signals to be compatible with Kubernetes' startup, scaling and termination mechanisms. If you are running a container exposing port `8080` which does not use of-watchdog then the results are not representative. You will need to mimick exactly the mechanisms in the of-watchdog or use it as a shim.
 
 * Only picking the best/worst case figure
 
