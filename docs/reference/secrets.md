@@ -2,46 +2,77 @@
 
 This page shows how to use secrets within your functions for API tokens, passwords and similar.
 
-Using secrets is a two step process. First we need to define the secret in your cluster and then you need to 'use' the secret to your function. You can find a simple example function [ApiKeyProtected in the OpenFaaS repo](https://github.com/openfaas/faas/tree/master/sample-functions/ApiKeyProtected-Secrets). When we deploy this function we provide a secret key that it uses to authenticate requests.
+Using secrets is a two step process. First you need to define a new secret in your cluster and then you need to 'use' the secret to your function by adding it the deployment request or stack YAML file.
 
-## Creating the secret
+## Design
 
-It is generally easiest to read your secret values from files. For our examples we have created a simple text file `~/secrets/secret_api_key.txt` that looks like
+* Secrets can be specified via API, CLI or YAML file
+* You can use one to many secrets in a function
+* Secrets must exist in the cluster at deployment time
+* Secrets need to be created with `kubectl` or `docker secret create`, but [in the near future](https://github.com/openfaas/faas/issues/807) an API will exist to create, list, delete and update secrets.
+
+### A note on environmental variables
+
+The OpenFaaS contributors believe that enviromental variables should be reserved for non-confidential data only. You can read how to use environmental variables in the YAML reference page.
+
+All secrets are made available in the container file-system and should be read from the following location: `/var/openfaas/secrets/<secret-name>`. Both Kubernetes and Swarm have excellent stores for secrets. In the sample below we show how to create and consume a secret in a function.
+
+## Sample
+
+We have built a sample function that can be deployed alongside a secret (an API key) to validate incoming requests. It is available in the [openfaas/faas](https://github.com/openfaas/faas/) repo: [ApiKeyProtected](https://github.com/openfaas/faas/tree/master/sample-functions/ApiKeyProtected-Secrets). Only requests presenting a valid API key value will be validated.
+
+### Creating a file for the secret
+
+Create a text file named `secret-api-key.txt` and add the following value:
 
 ```txt
 R^YqzKzSJw51K9zPpQ3R3N
 ```
 
-Now we need to define the secret in the cluster.
+Now we can import the secret into the cluster.
 
-### Define a secret in Kubernetes
+#### Define a secret in Kubernetes
 
-In Kubernetes we can leverage the [secrets api](https://kubernetes.io/docs/concepts/configuration/secret/) to safely store our secret values
+In Kubernetes we can leverage the [built-in secret store](https://kubernetes.io/docs/concepts/configuration/secret/) to securely store secrets for functions.
 
-From the commandline use
+Type in:
 
 ```sh
 kubectl create secret generic secret-api-key \
-  --from-file=secret-api-key=~/secrets/secret_api_key.txt \
+  --from-file=secret-api-key=secret-api-key.txt \
   --namespace openfaas-fn
 ```
 
 Here we have explicitly named the key of the secret value so that when it is mounted into the function container, it will be named exactly `secret-api-key` instead of `secret_api_key.txt`.
 
-### Define a secret in Docker Swarm
+You can skip creating a file and use input directly from the command-line like this:
 
-For sensitive value we can leverage the [Docker Swarm Secrets](https://docs.docker.com/engine/swarm/secrets/) feature to safely store our secret values.
+```sh
+kubectl create secret generic secret-api-key \
+  --from-literal secret-api-key="R^YqzKzSJw51K9zPpQ3R3N" \
+  --namespace openfaas-fn
+```
 
-From the command line use
+#### Define a secret in Docker Swarm
+
+Docker has a built-in [secrets store](https://docs.docker.com/engine/swarm/secrets/) just like Kubernetes which can be used to securely store secrets for our functions.
+
+Type in:
 
 ```sh
 docker secret create secret-api-key \
  ~/secrets/secret_api_key.txt
 ```
 
-## Use the secret in your function
+or:
 
-Secrets are mounted as files to `/var/openfaas/secrets` inside your function. Using secrets is as simple as adding code to read the value from `/var/openfaas/secrets/secret-api-key`.
+```sh
+echo "R^YqzKzSJw51K9zPpQ3R3N" | docker secret create secret-api-key -
+```
+
+### Use the secret in your function
+
+OpenFaaS secrets are mounted as files to `/var/openfaas/secrets` inside your function's filesystem. To use a secret, just read the file from the secrets location using the name of the secret for the filename such as: `/var/openfaas/secrets/secret-api-key`.
 
 _Note_: prior to version `0.8.2` secrets were mounted to `/run/secrets`. The example functions demonstrate a smooth upgrade implementation.
 
@@ -62,46 +93,39 @@ func getAPISecret(secretName string) (secretBytes []byte, err error) {
 
 This example comes from the [`ApiKeyProtected`](https://github.com/openfaas/faas/tree/master/sample-functions/ApiKeyProtected-Secrets) sample function.
 
-## Deploy a function with secrets
+### Deploy a function with secrets
 
-Now, update your stack file to include the secret:
+Create a `stack.yaml` file in the current directory:
 
 ```yaml
   provider:
     name: faas
-    gateway: http://localhost:8080
 
   functions:
     protectedapi:
-      lang: Dockerfile
+      lang: dockerfile
       skip_build: true
       image: functions/api-key-protected:latest
       secrets:
       - secret-api-key
 ```
 
-and then deploy `faas-cli deploy -f ./stack.yaml`
+Now deploy the function with: `faas-cli deploy`
 
-Once the deploy is done you can test the function using the cli. The function is very simple, it reads the secret value that is mounted into the container for you and then returns a success or failure message based on if your header matches that secret value. For example,
+Once the deploy is done you can test the function using the `faas-cli` or `curl`. The function reads the secret value that was mounted into the container by OpenFaaS and then returns a success or failure message based on if your header matches that secret value. The same code runs exactly the same without modifications on both Kubernetes and Docker Swarm.
+
+Let's see how that works:
 
 ```sh
-faas-cli invoke protectedapi -H "X-Api-Key=R^YqzKzSJw51K9zPpQ3R3N"
-```
-
-Resulting in
-
-```txt
+echo | faas-cli invoke protectedapi -H "X-Api-Key=R^YqzKzSJw51K9zPpQ3R3N"
 Unlocked the function!
 ```
 
-When you use the wrong api key,
+Now let's use an incorrect value for the api-key:
 
 ```sh
-faas-cli invoke protectedapi -H "X-Api-Key=thisiswrong"
-```
-
-You get
-
-```txt
+echo | faas-cli invoke protectedapi -H "X-Api-Key=thisiswrong"
 Access denied!
 ```
+
+You can also use multiple secrets for the same function or across multiple functions.
