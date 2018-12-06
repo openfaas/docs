@@ -36,11 +36,11 @@ OpenFaaS Cloud is for anyone who wants to focus on shipping functions without wo
 
 #### Community cluster
 
-The community-run cluster means you can do a `git push` and get a free, TLS-enabled endpoint without thinking about servers or Kubernetes. We do everything for you
+The community-run cluster is a free cluster which you can use to publish functions on the internet with TLS and a personal sub-domain. You don't need to think about servers or Kubernetes any more. We host, scale and manage your functions giving you a secure personalised dashboard so that you can focus on writing code.
 
 #### Self-hosted
 
-When you host OpenFaaS Cloud yourself you are providing a "`git push` - get functions" for yourself and your team. All the code is fully open source and licensed under MIT. Follow the "dev" guide in the GitHub repository to set yourself up on Kubernetes or Docker Swarm.
+OpenFaaS Cloud is open source software which you can use to host your OpenFaaS Cloud cluster. OpenFaaS Cloud brings a managed, multi-user experience with built-in dashboard and CI/CD. This lowers the barrier to entry for teams meaning that developers only need to know how to use git and require no pre-assumed knowledge of Docker or Kubernetes.
 
 ### Resources:
 
