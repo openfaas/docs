@@ -1,8 +1,10 @@
 ## Notes on performance testing (or load-testing)
 
-You may have started using OpenFaaS or doing due diligence and have decided to run a performance test, load-test or benchmark. Before proceeding please run through the project checklist to make sure your environment is properly tuned.
+This page is designed to help you get a realistic and representative view of the performance of OpenFaaS whether you want to run a performance test, load-test or benchmark.
 
-The default configuration for OpenFaaS targets development, not production which is why you should pay attention to both your method and your configuration.
+You may have started using OpenFaaS already or perhaps you have been asked to do some due diligence before starting a new project. Before proceeding please run through the project checklist to make sure your environment is properly tuned and that you are using *an appropriate function template tuned for performance*.
+
+The default configuration for OpenFaaS targets a development-environment and not production which is why *you should pay attention* to both your method and your configuration.
 
 ### Checklist
 
@@ -10,7 +12,7 @@ The default configuration for OpenFaaS targets development, not production which
 
 Method:
 
-* [ ] I have created a test-plan *with a hypothesis* and *have documented my method* so I can share it with the project team.
+* [ ] I have created a test-plan *with a hypothesis* and *have documented my method* so I can share it with the project team
 * [ ] I'm using a performance testing tool such as [hey](https://github.com/rakyll/hey), jMeter, LoadRunner or Gattling
 * [ ] My environment is hosted in an isolated and repeatable environment
 * [ ] I understand the difference between a benchmark and a "DoS attack"
@@ -22,7 +24,7 @@ HA:
 Project tuning:
 
 * [ ] I have extended or removed memory limits / quotas for each service and function
-* [ ] I have created my own function using one of the new HTTP templates (see below)
+* [ ] I have created my own function using one of the new HTTP templates (see below for a list)
 * [ ] I understand the difference between the original default watchdog which forks one process per request and the new of-watchdog's HTTP mode and I am using that
 * [ ] I have turned off `write_debug` and `read_debug` so that the logs for the function are kept sparse
 * [ ] I am monitoring / collecting logs from the core services and function under test
@@ -40,7 +42,7 @@ Project tuning:
 of-watchdog templates:
 
 * [Golang HTTP template with stdlib](https://github.com/alexellis/golang-http-template)
-* [Node8 HTTP template with Express.js](https://github.com/openfaas-incubator/node8-express-template)
+* [Node10 HTTP template with Express.js](https://github.com/openfaas-incubator/node10-express-template)
 * [Python3 HTTP template with gevent/flask](https://github.com/openfaas-incubator/python-flask-template)
 
 ### Common mistakes for performance-testing a project:
@@ -74,3 +76,4 @@ When using a scientific method you need to carry out multiple test runs and acco
 * Ignoring CPU / memory limits
 
 OpenFaaS enforces memory limits on core services. If you are going to perform a high load test you will want to extend these beyond the defaults or remove them completely.
+
