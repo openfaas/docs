@@ -57,6 +57,25 @@ The function `handler` field refers to a folder where the function's source code
 
 The `image` field refers to a Docker image reference, this could be on the Docker Hub, in your local Docker library or on another remote server.
 
+#### Function: Skip build
+
+The `skip_build` field controls if the CLI will attempt to build the Docker image for the function.  When `true`, the build step is skipped and you should see a message printed to the terminal `Skipping build of: "function name"`.
+
+This value is set as a boolean.
+
+#### Function: Build Options
+
+The `build_options` allows you to pass a list of [Docker build arguments](https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables---build-arg) to the build process.  When the language template supports it, this allows you to customize the build without modifying the underlying template.
+
+For example, the [official python3 language template](https://github.com/openfaas/templates/blob/master/template/python3/Dockerfile) allows passing additional Alpine `apk` packages to be installed during build process. To isntall the [`ca-certificates`](https://pkgs.alpinelinux.org/package/edge/main/x86_64/ca-certificates) package for your `python3` function, you can specify
+
+```yaml
+build_options:
+- ca-certificates
+```
+
+Important note: that the configuration of this value is dependent on the language template.
+
 #### Function: Environmental variables
 
 You can set configuration via environmental variables either in-line within the YAML file or in a separate external file. Do not store confidential or private data in environmental variables. See: secrets.
@@ -108,6 +127,14 @@ secrets:
   - s3_secret_key
 ```
 
+#### Function: Read-Only Root Filesystem
+
+The `readonly_root_filesystem` indicates that the function file system will be set to read-only except for a scratch/temporary folder `/tmp`.  This prevents the function from writing to or modifying the filesystem (e.g. system files). This is used to provide stricter security for your functions. You can set this value as a boolean:
+
+```yaml
+readonly_root_filesystem: true
+```
+
 #### Function: Constraints
 
 Constraints are passed directly to the underlying container orchestrator. They allow you to pin a function to certain host or type of host.
@@ -128,7 +155,7 @@ Or only using nodes running with Windows:
 
 #### Function: Labels
 
-Labels can be applied through a map which is passed directly to the container scheduler. 
+Labels can be applied through a map which is passed directly to the container scheduler.
 Labels are also available from the OpenFaaS REST API for querying or grouping functions.
 
 Example of using a label to group by user or apply a `canary` label:
@@ -139,10 +166,10 @@ Example of using a label to group by user or apply a `canary` label:
      Git-Owner: alexellis
 ```
 
-> Important note: When used with a Kubernetes provider, labels support a restricted character set and length. 
-*"Valid label values must be 63 characters or less and must be empty or begin and end with an alphanumeric character 
+> Important note: When used with a Kubernetes provider, labels support a restricted character set and length.
+*"Valid label values must be 63 characters or less and must be empty or begin and end with an alphanumeric character
 ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.), and alphanumerics between."*
-> 
+>
 >See [Syntax and character set](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#syntax-and-character-set)
 for more information
 
