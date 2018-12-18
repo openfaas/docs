@@ -259,7 +259,7 @@ helm delete --purge openfaas
 If installed via YAML files:
 
 ```
-kubectl delete namespace openfaas,openfaas-fn
+kubectl delete namespace openfaas openfaas-fn
 ```
 
 ## Troubleshooting Swarm or Kubernetes
