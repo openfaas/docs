@@ -65,16 +65,16 @@ This an optional boolean field, set to `false` by default.
 
 #### Function: Build Options
 
-The `build_options` allows you to pass a list of [Docker build arguments](https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables---build-arg) to the build process.  When the language template supports it, this allows you to customize the build without modifying the underlying template.
+The `build_options` field can be used to you to pass a list of [Docker build arguments](https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables---build-arg) to the build process.  When the language template supports it, this allows you to customize the build without modifying the underlying template.
 
-For example, the [official python3 language template](https://github.com/openfaas/templates/blob/master/template/python3/Dockerfile) allows passing additional Alpine `apk` packages to be installed during build process. To isntall the [`ca-certificates`](https://pkgs.alpinelinux.org/package/edge/main/x86_64/ca-certificates) package for your `python3` function, you can specify
+For example, the [official python3 language template](https://github.com/openfaas/templates/blob/master/template/python3/Dockerfile) allows passing additional Alpine `apk` packages to be installed during build process. To install the [`ca-certificates`](https://pkgs.alpinelinux.org/package/edge/main/x86_64/ca-certificates) package for your `python3` function, you can specify
 
 ```yaml
 build_options:
 - ca-certificates
 ```
 
-Important note: that the configuration of this value is dependent on the language template.
+Important note: that the configuration of this value is dependent on the language template.  The template author must specify one or more [`ARG`](https://docs.docker.com/engine/reference/builder/#arg) in the `Dockerfile`.
 
 #### Function: Environmental variables
 
