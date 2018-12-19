@@ -59,9 +59,9 @@ The `image` field refers to a Docker image reference, this could be on the Docke
 
 #### Function: Skip build
 
-The `skip_build` field controls if the CLI will attempt to build the Docker image for the function.  When `true`, the build step is skipped and you should see a message printed to the terminal `Skipping build of: "function name"`.
+The `skip_build` field controls whether the CLI will attempt to build the Docker image for the function.  When `true`, the build step is skipped and you should see a message printed to the terminal `Skipping build of: "function name"`.
 
-This value is set as a boolean.
+This an optional boolean field, set to `false` by default.
 
 #### Function: Build Options
 
