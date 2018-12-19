@@ -67,7 +67,7 @@ This an optional boolean field, set to `false` by default.
 
 The `build_options` field can be used to you to pass a list of [Docker build arguments](https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables---build-arg) to the build process.  When the language template supports it, this allows you to customize the build without modifying the underlying template.
 
-For example, the [official python3 language template](https://github.com/openfaas/templates/blob/master/template/python3/Dockerfile) allows passing additional Alpine `apk` packages to be installed during build process. To install the [`ca-certificates`](https://pkgs.alpinelinux.org/package/edge/main/x86_64/ca-certificates) package for your `python3` function, you can specify
+For example, the [official python3 language template](https://github.com/openfaas/templates/blob/master/template/python3/Dockerfile) can be used to additional Alpine `apk` packages to be installed during build process. To install the [`ca-certificates`](https://pkgs.alpinelinux.org/package/edge/main/x86_64/ca-certificates) package for your `python3` function, you can specify
 
 ```yaml
 build_options:
@@ -129,11 +129,13 @@ secrets:
 
 #### Function: Read-Only Root Filesystem
 
-The `readonly_root_filesystem` indicates that the function file system will be set to read-only except for a scratch/temporary folder `/tmp`.  This prevents the function from writing to or modifying the filesystem (e.g. system files). This is used to provide stricter security for your functions. You can set this value as a boolean:
+The `readonly_root_filesystem` indicates that the function file system will be set to read-only except for the temporary folder `/tmp`.  This prevents the function from writing to or modifying the filesystem (e.g. system files). This is used to provide tighter security for your functions. You can set this value as a boolean:
 
 ```yaml
 readonly_root_filesystem: true
 ```
+
+This an optional boolean field, set to `false` by default.
 
 #### Function: Constraints
 
