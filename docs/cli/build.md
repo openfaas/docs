@@ -103,7 +103,7 @@ Remeber to add any `ARG` values to the template's Dockerfile:
 
  For more information about passing build arguments to Docker, please visit the [Docker documentation](https://docs.docker.com/engine/reference/commandline/build/)
 
- ## 4.0 Building with large function sets
+## 4.0 Building with large function sets
 
 Performing a `build` action against a `stack.yml` which contains a large suite of serverless function definitions will result in each of the defined functions being built.  The CLI makes available facilities that assist in this scenario.
 
