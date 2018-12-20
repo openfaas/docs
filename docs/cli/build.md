@@ -102,3 +102,51 @@ Remeber to add any `ARG` values to the template's Dockerfile:
  ```
 
  For more information about passing build arguments to Docker, please visit the [Docker documentation](https://docs.docker.com/engine/reference/commandline/build/)
+
+ ## 4.0 Building with large function sets
+
+Performing a `build` action against a `stack.yml` which contains a large suite of serverless function definitions will result in each of the defined functions being built.  The CLI makes available facilities that assist in this scenario.
+
+The `--parallel` flag aims to reduce total build time by enabling more than one function build action to take place concurrently.  Additionally, there may be situations where building *all* the defined functions is undesirable - for example where only one of the functions has had its code updated.  In this instance the `--filter` and `--regex` flags can be used.
+
+Consider a project with `fn1`, `fn2`, `fn3`, `fn22`, `fn33` functions all defined within a single YAML file.
+
+### 4.1 Using the `--parallel` flag
+
+Parallel enables the user to specify how many concurrent function build actions should be performed.  The default is that functions will be built serially, one after the other.
+
+The following will see all the project functions' build actions performed concurrently:
+
+```bash
+faas-cli build --parallel 5
+``` 
+
+!!! note
+    Remember to add -f if using a non-default yaml file: `faas-cli build --parallel 5 -f projectfile.yml`
+
+Parallel can be combined with either of the `--filter` and `--regex` flags to parallel build a subset of the functions.
+
+### 4.2 Using the `--filter` flag
+
+Filter performs wildcard matching against function names in YAML file so that the build action will only be performed against those that match.
+
+The following filter would build only `fn2` from `stack.yml`:
+
+```bash
+faas-cli build --filter "fn2"
+``` 
+Wildcards can be added using `*`.  The following will result in both `fn2` and `fn22` being built:
+
+```bash
+faas-cli build --filter "fn2*"
+``` 
+
+### 4.3 Using the `--regex` flag
+
+Regex performs a similar action to `--filter` but allows for more complex patterns to be defined through regular expressions.
+
+The following regex would result in `fn1`, `fn2` & `fn3` being built from the earlier project's `stack.yml`:
+
+```bash
+faas-cli build --regex "fn[0-9]$"
+```
