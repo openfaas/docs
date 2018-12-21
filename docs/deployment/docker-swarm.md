@@ -35,6 +35,14 @@ $ git clone https://github.com/openfaas/faas && \
   ./deploy_stack.sh
 ```
 
+Note if you're installing on ARM hardware, like a Raspberry Pi, you need to run a different script called deploy\_stack.armhf.sh (for use with ARM32v6 and compatible hardware):
+
+```bash
+$ git clone https://github.com/openfaas/faas && \
+  cd faas && \
+  ./deploy_stack.armhf.sh
+```
+
 !!! info
     As of OpenFaaS 0.8.6 basic authentication will be enabled by default when running ./deploy\_stack.sh. If you need to disable it pass the flag `--no-auth` to the ./deploy_stack.sh script as above.
 
