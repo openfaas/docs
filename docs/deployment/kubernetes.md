@@ -136,60 +136,38 @@ For simplicity the default configuration uses NodePorts rather than an IngressCo
 
 There are currently no sample functions built into this stack, but we can deploy them quickly via the UI or FaaS-CLI.
 
-#### Use the CLI
+#### Deploy functions from the OpenFaaS Function Store
 
-* Then clone some samples to deploy on your cluster.
+You can find many different sample functions from the community through the OpenFaaS Function Store. The Function Store is built into the UI portal and also available via the CLI.
 
-    ```bash
-    $ git clone https://github.com/openfaas/faas-cli
-    ```
-
-    Edit stack.yml and change your gateway URL from `localhost:8080` to `kubernetes-node-ip:31112` or pass the `--gateway` / `-g` flag to commands.
-
-    i.e.
-
-    ```bash
-    provider:
-      name: faas
-      gateway: http://192.168.4.95:31112
-    ```
-    Now deploy the samples:
-
-    ```bash
-    faas-cli deploy -f stack.yml
-    ```
-
-    !!! info
-        The `faas-cli` also supports an override of `--gateway http://...` for example:
-
-        ```bash
-        faas-cli deploy -f stack.yml --gateway http://127.0.0.1:31112
-        ```
-
-##### List the functions
+You may need to pass the `--gateway` / `-g` flag to each `faas-cli` command or alternatively you can set an environmental variable such as:
 
 ```bash
-$ faas-cli list -f stack.yml
-
-or
-
-$ faas-cli list  -g http://127.0.0.1:31112
-Function                      Invocations    Replicas
-inception                     0              1
-nodejs-echo                   0              1
-ruby-echo                     0              1
-shrink-image                  0              1
-stronghash                    2              1
+export OPENFAAS_URL=http://127.0.0.1:31112
 ```
 
-Invoke a function:
+To search the store:
 
 ```bash
-$ echo -n "Test" | faas-cli invoke stronghash -g http://127.0.0.1:31112
-c6ee9e33cf5c6715a1d148fd73f7318884b41adcb916021e2bc0e800a5c5dd97f5142178f6ae88c8fdd98e1afb0ce4c8d2c54b5f37b30b7da1997bb33b0b8a31  -
+$ faas-cli store list
 ```
 
-* Build your first Python function
+To deploy `figlet`:
+
+```bash
+$ faas-cli store deploy figlet
+```
+
+Now find the function deployed in the cluster and invoke it.
+
+```bash
+$ faas-cli list
+$ echo "OpenFaaS!" | faas-cli invoke figlet
+```
+
+You can also access the Function Store from the Portal UI and find a range of functions covering everything from machine-learning to network tools.
+
+##### Build your first Python function
 
 [Your first serverless Python function with OpenFaaS](https://blog.alexellis.io/first-faas-python-function/)
 

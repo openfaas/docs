@@ -99,14 +99,30 @@ Within a few seconds (or minutes if on a poor WiFi connection) the API gateway a
 !!! tip
     If you're running on Linux you may find that accessing `localhost` times out. We recommend using an IPv4 address such as http://127.0.0.1:8080 to prevent any ambiguity.
 
-## 2.2 Deploy the sample functions
+## 2.2 Deploy functions from the OpenFaaS Function Store
 
-The earlier `git clone` included a set of sample functions in `stack.yml`, to deploy them [install the OpenFaaS CLI](/cli/install/) and run:
+You can find many different sample functions from the community through the OpenFaaS Function Store. The Function Store is built into the UI portal and also available via the CLI.
 
+To search the store:
+
+```bash
+$ faas-cli store list
 ```
-$ faas deploy -f \
-  https://raw.githubusercontent.com/openfaas/faas/master/stack.yml
+
+To deploy `figlet`:
+
+```bash
+$ faas-cli store deploy figlet
 ```
+
+Now find the function deployed in the cluster and invoke it.
+
+```bash
+$ faas-cli list
+$ echo "OpenFaaS!" | faas-cli invoke figlet
+```
+
+You can also access the Function Store from the Portal UI and find a range of functions covering everything from machine-learning to network tools.
 
 ## 3.0 Start the hands-on labs
 
