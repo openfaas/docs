@@ -1,9 +1,12 @@
 # Featured tutorials
 
-* OpenFaaS deployment guides for Kubernetes in the Cloud:
+* OpenFaaS deployment guides for Kubernetes
   - [Amazon EKS](https://www.weave.works/blog/getting-started-with-openfaas-kubernetes-operator-on-eks)
   - [Azure AKS](https://medium.com/@ericstoekl/deploying-openfaas-on-kubernetes-azure-aks-4eea99d0743f)
   - [Google GKE](https://www.openfaas.com/blog/gke-multi-stage/)
+  - [DigitalOcean Kubernetes Service](https://blog.alexellis.io/digitalocean-kubernetes-engine/)
+  - [Kubernetes in Docker (kind)](https://blog.alexellis.io/be-kind-to-yourself/)
+  - [minikube](https://medium.com/devopslinks/getting-started-with-openfaas-on-minikube-634502c7acdf)
 
 * [Serverless: Databases with OpenFaaS and Mongo](https://blog.alexellis.io/serverless-databases-with-openfaas-and-mongo/)
 

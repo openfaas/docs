@@ -2,7 +2,25 @@
 
 > Note: If you need to use `sudo` to access the `docker` CLI then you should prefix this behind any shell scripts or CLIs used in this guide or any related tutorials.
 
-## 1.0 Initialize Swarm Mode
+## 1.0 Install the `faas-cli`
+
+You can install the OpenFaaS CLI using `brew` or a `curl` script.
+
+* via `brew`:
+
+```bash
+brew install faas-cli
+```
+
+* via `curl`:
+
+```bash
+$ curl -sL https://cli.openfaas.com | sudo sh
+```
+
+If you run the script as a normal non-root user then the script will be downloaded to the current folder.
+
+## 1.1 Initialize Swarm Mode
 
 You can create a single-host Docker Swarm on your laptop with a single command. You don't need any additional software to Docker 17.06 or greater. You can also run these commands on a Linux VM or cloud host.
 
@@ -16,7 +34,7 @@ If you have more than one IP address you may need to pass a string like `--adver
 
 Take a note of the join token
 
-## 1.1 Join any workers you need
+## 1.2 Join any workers you need
 
 Log into your worker node and type in the output from `docker swarm init` on the master. If you've lost this info then type in `docker swarm join-token worker` and then enter that on the worker.
 
@@ -37,6 +55,22 @@ $ git clone https://github.com/openfaas/faas && \
 
 !!! info
     As of OpenFaaS 0.8.6 basic authentication will be enabled by default when running ./deploy\_stack.sh. If you need to disable it pass the flag `--no-auth` to the ./deploy_stack.sh script as above.
+
+### 2.0.1 Raspberry Pi / 32-bit ARM
+
+> For a complete tutorial on setting up OpenFaaS for Raspberry Pi / 32-bit ARM using Docker Swarm see the following blog post from Alex Ellis: [Your Serverless Raspberry Pi cluster with Docker](https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/).
+
+If you are using Raspberry Pi or 32-bit ARM devices then please run the following instead:
+
+```bash
+$ git clone https://github.com/openfaas/faas && \
+  cd faas && \
+  ./deploy_stack.armhf.sh
+```
+
+When creating new functions please use the templates with a suffix of `-armhf` such as `go-armhf` and `python-armhf` to ensure you get the correct versions for your devices.
+
+> Note: you cannot deploy the sample functions to ARM devices, but you can use the function store in the gateway UI or via `faas-cli store list --yaml https://raw.githubusercontent.com/openfaas/store/master/store-armhf.json`
 
 ### 2.1 Store your admin credentials
 

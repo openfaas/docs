@@ -25,6 +25,24 @@ A guide is available for configuring minikube here:
       --user="$(gcloud config get-value core/account)"
     ```
 
+### Install the `faas-cli`
+
+You can install the OpenFaaS CLI using `brew` or a `curl` script.
+
+* via `brew`:
+
+```bash
+brew install faas-cli
+```
+
+* via `curl`:
+
+```bash
+$ curl -sL https://cli.openfaas.com | sudo sh
+```
+
+If you run the script as a normal non-root user then the script will be downloaded to the current folder.
+
 ### Pick helm or YAML files for deployment (A or B)
 
 It is recommended to use `helm` to install OpenFaaS so that you can configure your installation to suit your needs. This configuration is considered to be production-ready.
@@ -36,7 +54,6 @@ Plain YAML files are also provided for x86_64 and armhf, but since they cannot b
 A Helm chart is provided in the `faas-netes` repository. Follow the link below then come back to this guide.
 
 * [OpenFaaS Helm chart](https://github.com/openfaas/faas-netes/blob/master/HELM.md)
-
 
 ##### Tiller-less Helm install
 If you have issues using `helm` in a locked-down environment then you can still use the `helm template` command to generate a custom set of YAML to apply using `kubectl`. See the [Chart readme](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md#deployment-with-helm-template) for detailed instructions.
@@ -74,6 +91,27 @@ This step assumes you are running `kubectl` on a master host.
     !!! note
         For deploying on a cloud that supports Kubernetes *LoadBalancers* you may also want to apply the configuration in: `cloud/lb.yml`.
 
+#### B. Deploy using kubectl/YAML (Raspberry Pi / 32-bit ARM)
+
+> For a complete tutorial on setting up OpenFaaS for Raspberry Pi / 32-bit ARM using Kubernetes see the following blog post from Alex Ellis: [Serverless Kubernetes home-lab with your Raspberry Pis](https://blog.alexellis.io/serverless-kubernetes-on-raspberry-pi/).
+
+For Raspberry Pi or 32-bit ARM devices please do the following:
+
+```bash
+$ kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
+```
+
+Now deploy OpenFaaS:
+
+```bash
+$ cd faas-netes && \
+kubectl apply -f ./yaml_armhf
+```
+
+When creating new functions please use the templates with a suffix of `-armhf` such as `go-armhf` and `python-armhf` to ensure you get the correct versions for your devices.
+
+> Note: you cannot deploy the sample functions to ARM devices, but you can use the function store in the gateway UI or via `faas-cli store list --yaml https://raw.githubusercontent.com/openfaas/store/master/store-armhf.json`
+
 #### Use OpenFaaS
 
 After deploying OpenFaaS you can start using one of the guides or blog posts to create Serverless functions or test [community functions](https://github.com/openfaas/faas/blob/master/community.md).
@@ -99,14 +137,6 @@ For simplicity the default configuration uses NodePorts rather than an IngressCo
 There are currently no sample functions built into this stack, but we can deploy them quickly via the UI or FaaS-CLI.
 
 #### Use the CLI
-
-* Install the CLI
-
-    ```bash
-    $ curl -sL https://cli.openfaas.com | sudo sh
-    ```
-
-    If you like you can also run the script via a non-root user. Then the faas-cli binary is downloaded to the current working directory instead.
 
 * Then clone some samples to deploy on your cluster.
 
