@@ -126,6 +126,7 @@ nav:
       - Jenkins: ./reference/cicd/jenkins.md
     - SSL:
       - Kubernetes: ./reference/ssl/kubernetes-with-cert-manager.md
+      - Docker Swarm: ./reference/ssl/swarm-with-traefik.md
     - Secrets: ./reference/secrets.md
     - Async: ./reference/async.md
     - Triggers: ./reference/triggers.md
