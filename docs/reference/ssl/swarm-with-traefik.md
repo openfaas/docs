@@ -1,6 +1,6 @@
 # SSL on Swarm with Traefik
 
-To completely secure your OpenFaaS installation, you need SSL.  On Swarm, you can do this easily with [Traefik][traefik] and [Let's Encrypt][letsencrypt].  Traefik is is reverse proxy that comes with SSL support via Let's Encrypt. In this tutorial we will show you how to deploy OpenFaaS with Traefik.
+To completely secure your OpenFaaS installation, you need SSL.  On Swarm, you can do this easily with [Traefik][traefik] and [Let's Encrypt][letsencrypt].  Traefik is a reverse proxy that comes with SSL support via Let's Encrypt. In this tutorial we will show you how to deploy OpenFaaS with Traefik.
 
 
 ## Create an A record
