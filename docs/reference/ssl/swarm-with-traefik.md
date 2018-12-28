@@ -10,7 +10,7 @@ If your domain is `.domain.com` then create an A record using your DNS administr
 ## Update the Compose configuration
 
 ### Configure Traefik
-To use Traefik with OpenFaaS, you need to modify the OpenFaaS deployment manifest to include Traefik and configuring OpenFaaS communicate through Traefik instead of directly exposing its services to the internet.
+To use Traefik with OpenFaaS, you need to modify the OpenFaaS deployment manifest to include Traefik and configuring OpenFaaS to communicate through Traefik instead of directly exposing its services publicly.
 
 1. Clone OpenFaaS and then checkout the latest stable release:
 
