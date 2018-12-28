@@ -309,7 +309,7 @@ On your first visit, the HTTP authentication dialogue box will open, you can log
 
 - If you want to tail the Traefik logs, you can use
 ```sh
-$ docker service ls -f traefik
+$ docker service logs -f traefik
 ```
 You can see internet traffic logs as well as logs related to the Let's Encrypt certificate process.
 
