@@ -90,7 +90,7 @@ To use Traefik with OpenFaaS, you need to modify the OpenFaaS deployment manifes
                 - "acme:/etc/traefik/acme"
         ...
     ```
-6. Next you must configure the networks the `traefix` service is part of. All OpenFaaS components live on the `functions` networks, which is also defined in the compose file.
+6. Next you must configure the networks the `traefik` service is part of. All OpenFaaS components live on the `functions` networks, which is also defined in the compose file.
 
     ```yaml
         ...
