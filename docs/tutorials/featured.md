@@ -12,10 +12,16 @@
 
 * [Turn Any CLI into a Function with OpenFaaS](https://blog.alexellis.io/cli-functions-with-openfaas/)
 
-* [Serverless Kubernetes home-lab with your Raspberry Pis](https://blog.alexellis.io/serverless-kubernetes-on-raspberry-pi/)
-
 * [Get storage for your Severless Functions with Minio & Docker](https://blog.alexellis.io/openfaas-storage-for-your-functions/)
 
 * [Micro-tutorial for Redis and Node.js](https://gist.github.com/alexellis/e05a7b573ae22b209f0214d5766ff07e)
+
+### ARM / Raspberry Pi
+
+* [Kubernetes on Raspbian](https://github.com/alexellis/k8s-on-raspbian)
+* [Build your own bare-metal ARM cluster](https://blog.alexellis.io/build-your-own-bare-metal-arm-cluster/)
+* [Serverless Kubernetes home-lab with your Raspberry Pis](https://blog.alexellis.io/serverless-kubernetes-on-raspberry-pi/)
+
+### Community and more
 
 There are many more great tutorials and events by our community listed in our main [Community file](https://github.com/openfaas/faas/blob/master/community.md).
