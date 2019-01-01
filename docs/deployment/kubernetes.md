@@ -78,14 +78,14 @@ This step assumes you are running `kubectl` on a master host.
     * openfaas-fn - for functions
 
     ```bash
-    $ kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
+    $ cd faas-netes && \
+    kubectl apply -f ./namespaces.yml
     ```
 
     Now deploy OpenFaaS:
 
     ```bash
-    $ cd faas-netes && \
-    kubectl apply -f ./yaml
+    $ kubectl apply -f ./yaml
     ```
 
     !!! note
