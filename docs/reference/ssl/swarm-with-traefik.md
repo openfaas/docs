@@ -12,121 +12,16 @@ If your domain is `.domain.com` then create an A record using your DNS administr
 ### Configure Traefik
 To use Traefik with OpenFaaS, you need to modify the OpenFaaS deployment manifest to include Traefik and configuring OpenFaaS to communicate through Traefik instead of directly exposing its services publicly.
 
-1. Clone OpenFaaS and then checkout the latest stable release:
+Clone OpenFaaS and then checkout the latest stable release:
 
     ```bash
     $ git clone https://github.com/openfaas/faas && cd faas
     ```
 
-2. Add the `traefik` service to the  `docker-compose.yaml`.
+Add the `traefik` service to the  `docker-compose.yaml`.
 
-    To start, open `docker-compose.yaml` in your favorite editor and add a `traefik` service like this:
+To start, open `docker-compose.yaml` in your favorite editor and add a `traefik` service like this:
 
-    ```yaml
-    version: "3.3"
-    services:
-        traefik:
-            image: traefik:v1.7.6
-        gateway:
-            ...
-    ```
-3. Next, to configure Traefik to work with Docker Swarm _and_ Let's Encrypt, you must override the default `command` to the `traefik` service.  The `traefik` section of the `docker-compose.yaml` file should look like this:
-
-    ```yaml
-    ...
-        traefik:
-            image: traefik:v1.7.6
-            command:
-                - "--api=true"
-                - "--docker=true"
-                - "--docker.swarmmode=true"
-                - "--docker.domain=traefik"
-                - "--docker.watch=true"
-                - "--defaultEntryPoints=http,https"
-                - "--entryPoints=Name:https Address::443 TLS"
-                - "--entryPoints=Name:http Address::80"
-                - "--acme=true"
-                - "--acme.entrypoint=https"
-                - "--acme.httpchallenge=true"
-                - "--acme.httpchallenge.entrypoint=http"
-                - "--acme.domains=openfaas.mydomain.com"
-                - "--acme.email=<your-email-here>"
-                - "--acme.ondemand=true"
-                - "--acme.onhostrule=true"
-                - "--acme.storage=/etc/traefik/acme/acme.json"
-    ...
-    ```
-
-    * The `--api=true` flag enables Traefik's Web UI,
-    * The `--docker.*` flags tell Traefik to use Docker and specify that it's running in a Docker Swarm cluster.
-    * The `--defaultEntryPoints` and `--entryPoints` flags define entry points and protocols to be used. In our case this includes HTTP on port 80 and HTTPS on port 443.
-    * The `--acme.*` flags configure Traefik to use the ACME protocol to generate Let's Encrypt certificates to secure your OpenFaaS cluster with SSL. Make sure to replace the `openfaas.mydomain.com` domain placeholders in the `--acme.domains` flag with your own domain. You can specify multiple domains by separating them with a comma and space.
-4. Expose the ports required for Traefik.  Traefik uses port `8080` for its operations and UI, while in the last step we configured ports `80` and `443` and entrypoints for internet traffic.  These will be used / proxied to OpenFaaS
-
-    ```yaml
-        ...
-        traefik:
-            image: traefik:v1.7.6
-            command:
-                ...
-            ports:
-                - 80:80
-                - 8080:8080
-                - 443:443
-        ...
-    ```
-5. Next you must configure the volumes needed for Traefik, in this case, the docker socket and some file storage. The Docker socket file communicates with the Docker API in order to manage your containers and will provide details about them, such as number of containers and their IP addresses, to Traefik. You will also mount the volume called acme, which we'll define later in this step.
-
-    ```yaml
-        ...
-        traefik:
-            image: traefik:v1.7.6
-            command:
-                ...
-            ports:
-                ...
-            volumes:
-                - "/var/run/docker.sock:/var/run/docker.sock"
-                - "acme:/etc/traefik/acme"
-        ...
-    ```
-6. Next you must configure the networks the `traefik` service is part of. All OpenFaaS components live on the `functions` networks, which is also defined in the compose file.
-
-    ```yaml
-        ...
-        traefik:
-            image: traefik:v1.7.6
-            command:
-                ...
-            ports:
-                ...
-            volumes:
-                ...
-            networks:
-                - functions
-        ...
-    ```
-7. Lastly, you must configure the `deploy` section so that Traefik is only deployed on the Docker Swarm manager.
-
-    ```yaml
-        ...
-        traefik:
-            image: traefik:v1.7.6
-            command:
-                ...
-            ports:
-                ...
-            volumes:
-                ...
-            networks:
-                ...
-            deploy:
-                placement:
-                    constraints: [node.role == manager]
-        ...
-    ```
-
-All together, the `traefik` service block should look like
 
 ```yaml
 version: "3.3"
@@ -159,14 +54,26 @@ services:
             - "/var/run/docker.sock:/var/run/docker.sock"
             - "acme:/etc/traefik/acme"
         networks:
-          - functions
+        - functions
         deploy:
-          placement:
+        placement:
             constraints: [node.role == manager]
 
     gateway:
         ...
 ```
+
+This configuration does a few important things:
+
+* The `--api=true` flag enables Traefik's Web UI,
+* The `--docker.*` flags tell Traefik to use Docker and specify that it's running in a Docker Swarm cluster.
+* The `--defaultEntryPoints` and `--entryPoints` flags define entry points and protocols to be used. In our case this includes HTTP on port 80 and HTTPS on port 443.
+* The `--acme.*` flags configure Traefik to use the ACME protocol to generate Let's Encrypt certificates to secure your OpenFaaS cluster with SSL. Make sure to replace the `openfaas.mydomain.com` domain placeholders in the `--acme.domains` flag with your own domain. You can specify multiple domains by separating them with a comma and space.  We also setup a volume `acme` to store the resulting certificate files.
+* Expose the ports required for Traefik.  Traefik uses port `8080` for its operations and UI, while in the last step we configured ports `80` and `443` and entrypoints for internet traffic.  These will be used / proxied to OpenFaaS
+* Binds the docker socket to the traefik container so that it can communicate with the Docker API and dertermine the number of containers and their IP addressess.
+* Adds `traefik` to the `functions   network so that it can communicate with the OpenFaaS components.
+* Ensures that Traefik is only deployed on the Docker Swarm manager.
+
 
 ### Configure OpenFaaS
 By default, the original `docker-compose.yaml` file exposes the OpenFaaS `gateway` on port `8080`.  This conflicts with the configuration of Traefik, additionally, we want all communication to safely pass through Traefik.  To do this you must make two modifications to the `gateway` service.
