@@ -313,7 +313,5 @@ $ docker service logs -f traefik
 ```
 You can see internet traffic logs as well as logs related to the Let's Encrypt certificate process.
 
-## Profit!
-
 [traefik]: https://traefik.io/
 [letsencrypt]: https://letsencrypt.org/
