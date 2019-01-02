@@ -102,50 +102,6 @@ Next, add the following `labels` directive to the `deploy` section of the gatewa
 
 These labels expose the OpenFaaS gateway `/ui`, `/system`, and `/function` endpoints on port `8080` over Traefik.
 
-All together, your `gateway` service should now look like
-
-```yaml
-...
-    gateway:
-        image: openfaas/gateway:0.9.11
-        networks:
-            - functions
-        environment:
-            functions_provider_url: "http://faas-swarm:8080/"
-            read_timeout:  "300s"        # Maximum time to read HTTP request
-            write_timeout: "300s"        # Maximum time to write HTTP response
-            upstream_timeout: "300s"     # Maximum duration of upstream function call - should be more than read_timeout and write_timeout
-            dnsrr: "true"               # Temporarily use dnsrr in place of VIP while issue persists on PWD
-            faas_nats_address: "nats"
-            faas_nats_port: 4222
-            direct_functions: "true"    # Functions are invoked directly over the overlay network
-            direct_functions_suffix: ""
-            basic_auth: "${BASIC_AUTH:-true}"
-            secret_mount_path: "/run/secrets/"
-            scale_from_zero: "true"
-        deploy:
-            labels:
-                - traefik.port=8080
-                - traefik.frontend.rule=PathPrefix:/ui,/system,/function
-            resources:
-                # limits:   # Enable if you want to limit memory usage
-                #     memory: 200M
-                reservations:
-                    memory: 100M
-            restart_policy:
-                condition: on-failure
-                delay: 5s
-                max_attempts: 20
-                window: 380s
-            placement:
-                constraints:
-                    - 'node.platform.os == linux'
-        secrets:
-            - basic-auth-user
-            - basic-auth-password
-...
-```
-
 ### Configure data volumes
 
 Finally, while configuring Traefik, you mounted a volume called `acme`.  You must now define the `acme` volume used for storing Let's Encrypt certificates. We can define an empty volume, meaning data will not persist if you destroy the container. If you destroy the container, the certificates will be regenerated the next time you start Traefik.
