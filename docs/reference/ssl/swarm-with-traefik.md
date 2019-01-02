@@ -207,7 +207,7 @@ faas-cli deploy --gateway https://openfaas.mydomain.com
 ```
 Replace `openfaas.mydomain.com` with your domain as well as adding the username `admin` and secure random password that the deploy script created for you when you deployed OpenFaaS.
 
-### Using the web UI
+### Use the web UI
 You can use the web UI to see the functions deployed to your cluster or to deploy functions from the Store.  In your web browser, go to https://openfaas.mydomain.com/ui/. Note that the trailing slash is required.
 
 On your first visit, the HTTP authentication dialogue box will open, you can login with the username `admin` and secure random password that the deploy script created for you when you deployed OpenFaaS.
