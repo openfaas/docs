@@ -89,6 +89,8 @@ Default timeouts are configured at the HTTP level and must be set both on the ga
 
 ### Timeouts - Your function
 
+Default `read_timeout` and `write_timeout` value for functions are 5 seconds (subject to change) and can be overridden using `read_timeout` and `write_timeout` environment variable for each function.
+
 You can also enforce a hard-timeout for your function with the `hard_timeout` environmental variable.
 
 For watchdog configuration see the [README](https://github.com/openfaas/faas/tree/master/watchdog).
