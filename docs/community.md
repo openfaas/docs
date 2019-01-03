@@ -8,7 +8,7 @@ For blog posts, awards and upcoming events 2017-2018 check out the community fil
 
 ## Slack Workspace
 
-To join our Slack workspace email alex@openfaas.com with a brief introduction (one-two sentences max.)
+To join our Slack workspace fill out the [Google Forms page](https://goo.gl/forms/SqpLSdyzVoOboRqs1) or email alex@openfaas.com with a brief introduction (one-two sentences max.)
 
 ## Contribute
 
