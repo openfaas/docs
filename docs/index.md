@@ -35,6 +35,7 @@ Some of our users include:
 <a href="https://iconscout.com/" target="_blank"><img src="images/logos/iconscout.svg" alt="Iconscout" title="Iconscout"></a>
 <a href="https://www.infotechpartners.be" target="_blank"><img src="images/logos/infotechpartners.png" alt="InfoTech Partners" title="InfoTech Partners" ></a>
 <a href="https://www.intraffic.nl" target="_blank"><img src="images/logos/intraffic.svg" alt="InTraffic" title="InTraffic"></a>
+<a href="https://www.liveperson.com/" target="_blank"><img src="images/logos/liveperson.png" alt="LivePerson" title="LivePerson"></a>
 <a href="https://www.moneylion.com/" target="_blank"><img src="images/logos/moneylion.svg" alt="MoneyLion" title="MoneyLion"></a>
 <a href="https://naamio.cloud" target="_blank"><img src="images/logos/naamio.svg" alt="Naamio" title="Naamio"></a>
 <a href="https://www.packet.net/" target="_blank"><img src="images/logos/packet.png" alt="Packet Host" title="Packet Host"></a>

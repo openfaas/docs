@@ -138,5 +138,6 @@ nav:
       - Watchdog: ./architecture/watchdog.md
       - Autoscaling: ./architecture/autoscaling.md
       - Performance: ./architecture/performance.md
+      - Metrics: ./architecture/metrics.md
   - Contributing:
       - Get Started: ./contributing/get-started.md
