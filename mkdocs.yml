@@ -115,6 +115,7 @@ nav:
       - Installation: ./cli/install.md
       - Create functions: ./cli/templates.md
       - Build functions: ./cli/build.md
+      - Manage secrets: ./cli/secrets.md
       - Working with tags: ./cli/tags.md
   - Tutorials:
       - Workshop: ./tutorials/workshop.md
