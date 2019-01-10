@@ -25,6 +25,8 @@ A guide is available for configuring minikube here:
       --user="$(gcloud config get-value core/account)"
     ```
 
+    Also, ensure any [default load-balancer timeouts within GKE](https://cloud.google.com/load-balancing/docs/https/#timeouts_and_retries) are understood and configured appropriately.
+
 ### Install the `faas-cli`
 
 You can install the OpenFaaS CLI using `brew` or a `curl` script.
