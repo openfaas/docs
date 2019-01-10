@@ -154,6 +154,10 @@ For asynchronous invocations of functions a separate timeout can be configured a
 
 If the `ack_wait` is exceeded the task will not be acknowledge and the queue system will retry the invocation.
 
+### Timeouts - Cloud Service Providers
+
+There are situations where timeout values external to OpenFaaS may impact successful function execution.  A typical scenario is where a cloud platform's load balancer product is fronting the cluster in which OpenFaaS is running.  A common example is when using the [GCP Kubernetes product, GKE](https://cloud.google.com/load-balancing/docs/https/#timeouts_and_retries). 
+
 ## Function execution logs
 
 By default the functions will not log out the result, but just show how long the process took to run and the length of the result in bytes.
