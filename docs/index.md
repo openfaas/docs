@@ -102,7 +102,7 @@ Have you written a blog about OpenFaaS? Send a Pull Request to the community pag
 
 * [Read blogs/articles and find events about OpenFaaS](https://github.com/openfaas/faas/blob/master/community.md)
 
-If you'd like to join OpenFaaS community Slack channel to chat with contributors or get some help - then send a Tweet to [@alexellisuk](https://twitter.com/alexellisuk/) or email alex@openfaas.com.
+If you'd like to join OpenFaaS community Slack channel to chat with contributors or get some help - then fill out the [Google Forms page](https://goo.gl/forms/SqpLSdyzVoOboRqs1)
 
 ### Contributing
 
