@@ -251,7 +251,9 @@ $ docker service ls --filter="label=function" -q | xargs docker service rm
 Remove the whole stack
 
 ```
-$ docker stack rm func
+$ docker stack rm func && \
+   docker secret rm basic-auth-user && \
+   docker secret rm basic-auth-password
 ```
 
 ### Kubernetes
