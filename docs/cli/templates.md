@@ -1,5 +1,15 @@
 # Create new functions
 
+## Get started
+
+Once you've installed the `faas-cli` you can start creating and deploying functions via the `faas-cli up` command or using the individual commands:
+
+* `faas-cli build` - build an image into the local Docker library
+* `faas-cli push` - push that image to a remote container registry
+* `faas-cli deploy` - deploy your function into a cluster
+
+The `faas-cli up` command automates all of the above in a single command.
+
 ## Templates
 
 The OpenFaaS CLI has a template engine built-in which can create new functions in a given programming language. The way this works is by reading a list of templates from the `./template` location in your current working folder.

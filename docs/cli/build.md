@@ -8,6 +8,18 @@ For details and examples run
 faas-cli build --help
 ```
 
+* Build images with Docker
+
+The `faas-cli build` command builds a Docker image into your local Docker library, which can then be used locally or pushed into a remote Docker registry. Each change of your function requires a new `faas-cli build` command to be issued.
+
+* How to do CI/CD
+
+When it comes to continuous integration and delivery you can use the `faas-cli` tool on your build server to build and deploy your code using the built-in commands. 
+
+* Generate a Dockerfile with `--shrinkwrap`
+
+If you are using an alternative container image builder or are automating the `faas-cli` then you can use the `--shrinkwrap` flag which will produce a folder named `./build/function-name` with a Dockerfile. This bundle can be used with any container builder.
+
 ## 1.0 Apply build options
 
 The OpenFaaS CLI enables functions to be built with different options, e.g. `dev`, `debug`, etc.
