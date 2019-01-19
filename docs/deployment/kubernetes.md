@@ -202,20 +202,22 @@ $ echo -n "verbose" | faas-cli invoke --gateway http://kubernetes-ip:31112 nodei
 Learn how to build Serverless functions with OpenFaaS and Python in our half-day workshop. You can follow along online at your own pace.
 
 * [OpenFaaS workshop](/tutorials/workshop/)
+
 ### Troubleshooting
 
 If you are running into any issues please check out the troubleshooting guide and search the documentation / past issues before raising an issue.
 
-* [Troubleshooting guide](https://github.com/openfaas/faas/blob/master/guide/troubleshooting.md)
+* [Troubleshooting guide](/deployment/troubleshooting/)
 
 ### Advanced
 
 This section covers additional advanced topics beyond the initial deployment.
 
 #### Deploy with SSL
+
 To enable SSL while using Helm, try one of the following references:
 
-- [Using nginx-ingress and cert-manager](/reference/ssl/kubernetes-with-cert-manager.md)
+* [Using nginx-ingress and cert-manager](/reference/ssl/kubernetes-with-cert-manager/)
 
 #### Use a private registry with Kubernetes
 
