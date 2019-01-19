@@ -137,7 +137,7 @@ spec:
           - openfaas.mydomain.com
   issuerRef:
     name: letsencrypt-staging
-    kind: ClusterIssuer
+    kind: Issuer
 ```
 
 ```sh
