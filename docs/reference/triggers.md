@@ -101,5 +101,3 @@ View the [sidekiq-connector](https://github.com/affix/sidekiq-connector)
 Invoke functions from RabbitMQ topics
 
 More information in the repository: [Templum/rabbitmq-connector](https://github.com/Templum/rabbitmq-connector)
-
-> Note: the RabbitMQ connector currently has no support for gateways using Basic Authentication, but [this is being worked on](https://github.com/Templum/rabbitmq-connector/issues/2) by the author.
