@@ -59,7 +59,7 @@ spec:
     privateKeySecretRef:
       key: ""
       name: letsencrypt-prod
-    server: https://acme-v01.api.letsencrypt.org/directory
+    server: https://acme-v02.api.letsencrypt.org/directory
 ---
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: Issuer
