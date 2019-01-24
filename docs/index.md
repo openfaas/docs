@@ -32,6 +32,7 @@ Some of our users include:
     <a href="https://dimsolution.com/" target="_blank"><img src="images/logos/dim-solution.png" alt="Dim Solution" title="Dim Solution"></a>
     <a href="https://form3.tech/" target="_blank"><img src="images/logos/form3.svg" alt="Form3" title="Form3" ></a>
     <a href="https://www.galaxycard.in/" target="_blank"><img src="images/logos/galaxycard.png" alt="GalaxyCard" title="GalaxyCard" ></a>
+    <a href="https://www.gmo.jp/en/" target="_blank"><img src="images/logos/gmo.svg" alt="GMO Internet Group" title="GMO Internet Group"></a>
     <a href="https://iconscout.com/" target="_blank"><img src="images/logos/iconscout.svg" alt="Iconscout" title="Iconscout"></a>
     <a href="https://www.infotechpartners.be" target="_blank"><img src="images/logos/infotechpartners.png" alt="InfoTech Partners" title="InfoTech Partners" ></a>
     <a href="https://www.intraffic.nl" target="_blank"><img src="images/logos/intraffic.svg" alt="InTraffic" title="InTraffic"></a>
