@@ -8,8 +8,8 @@ Using secrets is a two step process. First you need to define a new secret in yo
 
 * Secrets can be specified via API, CLI or YAML file
 * You can use one to many secrets in a function
-* Secrets must exist in the cluster at deployment time
-* Secrets need to be created with `kubectl` or `docker secret create`, but [in the near future](https://github.com/openfaas/faas/issues/807) an API will exist to create, list, delete and update secrets.
+* Specified secrets must exist in the cluster at function deploy. A function may consume zero to many secrets
+* Secrets can be created with `faas-cli secret create`
 
 ### A note on environmental variables
 
@@ -31,44 +31,9 @@ R^YqzKzSJw51K9zPpQ3R3N
 
 Now we can import the secret into the cluster.
 
-#### Define a secret in Kubernetes
+### Define a secret
 
-In Kubernetes we can leverage the [built-in secret store](https://kubernetes.io/docs/concepts/configuration/secret/) to securely store secrets for functions.
-
-Type in:
-
-```sh
-kubectl create secret generic secret-api-key \
-  --from-file=secret-api-key=secret-api-key.txt \
-  --namespace openfaas-fn
-```
-
-Here we have explicitly named the key of the secret value so that when it is mounted into the function container, it will be named exactly `secret-api-key` instead of `secret_api_key.txt`.
-
-You can skip creating a file and use input directly from the command-line like this:
-
-```sh
-kubectl create secret generic secret-api-key \
-  --from-literal secret-api-key="R^YqzKzSJw51K9zPpQ3R3N" \
-  --namespace openfaas-fn
-```
-
-#### Define a secret in Docker Swarm
-
-Docker has a built-in [secrets store](https://docs.docker.com/engine/swarm/secrets/) just like Kubernetes which can be used to securely store secrets for our functions.
-
-Type in:
-
-```sh
-docker secret create secret-api-key \
- ~/secrets/secret_api_key.txt
-```
-
-or:
-
-```sh
-echo "R^YqzKzSJw51K9zPpQ3R3N" | docker secret create secret-api-key -
-```
+For more details on how to define a secret, please see the [Manage secrets](https://docs.openfaas.com/cli/secrets/) section of the CLI
 
 ### Use the secret in your function
 
