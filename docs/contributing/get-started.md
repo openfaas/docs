@@ -76,6 +76,7 @@ The incubator organisation is for experiments, research and for getting quick fe
 | [ruby-http](https://github.com/openfaas-incubator/ruby-http) | A Ruby HTTP template for OpenFaaS |
 | [python-flask-template](https://github.com/openfaas-incubator/python-flask-template) | OpenFaaS templates for Python 2.7/3.6 with Flask |
 | [node8-express-template](https://github.com/openfaas-incubator/node8-express-template) | Node.js 8 template for OpenFaaS with HTTP via Express.js |
+| [vcenter-connector](https://github.com/openfaas-incubator/vcenter-connector) | Trigger OpenFaaS Functions from events in VMware vCenter |
 
 
 https://github.com/openfaas-incubator/
