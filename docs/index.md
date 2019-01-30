@@ -48,6 +48,7 @@ Some of our users include:
     <a href="https://www.virality.de" target="_blank"><img src="images/logos/virality.png" alt="Virality" title="Virality"></a>
     <a href="https://www.visionbanco.com" target="_blank"><img src="images/logos/vision.png" alt="Vision Banco SAECA" title="Vision Banco SAECA"></a>
     <a href="https://www.wireline.io/" target="_blank"><img src="images/logos/wirelineio.svg" alt="Wireline.io" title="Wireline.io"></a>
+    <a href="https://ytel.com/" target="_blank"><img src="images/logos/ytel-blue.svg" alt="Ytel" title="Ytel"></a>
 </div>
 
 
