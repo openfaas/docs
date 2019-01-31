@@ -51,7 +51,6 @@ Some of our users include:
     <a href="https://ytel.com/" target="_blank"><img src="images/logos/ytel-blue.svg" alt="Ytel" title="Ytel"></a>
 </div>
 
-
 * [VMware](https://www.vmware.com)
 
 To have your company listed as a user [comment here](https://github.com/openfaas/faas/issues/776)

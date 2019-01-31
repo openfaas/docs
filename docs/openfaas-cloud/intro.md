@@ -38,11 +38,16 @@ OpenFaaS Cloud is for anyone who wants to focus on shipping functions without wo
 
 The community-run cluster is a free cluster which you can use to publish functions on the internet with TLS and a personal sub-domain. You don't need to think about servers or Kubernetes any more. We host, scale and manage your functions giving you a secure personalised dashboard so that you can focus on writing code.
 
+You can request access in `#openfaas-cloud` on OpenFaaS Slack.
+
 #### Self-hosted
 
 OpenFaaS Cloud is open source software which you can use to host your OpenFaaS Cloud cluster. OpenFaaS Cloud brings a managed, multi-user experience with built-in dashboard and CI/CD. This lowers the barrier to entry for teams meaning that developers only need to know how to use git and require no pre-assumed knowledge of Docker or Kubernetes.
 
-### Resources:
+* For an automated quick-start use [ofc-bootstrap](https://github.com/openfaas-incubator/ofc-bootstrap) to provision OpenFaaS Cloud in 100 seconds on Kubernetes [Video demo](https://www.youtube.com/watch?v=Sa1VBSfVpK0)
+* Or start the [Developer guide](https://github.com/openfaas/openfaas-cloud/tree/master/docs) for a manual installation or to use Docker Swarm
+
+### Star and fork the code
 
 Read the code on GitHub:
 
