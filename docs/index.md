@@ -20,6 +20,10 @@ OpenFaaS (Functions as a Service) is a framework for building serverless functio
 
 OpenFaaS is an independent project created by [Alex Ellis](https://www.alexellis.io) which is now being built and shaped by a growing community of contributors. Project website and blog: [openfaas.com](https://www.openfaas.com).
 
+## Support for OpenFaaS
+
+OpenFaaS is free to use and completely open source under the MIT license. You can donate to the project to fund its ongoing development or become a sponsor. [Support OpenFaaS](https://www.openfaas/com/donate/)
+
 ## Users of OpenFaaS
 
 Some of our users include:
