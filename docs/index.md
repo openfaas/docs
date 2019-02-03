@@ -22,7 +22,7 @@ OpenFaaS is an independent project created by [Alex Ellis](https://www.alexellis
 
 ## Support for OpenFaaS
 
-OpenFaaS is free to use and completely open source under the MIT license. You can donate to the project to fund its ongoing development or become a sponsor. [Support OpenFaaS](https://www.openfaas/com/donate/)
+OpenFaaS is free to use and completely open source under the MIT license. You can donate to the project to fund its ongoing development or become a sponsor. [Support OpenFaaS](https://www.openfaas.com/donate/)
 
 ## Users of OpenFaaS
 
