@@ -123,7 +123,10 @@ nav:
       - First Python Function: ./tutorials/first-python-function.md
       - Test Drive: ./tutorials/test-drive.md
       - Featured: ./tutorials/featured.md
-  - OpenFaaS Cloud: openfaas-cloud/intro.md
+  - OpenFaaS Cloud:
+      - Intro: ./openfaas-cloud/intro.md
+      - Self-hosted:
+        - Configure GitHub: ./openfaas-cloud/self-hosted/github.md
   - Reference:
     - SSL:
       - Kubernetes: ./reference/ssl/kubernetes-with-cert-manager.md
