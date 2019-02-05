@@ -1,21 +1,18 @@
 # Deployment
 
 !!! warning "A foreword on security"
-    These instructions are for a development environment. If you plan to expose OpenFaaS on the public Internet you need to enable basic authentication with a proxy such as Kong or Traefik at a minimum. TLS is also highly recomended and freely available with LetsEncrypt.org.
+    Make sure that you enable basic authentication if you are deploying OpenFaaS to the public Internet, this will prevent unauthorized access to the OpenFaaS API. It is also highly recommended that you set up TLS with certficates available for free from LetsEncrypt.org.
 
-    [Kong guide](https://github.com/openfaas/faas/blob/master/guide/kong_integration.md) 
+OpenFaaS can be deployed to Kubernetes and Docker Swarm. We recommend Kubernetes for moving to production, but Docker Swarm can provide a simpler alternative, especially for local development. Functions and microservices built or adapted for OpenFaaS can work with either orchestration platform without changes.
 
-    [Traefik guide](https://github.com/openfaas/faas/blob/master/guide/traefik_integration.md)
+## Kubernetes (recommended for production)
 
+Get started with OpenFaaS on Kubernetes with helm or plain YAML files. [Deploy to Kubernetes](/deployment/kubernetes/) now.
 
-## Kubernetes
+## Docker Swarm (recommended for beginners)
 
-OpenFaaS is Kubernetes native and you can follow the [deployment guide here](/deployment/kubernetes/).
-
-## Docker Swarm
-
-You can follow the [deployment guide for Docker Swarm](/deployment/docker-swarm/) or use the Docker Playground below if you don't have direct access to Docker.
+If you prefer to use Docker Swarm, then follow the [deployment guide Docker Swarm](/deployment/docker-swarm/).
 
 ### Docker Playground
 
-You can quickly start OpenFaaS on Docker Swarm online using the community-run Docker playground: play-with-docker.com (PWD) by following the [Play with Docker guide](/deployment/play-with-docker/)
+If you cannot run Docker on your local machine, or can't install anything locally, then you can try OpenFaaS on play-with-docker.com (PWD). Follow the [Play-with-Docker guide](/deployment/play-with-docker/) here.
