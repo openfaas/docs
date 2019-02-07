@@ -46,6 +46,7 @@ Some of our users include:
     <a href="https://www.packet.net/" target="_blank"><img src="images/logos/packet.png" alt="Packet Host" title="Packet Host"></a>
     <a href="https://www.pentium.network/" target="_blank"><img src="images/logos/pentiumlogo.svg" alt="Pentium Network" title="Pentium Network"></a>
     <a href="https://scaleway.com/" target="_blank"><img src="images/logos/scaleway.svg" alt="Scaleway" title="Scaleway"></a>
+    <a href="https://www.transmute.industries" target="_blank"><img src="images/logos/transmute.png" alt="Transmute Industries" title="Transmute Industries"></a>
     <a href="https://github.com/ucalgary" target="_blank"><img src="images/logos/ucalgary.png" alt="University of Calgary" title="University of Calgary"></a>
     <a href="https://www.washington.edu" target="_blank"><img src="images/logos/universityofwashington.png" alt="University of Washington" title="University of Washington"></a>
     <a href="http://ustore.com.br/" target="_blank"><img src="images/logos/ustore.png" alt="Ustore" title="Ustore"></a>
