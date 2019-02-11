@@ -70,13 +70,15 @@ spec:
         spec:
           containers:
           - name: faas-cli
-            image: openfaas/faas-cli:0.7.1
+            image: openfaas/faas-cli:0.8.3
             args:
             - /bin/sh
             - -c
-            - echo "verbose" | ./faas-cli invoke nodeinfo -g http://gateway.openfaas:8080
+            - echo "verbose" | faas-cli invoke nodeinfo -g http://gateway.openfaas:8080
           restartPolicy: OnFailure
 ```
+
+You should also update the `image` to the latest version of the `faas-cli` available found via the [Docker Hub](https://hub.docker.com/r/openfaas/faas-cli/tags/) or [faas-cli releases](https://github.com/openfaas/faas-cli/releases) page.
 
 The important thing to notice is that we are using a Docker container with the `faas-cli` to invoke the function. This keeps the job very generic and easy to generize to other functions.
 
@@ -157,7 +159,7 @@ In this example, I created the CronJob in the same namespace as the `gateway`. I
 
 If you have enabled basic auth on the gateway, then the invoke command will also need to be updated to first login the cli client. Assuming that you have created the basic auth secret as in the [Helm install guide](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#secure-the-gateway-administrative-api-and-ui-with-basic-auth)
 
-You could then update the CronJob to login, like this
+You could then update the CronJob to login, like this:
 
 ```yaml
 # nodeauth-cron.yaml
@@ -177,7 +179,7 @@ spec:
         spec:
           containers:
           - name: faas-cli
-            image: openfaas/faas-cli:0.7.1
+            image: openfaas/faas-cli:0.8.3
             env:
               - name: USERNAME
                 valueFrom:
@@ -192,8 +194,8 @@ spec:
             args:
             - /bin/sh
             - -c
-            - echo -n $PASSWORD | ./faas-cli login -g http://gateway.openfaas:8080 -u $USERNAME --password-stdin
-            - echo "verbose" | ./faas-cli invoke nodeinfo -g http://gateway.openfaas:8080
+            - echo -n $PASSWORD | faas-cli login -g http://gateway.openfaas:8080 -u $USERNAME --password-stdin
+            - echo "verbose" | faas-cli invoke nodeinfo -g http://gateway.openfaas:8080
           restartPolicy: OnFailure
 ```
 

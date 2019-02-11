@@ -402,7 +402,7 @@ You can browse templates from our official store or create your own store and ad
 
 To see what templates are available type `faas-cli template store list` and you should see the following in the terminal:
 ```
-$ ./faas-cli template store list
+$ faas-cli template store list
 
 NAME                    SOURCE             DESCRIPTION
 csharp                  openfaas           Official C# template
