@@ -244,13 +244,13 @@ If you installed via the `curl/sh` utility script:
 
 Remove any functions you deployed:
 
-```
+```sh
 $ docker service ls --filter="label=function" -q | xargs docker service rm
 ```
 
 Remove the whole stack
 
-```
+```sh
 $ docker stack rm func && \
    docker secret rm basic-auth-user && \
    docker secret rm basic-auth-password
@@ -260,13 +260,13 @@ $ docker stack rm func && \
 
 If deployed via Helm:
 
-```
+```sh
 helm delete --purge openfaas
 ```
 
 If installed via YAML files:
 
-```
+```sh
 kubectl delete namespace openfaas openfaas-fn
 ```
 
@@ -276,7 +276,7 @@ kubectl delete namespace openfaas openfaas-fn
 
 #### List all functions
 
-```
+```sh
 $ docker service ls
 ```
 
@@ -284,13 +284,13 @@ You are looking for 1/1 for the replica count of each service listed.
 
 #### Find a function's logs
 
-```
+```sh
 $ docker service logs --tail 100 FUNCTION
 ```
 
 #### Find out if a function failed to start
 
-```
+```sh
 $ docker service ps --no-trunc=true FUNCTION
 ```
 
@@ -304,7 +304,7 @@ If you never logged in via the CLI then you can retrieve the contents from the c
 
 Use the [jaas](https://github.com/alexellis/jaas) task-runner for Swarm (easiest option):
 
-```
+```sh
 $ docker run -ti -v /var/run/docker.sock:/var/run/docker.sock \
   alexellis2/jaas:1.0.0 \
   run --secret basic-auth-password \
@@ -317,7 +317,7 @@ Printing service logs
 
 * Or use a one-shot Docker Service:
 
-```
+```sh
 $ docker service rm print-password \
  ; docker service create --detach --secret basic-auth-password \
    --restart-condition=none --name=print-password \
@@ -333,20 +333,33 @@ If you have deployed OpenFaaS to the recommended namespaces then functions are i
 
 #### List OpenFaaS services
 
-```
+```sh
 $ kubectl get deploy -n openfaas
 ```
 
 #### List all functions
 
-```
+```sh
 $ kubectl get deploy -n openfaas-fn
 ```
 
 #### Find a function's logs
 
-```
+```sh
 $ kubectl logs -n openfaas-fn deploy/FUNCTION_NAME
+```
+
+If you have more than one replica of a function, you may want to use a log-tailing tool like [`kail`](https://github.com/boz/kail).
+
+View logs of all functions:
+
+```sh
+kail -n openfaas-fn
+```
+View logs of all replicas of a single function:
+
+```sh
+kail -n openfaas-fn --deploy=FUNCTION_NAME
 ```
 
 #### Find out if a function failed to start
