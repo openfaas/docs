@@ -110,6 +110,12 @@ $ cd faas-netes && \
 kubectl apply -f ./yaml_armhf
 ```
 
+In order to deploy functions from the store when running on ARM, you will need to pass in the armhf store listing file as part of the `faas-cli` command:
+
+```bash
+faas-cli store deploy --yaml https://raw.githubusercontent.com/openfaas/store/master/store-armhf.json nodeinfo
+```
+
 When creating new functions please use the templates with a suffix of `-armhf` such as `go-armhf` and `python-armhf` to ensure you get the correct versions for your devices.
 
 > Note: you cannot deploy the sample functions to ARM devices, but you can use the function store in the gateway UI or via `faas-cli store list --yaml https://raw.githubusercontent.com/openfaas/store/master/store-armhf.json`
