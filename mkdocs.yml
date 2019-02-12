@@ -127,6 +127,7 @@ nav:
       - Intro: ./openfaas-cloud/intro.md
       - Self-hosted:
         - Configure GitHub: ./openfaas-cloud/self-hosted/github.md
+        - Secrets: ./openfaas-cloud/self-hosted/secrets.md
   - Reference:
     - SSL:
       - Kubernetes: ./reference/ssl/kubernetes-with-cert-manager.md
