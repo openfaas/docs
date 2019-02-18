@@ -41,7 +41,7 @@ Git is used for version control and all repositories are public available under 
 
 #### OpenFaaS
 
-OpenFaaS started as a single mono-repo called `faas` and has been broken out into separate repositories. For this reason you should always collate Issues, PRs, contributor counts, stars and similar statistics from the organisation as a whole. The data in the `faas` repo is not representive of the whole project.
+OpenFaaS started as a single mono-repo called `faas` and has been broken out into separate repositories. For this reason you should always collate Issues, PRs, contributor counts, stars and similar statistics from the organisation as a whole. The metrics within the `faas` repository alone are not representative of the whole project.
 
 | Repository        | Headline                         |
 |:------------------|:---------------------------------|
