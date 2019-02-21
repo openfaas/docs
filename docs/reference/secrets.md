@@ -31,7 +31,15 @@ R^YqzKzSJw51K9zPpQ3R3N
 
 Now we can import the secret into the cluster.
 
-#### Define a secret in Kubernetes
+#### Define the secret with `faas-cli`
+
+```sh
+faas-cli create secret secret-api-key \
+  --from-file=secret-api-key.txt
+```
+You can create the secret with `faas-cli secret create`, or by using the Docker / Kubernetes CLI.
+
+#### Define a secret in Kubernetes (advanced)
 
 In Kubernetes we can leverage the [built-in secret store](https://kubernetes.io/docs/concepts/configuration/secret/) to securely store secrets for functions.
 
@@ -53,7 +61,7 @@ kubectl create secret generic secret-api-key \
   --namespace openfaas-fn
 ```
 
-#### Define a secret in Docker Swarm
+#### Define a secret in Docker Swarm (advanced)
 
 Docker has a built-in [secrets store](https://docs.docker.com/engine/swarm/secrets/) just like Kubernetes which can be used to securely store secrets for our functions.
 
