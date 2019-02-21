@@ -12,7 +12,7 @@ The classic watchdog is currently used in all the official OpenFaaS templates. Y
 
 *Pictured: technical conceptual diagram of the OpenFaaS watchdog during an invocation*
 
-Technical documentation on the classic watchdog is available belong along with a table with all configuration options.
+Technical documentation on the classic watchdog is available along with a table with all configuration options.
 
 * [Watchdog README](https://github.com/openfaas/faas/tree/master/watchdog)
 
