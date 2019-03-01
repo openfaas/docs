@@ -132,11 +132,12 @@ nav:
     - SSL:
       - Kubernetes: ./reference/ssl/kubernetes-with-cert-manager.md
     - Secrets: ./reference/secrets.md
+    - Async: ./reference/async.md
+    - Triggers: ./reference/triggers.md
+    - Workloads: ./reference/workloads.md
     - Auth: ./reference/authentication.md
     - CORS: ./reference/cors.md
     - Cron: ./reference/cron.md
-    - Triggers: ./reference/triggers.md
-    - Workloads: ./reference/workloads.md
     - YAML: ./reference/yaml.md
   - Design & Architecture:
       - Gateway: ./architecture/gateway.md
