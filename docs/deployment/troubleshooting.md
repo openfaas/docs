@@ -4,7 +4,7 @@ The most common questions and user-issues can be resolved by reading the documen
 
 ## Asynchronous functions
 
-See also: [Reference: Asynchronous Functions](./reference/async.md)
+See also: [Reference: Asynchronous Functions](/reference/async)
 
 ## Chaining / workflows
 
