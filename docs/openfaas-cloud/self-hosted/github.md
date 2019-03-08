@@ -34,7 +34,7 @@ We will cover creating and configuring a GitHub App for webhooks and events and 
 
     ![](/images/openfaas-cloud/github-app-03.png)
 
-* Set the app to be installed on your account
+* Set the app to be installed on *Any account*
 
     ![](/images/openfaas-cloud/github-app-04.png)
 
