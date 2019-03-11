@@ -68,6 +68,23 @@ $ dep ensure -add github.com/cnf/structhash
 
 You can now edit your function and add an import statement in `handler.go` to `github.com/cnf/structhash`.
 
+#### 1.2: Go with CGO
+
+First you will need to add the `dev` build option:
+
+```yaml
+    build_options:
+    - dev
+```
+
+This installs `gcc`, `make`, `git` and some other related packages for the build portion of the function's Dockerfile.
+
+You can then enable CGO with a build-arg:
+
+```
+faas-cli build --build-arg CGO_ENABLED=1
+```
+
 ### 2.0 Python 3
 
 To create a Python function named `pycon` type in:
