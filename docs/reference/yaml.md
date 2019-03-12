@@ -13,21 +13,22 @@ $ faas-cli new --lang go fn2 --append=fn1.yml
 
 Produces:
 
-```YAML
-provider:
-  name: faas
-  gateway: http://127.0.0.1:8080
+!!! example "fn1.yml"
+    ```yaml
+    provider:
+      name: faas
+      gateway: http://127.0.0.1:8080
 
-functions:
-  fn1:
-    lang: go
-    handler: ./fn1
-    image: fn1:latest
-  fn2:
-    lang: go
-    handler: ./fn2
-    image: fn2:latest
-```
+    functions:
+      fn1:
+        lang: go
+        handler: ./fn1
+        image: fn1:latest
+      fn2:
+        lang: go
+        handler: ./fn2
+        image: fn2:latest
+    ```
 
 ### Provider
 
@@ -196,7 +197,7 @@ Applying memory and CPU limits can be done through the `limits` and `requests` [
 
 Here we constrain the url-ping function to only use 40Mb of RAM at a maximum.
 
-```YAML
+```yaml
   url-ping:
     lang: python
     handler: ./sample/url-ping
@@ -209,7 +210,7 @@ Here we constrain the url-ping function to only use 40Mb of RAM at a maximum.
 
 Here we constrain a function to use only `100m` which is equivalent to 1/10 of [an Intel Hyperthread core](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/).
 
-```YAML
+```yaml
   url-ping:
     lang: python
     handler: ./sample/url-ping

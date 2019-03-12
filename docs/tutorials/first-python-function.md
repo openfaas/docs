@@ -63,30 +63,28 @@ hello-python.yml
 
 Let's edit the handler.py file:
 
-```
-def handle(req):
-    print("Hello! You said: " + req)
-```
-
-*handler.py*
+!!! example "handler.py"
+    ```python
+    def handle(req):
+        print("Hello! You said: " + req)
+    ```
 
 All your functions should be specified in a YAML file like this - it tells the CLI what to build and deploy onto your OpenFaaS cluster.
 
 Checkout the YAML file `hello-python.yml`:
 
-```
-provider:
-  name: faas
-  gateway: http://127.0.0.1:8080
+!!! example "hello-python.yml"
+    ```yaml
+    provider:
+      name: faas
+      gateway: http://127.0.0.1:8080
 
-functions:
-  hello-python:
-    lang: python
-    handler: ./hello-python
-    image: hello-python
-```
-
-*hello-python.yml*
+    functions:
+      hello-python:
+        lang: python
+        handler: ./hello-python
+        image: hello-python
+    ```
 
 * `gateway`- here we can specify a remote gateway if we need to, what the programming language is and where our handler is located within the filesystem.
 
@@ -170,10 +168,10 @@ Let's include the popular `requests` module which we can use to interact with we
 
 You will see a file called hello-python/requirements.txt. Add the following line:
 
-```
-requests
-```
-*requirements.txt*
+!!! example "hello-python/requirements.txt"
+    ```
+    requests
+    ```
 
 Now we can update our Python code. Let's make it so it can accept JSON request of a URL and a string we want to test for:
 
@@ -188,20 +186,20 @@ We'll trigger it using a JSON request, which will take this format:
 
 Now update the `hello-python/handler.py` file:
 
-```
-import requests
-import json
+!!! example "hello-python/handler.py"
+    ```python
+    import requests
+    import json
 
-def handle(req):
-    result = {"found": False}
-    json_req = json.loads(req)
-    r = requests.get(json_req["url"])
-    if json_req["term"] in r.text:
-        result = {"found": True}
+    def handle(req):
+        result = {"found": False}
+        json_req = json.loads(req)
+        r = requests.get(json_req["url"])
+        if json_req["term"] in r.text:
+            result = {"found": True}
 
-    print json.dumps(result)
-```
-*handler.py*
+        print json.dumps(result)
+    ```
 
 Then just rebuild, (re-push if needed) and re-deploy.
 

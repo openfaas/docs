@@ -105,18 +105,19 @@ This example comes from the [`ApiKeyProtected`](https://github.com/openfaas/faas
 
 Create a `stack.yaml` file in the current directory:
 
-```yaml
-  provider:
-    name: faas
+!!! example "stack.yml"
+    ```yaml
+      provider:
+        name: faas
 
-  functions:
-    protectedapi:
-      lang: dockerfile
-      skip_build: true
-      image: functions/api-key-protected:latest
-      secrets:
-      - secret-api-key
-```
+      functions:
+        protectedapi:
+          lang: dockerfile
+          skip_build: true
+          image: functions/api-key-protected:latest
+          secrets:
+          - secret-api-key
+    ```
 
 Now deploy the function with: `faas-cli deploy`
 

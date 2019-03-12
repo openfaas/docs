@@ -33,25 +33,25 @@ You can generate new functions using the FaaS-CLI and built-in templates or use 
 
 * Python example:
 
-```python
-import requests
+!!! example "handler.py"
+    ```python
+    import requests
 
-def handle(req):
-    r =  requests.get(req, timeout = 1)
-    print(req +" => " + str(r.status_code))
-```
-*handler.py*
+    def handle(req):
+        r =  requests.get(req, timeout = 1)
+        print(req +" => " + str(r.status_code))
+    ```
 
 * Node.js example:
 
-```js
-"use strict"
+!!! example "handler.js"
+    ```js
+    "use strict"
 
-module.exports = (callback, context) => {
-    callback(null, {"message": "You said: " + context})
-}
-```
-*handler.js*
+    module.exports = (callback, context) => {
+        callback(null, {"message": "You said: " + context})
+    }
+    ```
 
 Other [Sample functions](https://github.com/openfaas/faas/tree/master/sample-functions) are available in the Github repository in a range of programming languages.
 

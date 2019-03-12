@@ -39,11 +39,12 @@ faas-cli build --lang python3 --build-option dev [--build-option debug]
 
 or in YAML:
 
-```yaml
-    build_options:
-    - debug
-    - dev
-```
+!!! example "stack.yml"
+    ```yaml
+        build_options:
+        - debug
+        - dev
+    ```
 
 Where multiple functions are being built, the YAML configuration is recommended over use of the CLI flag, as the CLI flag applies the `--build-option` to all functions involved in the build activity.
 
@@ -57,20 +58,21 @@ It is possible to amend build options in both official and custom templates.
 
 In order to modify a template to support further build options, edit the `template.yml` using the following pattern:
 
-```yaml
-build_options: 
-  - name: dev
-    packages: # A list of required packages
-      - make
-      - automake
-      - gcc
-      #- etc.
-  - name: debug
-    packages: 
-      - mg
-      - iw
-      #- etc.
-```
+!!! example "template.yml"
+    ```yaml
+    build_options: 
+      - name: dev
+        packages: # A list of required packages
+          - make
+          - automake
+          - gcc
+          #- etc.
+      - name: debug
+        packages: 
+          - mg
+          - iw
+          #- etc.
+    ```
 
 and if not already present edit `Dockerfile` with:
 

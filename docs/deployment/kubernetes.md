@@ -265,10 +265,11 @@ mv private-fn.yml stack.yml
 
 Update the `stack.yml` file and add a reference to the new secret:
 
-```yml
-secrets:
-      - dockerhub
-```
+!!! example "stack.yaml"
+    ```yml
+    secrets:
+        - dockerhub
+    ```
 
 Now deploy the function using `faas-cli up`.
 
@@ -325,10 +326,11 @@ helm upgrade openfaas openfaas/openfaas --install --set "faasnetes.imagePullPoli
 
 If you're using the plain YAML files then edit `gateway-dep.yml` and set the following for `faas-netes`:
 
-```yaml
-  - name: image_pull_policy
-    value: "IfNotPresent"
-```
+!!! example "gateway-dep.yml"
+    ```yaml
+    - name: image_pull_policy
+        value: "IfNotPresent"
+    ```
 
 ##### Notes on picking an "imagePullPolicy"
 

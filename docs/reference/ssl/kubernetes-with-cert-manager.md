@@ -43,39 +43,39 @@ In additional to the controller installed in the previous step, we must also con
 
 Replace `<your-email-here>` with the contact email that will be shown with the SSL certificate.
 
-```yaml
-# letsencrypt-issuer.yaml
-apiVersion: certmanager.k8s.io/v1alpha1
-kind: Issuer
-metadata:
-  name: letsencrypt-prod
-  namespace: openfaas
-spec:
-  acme:
-    # Email address used for ACME registration
-    email: <your-email-here>
-    http01: {}
-    # Name of a secret used to store the ACME account private key
-    privateKeySecretRef:
-      key: ""
+!!! example "letsencrypt-issuer.yaml"
+    ```yaml
+    apiVersion: certmanager.k8s.io/v1alpha1
+    kind: Issuer
+    metadata:
       name: letsencrypt-prod
-    server: https://acme-v02.api.letsencrypt.org/directory
----
-apiVersion: certmanager.k8s.io/v1alpha1
-kind: Issuer
-metadata:
-  name: letsencrypt-staging
-  namespace: openfaas
-spec:
-  acme:
-    server: https://acme-staging.api.letsencrypt.org/directory
-    # Email address used for ACME registration
-    email: <your-email-here>
-    # Name of a secret used to store the ACME account private key
-    privateKeySecretRef:
+      namespace: openfaas
+    spec:
+      acme:
+        # Email address used for ACME registration
+        email: <your-email-here>
+        http01: {}
+        # Name of a secret used to store the ACME account private key
+        privateKeySecretRef:
+          key: ""
+          name: letsencrypt-prod
+        server: https://acme-v02.api.letsencrypt.org/directory
+    ---
+    apiVersion: certmanager.k8s.io/v1alpha1
+    kind: Issuer
+    metadata:
       name: letsencrypt-staging
-    http01: {}
-```
+      namespace: openfaas
+    spec:
+      acme:
+        server: https://acme-staging.api.letsencrypt.org/directory
+        # Email address used for ACME registration
+        email: <your-email-here>
+        # Name of a secret used to store the ACME account private key
+        privateKeySecretRef:
+          name: letsencrypt-staging
+        http01: {}
+    ```
 
 ```sh
 $ kubectl apply -f letsencrypt-issuer.yaml
@@ -87,25 +87,24 @@ This will allow `cert-manager` to automatically provision Certificates just in t
 
 The OpenFaaS Helm Chart already supports the nginx-ingress, but we want to customize it further. This is easiest with a custom values file. Below, we enable and configure the ingress object to use our certificate and expose just the gateway
 
-```yaml
-# tls.yml
-ingress:
-    enabled: true
-    annotations:
-        kubernetes.io/ingress.class: nginx
-        certmanager.k8s.io/cluster-issuer: letsencrypt-staging
+!!! example "tls.yml"
+    ```yaml
     ingress:
-        tls:
-        - hosts:
-          - openfaas.mydomain.com
-          secretName: openfaas-crt
-        hosts:
-        - host: openfaas.mydomain.com
-            serviceName: gateway
-            servicePort: 8080
-            path: /
-```
-
+        enabled: true
+        annotations:
+            kubernetes.io/ingress.class: nginx
+            certmanager.k8s.io/cluster-issuer: letsencrypt-staging
+        ingress:
+            tls:
+            - hosts:
+              - openfaas.mydomain.com
+              secretName: openfaas-crt
+            hosts:
+            - host: openfaas.mydomain.com
+                serviceName: gateway
+                servicePort: 8080
+                path: /
+    ```
 
 ```sh
 $ helm upgrade openfaas \
@@ -119,26 +118,26 @@ $ helm upgrade openfaas \
 
 Finally, we can create the Certificate resource which triggers the actual creation of the certificate by `cert-manager`, edit the file below and replace the text `openfaas.mydomain.com` with your address for the API Gateway.
 
-```yaml
-# openfaas-crt.yaml
-apiVersion: certmanager.k8s.io/v1alpha1
-kind: Certificate
-metadata:
-  name: openfaas-crt
-spec:
-  secretName: openfaas-crt
-  dnsNames:
-    - openfaas.mydomain.com
-  acme:
-    config:
-      - http01:
-          ingressClass: nginx
-        domains:
-          - openfaas.mydomain.com
-  issuerRef:
-    name: letsencrypt-staging
-    kind: Issuer
-```
+!!! example "openfaas-crt.yaml"
+    ```yaml
+    apiVersion: certmanager.k8s.io/v1alpha1
+    kind: Certificate
+    metadata:
+      name: openfaas-crt
+    spec:
+      secretName: openfaas-crt
+      dnsNames:
+        - openfaas.mydomain.com
+      acme:
+        config:
+          - http01:
+              ingressClass: nginx
+            domains:
+              - openfaas.mydomain.com
+      issuerRef:
+        name: letsencrypt-staging
+        kind: Issuer
+    ```
 
 ```sh
 $ kubectl apply -f openfaas-crt.yaml

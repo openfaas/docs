@@ -87,18 +87,18 @@ $ find . | grep callme
 
 Here's the YAML file which was generated:
 
-```
-$ cat callme.yml
-provider:
-  name: faas
-  gateway: http://localhost:8080
+!!! example "callme.yml"
+    ```yaml
+    provider:
+      name: faas
+      gateway: http://localhost:8080
 
-functions:
-  callme:
-    lang: node
-    handler: ./callme
-    image: callme
-```
+    functions:
+      callme:
+        lang: node
+        handler: ./callme
+        image: callme
+    ```
 
 The contents of `callme.yml` can now be used with the CLI to save on typing and build, push, deploy and invoke your function.
 
@@ -106,13 +106,14 @@ The contents of `callme.yml` can now be used with the CLI to save on typing and 
 
 A handler.js file was generated for your function which looks like this:
 
-```
-"use strict"
+!!! example "handler.js"
+    ```js
+    "use strict"
 
-module.exports = (context, callback) => {
-    callback(undefined, {status: "done"});
-}
-```
+    module.exports = (context, callback) => {
+        callback(undefined, {status: "done"});
+    }
+    ```
 
 It will just send back a status of "done" when called.
 

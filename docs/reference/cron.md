@@ -30,19 +30,19 @@ We assume that you have used the [recommended install of `faas-netes`][faasdeplo
 
 For this example, we use the [sample `nodeinfo` function][nodeinfo], which can be deployed using this stack file
 
-```yaml
-# stack.yaml
-provider:
-  name: faas
-  gateway: http://gateway.openfaas.local
+!!! example "stack.yml"
+    ```yaml
+    provider:
+      name: faas
+      gateway: http://gateway.openfaas.local
 
-functions:
-  nodeinfo:
-    lang: dockerfile
-    handler: node main.js
-    image: functions/nodeinfo:latest
-    skip_build: true
-```
+    functions:
+      nodeinfo:
+        lang: dockerfile
+        handler: node main.js
+        image: functions/nodeinfo:latest
+        skip_build: true
+    ```
 
 and the cli
 
@@ -52,31 +52,31 @@ $ faas deploy
 
 We can then define a Kubernetes cron job to call this function every minute using this manifest file:
 
-```yaml
-# node-cron.yaml
-apiVersion: batch/v1beta1
-kind: CronJob
-metadata:
-  name: nodeinfo
-  namespace: openfaas
-spec:
-  schedule: "*/1 * * * *"
-  concurrencyPolicy: Forbid
-  successfulJobsHistoryLimit: 1
-  failedJobsHistoryLimit: 3
-  jobTemplate:
+!!! example "node-cron.yaml"
+    ```yaml
+    apiVersion: batch/v1beta1
+    kind: CronJob
+    metadata:
+      name: nodeinfo
+      namespace: openfaas
     spec:
-      template:
+      schedule: "*/1 * * * *"
+      concurrencyPolicy: Forbid
+      successfulJobsHistoryLimit: 1
+      failedJobsHistoryLimit: 3
+      jobTemplate:
         spec:
-          containers:
-          - name: faas-cli
-            image: openfaas/faas-cli:0.8.3
-            args:
-            - /bin/sh
-            - -c
-            - echo "verbose" | faas-cli invoke nodeinfo -g http://gateway.openfaas:8080
-          restartPolicy: OnFailure
-```
+          template:
+            spec:
+              containers:
+              - name: faas-cli
+                image: openfaas/faas-cli:0.8.3
+                args:
+                - /bin/sh
+                - -c
+                - echo "verbose" | faas-cli invoke nodeinfo -g http://gateway.openfaas:8080
+              restartPolicy: OnFailure
+    ```
 
 You should also update the `image` to the latest version of the `faas-cli` available found via the [Docker Hub](https://hub.docker.com/r/openfaas/faas-cli/tags/) or [faas-cli releases](https://github.com/openfaas/faas-cli/releases) page.
 
@@ -161,43 +161,43 @@ If you have enabled basic auth on the gateway, then the invoke command will also
 
 You could then update the CronJob to login, like this:
 
-```yaml
-# nodeauth-cron.yaml
-apiVersion: batch/v1beta1
-kind: CronJob
-metadata:
-  name: nodeinfo-auth
-  namespace: openfaas
-spec:
-  schedule: "*/1 * * * *"
-  concurrencyPolicy: Forbid
-  successfulJobsHistoryLimit: 1
-  failedJobsHistoryLimit: 3
-  jobTemplate:
+!!! example "nodeauth-cron.yaml"
+    ```yaml
+    apiVersion: batch/v1beta1
+    kind: CronJob
+    metadata:
+      name: nodeinfo-auth
+      namespace: openfaas
     spec:
-      template:
+      schedule: "*/1 * * * *"
+      concurrencyPolicy: Forbid
+      successfulJobsHistoryLimit: 1
+      failedJobsHistoryLimit: 3
+      jobTemplate:
         spec:
-          containers:
-          - name: faas-cli
-            image: openfaas/faas-cli:0.8.3
-            env:
-              - name: USERNAME
-                valueFrom:
-                  secretKeyRef:
-                    name: basic-auth
-                    key: basic-auth-user
-              - name: PASSWORD
-                valueFrom:
-                  secretKeyRef:
-                    name: basic-auth
-                    key: basic-auth-password
-            args:
-            - /bin/sh
-            - -c
-            - echo -n $PASSWORD | faas-cli login -g http://gateway.openfaas:8080 -u $USERNAME --password-stdin
-            - echo "verbose" | faas-cli invoke nodeinfo -g http://gateway.openfaas:8080
-          restartPolicy: OnFailure
-```
+          template:
+            spec:
+              containers:
+              - name: faas-cli
+                image: openfaas/faas-cli:0.8.3
+                env:
+                  - name: USERNAME
+                    valueFrom:
+                      secretKeyRef:
+                        name: basic-auth
+                        key: basic-auth-user
+                  - name: PASSWORD
+                    valueFrom:
+                      secretKeyRef:
+                        name: basic-auth
+                        key: basic-auth-password
+                args:
+                - /bin/sh
+                - -c
+                - echo -n $PASSWORD | faas-cli login -g http://gateway.openfaas:8080 -u $USERNAME --password-stdin
+                - echo "verbose" | faas-cli invoke nodeinfo -g http://gateway.openfaas:8080
+              restartPolicy: OnFailure
+    ```
 
 [k8s]: https://kubernetes.io/ "Kubernetes"
 [k8scron]: https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/ "Kuberenetes CRON Jobs"
