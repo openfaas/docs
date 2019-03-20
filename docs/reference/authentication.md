@@ -16,6 +16,8 @@ The API Gateway as of version 0.8.2 provides built-in basic authentication. To u
 
 Once basic authentication is enabled you will need to use `faas-cli login` before using the CLI.
 
+For non-helm kubernetes deployments, see instructions [here](https://github.com/openfaas/faas-netes/blob/master/yaml/README.md).
+
 ## For functions
 
 Functions are exposed at:
