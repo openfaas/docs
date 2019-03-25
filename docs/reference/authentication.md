@@ -10,9 +10,11 @@ These APIs exist at:
 
 * `/system/`
 
-We recommend using basic authentication and a strong password to protect the `/system/` route, but it is not the only option. If you prefer you can use a reverse proxy project such as [Kong](https://getkong.org/docs/) to enable OAuth or a similar strategy.
+It is strongly recommended that you enable basic authentication and use a strong password to protect the `/system/` route. If you prefer to use an alternative authentication strategy then you can also use a reverse proxy such as [Kong](https://getkong.org/docs/) to enable OAuth or another strategy.
 
-The API Gateway as of version 0.8.2 provides built-in basic authentication. To use it set the environmental variable `basic_auth` to `true`. Then create two secrets named `basic-auth-user` and `basic-auth-password`.
+The OpenFaaS API Gateway as of version 0.8.2 provides built-in basic authentication. It is enabled by default for OpenFaaS on Swarm and Kubernetes when using the helm chart. 
+
+The Kubernetes YAML configuration does not use basic authentication at this point and is only useful for quick testing. If you cannot use helm for any reason then use "tillerless" helm to generate YAML files with basic authentication turned on.
 
 Once basic authentication is enabled you will need to use `faas-cli login` before using the CLI.
 
