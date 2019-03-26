@@ -108,7 +108,7 @@ nav:
   - Getting Started:
       - Deployment: deployment.md
       - Kubernetes: ./deployment/kubernetes.md
-      - Open Shift: ./deployment/openshift.md
+      - OpenShift: ./deployment/openshift.md
       - Docker Swarm: ./deployment/docker-swarm.md
       - Docker Playground: ./deployment/play-with-docker.md
       - Troubleshooting: ./deployment/troubleshooting.md
