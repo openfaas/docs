@@ -25,6 +25,10 @@ It is recommended to use the `faas-cli` binary for building and deploying your f
 
 You can also use `--parallel` or / `--filter` when you have multiple functions in your `stack.yml` file.
 
+* The `--shrinkwrap` flag
+
+    The `faas-cli build` command invokes the `docker` CLI with the various flags and parameters required. If you want to use an alternative builder you can use the `--shrinkwrap` flag to generate a folder named `./build/<function>` which can then be used with any other container builder such as [BuildKit](https://github.com/moby/buildkit) or [Kaniko](https://blog.alexellis.io/quick-look-at-google-kaniko/).
+
 See the reference for the `faas-cli build` command [here](../../cli/build/).
 
 ### GitLab
