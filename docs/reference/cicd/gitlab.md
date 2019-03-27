@@ -2,8 +2,11 @@
 
 CI/CD can be achieved in a number of ways. This page outlines how to create a simple pipeline for automatically deploying new versions of your function every time there is a `git push` event on the repo.
 
-
 ## Build with `.gitlab-ci.yml`
+
+Pre-reqs:
+
+* At least one CI runner registered, available and capable of running Docker.
 
 To achieve CI/CD with GitLab you can create a file named `.gitlab-ci.yml` with the following contents:
 
