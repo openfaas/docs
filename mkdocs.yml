@@ -118,18 +118,6 @@ nav:
       - Build functions: ./cli/build.md
       - Manage secrets: ./cli/secrets.md
       - Working with tags: ./cli/tags.md
-  - Tutorials:
-      - Workshop: ./tutorials/workshop.md
-      - CLI with Node.js: ./tutorials/CLI-with-node.md
-      - First Python Function: ./tutorials/first-python-function.md
-      - Test Drive: ./tutorials/test-drive.md
-      - Featured: ./tutorials/featured.md
-  - OpenFaaS Cloud:
-      - Intro: ./openfaas-cloud/intro.md
-      - Self-hosted:
-        - Configure GitHub: ./openfaas-cloud/self-hosted/github.md
-        - Secrets: ./openfaas-cloud/self-hosted/secrets.md
-        - Troubleshooting: ./openfaas-cloud/self-hosted/troubleshoot.md
   - Reference:
     - CI/CD:
       - Intro: ./reference/cicd/intro.md
@@ -144,11 +132,23 @@ nav:
     - CORS: ./reference/cors.md
     - Cron: ./reference/cron.md
     - YAML: ./reference/yaml.md
+  - OpenFaaS Cloud:
+      - Intro: ./openfaas-cloud/intro.md
+      - Self-hosted:
+        - Configure GitHub: ./openfaas-cloud/self-hosted/github.md
+        - Secrets: ./openfaas-cloud/self-hosted/secrets.md
+        - Troubleshooting: ./openfaas-cloud/self-hosted/troubleshoot.md
   - Design & Architecture:
       - Gateway: ./architecture/gateway.md
       - Watchdog: ./architecture/watchdog.md
       - Autoscaling: ./architecture/autoscaling.md
       - Performance: ./architecture/performance.md
       - Metrics: ./architecture/metrics.md
+  - Tutorials:
+      - Workshop: ./tutorials/workshop.md
+      - CLI with Node.js: ./tutorials/CLI-with-node.md
+      - First Python Function: ./tutorials/first-python-function.md
+      - Test Drive: ./tutorials/test-drive.md
+      - Featured: ./tutorials/featured.md
   - Contributing:
       - Get Started: ./contributing/get-started.md
