@@ -2,7 +2,7 @@
 
 Due to the fact that OpenFaaS functions are built into portable Docker images you can use any container builder to build your functions. The `faas-cli` can be used to `build`, `push` and `deploy` your functions.
 
-### `faas-cli build`
+### Use the native `faas-cli`
 
 It is recommended to use the `faas-cli` binary for building and deploying your functions whether that is to Kubernetes or Docker Swarm.
 
