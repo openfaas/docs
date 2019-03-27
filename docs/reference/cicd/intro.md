@@ -41,4 +41,4 @@ It's really up to you.
 
 OpenFaaS Cloud can integrate with a public GitHub account or organisation or self-hoted GitLab instance to provide automatic CI/CD without any additional maintenance.
 
-See also: [OpenFaaS Cloud](../../openfaas-cloud/intro)
+See also: [OpenFaaS Cloud](../../../openfaas-cloud/intro/)

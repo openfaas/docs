@@ -50,6 +50,6 @@ Save this file in the git repo root of each set of functions you want to build a
 
 ## Build functions for your team or whole instance
 
-It may be tiresome to maintain individual files for each repo and project.
+It may be tiresome to maintain individual files for each repo and project. OpenFaaS Cloud automates this task and supports both GitHub and GitLab.
 
-See also: [OpenFaaS Cloud](../../openfaas-cloud/intro.md) which supports both GitHub and GitLab.
+See also: [OpenFaaS Cloud](../../../openfaas-cloud/intro/)
