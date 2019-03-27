@@ -131,6 +131,9 @@ nav:
         - Secrets: ./openfaas-cloud/self-hosted/secrets.md
         - Troubleshooting: ./openfaas-cloud/self-hosted/troubleshoot.md
   - Reference:
+    - CI/CD:
+      - Intro: ./reference/cicd/intro.md
+      - GitLab: ./reference/cicd/gitlab.md
     - SSL:
       - Kubernetes: ./reference/ssl/kubernetes-with-cert-manager.md
     - Secrets: ./reference/secrets.md
