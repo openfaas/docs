@@ -29,7 +29,7 @@ See the reference for the `faas-cli build` command [here](../../cli/build/).
 
 ### GitLab
 
-Get a [sample configuration for GitLab](./gitlab/).
+Get a [sample configuration for GitLab](../gitlab/).
 
 ### GitHub
 
