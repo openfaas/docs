@@ -204,3 +204,7 @@ spec:
 [k8sjob]: https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/ "Kuberenetes Jobs"
 [faasdeploy]: https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#deploy-openfaas
 [nodeinfo]: https://github.com/openfaas/faas/tree/master/sample-functions/NodeInfo
+
+## Cron Connector
+
+The [cron event connector](https://github.com/zeerorg/cron-connector) is an OpenFaas connector which is built to provide a timer interface to trigger OpenFaas functions.
