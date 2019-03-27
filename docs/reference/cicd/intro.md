@@ -39,7 +39,16 @@ You can find a pipeline example on the [GitLab CI/CD page](../gitlab/).
 
 ### GitHub
 
-For GitHub you can build with any suitable CI tool such as [Jenkins](https://jenkins.io), [JenkinsX](https://jenkins.io/projects/jenkins-x/), [Travis CI](https://travis-ci.org), [Drone CI](https://drone.io), [Tekton pipelines](https://github.com/tektoncd/pipeline), [Circle CI](https://circleci.com/) or even [GitHub Actions](https://github.com/features/actions).
+For GitHub you can build with any suitable CI tool such as:
+
+* [Jenkins](https://jenkins.io)
+* [Travis CI](https://travis-ci.org)
+* [Codefresh](https://codefresh.io)
+* [Drone CI](https://drone.io)
+* [Circle CI](https://circleci.com/)
+* [JenkinsX](https://jenkins.io/projects/jenkins-x/)
+* [GitHub Actions](https://github.com/features/actions) (beta)
+* [Tekton pipelines](https://github.com/tektoncd/pipeline) (experimental)
 
 It's really up to you.
 
