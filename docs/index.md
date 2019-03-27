@@ -39,6 +39,7 @@ Some of our users include:
     <a href="https://www.gmo.jp/en/" target="_blank"><img src="images/logos/gmo.svg" alt="GMO Internet Group" title="GMO Internet Group"></a>
     <a href="https://iconscout.com/" target="_blank"><img src="images/logos/iconscout.svg" alt="Iconscout" title="Iconscout"></a>
     <a href="https://www.infotechpartners.be" target="_blank"><img src="images/logos/infotechpartners.png" alt="InfoTech Partners" title="InfoTech Partners" ></a>
+    <a href="https://www.intility.no/en/" target="_blank"><img src="images/logos/intility.png" alt="intility" title="intility"></a>
     <a href="https://www.intraffic.nl" target="_blank"><img src="images/logos/intraffic.svg" alt="InTraffic" title="InTraffic"></a>
     <a href="https://www.kw-commerce.de/" target="_blank"><img src="images/logos/kwc-logo.png" alt="KW-Commerce" title="KW-Commerce"></a>
     <a href="https://www.liveperson.com/" target="_blank"><img src="images/logos/liveperson.png" alt="LivePerson" title="LivePerson"></a>
