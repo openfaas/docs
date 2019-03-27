@@ -52,8 +52,12 @@ For GitHub you can build with any suitable CI tool such as:
 
 It's really up to you.
 
+#### Git examples with Jenkins Pipeline
+
+Examples with DinD and Kaniko: [Jenkins Pipeline examples](../jenkins/)
+
 ### OpenFaaS Cloud
 
-OpenFaaS Cloud can integrate with a public GitHub account or organisation or self-hoted GitLab instance to provide automatic CI/CD without any additional maintenance.
+OpenFaaS Cloud can integrate with a public GitHub account or organisation or self-hosted GitLab instance to provide automatic CI/CD without any additional maintenance.
 
 See also: [OpenFaaS Cloud](../../../openfaas-cloud/intro/)
