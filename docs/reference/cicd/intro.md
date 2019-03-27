@@ -52,9 +52,9 @@ For GitHub you can build with any suitable CI tool such as:
 
 It's really up to you.
 
-#### Git examples with Jenkins Pipeline
+### Git examples with Jenkins Pipeline
 
-Examples with DinD and Kaniko: [Jenkins Pipeline examples](../jenkins/)
+Examples with Docker-in-Docker: [Jenkins Pipeline examples](../jenkins/)
 
 ### OpenFaaS Cloud
 
