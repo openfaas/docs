@@ -86,7 +86,7 @@ Attempting to create credentials for gateway..
 password-stdin
 ```
 
-Run the command as you see it in your console, do not copy/paste the login command. Once you run `faas-cli login` your password will be stored as a hash at `~/.openfaas/config.yaml`.
+Run the command as you see it in your console, do not copy/paste the login command. Once you run `faas-cli login` your password will be stored as a hash at `~/.openfaas/config.yml`.
 
 You will need the password for the CLI, UI and REST API on the gateway, but you can invoke your functions without it.
 
