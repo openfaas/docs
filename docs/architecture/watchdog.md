@@ -6,7 +6,7 @@ The watchdog becomes an "init process" with an embedded HTTP server written in G
 
 ## Classic watchdog
 
-The classic watchdog is currently used in all the official OpenFaaS templates. You can view the templates in the [templates repository](https://github.com/openfaas/templates).
+The classic watchdog has historically been used for all of the official OpenFaaS templates, but the of-watchdog (mentioned below) is now becoming more popular and templates exist for both watchdogs for the common programming languages in the default [templates repository](https://github.com/openfaas/templates) and [community template store](https://github.com/openfaas/store/blob/master/templates.json).
 
 <a href="https://camo.githubusercontent.com/61c169ab5cd01346bc3dc7a11edc1d218f0be3b4/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f4447536344626c554941416f34482d2e6a70673a6c61726765"><img src="https://camo.githubusercontent.com/61c169ab5cd01346bc3dc7a11edc1d218f0be3b4/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f4447536344626c554941416f34482d2e6a70673a6c61726765"></a>
 
