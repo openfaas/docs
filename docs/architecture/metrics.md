@@ -1,5 +1,7 @@
 # Monitoring Functions
 
+## Gateway
+
 The Gateway component exposes several metrics to help you monitor the health and behavior of your functions
 
 | Metric                              | Type       | Description                         | Labels                     |
@@ -58,3 +60,21 @@ rate ( gateway_function_invocation_total{function_name='echo'} [20s])
 
 [prom-query-basics]: https://prometheus.io/docs/prometheus/latest/querying/basics/
 [prom-query-examples]: https://prometheus.io/docs/prometheus/latest/querying/examples/
+
+## Watchdog
+
+The classic and of-watchdog both provide Prometheus instrumentation on TCP port 8081 on the path /metrics. This is to enable the use-case of HPAv2 from the Kubernetes ecosystem.
+
+| Metric                              | Type       | Description                         | Labels                     |
+| ----------------------------------- | ---------- | ----------------------------------- | -------------------------- |
+| `http_request_duration_seconds`     | histogram  | Seconds spent serving HTTP requests | `method`, `path`, `status` |
+| `http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `status` |
+
+The `http_request*` metrics record the latency and statistics of `/system/*` routes to monitor the OpenFaaS gateway and its provider. The `/async-function` route is also recorded in these metrics to observe asynchronous ingestion rate and latency.
+
+### Minimum watchdog versions
+
+The metrics endpoint was added in the following versions and is enabled automatically.
+
+* watchdog: 0.13.0
+* of-watchdog 0.5.0
