@@ -2,7 +2,9 @@
 
 ## Community resources
 
-Blog posts, upcoming/past events and code examples are available on the community resources page indexed by year. If you're speaking or have spoken about OpenFaaS or have a book, tutorial, blog post or workshop, please let the community know by raising a pull request to have it listed on this page.
+Blog posts, upcoming/past events and code examples are available on the community resources page indexed by year.
+
+> Be counted: If you're speaking or have spoken about OpenFaaS or have a book, tutorial, blog post or workshop, please let the community know by raising a pull request to have it listed on this page.
 
 * [OpenFaaS Community Page](https://github.com/openfaas/faas/blob/master/community.md)
 
@@ -17,10 +19,10 @@ OpenFaaS has its own Slack workspace, which you are welcome to join.
 
 Various channels are available for discussing how to use and contribute to OpenFaaS, additional sub-communities include:
 
-* #kubernetes - all topics Kubernetes
-* #arm-and-pi - ARM / Raspberry Pi
-* #derek - GitHub automation through [Derek](https://github.com/alexellis/derek)
-* #general - containers, programming, source-control and other related topics to OpenFaaS
+* `#kubernetes` - all topics Kubernetes
+* `#arm-and-pi` - ARM / Raspberry Pi
+* `#derek` - GitHub automation through [Derek](https://github.com/alexellis/derek)
+* `#general` - containers, programming, source-control and other related topics to OpenFaaS
 
 Notes:
 
