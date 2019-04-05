@@ -1,14 +1,40 @@
 # OpenFaaS Community
 
-For blog posts, awards and upcoming events 2017-2018 check out the community file in the main Github repository.
-
 ## Community resources
+
+Blog posts, upcoming/past events and code examples are available on the community resources page indexed by year. If you're speaking or have spoken about OpenFaaS or have a book, tutorial, blog post or workshop, please let the community know by raising a pull request to have it listed on this page.
 
 * [OpenFaaS Community Page](https://github.com/openfaas/faas/blob/master/community.md)
 
+## Social media
+
+* Twitter: [@OpenFaaS](https://twitter.com/openfaas)
+* LinkedIn: [#TeamServerless Group](https://www.linkedin.com/groups/13670843/)
+
 ## Slack Workspace
 
-To join our Slack workspace fill out the [Google Forms page](https://goo.gl/forms/SqpLSdyzVoOboRqs1)
+OpenFaaS has its own Slack workspace, which you are welcome to join.
+
+Various channels are available for discussing how to use and contribute to OpenFaaS, additional sub-communities include:
+
+* #kubernetes - all topics Kubernetes
+* #arm-and-pi - ARM / Raspberry Pi
+* #derek - GitHub automation through [Derek](https://github.com/alexellis/derek)
+* #general - containers, programming, source-control and other related topics to OpenFaaS
+
+Notes:
+
+Members of the Slack workspace may be able to provide community-level support, but it's easy for topics to get depending on the time of posting and how detailed the question/comment is. If you do not receive a response to your message then please try again and note the following advice.
+
+It can be difficult to keep up with messages in the busier channels, therefore you are asked to keep your questions, comments and suggestions concise and to use [threads in Slack](https://slackhq.com/getting-the-most-out-of-threads).
+
+### Join Slack now
+
+Sign-up to join the OpenFaaS Slack workspace using [this form](https://goo.gl/forms/SqpLSdyzVoOboRqs1).
+
+### Slack vs. GitHub issues
+
+The GitHub repositories can be a rich source of information, but you are encouraged to ask your support questions through Slack and keep the issue tracker for flagging issues with the code or release and for proposing features to support your use-case. 
 
 ## Contribute
 
