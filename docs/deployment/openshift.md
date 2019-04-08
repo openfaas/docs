@@ -2,7 +2,7 @@
 
 OpenFaaS is Kubernetes-native and uses *Deployments*, *Services* and *Secrets*. For more detail check out the ["faas-netes" repository](https://github.com/openfaas/faas-netes).
 
-Use this guide to deploy OpenFaaS to an Openshift distribution running an Openshift version between 3.9 and 4.0.
+Use this guide to deploy OpenFaaS to an OpenShift distribution running an OpenShift version between 3.9 and 4.0.
 
 ## Build a cluster
 
@@ -10,7 +10,7 @@ You can start evaluating FaaS and building functions on your laptop or on a VM (
 
 * [Install guide for minishift](https://docs.okd.io/latest/minishift/getting-started/installing.html)
 
-* [Deployment information on running Openshift ](https://www.openshift.com/products)
+* [Deployment information on running OpenShift ](https://www.openshift.com/products)
 
 ### Install the `faas-cli`
 
@@ -30,9 +30,9 @@ $ curl -sL https://cli.openfaas.com | sudo sh
 
 If you run the script as a normal non-root user then the script will be downloaded to the current folder.
 
-### Pick Minishift or Openshift Installation (A or B)
+### Pick Minishift or OpenShift Installation (A or B)
 
-Openshift is slightly different than the Helm installation for the vanilla kubernetes installation, we will need to apply the yaml files recursively. 
+OpenShift is slightly different than the Helm installation for the vanilla kubernetes installation, we will need to apply the yaml files recursively. 
 
 #### A. Deploy for Minishift
 
@@ -53,9 +53,9 @@ To enable it every restart of your minishift instance:
 $ minishift addons enable openfaas
 ```
 
-#### B. Deploy for Openshift (for production)
+#### B. Deploy for OpenShift (for production)
 
-This step assumes you have a running Openshift cluster and have the oc client installed
+This step assumes you have a running OpenShift cluster and have the oc client installed
 
 * Deploy the whole stack
 
@@ -91,8 +91,8 @@ The default configuration uses Routes
 
 | Service           | DNS Name                               |
 --------------------|----------------------------------------|
-| API Gateway / UI  | openfaas-openfaas.<cluster-hostname>   |
-| Prometheus        | prometheus-openfaas.<cluster-hostname> |
+| API Gateway / UI  | openfaas-openfaas.&lt;cluster-hostname&gt;   |
+| Prometheus        | prometheus-openfaas.&lt;cluster-hostname&gt; |
 
 
 * Deploy a sample function
@@ -136,7 +136,7 @@ You can also access the Function Store from the Portal UI and find a range of fu
 
 #### Use the UI
 
-The UI is exposed on https://openfaas-openfaas.<cluster-hostname>.
+The UI is exposed on https at openfaas-openfaas.&lt;cluster-hostname&gt;.
 
 Click "New Function" and fill it out with the following:
 
@@ -175,12 +175,12 @@ If you are running into any issues please check out the troubleshooting guide an
 This section covers additional advanced topics beyond the initial deployment.
 
 
-#### Use a private registry with Openshift
+#### Use a private registry with OpenShift
 
 If you are using a hosted private Docker registry ([Docker Hub](https://hub.docker.com/), or other),
-in order to check how to configure it, please visit the Openshift [documentation](http://v1.uncontained.io/playbooks/continuous_delivery/external-docker-registry-integration.html).
+in order to check how to configure it, please visit the OpenShift [documentation](http://v1.uncontained.io/playbooks/continuous_delivery/external-docker-registry-integration.html).
 
-If you try to deploy using `faas-cli deploy` it will fail because the Openshift Deployment component will not have credentials to authorize the docker image pull request.
+If you try to deploy using `faas-cli deploy` it will fail because the OpenShift Deployment component will not have credentials to authorize the docker image pull request.
 
 Once you have pushed an image to a private registry using `faas-cli push` follow the instructions below to either create a pull secret that can be referenced by each function which needs it, or create a secret for the ServiceAccount in the `openfaas-fn` namespace so that any functions which need it can make use of it.
 
@@ -255,7 +255,7 @@ The OpenFaaS controller will now deploy functions with images in private reposit
 
 #### Set a custom ImagePullPolicy
 
-Openshift allows you to control the conditions for when the Docker images for your functions are pulled onto a node. This is configured through an [imagePullPolicy](https://docs.openshift.com/container-platform/3.11/dev_guide/managing_images.html#image-pull-policy).
+OpenShift allows you to control the conditions for when the Docker images for your functions are pulled onto a node. This is configured through an [imagePullPolicy](https://docs.openshift.com/container-platform/3.11/dev_guide/managing_images.html#image-pull-policy).
 
 There are three options:
 
@@ -280,8 +280,8 @@ If you're using the plain YAML files then edit `gateway-dep.yml` and set the fol
 
 ##### Notes on picking an "imagePullPolicy"
 
-As mentioned above, the default value is `Always`. Every time a function is deployed or is scaled up, Openshift will pull a potentially updated copy of the image from the registry. If you are using static image tags like `latest`, this is necessary.
+As mentioned above, the default value is `Always`. Every time a function is deployed or is scaled up, OpenShift will pull a potentially updated copy of the image from the registry. If you are using static image tags like `latest`, this is necessary.
 
 When set to `IfNotPresent`, function deployments may not be updated when using static image tags like `latest`. `IfNotPresent` is particularly useful when developing locally with Minishift.
 
-When set to `Never`, only local (or pulled) images will work. This is useful if you want to tightly control which images are available and run in your Openshift cluster.
+When set to `Never`, only local (or pulled) images will work. This is useful if you want to tightly control which images are available and run in your OpenShift cluster.
