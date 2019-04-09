@@ -1,5 +1,9 @@
 ## Troubleshooting OpenFaaS Cloud
 
+### Got something wrong?
+
+At any time you can reset the cluster and start over. This is better than editing files individually and prevents inadvertently missing something.
+
 ### No functions appear
 
 If no functions appear on your dashboard then try the following.
@@ -63,9 +67,11 @@ kubectl logs -n openfaas deploy/of-builder -c of-builder
 kubectl logs -n openfaas deploy/of-builder -c of-buildkit
 ```
 
+If your credentials or registry are set incorrectly, you may see that of-builder passes successfully, but of-buildkit may show an authorization error.
+
 #### buildshiprun
 
-Are there any issues deploying?
+Are there any issues deploying? Look for non 2xx status codes.
 
 ```sh
 kubectl logs -n openfaas-fn deploy/buildshiprun
@@ -78,3 +84,20 @@ Were there issues updating the GitHub statuses?
 ```sh
 kubectl logs -n openfaas-fn deploy/github-status
 ```
+
+If so, then perhaps your GitHub App doesn't have the correct permissions.
+
+#### OAuth / Auth
+
+Check the auth service:
+
+```sh
+kubectl describe -n openfaas deploy/auth
+kubectl logs -n openfaas deploy/auth
+```
+
+Check that `client_id` is set correctly along with the direct URL and cookie domain.
+
+### Still not working?
+
+Head over to [OpenFaaS Slack](/community/) and join #openfaas-cloud.
