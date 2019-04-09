@@ -244,7 +244,6 @@ If needed, pass in the `--docker-server` address.
 
 Use the following command to edit the default ServiceAccount's configuration:
 
-TODO Verify
 ```sh
 $ oc secrets link --for=pull  system:serviceaccount:default -n openfaas-fn
 ```
