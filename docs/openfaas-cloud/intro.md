@@ -17,10 +17,11 @@ Read an introduction to [OpenFaaS Cloud on Alex Ellis' blog](https://blog.alexel
 
 Check out the roadmap in the GitHub repo for what's coming next and how to get involved.
 
+See also: [openfaas/openfaas-cloud on GitHub](https://github.com/openfaas/openfaas-cloud)
+
 ### Who is OpenFaaS Cloud for?
 
 OpenFaaS Cloud is for anyone who wants to focus on shipping functions without worrying about the CI/CD pipeline or underlying infrastructure. OpenFaaS comes in two flavours - a free community-run hosted version and self-hosted on your own cluster. 
-
 
 |                | OpenFaaS                    | OpenFaaS Cloud                                  |
 |:---------------|:----------------------------|:------------------------------------------------|
@@ -34,11 +35,12 @@ OpenFaaS Cloud is for anyone who wants to focus on shipping functions without wo
 | Source control |  Any                        | GitHub & GitLab    |
 | Secrets        |  Kubernetes/Swarm secrets   | SealedSecrets    |
 
+
 #### Community cluster
 
 The community-run cluster is a free cluster which you can use to publish functions on the internet with TLS and a personal sub-domain. You don't need to think about servers or Kubernetes any more. We host, scale and manage your functions giving you a secure personalised dashboard so that you can focus on writing code.
 
-You can request access in `#openfaas-cloud` on OpenFaaS Slack.
+See also: [Form: Request access](https://forms.gle/fLVhneVxCXxUqNkH8s)
 
 #### Self-hosted
 
@@ -46,9 +48,3 @@ OpenFaaS Cloud is open source software which you can use to host your OpenFaaS C
 
 * For an automated quick-start use [ofc-bootstrap](https://github.com/openfaas-incubator/ofc-bootstrap) to provision OpenFaaS Cloud in 100 seconds on Kubernetes [Video demo](https://www.youtube.com/watch?v=Sa1VBSfVpK0)
 * Or start the [Developer guide](https://github.com/openfaas/openfaas-cloud/tree/master/docs) for a manual installation or to use Docker Swarm
-
-### Star and fork the code
-
-Read the code on GitHub:
-
-https://github.com/openfaas/openfaas-cloud
