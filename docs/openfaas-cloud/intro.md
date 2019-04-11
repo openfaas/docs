@@ -40,7 +40,7 @@ OpenFaaS Cloud is for anyone who wants to focus on shipping functions without wo
 
 The community-run cluster is a free cluster which you can use to publish functions on the internet with TLS and a personal sub-domain. You don't need to think about servers or Kubernetes any more. We host, scale and manage your functions giving you a secure personalised dashboard so that you can focus on writing code.
 
-See also: [Form: Request access](https://forms.gle/fLVhneVxCXxUqNkH8s)
+See also: [Form: Request access](https://forms.gle/8e6ZXJKMcDHpV6Xu6)
 
 #### Self-hosted
 
