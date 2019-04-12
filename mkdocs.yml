@@ -117,7 +117,7 @@ nav:
       - Create functions: ./cli/templates.md
       - Build functions: ./cli/build.md
       - Manage secrets: ./cli/secrets.md
-      - Working with tags: ./cli/tags.md
+      - Working with image tags: ./cli/tags.md
   - Reference:
     - CI/CD:
       - Intro: ./reference/cicd/intro.md

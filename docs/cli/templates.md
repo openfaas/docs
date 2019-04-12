@@ -22,7 +22,7 @@ $ faas-cli template pull
 
 This page shows how to generate functions in the most popular languages and explains how you can manage their dependencies too.
 
-### Classic vs. store templates
+### Classic vs. of-watchdog templates
 
 The *Classic Templates* are held in the [openfaas/templates](https://github.com/openfaas/templates) repository and are based upon the *Classic Watchdog* which uses STDIO to communicate with your function. The of-watchdog uses HTTP to communicate with functions and most of its templates are available in the [openfaas-incubator](https://github.com/openfaas-incubator/) organisation on GitHub and in the store.
 
@@ -30,6 +30,8 @@ How to pick:
 
 * Use the *Classic Watchdog* if you're starting out or following tutorials or guides
 * Use the *of-watchdog* if you need more performance or if you need full control of the HTTP response
+
+See also: [watchdog design](/architecture/watchdog/)
 
 ### Template store
 

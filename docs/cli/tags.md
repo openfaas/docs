@@ -1,4 +1,4 @@
-# Working with tags
+# Working with image tags
 
 All OpenFaaS functions are built into immutable Docker images before deployment. You can take advantage of Docker "tags" to organise your versions the CLI can also generate tags based upon Git metadata.
 
