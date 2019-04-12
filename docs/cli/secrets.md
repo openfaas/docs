@@ -1,14 +1,8 @@
 # Manage secrets
 
 The OpenFaaS CLI allows you to create, update, list and delete secrets using `faas-cli` instead of Docker or Kubernetes command line tools.
+
 The reason behind this is to give you simplicity when you need to use secrets for your functions as well as to provide a layer of abstraction, as it will work for both Kubernetes and Docker Swarm.
-
-It's available in those versions or later:
-* faas-cli 0.8.3
-* faas-swarm 0.6.1
-* faas-netes 0.7.0
-* openfaas-operator 0.9.1
-
 
 ## Create
 
