@@ -7,9 +7,13 @@ OpenFaaS can be deployed to Kubernetes and Docker Swarm. We recommend Kubernetes
 
 ## Kubernetes (recommended for production)
 
-Get started with OpenFaaS on Kubernetes with helm or plain YAML files. [Deploy to Kubernetes](/deployment/kubernetes/) now.
+Get started with OpenFaaS on Kubernetes with `helm` (recommended) or plain YAML files. [Deploy to Kubernetes](/deployment/kubernetes/) now.
 
-## Docker Swarm (recommended for beginners)
+### OpenShift
+
+OpenShift is a variant of Kubernetes produced by RedHat: [Deploy to OpenShift](/deployment/openshift/)
+
+## Docker Swarm (recommended for learning & starting-out)
 
 If you prefer to use Docker Swarm, then follow the [deployment guide Docker Swarm](/deployment/docker-swarm/).
 
