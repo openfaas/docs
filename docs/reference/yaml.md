@@ -43,7 +43,11 @@ The `functions` element holds a map of functions, by default all functions are a
 
 #### Function Name
 
-The function Name is specified by a key in the functions map, i.e. `fn1` in the above example. Function name must be unique within a stack.yml file.
+The function Name is specified by a key in the functions map, i.e. `fn1` in the above example. Function name must be unique within a `stack.yml` file.
+
+Valid function names follow ietf [rfc1035](https://tools.ietf.org/html/rfc1035) which is also used for DNS sub-domains.
+
+> (DNS_LABEL): An alphanumeric (a-z, and 0-9) string, with a maximum length of 63 characters, with the '-' character allowed anywhere except the first or last character, suitable for use as a hostname or segment in a domain name.
 
 #### Function: Language
 
@@ -226,4 +230,31 @@ The meanings and formats of `limits` and `requests` may vary depending on whethe
  - Limits specify the maximum amount of host resources that a container can consume
 
 See docs for [Docker Swarm](https://docs.docker.com/config/containers/resource_constraints/) or for [Kubernetes](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#how-pods-with-r    esource-limits-are-run).
+
+### YAML - environment variable substitution
+
+The YAML stack format supports the use of `envsubst`-style templates. This means that you can have a single file with multiple configuration options such as for different user accounts, versions or environments.
+
+Here is an example use-case, in your project there is an official and a development Docker Hub username/account. For the CI server images are always pushed to `exampleco`, but in development you may want to push to your own account such as `alexellis2`.
+
+```yaml
+functions:
+  url-ping:
+    lang: python
+    handler: ./sample/url-ping
+    image: ${DOCKER_USER:-exampleco}/faas-url-ping:0.2
+```
+
+Use the default (exampleco):
+
+```sh
+$ faas-cli build
+$ DOCKER_USER="" faas-cli build
+```
+
+Override with "alexellis2" through an environment variable:
+
+```sh
+$ DOCKER_USER="alexellis2" faas-cli build
+```
 
