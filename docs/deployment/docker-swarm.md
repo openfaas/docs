@@ -60,14 +60,6 @@ $ git clone https://github.com/openfaas/faas && \
 
 > For a complete tutorial on setting up OpenFaaS for Raspberry Pi / 32-bit ARM using Docker Swarm see the following blog post from Alex Ellis: [Your Serverless Raspberry Pi cluster with Docker](https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/).
 
-If you are using Raspberry Pi or 32-bit ARM devices then please run the following instead:
-
-```bash
-$ git clone https://github.com/openfaas/faas && \
-  cd faas && \
-  ./deploy_stack.armhf.sh
-```
-
 When creating new functions please use the templates with a suffix of `-armhf` such as `go-armhf` and `python-armhf` to ensure you get the correct versions for your devices.
 
 > Note: you cannot deploy the sample functions to ARM devices, but you can use the function store in the gateway UI or via `faas-cli store list --yaml https://raw.githubusercontent.com/openfaas/store/master/store-armhf.json`
