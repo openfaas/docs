@@ -26,16 +26,33 @@ The full configuration options for nginx [can be found here][nginx-configuration
 
 ## Install cert-manager
 
-We install it into the `kube-system` namespace using the following command:
+Following the recommended [default installation for cert-manager][cert-manager-helm], we install it into a new `cert-manager` namespace using the following commands:
 
 ```sh
+# Install the CustomResourceDefinition resources separately
+$ kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.7/deploy/manifests/00-crds.yaml
+
+# Create the namespace for cert-manager
+$ kubectl create namespace cert-manager
+
+# Label the cert-manager namespace to disable resource validation
+$ kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
+
+# Add the Jetstack Helm repository
+$ helm repo add jetstack https://charts.jetstack.io
+
+# Update your local Helm chart repository cache
+$ helm repo update
+
+# Install the cert-manager Helm chart
 $ helm install \
-    --name cert-manager \
-    --namespace kube-system \
-    stable/cert-manager
+  --name cert-manager \
+  --namespace cert-manager \
+  --version v0.7.0 \
+  jetstack/cert-manager
 ```
 
-This configuration will work for most deployments, but you can also see https://cert-manager.readthedocs.io/en/latest/getting-started/2-installing.html for additional instructions and options for installing cert-manager.
+This configuration will work for most deployments, but you can also see https://cert-manager.readthedocs.io/en/latest/getting-started/install.html#steps for additional instructions and options for installing cert-manager.
 
 ## Configure cert-manager
 
@@ -90,20 +107,21 @@ The OpenFaaS Helm Chart already supports the nginx-ingress, but we want to custo
 ```yaml
 # tls.yml
 ingress:
-    enabled: true
-    annotations:
-        kubernetes.io/ingress.class: nginx
-        certmanager.k8s.io/cluster-issuer: letsencrypt-staging
-    ingress:
-        tls:
-        - hosts:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/issuer: letsencrypt-staging
+    certmanager.k8s.io/acme-challenge-type: http01
+  ingress:
+    tls:
+      - hosts:
           - openfaas.mydomain.com
-          secretName: openfaas-crt
-        hosts:
-        - host: openfaas.mydomain.com
-            serviceName: gateway
-            servicePort: 8080
-            path: /
+        secretName: openfaas-crt
+    hosts:
+      - host: openfaas.mydomain.com
+        serviceName: gateway
+        servicePort: 8080
+        path: /
 ```
 
 
@@ -125,19 +143,20 @@ apiVersion: certmanager.k8s.io/v1alpha1
 kind: Certificate
 metadata:
   name: openfaas-crt
+  namespace: openfaas
 spec:
   secretName: openfaas-crt
-  dnsNames:
-    - openfaas.mydomain.com
-  acme:
-    config:
-      - http01:
-          ingressClass: nginx
-        domains:
-          - openfaas.mydomain.com
   issuerRef:
     name: letsencrypt-staging
     kind: Issuer
+  dnsNames:
+  - openfaas.mydomain.com
+  acme:
+    config:
+    - http01:
+        ingressClass: nginx
+      domains:
+      - openfaas.mydomain.com
 ```
 
 ```sh
@@ -188,4 +207,5 @@ $ kubectl logs -f $(kubectl get po -l "app=nginxingress,component=controller" -o
 [nginx-configuration]: https://github.com/helm/charts/tree/master/stable/nginx-ingress#configuration
 [openfaas-helm]: https://docs.openfaas.com/deployment/kubernetes/#20a-deploy-with-helm
 [cert-manager]: https://github.com/jetstack/cert-manager
+[cert-manager-helm]: https://cert-manager.readthedocs.io/en/latest/getting-started/install.html#installing-with-helm
 [nginx-ingress]: https://github.com/kubernetes/ingress-nginx
