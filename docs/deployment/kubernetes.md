@@ -83,11 +83,37 @@ This step assumes you are running `kubectl` on a master host.
     $ kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
     ```
 
+    Create a password for the gateway:
+
+    ```bash
+    # generate a random password
+    PASSWORD=$(head -c 12 /dev/urandom | shasum| cut -d' ' -f1)
+
+    kubectl -n openfaas create secret generic basic-auth \
+    --from-literal=basic-auth-user=admin \
+    --from-literal=basic-auth-password="$PASSWORD"
+    ```
+
     Now deploy OpenFaaS:
 
     ```bash
     $ cd faas-netes && \
     kubectl apply -f ./yaml
+    ```
+
+    Set your `OPENFAAS_URL`, if using a NodePort this may be `127.0.0.1:31112`.
+
+    If you're using a remote cluster, or you're not sure then you can also port-forward the gateway to your machine for this step.
+
+    ```bash
+    kubectl port-forward svc/gateway -n openfaas 31112:8080 &
+    ```
+
+    Now log in:
+    ```bash
+    export OPENFAAS_URL=http://127.0.0.1:31112
+
+    echo -n $PASSWORD | faas-cli login --password-stdin
     ```
 
     !!! note
