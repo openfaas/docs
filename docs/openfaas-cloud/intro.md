@@ -1,4 +1,4 @@
-OpenFaaS Cloud is: GitOps for your functions with native GitHub integrations
+OpenFaaS Cloud is: the same OpenFaaS you know and love, but packaged as a multi-user platform with git integration, CI/CD, secrets and HTTPS included.
 
 Read an introduction to [OpenFaaS Cloud on Alex Ellis' blog](https://blog.alexellis.io/introducing-openfaas-cloud/)
 
@@ -8,16 +8,17 @@ Read an introduction to [OpenFaaS Cloud on Alex Ellis' blog](https://blog.alexel
 
 ### Features
 
-* "`git push` and get functions"
+* Deploy and manage functions through `git push`
 * Use the Docker Hub or your own private registry
-* Use any official OpenFaaS language template
-* Get secrets in your functions securely with SealedSecrets
-* Secure integration with GitHub via GitHub App and OAuth permissions
-* Auditing of events to Slack
+* Use any official OpenFaaS language template or Docker images
+* Add secrets to your functions to access services securely via Bitnami's SealedSecrets
+* Secure integration with GitHub.com or self-hosted GitLab
+* Personal dashboard for each user or organization with authz by OAuth2 and detailed metrics
+* Auditing of events to Slack or custom function
 
 Check out the roadmap in the GitHub repo for what's coming next and how to get involved.
 
-See also: [openfaas/openfaas-cloud on GitHub](https://github.com/openfaas/openfaas-cloud)
+* See also: [openfaas/openfaas-cloud on GitHub](https://github.com/openfaas/openfaas-cloud)
 
 ### Who is OpenFaaS Cloud for?
 
@@ -27,18 +28,20 @@ OpenFaaS Cloud is for anyone who wants to focus on shipping functions without wo
 |:---------------|:----------------------------|:------------------------------------------------|
 | Installation   |   Helm, Docker YAML         | GitHub App / GitLab tag |
 | RBAC           |   Shared team / single user | Multi-user with OAuth2 |
-| Administration | faas-cli, API, UI           | "git-push" or GitHub UI |
-| Policy         |  Specify in stack.yml       | Default limits set, read-only filesystem |
+| Administration |  faas-cli, API, UI          | "git-push" or GitHub UI |
+| Policy         |  Specify in stack.yml       | Limits set for CPU/memory, read-only filesystem, non-root users |
 | CI/CD          |  Jenkins, Travis, etc       | Built-in (via Buildkit)  |
 | UI             |  OpenFaaS Portal            | Personal dashboard    |
 | URLs           |  Gateway                    | Personal sub-domains    |
-| Source control |  Any                        | GitHub & GitLab    |
-| Secrets        |  Kubernetes/Swarm secrets   | SealedSecrets    |
-
+| TLS            |  Custom solution            | Built-in via LetsEncrypt and cert-manager |
+| Source control |  Any                        | GitHub.com & GitLab self-hosted    |
+| Secrets        |  Kubernetes/Swarm secrets   | Bitnami SealedSecrets    |
 
 #### Community cluster
 
-The community-run cluster is a free cluster which you can use to publish functions on the internet with TLS and a personal sub-domain. You don't need to think about servers or Kubernetes any more. We host, scale and manage your functions giving you a secure personalised dashboard so that you can focus on writing code.
+The OpenFaaS Cloud Community Cluster is a hosted version of OpenFaaS Cloud. The OpenFaaS Cloud Community Cluster is currently free and is the easiest way to try out OpenFaaS without having to set up anything yourself.
+
+You can request access, and if accepted you will be able to deploy functions using the OpenFaaS templates or microservices using a Dockerfile. You'll get your own dashboard for your endpoints which come with HTTPS, build logs, built-in CI/CD and a personal sub-domain. Both private and public GitHub repositories are supported.
 
 See also: [Form: Request access](https://forms.gle/8e6ZXJKMcDHpV6Xu6)
 
