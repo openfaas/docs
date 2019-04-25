@@ -62,6 +62,8 @@ The method and approach should be documented including any important details suc
 
 There is a difference between performance testing and Denial of Service DoS attacks (i.e. with `siege`). You should use tools which allow a gradual ramp-up and controlled conditions such as [hey](https://github.com/rakyll/hey), [jMeter](https://jmeter.apache.org), [LoadRunner](https://en.wikipedia.org/wiki/LoadRunner) or [Gattling](https://gatling.io).
 
+> See also: [Lab9 - auto-scaling in OpenFaaS](https://github.com/openfaas/workshop/blob/master/lab9.md)
+
 * Choosing an inappropriate test environment
 
 Do not try to performance test OpenFaaS on your laptop within a VM - this carries an overhead of virtualisation and will likely cause contention.
