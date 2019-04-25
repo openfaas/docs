@@ -44,7 +44,7 @@ Project tuning:
 
 of-watchdog templates:
 
-* [Golang HTTP template with stdlib](https://github.com/alexellis/golang-http-template)
+* [Golang HTTP template with the Go stdlib](https://github.com/alexellis/golang-http-template)
 * [Node10 HTTP template with Express.js](https://github.com/openfaas-incubator/node10-express-template)
 * [Python3 HTTP template with gevent/flask](https://github.com/openfaas-incubator/python-flask-template)
 
@@ -60,7 +60,7 @@ The method and approach should be documented including any important details suc
 
 * Using an inappropriate method
 
-There is a differnce between performance testing and Denial of Service DoS attacks. Use tools which allow a gradual ramp-up and controlled conditions such as jMeter, LoadRunner or Gattling.
+There is a difference between performance testing and Denial of Service DoS attacks (i.e. with `siege`). You should use tools which allow a gradual ramp-up and controlled conditions such as [hey](https://github.com/rakyll/hey), [jMeter](https://jmeter.apache.org), [LoadRunner](https://en.wikipedia.org/wiki/LoadRunner) or [Gattling](https://gatling.io).
 
 * Choosing an inappropriate test environment
 
@@ -70,15 +70,15 @@ The test environment needs to replicate the production environment you are likel
 
 * Poor choice of test function
 
-There are several sample functions provided in the project, but that does not automatically qualify them for benchmarking or load-testing. It's important to create your own function and understand exactly what is being put into it so you can measure it efficiently.
+There are several sample functions provided in the project, but that does not automatically qualify them for high-throughput benchmarking or load-testing. It's important to create your own function and understand exactly what is being put into it so you can measure it effectively. You should also use an OpenFaaS of-watchdog template for this or your own microservice conforming to the required healthchecks.
 
 * Not using the of-watchdog
 
-Only the watchdog and of-watchdog implement the correct healthcheck and shutdown signals to be compatible with Kubernetes' startup, scaling and termination mechanisms. If you are running a container exposing port `8080` which does not use of-watchdog then the results are not representative. You will need to mimick exactly the mechanisms in the of-watchdog or use it as a shim.
+Only the watchdog and of-watchdog implement the correct healthcheck and shutdown signals to be compatible with Kubernetes' startup, scaling and termination mechanisms. If you are running a container exposing port `8080` which does not use of-watchdog then the results are not representative. You will need to mirror the mechanisms in the of-watchdog or use it as a shim.
 
 * Only picking the best/worst case figure
 
-When using a scientific method you need to carry out multiple test runs and account for caching/memory/paging of the operating system including any additional background processes that may be running. The 99th percentile figures should be used, not the best or worst case figure from arbitary runs.
+When using a scientific method you need to carry out multiple test runs and account for caching/memory/paging of the operating system including any additional background processes that may be running. The 99th percentile figures should be used, not the best or worst case figure from arbitrary runs.
 
 * Ignoring CPU / memory limits
 
