@@ -239,7 +239,7 @@ $ docker service ps --no-trunc=true FUNCTION
 
 ### I forgot my gateway password
 
-If you've logged into the OpenFaaS CLI then you can retrieve the credentials from `config.yaml` in `~/.openfaas/`. Use the value from the `token` field such as: `echo -n HASHED_VALUE | base64 -D/-d` to view the contents in plain-text. If you don't have access to bash or the base64 utility then type in `docker run -ti alpine:3.7` to run a shell in Docker.
+If you've logged into the OpenFaaS CLI then you can retrieve the credentials from `config.yaml` in `~/.openfaas/`. Use the value from the `token` field such as: `echo -n HASHED_VALUE | base64 -D/-d` to view the contents in plain-text. If you don't have access to bash or the base64 utility then type in `docker run -ti alpine:3.9` to run a shell in Docker.
 
 If you never logged in via the CLI then you can retrieve the contents from the cluster secret store:
 
@@ -251,7 +251,7 @@ Use the [jaas](https://github.com/alexellis/jaas) task-runner for Swarm (easiest
 $ docker run -ti -v /var/run/docker.sock:/var/run/docker.sock \
   alexellis2/jaas:1.0.0 \
   run --secret basic-auth-password \
-  --image alpine:3.7 \
+  --image alpine:3.9 \
   --command "cat /run/secrets/basic-auth-password"
 
 Printing service logs
@@ -264,7 +264,7 @@ Printing service logs
 $ docker service rm print-password \
  ; docker service create --detach --secret basic-auth-password \
    --restart-condition=none --name=print-password \
-   alpine:3.7 cat /run/secrets/basic-auth-password
+   alpine:3.9 cat /run/secrets/basic-auth-password
 
 $ docker service logs print-password
 print-password.1.59bwe0bb4d99@nuc    | 21f596c9cd75a0fe5e335fb743995d18399e83418a37a79e719576a724efbbb6
@@ -371,7 +371,7 @@ Here's an example of how you can deploy a function without using an orchestrator
 
 ```
 $ docker run --name debug-alpine \
-  -p 8081:8080 -ti functions/alpine:latest sh
+  -p 8081:8080 -ti functions/alpine:3.9 sh
 # fprocess=date fwatchdog &
 ```
 
