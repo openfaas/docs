@@ -4,13 +4,19 @@ This page contains recommendations for deploying OpenFaaS for production usage. 
 
 ## Decide on your Kubernetes flavour
 
-When deploying OpenFaaS it is recommended that you use Kubernetes. A managed Kubernetes service such as GKE, EKS is recommended if you are using public cloud. You can also deploy to your own infrastructure.
+When deploying OpenFaaS it is recommended that you use [Kubernetes](https://kubernetes.io/). A managed Kubernetes service such as GKE, EKS is recommended if you are using public cloud. You can also deploy to your own infrastructure.
+
+> Note: Docker Swarm and other providers are available, but are beyond the scope of this document.
 
 ### Chart options
 
 The `helm` chart is the most flexible way to deploy OpenFaaS and allows you to customize many different options such as whether scale-to-zero is enabled, how many replicas to have of each component and what kind of healthchecks or probes to use.
 
 Depending on your existing usage of `helm` or your preferences you may not want to use the *Tiller* component of helm. In this case you can use `helm template` in the deployment guide to generate YAML files to apply on your cluster.
+
+You will find each helm chart option documented in the OpenFaaS chart:
+
+> See also: [OpenFaaS Chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#configuration)
 
 #### High-availability (HA)
 
@@ -43,13 +49,15 @@ Set the non-root user flag so that every function is forced to run in a restrict
 
 The faas-netes controller for OpenFaaS is the most mature, well tested and supported. You may also use the OpenFaaS Operator if you would like to use a Function CRD. If you are not sure which to use, then use faas-netes.
 
+> See also: [faas-netes](https://github.com/openfaas/faas-netes), [openfaas-operator](https://github.com/openfaas-incubator/openfaas-operator).
+
 #### Single or multi-stage?
 
 Now decide if you want to create a single or multi-stage environment. In a single-stage environment a cluster has only one OpenFaaS installation and is either staging, production or something else. In a multi-stage environment a cluster may have several installations of OpenFaaS where each represents a different stage. 
 
 ##### Single-stage
 
-Since you have a single stage or environment you can apply the namespaces YAML file from the faas-netes repo. This will create two namespaces:
+Since you have a single stage or environment you can apply the namespaces YAML file from the [faas-netes repo](https://github.com/openfaas/faas-netes). This will create two namespaces:
 
 * openfaas
 * openfaas-fn
@@ -60,9 +68,16 @@ In a multiple stage environment you may have OpenFaaS installed several times - 
 
 In this case take a copy of the namespaces YAML file and edit it once per each environment such as:
 
+Staging stage:
+
 ```
 openfaas-staging
 openfaas-staging-fn
+```
+
+Production stage:
+
+```
 openfaas
 openfaas-fn
 ```
@@ -71,9 +86,13 @@ Assume that no suffix means that the environment or stage is for production depl
 
 ## Configure Ingress
 
+> See also: [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+
 It is recommended that you use an IngressController and TLS so that traffic between your clients and your OpenFaaS Gateway is encrypted.
 
 You may already have opinions about what IngressController you want to use, the maintainers like to use Nginx given its broad adoption and relative ubiquity.
+
+> See also: [Nginx IngressController](https://github.com/kubernetes/ingress-nginx) 
 
 Notes:
 
