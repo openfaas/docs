@@ -36,7 +36,9 @@ See the chart options for how to set the number of replicas.
 
 #### Configure timeouts
 
-Configure each timeout as appropriate for your workloads. If you expect all functions or endpoints to return within a few seconds then set a timeout to accommodate that. If you expect all workloads to run for several minutes then bear that in mind with your values. 
+Configure each timeout as appropriate for your workloads. If you expect all functions or endpoints to return within a few seconds then set a timeout to accommodate that. If you expect all workloads to run for several minutes then bear that in mind with your values.
+
+> Note: You may have a timeout configured in your IngressController or cloud LoadBalancer. See your documentation or contact your administrator to check the value and make sure they are in-sync.
 
 #### Configure function health-check probes
 
@@ -122,7 +124,11 @@ If you are using the asynchronous invocations available in OpenFaaS then you may
 
 > See also: [NATS documentation](https://nats.io/documentation/)
 
-## Function guidelines
+## Workload or function guidelines
+
+OpenFaaS supports two types of workloads - a microservice or a function. If you are implementing your own microservice or template then ensure that you are complying with the workload contract as per the docs.
+
+> See also: [workload contract](https://docs.openfaas.com/reference/workloads/)
 
 ### Pick your watchdog version
 
