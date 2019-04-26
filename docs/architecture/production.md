@@ -54,7 +54,7 @@ There are both liveness and readiness checks for functions. If you are using the
 
 Set the non-root user flag so that every function is forced to run in a restricted security context.
 
-#### Chose the operator or faas-netes
+#### Choose the operator or faas-netes
 
 The faas-netes controller for OpenFaaS is the most mature, well tested and supported. You may also use the OpenFaaS Operator if you would like to use a Function CRD. If you are not sure which to use, then use faas-netes.
 
@@ -95,6 +95,8 @@ Assume that no suffix means that the environment or stage is for production depl
 
 ## Configure networking
 
+Whether you need to configure new networking for your OpenFaaS deployments, or integrate into existing systems the following guidelines should be followed.
+
 ### Configure Ingress
 
 > See also: [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/)
@@ -105,6 +107,10 @@ You may already have opinions about what IngressController you want to use, the 
 
 > See also: [Nginx IngressController](https://github.com/kubernetes/ingress-nginx) 
 
+Heptio Contour also includes automatic retries and additional Ingress extensions which you may find useful:
+
+> See also: [Heptio Contour](https://github.com/heptio/contour)
+
 Notes:
 
 * Check any default timeouts set for your IngressController
@@ -112,7 +118,7 @@ Notes:
 
 ### TLS
 
-Depending on your infrastructure or cloud provider you may chose to add TLS termination in your LoadBalancer, with some other external software or hardware or in the IngressController's configuration. For public-facing OpenFaaS installations the maintainers recommend the use of [cert-manager from JetStack](https://github.com/jetstack/cert-manager).
+Depending on your infrastructure or cloud provider you may choose to add TLS termination in your LoadBalancer, with some other external software or hardware or in the IngressController's configuration. For public-facing OpenFaaS installations the maintainers recommend the use of [cert-manager from JetStack](https://github.com/jetstack/cert-manager).
 
 ### Configure NetworkPolicy
 
