@@ -23,7 +23,12 @@ You will find each helm chart option documented in the OpenFaaS chart:
 It is recommended that you have high-availability for the OpenFaaS components including:
 
 * OpenFaaS gateway
+
+    The gateway supports more than one replica and can be auto-scaled with HPAv2
+
 * OpenFaaS queue-worker
+
+    Scale the queue worker replicas according to the maximum level of asynchronous tasks you want to process in parallel. 
 
 You may also want to set a minimum availability level for each function of > 1.
 
@@ -35,7 +40,9 @@ Configure each timeout as appropriate for your workloads. If you expect all func
 
 #### Configure function health-check probes
 
-Unless you are using Istio, where it is essential to use exec health-checks, it is recommended to use httpProbes by default which are more efficient on CPU.
+There are two types of health-check probes: exec and http. The default in the helm chart is exec for backwards-compatibility.
+
+It is recommended to use httpProbes by default which are more efficient on CPU than exec probes. If you are using [Istio](https://istio.io) with mutual TLS then you will need to use exc probes.
 
 #### Configure function health-check interval
 
@@ -84,7 +91,9 @@ openfaas-fn
 
 Assume that no suffix means that the environment or stage is for production deployments.
 
-## Configure Ingress
+## Configure networking
+
+### Configure Ingress
 
 > See also: [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 
@@ -99,11 +108,45 @@ Notes:
 * Check any default timeouts set for your IngressController
 * Check any default timeout values set for your cloud LoadBalancer
 
-## TLS
+### TLS
 
 Depending on your infrastructure or cloud provider you may chose to add TLS termination in your LoadBalancer, with some other external software or hardware or in the IngressController's configuration. For public-facing OpenFaaS installations the maintainers recommend the use of [cert-manager from JetStack](https://github.com/jetstack/cert-manager).
 
-## Configure NetworkPolicy
+### Configure NetworkPolicy
 
 You may want to configure NetworkPolicy to restrict communication between the openfaas Functions namespace and the core components of OpenFaaS. This is dependent on using a network driver which supports NetworkPolicy such as Weavenet.
+
+## NATS Streaming (asynchronous invocations)
+
+If you are using the asynchronous invocations available in OpenFaaS then you may want to ensure high-availability or persistence for NATS Streaming. The default configuration uses in-memory storage. Options include clustering NATS and MySQL.
+
+> See also: [NATS documentation](https://nats.io/documentation/)
+
+## Function guidelines
+
+### Pick your watchdog version
+
+For each function it is recommended to evaluate whether the classic or of-watchdog is best suited to your use-case.
+
+For high-throughput, low-latency operations you may prefer to use the of-watchdog.
+
+> See also: [watchdog](https://docs.openfaas.com/architecture/watchdog/)
+
+### Use a non-root user
+
+Each template authored by the OpenFaaS project already uses a non-root user, but if you have your own templates then ensure that they are running as a non-root user to help mitigate against a vulnerabilities. 
+
+### Enable a read-only filesystem
+
+It is recommended that you use a read-only filesystem. You will still be able to write to `/tmp/`
+
+### Use secrets and environmental variables appropriately
+
+* Secrets are for confidential data
+
+    Example: API key, IP address, username
+
+* Environmental variables are for non-confidential configuration data
+
+    Example: verbose logging, runtime mode, timeout values
 
