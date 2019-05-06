@@ -23,9 +23,31 @@ On a production-grade OpenShift cluster you will need to join the two networks:
 oc adm pod-network join-projects --to=openfaas-fn openfaas
 ```
 
+Once you have deployed OpenFaaS you can create a route to access your gateway and the UI.
+
+```yaml
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: openfaas
+  namespace: openfaas
+spec:
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: gateway
+    weight: 100
+  wildcardPolicy: None
+```
+
 ## Customize your OpenFaaS configuration
 
-The default configuration may not suit all purposes, so if you want to customize your configuration then you can [use helm to created new YAML files](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md#deployment-with-helm-template) and apply those with `kubectl` or `oc`.
+The default configuration may not suit all purposes, so if you want to customize your configuration then you can use helm's template command to generate customized YAML which can then be applied with `oc` or `kubectl`.
+
+See also: [template YAML files with helm]](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md#deployment-with-helm-template).
+
+> Note: tiller (the server-side component of helm) *is not required* to generate YAML files
 
 ## Test with Minishift
 
