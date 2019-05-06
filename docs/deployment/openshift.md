@@ -45,7 +45,7 @@ spec:
 
 The default configuration may not suit all purposes, so if you want to customize your configuration then you can use helm's template command to generate customized YAML which can then be applied with `oc` or `kubectl`.
 
-See also: [template YAML files with helm]](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md#deployment-with-helm-template).
+See also: [template YAML files with helm](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md#deployment-with-helm-template).
 
 > Note: tiller (the server-side component of helm) *is not required* to generate YAML files
 
