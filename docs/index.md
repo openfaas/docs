@@ -48,7 +48,7 @@ Some of our users include:
     <a href="https://naamio.cloud" target="_blank"><img src="images/logos/naamio.svg" alt="Naamio" title="Naamio"></a>
     <a href="https://www.packet.net/" target="_blank"><img src="images/logos/packet.png" alt="Packet Host" title="Packet Host"></a>
     <a href="https://www.pentium.network/" target="_blank"><img src="images/logos/pentiumlogo.svg" alt="Pentium Network" title="Pentium Network"></a>
-    <a href="https://www.pressassociation.com" target="_blank"><img src="images/logos/press-association.svg" alt="Press Association" title="Press Association"></a>
+    <a href="https://www.pressassociation.com" target="_blank"><img src="images/logos/press-association.png" alt="Press Association" title="Press Association"></a>
     <a href="https://scaleway.com/" target="_blank"><img src="images/logos/scaleway.svg" alt="Scaleway" title="Scaleway"></a>
     <a href="https://www.sefin.ro.gov.br" target="_blank"><img src="images/logos/sefin.jpg" alt="SEFIN" title="SEFIN"></a>
     <a href="https://www.transmute.industries" target="_blank"><img src="images/logos/transmute.png" alt="Transmute Industries" title="Transmute Industries"></a>
