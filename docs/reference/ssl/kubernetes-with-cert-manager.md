@@ -112,16 +112,15 @@ ingress:
     kubernetes.io/ingress.class: nginx
     certmanager.k8s.io/issuer: letsencrypt-staging
     certmanager.k8s.io/acme-challenge-type: http01
-  ingress:
-    tls:
-      - hosts:
-          - openfaas.mydomain.com
-        secretName: openfaas-crt
-    hosts:
-      - host: openfaas.mydomain.com
-        serviceName: gateway
-        servicePort: 8080
-        path: /
+  tls:
+    - hosts:
+        - openfaas.mydomain.com
+      secretName: openfaas-crt
+  hosts:
+    - host: openfaas.mydomain.com
+      serviceName: gateway
+      servicePort: 8080
+      path: /
 ```
 
 
