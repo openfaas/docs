@@ -142,10 +142,11 @@ nav:
         - Troubleshooting: ./openfaas-cloud/self-hosted/troubleshoot.md
   - Design & Architecture:
       - Gateway: ./architecture/gateway.md
-      - Watchdog: ./architecture/watchdog.md
       - Autoscaling: ./architecture/autoscaling.md
-      - Performance: ./architecture/performance.md
+      - Production: ./architecture/production.md
       - Metrics: ./architecture/metrics.md
+      - Watchdog: ./architecture/watchdog.md
+      - Performance: ./architecture/performance.md
   - Tutorials:
       - Workshop: ./tutorials/workshop.md
       - CLI with Node.js: ./tutorials/CLI-with-node.md

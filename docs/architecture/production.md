@@ -6,6 +6,8 @@ This page contains recommendations for deploying OpenFaaS for production usage. 
 
 When deploying OpenFaaS it is recommended that you use [Kubernetes](https://kubernetes.io/). A managed Kubernetes service such as GKE, EKS is recommended if you are using public cloud. You can also deploy to your own infrastructure.
 
+These instructions apply for both Kubernetes and OpenShift 3.x.
+
 > Note: Docker Swarm and other providers are available, but are beyond the scope of this document.
 
 ### Chart options
