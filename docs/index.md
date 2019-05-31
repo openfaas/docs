@@ -68,7 +68,7 @@ To have your company listed as a user [comment here](https://github.com/openfaas
 
 ## Get started with OpenFaaS
 
-![Portal](https://pbs.twimg.com/media/C7bkpZbWwAAnKsx.jpg)
+![Portal](https://raw.githubusercontent.com/openfaas/faas/master/docs/inception.png)
 
 *Pictured: API gateway portal - designed for ease of use*
 
