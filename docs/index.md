@@ -64,7 +64,7 @@ Some of our users include:
 
 * [VMware](https://www.vmware.com)
 
-To have your company listed as a user [comment here](https://github.com/openfaas/faas/issues/776)
+To join the end-user community and to have your company listed as a user, please [comment here](https://github.com/openfaas/faas/issues/776).
 
 ## Get started with OpenFaaS
 
@@ -72,7 +72,7 @@ To have your company listed as a user [comment here](https://github.com/openfaas
 
 *Pictured: API gateway portal - designed for ease of use*
 
-Get started with one of our [deployment guides](./deployment/) for Kubernetes or Docker Swarm.
+Get started with one of the [deployment guides](./deployment/) for Kubernetes or Docker Swarm.
 
 ## Presentations
 
