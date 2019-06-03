@@ -34,9 +34,10 @@ Now we can import the secret into the cluster.
 #### Define the secret with `faas-cli`
 
 ```sh
-faas-cli create secret secret-api-key \
+faas-cli secret create secret-api-key \
   --from-file=secret-api-key.txt
 ```
+
 You can create the secret with `faas-cli secret create`, or by using the Docker / Kubernetes CLI.
 
 #### Define a secret in Kubernetes (advanced)
