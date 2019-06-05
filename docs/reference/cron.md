@@ -1,22 +1,5 @@
 # Scheduling function runs
 
-## Docker Swarm
-
-For Kubernetes read on in the next section where we will use Kubernetes CronJobs.
-
-Docker Swarm has no concepts of scheduled tasks or cron, but we have a good recommendation which you can use with Swarm. If you deploy a Jenkins master service then you can use that to manage your scheduled tasks. It will handle distributed locking, concurrency and queueing.
-
-Example usage:
-
-* Deploy Swarm service for Jenkins using [Official Docker Hub image](https://hub.docker.com/r/jenkins/jenkins/)
-* Define a Freestyle job for each scheduled task
-* Add a CRON entry for the schedule
-* Install the OpenFaaS CLI
-* Run `faas-cli login --gateway`
-* Invoke the function
-
-Here is an example of how to do this with a [Pipeline job](https://gist.github.com/alexellis/dfa1b8790ac3d26614e342746c64cbc8).
-
 ## Kubernetes
 
 If you are deploying OpenFaaS to [Kubernetes][k8s], then we can easily run functions as cron jobs using the aptley named [Cron Job resource][k8scron].
@@ -26,7 +9,7 @@ We assume that you have used the [recommended install of `faas-netes`][faasdeplo
 1.  `openfaas` for the core componentes (ui, gateway, etc)
 2.  `openfaas-fn` for the function deployments
 
-## Simple Cron Job
+### Simple Cron Job
 
 For this example, we use the [sample `nodeinfo` function][nodeinfo], which can be deployed using this stack file
 
@@ -147,9 +130,7 @@ Uptime: 997420
        internal: false } ] }
 ```
 
-## Other considerations
-
-This simple example uses the default deployment of OpenFaaS without any authentication.
+This example assumes no authentication is enabled on the gateway.
 
 ### Multiple Namespaces
 
@@ -207,4 +188,62 @@ spec:
 
 ## Cron Connector
 
-The [cron event connector](https://github.com/zeerorg/cron-connector) is an OpenFaas connector which is built to provide a timer interface to trigger OpenFaas functions.
+The [cron event connector](https://github.com/zeerorg/cron-connector) is an OpenFaaS event-connector which can be used to trigger functions on a timed-basis. It works with all OpenFaaS providers.
+
+### Kubernetes
+
+* Deploy the connector
+
+```sh
+curl -s https://raw.githubusercontent.com/zeerorg/cron-connector/master/yaml/kubernetes/connector-dep.yml | kubectl create --namespace openfaas -f -
+```
+
+* Now annotate a function with a `topic` to give it a schedule
+
+```
+functions:
+  nodeinfo:
+    image: functions/nodeinfo
+    skip_build: true
+    annotations:
+      topic: cron-function
+      schedule: "*/5 * * * *"
+```
+*node-info.yaml*
+
+```
+faas-cli up -f node-info.yaml
+```
+
+* Or deploy directly from the store
+
+```sh
+faas-cli store deploy nodeinfo --annotation topic="cron-function" --annotation schedule="*/5 * * * *"
+```
+
+* Now check the logs
+
+```sh
+kubectl logs -n openfaas-fn nodeinfo
+```
+
+You'll see the function invoked every 5 minutes as per the schedule.
+
+To stop the invocations, remove the two annotations or remove the cron-connector deployment.
+
+## Docker Swarm
+
+Docker Swarm has no concepts of scheduled tasks or cron, but we have a suitable recommendation which you can use with your OpenFaaS cluster. If you deploy a Jenkins master service, then you can use that to manage your scheduled tasks. It will handle distributed locking, concurrency and queueing.
+
+Example usage:
+
+* Deploy Swarm service for Jenkins using [Official Docker Hub image](https://hub.docker.com/r/jenkins/jenkins/)
+* Define a Freestyle job for each scheduled task
+* Add a CRON entry for the schedule
+* Install the OpenFaaS CLI
+* Run `faas-cli login --gateway`
+* Invoke the function
+
+Here is an example of how to do this with a [Pipeline job](https://gist.github.com/alexellis/dfa1b8790ac3d26614e342746c64cbc8).
+
+Alternatively see the above cron-connector example.

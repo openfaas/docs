@@ -4,7 +4,9 @@ OpenFaaS functions can be triggered easily by any kind of event. A small piece o
 
 The most common use-case is HTTP which acts as a lingua franca between internet-connected systems.
 
-Looking to trigger a function on a schedule? Have a look at the [Cron page](/reference/cron/) for more information
+## Cron
+
+Looking to trigger a function on a schedule? Have a look at the [Cron page](/reference/cron/) for more information on how to use Kubernetes `CronJob` and other options such as the cron-connector.
 
 ## HTTP / webhooks
 
@@ -38,6 +40,10 @@ The OpenFaaS connector-pattern allows you to create a broker or separate microse
 #### Add your own event source
 
 If you'd like to add an event source which is not listed below you can fork the OpenFaaS event [connector SDK](https://github.com/openfaas-incubator/connector-sdk) which is written in Go and use this to connect your pub/sub topics or message queues to functions in OpenFaaS.
+
+### Cron Connector
+
+The [cron event connector](https://github.com/zeerorg/cron-connector) is an OpenFaaS event-connector which can be used to trigger functions on a timed-basis. It works with all OpenFaaS providers.
 
 ### Apache Kafka
 
