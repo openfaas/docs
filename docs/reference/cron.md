@@ -200,7 +200,9 @@ curl -s https://raw.githubusercontent.com/zeerorg/cron-connector/master/yaml/kub
 
 * Now annotate a function with a `topic` to give it a schedule
 
-```
+```yaml
+# (Abridged YAML)
+
 functions:
   nodeinfo:
     image: functions/nodeinfo
@@ -209,22 +211,24 @@ functions:
       topic: cron-function
       schedule: "*/5 * * * *"
 ```
-*node-info.yaml*
+*nodeinfo.yaml*
 
-```
-faas-cli up -f node-info.yaml
+```sh
+faas-cli deploy -f nodeinfo.yaml
 ```
 
 * Or deploy directly from the store
 
 ```sh
-faas-cli store deploy nodeinfo --annotation topic="cron-function" --annotation schedule="*/5 * * * *"
+faas-cli store deploy nodeinfo \
+  --annotation topic="cron-function" \
+  --annotation schedule="*/5 * * * *"
 ```
 
 * Now check the logs
 
 ```sh
-kubectl logs -n openfaas-fn nodeinfo
+kubectl logs -n openfaas-fn deploy/nodeinfo -f
 ```
 
 You'll see the function invoked every 5 minutes as per the schedule.
