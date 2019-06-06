@@ -41,6 +41,8 @@ Find out more in Stefan Prodan's blog post below:
 
 https://stefanprodan.com/2018/kubernetes-scaleway-baremetal-arm-terraform-installer/#horizontal-pod-autoscaling
 
+In addition to the above, both of the OpenFaaS watchdogs automatically provide custom metrics that can be used for HPAv2 scaling rules.
+
 ## Zero-scale
 
 Scaling to zero is available in OpenFaaS but is not turned on by default. There are two parts that make up scaling to zero or (zero-scale) in the project. You can read more about how this works on the [OpenFaaS blog](https://www.openfaas.com/blog/zero-scale/).
@@ -67,4 +69,4 @@ The [faas-idler](https://github.com/openfaas-incubator/faas-idler) component is 
 
 * Option 2 - OpenFaaS REST API
 
-If you want to use your own set of criteria for idling functions then you can make use of the OpenFaaS REST API to decide when to scale functions to zero. 
+If you want to use your own set of criteria for idling functions then you can make use of the OpenFaaS REST API to decide when to scale functions to zero. You can build and deploy your own custom controller for this task.
