@@ -46,7 +46,7 @@ Configure each timeout as appropriate for your workloads. If you expect all func
 
 There are two types of health-check probes: exec and http. The default in the helm chart is exec for backwards-compatibility.
 
-It is recommended to use httpProbes by default which are more efficient on CPU than exec probes. If you are using [Istio](https://istio.io) with mutual TLS then you will need to use exc probes.
+It is recommended to use httpProbes by default which are more CPU efficient than exec probes. If you are using [Istio](https://istio.io) with mutual TLS then you will need to use exec probes.
 
 #### Configure function health-check interval
 
@@ -148,7 +148,7 @@ For high-throughput, low-latency operations you may prefer to use the of-watchdo
 
 ### Use a non-root user
 
-Each template authored by the OpenFaaS project already uses a non-root user, but if you have your own templates then ensure that they are running as a non-root user to help mitigate against a vulnerabilities. 
+Each template authored by the OpenFaaS project already uses a non-root user, but if you have your own templates then ensure that they are running as a non-root user to help mitigate against vulnerabilities. 
 
 ### Enable a read-only filesystem
 
