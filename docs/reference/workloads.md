@@ -7,9 +7,22 @@ OpenFaaS can host multiple types of workloads from functions to microservices, b
 All workloads must:
 
 * serve HTTP traffic on TCP port 8080
+* assume ephemeral storage
+* be stateless
+
+And integrate with a health-check mechanism:
+
+On Swarm:
+
 * create a lock file in `/tmp/.lock` - removing this file signals service degradation
 * add a `HEALTHCHECK` instruction if using Docker Swarm
-* assume ephemeral storage
+
+On Kubernetes:
+
+* or enable httpProbe in the `helm` chart and implement `/_/health` as a HTTP endpoint
+* create a lock file in `/tmp/.lock` - removing this file signals service degradation
+
+> Note: In the near future, you will be able to specify the HTTP Path for the health-check.
 
 If running in read-only mode, then you can write files to the `/tmp/` mount only. These files may be accessible upon subsequent requests but it is not guaranteed. For instance - if you have two replicas of a function then both may have different contents in their `/tmp/` mount. When running without read-only mode you can write files to the user's home directory subject to the same rules.
 
