@@ -192,6 +192,14 @@ Example of setting a "topic" for the Kafka event connector:
      expire-date: "Wed Aug  8 07:40:18 BST 2018"
 ```
 
+Example of setting a custom HTTP health check path and initial check delay:
+
+```yaml
+   annotations:
+     com.openfaas.health.http.path: "/healthz"
+     com.openfaas.health.http.initialDelay: "30s"
+```
+
 #### Function: Memory/CPU limits
 
 Applying memory and CPU limits can be done through the `limits` and `requests` [fields](https://godoc.org/github.com/openfaas/faas-cli/stack#FunctionResources). It is advisable to always set a limit for your functions to prevent them consuming too many resources in your system.
