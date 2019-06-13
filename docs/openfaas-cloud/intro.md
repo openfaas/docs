@@ -47,7 +47,7 @@ See also: [Form: Request access](https://forms.gle/8e6ZXJKMcDHpV6Xu6)
 
 #### Self-hosted
 
-OpenFaaS Cloud is open source software which you can use to host your OpenFaaS Cloud cluster. OpenFaaS Cloud brings a managed, multi-user experience with built-in dashboard and CI/CD. This lowers the barrier to entry for teams meaning that developers only need to know how to use git and require no pre-assumed knowledge of Docker or Kubernetes.
+OpenFaaS Cloud is open source software which you can use to host your OpenFaaS Cloud cluster. OpenFaaS Cloud brings a managed, multi-user experience with built-in dashboard and CI/CD. This lowers the barrier to entry for teams, meaning that developers only need to know how to use git and require no pre-assumed knowledge of Docker or Kubernetes.
 
 * For an automated quick-start use [ofc-bootstrap](https://github.com/openfaas-incubator/ofc-bootstrap) to provision OpenFaaS Cloud in 100 seconds on Kubernetes [Video demo](https://www.youtube.com/watch?v=Sa1VBSfVpK0)
 * Or start the [Developer guide](https://github.com/openfaas/openfaas-cloud/tree/master/docs) for a manual installation or to use Docker Swarm
