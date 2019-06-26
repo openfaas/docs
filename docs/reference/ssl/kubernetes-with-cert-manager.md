@@ -85,7 +85,7 @@ metadata:
   namespace: openfaas
 spec:
   acme:
-    server: https://acme-staging.api.letsencrypt.org/directory
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
     # Email address used for ACME registration
     email: <your-email-here>
     # Name of a secret used to store the ACME account private key
