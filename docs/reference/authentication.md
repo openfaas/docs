@@ -44,7 +44,10 @@ You will need two DNS A records and to enable `Ingress` for your Kubernetes clus
 * Gateway - `http://gw.example.com`
 * Auth - `http://auth.example.com`
 
-Deploy the [oidc-plugin](https://github.com/alexellis/oidc-plugin-dist) either as a stand-alone Linux binary, or in a Docker container / Pod.
+You will need to deploy the [oidc-plugin](https://github.com/alexellis/oidc-plugin-dist) provided by OpenFaaS Ltd.
+
+* Deploy using a Kubernetes Deployment, Service and Ingress record [see repo for more](https://github.com/alexellis/oidc-plugin-dist)
+* Or deploy as a stand-alone Linux binary using instructions below
 
 Populate the information below according to your Identity Provider (IDP), I'm using Auth0:
 
