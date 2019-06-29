@@ -3,6 +3,7 @@
 You can obtain SSL certificates for the OpenFaaS API Gateway and for your functions using [cert-manager][cert-manager] from [JetStack](https://www.jetstack.io).
 
 We will use the following components:
+
  - OpenFaaS installed [helm][openfaas-helm] or `helm template`
  - [cert-manager][cert-manager]
  - [Nginx IngressController][nginx-ingress]
