@@ -30,4 +30,4 @@ The preferred method available for Kubernetes uses SealedSecrets by Bitnami. We 
 
 #### Seal a secret
 
-See the community [secrets](../secrets.md) documentation for information on how to use sealed secrets. 
+See the [secrets](../secrets.md) documentation for information on how to use sealed secrets. 
