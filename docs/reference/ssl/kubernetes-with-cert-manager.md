@@ -4,7 +4,7 @@ You can obtain SSL certificates for the OpenFaaS API Gateway and for your functi
 
 We will use the following components:
 
- - OpenFaaS installed [helm][openfaas-helm] or `helm template`
+ - OpenFaaS installed [helm][openfaas-helm] or (`helm template` if you can't use `tiller`)
  - [cert-manager][cert-manager]
  - [Nginx IngressController][nginx-ingress]
 
@@ -27,7 +27,7 @@ First install Helm and the Tiller [following the instructions provided by Helm][
 
 ### Install OpenFaaS
 
-Follow the instructions found in the [OpenFaaS Helm Chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#deploy-openfaas), make sure to [secure your gateway with basic auth](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#secure-the-gateway-administrative-api-and-ui-with-basic-auth) before you continue.
+Follow the instructions found in the [OpenFaaS Helm Chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#deploy-openfaas). As part of these instructions you will create a basic-auth password to secure the Gateway's API and UI.
 
 ### Install nginx-ingress
 
