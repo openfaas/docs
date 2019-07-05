@@ -4,6 +4,24 @@
 
 At any time you can reset the cluster and start over. This is better than editing files individually and prevents inadvertently missing something.
 
+#### Not found error for dashboard
+
+You cannot access the dashboard or gateway via IP address. You need to use the DNS A records for your cluster which correspond to the root domain used for your installation.
+
+Find the IP address of the LoadBalancer or IP address of one of your nodes if using Host networking and create these records:
+
+* `system.example.com` -> Create DNS A record `system.example.com`
+* `auth.system.example.com` -> Create DNS A record `system.example.com`
+* `user.example.com/function` -> Create as DNS A record `*.example.com`
+
+If you do not have access to DNS you can edit your `/etc/hosts` file and add entries there for local testing.
+
+#### Something else not working?
+
+Make sure that you clearly followed all the instructions in the README for ofc-bootstrap, read them through and check them off one-by-one.
+
+Make sure that you edited `init.yaml`, read all the comments and updated the values that you needed to. If in doubt, ask questions on Slack.
+
 ### No functions appear
 
 If no functions appear on your dashboard then try the following.
