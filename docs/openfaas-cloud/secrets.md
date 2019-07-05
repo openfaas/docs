@@ -66,6 +66,15 @@ Add the secret to the `secrets:` section of your YAML, use the value from `--nam
 
 Check the git commit status in the repo, or view your overview page at: `https://system.example.com/dashboard/username`
 
+#### `faas-cli cloud seal` reference
+
+| Flag              | Description |
+|-------------------|-------------------------|
+| --name            | The name of the secret object prefixed with your GitHub username |
+| --cert            | pub-cert.pem from the Community Cluster, or your local cluster |
+| --literal         | Secret key and value pair. You can specify this parameter more than once to add more secrets |
+| --from-file       | Read secret from file. **Note** secret key name will be the filename |
+
 ##### Example [from reference repository](https://github.com/alexellis/my-fn):
 
 We'll encrypt an incoming webhook URL for Slack, which should be considered as confidential information.
