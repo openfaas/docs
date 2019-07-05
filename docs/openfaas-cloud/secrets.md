@@ -2,45 +2,69 @@
 
 There are two ways to bind to [OpenFaaS secrets](/reference/secrets) with OpenFaaS Cloud which apply when self-hosted.
 
-### Create secrets manually
+### Encrypt a secret for use in your git repository
 
-You can create secrets manually via `faas-cli secret create` or by using `kubectl`. These secrets will be available to users if the prefix of the secret matches the owner of the code being deployed, i.e.
+You can encrypt or *seal* secrets so that they can be committed to your git repository. Each secret can be sealed using the public key of the cluster which you can get from your administrator.
 
-If you are using an organization or repo named `myorg` and want a secret named `api-key` you could run:
-
-```sh
-$ faas-cli secret create myorg-api-key
-```
-
-In your `stack.yml` file in the `secrets` section, you could then reference the `api-key` secret.
-
-This method relies on you having administrative access or making a request to your administrator.
-
-### Use SealedSecrets in your repo
-
-The preferred method available for Kubernetes uses SealedSecrets by Bitnami. We will use the `kubeseal` tool to encrypt our secrets using the public key of the cluster. These can then be placed in a file named `secrets.yaml` in your repo no matter whether it is public or private, your data will remain confidential.
+OpenFaaS Cloud uses [SealedSecrets by Bitnami](https://github.com/bitnami-labs/sealed-secrets) for encrypting or sealing your confidential information.
 
 #### Pre-reqs:
 
-*  If you installed OpenFaaS Cloud using `ofc-bootstrap` then SealedSecrets will already be enabled, otherwise you can [follow the development guide](https://github.com/openfaas/openfaas-cloud/blob/master/docs/DEV.md#secrets).
+* If you installed OpenFaaS Cloud using `ofc-bootstrap` then SealedSecrets will already be installed and available
 
-* Follow [these instructions](https://github.com/openfaas/faas-cli#openfaas-cloud-extensions) to install `kubeseal` and to export the public key of your cluster.
+* If you installed OpenFaaS Cloud manually, you can add it with the [development guide](https://github.com/openfaas/openfaas-cloud/blob/master/docs/DEV.md#secrets)
 
-> Note: If you are using the Community Cluster, then you can fetch the [public key here](https://github.com/openfaas/cloud-functions/blob/master/pub-cert.pem).
+* Follow the [instructions](https://github.com/openfaas/faas-cli#openfaas-cloud-extensions) to install the dependency `kubeseal`
 
-#### Seal a secret
+* Export the public key of your cluster
 
-1. Create a new repo under your account `username`
-2. Create function `faas new --lang go <name-of-function> --prefix=username`
-3. Download `pub-cert.pem` from the my-fn repo above, you can commit the cert if you want. It's public.
-4. Update your faas-cli to get the new `cloud` sub-command
-5. Create `secrets.yml` with `faas-cli cloud seal` - https://github.com/openfaas/faas-cli#openfaas-cloud-extensions - make sure you prefix the secret with your GitHub username i.e. `alexellis-hallo` - the suffix is the repo name (not the function name). Inside your function consume the secret passed in to`--literal=key=value` from `/var/openfaas/secrets/key`. i.e. `faas-cli cloud seal --name alexellis-poker-face --literal key=value`
-6. Reference the secret in `stack.yml` without your username this time i.e. `- hallo` - note this is the name of the repo without your username prefixed. The prefix will be added automatically.
-7. Install the GitHub App if you haven't done this already.
-8. Do a Git push to trigger a build
-9. Await the success status on the commit then click it to follow through to the live link
+* If you are using the Community Cluster, then use this link: [pub-cert.pem](https://github.com/openfaas/cloud-functions/blob/master/pub-cert.pem).
 
-View your overview page at: `https://system.DOMAIN-NAME.TLD/dashboard/username`
+#### Walk-through
+
+* Create a new git repository under your account `username`
+* Create a new function i.e. `faas new --lang go has-secret --prefix=username`
+* Copy `pub-cert.pem` into the root of the repository
+* Run `faas-cli cloud seal`, this will create `secrets.yml`.
+
+For information on the flags available see the [faas-cli docs](https://github.com/openfaas/faas-cli#openfaas-cloud-extensions)
+
+When sealing secrets we specify a unique `--name` for the set of secrets, this should always be prefixed with your username or organisation name. Then enter a number of `--literal` and/or `--from-file` flags which correspond to each secret in the set.
+
+So if we wanted to seal a single secret called `api-key` with a value of `test1234` we could run:
+
+```sh
+faas-cli cloud seal --name username-my-secrets \
+  --literal api-key=1234
+```
+
+If you have more than one secret you can enter additional `--literal` flags:
+
+```sh
+faas-cli cloud seal --name username-my-secrets \
+  --literal api-key=1234 \
+  --literal hostname=myhost.com
+```
+
+You can also read in an entire file:
+
+```sh
+faas-cli cloud seal --name username-my-secrets \
+  --from-file=private-key.pem
+```
+
+* Edit `stack.yml`
+
+Add the secret to the `secrets:` section of your YAML, use the value from `--name`, but remove the username prefix.
+
+```
+    secrets:
+    - my-secrets
+```
+
+* Now run `git push`
+
+Check the git commit status in the repo, or view your overview page at: `https://system.example.com/dashboard/username`
 
 ##### Example [from reference repository](https://github.com/alexellis/my-fn):
 
@@ -65,7 +89,8 @@ Now let's look at how we seal the secret:
 ```sh
 # Seal secrets for owner alexellis named `fn-secrets`
 
-faas-cli cloud seal --name alexellis-fn-secrets --literal incoming-webhook-url=https://...
+faas-cli cloud seal --name alexellis-fn-secrets \
+  --literal incoming-webhook-url=https://...
 ```
 
 Here's the file generated by the command above:
@@ -106,10 +131,23 @@ The steps above must be followed precisely and if you have mis-read any of the d
 
 Notes:
 
-* When using `kubeseal` your secret name needs to be prefixed with your username i.e. `alexellis-my-secret`
-* Each `--literal` must have no prefix, it's the exact name you will use in `stack.yml`
+* When using `faas-cli cloud seal` your secret set name needs to be prefixed with your username i.e. `alexellis-my-secret`
 * In `stack.yml` your secrets should have no prefix, this is added later automatically
-* You must commit `secrets.yaml` into your repo and do a `git push`
+* The key from `--literal` or `--from-file` will be mounted under `/var/openfaas/secrets/` and can be read from there
+* You must commit `secrets.yaml` into the root of your repository and do a `git push`
 
-If in doubt check your results against [this reference repository](https://github.com/alexellis/my-fn).
+If in doubt check your results against [this reference repository](https://github.com/openfaas/cloud-functions).
 
+### Create secrets manually (not recommended)
+
+You can create secrets manually via `faas-cli secret create` or by using `kubectl`. These secrets will be available to users if the prefix of the secret matches the owner of the code being deployed, i.e.
+
+If you are using an organization or repo named `myorg` and want a secret named `api-key` you could run:
+
+```sh
+$ faas-cli secret create myorg-api-key
+```
+
+In your `stack.yml` file in the `secrets` section, you could then reference the `api-key` secret.
+
+This method relies on you having administrative access or making a request to your administrator.
