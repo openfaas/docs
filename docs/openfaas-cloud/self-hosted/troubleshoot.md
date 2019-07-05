@@ -18,7 +18,7 @@ If you do not have access to DNS you can edit your `/etc/hosts` file and add ent
 
 #### Something else not working?
 
-Make sure that you clearly followed all the instructions in the README for ofc-bootstrap, read them through and check them off one-by-one.
+Make sure that you clearly followed all the instructions in the [README for ofc-bootstrap](https://github.com/openfaas-incubator/ofc-bootstrap), read them through and check them off one-by-one.
 
 Make sure that you edited `init.yaml`, read all the comments and updated the values that you needed to. If in doubt, ask questions on Slack.
 
