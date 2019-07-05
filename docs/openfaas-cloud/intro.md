@@ -43,7 +43,7 @@ The OpenFaaS Cloud Community Cluster is a hosted version of OpenFaaS Cloud. The 
 
 You can request access, and if accepted you will be able to deploy functions using the OpenFaaS templates or microservices using a Dockerfile. You'll get your own dashboard for your endpoints which come with HTTPS, build logs, built-in CI/CD and a personal sub-domain. Both private and public GitHub repositories are supported.
 
-See also: [Form: Request access](https://forms.gle/8e6ZXJKMcDHpV6Xu6)
+See also: [Apply for Access](https://github.com/openfaas/community-cluster)
 
 #### Self-hosted
 

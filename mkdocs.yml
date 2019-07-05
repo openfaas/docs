@@ -135,10 +135,11 @@ nav:
     - YAML: ./reference/yaml.md
   - OpenFaaS Cloud:
       - Intro: ./openfaas-cloud/intro.md
+      - Community Cluster: ./openfaas-cloud/community-cluster.md
+      - Manage secrets: ./openfaas-cloud/secrets.md
       - Self-hosted:
         - Configure GitHub: ./openfaas-cloud/self-hosted/github.md
         - Configure GitLab: ./openfaas-cloud/self-hosted/gitlab.md
-        - Secrets: ./openfaas-cloud/self-hosted/secrets.md
         - Troubleshooting: ./openfaas-cloud/self-hosted/troubleshoot.md
   - Design & Architecture:
       - Gateway: ./architecture/gateway.md
