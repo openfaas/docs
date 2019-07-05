@@ -38,6 +38,10 @@ faas-cli cloud seal --name username-my-secrets \
   --literal api-key=1234
 ```
 
+Your function will access the secret via:
+
+* `/var/openfaas/secrets/api-key`
+
 If you have more than one secret you can enter additional `--literal` flags:
 
 ```sh
@@ -46,6 +50,11 @@ faas-cli cloud seal --name username-my-secrets \
   --literal hostname=myhost.com
 ```
 
+Your function will access the secret via:
+
+* `/var/openfaas/secrets/api-key`
+* `/var/openfaas/secrets/hostname`
+
 You can also read in an entire file:
 
 ```sh
@@ -53,14 +62,28 @@ faas-cli cloud seal --name username-my-secrets \
   --from-file=private-key.pem
 ```
 
+Your function will access the secret via:
+
+* `/var/openfaas/secrets/private-key.pem`
+
 * Edit `stack.yml`
 
 Add the secret to the `secrets:` section of your YAML, use the value from `--name`, but remove the username prefix.
 
-```
+```yaml
+provider:
+  name: faas
+  gateway: http://127.0.0.1:8080
+
+functions:
+  has-secret:
+    lang: go
+    handler: ./has-secret
+    image: alexellis/has-secret
     secrets:
-    - my-secrets
+      - my-secrets
 ```
+*stack.yml*
 
 * Now run `git push`
 
