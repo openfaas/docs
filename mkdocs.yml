@@ -117,6 +117,7 @@ nav:
       - Create functions: ./cli/templates.md
       - Build functions: ./cli/build.md
       - Manage secrets: ./cli/secrets.md
+      - Logs: ./cli/logs.md
       - Working with image tags: ./cli/tags.md
   - Reference:
     - CI/CD:
@@ -125,6 +126,8 @@ nav:
       - Jenkins: ./reference/cicd/jenkins.md
     - SSL:
       - Kubernetes: ./reference/ssl/kubernetes-with-cert-manager.md
+    - Logs:
+      - Providers: ./reference/logs/providers.md
     - Secrets: ./reference/secrets.md
     - Async: ./reference/async.md
     - Triggers: ./reference/triggers.md
