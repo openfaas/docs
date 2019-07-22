@@ -30,12 +30,17 @@ An example log output for `nodeinfo` from the function store is
 
 The CLI writes logs to stdout, so it can easily be chained with any of your favorite CLI tools: `grep`, `sed`, [`fzf`](https://github.com/junegunn/fzf) etc.
 
-For example, the Sentiment Analysis function in the Store prints a version string during startup.
+For example, when you set the `write_debug` environment variable in the Sentiment Analysis function from the Store, it will print the function output to the logs, we can then search that output using grep.  For example,
 
 ```sh
-faas-cli store deploy SentimentAnalysis
-faas-cli logs sentimentanalysis --follow=false | grep "Version"
-2019-07-21 08:25:27.684193321 +0000 UTC sentimentanalysis (sentimentanalysis-76bd68b8b-529dk) 2019/07/21 08:25:27 Version: 0.13.0	SHA: fa93655d90d1518b04e7cfca7d7548d7d133a34e
+faas-cli store deploy SentimentAnalysis --env write_debug=true
+echo "i like code" | faas-cli invoke sentimentanalysis
+echo "i like functions" | faas-cli invoke sentimentanalysis
+echo "i like containers" | faas-cli invoke sentimentanalysis
+faas-cli logs sentimentanalysis | grep sentence_count
+2019-07-22 12:44:08.202436478 +0000 UTC sentimentanalysis (sentimentanalysis-7887c5d8c5-5rnb5) {"polarity": 0.0, "sentence_count": 1, "subjectivity": 0.0}
+2019-07-22 12:44:10.11422064 +0000 UTC sentimentanalysis (sentimentanalysis-7887c5d8c5-5rnb5) {"polarity": 0.0, "sentence_count": 1, "subjectivity": 0.0}
+2019-07-22 12:44:11.882708263 +0000 UTC sentimentanalysis (sentimentanalysis-7887c5d8c5-5rnb5) {"polarity": 0.0, "sentence_count": 1, "subjectivity": 0.0}
 ```
 
 ## Log Retention and History
