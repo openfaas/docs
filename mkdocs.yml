@@ -126,8 +126,7 @@ nav:
       - Jenkins: ./reference/cicd/jenkins.md
     - SSL:
       - Kubernetes: ./reference/ssl/kubernetes-with-cert-manager.md
-    - Logs:
-      - Providers: ./reference/logs/providers.md
+    - Log Providers: ./reference/logs/providers.md
     - Secrets: ./reference/secrets.md
     - Async: ./reference/async.md
     - Triggers: ./reference/triggers.md
