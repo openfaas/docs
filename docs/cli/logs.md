@@ -1,8 +1,11 @@
 # Function Logs
 
-OpenFaaS provides access to function logs via an API and the CLI: `faas-cli logs NAME`.
+Via an extensible API, OpenFaaS provides access to function logs via the Gateway API and the CLI. This provides a simple and consistent way to access function logs regardless of your orchestration provider.
 
-This command will stream the logs for the named function.  By default, it will attempt to follow the logs, but you can control the behavior of the stream using these flags
+
+The official `faas-swarm` and `faas-netes` providers stream logs directly from the cluster API, this means that you will get the same logs as when you use `docker service logs` and `kubectl logs`. OpenFaaS only wraps wraps the existing container-native log systems, so you can always access function logs via the orchestration CLIs.
+
+The `faas-cli logs NAME` command will stream the logs for the named function.  By default, it will attempt to follow the logs, but you can control the behavior of the stream using these flags
 
 ```sh
 --follow                 continue printing new logs until the end of the request, up to 30s (default true)
@@ -46,10 +49,6 @@ faas-cli logs sentimentanalysis | grep sentence_count
 ## Log Retention and History
 Log retention and history will be determined by your cluster configuration and the log provider installed. The default configuration in the official function providers (`faas-swarm` and `faas-netes`) stream logs directly from the cluster containers. This means that you will only see logs from running function containers, no long term history.  So deleting a function will also remove access to those logs.
 
+## Alternative Log Providers
 The log system is designed to be extended with alternative providers, this means that logs could instead be supplied by a persistent storage, e.g. Loki or ElasticSearch.  See the [log providers overview](../reference/logs/providers.md) for more details about how providers work and available alternatives.
-
-
-
-
-
 
