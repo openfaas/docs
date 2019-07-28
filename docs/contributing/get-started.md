@@ -39,26 +39,26 @@ If you are new with Docker, Kubernetes or Go and would like to learn or just imp
 
 Git is used for version control and all repositories are public available under two organisations.
 
-#### OpenFaaS
+#### OpenFaaS org
 
-OpenFaaS started as a single mono-repo called `faas` and has been broken out into separate repositories. For this reason you should always collate Issues, PRs, contributor counts, stars and similar statistics from the organisation as a whole. The metrics within the `faas` repository alone are not representative of the whole project.
+OpenFaaS started as a single mono-repo called `faas` and has been broken out into separate repositories in the [openfaas](https://github.com/openfaas/) organisation.
+
+For this reason you should always collate statistics from the `openfaas` organisation, rather than the repository of a single component, which would provide invalid data. So whether counting issues, PRs, contributors, stars, or any other metric, use the whole organisation.
 
 | Repository        | Headline                         |
 |:------------------|:---------------------------------|
+| [certifier](https://github.com/openfaas/certifier)         | End-to-end tests written in Go for verifying OpenFaaS with Swarm or Kubernetes after a release, this also runs through CI for the `faas` repo |
+| [docs](https://github.com/openfaas/docs)              | Official docs repository for this site - i.e. https://docs.openfaas.com             |
 | [faas](https://github.com/openfaas/faas)              | Main repository for project issues, suggestions, documentation and roadmap/backlog items. Also includes UI portal and API gateway |
 | [faas-netes](https://github.com/openfaas/faas-netes)        | Kubernetes provider for OpenFaaS contains YAML and helm for deployment |
 | [faas-swarm](https://github.com/openfaas/faas-swarm)        | Docker Swarm provider for OpenFaaS contains a stack file for deployment |
-| [certifier](https://github.com/openfaas/certifier)         | End-to-end tests written in Go for verifying OpenFaaS with Swarm or Kubernetes after a release, this also runs through CI for the `faas` repo |
 | [faas-cli](https://github.com/openfaas/faas-cli)          | CLI for operating with OpenFaaS similar to `kubectl` or `docker` CLI    |
 | [templates](https://github.com/openfaas/templates)         | Official templates for OpenFaaS CLI used to scaffold a new function |
-| [openfaas-cloud](https://github.com/openfaas/openfaas-cloud)        | OpenFaaS Cloud - portable, multi-user Serverless Functions powered by GitOps |
-| [docs](https://github.com/openfaas/docs)              | Official docs repository for this site - i.e. https://docs.openfaas.com             |
-| [workshop](https://github.com/openfaas/workshop)          | Official workshop - Hands-on labs for learning OpenFaaS |
 | [nats-queue-worker](https://github.com/openfaas/nats-queue-worker) | Asynchronous processing for deferred / queued work with OpenFaaS, based upon NATS Streaming |
-| [www](https://github.com/openfaas/www)               | Webpages for https://www.openfaas.com   |
 | [media](https://github.com/openfaas/media)             | Press-kit and media for the project branding and swag             |
-
-https://github.com/openfaas/
+| [openfaas.github.io](https://github.com/openfaas/openfaas.github.io)               | Source for https://www.openfaas.com and blog |
+| [openfaas-cloud](https://github.com/openfaas/openfaas-cloud)        | OpenFaaS Cloud - portable, multi-user Serverless Functions powered by GitOps |
+| [workshop](https://github.com/openfaas/workshop)             | Practical training and hands-on labs for learning OpenFaaS |
 
 #### OpenFaaS Incubator
 
