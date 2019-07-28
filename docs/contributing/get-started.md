@@ -2,7 +2,7 @@
 
 There are many ways to contribute to the OpenFaaS project.
 
-Before raising a PR or an issue request that you read our [Contributing guide](https://github.com/openfaas/faas) which applies to every OpenFaaS GitHub repository. We have a wide range of suggestions for contributing to the project and community and only some of those involve writing code.
+Before raising a PR or an issue request that you read the project's [Contributing guide](https://github.com/openfaas/faas) which applies to every OpenFaaS GitHub repository. We have a wide range of suggestions for contributing to the project and community and only some of those involve writing code.
 
 ### Five practical ideas for a first contribution
 
@@ -12,7 +12,7 @@ Before raising a PR or an issue request that you read our [Contributing guide](h
 
 * Submit a function to the [Function Store](https://github.com/openfaas/store)
 
-* Write a blog post and add it to our [community listing](https://docs.openfaas.com/community/#community-resources)
+* Write a blog post and add it to the [community file](https://docs.openfaas.com/community/#community-resources)
 
 * Improve the [OpenFaaS CLI tooling](https://github.com/openfaas/faas-cli) with a PR or documentation
 
