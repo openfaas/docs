@@ -60,24 +60,43 @@ OpenFaaS started as a single mono-repo called `faas` and has been broken out int
 
 https://github.com/openfaas/
 
-#### OpenFaaS-Incubator
+#### OpenFaaS Incubator
 
-The incubator organisation is for experiments, research and for getting quick feedback. Only some of the projects incubated here will make it into the main project.
+The [openfaas-incubator organisation](https://github.com/openfaas-incubator/) contains projects which are under active development.
+
+Some people wrongly assume that the "incubator" organisation means that these projects have a special status, or that they are unsuitable for production. Projects that are unsuitable for production usage will say so in their readme file.
 
 | Repository        | Headline                         |
 |:------------------|:---------------------------------|
 | [of-watchdog](https://github.com/openfaas-incubator/of-watchdog)              | The OpenFaaS watchdog re-written with mode-abstractions for both STDIO & HTTP |
 | [faas-idler](https://github.com/openfaas-incubator/faas-idler)         | Scale OpenFaaS functions to zero replicas after specified period of inactivity   |
 | [openfaas-operator](https://github.com/openfaas-incubator/openfaas-operator)         | The OpenFaaS CRD Operator for Kubernetes   |
-| [kafka-connector](https://github.com/openfaas-incubator/kafka-connector)         | The Kafka connector connects OpenFaaS functions to Kafka topics   | 
+| [kafka-connector](https://github.com/openfaas-incubator/kafka-connector)         | The Kafka connector connects OpenFaaS functions to Kafka topics   |
+| [ofc-bootstrap](https://github.com/openfaas-incubator/ofc-bootstrap) | "one-click" CLI to install OpenFaaS Cloud on Kubernetes |
+| [ingress-operator](https://github.com/openfaas-incubator/ingress-operator/) | Provides `FunctionIngress` CRD for Custom Domains on Kubernetes |
+| [connector-sdk](https://github.com/openfaas-incubator/connector-sdk)         | Build your own event connectors for OpenFaaS |
+| [vcenter-connector](https://github.com/openfaas-incubator/vcenter-connector) | Trigger OpenFaaS Functions from events in VMware vCenter |
+| [faas-federation](https://github.com/openfaas-incubator/faas-federation) | Federate two OpenFaaS installations into one API |
+| [faas-memory](https://github.com/openfaas-incubator/faas-memory) | An OpenFaaS Provider example using memory for state. |
+
+##### Training & tutorials
+
+| Repository        | Headline                         |
+|:------------------|:---------------------------------|
+| [workshop-vscode](https://github.com/openfaas-incubator/workshop-vscode) | Run a Kubernetes workshop with VSCode in the browser |
+| [openfaas-linkerd2](https://github.com/openfaas-incubator/openfaas-linkerd2) | Lightweight Serverless on Kubernetes with mTLS and traffic-splitting with Linkerd2 |
+| [openfaas-function-auth](https://github.com/openfaas-incubator/openfaas-function-auth) | Examples of authentication in OpenFaaS Serverless functions. |
+
+##### Templates
+
+| Repository        | Headline                         |
+|:------------------|:---------------------------------|
 | [node10-express-template](https://github.com/openfaas-incubator/node10-express-template) | Node.js 10 Express template providing additional context and control over the HTTP response from your function |
+| [node10-express-service](https://github.com/openfaas-incubator/) | Template with Node.js and Express.js exposed fully |
+| [node8-express-template](https://github.com/openfaas-incubator/node8-express-template) | Node.js 8 template for OpenFaaS with HTTP via Express.js |
 | [golang-http-template](https://github.com/openfaas-incubator/golang-http-template) | Golang template providing additional control over the HTTP request and response.|
 | [powershell-http](https://github.com/openfaas-incubator/powershell-http-template) | PowerShell HTTP template |
 | [ruby-http](https://github.com/openfaas-incubator/ruby-http) | A Ruby HTTP template for OpenFaaS |
 | [python-flask-template](https://github.com/openfaas-incubator/python-flask-template) | OpenFaaS templates for Python 2.7/3.6 with Flask |
-| [node8-express-template](https://github.com/openfaas-incubator/node8-express-template) | Node.js 8 template for OpenFaaS with HTTP via Express.js |
-| [vcenter-connector](https://github.com/openfaas-incubator/vcenter-connector) | Trigger OpenFaaS Functions from events in VMware vCenter |
-| [ofc-bootstrap](https://github.com/openfaas-incubator/ofc-bootstrap) | "one-click" CLI to install OpenFaaS Cloud on Kubernetes |
-
-https://github.com/openfaas-incubator/
-
+| [python3-debian](https://github.com/openfaas-incubator/python3-debian) | Template for Python3 on Debian for data-science / compiled pip modules |
+| [perl-template](https://github.com/openfaas-incubator/perl-template) | Perl template for OpenFaaS |
