@@ -45,28 +45,41 @@ In addition to the above, both of the OpenFaaS watchdogs automatically provide c
 
 ## Zero-scale
 
-Scaling to zero is available in OpenFaaS but is not turned on by default. There are two parts that make up scaling to zero or (zero-scale) in the project. You can read more about how this works on the [OpenFaaS blog](https://www.openfaas.com/blog/zero-scale/).
+Scaling from zero is turned on by default, for any function or endpoint, this setting can be toggled on or off. Scaling to zero to recover idle resources is available in OpenFaaS, but is not turned on by default. There are two parts that make up scaling to zero or (zero-scale) in the project.
+
+For a technical overview see the blog post: [Scale to Zero and Back Again with OpenFaaS](https://www.openfaas.com/blog/zero-scale/).
 
 ### Scaling up from zero replicas
 
-Scaling up from zero replicas or 0/0 can be configured through an optional flag in the API Gateway.
+Scaling up from zero replicas or 0/0 can be toggled through the `scale_from_zero` environment variable for the OpenFaaS Gateway. This is turned on by default for both Kubernetes and Docker Swarm.
 
-To turn on scaling from 0 to your minimum replica count set `zero_scale` to true for the gateway deployment using Helm or the `docker-compose.yml`.
+The latency between accepting a request for an unavailable function and serving the request is sometimes called a "Cold Start".
 
-The latency between accepting a request for an unavailable function and serving the request is sometimes called a "Cold Start". The Cold Start varies depending on whether you are using Kubernetes or Swarm and whether the image is pre-pulled on any Nodes in the cluster. For Kubernetes (faas-netes) you can fine-tune the function's intial check delays to reduce the total latency.
+* What if I don't want a "cold start"?
 
-When `zero_scale` is enabled then each HTTP connection is blocked, the function is scaled to min replicas, and as soon as a replica is available the request is proxied through as per normal.
+The cold start in OpenFaaS is strictly optional and it is recommended that for time-sensitive operations you avoid one. This can be achieved by not scaling critical functions down to zero replicas, or by invoking them through the asynchronous route which decouples the request time from the caller.
+
+* What exactly happens in a "cold start"?
+
+The "Cold Start" consists of the following: creating a request to schedule a container on a node, finding a suitable node, pulling the Docker image and running the initial checks once the container is up and running. This "running" or "ready" state also has to be synchronised between all nodes in the cluster. The total value can be reduced by pre-pulling images on each node and by setting the Kubernetes Liveness and Readiness Probes to run at a faster cadence.
+
+Instructions for optimizing for a low cold-start are provided in [the helm chart for Kubernetes](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas).
+
+When `scale_from_zero` is enabled a cache is maintained in memory indicating the readiness of each function. If when a request is received a function is not ready, then the HTTP connection is blocked, the function is scaled to min replicas, and as soon as a replica is available the request is proxied through as per normal. You will see this process taking place in the logs of the *gateway* component.
 
 ### Scaling down to zero
 
-Scaling down to zero replicas is also called "idling". There are two options available for idling functions.
+Scaling down to zero replicas is also called "idling".
 
-* Option 1 - faas-idler
+There are two approaches available for idling functions:
 
-You can use the [faas-idler](https://github.com/openfaas-incubator/faas-idler) project which is incubating in the openfaas-incubator organisation. faas-idler allows some basic presents to be configured and then monitors the built-in Prometheus metrics on a regular basis and then uses the OpenFaaS REST API to scale idle functions to zero replicas.
+#### 1) faas-idler
 
-The [faas-idler](https://github.com/openfaas-incubator/faas-idler) component is easy to deploy with a docker-compose.yml file or Kubernetes YAML file.
+You can use the [faas-idler](https://github.com/openfaas-incubator/faas-idler) project which is currently available from the openfaas-incubator organisation. `faas-idler` allows some basic presents to be configured and then monitors the built-in Prometheus metrics on a regular basis to determine if a function should be scaled to zero. Only functions with a label of `com.openfaas.scale.zero=true` are scaled to zero, all others are ignored. Functions are scaled to zero through the OpenFaaS REST API.
 
-* Option 2 - OpenFaaS REST API
+The [faas-idler](https://github.com/openfaas-incubator/faas-idler) is deployed by default with Kubernetes and Swarm, but runs in a "dryRun" mode. To have it make actual changes to the functions, update the `dryRun` mode to "false".
+
+#### 2) OpenFaaS REST API
 
 If you want to use your own set of criteria for idling functions then you can make use of the OpenFaaS REST API to decide when to scale functions to zero. You can build and deploy your own custom controller for this task.
+
