@@ -126,7 +126,6 @@ nav:
       - Jenkins: ./reference/cicd/jenkins.md
     - SSL:
       - Kubernetes: ./reference/ssl/kubernetes-with-cert-manager.md
-    - Log Providers: ./reference/logs/providers.md
     - Secrets: ./reference/secrets.md
     - Async: ./reference/async.md
     - Triggers: ./reference/triggers.md
@@ -134,6 +133,7 @@ nav:
     - Auth: ./reference/authentication.md
     - CORS: ./reference/cors.md
     - Cron: ./reference/cron.md
+    - Log Providers: ./reference/logs/providers.md
     - YAML: ./reference/yaml.md
   - OpenFaaS Cloud:
       - Intro: ./openfaas-cloud/intro.md
@@ -158,3 +158,4 @@ nav:
       - Featured: ./tutorials/featured.md
   - Contributing:
       - Get Started: ./contributing/get-started.md
+
