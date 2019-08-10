@@ -37,11 +37,11 @@ For each alert fired the auto-scaler will add a number of replicas, which is a d
 
 When using Kubernetes the built-in [Horizontal Pod Autoscaler (HPA)](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) can be used instead of AlertManager.
 
-Find out more in Stefan Prodan's blog post below:
+* Try the 2019 tutorial: [Kubernetes HPAv2 with OpenFaaS](/tutorials/kubernetes-hpa/).
 
-https://stefanprodan.com/2018/kubernetes-scaleway-baremetal-arm-terraform-installer/#horizontal-pod-autoscaling
+* Stefan Prodan also wrote a blog post about [HPA with OpenFaaS in 2018](https://stefanprodan.com/2018/kubernetes-scaleway-baremetal-arm-terraform-installer/#horizontal-pod-autoscaling)
 
-In addition to the above, both of the OpenFaaS watchdogs automatically provide custom metrics that can be used for HPAv2 scaling rules.
+> Note: In addition to the above, both of the OpenFaaS watchdogs automatically provide custom metrics that can be used for HPAv2 scaling rules.
 
 ## Zero-scale
 
@@ -82,4 +82,3 @@ The [faas-idler](https://github.com/openfaas-incubator/faas-idler) is deployed b
 #### 2) OpenFaaS REST API
 
 If you want to use your own set of criteria for idling functions then you can make use of the OpenFaaS REST API to decide when to scale functions to zero. You can build and deploy your own custom controller for this task.
-
