@@ -91,43 +91,40 @@ queue-worker-544bcb7c67-72l72        1m           3Mi
 
 ### Disable auto-scaling with OpenFaaS
 
+You can either disable the OpenFaaS auto-scaling functionality completely, or just on a per-function basis
+
+#### Disable auto-scaling from OpenFaaS on a per function basis
+
+If you want to mix OpenFaaS auto-scaling and HPAv2, then add the additional label when deploying your functions:
+
+```
+faas-cli deploy --label com.openfaas.scale.factor=0
+```
+
+Or add the label to your `stack.yml` YAML file:
+
+```yaml
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:31112
+functions:
+  nodeinfo:
+    image: functions/nodeinfo:latest
+    skip_build: true
+    requests:
+      cpu: 10m
+    labels:
+      com.openfaas.scale.factor: 0
+```
+
+#### Disable auto-scaling from OpenFaaS on all functions
+
 Disable auto-scaling by scaling alertmanager down to zero replicas, this will stop it from firing alerts.
 
 ```sh
 kubectl scale -n openfaas deploy/alertmanager --replicas=0
 ```
-
-### Configure Prometheus to scrape the Kubernetes API server
-
-The metrics available via kubectl top / pod can now be scraped with Prometheus. OpenFaaS ships with Prometheus, and you could reconfigure that version to do this task, but for the tutorial we will install it again.
-
-```
-kubectl create namespace prometheus
-
-helm install stable/prometheus \
-  --name prometheus \
-  --namespace prometheus \
-  --set alertmanager.persistentVolume.enabled=false,server.persistentVolume.enabled=false,pushgateway.enabled=false
-```
-
-You will see that a number of pods have been created including "node-exporter" which fetches statistics about each node such as free disk space and CPU utilization.
-
-```
-kubectl get pods -n prometheus
-```
-
-Now port-forward the Prometheus dashboard:
-
-```
-kubectl --namespace=prometheus port-forward deploy/prometheus-server 9090
-```
-
-From here you can open a browser at `http://127.0.0.1:9090`
-
-Prometheus has been configured to use the Kubernetes service discovery mechanism. It will find any Pods with metrics then scrape them.
-
-* See your targets at: http://127.0.0.1:9090/targets
-* Enter query such as `container_memory_usage_bytes` on the Graph page.
 
 ### Deploy your first function
 
@@ -190,7 +187,7 @@ horizontalpodautoscaler.autoscaling/nodeinfo autoscaled
 
 View the HPA record with:
 
-```
+```sh
 kubectl get hpa/nodeinfo -n openfaas-fn
 
 NAME       REFERENCE             TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
@@ -203,7 +200,7 @@ kubectl get hpa/nodeinfo -n openfaas-fn -o yaml
 
 You can use `kubectl describe hpa/nodeinfo -n openfaas-fn` to get detailed information including any events such as scaling up and down.
 
-```
+```sh
 kubectl describe hpa/nodeinfo -n openfaas-fn
 
 Name:                                                  nodeinfo
@@ -230,7 +227,7 @@ Events:           <none>
 
 Use the following command with hey
 
-```
+```sh
 export OPENFAAS_URL=http://127.0.0.1:31112
 
 hey -c 5 \
@@ -245,23 +242,23 @@ You should note that HPA is designed to react slowly to changes in traffic, both
 
 Now in a new window monitor the progress:
 
-```
+```sh
 kubectl describe hpa/nodeinfo -n openfaas
 ```
 
 Or in an automated fashion:
 
-```
+```sh
 # watch -n 5 "kubectl describe hpa/nodeinfo -n openfaas-fn"
 ```
 
 You can also monitor the replicas of your function in the OpenFaaS UI or via the CLI:
 
-```
+```sh
 watch -n 5 "faas-cli list"
 ```
 
-Here is ane example of the replicas scaling up in response to the traffic created by `hey`:
+Here is an example of the replicas scaling up in response to the traffic created by `hey`:
 
 ```sh
 Name:                                                  nodeinfo
@@ -292,7 +289,7 @@ Note that whilst the scaling up was relatively quick, the scale-down may take si
 
 ## 3. Wrapping up
 
-In this tutorial we disabled the auto-scaling built into OpenFaaS which uses Prometheus and Alertmanager, and added in Kubernetes' own HPAv2 mechanism, its metrics-server and another deployment of Prometheus.
+In this tutorial we disabled the auto-scaling built into OpenFaaS which uses Prometheus and Alertmanager, and added in Kubernetes' own HPAv2 mechanism and its metrics-server.
 
 ### Notes and caveats
 
