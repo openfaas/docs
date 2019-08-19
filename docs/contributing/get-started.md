@@ -22,19 +22,22 @@ Examples may be: writing some Go code, reviewing a PR, helping with the website 
 
 If you are new with Docker, Kubernetes, or Go and would like to learn or just improve your skills, you may find the following links useful:
 
-* **Docker**
-    * [Docker Swarm Documentation](https://docs.docker.com/engine/swarm/)
-    * [Docker Documentation](https://docs.docker.com)
-* [Kubernetes Documentation](https://kubernetes.io/docs/home/?path=browse)
 * **Golang**
-    * [The Go Programming Language](https://golang.org)
-    * [Go Documentation](https://golang.org/doc/)
-    * Alex Ellis' [golang basics](https://blog.alexellis.io/tag/golang-basics/) blog posts
+    * [Go Official Website)](https://golang.org)
+    * [Go Official Documentation](https://golang.org/doc/)
+    * Alex Ellis' [golang basics](https://blog.alexellis.io/tag/golang-basics/) tutorial series
     * [The Case For Go](https://gist.github.com/ungerik/3731476) - a list of sources collected by Erik Unger
     * Another interesting blog post - [Why should you learn Go?](https://medium.com/@kevalpatel2106/why-should-you-learn-go-f607681fad65) by Keval Patel
     * Official Golang [GitHUb](https://github.com/golang) account
+* **Books useful for learning Golang**
     * [The Go Programming Language (Addison-Wesley Professional Computing)](https://www.amazon.co.uk/Programming-Language-Addison-Wesley-Professional-Computing/dp/0134190440)
     * [The Clean Coder: A Code of Conduct for Professional Programmers (Robert C. Martin)](https://www.amazon.co.uk/Clean-Coder-Conduct-Professional-Programmers/dp/0137081073/ref=sr_1_1?s=books&ie=UTF8&qid=1543083898&sr=1-1&keywords=the+clean+coder)
+* **Kubernetes**
+    * [Kubernetes Documentation](https://kubernetes.io/docs/home/?path=browse)
+    * [Tutorials from Alex Ellis](https://blog.alexellis.io/tag/kubernetes/)
+* **Docker**
+    * [Docker Documentation](https://docs.docker.com)
+    * [Docker Swarm Documentation](https://docs.docker.com/engine/swarm/)
 * [Travis CI User Documentation](https://docs.travis-ci.com)
 
 #### Communicate with the community
