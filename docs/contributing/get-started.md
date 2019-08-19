@@ -1,6 +1,6 @@
 ## Contribute to the project
 
-There are many ways to contribute to OpenFaaS. There are a wide variety of activities that help both the project and the community.
+There are many ways to contribute to OpenFaaS and a wide variety of activities that help both the project and the community.
 
 Before raising a PR or an Issue, it is requested that you read the project's [Contributing guide](https://github.com/openfaas/faas/blob/master/CONTRIBUTING.md). This guide applies to every OpenFaaS GitHub repository. We have a wide range of suggestions for contributing to the project and community and only some of those involve writing code.
 
