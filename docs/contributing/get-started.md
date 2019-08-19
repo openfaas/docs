@@ -1,10 +1,12 @@
 ## Contribute to the project
 
-There are many ways to contribute to the OpenFaaS project.
+There are many ways to contribute to OpenFaaS. There are a wide variety of activities that help both the project and the community.
 
-Before raising a PR or an issue request that you read the project's [Contributing guide](https://github.com/openfaas/faas) which applies to every OpenFaaS GitHub repository. We have a wide range of suggestions for contributing to the project and community and only some of those involve writing code.
+Before raising a PR or an Issue, it is requested that you read the project's [Contributing guide](https://github.com/openfaas/faas/blob/master/CONTRIBUTING.md). This guide applies to every OpenFaaS GitHub repository. We have a wide range of suggestions for contributing to the project and community and only some of those involve writing code.
 
-### Five practical ideas for a first contribution
+Examples may be: writing some Go code, reviewing a PR, helping with the website or UI, volunteering to write documentation for a new feature, creating code examples, or something else completely.
+
+### Five practical ideas to get started
 
 * Try the [workshop](https://github.com/openfaas/workshop)
 
@@ -18,7 +20,7 @@ Before raising a PR or an issue request that you read the project's [Contributin
 
 ### Get up to speed
 
-If you are new with Docker, Kubernetes or Go and would like to learn or just improve your skills, you may find the following links useful:
+If you are new with Docker, Kubernetes, or Go and would like to learn or just improve your skills, you may find the following links useful:
 
 * **Docker**
     * [Docker Swarm Documentation](https://docs.docker.com/engine/swarm/)
@@ -35,9 +37,17 @@ If you are new with Docker, Kubernetes or Go and would like to learn or just imp
     * [The Clean Coder: A Code of Conduct for Professional Programmers (Robert C. Martin)](https://www.amazon.co.uk/Clean-Coder-Conduct-Professional-Programmers/dp/0137081073/ref=sr_1_1?s=books&ie=UTF8&qid=1543083898&sr=1-1&keywords=the+clean+coder)
 * [Travis CI User Documentation](https://docs.travis-ci.com)
 
-### Main Git repositories
+#### Communicate with the community
 
-Git is used for version control and all repositories are public available under two organisations.
+Let the project team know in the #contributors channel on Slack.
+
+* Decide how many hours you think you may be able to contribute
+* Think about where you are most comfortable starting out and what you would like to work on
+* Ask for help if you don't know where to begin
+
+### Main source repositories
+
+All source is organised under two repositories on GitHub: openfaas and openfaas-incubator. Some prototyping may take place under the personal accounts of The [Members Team](https://github.com/orgs/openfaas/people).
 
 #### OpenFaaS org
 
