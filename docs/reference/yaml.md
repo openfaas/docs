@@ -234,7 +234,7 @@ Here we constrain a function to use only `100m` which is equivalent to 1/10 of [
 
 The meanings and formats of `limits` and `requests` may vary depending on whether you are using Kubernetes or Docker Swarm. In general:
 
- - Reserve maintains the host resources to ensure that the container can use them
+ - Requests ensures the stated host resource is available for the container to use
  - Limits specify the maximum amount of host resources that a container can consume
 
 See docs for [Docker Swarm](https://docs.docker.com/config/containers/resource_constraints/) or for [Kubernetes](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#how-pods-with-r    esource-limits-are-run).
