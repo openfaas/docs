@@ -26,11 +26,16 @@ Once you have a cluster, you can follow the detailed instructions on this page.
 
 ### Remote/managed options
 
-You can run `k3s` and `k3d` on a single node Virtual Machine so that you don't have to run Kubernetes on your own computer. The [k3sup (ketchup)](https://k3dsup.dev) tool can help you to do this.
+You can run `k3s` and `k3d` on a single node Virtual Machine so that you don't have to run Kubernetes on your own computer.
+
+* The [k3sup (ketchup)](https://k3sup.dev) tool can help you to do this by installing k3s onto a remote VM
+
+Kubernetes services/engines:
 
 * [Deploy to DigitalOcean Kubernetes](https://github.com/openfaas/workshop/blob/master/lab1b.md#run-on-digitaloceans-kubernetes-service)
 * [Deploy to Google Kubernetes Engine](https://github.com/openfaas/workshop/blob/master/lab1b.md#run-on-gke-google-kubernetes-engine)
 * [Deploy to Amazon EKS](https://aws.amazon.com/blogs/opensource/deploy-openfaas-aws-eks/)
+* [Deploy to Azure AKS](https://docs.microsoft.com/en-us/azure/aks/openfaas)
 
 A guide is available for configuring minikube here:
 
