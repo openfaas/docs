@@ -130,7 +130,7 @@ You may want to configure NetworkPolicy to restrict communication between the op
 
 If you are using the asynchronous invocations available in OpenFaaS then you may want to ensure high-availability or persistence for NATS Streaming. The default configuration uses in-memory storage. Options include clustering NATS and MySQL.
 
-> See also: [NATS documentation](https://nats.io/documentation/)
+> See also: [NATS documentation](https://nats-io.github.io/docs/)
 
 ## Workload or function guidelines
 

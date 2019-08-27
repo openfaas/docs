@@ -68,7 +68,7 @@ Use-cases for the Docker image:
 
 ## Building from source
 
-The [contributing guide](../contributing) has instructions for building from source and for configuring a Golang development environment. 
+The [contributing guide](/community/#contribute) has instructions for building from source and for configuring a Golang development environment. 
 
 * **Star/fork** on GitHub: [faas-cli](https://github.com/openfaas/faas-cli)
 

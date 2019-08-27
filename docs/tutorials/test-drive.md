@@ -24,11 +24,11 @@ When you're ready to build your own function head over to the following tutorial
 
 ## Pre-reqs
 
-The guide makes use of a cloud playground service called [play-with-docker.com](https://play-with-docker.com/) that provides free Docker hosts that expire after around 5 hours. Once you are familiar with the workflow, you can also deploy to your own laptop or cloud host.
+The guide makes use of a cloud playground service called [Play with Docker](https://labs.play-with-docker.com/) that provides free Docker hosts that expire after around 5 hours. Once you are familiar with the workflow, you can also deploy to your own laptop or cloud host.
 
 ## Start here
 
-Head over to [https://play-with-docker.com/](https://play-with-docker.com/) and start a new session. You may have to have to fill out a Captcha and log in with your [Docker Hub account](https://hub.docker.com).
+Head over to [https://labs.play-with-docker.com/](https://labs.play-with-docker.com/) and start a new session. You may have to have to fill out a Captcha and log in with your [Docker Hub account](https://hub.docker.com).
 
 * Click "Add New Instance" to create a single Docker host (more can be added later)
 

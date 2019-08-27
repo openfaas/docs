@@ -14,7 +14,7 @@ The classic watchdog has historically been used for all of the official OpenFaaS
 
 Technical documentation on the classic watchdog is available along with a table with all configuration options.
 
-* [Watchdog README](https://github.com/openfaas/faas/tree/master/watchdog)
+* [Watchdog README](https://github.com/openfaas/faas/blob/master/watchdog/README.md)
 
 ## of-watchdog
 
@@ -28,6 +28,6 @@ Status: this component is suitable for use in production and is part of the [ope
 
 This version of the of-watchdog brings new features for high-throughput and enables re-use of expensive resources such as database connection pools or machine-learning models. The primary difference is the ability to keep the function process warm between invocations. The classic watchdog forks one process per request giving the highest level of portability, but the newer version enables a `http` mode where that same process can be re-used repeatedly to offset the latency of forking.
 
-* [Read more on the of-watchdog](https://github.com/openfaas-incubator/of-watchdog)
+* [Read more on the of-watchdog](https://github.com/openfaas-incubator/of-watchdog/blob/master/README.md)
 
-The `http` mode of the of-watchdog uses [custom templates](https://github.com/openfaas-incubator/of-watchdog#2-http-modehttp).
+The `http` mode of the of-watchdog uses [custom templates](https://github.com/openfaas-incubator/of-watchdog#1-http-modehttp).

@@ -36,7 +36,7 @@ On Linux (or Mac without `brew` available) type in:
 $ curl -sSL https://cli.openfaas.com | sudo sh
 ```
 
-> If you're using Windows, then you're not out of luck, you can actually find the Windows executable on the [FaaS releases page](https://github.com/openfaas/faas-cli/releases/tag/0.4.5-b).
+> If you're using Windows, then you're not out of luck, you can actually find the Windows executable on the [FaaS releases page](https://github.com/openfaas/faas-cli/releases).
 
 ### Step 3 - Write your function
 
@@ -285,7 +285,7 @@ Here are two top tips:
 
 ![](https://blog.alexellis.io/content/images/2017/08/faas_side.png)
 
-Now that you've built your first function, why not checkout some of the examples built by the OpenFaaS community? You can share your first serverless OpenFaaS function with us on [Twitter](https://twitter.com/open_faas) or [Github](https://github.com/openfaas/faas/).
+Now that you've built your first function, why not checkout some of the examples built by the OpenFaaS community? You can share your first serverless OpenFaaS function with us on [Twitter](https://twitter.com/openfaas) or [Github](https://github.com/openfaas/faas/).
 
 Want to know more about the OpenFaaS Serverless framework for containers?
 
