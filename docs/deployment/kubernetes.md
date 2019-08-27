@@ -6,11 +6,31 @@ Use this guide to deploy OpenFaaS to a vanilla Kubernetes distribution running a
 
 ## Build a cluster
 
-You can start evaluating FaaS and building functions on your laptop or on a VM (cloud or on-prem).
+Before deploying OpenFaaS, you should provision a Kubernetes cluster. There are many options for deploying a local or remote cluster. You can read about the [various Kubernetes distributions here](https://kubernetes.io/docs/setup/).
 
-* [10 minute guides for minikube / kubeadm](https://blog.alexellis.io/tag/learn-k8s/)
+Once you have a cluster, you can follow the detailed instructions on this page.
 
-Additional information on [setting up Kubernetes](https://kubernetes.io/docs/setup/pick-right-solution/).
+* Install OpenFaaS CLI
+* Deploy OpenFaaS from static YAML, via helm, or via new YAML files generated with `helm template`
+* Find your OpenFaaS gateway address
+* Log in, deploy a function, and try out the UI.
+
+> If you should need technical support, then see the [Community Page](/community/).
+
+### Local clusters
+
+* [k3s](https://k3s.io) - a light-weight Kubernetes distribution ideal for edge and development - compatible with Raspberry Pi & ARM64 (Packet, AWS Graviton)
+* [k3d](https://github.com/rancher/k3d) - makes k3s available on any computer where Docker is also running
+* [minikube](https://minikube.sigs.k8s.io) - a popular, but heavy-weight option that creates a Linux virtual machine your computer using VirtualBox or similar
+* [Docker for Mac/Windows](https://docs.docker.com/docker-for-mac/install/) - Docker's Desktop edition has an option to run a local Kubernetes cluster
+
+### Remote/managed options
+
+You can run `k3s` and `k3d` on a single node Virtual Machine so that you don't have to run Kubernetes on your own computer. The [k3sup (ketchup)](https://k3dsup.dev) tool can help you to do this.
+
+* [Deploy to DigitalOcean Kubernetes](https://github.com/openfaas/workshop/blob/master/lab1b.md#run-on-digitaloceans-kubernetes-service)
+* [Deploy to Google Kubernetes Engine](https://github.com/openfaas/workshop/blob/master/lab1b.md#run-on-gke-google-kubernetes-engine)
+* [Deploy to Amazon EKS](https://aws.amazon.com/blogs/opensource/deploy-openfaas-aws-eks/)
 
 A guide is available for configuring minikube here:
 
@@ -53,12 +73,14 @@ Plain YAML files are also provided for x86_64 and armhf, but since they cannot b
 
 #### A. Deploy with Helm (for production)
 
-A Helm chart is provided in the `faas-netes` repository. Follow the link below then come back to this guide.
+A Helm chart is provided in the `faas-netes` repository. Follow the link below then come back to this page.
 
 * [OpenFaaS Helm chart](https://github.com/openfaas/faas-netes/blob/master/HELM.md)
 
-##### Tiller-less Helm install
-If you have issues using `helm` in a locked-down environment then you can still use the `helm template` command to generate a custom set of YAML to apply using `kubectl`. See the [Chart readme](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md#deployment-with-helm-template) for detailed instructions.
+    !!! note
+        Some users may have concerns about using helm charts due to security concerns with the `tiller` component. If you fall into this category of users, then don't worry, you can still benefit from the helm chart without using `tiller`.
+        
+        See the [Chart readme](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md#deployment-with-helm-template) for how to generate your own static YAML files using `helm template`.
 
 #### B. Deploy using kubectl/YAML (for development-only)
 
@@ -119,14 +141,20 @@ This step assumes you are running `kubectl` on a master host.
     !!! note
         For deploying on a cloud that supports Kubernetes *LoadBalancers* you may also want to apply the configuration in: `cloud/lb.yml`.
 
-#### B. Deploy using kubectl/YAML (Raspberry Pi / 32-bit ARM)
+#### Raspberry Pi & 32-bit ARM (armhf)
 
-> For a complete tutorial on setting up OpenFaaS for Raspberry Pi / 32-bit ARM using Kubernetes see the following blog post from Alex Ellis: [Serverless Kubernetes home-lab with your Raspberry Pis](https://blog.alexellis.io/serverless-kubernetes-on-raspberry-pi/).
+> For a complete tutorial on setting up OpenFaaS for Raspberry Pi / 32-bit ARM using Kubernetes see the following blog post from Alex Ellis: [Will it Cluster?](https://blog.alexellis.io/test-drive-k3s-on-raspberry-pi/).
 
 For Raspberry Pi or 32-bit ARM devices please do the following:
 
 ```bash
 $ kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
+```
+
+Clone the GitHub repository:
+
+```bash
+$ git clone https://github.com/openfaas/faas-netes
 ```
 
 Now deploy OpenFaaS:
@@ -140,17 +168,74 @@ When creating new functions please use the templates with a suffix of `-armhf` s
 
 > Note: you cannot deploy the sample functions to ARM devices, but you can use the function store in the gateway UI or via `faas-cli store list --yaml https://raw.githubusercontent.com/openfaas/store/master/store-armhf.json`
 
+#### 64-bit ARM and AWS Graviton
+
+For 64-bit ARM servers and devices such as ODroid-C2, Rock64, AWS Graviton and the servers provided by [Packet.net](https://packet.net/) please run the following:
+
+
+* Create the project namespaces
+
+```bash
+$ kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
+```
+Clone the GitHub repository:
+
+```bash
+$ git clone https://github.com/openfaas/faas-netes
+```
+
+Now deploy OpenFaaS:
+
+```bash
+$ cd faas-netes && \
+kubectl apply -f ./yaml_arm64
+```
+
+* Create a password
+
+```bash
+# generate a random password
+PASSWORD=$(head -c 12 /dev/urandom | shasum| cut -d' ' -f1)
+
+kubectl -n openfaas create secret generic basic-auth \
+--from-literal=basic-auth-user=admin \
+--from-literal=basic-auth-password="$PASSWORD"
+```
+
+Set your `OPENFAAS_URL`, if using a NodePort this may be `127.0.0.1:31112`.
+
+If you're using a remote cluster, or you're not sure then you can also port-forward the gateway to your machine for this step.
+
+```bash
+kubectl port-forward svc/gateway -n openfaas 31112:8080 &
+```
+
+Now log in:
+```bash
+export OPENFAAS_URL=http://127.0.0.1:31112
+
+echo -n $PASSWORD | faas-cli login --password-stdin
+```
+
+When creating new functions please use the templates with a suffix of `-arm64` such as `node-arm64` to ensure you get the correct versions for your devices.
+
+> Note: you cannot deploy the sample functions to ARM64 devices, but you can use the function store in the gateway UI or via `faas-cli store list --yaml https://raw.githubusercontent.com/openfaas/store/master/store-arm64.json`
+
 #### Use OpenFaaS
 
-After deploying OpenFaaS you can start using one of the guides or blog posts to create Serverless functions or test [community functions](https://github.com/openfaas/faas/blob/master/community.md).
+The community has built a workshop with 12 self-paced hands-on labs. Use the workshop to begin learning OpenFaaS at your own pace:
+
+* [OpenFaaS workshop](/tutorials/workshop/)
+
+You can also find a list of [community tutorials, events, and videos](https://github.com/openfaas/faas/blob/master/community.md).
 
 ![](https://camo.githubusercontent.com/72f71cb0b0f6cae1c84f5a40ad57b7a9e389d0b7/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f44466b5575483158734141744e4a362e6a70673a6d656469756d)
 
-You can also watch a complete walk-through of OpenFaaS on Kubernetes which demonstrates auto-scaling in action and how to use the Prometheus UI. [Video walk-through](https://www.youtube.com/watch?v=0DbrLsUvaso).
+A walk-through video shows auto-scaling in action and the Prometheus UI: [walk-through video](https://www.youtube.com/watch?v=0DbrLsUvaso).
 
 ### Deploy a function
 
-For simplicity the default configuration uses NodePorts rather than an IngressController (which is more complicated to setup).
+For ease of use, the default configuration uses NodePorts rather than an IngressController or LoadBalancer.
 
 | Service           | TCP port |
 --------------------|----------|
@@ -158,11 +243,9 @@ For simplicity the default configuration uses NodePorts rather than an IngressCo
 | Prometheus        | 31119    |
 
 !!! note
-    If you're an advanced Kubernetes user, you can add an IngressController to your stack and remove the NodePort assignments.
+    Advanced users can configure Ingress or a LoadBalancer in the helm chart.
 
-* Deploy a sample function
-
-There are currently no sample functions built into this stack, but we can deploy them quickly via the UI or FaaS-CLI.
+Functions can be deployed using the REST API, UI, CLI, or Function Store. Continue below to deploy your first sample function.
 
 #### Deploy functions from the OpenFaaS Function Store
 
@@ -360,6 +443,6 @@ If you're using the plain YAML files then edit `gateway-dep.yml` and set the fol
 
 As mentioned above, the default value is `Always`. Every time a function is deployed or is scaled up, Kubernetes will pull a potentially updated copy of the image from the registry. If you are using static image tags like `latest`, this is necessary.
 
-When set to `IfNotPresent`, function deployments may not be updated when using static image tags like `latest`. `IfNotPresent` is particularly useful when developing locally with minikube. In this case, you can set your local environment to use [minikube's docker](https://github.com/kubernetes/minikube/blob/master/docs/reusing_the_docker_daemon.md) so `faas-cli build` builds directly into the Docker library used by minikube. `faas-cli push` is unnecessary in this workflow - use faas-cli build then faas-cli deploy.
+When set to `IfNotPresent`, function deployments may not be updated when using static image tags like `latest`. `IfNotPresent` is particularly useful when developing locally with minikube. In this case, you can set your local environment to use [minikube's docker](https://minikube.sigs.k8s.io/docs/tasks/docker_daemon/) so `faas-cli build` builds directly into the Docker library used by minikube. `faas-cli push` is unnecessary in this workflow - use faas-cli build then faas-cli deploy.
 
 When set to `Never`, only local (or pulled) images will work. This is useful if you want to tightly control which images are available and run in your Kubernetes cluster.
