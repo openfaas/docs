@@ -12,7 +12,7 @@ OpenFaaS Cloud uses [SealedSecrets by Bitnami](https://github.com/bitnami-labs/s
 
 * If you installed OpenFaaS Cloud using `ofc-bootstrap` then SealedSecrets will already be installed and available
 
-* If you installed OpenFaaS Cloud manually, you can add it with the [development guide](https://github.com/openfaas/openfaas-cloud/blob/master/docs/DEV.md#secrets)
+* If you installed OpenFaaS Cloud manually, you can add it with the [development guide](https://github.com/openfaas/openfaas-cloud/tree/master/docs#sealedsecret-support)
 
 * Follow the [instructions](https://github.com/openfaas/faas-cli#openfaas-cloud-extensions) to install the dependency `kubeseal`
 

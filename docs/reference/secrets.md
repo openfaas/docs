@@ -9,7 +9,7 @@ Using secrets is a two step process. First you need to define a new secret in yo
 * Secrets can be specified via API, CLI or YAML file
 * You can use one to many secrets in a function
 * Secrets must exist in the cluster at deployment time
-* Secrets need to be created with `kubectl` or `docker secret create`, but [in the near future](https://github.com/openfaas/faas/issues/807) an API will exist to create, list, delete and update secrets.
+* You can create, list, delete and update secrets via the [faas-cli](/cli/secrets/).
 
 ### A note on environmental variables
 

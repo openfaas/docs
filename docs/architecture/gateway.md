@@ -14,7 +14,7 @@ See also: [auto-scaling](autoscaling.md).
 
 You can find the reference documentation and any additional settings for the API gateway in the README file for the gateway:
 
-* [README.md](https://github.com/openfaas/faas/tree/master/gateway)
+* [README.md](https://github.com/openfaas/faas/blob/master/gateway/README.md)
 
 ## Swagger
 

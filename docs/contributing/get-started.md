@@ -14,7 +14,7 @@ Examples may be: writing some Go code, reviewing a PR, helping with the website 
 
 * Submit a function to the [Function Store](https://github.com/openfaas/store)
 
-* Write a blog post and add it to the [community file](https://docs.openfaas.com/community/#community-resources)
+* Write a blog post and add it to the [community file](https://github.com/openfaas/faas/blob/master/community.md)
 
 * Improve the [OpenFaaS CLI tooling](https://github.com/openfaas/faas-cli) with a PR or documentation
 
@@ -23,12 +23,12 @@ Examples may be: writing some Go code, reviewing a PR, helping with the website 
 If you are new with Docker, Kubernetes, or Go and would like to learn or just improve your skills, you may find the following links useful:
 
 * **Golang**
-    * [Go Official Website)](https://golang.org)
+    * [Go Official Website](https://golang.org)
     * [Go Official Documentation](https://golang.org/doc/)
     * Alex Ellis' [golang basics](https://blog.alexellis.io/tag/golang-basics/) tutorial series
     * [The Case For Go](https://gist.github.com/ungerik/3731476) - a list of sources collected by Erik Unger
     * Another interesting blog post - [Why should you learn Go?](https://medium.com/@kevalpatel2106/why-should-you-learn-go-f607681fad65) by Keval Patel
-    * Official Golang [GitHUb](https://github.com/golang) account
+    * Official Golang [GitHub](https://github.com/golang) account
 * **Books useful for learning Golang**
     * [The Go Programming Language (Addison-Wesley Professional Computing)](https://www.amazon.co.uk/Programming-Language-Addison-Wesley-Professional-Computing/dp/0134190440)
     * [The Clean Coder: A Code of Conduct for Professional Programmers (Robert C. Martin)](https://www.amazon.co.uk/Clean-Coder-Conduct-Professional-Programmers/dp/0137081073/ref=sr_1_1?s=books&ie=UTF8&qid=1543083898&sr=1-1&keywords=the+clean+coder)
@@ -105,7 +105,7 @@ Some people wrongly assume that the "incubator" organisation means that these pr
 | Repository        | Headline                         |
 |:------------------|:---------------------------------|
 | [node10-express-template](https://github.com/openfaas-incubator/node10-express-template) | Node.js 10 Express template providing additional context and control over the HTTP response from your function |
-| [node10-express-service](https://github.com/openfaas-incubator/) | Template with Node.js and Express.js exposed fully |
+| [node10-express-service](https://github.com/openfaas-incubator/node10-express-service) | Template with Node.js and Express.js exposed fully |
 | [node8-express-template](https://github.com/openfaas-incubator/node8-express-template) | Node.js 8 template for OpenFaaS with HTTP via Express.js |
 | [golang-http-template](https://github.com/openfaas-incubator/golang-http-template) | Golang template providing additional control over the HTTP request and response.|
 | [powershell-http](https://github.com/openfaas-incubator/powershell-http-template) | PowerShell HTTP template |

@@ -347,7 +347,7 @@ You should edit `composer.json` and add any required package dependencies, refer
 
 ##### 7.2 Private Composer Repositories
 
-Refer to the [PHP7 Template Documentation](https://github.com/openfaas/templates/tree/master/template/php7) for instructions on how to use [Composers]((https://getcomposer.org/doc/)) `COMPOSER_AUTH` environment variable to configure access to dependencies in private repositories.
+Refer to the [PHP7 Template Documentation](https://github.com/openfaas/templates/tree/master/template/php7) for instructions on how to use [Composers](https://getcomposer.org/doc/) `COMPOSER_AUTH` environment variable to configure access to dependencies in private repositories.
 
 ##### 7.3 PHP Extensions
 

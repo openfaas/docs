@@ -29,7 +29,7 @@ You can also use `--parallel` or / `--filter` when you have multiple functions i
 
     The `faas-cli build` command invokes the `docker` CLI with the various flags and parameters required. If you want to use an alternative builder you can use the `--shrinkwrap` flag to generate a folder named `./build/<function>` which can then be used with any other container builder such as [BuildKit](https://github.com/moby/buildkit) or [Kaniko](https://blog.alexellis.io/quick-look-at-google-kaniko/).
 
-See also: [`faas-cli build` reference](../../cli/build/).
+See also: [`faas-cli build` reference](/cli/build/).
 
 ### GitLab
 

@@ -18,7 +18,7 @@ If you do not have access to DNS you can edit your `/etc/hosts` file and add ent
 
 #### Something else not working?
 
-Make sure that you clearly followed all the instructions in the [README for ofc-bootstrap](https://github.com/openfaas-incubator/ofc-bootstrap), read them through and check them off one-by-one.
+Make sure that you clearly followed all the instructions in the [README for ofc-bootstrap](https://github.com/openfaas-incubator/ofc-bootstrap/blob/master/README.md), read them through and check them off one-by-one.
 
 Make sure that you edited `init.yaml`, read all the comments and updated the values that you needed to. If in doubt, ask questions on Slack.
 
@@ -40,7 +40,7 @@ You must use the `master` branch. You cannot deploy from any other branch at thi
 
 #### SealedSecret name mis-match
 
-See the [secrets](./secrets) reference on how to configure your SealedSecrets correctly.
+See the [secrets](https://github.com/openfaas/openfaas-cloud/tree/master/docs#sealedsecret-support) reference on how to configure your SealedSecrets correctly.
 
 #### Webhook secret / HMAC incorrect
 

@@ -28,7 +28,7 @@ If running in read-only mode, then you can write files to the `/tmp/` mount only
 
 ### FaaS Functions
 
-To build a FaaS Function simply use the [OpenFaaS CLI](/cli/install.md) to scaffold a new function using one of the official templates or one of your own templates. All FaaS Functions make use of the [OpenFaaS classic watchdog](/architecture/watchdog.md) or the next-gen [of-watchdog](https://github.com/openfaas-incubator/of-watchdog).
+To build a FaaS Function simply use the [OpenFaaS CLI](/cli/install) to scaffold a new function using one of the official templates or one of your own templates. All FaaS Functions make use of the [OpenFaaS classic watchdog](/architecture/watchdog) or the next-gen [of-watchdog](https://github.com/openfaas-incubator/of-watchdog).
 
 ```
 faas-cli template pull

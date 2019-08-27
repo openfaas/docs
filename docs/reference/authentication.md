@@ -126,7 +126,7 @@ You will receive a token on the command-line, export it with `export TOKEN=""`.
 
 Then use it with any command: `faas-cli list --token="${TOKEN}"`
 
-See also: [faas-cli README](https://github.com/openfaas/faas-cli)
+See also: [faas-cli README](https://github.com/openfaas/faas-cli/blob/master/README.md)
 
 ## For functions
 

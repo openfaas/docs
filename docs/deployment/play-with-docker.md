@@ -75,7 +75,7 @@ Learn how to build serverless functions with OpenFaaS and Python in our half-day
 
 ## Troubleshooting
 
-If you are running into any issues please check out the troubleshooting guide and search the documentation / past issues before raising na issue.
+If you are running into any issues please check out the troubleshooting guide and search the documentation / past issues before raising an issue.
 
 * [Troubleshooting guide](/deployment/troubleshooting/)
 
