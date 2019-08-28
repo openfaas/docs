@@ -21,6 +21,7 @@ Once you have a cluster, you can follow the detailed instructions on this page.
 
 * [k3s](https://k3s.io) - a light-weight Kubernetes distribution ideal for edge and development - compatible with Raspberry Pi & ARM64 (Packet, AWS Graviton)
 * [k3d](https://github.com/rancher/k3d) - makes k3s available on any computer where Docker is also running
+* [microk8s](https://microk8s.io) - a Kubernetes distribution, specifically for Ubuntu users.
 * [minikube](https://minikube.sigs.k8s.io) - a popular, but heavy-weight option that creates a Linux virtual machine your computer using VirtualBox or similar
 * [Docker for Mac/Windows](https://docs.docker.com/docker-for-mac/install/) - Docker's Desktop edition has an option to run a local Kubernetes cluster
 
