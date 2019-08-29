@@ -122,9 +122,19 @@ Notes:
 
 Depending on your infrastructure or cloud provider you may choose to add TLS termination in your LoadBalancer, with some other external software or hardware or in the IngressController's configuration. For public-facing OpenFaaS installations the maintainers recommend the use of [cert-manager from JetStack](https://github.com/jetstack/cert-manager).
 
+### mTLS
+
+There was a conscious decision made not to bake a service mesh into OpenFaaS, however it is very easy to add one to enable mutual TLS between functions and the gateway.
+
+You can enable mutual TLS (mTLS) between OpenFaaS services using Linkerd or Istio, the community prefers Linkerd for its low resource consumption and ease of use.
+
+* [Tutorial/Lab: Linkerd2 & OpenFaaS](https://github.com/openfaas-incubator/openfaas-linkerd2)
+
 ### Configure NetworkPolicy
 
 You may want to configure NetworkPolicy to restrict communication between the openfaas Functions namespace and the core components of OpenFaaS. This is dependent on using a network driver which supports NetworkPolicy such as Weavenet.
+
+See also: [an example from OpenFaaS Cloud](https://github.com/openfaas/openfaas-cloud/tree/master/yaml/network-policy)
 
 ## NATS Streaming (asynchronous invocations)
 
