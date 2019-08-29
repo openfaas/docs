@@ -53,6 +53,10 @@ More information in the Incubator repository: [openfaas-incubator/kafka-connecto
 
 Support is available for OpenFaaS Gateways using Basic Authentication.
 
+### AWS SQS
+
+Connect your functions to [AWS SQS](https://aws.amazon.com/sqs/) queues using Form3's OpenFaaS AWS SQS connector: [form3tech-oss/openfaas-sqs-connector](https://github.com/form3tech-oss/openfaas-sqs-connector)
+
 ### AWS SNS
 
 You can use AWS SNS to trigger functions using AWS SNS Notifications and Subscriptions. This approach can be used to export almost any data-source or event from your Amazon Web Services (AWS) console such as S3 of DynamoDB to an OpenFaaS function.
