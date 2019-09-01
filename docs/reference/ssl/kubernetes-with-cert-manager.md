@@ -180,7 +180,7 @@ $ kubectl apply -f openfaas-crt.yaml
 You can validate that certificate has been obtained successfully using
 
 ```sh
-$ kubectl describe certificate openfaas-crt
+$ kubectl -n openfaas describe certificate openfaas-crt   
 ```
 
 If it was successful you can change to the production Let's Encrypt issuer by replacing `letsencrypt-staging` with `letsencrypt-prod` in the Certificate object in `openfaas-crt.yaml` and re-run `kubectl apply -f openfaas-crt.yaml`.
@@ -205,12 +205,13 @@ $ kubectl -n openfaas get issuer letsencrypt-prod letsencrypt-staging
 
 - To check that your certificate was created and that cert-manager created the required secret with the actual ssl certificate:
 ```sh
-$ kubectl -n openfaas get certificate,secret openfaas-crt
+$ kubectl -n openfaas get certificate openfaas-crt
+$ kubectl -n openfaas get secret openfaas-crt
 ```
 
 - If you want to tail the Nginx logs, you can use
 ```sh
-$ kubectl logs -f $(kubectl get po -l "app=nginxingress,component=controller" -o jsonpath="{.items[0].metadata.name}")
+$ kubectl logs -f $(kubectl get po -l "app=nginx-ingress,component=controller" -n nginx-ingress -o jsonpath="{.items[0].metadata.name}") -n nginx-ingress
 ```
 
 ## 2.0 SSL and custom domains for functions
