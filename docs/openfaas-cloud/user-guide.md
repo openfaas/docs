@@ -165,7 +165,7 @@ You have a complete list of your functions available here
 
 Click on one of the functions to view its details page.
 
-![](/images/openfaas-cloud/welcome-09.png)
+![](/images/openfaas-cloud/welcome-10.png)
 
 From here you can get metrics, find the latest diff, Docker image artifact and see how many replicas of the function are active.
 
