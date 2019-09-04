@@ -169,12 +169,21 @@ Click on one of the functions to view its details page.
 
 From here you can get metrics, find the latest diff, Docker image artifact and see how many replicas of the function are active.
 
-Get the *Endpoint* for your API and then open it in a browser.
+* View the build logs from the dashboard
+
+![](/images/openfaas-cloud/welcome-11.png)
+
+* You can also download a badge for your GitHub repo
+
+![](/images/openfaas-cloud/welcome-12.png)
+
+Now get the *Endpoint* for your API and then open it in a browser.
 
 * `https://alexellis.cloudnative.space/goto/` - generates an error
 * `https://alexellis.cloudnative.space/goto/home` - redirects to home
 
 The default behaviour with no short-path is to return an error, and the success behaviour is to redirect the browser to my homepage. So you can see after visiting these two URLs, we have a 50/50 split.
+
 
 ### Next steps
 
