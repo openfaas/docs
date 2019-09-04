@@ -44,6 +44,8 @@ We will cover creating and configuring a GitHub App for webhooks and events and 
 
 * Click "Generate a private key". A file will be downloaded, rename it to `private-key.pem` and place it in `~/Downloads`.
 
+![Generate a private key](/images/openfaas-cloud/github-app-05.png)
+
 * Note down your App's ID from this page
 
 * Take a note of the URL for your "Public Page", you will need to share this with your users
