@@ -166,3 +166,11 @@ Get the *Endpoint* for your API and then open it in a browser.
 * `https://alexellis.cloudnative.space/goto/home` - redirects to home
 
 The default behaviour with no short-path is to return an error, and the success behaviour is to redirect the browser to my homepage. So you can see after visiting these two URLs, we have a 50/50 split.
+
+### Next steps
+
+It is likely that you will need to add a secret or some confidential data to your API or function. 
+
+* Read the [User Guide for Secrets](/openfaas-cloud/secrets/) for OpenFaaS Cloud.
+
+* [Chat with the community on Slack](/community/)
