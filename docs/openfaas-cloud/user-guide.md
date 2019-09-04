@@ -2,12 +2,12 @@
 
 This guide applies to:
 
-* OpenFaaS Cloud: Self-hosted
-* OpenFaaS Cloud: The Community Cluster
+* [OpenFaaS Cloud: Self-hosted](/openfaas-cloud/)
+* [OpenFaaS Cloud: The Community Cluster](/openfaas-cloud/community-cluster/)
 
 ## The guide
 
-We'll be creating a Node.js API or microservice which redirects users to our favourite sites. Think of it like the beginnings of a URL shortener.
+We'll be creating a Node.js API or microservice using the [node10-express template](https://github.com/openfaas-incubator/node10-express-template). It does a HTTP redirect for a number of hard-coded routes and could be extended into a fully-functional url shortener in the future.
 
 You can use any of the official OpenFaaS templates, the incubator templates for Node.js and Golang, or even your own custom templates. 
 
