@@ -182,4 +182,6 @@ It is likely that you will need to add a secret or some confidential data to you
 
 * Read the [User Guide for Secrets](/openfaas-cloud/secrets/) for OpenFaaS Cloud.
 
+You may also have questions. There is a dedicated `#openfaas-cloud` channel for users on OpenFaaS Slack.
+
 * [Chat with the community on Slack](/community/)
