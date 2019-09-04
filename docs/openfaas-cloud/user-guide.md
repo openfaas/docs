@@ -184,6 +184,13 @@ Now get the *Endpoint* for your API and then open it in a browser.
 
 The default behaviour with no short-path is to return an error, and the success behaviour is to redirect the browser to my homepage. So you can see after visiting these two URLs, we have a 50/50 split.
 
+### Delete your function
+
+There are three ways to delete your function:
+
+* Uninstall the GitHub App from your repository, go to the repo settings then Apps and uninstall OpenFaaS Cloud
+* Edit your `stack.yml` and comment out, or delete the entry for the function you no-longer require
+* Use `faas-cli delete <function-name>`
 
 ### Next steps
 
