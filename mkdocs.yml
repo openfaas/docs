@@ -138,6 +138,7 @@ nav:
   - OpenFaaS Cloud:
       - Intro: ./openfaas-cloud/intro.md
       - Community Cluster: ./openfaas-cloud/community-cluster.md
+      - User Guide: ./openfaas-cloud/user-guide/
       - Manage secrets: ./openfaas-cloud/secrets.md
       - Self-hosted:
         - Configure GitHub: ./openfaas-cloud/self-hosted/github.md
