@@ -7,15 +7,18 @@ Using secrets is a two step process. First you need to define a new secret in yo
 ## Design
 
 * Secrets can be specified via API, CLI or YAML file
+* Secrets can only be accessed inside your function as files
 * You can use one to many secrets in a function
 * Secrets must exist in the cluster at deployment time
 * You can create, list, delete and update secrets via the [faas-cli](/cli/secrets/).
 
 ### A note on environmental variables
 
-The OpenFaaS contributors believe that enviromental variables should be reserved for non-confidential data only. All secrets are made available in the container file-system and should be read from the following location: `/var/openfaas/secrets/<secret-name>`. Both Kubernetes and Swarm have excellent stores for secrets. In the sample below we show how to create and consume a secret in a function.
+The OpenFaaS contributors believe that environmental variables should be reserved for non-confidential data only, like feature flags and configuration values, since it is common for logging or debugging systems to expose these plain text variables in crash reports or logs. All secrets are made available in the container file-system and should be read from the following location: `/var/openfaas/secrets/<secret-name>`.
 
-> See also: [YAML reference: environmental variables](yaml.md).
+Both Kubernetes and Swarm have excellent stores for secrets. In the sample below we show how to create and consume a secret in a function.
+
+> See also: [YAML reference: environmental variables](yaml.md) and [Unifying Secrets for OpenFaaS](https://www.openfaas.com/blog/unified-secrets/).
 
 ## Sample
 
