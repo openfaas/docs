@@ -1,4 +1,4 @@
-The OpenFaaS Cloud Community Cluster is a hosted version of OpenFaaS Cloud. The OpenFaaS Cloud Community Cluster is currently free and is the easiest way to try out OpenFaaS without having to set up anything yourself.
+The OpenFaaS Cloud Community Cluster is a hosted version of [OpenFaaS Cloud](/openfaas-cloud/intro/). The OpenFaaS Cloud Community Cluster is free to use and probably the quickest and easiest way to try out OpenFaaS. You don't have to set up any servers or even think about Docker, or Kubernetes.
 
 You can request access, and if accepted you will be able to deploy functions using the OpenFaaS templates or microservices using a Dockerfile.
 
@@ -12,6 +12,6 @@ When you have your access, you'll get:
 * Detailed build logs
 * Personal sub-domain
 
-Find out more about [OpenFaaS Cloud](/openfaas-cloud/intro/)
+You can apply for access using a Google Form and applications are usually processed within 72 hours:
 
-* [Apply for Access](https://github.com/openfaas/community-cluster)
+[Apply for Access Now](https://github.com/openfaas/community-cluster)
