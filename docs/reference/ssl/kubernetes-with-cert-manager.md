@@ -45,25 +45,25 @@ Following the recommended [default installation for cert-manager][cert-manager-h
 
 ```sh
 # Install the CustomResourceDefinition resources separately
-$ kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.7/deploy/manifests/00-crds.yaml
+kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.10/deploy/manifests/00-crds.yaml
 
 # Create the namespace for cert-manager
-$ kubectl create namespace cert-manager
+kubectl create namespace cert-manager
 
 # Label the cert-manager namespace to disable resource validation
-$ kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
+kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
 
 # Add the Jetstack Helm repository
-$ helm repo add jetstack https://charts.jetstack.io
+helm repo add jetstack https://charts.jetstack.io
 
 # Update your local Helm chart repository cache
-$ helm repo update
+helm repo update
 
 # Install the cert-manager Helm chart
-$ helm install \
+helm install \
   --name cert-manager \
   --namespace cert-manager \
-  --version v0.7.0 \
+  --version v0.10.0 \
   jetstack/cert-manager
 ```
 
@@ -85,13 +85,16 @@ metadata:
 spec:
   acme:
     # Email address used for ACME registration
-    email: <your-email-here>
-    http01: {}
+    email: <you@domain.com>
     # Name of a secret used to store the ACME account private key
     privateKeySecretRef:
       key: ""
       name: letsencrypt-prod
     server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
 ---
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: Issuer
@@ -102,11 +105,14 @@ spec:
   acme:
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     # Email address used for ACME registration
-    email: <your-email-here>
+    email: <you@domain.com>
     # Name of a secret used to store the ACME account private key
     privateKeySecretRef:
       name: letsencrypt-staging
-    http01: {}
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
 ```
 
 ```sh
@@ -120,78 +126,65 @@ This will allow `cert-manager` to automatically provision Certificates just in t
 The OpenFaaS Helm Chart already supports the nginx-ingress, but we want to customize it further. This is easiest with a custom values file. Below, we enable and configure the ingress object to use our certificate and expose just the gateway
 
 ```yaml
-# tls.yml
+# tls.yaml
 ingress:
   enabled: true
   annotations:
-    kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.class: "nginx"    
     certmanager.k8s.io/issuer: letsencrypt-staging
-    certmanager.k8s.io/acme-challenge-type: http01
   tls:
     - hosts:
-        - openfaas.mydomain.com
+        - gw.example.com
       secretName: openfaas-crt
   hosts:
-    - host: openfaas.mydomain.com
+    - host: gw.example.com
       serviceName: gateway
       servicePort: 8080
       path: /
 ```
 
+```sh
+$ helm upgrade openfaas \
+    --namespace openfaas \
+    --reuse-values \
+    --values tls.yaml \
+    openfaas/openfaas
+```
+
+### Check the certificate
+
+A certificate will be created automatically through "Ingress Shim", part of cert-manager. The Ingress Shim reads annotations to decide which certificates to provision for us.
+
+You can validate that certificate has been obtained successfully using:
+
+```sh
+$ kubectl describe certificate \
+  -n openfaas \
+  openfaas-crt
+```
+
+### Switch over to the production issuer
+
+If it was successful, then you can change to the production Let's Encrypt issuer.
+
+* Replace `letsencrypt-staging` with `letsencrypt-prod` in `tls.yaml`
+* Run the helm command again
 
 ```sh
 $ helm upgrade openfaas \
     --namespace openfaas \
     --reuse-values \
-    --values tls.yml \
+    --values tls.yaml \
     openfaas/openfaas
 ```
 
-### Create a certificate
-
-Finally, we can create the Certificate resource which triggers the actual creation of the certificate by `cert-manager`, edit the file below and replace the text `openfaas.mydomain.com` with your address for the API Gateway.
-
-```yaml
-# openfaas-crt.yaml
-apiVersion: certmanager.k8s.io/v1alpha1
-kind: Certificate
-metadata:
-  name: openfaas-crt
-  namespace: openfaas
-spec:
-  secretName: openfaas-crt
-  issuerRef:
-    name: letsencrypt-staging
-    kind: Issuer
-  dnsNames:
-  - openfaas.mydomain.com
-  acme:
-    config:
-    - http01:
-        ingressClass: nginx
-      domains:
-      - openfaas.mydomain.com
-```
-
-```sh
-$ kubectl apply -f openfaas-crt.yaml
-```
-
-You can validate that certificate has been obtained successfully using
-
-```sh
-$ kubectl describe certificate openfaas-crt
-```
-
-If it was successful you can change to the production Let's Encrypt issuer by replacing `letsencrypt-staging` with `letsencrypt-prod` in the Certificate object in `openfaas-crt.yaml` and re-run `kubectl apply -f openfaas-crt.yaml`.
-
 ### Deploy and Invoke a function
 
-In your projects containing OpenFaaS functions, you can now deploy using your domain as the gateway, replace `openfaas.mydomain.com` with your domain as well as adding the username and password you created when you deployed OpenFaaS.
+In your projects containing OpenFaaS functions, you can now deploy using your domain as the gateway, replace `gw.example.com` with your domain as well as adding the username and password you created when you deployed OpenFaaS.
 
 ```sh
-faas-cli login --gateway https://openfaas.mydomain.com --username <username> --password <password>
-faas-cli deploy --gateway https://openfaas.mydomain.com
+faas-cli login --gateway https://gw.example.com --username <username> --password <password>
+faas-cli deploy --gateway https://gw.example.com
 ```
 
 ### Verify and Debug
