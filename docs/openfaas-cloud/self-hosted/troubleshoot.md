@@ -46,7 +46,17 @@ If you have a custom template, you can redeploy the `git-tar` function or edit i
 kubectl edit -n openfaas-fn deploy/git-tar
 ```
 
-Look the the `custom_templates` environment variable and append your template. Use commas and do not add spaces.
+Look the the `custom_templates` environment variable and append your template.
+
+You can specify multiple git repositories, just use commas to separate each. Do not use any spaces.
+
+```yaml
+    spec:
+      containers:
+      - env:
+        - name: custom_templates
+          value: https://github.com/openfaas-incubator/node10-express-template.git,https://github.com/openfaas-incubator/ruby-http
+```
 
 #### SealedSecret name mis-match
 
