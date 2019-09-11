@@ -36,7 +36,17 @@ You must name your function's YAML file `stack.yml`, you can place multiple func
 
 #### Wrong branch
 
-You must use the `master` branch. You cannot deploy from any other branch at this time.
+By default only the `master` branch is built, unless this was configured to point at a separate branch during the installation of OFC.
+
+#### Custom templates
+
+If you have a custom template, you can redeploy the `git-tar` function or edit its Kubernetes deployment.
+
+```
+kubectl edit -n openfaas-fn deploy/git-tar
+```
+
+Look the the `custom_templates` environment variable and append your template. Use commas and do not add spaces.
 
 #### SealedSecret name mis-match
 
