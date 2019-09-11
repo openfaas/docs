@@ -46,7 +46,7 @@ If you have a custom template, you can redeploy the `git-tar` function or edit i
 kubectl edit -n openfaas-fn deploy/git-tar
 ```
 
-Look the the `custom_templates` environment variable and append your template.
+Look at the `custom_templates` environment variable, in the `value:` field append the repo URL for your template.
 
 You can specify multiple git repositories, just use commas to separate each. Do not use any spaces.
 
