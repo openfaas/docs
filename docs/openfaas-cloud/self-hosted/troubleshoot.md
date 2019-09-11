@@ -107,6 +107,14 @@ kubectl logs -n openfaas deploy/of-builder -c of-buildkit
 
 If your credentials or registry are set incorrectly, you may see that of-builder passes successfully, but of-buildkit may show an authorization error.
 
+#### git-tar
+
+git-tar takes the user's code and creates a tarball to be built, are there any errors?
+
+```sh
+kubectl logs -n openfaas-fn deploy/git-tar
+```
+
 #### buildshiprun
 
 Are there any issues deploying? Look for non 2xx status codes.
