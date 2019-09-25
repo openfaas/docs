@@ -104,7 +104,6 @@ nav:
   - Overview:
       - Introduction: index.md
       - Community: community.md
-      - Conceptual: conceptual.md
   - Getting Started:
       - Deployment: deployment.md
       - Kubernetes: ./deployment/kubernetes.md
