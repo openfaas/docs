@@ -14,7 +14,7 @@ OpenFaaS (Functions as a Service) is a framework for building serverless functio
 * [CLI](http://github.com/openfaas/faas-cli) available with YAML format for templating and defining functions
 * Auto-scales as demand increases
 
-![Stack](https://pbs.twimg.com/media/DFrkF4NXoAAJwN2.jpg)
+![Stack](https://github.com/openfaas/faas/raw/master/docs/of-layer-overview.png)
 
 ## Governance
 
@@ -68,7 +68,7 @@ To join the end-user community and to have your company listed as a user, please
 
 ## Get started with OpenFaaS
 
-![Portal](https://raw.githubusercontent.com/openfaas/faas/master/docs/inception.png)
+![Portal](https://github.com/openfaas/faas/raw/master/docs/inception.png)
 
 *Pictured: API gateway portal - designed for ease of use*
 

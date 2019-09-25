@@ -145,6 +145,7 @@ nav:
         - Configure GitLab: ./openfaas-cloud/self-hosted/gitlab.md
         - Troubleshooting: ./openfaas-cloud/self-hosted/troubleshoot.md
   - Design & Architecture:
+      - Stack: ./architecture/stack.md
       - Gateway: ./architecture/gateway.md
       - Watchdog: ./architecture/watchdog.md
       - Autoscaling: ./architecture/autoscaling.md
