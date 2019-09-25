@@ -26,45 +26,9 @@ OpenFaaS is free to use and completely open source under the MIT license. You ca
 
 ## Users of OpenFaaS
 
-Some of our users include:
+Several dozen end-user companies have given permission for their logo to be used on [openfaas.com](https://www.openfaas.com), you can find specific information in the [ADOPTERS.md](https://github.com/openfaas/faas/blob/master/ADOPTERS.md) file.
 
-<div class="row logos">
-    <a href="https://www.bulletproof.co.uk/" target="_blank"><img src="images/logos/bulletproof.png" alt="Bulletproof" title="Bulletproof"></a>
-    <a href="https://www.bt.com/" target="_blank"><img src="images/logos/bt_colour_pos.png" alt="BT" title="BT"></a>
-    <a href="https://www.citrix.com/" target="_blank"><img src="images/logos/citrix.svg" alt="Citrix" title="Citrix"></a>
-    <a href="https://www.contiamo.com" target="_blank"><img src="images/logos/contiamo.svg" alt="Contiamo" title="Contiamo"></a>
-    <a href="https://dimsolution.com/" target="_blank"><img src="images/logos/dim-solution.png" alt="Dim Solution" title="Dim Solution"></a>
-    <a href="https://dragonchain.com/" target="_blank"><img src="images/logos/dragonchain.svg" alt="Dragonchain" title="Dragonchain"></a>
-    <a href="https://form3.tech/" target="_blank"><img src="images/logos/form3.svg" alt="Form3" title="Form3" ></a>
-    <a href="https://www.galaxycard.in/" target="_blank"><img src="images/logos/galaxycard.png" alt="GalaxyCard" title="GalaxyCard" ></a>
-    <a href="https://www.gmo.jp/en/" target="_blank"><img src="images/logos/gmo.svg" alt="GMO Internet Group" title="GMO Internet Group"></a>
-    <a href="https://iconscout.com/" target="_blank"><img src="images/logos/iconscout.svg" alt="Iconscout" title="Iconscout"></a>
-    <a href="https://www.infotechpartners.be" target="_blank"><img src="images/logos/infotechpartners.png" alt="InfoTech Partners" title="InfoTech Partners" ></a>
-    <a href="https://www.intility.no/en/" target="_blank"><img src="images/logos/intility.png" alt="intility" title="intility"></a>
-    <a href="https://www.intraffic.nl" target="_blank"><img src="images/logos/intraffic.svg" alt="InTraffic" title="InTraffic"></a>
-    <a href="https://www.kw-commerce.de/" target="_blank"><img src="images/logos/kwc-logo.png" alt="KW-Commerce" title="KW-Commerce"></a>
-    <a href="https://www.liveperson.com/" target="_blank"><img src="images/logos/liveperson.png" alt="LivePerson" title="LivePerson"></a>
-    <a href="https://www.moneylion.com/" target="_blank"><img src="images/logos/moneylion.svg" alt="MoneyLion" title="MoneyLion"></a>
-    <a href="https://naamio.cloud" target="_blank"><img src="images/logos/naamio.svg" alt="Naamio" title="Naamio"></a>
-    <a href="https://www.packet.net/" target="_blank"><img src="images/logos/packet.png" alt="Packet Host" title="Packet Host"></a>
-    <a href="https://www.pentium.network/" target="_blank"><img src="images/logos/pentiumlogo.svg" alt="Pentium Network" title="Pentium Network"></a>
-    <a href="https://www.pressassociation.com" target="_blank"><img src="images/logos/press-association.png" alt="Press Association" title="Press Association"></a>
-    <a href="https://scaleway.com/" target="_blank"><img src="images/logos/scaleway.svg" alt="Scaleway" title="Scaleway"></a>
-    <a href="https://www.sefin.ro.gov.br" target="_blank"><img src="images/logos/sefin.jpg" alt="SEFIN" title="SEFIN"></a>
-    <a href="https://www.transmute.industries" target="_blank"><img src="images/logos/transmute.png" alt="Transmute Industries" title="Transmute Industries"></a>
-    <a href="https://traversals.com/" target="_blank"><img src="images/logos/traversals.png" alt="traversals" title="traversals"></a>
-    <a href="https://github.com/ucalgary" target="_blank"><img src="images/logos/ucalgary.png" alt="University of Calgary" title="University of Calgary"></a>
-    <a href="https://www.washington.edu" target="_blank"><img src="images/logos/universityofwashington.png" alt="University of Washington" title="University of Washington"></a>
-    <a href="http://ustore.com.br/" target="_blank"><img src="images/logos/ustore.png" alt="Ustore" title="Ustore"></a>
-    <a href="https://www.virality.de" target="_blank"><img src="images/logos/virality.png" alt="Virality" title="Virality"></a>
-    <a href="https://www.visionbanco.com" target="_blank"><img src="images/logos/vision.png" alt="Vision Banco SAECA" title="Vision Banco SAECA"></a>
-    <a href="https://www.wireline.io/" target="_blank"><img src="images/logos/wirelineio.svg" alt="Wireline.io" title="Wireline.io"></a>
-    <a href="https://ytel.com/" target="_blank"><img src="images/logos/ytel-blue.svg" alt="Ytel" title="Ytel"></a>
-</div>
-
-* [VMware](https://www.vmware.com)
-
-To join the end-user community and to have your company listed as a user, please [comment here](https://github.com/openfaas/faas/issues/776).
+Joining the end-user community and adding your use-case / logo is free of cost. Companies and users are welcome to send a pull request, or to comment on [this issue](https://github.com/openfaas/faas/issues/776).
 
 ## Get started with OpenFaaS
 
