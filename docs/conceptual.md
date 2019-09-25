@@ -1,8 +1,6 @@
 # Conceptual design of OpenFaaS
 
-> Serverless Functions Made Simple.
-
-![Stack](https://pbs.twimg.com/media/DFrkF4NXoAAJwN2.jpg)
+![Layers](https://github.com/openfaas/faas/raw/master/docs/of-layer-overview.png)
 
 ### Function Watchdog
 
