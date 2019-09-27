@@ -249,9 +249,9 @@ Use the [jaas](https://github.com/alexellis/jaas) task-runner for Swarm (easiest
 
 ```sh
 $ docker run -ti -v /var/run/docker.sock:/var/run/docker.sock \
-  alexellis2/jaas:1.0.0 \
+  alexellis2/jaas:1.1.0 \
   run --secret basic-auth-password \
-  --image alpine:3.9 \
+  --image alpine:3.10 \
   --command "cat /run/secrets/basic-auth-password"
 
 Printing service logs
