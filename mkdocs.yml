@@ -118,6 +118,7 @@ nav:
       - Manage secrets: ./cli/secrets.md
       - Logs: ./cli/logs.md
       - Working with image tags: ./cli/tags.md
+      - Shell auto completion: ./cli/completion.md
   - Reference:
     - CI/CD:
       - Intro: ./reference/cicd/intro.md
@@ -160,4 +161,3 @@ nav:
       - Featured: ./tutorials/featured.md
   - Contributing:
       - Get Started: ./contributing/get-started.md
-
