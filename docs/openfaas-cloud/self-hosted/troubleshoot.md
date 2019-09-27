@@ -16,6 +16,44 @@ Find the IP address of the LoadBalancer or IP address of one of your nodes if us
 
 If you do not have access to DNS you can edit your `/etc/hosts` file and add entries there for local testing.
 
+#### Issues with TLS
+
+TLS is provided by a wildcard certificate with [cert-manager](https://cert-manager.readthedocs.io/en/latest/), you can read the [documentation for cert-manager](https://cert-manager.readthedocs.io/en/latest/) for troubleshooting.
+
+Useful commands:
+
+* View Certificates and status
+
+  ```sh
+  kubectl get certificate -n openfaas
+
+  kubectl describe -n openfaas certificate/name
+```
+
+* View the ClusterIssuer and its status
+
+  ```sh
+  kubectl get ClusterIssuer
+
+  kubectl describe ClusterIssuer
+```
+
+
+* View any Orders that may be in-progress
+
+  ```sh
+  kubectl get Order -n openfaas
+
+  kubectl describe -n openfaas order/name
+```
+
+* View Ingress objects
+
+  ```sh
+  kubectl get ingress -n openfaas
+  kubectl describe -n openfaas ingress/name
+  ```
+
 #### Something else not working?
 
 Make sure that you clearly followed all the instructions in the [README for ofc-bootstrap](https://github.com/openfaas-incubator/ofc-bootstrap/blob/master/README.md), read them through and check them off one-by-one.
