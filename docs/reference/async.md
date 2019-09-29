@@ -26,7 +26,7 @@ It will pass back the X-Call-Id you had when you sent the initial request.
 You can use `netcat` to check the Call Id during invocation:
 
 ```
-$ curl -d "Hello" http://127.0.0.1:8080/async-function/figlet "X-Callback-Url: http://<your-ip>:8888"
+$ curl -d "Hello" http://127.0.0.1:8080/async-function/figlet -H "X-Callback-Url: http://<your-ip>:8888"
 ```
 
 ```
