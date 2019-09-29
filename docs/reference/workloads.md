@@ -44,15 +44,68 @@ faas-cli new --list
 
 Custom binaries can also be used as a function. Just use the `dockerfile` language template and replace the `fprocess` variable with the command you want to run per request. If you would like to pipe arguments to a CLI utility you can prefix the command with `xargs`.
 
+### Custom service account
+
+When using Kubernetes, OpenFaaS workloads can assume a ServiceAccount in the namespace in which they are deployed.
+
+For example if a workload needed to read logs from the Kubernetes API usng a ServiceAccount named `function-logs-sa`, you could bind it in this way:
+
+*stack.yml*
+
+```yaml
+functions:
+  system-logs:
+     annotations:
+       com.openfaas.serviceaccount: function-logs-sa
+```
+
+Here is an example `Role` that can list pods and work with Pod logs within the `openfaas-fn` namespace:
+
+```yaml
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: function-logs-role
+  namespace: openfaas-fn
+rules:
+- apiGroups: [""]
+  resources: ["pods", "pods/log"]
+  verbs: ["get", "list", "create"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: function-logs-role-binding
+  namespace: openfaas-fn
+subjects:
+- kind: ServiceAccount
+  name: function-logs-sa
+  namespace: openfaas-fn
+roleRef:
+  kind: Role
+  name: function-logs-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: function-logs-sa
+  namespace: openfaas-fn
+  labels:
+    app: openfaas
+```
+
 ### Stateless microservices
 
 A stateless microservice can be built using the `dockerfile` language type and the OpenFaaS CLI - or by building a custom Docker image which serves traffic on port `8080` and deploying that via the RESTful API, CLI or UI.
 
-An example of a stateless microservice may be an Express.js application using Node.js, a Sinatra app with Ruby or an ASP.NET 2.0 Core web-site.
+An example of a stateless microservice may be an Express.js application using Node.js, a Sinatra app with Ruby or an ASP.NET 2.0 Core website.
 
 Use of the [OpenFaaS next-gen of-watchdog](https://github.com/openfaas-incubator/of-watchdog) is optional, but recommended for stateless microservices to provide a consistent experience for timeouts, logging and configuration.
 
 On Kubernetes is possible to run any container image as an OpenFaaS function as long as your application exposes port 8080 and has a HTTP health check endpoint.
+
+#### Custom HTTP health check
 
 You can specify the HTTP path of your health check and the initial check delay duration with the following annotations:
 
@@ -72,6 +125,4 @@ functions:
 ``` 
 
 > Note: The initial delay value must be a valid Go duration e.g. `80s` or `3m`. 
-
-
 
