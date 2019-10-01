@@ -161,3 +161,4 @@ nav:
       - Featured: ./tutorials/featured.md
   - Contributing:
       - Get Started: ./contributing/get-started.md
+      - Main Repositories: ./contributing/main-repositories.md
