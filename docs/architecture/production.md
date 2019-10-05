@@ -10,6 +10,12 @@ These instructions apply for both Kubernetes and OpenShift 3.x.
 
 > Note: Docker Swarm and other providers are available, but are beyond the scope of this document.
 
+### Advanced Kubernetes configuration
+
+* [Encrypting Secret Data at Rest](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) (optional)
+
+    The default configuration for Kubernetes is to store secrets in base64, some users may want to encrypt their secrets at rest. By enabling this configuration, the secrets used by OpenFaaS will also be encrypted at rest.
+
 ### Chart options
 
 The `helm` chart is the most flexible way to deploy OpenFaaS and allows you to customize many different options such as whether scale-to-zero is enabled, how many replicas to have of each component and what kind of healthchecks or probes to use.
@@ -117,6 +123,10 @@ Notes:
 
 * Check any default timeouts set for your IngressController
 * Check any default timeout values set for your cloud LoadBalancer
+
+### Pin IP addresses with floating IPs (optional)
+
+Most cloud providers allow users to allocate a permanent IP address or Virtual/Floating IP to provisioned LoadBalancers. It is recommended that you do this for production usage. For AWS EKS, this doesn't apply due to the use of a CNAME for LoadBalancers.
 
 ### TLS
 
