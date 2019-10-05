@@ -168,7 +168,7 @@ You are looking for something like this:
 }
 ```
 
-Update your Docker keychain settings then regenerate your `~/.docker.config` file.
+Update your Docker keychain settings then regenerate your `~/.docker.config` file. Remove the following setting if you see it in the file: `	"credsStore": "osxkeychain"`.
 
 Once complete, run the following and edit the `config.json` section of the following two secrets:
 
