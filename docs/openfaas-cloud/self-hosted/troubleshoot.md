@@ -28,7 +28,7 @@ Useful commands:
   kubectl get certificate -n openfaas
 
   kubectl describe -n openfaas certificate/name
-```
+  ```
 
 * View the ClusterIssuer and its status
 
@@ -36,7 +36,7 @@ Useful commands:
   kubectl get ClusterIssuer
 
   kubectl describe ClusterIssuer
-```
+  ```
 
 
 * View any Orders that may be in-progress
@@ -45,7 +45,7 @@ Useful commands:
   kubectl get Order -n openfaas
 
   kubectl describe -n openfaas order/name
-```
+  ```
 
 * View Ingress objects
 
