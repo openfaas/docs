@@ -145,6 +145,8 @@ kubectl logs -n openfaas deploy/of-builder -c of-buildkit
 
 If your credentials or registry are set incorrectly, you may see that of-builder passes successfully, but of-buildkit may show an authorization error.
 
+#### Updating or fixing the registry secrets
+
 You may not have followed the instructions that say: "do not store your Docker password in a keychain", check this by fetching the registry secret and inspecting it, if it's correct you'll see your username and password encoded in the resulting JSON file.
 
 ```sh
@@ -165,6 +167,22 @@ You are looking for something like this:
         }
 }
 ```
+
+Update your Docker keychain settings then regenerate your `~/.docker.config` file.
+
+Once complete, run the following and edit the `config.json` section of the following two secrets:
+
+* `kubectl get secret -n openfaas registry-secret`
+* `kubectl get secret -n openfaas-fn registry-pull-secret`
+
+Replace the text inside:
+
+```json
+    "data": {
+        "config.json": ""
+```
+
+With the result from: `cat ~/.docker/config.json | base64`
 
 #### git-tar
 
