@@ -1,4 +1,4 @@
-## Contribute to the project
+# Contribute to the project
 
 There are many ways to contribute to OpenFaaS and a wide variety of activities that help both the project and the community.
 
@@ -6,7 +6,7 @@ Before raising a PR or an Issue, it is requested that you read the project's [Co
 
 Examples may be: writing some Go code, reviewing a PR, helping with the website or UI, volunteering to write documentation for a new feature, creating code examples, or something else completely.
 
-### Five practical ideas to get started
+## Five practical ideas to get started
 
 * Try the [workshop](https://github.com/openfaas/workshop)
 
@@ -18,7 +18,7 @@ Examples may be: writing some Go code, reviewing a PR, helping with the website 
 
 * Improve the [OpenFaaS CLI tooling](https://github.com/openfaas/faas-cli) with a PR or documentation
 
-### Get up to speed
+## Get up to speed
 
 If you are new with Docker, Kubernetes, or Go and would like to learn or just improve your skills, you may find the following links useful:
 
@@ -40,7 +40,7 @@ If you are new with Docker, Kubernetes, or Go and would like to learn or just im
     * [Docker Swarm Documentation](https://docs.docker.com/engine/swarm/)
 * [Travis CI User Documentation](https://docs.travis-ci.com)
 
-#### Communicate with the community
+## Communicate with the community
 
 Let the project team know in the #contributors channel on Slack.
 
@@ -48,9 +48,9 @@ Let the project team know in the #contributors channel on Slack.
 * Think about where you are most comfortable starting out and what you would like to work on
 * Ask for help if you don't know where to begin
 
-### Main source repositories
+## Code repositories
 
-All source is organised under two repositories on GitHub:
+All project source-code is organised under two repositories on GitHub:
 
 * [openfaas](https://github.com/openfaas/) - main set of projects
 * [openfaas-incubator](https://github.com/openfaas-incubator) - ecosystem, extensions, and prototyping
