@@ -1,6 +1,6 @@
-## Project source repositories
+## Code repositories
 
-All source is organised under two repositories on GitHub: openfaas and openfaas-incubator. Some prototyping may take place under the personal accounts of the [Members Team](https://github.com/orgs/openfaas/people).
+All source is organised under two repositories on GitHub: openfaas and openfaas-incubator.
 
 ### OpenFaaS org
 
@@ -27,7 +27,7 @@ For this reason you should always collate statistics from the `openfaas` organis
 
 The [openfaas-incubator organisation](https://github.com/openfaas-incubator/) contains projects which are under active development.
 
-Some people wrongly assume that the "incubator" organisation means that these projects have a special status, or that they are unsuitable for production. Projects that are unsuitable for production usage will say so in their readme file.
+Some people have wrongly assumed that the "incubator" organisation means that these projects have a special status, or that they are unsuitable for production. Projects that are unsuitable for production usage will say so in their readme file as part of the project status.
 
 | Repository        | Headline                         |
 |:------------------|:---------------------------------|
