@@ -27,7 +27,7 @@
 <!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
 - [ ] My code follows the code style of this project.
 - [ ] I have tested any new instructions
-- [ ] I am the author 
-- [ ] I am not the author but have permission to share this text and have referenced the source
+- [ ] I have included copyrighted materials from third parties.
+- [ ] I have permission to use copyrighted materials from third parties.
 - [ ] I've read the [CONTRIBUTION](https://github.com/openfaas/faas/blob/master/CONTRIBUTING.md) guide
 - [ ] I have signed-off my commits with `git commit -s`
