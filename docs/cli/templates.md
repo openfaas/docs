@@ -55,7 +55,21 @@ csharp-httprequest      distantcam         C# HTTP template
 ...
 ```
 
-Choose one or more templates and pull them with the command `faas-cli template store pull node10-express ruby-http csharp` and your templates should be downloaded.
+Choose a template and retrieve it locally with the command:
+
+```sh
+$ faas-cli template store pull node10-express
+```  
+
+Once downloaded, your chosen template and any others stored in the same repository will be available to use:
+
+```sh
+$ faas-cli new --list
+Languages available as templates:
+- node10-express
+- node10-express-arm64
+- node10-express-armhf
+```
 
 You can add your own store just by specifying the `--url` flag for both commands to pull and list your custom templates store.
 
