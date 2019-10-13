@@ -17,10 +17,6 @@ We will split this tutorial into two parts:
 
 This part guides you through setting up all the pre-requisite components to enable TLS for your gateway. You can then access your gateway via a URL such as `https://gw.example.com` and each function such as: `https://gw.example.com/function/nodeinfo`.
 
-### Create an A record
-
-If your domain is `.domain.com` then create an A record using your DNS administration panel such as `gateway.domain.com` or `openfaas.domain.com`. The required steps will vary depending on your domain provider and your cluster provider. For example; [on Google Cloud DNS](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip) or [with Route53 using AWS](https://kubernetes.io/docs/setup/custom-cloud/kops/#2-5-create-a-route53-domain-for-your-cluster).
-
 ### Configure Helm and Tiller
 
 First install Helm and the Tiller [following the instructions provided by Helm][helm-install]
@@ -31,13 +27,56 @@ Follow the instructions found in the [OpenFaaS Helm Chart](https://github.com/op
 
 ### Install nginx-ingress
 
-Add the `nginx-ingress` using
+This example will use a Kubernetes [IngressController](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/).
+
+Add Nginx using the helm `chart-ingress`:
 
 ```sh
 $ helm install stable/nginx-ingress --name nginxingress --set rbac.create=true
 ```
 
 The full configuration options for nginx [can be found here][nginx-configuration].
+
+You will see a service created in the `default` namespace with an `EXTERNAL-IP` of `Pending`, after a few moments it should reveal the public IP allocated by your cloud provider.
+
+```sh
+$ kubectl get svc
+nginxingress-nginx-ingress-controller        LoadBalancer   192.168.137.172   134.209.179.1
+```
+
+Caveats: 
+
+* If you do not have a cloud provider for your Kubernetes cluster, but have a public IP, then you can install Nginx in "host-mode" and use the IP of one or more of your nodes for the DNS record.
+
+  ```sh
+  $ helm install stable/nginx-ingress --name nginxingress --set rbac.create=true,controller.hostNetwork=true controller.daemonset.useHostPort=true,dnsPolicy=ClusterFirstWithHostNet,controller.kind=DaemonSet
+  ```
+
+  Taken from tutorial: [Setup a private Docker registry with TLS on Kubernetes](https://github.com/alexellis/k8s-tls-registry)
+
+* If you do not have a public IP for your Kubernetes cluster, then you can use a project like [Inlets](https://inlets.dev) and bypass using cert-manager. Inlets has around half a dozen examples of configurations for Kubernetes.
+
+  [HTTPS for your local endpoints with inlets and Caddy](https://blog.alexellis.io/https-inlets-local-endpoints/)
+
+### Create a DNS record
+
+Determine the public IP address which can be used to connect to Nginx:
+
+* If you are using a managed cloud provider, you will receive an IP address in `EXTERNAL-IP`
+* If you are using AWS EKS, Nginx will receive a DNS A record in `EXTERNAL-IP`
+* If you are using Host Mode for Nginx, then use the IP address of your node
+
+For most people you can create a domain such as `openfaas.example.com` using a DNS A record, for those using AWS EKS, you will have to create a DNS CNAME entry instead.
+
+> The required steps will vary depending on your domain provider and your cluster provider. For example; [on Google Cloud DNS](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip) or [with Route53 using AWS](https://kubernetes.io/docs/setup/custom-cloud/kops/#2-5-create-a-route53-domain-for-your-cluster).
+
+Once created, verify that what you entered into your DNS control-panel worked with `ping`:
+
+```sh
+ping openfaas.example.com
+```
+
+You should now see the value you entered. Sometimes DNS can take 1-5 minutes to propagate.
 
 ### Install cert-manager
 
