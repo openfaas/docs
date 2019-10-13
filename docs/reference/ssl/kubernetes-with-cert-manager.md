@@ -66,14 +66,14 @@ Determine the public IP address which can be used to connect to Nginx:
 * If you are using AWS EKS, Nginx will receive a DNS A record in `EXTERNAL-IP`
 * If you are using Host Mode for Nginx, then use the IP address of your node
 
-For most people you can create a domain such as `openfaas.example.com` using a DNS A record, for those using AWS EKS, you will have to create a DNS CNAME entry instead.
+For most people you can create a domain such as `gw.example.com` using a DNS A record, for those using AWS EKS, you will have to create a DNS CNAME entry instead.
 
 > The required steps will vary depending on your domain provider and your cluster provider. For example; [on Google Cloud DNS](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip) or [with Route53 using AWS](https://kubernetes.io/docs/setup/custom-cloud/kops/#2-5-create-a-route53-domain-for-your-cluster).
 
 Once created, verify that what you entered into your DNS control-panel worked with `ping`:
 
 ```sh
-ping openfaas.example.com
+ping gw.example.com
 ```
 
 You should now see the value you entered. Sometimes DNS can take 1-5 minutes to propagate.
