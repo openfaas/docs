@@ -8,11 +8,6 @@ Blog posts, upcoming/past events and code examples are available on the communit
 
 * [OpenFaaS Community Page](https://github.com/openfaas/faas/blob/master/community.md)
 
-## Social media
-
-* Twitter: [@OpenFaaS](https://twitter.com/openfaas)
-* LinkedIn: [#TeamServerless Group](https://www.linkedin.com/groups/13670843/)
-
 ## Slack Workspace
 
 OpenFaaS has its own Slack workspace, which you are welcome to join.
@@ -34,6 +29,17 @@ It can be difficult to keep up with messages in the busier channels, therefore y
 
 Sign-up to join the OpenFaaS Slack workspace using [this form](https://goo.gl/forms/SqpLSdyzVoOboRqs1).
 
+## Insiders Track and GitHub Sponsors
+
+Find out how you can join 80+ other developers in supporting the work of OpenFaaS, which is supported for free by a community of volunteers.
+
+[Become an Insider via GitHub Sponsors](https://github.com/openfaas/faas/blob/master/BACKERS.md)
+
+## Social media
+
+* Twitter: [@OpenFaaS](https://twitter.com/openfaas)
+* LinkedIn: [#TeamServerless Group](https://www.linkedin.com/groups/13670843/)
+
 ### Slack vs. GitHub issues
 
 The GitHub repositories can be a rich source of information, but you are encouraged to ask your support questions through Slack and keep the issue tracker for flagging issues with the code or release and for proposing features to support your use-case. 
@@ -53,9 +59,3 @@ For stickers, swag, media or press-kit information head over to [openfaas/media]
 Please use statistics across the whole GitHub organisation for numbers of contributors, GitHub stars, forks and other activity. OpenFaaS does not operate a mono-repo, so taking statistics just from the (faas) repository is misrepresentation.
 
 See also: [OpenFaaS Organisation statistics](https://kenfdev.o6s.io/github-stats-page).
-
-## Become an OpenFaaS backer or sponsor
-
-We need your support to keep delivering on Serverless Functions Made Simple so pledge to OpenFaaS and [become a backer or a sponsor](https://www.patreon.com/alexellis) with a unique set of rewards. Help us hit our goals and get to back a great project at the same time.
-
-View the [List of backers and sponsors](https://github.com/openfaas/faas/blob/master/BACKERS.md)
