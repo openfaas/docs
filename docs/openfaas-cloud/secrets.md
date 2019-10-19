@@ -29,7 +29,7 @@ OpenFaaS Cloud uses [SealedSecrets by Bitnami](https://github.com/bitnami-labs/s
 
 For information on the flags available see the [faas-cli docs](https://github.com/openfaas/faas-cli#openfaas-cloud-extensions)
 
-When sealing secrets we specify a unique `--name` for the set of secrets, this should always be prefixed with your username or organisation name. Then enter a number of `--literal` and/or `--from-file` flags which correspond to each secret in the set.
+When sealing secrets we specify a unique `--name` for the set of secrets, this should always be prefixed with your username or organisation name, using only lower case characters. Then enter a number of `--literal` and/or `--from-file` flags which correspond to each secret in the set.
 
 So if we wanted to seal a single secret called `api-key` with a value of `test1234` we could run:
 
