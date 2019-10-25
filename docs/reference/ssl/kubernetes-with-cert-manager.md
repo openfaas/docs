@@ -4,7 +4,7 @@ You can obtain SSL certificates for the OpenFaaS API Gateway and for your functi
 
 We will use the following components:
 
- - OpenFaaS installed [helm][openfaas-helm] or (`helm template` if you can't use `tiller`)
+ - OpenFaaS installed via [helm][openfaas-helm] or (`helm template` if you can't use `tiller`)
  - [cert-manager][cert-manager]
  - [Nginx IngressController][nginx-ingress]
 
@@ -84,13 +84,10 @@ Following the recommended [default installation for cert-manager][cert-manager-h
 
 ```sh
 # Install the CustomResourceDefinition resources separately
-kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.10/deploy/manifests/00-crds.yaml
+kubectl apply --validate=false -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.11/deploy/manifests/00-crds.yaml
 
 # Create the namespace for cert-manager
 kubectl create namespace cert-manager
-
-# Label the cert-manager namespace to disable resource validation
-kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
 
 # Add the Jetstack Helm repository
 helm repo add jetstack https://charts.jetstack.io
@@ -102,7 +99,7 @@ helm repo update
 helm install \
   --name cert-manager \
   --namespace cert-manager \
-  --version v0.10.0 \
+  --version v0.11.0 \
   jetstack/cert-manager
 ```
 
@@ -114,40 +111,47 @@ In additional to the controller installed in the previous step, we must also con
 
 Replace `<your-email-here>` with the contact email that will be shown with the SSL certificate.
 
+
+ALISTAIRHEY - Update this snippet of code to hve v0.11.0 
 ```yaml
 # letsencrypt-issuer.yaml
-apiVersion: certmanager.k8s.io/v1alpha1
-kind: Issuer
-metadata:
-  name: letsencrypt-prod
-  namespace: openfaas
-spec:
-  acme:
-    # Email address used for ACME registration
-    email: <you@domain.com>
-    # Name of a secret used to store the ACME account private key
-    privateKeySecretRef:
-      key: ""
-      name: letsencrypt-prod
-    server: https://acme-v02.api.letsencrypt.org/directory
-    solvers:
-    - http01:
-        ingress:
-          class: nginx
----
-apiVersion: certmanager.k8s.io/v1alpha1
+apiVersion: cert-manager.io/v1alpha2
 kind: Issuer
 metadata:
   name: letsencrypt-staging
   namespace: openfaas
 spec:
   acme:
-    server: https://acme-staging-v02.api.letsencrypt.org/directory
-    # Email address used for ACME registration
+    # You must replace this email address with your own.
+    # Let's Encrypt will use this to contact you about expiring
+    # certificates, and issues related to your account.
     email: <you@domain.com>
-    # Name of a secret used to store the ACME account private key
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
-      name: letsencrypt-staging
+      # Secret resource used to store the account's private key.
+      name: example-issuer-account-key
+    # Add a single challenge solver, HTTP01 using nginx
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+  name: letsencrypt-prod
+  namespace: openfaas
+spec:
+  acme:
+    # You must replace this email address with your own.
+    # Let's Encrypt will use this to contact you about expiring
+    # certificates, and issues related to your account.
+    email: <you@domain.com>
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      # Secret resource used to store the account's private key.
+      name: example-issuer-account-key
+    # Add a single challenge solver, HTTP01 using nginx
     solvers:
     - http01:
         ingress:
@@ -170,7 +174,7 @@ ingress:
   enabled: true
   annotations:
     kubernetes.io/ingress.class: "nginx"    
-    certmanager.k8s.io/issuer: letsencrypt-staging
+    cert-manager.io/issuer: letsencrypt-staging
   tls:
     - hosts:
         - gw.example.com
