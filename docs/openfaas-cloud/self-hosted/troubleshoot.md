@@ -110,9 +110,9 @@ For anything else head over to your GitHub App and check the "Advanced" page.
 
 Look for a `push` event and examine the request/response. If you need to you can redeliver a failed message.
 
-##### SSL error
+##### TLS errors
 
-Your SSL certificates may be inappropriately configured. Check cert-manager.
+Your TLS certificates may be inappropriately configured. Check the logs of cert-manager to see if it was able create the certificate for your domain.
 
 ##### Timeout
 

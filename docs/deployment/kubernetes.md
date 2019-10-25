@@ -328,9 +328,9 @@ If you are running into any issues please check out the troubleshooting guide an
 
 This section covers additional advanced topics beyond the initial deployment.
 
-#### Deploy with SSL
+#### Deploy with TLS
 
-To enable SSL while using Helm, try one of the following references:
+To enable TLS while using Helm, try one of the following references:
 
 * [Using nginx-ingress and cert-manager](/reference/ssl/kubernetes-with-cert-manager/)
 

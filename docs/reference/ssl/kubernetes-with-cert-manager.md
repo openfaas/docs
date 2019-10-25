@@ -1,6 +1,6 @@
-# SSL on Kubernetes
+# TLS on Kubernetes
 
-You can obtain SSL certificates for the OpenFaaS API Gateway and for your functions using [cert-manager][cert-manager] from [JetStack](https://www.jetstack.io).
+You can obtain TLS certificates for the OpenFaaS API Gateway and for your functions using [cert-manager][cert-manager] from [JetStack](https://www.jetstack.io).
 
 We will use the following components:
 
@@ -10,10 +10,10 @@ We will use the following components:
 
 We will split this tutorial into two parts:
 
-- 1.0 SSL for the Gateway
-- 2.0 SSL and custom domains for your functions
+- 1.0 TLS for the Gateway
+- 2.0 TLS and custom domains for your functions
 
-## 1.0 SSL for the Gateway
+## 1.0 TLS for the Gateway
 
 This part guides you through setting up all the pre-requisite components to enable TLS for your gateway. You can then access your gateway via a URL such as `https://gw.example.com` and each function such as: `https://gw.example.com/function/nodeinfo`.
 
@@ -109,7 +109,7 @@ This configuration will work for most deployments, but you can also see https://
 
 In additional to the controller installed in the previous step, we must also configure an "Issuer" before `cert-manager` can create certificates for our services. For convenience we will create an Issuer for both Let's Encrypt's production API and their staging API. The staging API has much higher rate limits. We will use it to issue a test certificate before switching over to a production certificate if everything works as expected.
 
-Replace `<your-email-here>` with the contact email that will be shown with the SSL certificate.
+Replace `<your-email-here>` with the contact email that will be shown with the TLS certificate.
 
 ```yaml
 # letsencrypt-issuer.yaml
@@ -237,7 +237,7 @@ There are several commands we can use to verify that the required kubernetes obj
 $ kubectl -n openfaas get issuer letsencrypt-prod letsencrypt-staging
 ```
 
-- To check that your certificate was created and that cert-manager created the required secret with the actual ssl certificate:
+- To check that your certificate was created and that cert-manager created the required secret with the actual TLS certificate:
 ```sh
 $ kubectl -n openfaas get certificate,secret openfaas-crt
 ```
@@ -247,7 +247,7 @@ $ kubectl -n openfaas get certificate,secret openfaas-crt
 $ kubectl logs -f $(kubectl get po -l "app=nginxingress,component=controller" -o jsonpath="{.items[0].metadata.name}")
 ```
 
-## 2.0 SSL and custom domains for functions
+## 2.0 TLS and custom domains for functions
 
 This part builds on part 1.0 and now enables custom domains for any of your functions. You will need to have installed OpenFaaS and an IngressController. For TLS, which is optional you need to have cert-manager and at least one `Issuer`.
 
@@ -288,7 +288,7 @@ Check the public IP with `kubectl get svc/nginxingress-nginx-ingress-controller`
 
 * `nodeinfo.example.com` pointing to the `EXTERNAL-IP`
 
-### Create a `FunctionIngress` Custom Resource (without SSL)
+### Create a `FunctionIngress` Custom Resource (without TLS)
 
 Now create a `FunctionIngress` custom resource:
 
@@ -312,7 +312,7 @@ kubectl get ingress -n openfaas
 
 Ingress records are always created in the same namespace as the OpenFaaS Gateway.
 
-### Create a `FunctionIngress` with SSL certificate
+### Create a `FunctionIngress` with TLS certificate
 
 To enable TLS, we just need to add the `tls` section and the following fields:
 

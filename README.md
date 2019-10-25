@@ -10,7 +10,7 @@ For local development:
 
 ## Published page
 
-This page is published through the use of `mkdocs` and is hosted on https://netlify.com/ with an SSL cert from LetsEncrypt.
+This page is published through the use of `mkdocs` and is hosted on https://netlify.com/ with a TLS cert from LetsEncrypt.
 
 * https://docs.openfaas.com/
 
