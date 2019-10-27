@@ -2,7 +2,7 @@
 
 OpenFaaS is Kubernetes-native and uses *Deployments*, *Services* and *Secrets*. For more detail check out the ["faas-netes" repository](https://github.com/openfaas/faas-netes).
 
-Use this guide to deploy OpenFaaS to a vanilla Kubernetes distribution running a Kubernetes version between 1.8 and 1.13.
+Use this guide to deploy OpenFaaS to upstream Kubernetes 1.11 or higher.
 
 ## Build a cluster
 
