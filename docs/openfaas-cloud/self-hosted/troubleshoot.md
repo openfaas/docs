@@ -215,8 +215,8 @@ If so, then perhaps your GitHub App doesn't have the correct permissions.
 Check the auth service:
 
 ```sh
-kubectl describe -n openfaas deploy/auth
-kubectl logs -n openfaas deploy/auth
+kubectl describe -n openfaas deploy/edge-auth
+kubectl logs -n openfaas deploy/edge-auth
 ```
 
 Check that `client_id` is set correctly along with the direct URL and cookie domain.
