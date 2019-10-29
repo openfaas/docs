@@ -21,13 +21,26 @@ See also: [performance testing](/architecture/performance/) and [going to produc
 * [Get storage for your Severless Functions with Minio & Docker](https://blog.alexellis.io/openfaas-storage-for-your-functions/)
 * [Micro-tutorial for Redis and Node.js](https://gist.github.com/alexellis/e05a7b573ae22b209f0214d5766ff07e)
 * [Staying on topic: trigger your OpenFaaS functions with Apache Kafka](https://www.openfaas.com/blog/kafka-connector/)
+* [GitHub Actions for OpenFaaS](https://lucasroesler.com/2019/09/action-packed-functions/)
+
+## OpenFaaS Cloud
+
+* [Introducing OpenFaaS Cloud with GitLab](https://www.openfaas.com/blog/openfaas-cloud-gitlab/)
+* [OpenFaaS Cloud for Development](https://blog.alexellis.io/openfaas-cloud-for-development/)
+* [Build your own OpenFaaS Cloud with AWS EKS](https://www.openfaas.com/blog/eks-openfaas-cloud-build-guide/)
 
 ## Service Mesh
 
+* [Linkerd2 and OpenFaaS lab](https://github.com/openfaas-incubator/openfaas-linkerd2) for automatic TLS between pods, retries, timeouts and more.
 * [Installing Istio and OpenFaaS](https://github.com/stefanprodan/istio-gke/blob/master/docs/openfaas/00-index.md) - instructions written for GKE, but applies to any Kubernetes service. Covers: mTLS, access policies, external traffic access, TLS and canary deployments.
-* [Adding Linkerd2 to OpenFaaS](https://github.com/openfaas-incubator/openfaas-linkerd2) for automatic TLS between pods, retries, timeouts and more.
 
-### ARM / Raspberry Pi
+## Workshop / labs
+
+* [Official workshop: Kubernetes & Swarm](https://github.com/openfaas/workshop)
+* [Linkerd2 and OpenFaaS lab](https://github.com/openfaas-incubator/openfaas-linkerd2)
+* [Lab environment - VSCode in the browser with k3s](https://github.com/openfaas-incubator/workshop-vscode)
+
+## ARM / Raspberry Pi
 
 * [Will it cluster? k3s on your Raspberry Pi](https://blog.alexellis.io/test-drive-k3s-on-raspberry-pi/) - build a lightweight cluster using Rancher's k3s Kubernetes distribution
 * [Kubernetes on Raspbian](https://github.com/alexellis/k8s-on-raspbian)

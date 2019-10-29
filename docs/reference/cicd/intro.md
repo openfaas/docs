@@ -61,3 +61,7 @@ Examples with Docker-in-Docker: [Jenkins Pipeline examples](../jenkins/)
 OpenFaaS Cloud can integrate with a public GitHub account or organisation or self-hosted GitLab instance to provide automatic CI/CD without any additional maintenance.
 
 See also: [OpenFaaS Cloud](../../../openfaas-cloud/intro/)
+
+### GitHub Actions
+
+* [GitHub Actions for OpenFaaS](https://lucasroesler.com/2019/09/action-packed-functions/) by Lucas Roesler
