@@ -18,6 +18,7 @@ Various channels are available for discussing how to use and contribute to OpenF
 * `#arm-and-pi` - ARM / Raspberry Pi
 * `#derek` - GitHub automation through [Derek](https://github.com/alexellis/derek)
 * `#general` - containers, programming, source-control and other related topics to OpenFaaS
+* `#inlets` - tunnels for your local endpoints
 
 Notes:
 
