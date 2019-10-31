@@ -18,7 +18,7 @@ Various channels are available for discussing how to use and contribute to OpenF
 * `#arm-and-pi` - ARM / Raspberry Pi
 * `#derek` - GitHub automation through [Derek](https://github.com/alexellis/derek)
 * `#general` - containers, programming, source-control and other related topics to OpenFaaS
-
+* `#inlets` - tunnels for your local endpoints
 Notes:
 
 Members of the Slack workspace may be able to provide community-level support, but it's easy for topics to get depending on the time of posting and how detailed the question/comment is. If you do not receive a response to your message then please try again and note the following advice.
