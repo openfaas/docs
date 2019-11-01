@@ -77,7 +77,7 @@ It is recommended that new users install OpenFaaS with `k3sup` which determines 
 
 #### A. Deploy with `k3sup` (fastest option)
 
-`k3sup` is a CLI tool that can install helm charts without using `tiller`, a component that is considered to be insecure by some companies.
+[`k3sup`](https://k3sup.dev) is a CLI tool that can install helm charts without using `tiller`, a component that is considered to be insecure by some companies.
 
 The `openfaas app` in `k3sup` will install OpenFaaS to a regular cloud computer, your laptop, a Raspberry Pi, or a 64-bit ARM machine.
 
