@@ -71,13 +71,47 @@ $ curl -sL https://cli.openfaas.com | sudo sh
 
 If you run the script as a normal non-root user then the script will be downloaded to the current folder.
 
-### Pick helm or YAML files for deployment (A or B)
+### Pick `k3sup`, `helm` or plain YAML files
 
-It is recommended to use `helm` to install OpenFaaS so that you can configure your installation to suit your needs. This configuration is considered to be production-ready.
+It is recommended that new users install OpenFaaS with `k3sup` which determines whether you are running on `x86_64`, armhf, or ARM64. Experienced and advanced users can use the `helm` chart with or without `tiller` to tailor their installation of OpenFaaS to suit their needs. A guide is provided to [prepare for production](/architecture/production/).
 
-Plain YAML files are also provided for x86_64 and armhf, but since they cannot be customized easily it is recommended that you only use these for local development.
+#### A. Deploy with `k3sup` (fastest option)
 
-#### A. Deploy with Helm (for production)
+`k3sup` is a CLI tool that can install helm charts without using `tiller`, a component that is considered to be insecure by some companies.
+
+The `openfaas app` in `k3sup` will install OpenFaaS to a regular cloud computer, your laptop, a Raspberry Pi, or a 64-bit ARM machine.
+
+* Get k3sup
+
+```sh
+# For MacOS / Linux:
+curl -SLsf https://get.k3sup.dev/ | sudo sh
+
+# For Windows (using Git Bash)
+curl -SLsf https://get.k3sup.dev/ | sh
+```
+
+* Install the OpenFaaS `app`
+
+If you're using a managed cloud Kubernetes service which supplies LoadBalancers, then run the following:
+
+```sh
+k3sup app install openfaas --loadbalancer
+```
+
+> Note: the `--loadbalancer` flag has a default of `false`, so by passing the flag, the installation will request one from your cloud provider.
+
+If you're using a local Kubernetes cluster or a VM, then run:
+
+```sh
+k3sup app install openfaas
+```
+
+After the installation you'll receive a command to retrieve your OpenFaaS URL and password.
+
+For cloud users run `kubectl get -n openfaas svc/gateway-external` and look for `EXTERNAL-IP`. This is your gateway address.
+
+#### B. Deploy with Helm (for production, most configurable)
 
 A Helm chart is provided in the `faas-netes` repository. Follow the link below then come back to this page.
 
@@ -88,24 +122,22 @@ A Helm chart is provided in the `faas-netes` repository. Follow the link below t
         
         See the [Chart readme](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md#deployment-with-helm-template) for how to generate your own static YAML files using `helm template`.
 
-#### B. Deploy using kubectl/YAML (for development-only)
+#### C. Deploy using `kubectl` and plain YAML (for development-only)
 
-This step assumes you are running `kubectl` on a master host.
+You can run these commands on your computer if you have `kubectl` and `KUBECONFIG` file available.
 
-* Clone the code
+* Clone the repository
 
     ```bash
     $ git clone https://github.com/openfaas/faas-netes
     ```
 
-    Deploy a stack with asynchronous functionality provided by NATS Streaming.
-
 * Deploy the whole stack
 
     This command is split into two parts so that the OpenFaaS namespaces are always created first:
 
-    * openfaas - for OpenFaaS services
-    * openfaas-fn - for functions
+    * `openfaas` - for OpenFaaS services
+    * `openfaas-fn` - for functions
 
     ```bash
     $ kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
@@ -147,28 +179,11 @@ This step assumes you are running `kubectl` on a master host.
     !!! note
         For deploying on a cloud that supports Kubernetes *LoadBalancers* you may also want to apply the configuration in: `cloud/lb.yml`.
 
-#### Raspberry Pi & 32-bit ARM (armhf)
+#### Notes for Raspberry Pi & 32-bit ARM (armhf)
 
-> For a complete tutorial on setting up OpenFaaS for Raspberry Pi / 32-bit ARM using Kubernetes see the following blog post from Alex Ellis: [Will it Cluster?](https://blog.alexellis.io/test-drive-k3s-on-raspberry-pi/).
+Use `k3sup` to install OpenFaaS, it will determine the correct files to use to install OpenFaaS.
 
-For Raspberry Pi or 32-bit ARM devices please do the following:
-
-```bash
-$ kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
-```
-
-Clone the GitHub repository:
-
-```bash
-$ git clone https://github.com/openfaas/faas-netes
-```
-
-Now deploy OpenFaaS:
-
-```bash
-$ cd faas-netes && \
-kubectl apply -f ./yaml_armhf
-```
+For a complete tutorial on setting up OpenFaaS for Raspberry Pi / 32-bit ARM using Kubernetes see the following blog post from Alex Ellis: [Will it Cluster?](https://blog.alexellis.io/test-drive-k3s-on-raspberry-pi/).
 
 When creating new functions please use the templates with a suffix of `-armhf` such as `go-armhf` and `python-armhf` to ensure you get the correct versions for your devices.
 
@@ -176,58 +191,15 @@ When creating new functions please use the templates with a suffix of `-armhf` s
 
 #### 64-bit ARM and AWS Graviton
 
-For 64-bit ARM servers and devices such as ODroid-C2, Rock64, AWS Graviton and the servers provided by [Packet.net](https://packet.net/) please run the following:
+For 64-bit ARM servers and devices such as ODroid-C2, Rock64, AWS Graviton and the servers provided by [Packet.net](https://packet.net/).
 
-
-* Create the project namespaces
-
-```bash
-$ kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
-```
-Clone the GitHub repository:
-
-```bash
-$ git clone https://github.com/openfaas/faas-netes
-```
-
-Now deploy OpenFaaS:
-
-```bash
-$ cd faas-netes && \
-kubectl apply -f ./yaml_arm64
-```
-
-* Create a password
-
-```bash
-# generate a random password
-PASSWORD=$(head -c 12 /dev/urandom | shasum| cut -d' ' -f1)
-
-kubectl -n openfaas create secret generic basic-auth \
---from-literal=basic-auth-user=admin \
---from-literal=basic-auth-password="$PASSWORD"
-```
-
-Set your `OPENFAAS_URL`, if using a NodePort this may be `127.0.0.1:31112`.
-
-If you're using a remote cluster, or you're not sure then you can also port-forward the gateway to your machine for this step.
-
-```bash
-kubectl port-forward svc/gateway -n openfaas 31112:8080 &
-```
-
-Now log in:
-```bash
-export OPENFAAS_URL=http://127.0.0.1:31112
-
-echo -n $PASSWORD | faas-cli login --password-stdin
-```
+Use `k3sup` to install OpenFaaS, it will determine the correct files to use to install OpenFaaS.
 
 When creating new functions please use the templates with a suffix of `-arm64` such as `node-arm64` to ensure you get the correct versions for your devices.
 
 > Note: you cannot deploy the sample functions to ARM64 devices, but you can use the function store in the gateway UI or via `faas-cli store list --yaml https://raw.githubusercontent.com/openfaas/store/master/store-arm64.json`
 
-#### Use OpenFaaS
+#### Learn the OpenFaaS fundamentals
 
 The community has built a workshop with 12 self-paced hands-on labs. Use the workshop to begin learning OpenFaaS at your own pace:
 
@@ -240,16 +212,6 @@ You can also find a list of [community tutorials, events, and videos](https://gi
 A walk-through video shows auto-scaling in action and the Prometheus UI: [walk-through video](https://www.youtube.com/watch?v=0DbrLsUvaso).
 
 ### Deploy a function
-
-For ease of use, the default configuration uses NodePorts rather than an IngressController or LoadBalancer.
-
-| Service           | TCP port |
---------------------|----------|
-| API Gateway / UI  | 31112    |
-| Prometheus        | 31119    |
-
-!!! note
-    Advanced users can configure Ingress or a LoadBalancer in the helm chart.
 
 Functions can be deployed using the REST API, UI, CLI, or Function Store. Continue below to deploy your first sample function.
 
@@ -290,7 +252,7 @@ You can also access the Function Store from the Portal UI and find a range of fu
 
 #### Use the UI
 
-The UI is exposed on NodePort 31112.
+Access your gateway using the URL from the steps above.
 
 Click "New Function" and fill it out with the following:
 
@@ -311,12 +273,6 @@ The function can also be invoked through the CLI:
 $ echo -n "" | faas-cli invoke --gateway http://kubernetes-ip:31112 nodeinfo
 $ echo -n "verbose" | faas-cli invoke --gateway http://kubernetes-ip:31112 nodeinfo
 ```
-
-### Start the hands-on labs
-
-Learn how to build Serverless functions with OpenFaaS and Python in our half-day workshop. You can follow along online at your own pace.
-
-* [OpenFaaS workshop](/tutorials/workshop/)
 
 ### Troubleshooting
 
