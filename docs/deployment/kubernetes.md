@@ -99,7 +99,7 @@ If you're using a managed cloud Kubernetes service which supplies LoadBalancers,
 k3sup app install openfaas --load-balancer
 ```
 
-> Note: the `--load-alancer` flag has a default of `false`, so by passing the flag, the installation will request one from your cloud provider.
+> Note: the `--load-balancer` flag has a default of `false`, so by passing the flag, the installation will request one from your cloud provider.
 
 If you're using a local Kubernetes cluster or a VM, then run:
 
