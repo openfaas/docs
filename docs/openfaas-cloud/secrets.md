@@ -87,7 +87,7 @@ functions:
 
 * Now run `git push`
 
-Check the git commit status in the repo, or view your overview page at: `https://system.example.com/dashboard/username`
+Check the git commit status in the repo, or view your overview page at: `https://system.example.com`
 
 #### `faas-cli cloud seal` reference
 
