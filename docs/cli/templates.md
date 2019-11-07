@@ -209,9 +209,11 @@ There are three Node.js templates which use the newer of-watchdog:
 | node8-express            | Function | NodeJS | 8.x | no      | no                      |
 | node10-express           | Function | NodeJS | 10.x | no      | no                      |
 | node10-express-service   | Micro-service | NodeJS | 10.x | no      | no                      |
-| node12-express           | Function | NodeJS | 12.x | yes     | yes, LTS version        |
+| node12                   | Function | NodeJS | 12.x | yes     | yes, LTS version        |
 
 It is recommended that all new users opt for the `node12-express` template.
+
+For more details on the `event` and `context` objects, see the [README.md](https://github.com/openfaas-incubator/node10-express-template) for the node10-express template, this also applies to `node12`.
 
 ##### Node.js 12 `node12` - async/await
 
