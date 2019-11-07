@@ -114,7 +114,7 @@ $ faas-cli new go-fn --lang go
 
 You will now see two files generate:
 
-```
+```sh
 go-fn.yml
 ./go-fn/
 ./go-fn/handler.go
@@ -229,7 +229,7 @@ For more details on the `event` and `context` objects, see the [README.md](https
 
 ##### Node.js 12 `node12` - async/await
 
-```
+```js
 "use strict"
 
 module.exports = async (event, context) => {
@@ -242,7 +242,7 @@ module.exports = async (event, context) => {
 
 ##### Node.js 12 `node12` - async/await with error
 
-```
+```js
 "use strict"
 
 module.exports = async (event, context) => {
@@ -252,7 +252,7 @@ module.exports = async (event, context) => {
 
 ##### Node.js 12 `node12` - without async/await
 
-```
+```js
 "use strict"
 
 module.exports = (event, context) => {
@@ -333,7 +333,7 @@ Open the `Gemfile` in the ruby-function directory
 
 Add the following line
 
-```
+```Gemfile
 gem 'httparty'
 ```
 
@@ -341,7 +341,7 @@ gem 'httparty'
 
 Replace your `handler.rb` code with the following
 
-```
+```ruby
 require 'httparty'
 
 class Handler
@@ -373,7 +373,7 @@ When you HTTParty, you must party hard!
 
 Now you can invoke the function:
 
-```
+```sh
 $ echo 'OpenFaaS' | faas-cli invoke ruby-function
 {
    "quota_remaining" : 298,
