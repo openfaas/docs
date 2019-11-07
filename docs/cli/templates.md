@@ -75,6 +75,18 @@ You can add your own store just by specifying the `--url` flag for both commands
 
 The classic templates are held in the [openfaas/templates](https://github.com/openfaas/templates) repository.
 
+#### Go templates
+
+There are several Golang templates available, which are listed below.
+
+| Name | Style        | Watchdog     | Dependencies     |
+|:-----|:-------------|:-------------|:-----------------|
+| `go` | Function     | classic      | `dep`            |
+| `golang-middleware` | Microservice     | of-watchdog      | `dep` or Go modules            |
+| `golang-http` | Function     | of-watchdog      | `dep` or Go modules            |
+
+All templates are available via `faas-cli template store list/pull`
+
 #### Go `golang-http` - (of-watchdog template)
 
 [Read the README for golang-http](https://github.com/openfaas-incubator/golang-http-template), this template has a similar-style of API to AWS Lambda.
@@ -204,7 +216,7 @@ Successfully installed numpy-1.14.2
 
 There are three Node.js templates which use the newer of-watchdog:
 
-| Name | Style | Runtime | Version | `async/await` yes | Supported by nodejs.org |
+| Name | Style | Runtime | Version | async/await | Supported by nodejs.org |
 |:-----|:--------|:--------|:--------|:--------------|:------------------------|
 | node8-express            | Function | NodeJS | 8.x | no      | no                      |
 | node10-express           | Function | NodeJS | 10.x | no      | no                      |
