@@ -73,11 +73,26 @@ Languages available as templates:
 
 You can add your own store just by specifying the `--url` flag for both commands to pull and list your custom templates store.
 
-### Classic Templates
-
 The classic templates are held in the [openfaas/templates](https://github.com/openfaas/templates) repository.
 
-#### 1.0 Go (classic template)
+#### Go `golang-http` - (of-watchdog template)
+
+[Read the README for golang-http](https://github.com/openfaas-incubator/golang-http-template), this template has a similar-style of API to AWS Lambda.
+
+Golang modules are supported via `--build-arg` using `GO111MODULE=1` or `GO111MODULE=auto`
+
+#### Go `golang-middleware` - (of-watchdog template)
+
+[Read the README for golang-middleware](https://github.com/openfaas-incubator/golang-http-template), this template is ideal for full control over the HTTP request and response and corresponds to a HTTP middleware in Go.
+
+```golang
+func Handle(w http.ResponseWriter, r *http.Request) {
+}
+```
+
+Golang modules are supported via `--build-arg` using `GO111MODULE=1` or `GO111MODULE=auto`
+
+#### Go `go` - (classic template)
 
 To create a new function named `go-fn` in Go type in the following:
 
@@ -95,7 +110,7 @@ go-fn.yml
 
 You can now edit `handler.go` and use the `faas-cli` to `build` and `deploy` your function.
 
-##### 1.1 Go: dependencies
+##### Go `go` - dependencies
 
 Dependencies should be managed with a Go vendoring tool such as dep.
 
@@ -123,7 +138,7 @@ $ dep ensure -add github.com/cnf/structhash
 
 You can now edit your function and add an import statement in `handler.go` to `github.com/cnf/structhash`.
 
-##### 1.2: Go with CGO
+##### Go `go` - with CGO
 
 First you will need to add the `dev` build option:
 
@@ -140,7 +155,7 @@ You can then enable CGO with a build-arg:
 faas-cli build --build-arg CGO_ENABLED=1
 ```
 
-#### 2.0 Python 3 (classic template)
+#### Python 3 (classic template)
 
 To create a Python function named `pycon` type in:
 
@@ -156,15 +171,15 @@ pycon/handler.py
 pycon/requirements.txt
 ```
 
-> Note: Python 2.7 is also available with the language template `python`.
+> Note: Python 2.7 is also available with the language template `python`, but the Python community now consider [Python version 2.7 to be deprecated and end-of-life](https://www.python.org/dev/peps/pep-0373/).
 
-##### 2.1 Python: dependencies
+##### Python: dependencies
 
 You should edit `pycon/requirements.txt` and add any pip modules you want with each one on a new line, for instance `requests`.
 
 The primary Python template uses Alpine Linux as a runtime environment due to its minimal size, but if you need a Debian environment so that you can compile `numpy` or other modules then read on to the next section.
 
-##### 2.2 Python: advanced dependencies
+##### Python: advanced dependencies
 
 If you need to use pip modules that require compilation then you should try the python3-debian template then add your pip modules to the `requirements.txt` file.
 
@@ -185,7 +200,59 @@ Successfully installed numpy-1.14.2
 ...
 ```
 
-#### 3.0 Node.js (classic template)
+#### Node.js 12 `node12` (of-watchdog template)
+
+There are three Node.js templates which use the newer of-watchdog:
+
+| Name | Style | Runtime | Version | `async/await` yes | Supported by nodejs.org |
+|:-----|:--------|:--------|:--------|:--------------|:------------------------|
+| node8-express            | Function | NodeJS | 8.x | no      | no                      |
+| node10-express           | Function | NodeJS | 10.x | no      | no                      |
+| node10-express-service   | Micro-service | NodeJS | 10.x | no      | no                      |
+| node12-express           | Function | NodeJS | 12.x | yes     | yes, LTS version        |
+
+It is recommended that all new users opt for the `node12-express` template.
+
+##### Node.js 12 `node12` - async/await
+
+```
+"use strict"
+
+module.exports = async (event, context) => {
+    const result =             {
+        status: "Received input: " + JSON.stringify(event.body),
+    };
+    return result
+}
+```
+
+##### Node.js 12 `node12` - async/await with error
+
+```
+"use strict"
+
+module.exports = async (event, context) => {
+    throw new Error("there was an error created in the function")
+}
+```
+
+##### Node.js 12 `node12` - without async/await
+
+```
+"use strict"
+
+module.exports = (event, context) => {
+    let err;
+    const result =             {
+        status: "Received input: " + JSON.stringify(event.body),
+    };
+
+    context.succeed(result).
+    status(201);
+}
+```
+
+#### Node.js (classic template)
 
 Generate a function named `js-fn`:
 
@@ -202,7 +269,7 @@ You'll see:
 ./js-fn/package.json
 ```
 
-##### 3.1 Node.js dependencies
+##### Node.js dependencies
 
 Node.js dependencies are managed with `npm` and the `package.json` file which was generated for you.
 
@@ -215,7 +282,7 @@ npm i --save cheerio
 
 You can now add a `require('cheerio')` statement into your function and make use of this library.
 
-#### 4.0 CSharp / .NET Core 2.1
+#### CSharp / .NET Core 2.1
 
 You can create functions in .NET Core 2.1 using C# / CSharp.
 
@@ -227,7 +294,7 @@ faas-cli new --lang csharp csharp-function
 
 Now you can open your current folder in a tool such as Visual Studio Code and add dependencies using the project (csproj) file.
 
-#### 5.0 Ruby
+#### Ruby
 
 Create a function called `ruby-function`:
 
@@ -246,7 +313,7 @@ The directory structure is:
 
 Your code should be in the handler.rb file
 
-##### 5.1 Adding a Gem (Library)
+##### Ruby: Adding a Gem (Library)
 
 Open the `Gemfile` in the ruby-function directory
 
@@ -256,7 +323,7 @@ Add the following line
 gem 'httparty'
 ```
 
-##### 5.1 Using our Gem
+##### Ruby: Using our own Gem
 
 Replace your `handler.rb` code with the following
 
@@ -270,7 +337,7 @@ class Handler
 end
 ```
 
-##### 5.3 Building / Deploy / Run
+##### Ruby: Building / Deploy / Run
 
 Edit the `ruby-function.yml` and point your image to your dockerhub, for example
 `${your_user}/ruby-function`
@@ -308,10 +375,9 @@ $ echo 'OpenFaaS' | faas-cli invoke ruby-function
 ...
 ```
 
+#### Java (of-watchdog)
 
-#### 6.0 Java
-
-A Java 8 template is provided which uses Gradle 4.8.1 as a build-system.
+Two Java templates are provided `java8` and `java12`, if you need a different version, then please fork the templates repo or request it from the community.
 
 Support is made available for external code repositories via the build.gradle file where you specify dependencies to fetch from repositories or JAR files to be added via the build.
 
@@ -340,7 +406,7 @@ You can use `getHeader(k)` on the Request interface to query a header.
 
 To set a header such as content-type you can use `setHeader(k, v)` on the Response interface.
 
-#### 7.0 PHP 7
+#### PHP7
 
 To create a PHP7 function named `my-function` type in:
 
@@ -355,27 +421,27 @@ You'll see:
 
 Add any dependencies/extensions as described below and implement your functions business logic in `Handler.php`.
 
-#### 7.1 Composer Dependencies
+#### PHP7 - Composer Dependencies
 
 You should edit `composer.json` and add any required package dependencies, referring to the [Composer Documentation](https://getcomposer.org/doc/) for instructions on using `composer.json`.
 
-##### 7.2 Private Composer Repositories
+##### PHP7 - Private Composer Repositories
 
 Refer to the [PHP7 Template Documentation](https://github.com/openfaas/templates/tree/master/template/php7) for instructions on how to use [Composers](https://getcomposer.org/doc/) `COMPOSER_AUTH` environment variable to configure access to dependencies in private repositories.
 
-##### 7.3 PHP Extensions
+##### PHP7 - PHP Extensions
 
 The PHP7 template is based upon the [Docker Library PHP image](https://hub.docker.com/_/php/) and provides the `php-extension.sh` script which exposes the ability to customise extensions installed in a function image.
 
 Refer to the [PHP7 Template Documentation](https://github.com/openfaas/templates/tree/master/template/php7) for instructions on customising installed extensions.
 
-#### 8.0 Customise a template
+#### Customise a template
 
 It is recommended that you use the official templates as they are provided and if there is a short-coming that you raise a GitHub issue so we can improve the templates for everyone.
 
 All templates are driven by a Dockerfile and can be customised by editing the files found in the ./template folder.
 
-##### 8.1 Update the Dockerfile
+##### Update the Dockerfile
 
 There are several reasons why you may want to update your Dockerfile, just edit `./template/<language_name>/Dockerfile`.
 
@@ -385,7 +451,7 @@ There are several reasons why you may want to update your Dockerfile, just edit 
 
 * Try a new version of a base-image - it may be that the project is showing support for Node.js LTS, but you want the cutting-edge version, you can do that too
 
-##### 8.2 Update a template's configuration
+##### Update a template's configuration
 
 The name of a template is read from a "template.yml" file kept within the template folder: `./template/<language_name>/template.yml`
 
@@ -399,7 +465,7 @@ fprocess: dotnet ./root.dll
 * `language` is the display name used for `faas-cli new --list`.
 * `fprocess` provides the process to run for each invocation - i.e. your function
 
-##### 8.3 Use your own templates
+##### Use your own templates
 
 You can use your own Git repository for a custom or forked set of templates. This can be public or private.
 
@@ -411,7 +477,7 @@ If you want to set up your own default template location, specify the `OPENFAAS_
 export OPENFAAS_TEMPLATE_URL=https://raw.githubusercontent.com/user/mytemplate/customtemplates
 ```
 
-##### 8.4 Download templates from the template store
+##### Download templates from the template store
 
 > Note: In order to access the template store you need `0.8.1` version of the CLI or higher
 
