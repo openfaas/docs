@@ -170,6 +170,14 @@ Notes:
 
 If in doubt check your results against [this reference repository](https://github.com/openfaas/cloud-functions).
 
+If you see in the logs for `import-secrets` function that the serviceaccount cannot get the SealedSecret, it could be that your `secrets.yml` file has wrong namespace defined. It should be `openfaas-fn`.
+
+```
+couldn't get SealedSecret (myorg-secret) - error: sealedsecrets.bitnami.com "myorg-secret" is forbidden: 
+User "system:serviceaccount:openfaas-fn:sealedsecrets-importer-rw" cannot get resource "sealedsecrets" 
+in API group "bitnami.com" in the namespace "not-openfaas-fn"
+```
+
 ### Create secrets manually (not recommended)
 
 You can create secrets manually via `faas-cli secret create` or by using `kubectl`. These secrets will be available to users if the prefix of the secret matches the owner of the code being deployed, i.e.
