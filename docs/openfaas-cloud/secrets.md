@@ -178,6 +178,13 @@ User "system:serviceaccount:openfaas-fn:sealedsecrets-importer-rw" cannot get re
 in API group "bitnami.com" in the namespace "not-openfaas-fn"
 ```
 
+If you had problems with you secret when `import-secrets` function reported `Imported SealedSecret: myorg-secret via update` this steps under will perhaps give you a hint what is wrong.
+
+* Check if your key exists in `kubectl get sealedsecrets -n openfaas-fn`
+* Check if your key exists in `kubectl get secrets -n openfaas-fn`
+* Check the logs in `import-secrets` and `kubectl logs -n openfaas-fn deploy/import-secrets`
+* Check the logs in `ofc-sealedsecrets-sealed-secrets` in `kube-system` and `kubectl logs -n kube-system deploy/ofc-sealedsecrets-sealed-secrets`
+
 ### Create secrets manually (not recommended)
 
 You can create secrets manually via `faas-cli secret create` or by using `kubectl`. These secrets will be available to users if the prefix of the secret matches the owner of the code being deployed, i.e.
