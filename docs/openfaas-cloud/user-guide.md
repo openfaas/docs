@@ -142,10 +142,12 @@ Head over to your dashboard and prepare to log into GitHub with 2FA
 Go to:
 
 ```
-https://system.example.com/dashboard/username
+https://system.example.com/
 ```
 
-Replace `example.com` with the OFC installation, i.e. `o6s.io` for The Community Cluster.
+Replace `example.com` with the OFC installation, i.e. `o6s.io` for The Community Cluster, this will redirect you to your own personal dashboard for instance: `https://system.example.com/dashboard/username`
+
+If you're a member of a GitHub organisation with your visibility set to *Public*, then you can also view its dashboard with: `https://system.example.com/dashboard/organisation`
 
 * Enter your 2FA details if you have that enabled
 
@@ -184,6 +186,14 @@ Now get the *Endpoint* for your API and then open it in a browser.
 
 The default behaviour with no short-path is to return an error, and the success behaviour is to redirect the browser to my homepage. So you can see after visiting these two URLs, we have a 50/50 split.
 
+* You can view runtime logs for your function using the "Invocation Logs" button
+
+![Function logs](/images/openfaas-cloud/welcome-13.png)
+
+Using of-watchdog (http) templates, or a plain Dockerfile, anything written to stdout will show up here.
+
+If you're using the classic watchdog or a legacy template, then you need to set the environment variable of `combine_output: false` and then to write to stderr.
+
 ### Delete your function
 
 There are three ways to delete your function:
@@ -192,7 +202,24 @@ There are three ways to delete your function:
 * Edit your `stack.yml` and comment out, or delete the entry for the function you no-longer require
 * Use `faas-cli delete <function-name>`
 
-### Next steps
+## Appendix
+
+### Restrictions on `stack.yml`
+
+The `stack.yml` file is filtered by the CI/CD pipeline using the `git-tar` and `buildshiprun` functions. They remove certain settings and replace them with those set for the whole cluster by the administrator.
+
+* Memory & CPU limits - set for the cluster
+* Secrets (these are limited to only those added by your account or organisation)
+* Read-only file-system - set for the cluster
+* Annotations - allowed are: `topic`, `schedule`, `com.openfaas.health.http.path`, `com.openfaas.health.http.initialDelay`
+* Labels - only allowed label is: `com.openfaas.scale`
+* Scaling - set for the cluster
+* Env-vars - not filtered
+* Registry - set for the cluster
+
+For more about the `stack.yml` file, [see the documentation](https://docs.openfaas.com/reference/yaml/)
+
+## Next steps
 
 It is likely that you will need to add a secret or some confidential data to your API or function. 
 
