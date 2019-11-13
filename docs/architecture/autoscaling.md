@@ -18,11 +18,13 @@ All calls made through the gateway whether to a synchronous function `/function/
 
 The minimum (initial) and maximum replica count can be set at deployment time by adding a label to the function.
 
-* `com.openfaas.scale.min` By default this is set to `1`
+* `com.openfaas.scale.min` - by default this is set to `1`, which is also the lowest value and unrelated to scale-to-zero
 
-* `com.openfaas.scale.max` The current default value is `20` for 20 replicas
+* `com.openfaas.scale.max` - the current default value is `20` for 20 replicas
 
-* `com.openfaas.scale.factor` By default this is set to `20%` and has to be a value between 0-100 (including borders)
+* `com.openfaas.scale.factor` by default this is set to `20%` and has to be a value between 0-100 (including borders)
+
+* `com.openfaas.scale.zero` - set to `true` for scaling to zero, faas-idler must also be deployed and set to `dryRun=false`
 
 > Note: 
 Setting `com.openfaas.scale.min` and `com.openfaas.scale.max` to the same value, allows to disable the auto-scaling functionality of openfaas. 
