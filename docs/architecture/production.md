@@ -42,6 +42,12 @@ You may also want to set a minimum availability level for each function of > 1.
 
 See the chart options for how to set the number of replicas.
 
+#### Endpoint load-balancing
+
+Read up on endpoint load-balancing and decide whether you need to pick an alternative strategy to the default offered by Kubernetes.
+
+* [Endpoint load-balancing](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#endpoint-load-balancing)
+
 #### Configure timeouts
 
 Configure each timeout as appropriate for your workloads. If you expect all functions or endpoints to return within a few seconds then set a timeout to accommodate that. If you expect all workloads to run for several minutes then bear that in mind with your values.

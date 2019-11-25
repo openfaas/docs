@@ -363,6 +363,12 @@ echo -n $PASSWORD | faas-cli login --username admin --password-stdin
 
 If you installed OpenFaaS into a custom namespace then change the value `-n openfaas` to `-n custom-ns`.
 
+#### Endpoint load-balancing
+
+If you believe that load is not being spread evenly throughout your cluster, then this may be due to your KeepAlive configuration. Read up on endpoint load-balancing and decide whether you need to pick an alternative strategy to the default offered by Kubernetes.
+
+* [Endpoint load-balancing](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#endpoint-load-balancing)
+
 ## Watchdog
 
 ### Debug your function without deploying it
