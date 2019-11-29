@@ -8,7 +8,7 @@ The default configuration for OpenFaaS targets a development-environment and not
 
 ### Checklist
 
-> Note: Testing should only be carried out with Kubernetes. 
+Load-testing should *only* be carried out with Kubernetes. 
 
 Method:
 
@@ -21,6 +21,7 @@ HA:
 
 * [ ] I have scaled the gateway service in proportion to the load with more than one replica
 * [ ] I have set min / max replicas and [understand how auto-scaling works](http://docs.openfaas.com/architecture/autoscaling/)
+* [ ] I have read and applied [production-environment recommendations](https://docs.openfaas.com/architecture/production/)
 
 Project tuning:
 
@@ -30,9 +31,11 @@ Project tuning:
 * [ ] I have turned off `write_debug` and `read_debug` so that the logs for the function are kept sparse
 * [ ] I am monitoring / collecting logs from the core services and function under test
 * [ ] I am monitoring the system for feedback through Prometheus and / or Grafana - i.e. throughput and 200/500 errors
-* [ ] I am using Kubernetes 1.10 or newer
+* [ ] I am using Kubernetes 1.13 or newer
 * [ ] I am not using Docker Swarm
 * [ ] ~~If running on Docker Swarm I've verified that I am using a proper HEALTHCHECK (read up more on watchdog readme)~~
+* I am using [Endpoint load-balancing](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#endpoint-load-balancing) or [Linkerd2](https://github.com/openfaas-incubator/openfaas-linkerd2)
+
 
 > A note on DNS: You are likely to get better performance by switching out kube-dns for CoreDNS.
 
