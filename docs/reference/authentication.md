@@ -33,7 +33,7 @@ You can configure the gateway to use an auth plugin with the following two envir
 
 See also: [auth plugins](https://github.com/openfaas/faas/tree/master/auth)
 
-### OAuth2 support in the API Gateway (alpha)
+### OAuth2 support in the API Gateway (commercial add-on)
 
 The OpenFaaS API Gateway has support for OAuth2 and OpenID Connect as of version 0.14.4. This is enabled through the use of an [external authentication module](https://github.com/openfaas/faas/tree/master/auth) as documented above.
 
