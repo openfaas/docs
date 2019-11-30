@@ -37,19 +37,21 @@ See also: [auth plugins](https://github.com/openfaas/faas/tree/master/auth)
 
 The OpenFaaS API Gateway has support for OAuth2 and OpenID Connect as of version 0.14.4. This is enabled through the use of an [external authentication module](https://github.com/openfaas/faas/tree/master/auth) as documented above.
 
-You need to use the [odic-plugin](https://github.com/alexellis/oidc-plugin-dist) which is available in binary format for Linux and MacOS on GitHub.
+You need to use the [OIDC plugin](https://github.com/alexellis/openfaas-oidc-plugin-pkg) which is available in binary format for Linux and MacOS on GitHub.
+
+The OIDC plugin is a commercial add-on, and you can request a trial or purchase a license from OpenFaaS Ltd via [sales@openfaas.com](mailto:sales@openfaas.com).
 
 You will need two DNS A records and to enable `Ingress` for your Kubernetes cluster.
 
 * Gateway - `http://gw.example.com`
 * Auth - `http://auth.example.com`
 
-You will need to deploy the [oidc-plugin](https://github.com/alexellis/oidc-plugin-dist) provided by OpenFaaS Ltd.
+There are two ways to access the OIDC plugin:
 
-* Deploy using a Kubernetes Deployment, Service and Ingress record [see repo for more](https://github.com/alexellis/oidc-plugin-dist)
+* Deploy using a Kubernetes Deployment, Service and Ingress record in the repo above
 * Or deploy as a stand-alone Linux binary using instructions below
 
-Populate the information below according to your Identity Provider (IDP), I'm using Auth0:
+Populate the information below according to your Identity Provider (IDP). Below is an example with Auth0:
 
 ```sh
 export client_id="your-client-id"                                      
