@@ -16,7 +16,7 @@ For this example, we use the [sample `nodeinfo` function][nodeinfo], which can b
 ```yaml
 # stack.yaml
 provider:
-  name: faas
+  name: openfaas
   gateway: http://gateway.openfaas.local
 
 functions:
@@ -52,7 +52,7 @@ spec:
       template:
         spec:
           containers:
-          - name: faas-cli
+          - name: openfaas-cli
             image: openfaas/faas-cli:0.8.3
             args:
             - /bin/sh
@@ -159,7 +159,7 @@ spec:
       template:
         spec:
           containers:
-          - name: faas-cli
+          - name: openfaas-cli
             image: openfaas/faas-cli:0.8.3
             env:
               - name: USERNAME

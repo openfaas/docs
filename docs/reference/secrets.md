@@ -108,7 +108,7 @@ Create a `stack.yaml` file in the current directory:
 
 ```yaml
   provider:
-    name: faas
+    name: openfaas
 
   functions:
     protectedapi:

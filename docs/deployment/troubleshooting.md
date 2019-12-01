@@ -24,6 +24,16 @@ The default address for the gateway on Kubernetes is `http://gateway.openfaas:80
 
 The default address for the gateway is `http://gateway:8080`
 
+## Error with "faas" provider
+
+The only valid provider is "openfaas", therefore edit your stack.yml file:
+
+```yaml
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+```
+
 ## Timeouts
 
 Default timeouts are configured at the HTTP level and must be set both on the gateway and the function.
@@ -44,7 +54,7 @@ Example Go app that sleeps for (10 seconds):
 
 ```yaml
 provider:
-  name: faas
+  name: openfaas
   gateway: http://127.0.0.1:8080
 
 functions:
@@ -121,7 +131,7 @@ For example:
 
 ```yaml
 provider:
-  name: faas
+  name: openfaas
   gateway: http://127.0.0.1:8080
 
 functions:

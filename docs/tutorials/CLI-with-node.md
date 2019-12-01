@@ -90,7 +90,7 @@ Here's the YAML file which was generated:
 ```
 $ cat callme.yml
 provider:
-  name: faas
+  name: openfaas
   gateway: http://localhost:8080
 
 functions:

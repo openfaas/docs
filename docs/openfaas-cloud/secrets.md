@@ -72,7 +72,7 @@ Add the secret to the `secrets:` section of your YAML, use the value from `--nam
 
 ```yaml
 provider:
-  name: faas
+  name: openfaas
   gateway: http://127.0.0.1:8080
 
 functions:
@@ -144,7 +144,7 @@ And finally, we now need to reference the name of our secret in `stack.yml`. Not
 
 ```yaml
 provider:
-  name: faas
+  name: openfaas
   gateway: http://127.0.0.1:8080
 
 functions:
