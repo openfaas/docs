@@ -64,9 +64,9 @@ Within the `acmeco/staging-secrets` repo:
 
 ```sh
 faas-cli cloud seal --name secrets \
-  --literal mongo_username="alexellis" \
-  --literal mongo_password="test" \
-  --literal mongo_uri="mongodb://mongodb-us-east-1.aws.com" \
+  --literal mongo-username="alexellis" \
+  --literal mongo-password="test" \
+  --literal mongo-uri="mongodb://mongodb-us-east-1.aws.com" \
   --cert staging.pem
 ```
 
@@ -74,10 +74,33 @@ Within the `acmeco/prod-secrets` repo:
 
 ```sh
 faas-cli cloud seal --name secrets \
-  --literal mongo_username="alexellis" \
-  --literal mongo_password="test" \
-  --literal mongo_uri="mongodb://mongodb-us-east-1.aws.com" \
+  --literal mongo-username="alexellis" \
+  --literal mongo-password="test" \
+  --literal mongo-uri="mongodb://mongodb-us-east-1.aws.com" \
   --cert prod.pem
 ```
+
+Within the `acmeco/payment-service` repo:
+
+stack.yml:
+
+```yaml
+functions:
+  payment-service:
+    handler: ./payment-service
+    image: payment-service:0.1.0
+    secrets:
+      - secrets
+```
+
+Within `payment-service/handler.js`:
+
+```js
+const mongoURI = await fs.readFile("/var/openfaas/secrets/mongo-uri")
+const mongoUsername = await fs.readFile("/var/openfaas/secrets/mongo-username")
+const mongoPassword = await fs.readFile("/var/openfaas/secrets/mongo-password")
+```
+
+In both environments, the secret names will be the same, but the values can vary as necessary.
 
 Then install the GitHub App or GitLab integration for both secrets repositories first, then the code repository next.
