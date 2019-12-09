@@ -60,7 +60,7 @@ Here is an example for a single code repository and two secrets repositories:
 
 To generate the secrets you would download both public keys and run the following:
 
-Within the `acmeco/staging-secrets` repo:
+Within the `acmeco/staging-secrets` repo run:
 
 ```sh
 faas-cli cloud seal --name secrets \
@@ -70,7 +70,9 @@ faas-cli cloud seal --name secrets \
   --cert staging.pem
 ```
 
-Within the `acmeco/prod-secrets` repo:
+Then commit your `secrets.yaml` file.
+
+Within the `acmeco/prod-secrets` repo run:
 
 ```sh
 faas-cli cloud seal --name secrets \
@@ -80,20 +82,22 @@ faas-cli cloud seal --name secrets \
   --cert prod.pem
 ```
 
+Then commit your `secrets.yaml` file.
+
 Within the `acmeco/payment-service` repo:
 
-stack.yml:
+In `stack.yml`:
 
 ```yaml
 functions:
-  payment-service:
-    handler: ./payment-service
-    image: payment-service:0.1.0
+  payment:
+    handler: ./payment
+    image: payment:0.1.0
     secrets:
       - secrets
 ```
 
-Within `payment-service/handler.js`:
+Within `payment/handler.js`:
 
 ```js
 const mongoURI = await fs.readFile("/var/openfaas/secrets/mongo-uri")
