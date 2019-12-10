@@ -73,13 +73,21 @@ If you run the script as a normal non-root user then the script will be download
 
 ### Pick `k3sup`, `helm` or plain YAML files
 
-It is recommended that new users install OpenFaaS with `k3sup` which determines whether you are running on `x86_64`, armhf, or ARM64. Experienced and advanced users can use the `helm` chart with or without `tiller` to tailor their installation of OpenFaaS to suit their needs. A guide is provided to [prepare for production](/architecture/production/).
+There are three ways to install OpenFaaS and you can pick whatever makes sense for you and your team.
+
+* `k3sup app install` - k3sup installs OpenFaaS using its official helm chart and is the easiest and quickest way to get up and running.
+
+* Helm chart - sane defaults and easy to configure through YAML or CLI flags. Secure options such as `helm template` or `helm 3` also exist for those working within restrictive environments.
+
+* Plain YAML files - hard-coded settings/values. Tools like Kustomize can offer custom settings
+
+Guidelines are also provided for [preparing for production](/architecture/production/) and for [performance testing](/architecture/performance).
 
 #### A. Deploy with `k3sup` (fastest option)
 
-[`k3sup`](https://k3sup.dev) is a CLI tool that can install helm charts without using `tiller`, a component that is considered to be insecure by some companies.
+The `k3sup app install` command installs OpenFaaS using its official helm chart, but without using `tiller`, a [component which is insecure by default](https://engineering.bitnami.com/articles/running-helm-in-production.html). k3sup can also install other important software for OpenFaaS users such as `cert-manager` and `nginx-ingress`. It's the easiest and quickest way to get up and running.
 
-The `openfaas app` in `k3sup` will install OpenFaaS to a regular cloud computer, your laptop, a Raspberry Pi, or a 64-bit ARM machine.
+You can use k3sup to install OpenFaaS to a regular cloud cluster, your laptop, a VM, a Raspberry Pi, or a 64-bit ARM machine.
 
 * Get k3sup
 
@@ -109,6 +117,8 @@ k3sup app install openfaas
 
 After the installation you'll receive a command to retrieve your OpenFaaS URL and password.
 
+Other options for installation are available with `k3sup app install openfaas --help`
+
 For cloud users run `kubectl get -n openfaas svc/gateway-external` and look for `EXTERNAL-IP`. This is your gateway address.
 
 #### B. Deploy with Helm (for production, most configurable)
@@ -118,7 +128,7 @@ A Helm chart is provided in the `faas-netes` repository. Follow the link below t
 * [OpenFaaS Helm chart](https://github.com/openfaas/faas-netes/blob/master/HELM.md)
 
     !!! note
-        Some users may have concerns about using helm charts due to security concerns with the `tiller` component. If you fall into this category of users, then don't worry, you can still benefit from the helm chart without using `tiller`.
+        Some users may have concerns about using helm charts due to [security concerns with the `tiller` component](https://engineering.bitnami.com/articles/running-helm-in-production.html). If you fall into this category of users, then don't worry, you can still benefit from the helm chart without using `tiller`.
         
         See the [Chart readme](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md#deployment-with-helm-template) for how to generate your own static YAML files using `helm template`.
 
