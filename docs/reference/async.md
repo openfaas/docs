@@ -92,3 +92,4 @@ The following additional request headers will be set when invoking the call back
 | X-Call-Id          | The original function call's [tracing UUID](https://github.com/openfaas/faas/blob/master/gateway/README.md#tracing) |
 | X-Duration-Seconds | Time taken in seconds to execute the original function call |
 | X-Function-Status  | [HTTP status code](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) returned by the original function call |
+| X-Function-Name    | The name of the original function that was executed |
