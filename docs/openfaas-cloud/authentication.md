@@ -11,7 +11,7 @@ Two providers are supported:
 
 OpenFaaS Authentication with OAuth2 / OIDC
 
-![Conceptual diagram](/images/openfaas-cloud/oauth2.png)
+[![Conceptual diagram](/images/openfaas-cloud/oauth2.png)](/images/openfaas-cloud/oauth2.png)
 
 ### Control-plane
 

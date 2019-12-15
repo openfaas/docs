@@ -10,7 +10,7 @@ The OpenFaaS Cloud Architecture in made up of several modules:
 
 ### Conceptual diagram
 
-![](https://github.com/openfaas/openfaas-cloud/raw/master/docs/conceptual-overview.png)
+[![](https://github.com/openfaas/openfaas-cloud/raw/master/docs/conceptual-overview.png)](https://github.com/openfaas/openfaas-cloud/raw/master/docs/conceptual-overview.png)
 
 This conceptual diagram shows how OpenFaaS Cloud integrates with GitHub.com/GitLab through the use of an event-driven architecture.
 
