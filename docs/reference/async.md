@@ -7,7 +7,7 @@ OpenFaaS enables long-running tasks or function invocations to run in the backgr
 
 The asynchronous workflow can have a longer, separate timeout compared with synchronous timeout on the gateway.
 
-Example:
+Why might you want to use an asynchronous invocation?
 
 You're working with a partner's webhook. They send you data, but if you don't send a HTTP 200 OK within 1 second, they assume failure and retry the message. This works well if your function can complete in less than a second on every invocation, but if there's any risk that it can't, you need another solution. So you will give your partner a URL to the asynchronous function URL instead and it will reply within several milliseconds whilst still processing the data.
 
@@ -77,8 +77,7 @@ You can tune the values for the number of tasks each queue worker may run in par
 
 The [OpenFaaS workshop](https://github.com/openfaas/workshop) has more instructions on running tasks asynchronously.
 
-
-* Verbose Output
+#### Verbose Output
 
 The Queue Worker component enables asynchronous processing of function requests. The default verbosity level hides the message content, but this can be viewed by setting write_debug to true when deploying.
 
@@ -91,4 +90,3 @@ The following additional request headers will be set when invoking the call back
 | X-Call-Id          | The original function call's [tracing UUID](https://github.com/openfaas/faas/blob/master/gateway/README.md#tracing) |
 | X-Duration-Seconds | Time taken in seconds to execute the original function call |
 | X-Function-Status  | [HTTP status code](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) returned by the original function call |
-`
