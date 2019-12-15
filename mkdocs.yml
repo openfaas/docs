@@ -143,6 +143,8 @@ nav:
       - Self-hosted:
         - Configure GitHub: ./openfaas-cloud/self-hosted/github.md
         - Configure GitLab: ./openfaas-cloud/self-hosted/gitlab.md
+        - Architecture: ./openfaas-cloud/self-hosted/architecture.md
+        - Authentication: ./openfaas-cloud/self-hosted/authentication.md
         - Multi-stage: ./openfaas-cloud/self-hosted/multi-stage.md
         - Troubleshooting: ./openfaas-cloud/self-hosted/troubleshoot.md
   - Design & Architecture:
