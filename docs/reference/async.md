@@ -71,7 +71,7 @@ Alternatively you can specify another asynchronous or synchronous function to ru
 
 #### Parallelism
 
-By default there is one queue-worker replica deployed which is set up to run a single task of up to 30 seconds in duration with one task in parallel. You can increase the parallelism by scaling the queue-worker up - i.e. 5 replicas for 5 parallel tasks.
+By default there is one queue-worker replica deployed which is set up to run a single task of up to 30 seconds in duration. You can increase the parallelism by scaling the queue-worker up - i.e. 5 replicas for 5 parallel tasks.
 
 You can tune the values for the number of tasks each queue worker may run in parallel as well as the maximum duration of any asynchronous task that worker processes. Edit the Kubernetes helm chart, YAML or Swarm docker-compose.yml files.
 
