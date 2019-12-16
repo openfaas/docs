@@ -2,6 +2,12 @@
 
 Due to the fact that OpenFaaS functions are built into portable Docker images you can use any container builder to build your functions. The `faas-cli` can be used to `build`, `push` and `deploy` your functions.
 
+### OpenFaaS Cloud (easiest option)
+
+OpenFaaS Cloud provides automatic, integrated CI/CD for public and private repositories hosted on GitHub.com or self-hosted GitLab.
+
+See also: [OpenFaaS Cloud](../../../openfaas-cloud/intro/)
+
 ### Use the native `faas-cli`
 
 It is recommended to use the `faas-cli` binary for building and deploying your functions whether that is to Kubernetes or Docker Swarm.
@@ -55,12 +61,6 @@ It's really up to you.
 ### Git examples with Jenkins Pipeline
 
 Examples with Docker-in-Docker: [Jenkins Pipeline examples](../jenkins/)
-
-### OpenFaaS Cloud
-
-OpenFaaS Cloud can integrate with a public GitHub account or organisation or self-hosted GitLab instance to provide automatic CI/CD without any additional maintenance.
-
-See also: [OpenFaaS Cloud](../../../openfaas-cloud/intro/)
 
 ### GitHub Actions
 
