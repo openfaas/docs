@@ -133,6 +133,7 @@ nav:
     - Auth: ./reference/authentication.md
     - CORS: ./reference/cors.md
     - Cron: ./reference/cron.md
+    - Namespaces: ./reference/namespaces.md
     - Log Providers: ./reference/logs/providers.md
     - YAML: ./reference/yaml.md
   - OpenFaaS Cloud:
