@@ -20,11 +20,15 @@ See also: [Tech stack & layers](/architecture/stack/) & [Preparing for productio
 
 ## Governance
 
-OpenFaaS is an independent project created by [Alex Ellis](https://www.alexellis.io) which is now being built and shaped by a growing community of contributors. Project website and blog: [openfaas.com](https://www.openfaas.com).
+OpenFaaS is an independent project created by [Alex Ellis](https://www.alexellis.io) which is being built and shaped by a growing community of contributors. OpenFaaS is hosted by OpenFaaS Ltd (registration: 11076587), a company which also offers commercial services, homepage sponsorships, and support.
 
 ## Support for OpenFaaS
 
-OpenFaaS is free to use and completely open source under the MIT license. You can donate to the project to fund its ongoing development or become a sponsor. [Support OpenFaaS](https://www.openfaas.com/support/)
+OpenFaaS is free to use and completely open source under the MIT license.
+
+End-users are invited to [Support](https://www.openfaas.com/support/) the ongoing R&D costs of the project.
+
+OpenFaaS Ltd offers commercial support for end-user companies and adopters.
 
 ## Users of OpenFaaS
 
@@ -40,37 +44,27 @@ Joining the end-user community and adding your use-case / logo is free of cost. 
 
 Get started with one of the [deployment guides](./deployment/) for Kubernetes or Docker Swarm.
 
-## Presentations
+## Video presentations
+
+### OpenFaaS Cloud + Linkerd: A Secure, Multi-Tenant Serverless Platform
+
+[From KubeCon North America 2019 with Charles Pretzer from Buoyant & Alex Ellis, OpenFaaS Ltd](https://www.youtube.com/watch?v=sD7hCwq3Gw0&feature=emb_title)
+
+### The PLONK Stack/Serverless 2.0 for Kubernetes with OpenFaaS
+
+[Getting Beyond FaaS: The PLONK Stack for Kubernetes Developers - Alex Ellis, OpenFaaS Ltd](https://www.youtube.com/watch?v=NckMekZXRt8&feature=emb_title)
 
 ### Digital Transformation of Vision Banco Paraguay with Serverless Functions @ KubeCon late-2018
 
-[HD video co-presenting at KubeCon with Patricio Diaz Senior Analyst, Vision Banco SAECA](https://kccna18.sched.com/event/GraO/digital-transformation-of-vision-banco-paraguay-with-serverless-functions-alex-ellis-vmware-patricio-diaz-vision-banco-saeca)
-
-### Serverless Beyond the Hype (goto Copenhagen) 2018
-
-Overview of the Serverless landscape for Kubernetes, OpenFaaS and OpenFaaS Cloud with live demos and most update information. [View on Android or iPhone](https://gotocph.com/2018/sessions/592)
-
-### TechFieldDay presentation (Dockercon EU) late-2017
-
-15 minute overview with demos on Kubernetes and with Alexa - [HD YouTube video](https://www.youtube.com/watch?v=C3agSKv2s_w&list=PLlIapFDp305AiwA17mUNtgi5-u23eHm5j&index=1)
-
-### OpenFaaS presents to CNCF Serverless workgroup mid-2017
-
-* [Video and blog post](https://blog.alexellis.io/openfaas-cncf-workgroup/)
+[From KubeCon North America 2018 with Alex and Patricio Diaz Senior Analyst, Vision Banco SAECA](https://kccna18.sched.com/event/GraO/digital-transformation-of-vision-banco-paraguay-with-serverless-functions-alex-ellis-vmware-patricio-diaz-vision-banco-saeca)
 
 ### Closing Keynote at Dockercon early-2017
 
 Functions as a Service or FaaS was a winner in the Cool Hacks contest for Dockercon 2017.
 
-* [Watch my FaaS keynote at Dockercon 2017](https://blog.docker.com/2017/04/dockercon-2017-mobys-cool-hack-sessions/)
+* [Watch Alex present "FaaS" during the Dockercon 2017 keynote](https://blog.docker.com/2017/04/dockercon-2017-mobys-cool-hack-sessions/)
 
-If you'd like to find the functions I used in the demos head over to the [faas-dockercon](https://github.com/alexellis/faas-dockercon/) repository.
-
-**Background story**
-
-This is my original blog post on FaaS from January: [Functions as a Service blog post](http://blog.alexellis.io/functions-as-a-service/)
-
-### Community
+## Community
 
 OpenFaaS has a thriving community of Open Source contributors and users.
 
@@ -82,7 +76,7 @@ Have you written a blog about OpenFaaS? Send a Pull Request to the community pag
 
 If you'd like to join OpenFaaS community Slack channel to chat with contributors or get some help - then fill out the [Google Forms page](https://goo.gl/forms/SqpLSdyzVoOboRqs1)
 
-### Contributing
+## Contributing
 
 OpenFaaS is written in Golang and is MIT licensed - contributions are welcomed whether that means providing feedback, testing existing and new feature or hacking on the source.
 
