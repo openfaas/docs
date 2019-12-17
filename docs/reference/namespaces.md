@@ -79,3 +79,26 @@ Deploy some functions:
 
 The URL will be as follows: `http://gateway:port/function/NAME.NAMESPACE`
 
+Use a YAML file:
+
+*stack.yml*
+
+```yaml
+provider:
+  name: openfaas
+
+functions:
+  stronghash:
+    namespace: dev
+    skip_build: true
+    image: functions/alpine:latest
+    fprocess: "sha512sum"
+```
+
+Deploy the stack.yml and invoke the function:
+
+```sh
+faas-cli deploy
+
+head -c 16 /dev/urandom | faas-cli invoke --namespace dev stronghash
+```
