@@ -22,7 +22,7 @@ Additional RBAC permissions are required to work with namespaces, therefore you 
 * 1) simplest option - use a ClusterRole
 
     ```sh
-    k3sup app install openfaas --cluster-role
+    k3sup app install openfaas --clusterrole
     ```
 
     Or via helm, set this override:
