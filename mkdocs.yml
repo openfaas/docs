@@ -134,7 +134,9 @@ nav:
     - CORS: ./reference/cors.md
     - Cron: ./reference/cron.md
     - Namespaces: ./reference/namespaces.md
-    - Log Providers: ./reference/logs/providers.md
+    - Providers:
+      - Function Providers: ./reference/providers/faas-providers.md
+      - Logs: ./reference/providers/log-providers.md
     - YAML: ./reference/yaml.md
   - OpenFaaS Cloud:
       - Intro: ./openfaas-cloud/intro.md

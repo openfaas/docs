@@ -17,8 +17,8 @@ The `gateway` will proxy log requests to the function provider, by default. To u
 
 ## Available providers
 
-* `faas-netes` : the official Kubernetes function provider also provides logs by directly querying the Kubernetes cluster API
-* `faas-swarm` : the official Swarm function provider also provides logs by directly querying the Swarm cluster API
+* [`faas-netes`](https://github.com/openfaas/faas-netes) : the official Kubernetes function provider also provides logs by directly querying the Kubernetes cluster API. The core implementation of the log provider is found here https://github.com/openfaas/faas-netes/blob/master/k8s/logs.go
+* [`faas-swarm`](https://github.com/openfaas/faas-swarm) : the official Swarm function provider also provides logs by directly querying the Swarm cluster API. The core implementation of the log provider is found here https://github.com/openfaas/faas-swarm/blob/master/handlers/logs.go
 * [`openfaas-loki`](https://github.com/LucasRoesler/openfaas-loki) : a community-developed provider, uses [Grafana Loki](https://github.com/grafana/loki) to collection and query the function logs
 
 ## Create a new provider
