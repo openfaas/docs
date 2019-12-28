@@ -17,21 +17,7 @@ The OpenFaaS team builds and uses the [`faas-provider`](https://github.com/openf
 
 ## Community Developed Providers
 
-### faas-containerd
-[`faas-containerd`](https://github.com/alexellis/faas-containerd), by Alex Ellis, is an OpenFaaS provider for [containerd](https://containerd.io/) - single node / edge workloads.
-
-### faas-nomad
-[`faas-nomad`](https://github.com/hashicorp/faas-nomad), by Andrew Cornies & Nic Jackson (Hashicorp), is an OpenFaas Provider for the [Nomad](https://www.nomadproject.io/) platform.
-
-### faas-fargate
-[`faas-fargate`](https://github.com/ewilde/faas-fargate), by Edward Wilde, is an OpenFaaS provider for [AWS Fargate](https://aws.amazon.com/fargate/)
-
-
-### faas-lambda
-`faas-lambda`, by Ed Wilde and Alex Ellis, is an OpenFaaS provider for [AWS Lambda](https://aws.amazon.com/lambda/). More details via [sales@openfaas.com](mailto:sales@openfaas.com)
-
-### faas-federation
-[`faas-federation`](https://github.com/openfaas-incubator/faas-federation), by Ed Wilde and Alex Ellis,  is federation provider to route between one or more providers.
+An active list of community built Providers can be found [here](https://github.com/openfaas/faas/blob/master/community.md#openfaas-providers)
 
 
 ## Going Further
