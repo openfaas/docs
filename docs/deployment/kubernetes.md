@@ -197,6 +197,10 @@ For a complete tutorial on setting up OpenFaaS for Raspberry Pi / 32-bit ARM usi
 
 When creating new functions please use the templates with a suffix of `-armhf` such as `go-armhf` and `python-armhf` to ensure you get the correct versions for your devices.
 
+* You can run `faas-cli deploy` from anywhere using `--gateway` or `OPENFAAS_GATEWAY`
+* But you must build Docker images on a Raspberry Pi, not on your PC or laptop. 
+* You need to use an `-armhf` template
+
 > Note: you cannot deploy the sample functions to ARM devices, but you can use the function store in the gateway UI or via `faas-cli store list --yaml https://raw.githubusercontent.com/openfaas/store/master/store-armhf.json`
 
 #### 64-bit ARM and AWS Graviton
@@ -206,6 +210,10 @@ For 64-bit ARM servers and devices such as ODroid-C2, Rock64, AWS Graviton and t
 Use `k3sup` to install OpenFaaS, it will determine the correct files to use to install OpenFaaS.
 
 When creating new functions please use the templates with a suffix of `-arm64` such as `node-arm64` to ensure you get the correct versions for your devices.
+
+* You can run `faas-cli deploy` from anywhere using `--gateway` or `OPENFAAS_GATEWAY`
+* But you must build Docker images on a Raspberry Pi, not on your PC or laptop. 
+* You need to use an `-arm64` template
 
 > Note: you cannot deploy the sample functions to ARM64 devices, but you can use the function store in the gateway UI or via `faas-cli store list --yaml https://raw.githubusercontent.com/openfaas/store/master/store-arm64.json`
 
