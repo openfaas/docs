@@ -3,6 +3,7 @@ The `faas-provider` provides the CRUD API for Functions as well as the invoke ca
 
 The OpenFaaS team builds and uses the [`faas-provider`](https://github.com/openfaas/faas-provider) project to define the core interface and standard utilities of an OpenFaaS provider.  This interface, written in Go, ensures that you can create a provider which is compliant and compatible with the OpenFaaS gateway.
 
+![Conceptual diagram](/images/providers/providers-conceptual-flow.png)
 
 ## Official Providers
 
