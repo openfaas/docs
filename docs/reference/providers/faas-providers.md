@@ -10,10 +10,12 @@ The OpenFaaS team builds and uses the [`faas-provider`](https://github.com/openf
 ### faas-memory
 [`faas-memory`](https://github.com/openfaas-incubator/faas-memory) uses in-memory objects to store state and is provided as an official example implementation and for testing purposes.
 
-### faas-netes
+### Kubernetes Providers
 [`faas-netes`](https://github.com/openfaas/faas-netes) is the official OpenFaaS provider for [Kubernetes](https://kubernetes.io/).
 
-### faas-swarm
+[`openfaas-operator`](https://github.com/openfaas-incubator/openfaas-operator) a [Kubernetes Operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) provider, currently in incubation.
+
+### Swarm Providers
 [`faas-swarm`](https://github.com/openfaas/faas-swarm) is the official OpenFaaS provider for [Docker Swarm](https://docs.docker.com/swarm/overview/).
 
 ## Community Developed Providers
