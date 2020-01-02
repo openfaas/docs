@@ -50,5 +50,5 @@ faas-cli logs sentimentanalysis | grep sentence_count
 Log retention and history will be determined by your cluster configuration and the log provider installed. The default configuration in the official function providers (`faas-swarm` and `faas-netes`) stream logs directly from the cluster containers. This means that you will only see logs from running function containers, no long term history.  So deleting a function will also remove access to those logs.
 
 ## Alternative Log Providers
-The log system is designed to be extended with alternative providers, this means that logs could instead be supplied by a persistent storage, e.g. Loki or ElasticSearch.  See the [log providers overview](../reference/logs/providers.md) for more details about how providers work and available alternatives.
+The log system is designed to be extended with alternative providers, this means that logs could instead be supplied by a persistent storage, e.g. Loki or ElasticSearch.  See the [log providers overview](../reference/providers/log-providers.md) for more details about how providers work and available alternatives.
 
