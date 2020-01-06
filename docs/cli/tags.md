@@ -10,7 +10,7 @@ You can define your tag in the stack YAML file. By default this tag is ":latest"
 image: my-fn
 ```
 
-or 
+or
 
 
 ```
@@ -26,12 +26,12 @@ When using a --tag feature which relies on metadata from a Git commit then the b
 Example usage:
 
 ```
-faas-cli build --tag=sha|branch
-faas-cli push --tag=sha|branch
-faas-cli deploy --tag=sha|branch
+faas-cli build --tag=sha|branch|describe
+faas-cli push --tag=sha|branch|describe
+faas-cli deploy --tag=sha|branch|describe
 ```
 
-There are currently two formats for "automatic tags".
+There are currently three formats for "automatic tags".
 
 ### 2.1 Use the SHA (`--tag=sha`)
 
@@ -65,17 +65,63 @@ Example:
 
 ```
 image: my-fn:0.2
+
+image: my-fn:latest
 ```
 
 Gives the equivalent:
 
 ```
 image: my-fn:0.2-master-cf59cfc
+
+image: my-fn:latest-master-cf59cfc
 ```
 
 (on the staging branch)
 
 ```
 image: my-fn:0.2-staging-cf59cfc
+
+image: my-fn:latest-staging-cf59cfc
 ```
 
+### 2.3 Use the output of `git describe` (`--tag=describe`)
+
+In this example you will get the output of `git describe --tags --always`. This returns a human readable name based on an available git ref. Using `--tags`, means that the output which can be read as `<most-recent-parent-tag>-<number-of-commits-to-that-tag>-g<short-sha>`. Using `--always`, means that if the repo does not use tags, then we will still get the short SHA as output, matching `--tag=sha`
+
+Example:
+
+If you set the image name as
+
+```
+image: my-fn:0.2
+
+image: my-fn:latest
+```
+
+Then, if you have no tags in the repo, `faas-cli` produces the equivalent:
+
+```
+image: my-fn:0.2-b0da13a
+
+image: my-fn:latest-cfb0da13a59cfc
+```
+
+If you have just tagged the current commit in the repo, then `faas-cli` produces the equivalent:
+
+```
+image: my-fn:0.2-v0.1.0
+
+image: my-fn:latest-v0.1.0
+```
+Note that the middle value, `<number-of-commits-to-that-tag>` is omitted when it is 0, that is, when you build that tag.
+
+If there have been several commits (e.g. 3) since the most recent tag, then `faas-cli` produces the equivalent:
+
+```
+image: my-fn:0.2-v0.1.0-1-gb0da13a
+
+image: my-fn:latest-v0.1.0-3-gb0da13a
+```
+
+A word of caution, this can only reference the tags that your local repository knows of, make sure to run `git fetch --tags` to ensure that you have a copy of all remote tags.
