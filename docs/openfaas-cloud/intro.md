@@ -15,6 +15,8 @@ Read an introduction to [OpenFaaS Cloud on Alex Ellis' blog](https://blog.alexel
 * Secure integration with GitHub.com or self-hosted GitLab
 * Personal dashboard for each user or organization with authz by OAuth2 and detailed metrics
 * Auditing of events to Slack or custom function
+* Runtime-logs for your functions
+* Fast, non-root image builds using [buildkit](https://github.com/moby/buildkit/) from Docker
 
 Check out the roadmap in the GitHub repo for what's coming next and how to get involved.
 
