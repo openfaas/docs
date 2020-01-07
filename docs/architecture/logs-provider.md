@@ -1,4 +1,4 @@
-# Log Providers
+# Log Provider
 
 OpenFaaS Gateway [0.15.0+](https://github.com/openfaas/faas/releases/tag/0.15.0) supports pluggable logging providers to support streaming function logs.
 
