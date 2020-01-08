@@ -31,7 +31,7 @@ functions:
 
 ### Provider
 
-The only valid value for provider `name` is `faas`.
+The only valid value for provider `name` is `openfaas`.
 
 #### Gateway
 
