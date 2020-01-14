@@ -46,59 +46,58 @@ You will need two DNS A records and to enable `Ingress` for your Kubernetes clus
 * Gateway - `http://gw.oauth.example.com`
 * Auth - `http://auth.oauth.example.com`
 
-There are two ways to access the OIDC plugin:
 
-* Deploy using a Kubernetes Deployment, Service and Ingress record in the repo above, or with the `faas-netes` helm chart:
+#### Deploy the plugin using the helm chart
 
-  Use `k3sup` or `helm` and pass the following overrides, or edit your `values.yaml` file:
+Use `k3sup` or `helm` and pass the following overrides, or edit your `values.yaml` file:
 
-  ```sh
-  k3sup app install openfaas \
-    --set clientID=oauth2Plugin.enabled=true \
-    --set clientID=oauth2Plugin.license=JWT_LICENSE_GOES_HERE \
-    --set clientID=oauth2Plugin.insecureTLS=false \
-    --set "clientID=oauth2Plugin.scopes=openid profile email" \
-    --set jwksURL=https://example.eu.auth0.com/.well-known/jwks.json \
-    --set tokenURL=https://example.eu.auth0.com/oauth/token \
-    --set audience=https://gw.oauth.example.com \
-    --set authorizeURL=https://example.eu.auth0.com/authorize \
-    --set welcomePageURL=https://gw.oauth.example.com \
-    --set cookieDomain=.oauth.example.com \
-    --set baseHost=https://auth.oauth.example.com \
-    --set clientSecret=OAUTH_CLIENT_SECRET \
-    --set clientSecret=OAUTH_CLIENT_ID 
-  ```
+```sh
+k3sup app install openfaas \
+  --set clientID=oauth2Plugin.enabled=true \
+  --set clientID=oauth2Plugin.license=JWT_LICENSE_GOES_HERE \
+  --set clientID=oauth2Plugin.insecureTLS=false \
+  --set "clientID=oauth2Plugin.scopes=openid profile email" \
+  --set jwksURL=https://example.eu.auth0.com/.well-known/jwks.json \
+  --set tokenURL=https://example.eu.auth0.com/oauth/token \
+  --set audience=https://gw.oauth.example.com \
+  --set authorizeURL=https://example.eu.auth0.com/authorize \
+  --set welcomePageURL=https://gw.oauth.example.com \
+  --set cookieDomain=.oauth.example.com \
+  --set baseHost=https://auth.oauth.example.com \
+  --set clientSecret=OAUTH_CLIENT_SECRET \
+  --set clientSecret=OAUTH_CLIENT_ID 
+```
 
-* Or deploy as a stand-alone Linux binary using instructions below
 
-  Populate the information below according to your Identity Provider (IDP). Below is an example with Auth0:
+The `authorizeURL` and `jwksURL` contain my personal tenant URL, remember to customise this to your own from Auth0, or your IDP.
 
-  ```sh
-  export client_id="your-client-id"                                      
-  export client_secret="your-secret"  
-  export cookie_domain=".example.com"
-  export base_host="http://auth.oauth.example.com"
-  export port=9000
-  export authorize_url="https://alexellis.eu.auth0.com/authorize"
-  export welcome_page_url="http://gw.oauth.example.com"
-  export public_key_path="" # leave blank, or populate if JWKS is unavailable
-  export audience="https://alexellis.eu.auth0.com/api/v2/"
-  export token_url="https://alexellis.eu.auth0.com/oauth/token"
+For `cookieDomain` - set the root URL of both of your sub-domains i.e. `.oauth.example.com`, this is so that the cookie set by the auth service can be used by the gateway.
 
-  export scopes="openid profile email read:current_user"
-  export jwks_url="https://alexellis.eu.auth0.com/.well-known/jwks.json"
+You should also create an additional Ingress and TLS certificate as per below:
 
-  ./oidc-plugin-linux
-  ```
-
-  The `authorize_url` and `jwks_url` contain my personal tenant URL, remember to customise this to your own.
-
-  For `cookie_domain` - set the root URL of both of your sub-domains, this is so that the cookie set by the auth service can be used by the gateway.
-
-  Edit your gateway configuration i.e. `kubectl edit -n openfaas deploy/gateway` and configure the following:
-
-  * `auth_proxy_url` - the URL to the [oidc-plugin](https://github.com/alexellis/oidc-plugin-dist)
-  * `auth_pass_body` - use the value of `false`
+```yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: openfaas-auth
+  namespace: openfaas
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: auth.oauth.example
+    http:
+      paths:
+      - backend:
+          serviceName: oauth2-plugin
+          servicePort: 8080
+        path: /
+  tls:
+  - hosts:
+    - auth.oauth.example
+    secretName: openfaas-auth
+```
 
 #### OAuth2 - Access the UI
 
