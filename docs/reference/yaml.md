@@ -29,19 +29,19 @@ functions:
     image: fn2:latest
 ```
 
-### Provider
+## Provider
 
 The only valid value for provider `name` is `openfaas`.
 
-#### Gateway
+### Gateway
 
 The gateway URL can be hard-coded into the YAML file or overriden at deployment time with the --gateway flag or OPENFAAS_URL env-var.
 
-### Functions
+## Functions
 
 The `functions` element holds a map of functions, by default all functions are acted on with CLI verbs, but you can filter them with `--filter` or `--regex`.
 
-#### Function Name
+### Function Name
 
 The function Name is specified by a key in the functions map, i.e. `fn1` in the above example. Function name must be unique within a `stack.yml` file.
 
@@ -49,25 +49,25 @@ Valid function names follow ietf [rfc1035](https://tools.ietf.org/html/rfc1035) 
 
 > (DNS_LABEL): An alphanumeric (a-z, and 0-9) string, with a maximum length of 63 characters, with the '-' character allowed anywhere except the first or last character, suitable for use as a hostname or segment in a domain name.
 
-#### Function: Language
+### Function: Language
 
 The `lang` field refers to which template is going to be used to build the function. The templates are expected to be found in the ./template folder and will be pulled from GitHub if not present.
 
-#### Function: Handler
+### Function: Handler
 
 The function `handler` field refers to a folder where the function's source code can be found, it must always be a folder and not a filename.
 
-#### Function: Image
+### Function: Image
 
 The `image` field refers to a Docker image reference, this could be on the Docker Hub, in your local Docker library or on another remote server.
 
-#### Function: Skip build
+### Function: Skip build
 
 The `skip_build` field controls whether the CLI will attempt to build the Docker image for the function.  When `true`, the build step is skipped and you should see a message printed to the terminal `Skipping build of: "function name"`.
 
 This an optional boolean field, set to `false` by default.
 
-#### Function: Build Options
+### Function: Build Options
 
 The `build_options` field can be used to you to pass a list of [Docker build arguments](https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables---build-arg) to the build process.  When the language template supports it, this allows you to customize the build without modifying the underlying template.
 
@@ -80,7 +80,7 @@ build_options:
 
 Important note: that the configuration of this value is dependent on the language template.  The template author must specify one or more [`ARG`](https://docs.docker.com/engine/reference/builder/#arg) in the `Dockerfile`.
 
-#### Function: Environmental variables
+### Function: Environmental variables
 
 You can set configuration via environmental variables either in-line within the YAML file or in a separate external file. Do not store confidential or private data in environmental variables. See: secrets.
 
@@ -119,7 +119,7 @@ environment:
 
 > Note: external files take priority over in-line environmental variables. This allows you to specify a default and then have overrides within an external file.
 
-#### Function: Secure secrets
+### Function: Secure secrets
 
 OpenFaaS functions can make use of secure secrets using the secret store from Kubernetes or Docker Swarm. This is the recommended way to store secure access keys, tokens and other private data.
 
@@ -131,7 +131,7 @@ secrets:
   - s3_secret_key
 ```
 
-#### Function: Read-Only Root Filesystem
+### Function: Read-Only Root Filesystem
 
 The `readonly_root_filesystem` indicates that the function file system will be set to read-only except for the temporary folder `/tmp`.  This prevents the function from writing to or modifying the filesystem (e.g. system files). This is used to provide tighter security for your functions. You can set this value as a boolean:
 
@@ -141,7 +141,7 @@ readonly_root_filesystem: true
 
 This an optional boolean field, set to `false` by default.
 
-#### Function: Constraints
+### Function: Constraints
 
 Constraints are passed directly to the underlying container orchestrator. They allow you to pin a function to certain host or type of host.
 
@@ -159,7 +159,7 @@ Or only using nodes running with Windows:
      - "node.platform.os == windows"
 ```
 
-#### Function: Labels
+### Function: Labels
 
 Labels can be applied through a map which is passed directly to the container scheduler.
 Labels are also available from the OpenFaaS REST API for querying or grouping functions.
@@ -179,7 +179,7 @@ Example of using a label to group by user or apply a `canary` label:
 >See [Syntax and character set](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#syntax-and-character-set)
 for more information
 
-#### Function: Annotations
+### Function: Annotations
 
 Annotations are a collection of meta-data which is stored with the function by the provider.
 Annotations are also available from the OpenFaaS REST API for querying.
@@ -200,7 +200,7 @@ Example of setting a custom HTTP health check path and initial check delay:
      com.openfaas.health.http.initialDelay: "30s"
 ```
 
-#### Function: Memory/CPU limits
+### Function: Memory/CPU limits
 
 Applying memory and CPU limits can be done through the `limits` and `requests` [fields](https://godoc.org/github.com/openfaas/faas-cli/stack#FunctionResources). It is advisable to always set a limit for your functions to prevent them consuming too many resources in your system.
 
@@ -239,7 +239,60 @@ The meanings and formats of `limits` and `requests` may vary depending on whethe
 
 See docs for [Docker Swarm](https://docs.docker.com/config/containers/resource_constraints/) or for [Kubernetes](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#how-pods-with-r    esource-limits-are-run).
 
-### YAML - environment variable substitution
+## Configuration
+The configuration section allows you to define additional configuration that is global to the entire stack, currently this mostly impacts function build time options.
+
+### Templates
+The `templates` list allows you to define the information required to pull the templates for your functions.  This list of templates will automatically be pulled when you build your functions. When configured correctly, this allows you to completely build your functions with just `faas-cli build`.  Without this section, you must manually `faas-cli template pull <source>` _before_ you use `faas-cli build`.
+
+```yaml
+configuration:
+  templates:
+    - name: python3-http
+      source: https://github.com/openfaas-incubator/python-flask-template
+```
+
+### Copy
+The `copy` list allows you to define additional project paths that will be copied into your function's handler folder.
+
+```yaml
+configuration:
+  copy:
+    - ./common
+    - ./data
+    - ./models
+```
+
+Given the above configuration, the build folder for a python `hello` function would look like
+
+```sh
+build
+└── hello
+    ├── Dockerfile
+    ├── function
+    │   ├── __init__.py
+    │   ├── models
+    │   ├── ...
+    │   │   └── model_n
+    │   ├── data
+    │   ├── ...
+    │   │   └── data_set_n
+    │   ├── common
+    │   ├── ...
+    │   │   └── utils.py
+    │   ├── handler.py
+    │   └── requirements.txt
+    ├── index.py
+    ├── requirements.txt
+    └── template.yml
+```
+
+The CLI also has a related flag `--copy-extra`.  When this flag is used, the paths specified by the flag will be _merged_ into the list from the YAML.  This means it will extend, not replace, the values specified in the file.
+
+**Important Security Note:** These paths _must_ be subpaths of the project and _not equal_ to the entire project. For example, you can not reference `../` or `$HOME/.ssh`, any path outside of the current directory will be skipped.
+
+
+## YAML - environment variable substitution
 
 The YAML stack format supports the use of `envsubst`-style templates. This means that you can have a single file with multiple configuration options such as for different user accounts, versions or environments.
 
