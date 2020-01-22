@@ -20,6 +20,27 @@ A common user-error is to try to invoke the gateway from within a function using
 
 The default address for the gateway on Kubernetes is `http://gateway.openfaas:8080`.
 
+#### Crashing Pods during deployment
+
+On most Kubernetes deployments the cluster DNS is `*.cluster.local`. In cases where the cluster administrator has deployed a custom domain name, this may be difficult to uncover.
+
+_Symptom_: Deployment never becomes healthy due to crashing Gateway and Queue-Worker pods
+
+```bash
+# Gateway and Queue worker logs displaying DNS errors:
+2020/01/21 05:46:55 Opening connection to nats://nats.openfaas.svc.cluster.local:4222
+2020/01/21 05:46:55 Connect: nats://nats.openfaas.svc.cluster.local:4222
+2020/01/21 05:46:55 nats: no servers available for connection
+```
+
+_Validate Cluster DNS is the issue_:
+
+```bash
+kubectl run --generator=run-pod/v1 tmp-shell --rm -i --tty --image nicolaka/netshoot -- nslookup kubernetes.default | grep Name | awk '{print $2}'
+```
+
+_Solution_: If this returns something other than `kubernetes.default.svc.cluster.local` then you will likely need to deploy OpenFaaS with an alternative domain name. If using Helm then try the value is [kubernetesDNSDomain](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/values.yaml#L191)
+
 ### On Docker Swarm
 
 The default address for the gateway is `http://gateway:8080`
@@ -63,8 +84,8 @@ functions:
     handler: ./sleepygo
     image: alexellis2/sleeps-for-10-seconds
     environment:
-        read_timeout: 20s
-        write_timeout: 20s
+      read_timeout: 20s
+      write_timeout: 20s
 ```
 
 handler.go
@@ -85,9 +106,9 @@ func Handle(req []byte) string {
 For the gateway set the following environmental variables:
 
 ```yaml
-            read_timeout:  "25s"        # Maximum time to read HTTP request
-            write_timeout: "25s"        # Maximum time to write HTTP response
-            upstream_timeout: "20s"     # Maximum duration of upstream function call
+read_timeout: "25s" # Maximum time to read HTTP request
+write_timeout: "25s" # Maximum time to write HTTP response
+upstream_timeout: "20s" # Maximum duration of upstream function call
 ```
 
 > Note: The value for `upstream_timeout` should be slightly less than `read_timeout` and `write_timeout`
@@ -109,7 +130,7 @@ If the `ack_wait` is exceeded the task will not be acknowledge and the queue sys
 
 ### Timeouts - Cloud Service Providers
 
-There are situations where timeout values external to OpenFaaS may impact successful function execution.  A typical scenario is where a cloud platform's load balancer product is fronting the cluster in which OpenFaaS is running.  A common example is when using the [GCP Kubernetes product, GKE](https://cloud.google.com/load-balancing/docs/https/#timeouts_and_retries). 
+There are situations where timeout values external to OpenFaaS may impact successful function execution. A typical scenario is where a cloud platform's load balancer product is fronting the cluster in which OpenFaaS is running. A common example is when using the [GCP Kubernetes product, GKE](https://cloud.google.com/load-balancing/docs/https/#timeouts_and_retries).
 
 ## Function execution logs
 
@@ -166,9 +187,9 @@ Most problems reported via GitHub or Slack stem from a configuration problem or 
 
 Checklist:
 
-* [ ] All core services are deployed: i.e. gateway
-* [ ] Check functions are deployed and started
-* [ ] Check request isn't timing out at the gateway or the function level
+- [ ] All core services are deployed: i.e. gateway
+- [ ] Check functions are deployed and started
+- [ ] Check request isn't timing out at the gateway or the function level
 
 ## CLI unresponsive - 127.0.0.1 vs. localhost
 
@@ -190,8 +211,8 @@ If you'd like to remove the CLI and you installed it with `brew`, then use `brew
 
 If you installed via the `curl/sh` utility script:
 
-* Run `rm -rf /usr/local/bin/faas-cli`
-* Delete saved gateway login details: `rm -rf ~/.openfaas`
+- Run `rm -rf /usr/local/bin/faas-cli`
+- Delete saved gateway login details: `rm -rf ~/.openfaas`
 
 ### Swarm
 
@@ -268,7 +289,7 @@ Printing service logs
 2018-08-28T07:50:46.431268693Z  21f596c9cd75a0fe5e335fb743995d18399e83418a37a79e719576a724efbbb6
 ```
 
-* Or use a one-shot Docker Service:
+- Or use a one-shot Docker Service:
 
 ```sh
 $ docker service rm print-password \
@@ -309,6 +330,7 @@ View logs of all functions:
 ```sh
 kail -n openfaas-fn
 ```
+
 View logs of all replicas of a single function:
 
 ```sh
@@ -377,7 +399,7 @@ If you installed OpenFaaS into a custom namespace then change the value `-n open
 
 If you believe that load is not being spread evenly throughout your cluster, then this may be due to your KeepAlive configuration. Read up on endpoint load-balancing and decide whether you need to pick an alternative strategy to the default offered by Kubernetes.
 
-* [Endpoint load-balancing](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#endpoint-load-balancing)
+- [Endpoint load-balancing](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#endpoint-load-balancing)
 
 ## Watchdog
 
