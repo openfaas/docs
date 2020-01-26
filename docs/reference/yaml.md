@@ -272,14 +272,11 @@ build
     ├── function
     │   ├── __init__.py
     │   ├── models
-    │   ├── ...
-    │   │   └── model_n
+    │   │   └── ...
     │   ├── data
-    │   ├── ...
-    │   │   └── data_set_n
+    │   │   └── ...
     │   ├── common
-    │   ├── ...
-    │   │   └── utils.py
+    │   │   └── ...
     │   ├── handler.py
     │   └── requirements.txt
     ├── index.py
@@ -287,9 +284,9 @@ build
     └── template.yml
 ```
 
-The CLI also has a related flag `--copy-extra`.  When this flag is used, the paths specified by the flag will be _merged_ into the list from the YAML.  This means it will extend, not replace, the values specified in the file.
+The CLI `build` command also has a related flag `--copy-extra`.  When this flag is used, the paths specified by the flag will be _merged_ into the list from the YAML.  This means it will extend, not replace, the values specified in the file.
 
-**Important Security Note:** These paths _must_ be subpaths of the project and _not equal_ to the entire project. For example, you can not reference `../` or `$HOME/.ssh`, any path outside of the current directory will be skipped.
+**Note:** These paths _must_ be subpaths of the project and _not equal_ to the entire project. For example, you can not reference `../` or `$HOME/.ssh`, any path outside of the current directory will be skipped.
 
 
 ## YAML - environment variable substitution
