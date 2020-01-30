@@ -195,6 +195,8 @@ Use `k3sup` to install OpenFaaS, it will determine the correct files to use to i
 
 For a complete tutorial on setting up OpenFaaS for Raspberry Pi / 32-bit ARM using Kubernetes see the following blog post from Alex Ellis: [Will it Cluster?](https://blog.alexellis.io/test-drive-k3s-on-raspberry-pi/).
 
+Or watch Alex's live video [Kubernetes Homelab with Raspberry Pi and k3sup](https://blog.alexellis.io/raspberry-pi-homelab-with-k3sup/) for a complete walk-through.
+
 When creating new functions please use the templates with a suffix of `-armhf` such as `go-armhf` and `python-armhf` to ensure you get the correct versions for your devices.
 
 * You can run `faas-cli deploy` from anywhere using `--gateway` or `OPENFAAS_GATEWAY`

@@ -4,6 +4,18 @@ OpenFaaS can be deployed to a variety of container platforms such as Kubernetes,
 
 Whilst support is available for Docker Swarm and faasd, we recommend using Kubernetes in production and for work projects.
 
+## PLONK Stack
+
+[PLONK](https://blog.alexellis.io/getting-started-with-the-plonk-stack-and-serverless/) is a cloud native stack for application developers and an acronym that stands for:
+
+* [Prometheus](https://prometheus.io/) - metrics and time-series
+* Linux/Linkerd* - OS or service mesh (Linkerd is optional)
+* OpenFaaS - management and auto-scaling of compute - PaaS/FaaS, a developer-friendly abstraction on top of Kubernetes. Each function or microservice is built as an immutable Docker container or OCI-format image.
+* [NATS](https://nats.io/) - asynchronous message bus / queue
+* Kubernetes - declarative, extensible, scale-out, self-healing clustering
+
+Find out more [in the OpenFaaS architecture](https://docs.openfaas.com/architecture/stack/#layers-and-responsibilities)
+
 ## Kubernetes (recommended for production)
 
 !!! warning "A foreword on security"
