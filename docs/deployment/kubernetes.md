@@ -73,13 +73,15 @@ If you run the script as a normal non-root user then the script will be download
 
 ### Pick `k3sup`, `helm` or plain YAML files
 
-There are three ways to install OpenFaaS and you can pick whatever makes sense for you and your team.
+There are three recommended ways to install OpenFaaS and you can pick whatever makes sense for you and your team.
 
-* `k3sup app install` - k3sup installs OpenFaaS using its official helm chart and is the easiest and quickest way to get up and running.
+> If you need help with an OpenFaaS proof-of-concept or a reference architecture, you can contact [sales@openfaas.com](mailto:sales@openfaas.com) to find out more.
+
+* `k3sup app install` - k3sup (`ketchup`) installs OpenFaaS to any Kubernetes cluster using its official helm chart and is the easiest and quickest way to get up and running.
 
 * Helm chart - sane defaults and easy to configure through YAML or CLI flags. Secure options such as `helm template` or `helm 3` also exist for those working within restrictive environments.
 
-* Plain YAML files - hard-coded settings/values. Tools like Kustomize can offer custom settings
+* Plain YAML files - not recommended for anything beyond testing since the options are generated and hard-coded. Tools like Kustomize can offer the ability to custom the files.
 
 Guidelines are also provided for [preparing for production](/architecture/production/) and for [performance testing](/architecture/performance).
 
