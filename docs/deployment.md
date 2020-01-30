@@ -16,7 +16,7 @@ Whilst support is available for Docker Swarm and faasd, we recommend using Kuber
 
 Find out more [in the OpenFaaS architecture](https://docs.openfaas.com/architecture/stack/#layers-and-responsibilities)
 
-## Kubernetes (recommended for production)
+## Kubernetes (recommended for production and for work)
 
 !!! warning "A foreword on security"
     Authentication is enabled by default with OpenFaaS, however you will also need to obtain a TLS certificate for your cluster if you are using OpenFaaS on the public Internet. Free certificates are available from LetsEncrypt.org.
@@ -31,19 +31,15 @@ Start here: [Deploy to Kubernetes](/deployment/kubernetes/)
 
 ## faasd with containerd
 
-faasd is a new OpenFaaS version which uses the same tooling, ecosystem, templates, and containers as OpenFaaS on Kubernetes, but which doesn't require cluster management. faasd uses containerd as a runtime and CNI for container networking.
+faasd is a light-weight option for adopting OpenFaaS which uses the same tooling, ecosystem, templates, and containers as OpenFaaS on Kubernetes, but which doesn't require cluster management. faasd uses [containerd](https://containerd.io/) as a runtime and [CNI](https://github.com/containernetworking/cni) for container networking.
 
-It's a lightweight option and is suited to use-cases such as:
+Why might you try faasd?
 
-- appliances
-- VMs
-- embedded use
-- edge
-- and for IoT.
+* It's a lightweight option and is suited to use-cases such as: appliances, VMs, embedded use, edge, and for IoT. 
+* Teams may also find faasd useful for local development before deploying to Kubernetes.
+* Teams who feel that they could benefit from functions and microservices, but who do not have the bandwidth to learn about Kubernetes may prefer this option.
 
-Teams who feel that they could benefit from functions and microservices, but who do not have the bandwidth to learn about Kubernetes may prefer this option.
-
-* Get started with [faasd](https://github.com/alexellis/faasd/)
+Get started with [faasd](https://github.com/alexellis/faasd/)
 
 ## OpenShift
 
