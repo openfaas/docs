@@ -223,7 +223,7 @@ There are three Node.js templates which use the newer of-watchdog:
 | node10-express-service   | Micro-service | NodeJS | 10.x | no      | no                      |
 | node12                   | Function | NodeJS | 12.x | yes     | yes, LTS version        |
 
-It is recommended that all new users opt for the `node12-express` template.
+It is recommended that all new users opt for the `node12` template.
 
 For more details on the `event` and `context` objects, see the [README.md](https://github.com/openfaas-incubator/node10-express-template) for the node10-express template, this also applies to `node12`.
 
@@ -264,6 +264,23 @@ module.exports = (event, context) => {
     context.succeed(result).
     status(201);
 }
+```
+
+##### Node.js 12 `node12` - Access to the raw body
+Set the environment variable `RAW_BODY` to `true` to set the `context.body` to the request body buffer rather than parsing it as JSON
+
+```yaml
+  environment:
+    RAW_BODY: true
+```
+
+##### Node.js 12 `node12` - Set max json request body size
+Change the maximum size of a JSON request body by setting the environment variable `MAX_JSON_SIZE`. The default value is `'100kb'`
+> Note: the value must be enclosed in quotes `'` `'`
+
+```yaml
+  environment:
+    MAX_JSON_SIZE: '5mb'
 ```
 
 #### Node.js (classic template)
