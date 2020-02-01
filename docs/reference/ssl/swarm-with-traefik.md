@@ -1,13 +1,26 @@
-# SSL on Swarm with Traefik
+# SSL on Docker Swarm with Traefik
 
-To completely secure your OpenFaaS installation, you need SSL.  On Swarm, you can do this easily with [Traefik][traefik] and [Let's Encrypt][letsencrypt].  Traefik is a reverse proxy that comes with SSL support via Let's Encrypt. In this tutorial we will show you how to deploy OpenFaaS with Traefik.
+To help secure your OpenFaaS installation, you need TLS.  On [Docker Swarm](docs/reference/ssl/kubernetes-with-cert-manager.md), you can do this easily with [Traefik](https://traefik.io/) and [Let's Encrypt](https://letsencrypt.org/).  Traefik is a reverse proxy that comes with TLS support via Let's Encrypt. In this tutorial we will show you how to deploy OpenFaaS with Traefik.
 
 
-## Create an A record
+### Create a DNS record
 
-If your domain is `.domain.com` then create an A record using your DNS administration panel such as `gateway.domain.com` or `openfaas.domain.com`. The required steps will vary depending on your domain provider and your cluster provider. For example; [on Google Cloud DNS](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip) or [with Route53 using AWS](https://kubernetes.io/docs/setup/custom-cloud/kops/#2-5-create-a-route53-domain-for-your-cluster).
+Determine the public IP address that can be used to access your cluster.
+If your domain is `.example.com` then create an A record using your DNS administration panel such as `gw.example.com`.
+
+> The required steps will vary depending on your domain provider and your cluster provider. For example; [on Google Cloud DNS](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip) or [with Route53 using AWS](https://kubernetes.io/docs/setup/custom-cloud/kops/#2-5-create-a-route53-domain-for-your-cluster).
+
+Once created, verify that what you entered into your DNS control-panel worked with `ping`:
+
+```sh
+ping gw.example.com
+```
+
+You should now see the value you entered. Sometimes DNS can take 1-5 minutes to propagate.
 
 ## Update the Compose configuration
+
+A complete example `docker-compose.yaml` can be found [here](./compose-example.yaml)
 
 ### Configure Traefik
 To use Traefik with OpenFaaS, you need to modify the OpenFaaS deployment manifest to include Traefik and configuring OpenFaaS to communicate through Traefik instead of directly exposing its services publicly.
@@ -27,35 +40,27 @@ To start, open `docker-compose.yaml` in your favorite editor and add a `traefik`
 version: "3.3"
 services:
     traefik:
-        image: traefik:v1.7.6
+        image: traefik:v2.1.3
+        container_name: "traefik"
         command:
-            - "--api=true"
-            - "--docker=true"
-            - "--docker.swarmmode=true"
-            - "--docker.domain=traefik"
-            - "--docker.watch=true"
-            - "--defaultEntryPoints=http,https"
-            - "--entryPoints=Name:https Address::443 TLS"
-            - "--entryPoints=Name:http Address::80"
-            - "--acme=true"
-            - "--acme.entrypoint=https"
-            - "--acme.httpchallenge=true"
-            - "--acme.httpchallenge.entrypoint=http"
-            - "--acme.domains=openfaas.mydomain.com"
-            - "--acme.email=<your-email-here>"
-            - "--acme.ondemand=true"
-            - "--acme.onhostrule=true"
-            - "--acme.storage=/etc/traefik/acme/acme.json"
+            - "--api.insecure=true"
+            - "--providers.docker=true"
+            - "--providers.docker.exposedbydefault=false"
+            - "--entrypoints.web.address=:80"
+            - "--entrypoints.websecure.address=:443"
+            - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge=true"
+            - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge.entrypoint=web"
+            - "--certificatesresolvers.myhttpchallenge.acme.email=<your-email-here>"
+            - "--certificatesresolvers.myhttpchallenge.acme.storage=/letsencrypt/acme.json"
         ports:
-            - 80:80
-            - 8080:8080
-            - 443:443
+            - "80:80"
+            - "443:443"
+            - "8080:8080"
         volumes:
+            - "./letsencrypt:/letsencrypt"
             - "/var/run/docker.sock:/var/run/docker.sock"
-            - "acme:/etc/traefik/acme"
         networks:
         - functions
-        deploy:
         placement:
             constraints: [node.role == manager]
 
@@ -65,10 +70,10 @@ services:
 
 This configuration does a few important things:
 
-* The `--api=true` flag enables Traefik's Web UI,
-* The `--docker.*` flags tell Traefik to use Docker and specify that it's running in a Docker Swarm cluster.
-* The `--defaultEntryPoints` and `--entryPoints` flags define entry points and protocols to be used. In our case this includes HTTP on port 80 and HTTPS on port 443.
-* The `--acme.*` flags configure Traefik to use the ACME protocol to generate Let's Encrypt certificates to secure your OpenFaaS cluster with SSL. Make sure to replace the `openfaas.mydomain.com` domain placeholders in the `--acme.domains` flag with your own domain. You can specify multiple domains by separating them with a comma and space.  We also setup a volume `acme` to store the resulting certificate files.
+* The `--providers.docker.*` flags tell Traefik to use Docker and specify that it's running in a Docker Swarm cluster.
+* The `--entryPoints` flags define entry points and protocols to be used. In our case this includes HTTP on port 80 and HTTPS on port 443.
+* The `--certificatesresolvers.*` flags configure Traefik to use the ACME protocol to generate Let's Encrypt certificates to secure your OpenFaaS cluster with SSL.
+Make sure to set your own email within the `certificatesresolvers.myhttpchallenge.acme.email` command line argument of the traefik service.
 * Expose the ports required for Traefik.  Traefik uses port `8080` for its operations and UI, while in the last step we configured ports `80` and `443` and entrypoints for internet traffic.  These will be used / proxied to OpenFaaS
 * Binds the docker socket to the traefik container so that it can communicate with the Docker API and dertermine the number of containers and their IP addressess.
 * Adds `traefik` to the `functions   network so that it can communicate with the OpenFaaS components.
@@ -80,7 +85,7 @@ By default, the original `docker-compose.yaml` file exposes the OpenFaaS `gatewa
 
 First, remove the `ports` section.
 
-Next, add the following `labels` directive to the `deploy` section of the gateway service.
+Next, add the following `labels` directive to the gateway service.
 
 ```yaml
     gateway:
@@ -89,30 +94,33 @@ Next, add the following `labels` directive to the `deploy` section of the gatewa
             ...
         environment:
             ...
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.gateway.rule=Host(`gw.example.com`)"
+            - "traefik.http.routers.gateway.entrypoints=websecure"
+            - "traefik.http.routers.gateway.tls.certresolver=myhttpchallenge"
         deploy:
-            labels:
-                - traefik.port=8080
-                - traefik.frontend.rule=PathPrefix:/ui,/system,/function
-            resources:
-                ...
+            ...
         secrets:
             ...
     ...
 ```
 
-These labels expose the OpenFaaS gateway `/ui`, `/system`, and `/function` endpoints on port `8080` over Traefik.
+Traefik uses reads these labels from the Docker API to detect and configure the routing for the gateway.
 
 ### Configure data volumes
 
-Finally, while configuring Traefik, you mounted a volume called `acme`.  You must now define the `acme` volume used for storing Let's Encrypt certificates. We can define an empty volume, meaning data will not persist if you destroy the container. If you destroy the container, the certificates will be regenerated the next time you start Traefik.
+Finally, while configuring Traefik, you mounted a volume called `letsencrypt`.  You must now define the `letsencrypt` volume used for storing Let's Encrypt certificates. We can define an empty volume, meaning data will not persist if you destroy the container. If you destroy the container, the certificates will be regenerated the next time you start Traefik.
 
 Add the following volumes directive on the last line of the file:
 
 ```yaml
 ...
 volumes:
-    acme:
+    letsencrypt:
 ```
+
+A complete example `docker-compose.yaml` can be found [here](./compose-example.yaml)
 
 ## Install OpenFaaS
 
@@ -158,13 +166,13 @@ In your projects containing OpenFaaS functions, you can now deploy using your do
 
 ### Deploy from the CLI
 ```sh
-faas-cli login --gateway https://openfaas.mydomain.com --username admin --password <randomly-generated-password>
-faas-cli deploy --gateway https://openfaas.mydomain.com
+faas-cli login --gateway https://gw.example.com --username admin --password <randomly-generated-password>
+faas-cli deploy --gateway https://gw.example.com
 ```
-Replace `openfaas.mydomain.com` with your domain as well as adding the username `admin` and secure random password that the deploy script created for you when you deployed OpenFaaS.
+Replace `gw.example.com` with your domain as well as adding the username `admin` and secure random password that the deploy script created for you when you deployed OpenFaaS.
 
 ### Use the web UI
-You can use the web UI to see the functions deployed to your cluster or to deploy functions from the Store.  In your web browser, go to https://openfaas.mydomain.com/ui/. Note that the trailing slash is required.
+You can use the web UI to see the functions deployed to your cluster or to deploy functions from the Store.  In your web browser, go to https://gw.example.com/ui/. Note that the trailing slash is required.
 
 On your first visit, the HTTP authentication dialogue box will open, you can login with the username `admin` and secure random password that the deploy script created for you when you deployed OpenFaaS.
 
@@ -176,5 +184,3 @@ $ docker service logs -f traefik
 ```
 You can see internet traffic logs as well as logs related to the Let's Encrypt certificate process.
 
-[traefik]: https://traefik.io/
-[letsencrypt]: https://letsencrypt.org/
