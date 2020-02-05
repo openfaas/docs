@@ -240,6 +240,44 @@ module.exports = async (event, context) => {
 }
 ```
 
+##### Node.js 12 `node12` - adding unit tests
+
+By default, an empty test step is written to package.json inside your function's handler folder, you can override this with your own command or test runner.
+
+For example:
+
+```json
+{
+  "name": "function",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "mocha test/test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.0.1"
+  }
+}
+```
+
+Then create at least one test file such as: `function-name/test/test.js`:
+
+```js
+var chai = require("chai")
+var expect = chai.expect;
+
+describe('MyFunction', function() {
+  expect("foobar").to.have.lengthOf(3);
+})
+```
+
+If the tests fail, this will also fail the build of your function and prevent it from passing. The logs will be made available via the logs of `faas-cli build/up`.
+
 ##### Node.js 12 `node12` - async/await with error
 
 ```js
