@@ -52,20 +52,24 @@ You will need two DNS A records and to enable `Ingress` for your Kubernetes clus
 Use `k3sup` or `helm` and pass the following overrides, or edit your `values.yaml` file:
 
 ```sh
+export LICENSE=""
+export OAUTH_CLIENT_SECRET=""
+export OAUTH_CLIENT_ID=""
+
 k3sup app install openfaas \
-  --set clientID=oauth2Plugin.enabled=true \
-  --set clientID=oauth2Plugin.license=JWT_LICENSE_GOES_HERE \
-  --set clientID=oauth2Plugin.insecureTLS=false \
-  --set "clientID=oauth2Plugin.scopes=openid profile email" \
-  --set jwksURL=https://example.eu.auth0.com/.well-known/jwks.json \
-  --set tokenURL=https://example.eu.auth0.com/oauth/token \
-  --set audience=https://gw.oauth.example.com \
-  --set authorizeURL=https://example.eu.auth0.com/authorize \
-  --set welcomePageURL=https://gw.oauth.example.com \
-  --set cookieDomain=.oauth.example.com \
-  --set baseHost=https://auth.oauth.example.com \
-  --set clientSecret=OAUTH_CLIENT_SECRET \
-  --set clientSecret=OAUTH_CLIENT_ID 
+  --set oauth2Plugin.enabled=true \
+  --set oauth2Plugin.license=$LICENSE \
+  --set oauth2Plugin.insecureTLS=false \
+  --set "oauth2Plugin.scopes=openid profile email" \
+  --set oauth2Plugin.jwksURL=https://example.eu.auth0.com/.well-known/jwks.json \
+  --set oauth2Plugin.tokenURL=https://example.eu.auth0.com/oauth/token \
+  --set oauth2Plugin.audience=https://gw.oauth.example.com \
+  --set oauth2Plugin.authorizeURL=https://example.eu.auth0.com/authorize \
+  --set oauth2Plugin.welcomePageURL=https://gw.oauth.example.com \
+  --set oauth2Plugin.cookieDomain=.oauth.example.com \
+  --set oauth2Plugin.baseHost=https://auth.oauth.example.com \
+  --set oauth2Plugin.clientSecret=$OAUTH_CLIENT_SECRET \
+  --set oauth2Plugin.clientID=$OAUTH_CLIENT_ID 
 ```
 
 
