@@ -73,7 +73,7 @@ k3sup app install openfaas \
 ```
 
 
-The `authorizeURL` and `jwksURL` contain my personal tenant URL, remember to customise this to your own from Auth0, or your IDP.
+The `authorizeURL`, `tokenURL` and `jwksURL` contain my personal tenant URL, remember to customize this to your own from Auth0, or your IDP.
 
 For `cookieDomain` - set the root URL of both of your sub-domains i.e. `.oauth.example.com`, this is so that the cookie set by the auth service can be used by the gateway.
 
@@ -122,9 +122,9 @@ faas-cli auth \
   --client-id "${OAUTH_CLIENT_ID}"
 ```
 
-You will receive a token on the command-line, export it with `export TOKEN=""`.
+You will receive a token on the command-line and same will be saved to openfaas config file. `faas-cli` will read the token and pass it for future commands which requires authentication. 
 
-Then use it with any command: `faas-cli list --token="${TOKEN}"`
+You can also export it with `export TOKEN=""` and use it with any command: `faas-cli list --token="${TOKEN}"`
 
 See also: [faas-cli README](https://github.com/openfaas/faas-cli)
 
@@ -147,9 +147,9 @@ faas-cli auth \
   --audience http://gw.oauth.example.com
 ```
 
-You will receive a token on the command-line, export it with `export TOKEN=""`.
+You will receive a token on the command-line and same will be saved to openfaas config file. `faas-cli` will read the token and pass it for future commands which requires authentication. 
 
-Then use it with any command: `faas-cli list --token="${TOKEN}"`
+You can also export it with `export TOKEN=""` and use it with any command: `faas-cli list --token="${TOKEN}"`
 
 See also: [faas-cli README](https://github.com/openfaas/faas-cli/blob/master/README.md)
 
