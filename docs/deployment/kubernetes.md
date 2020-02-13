@@ -323,6 +323,8 @@ Once you have pushed an image to a private registry using `faas-cli push` follow
 
 If you need to troubleshoot the use of a private image then see the Kubernetes section of the [troubleshooting guide](./troubleshooting.md).
 
+You can set up your own private Docker registry using this tutorial: [Get a TLS-enabled Docker registry in 5 minutes](https://blog.alexellis.io/get-a-tls-enabled-docker-registry-in-5-minutes/)
+
 ##### Option 1 - use an ad-hoc image pull secret
 
 To deploy your function(s) first you need to create an [Image Pull Secret](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) with the commands below.
