@@ -33,6 +33,8 @@ If the whole process takes less than a few seconds, this may be the ideal approa
 
 Any function can be invoked asynchronously by changing the route on the gateway from `/function/<name>` to `/async-function/<name>`. A `202 Accepted` message will be issued in response to asynchronous calls.
 
+> Note: that asynchronous invocations do not make sense with a HTTP `GET` verb since they are queued and deferred, there is nothing to `GET`. For this reason, a HTTP `POST` is required.
+
 If you would like to receive a value from an asynchronous call you should pass a HTTP header with the URL to be used for the call-back.
 
 ```
