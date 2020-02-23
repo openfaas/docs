@@ -212,14 +212,21 @@ If so, then perhaps your GitHub App doesn't have the correct permissions.
 
 #### OAuth / Auth
 
-Check the auth service:
+Check the edge-auth service:
 
 ```sh
-kubectl describe -n openfaas deploy/auth
-kubectl logs -n openfaas deploy/auth
+kubectl describe -n openfaas deploy/edge-auth
+kubectl logs -n openfaas deploy/edge-auth
 ```
 
 Check that `client_id` is set correctly along with the direct URL and cookie domain.
+
+Check the edge-router service:
+
+```sh
+kubectl describe -n openfaas deploy/edge-router
+kubectl logs -n openfaas deploy/edge-router
+```
 
 ### Still not working?
 
