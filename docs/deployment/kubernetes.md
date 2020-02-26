@@ -71,13 +71,13 @@ $ curl -sL https://cli.openfaas.com | sudo sh
 
 If you run the script as a normal non-root user then the script will be downloaded to the current folder.
 
-### Pick `k3sup`, `helm` or plain YAML files
+### Pick `arkade`, `helm` or plain YAML files
 
 There are three recommended ways to install OpenFaaS and you can pick whatever makes sense for you and your team.
 
 > If you need help with an OpenFaaS proof-of-concept or a reference architecture, you can contact [sales@openfaas.com](mailto:sales@openfaas.com) to find out more.
 
-* `k3sup app install` - k3sup (`ketchup`) installs OpenFaaS to any Kubernetes cluster using its official helm chart and is the easiest and quickest way to get up and running.
+* `arkade install` - arkade (`ketchup`) installs OpenFaaS to any Kubernetes cluster using its official helm chart and is the easiest and quickest way to get up and running.
 
 * Helm chart - sane defaults and easy to configure through YAML or CLI flags. Secure options such as `helm template` or `helm 3` also exist for those working within restrictive environments.
 
@@ -85,20 +85,20 @@ There are three recommended ways to install OpenFaaS and you can pick whatever m
 
 Guidelines are also provided for [preparing for production](/architecture/production/) and for [performance testing](/architecture/performance).
 
-#### A. Deploy with `k3sup` (fastest option)
+#### A. Deploy with `arkade` (fastest option)
 
-The `k3sup app install` command installs OpenFaaS using its official helm chart, but without using `tiller`, a [component which is insecure by default](https://engineering.bitnami.com/articles/running-helm-in-production.html). k3sup can also install other important software for OpenFaaS users such as `cert-manager` and `nginx-ingress`. It's the easiest and quickest way to get up and running.
+The `arkade install` command installs OpenFaaS using its official helm chart, but without using `tiller`, a [component which is insecure by default](https://engineering.bitnami.com/articles/running-helm-in-production.html). arkade can also install other important software for OpenFaaS users such as `cert-manager` and `nginx-ingress`. It's the easiest and quickest way to get up and running.
 
-You can use k3sup to install OpenFaaS to a regular cloud cluster, your laptop, a VM, a Raspberry Pi, or a 64-bit ARM machine.
+You can use arkade to install OpenFaaS to a regular cloud cluster, your laptop, a VM, a Raspberry Pi, or a 64-bit ARM machine.
 
-* Get k3sup
+* Get arkade
 
 ```sh
 # For MacOS / Linux:
-curl -SLsf https://get.k3sup.dev/ | sudo sh
+curl -SLsf https://dl.get-arkade.dev/ | sudo sh
 
 # For Windows (using Git Bash)
-curl -SLsf https://get.k3sup.dev/ | sh
+curl -SLsf https://dl.get-arkade.dev/ | sh
 ```
 
 * Install the OpenFaaS `app`
@@ -106,7 +106,7 @@ curl -SLsf https://get.k3sup.dev/ | sh
 If you're using a managed cloud Kubernetes service which supplies LoadBalancers, then run the following:
 
 ```sh
-k3sup app install openfaas --load-balancer
+arkade install openfaas --load-balancer
 ```
 
 > Note: the `--load-balancer` flag has a default of `false`, so by passing the flag, the installation will request one from your cloud provider.
@@ -114,12 +114,12 @@ k3sup app install openfaas --load-balancer
 If you're using a local Kubernetes cluster or a VM, then run:
 
 ```sh
-k3sup app install openfaas
+arkade install openfaas
 ```
 
 After the installation you'll receive a command to retrieve your OpenFaaS URL and password.
 
-Other options for installation are available with `k3sup app install openfaas --help`
+Other options for installation are available with `arkade install openfaas --help`
 
 For cloud users run `kubectl get -n openfaas svc/gateway-external` and look for `EXTERNAL-IP`. This is your gateway address.
 
@@ -193,7 +193,7 @@ You can run these commands on your computer if you have `kubectl` and `KUBECONFI
 
 #### Notes for Raspberry Pi & 32-bit ARM (armhf)
 
-Use `k3sup` to install OpenFaaS, it will determine the correct files to use to install OpenFaaS.
+Use `arkade` to install OpenFaaS, it will determine the correct files to use to install OpenFaaS.
 
 For a complete tutorial on setting up OpenFaaS for Raspberry Pi / 32-bit ARM using Kubernetes see the following blog post from Alex Ellis: [Will it Cluster?](https://blog.alexellis.io/test-drive-k3s-on-raspberry-pi/).
 
@@ -211,7 +211,7 @@ When creating new functions please use the templates with a suffix of `-armhf` s
 
 For 64-bit ARM servers and devices such as ODroid-C2, Rock64, AWS Graviton and the servers provided by [Packet.net](https://packet.net/).
 
-Use `k3sup` to install OpenFaaS, it will determine the correct files to use to install OpenFaaS.
+Use `arkade` to install OpenFaaS, it will determine the correct files to use to install OpenFaaS.
 
 When creating new functions please use the templates with a suffix of `-arm64` such as `node-arm64` to ensure you get the correct versions for your devices.
 

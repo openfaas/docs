@@ -22,7 +22,7 @@ Additional RBAC permissions are required to work with namespaces, therefore you 
 * 1) simplest option - use a ClusterRole
 
     ```sh
-    k3sup app install openfaas --clusterrole
+    arkade install openfaas --clusterrole
     ```
 
     Or via helm, set this override:
@@ -39,7 +39,7 @@ Additional RBAC permissions are required to work with namespaces, therefore you 
     Install as per normal:
 
     ```sh
-    k3sup app install openfaas
+    arkade install openfaas
     ```
 
     Then add a Role and RoleBinding for each additional namespace, use the example from the default `openfaas-fn` namespace.

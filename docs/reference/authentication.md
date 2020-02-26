@@ -49,14 +49,14 @@ You will need two DNS A records and to enable `Ingress` for your Kubernetes clus
 
 #### Deploy the plugin using the helm chart
 
-Use `k3sup` or `helm` and pass the following overrides, or edit your `values.yaml` file:
+Use `arkade` or `helm` and pass the following overrides, or edit your `values.yaml` file:
 
 ```sh
 export LICENSE=""
 export OAUTH_CLIENT_SECRET=""
 export OAUTH_CLIENT_ID=""
 
-k3sup app install openfaas \
+arkade install openfaas \
   --set oauth2Plugin.enabled=true \
   --set oauth2Plugin.license=$LICENSE \
   --set oauth2Plugin.insecureTLS=false \
