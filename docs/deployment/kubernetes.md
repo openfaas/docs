@@ -77,7 +77,7 @@ There are three recommended ways to install OpenFaaS and you can pick whatever m
 
 > If you need help with an OpenFaaS proof-of-concept or a reference architecture, you can contact [sales@openfaas.com](mailto:sales@openfaas.com) to find out more.
 
-* `arkade install` - arkade (`ketchup`) installs OpenFaaS to any Kubernetes cluster using its official helm chart and is the easiest and quickest way to get up and running.
+* `arkade install` - arkade installs OpenFaaS to Kubernetes using its official helm chart and is the easiest and quickest way to get up and running.
 
 * Helm chart - sane defaults and easy to configure through YAML or CLI flags. Secure options such as `helm template` or `helm 3` also exist for those working within restrictive environments.
 
