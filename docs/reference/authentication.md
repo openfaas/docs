@@ -60,7 +60,7 @@ arkade install openfaas \
   --set oauth2Plugin.enabled=true \
   --set oauth2Plugin.license=$LICENSE \
   --set oauth2Plugin.insecureTLS=false \
-  --set "oauth2Plugin.scopes=openid profile email" \
+  --set oauth2Plugin.scopes="openid profile email" \
   --set oauth2Plugin.jwksURL=https://example.eu.auth0.com/.well-known/jwks.json \
   --set oauth2Plugin.tokenURL=https://example.eu.auth0.com/oauth/token \
   --set oauth2Plugin.audience=https://gw.oauth.example.com \
@@ -71,7 +71,6 @@ arkade install openfaas \
   --set oauth2Plugin.clientSecret=$OAUTH_CLIENT_SECRET \
   --set oauth2Plugin.clientID=$OAUTH_CLIENT_ID 
 ```
-
 
 The `authorizeURL`, `tokenURL` and `jwksURL` contain my personal tenant URL, remember to customize this to your own from Auth0, or your IDP.
 
