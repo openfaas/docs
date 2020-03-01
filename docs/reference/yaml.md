@@ -316,3 +316,24 @@ Override with "alexellis2" through an environment variable:
 $ DOCKER_USER="alexellis2" faas-cli build
 ```
 
+### YAML - template stack configuration
+
+The `configuration` field stand alone and not part of the `function` field.
+
+```yaml
+configuration:
+  templates:
+    - name: perl-alpine
+    - name: rust
+      source: https://github.com/openfaas-incubator/openfaas-rust-template
+```
+
+Pull templates listed under the `templates` field:
+
+```sh
+$ faas-cli pull template stack
+```
+
+By default if only `name` is provided the template will be pulled from the template store.
+
+The templates will be automatically pulled during build time.
