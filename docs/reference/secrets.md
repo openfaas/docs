@@ -140,3 +140,11 @@ Access denied!
 ```
 
 You can also use multiple secrets for the same function or across multiple functions.
+
+## Secrets in git
+
+You can also manage secrets through Git repositories using the [SealedSecrets project from Bitnami](https://github.com/bitnami-labs/sealed-secrets).
+
+This approach enables GitOps or Infrastructure as Code (IaaC) - a public key is used to encrypt your secret files and literal values, which is then decrypted by a controller in the cluster using a separate private key.
+
+See also: * [OpenFaaS Cloud](/openfaas-cloud/intro/).
