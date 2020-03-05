@@ -38,6 +38,8 @@ faas-cli secret create secret-api-key \
   --from-file=secret-api-key.txt
 ```
 
+> Note: only one key or file is supported when creating a Kubernetes secret with `faas-cli`, to use multiple keys or files in a single secret, see the next section.
+
 You can create the secret with `faas-cli secret create`, or by using the Docker / Kubernetes CLI.
 
 #### Define a secret in Kubernetes (advanced)
