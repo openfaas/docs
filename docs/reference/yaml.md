@@ -239,6 +239,26 @@ The meanings and formats of `limits` and `requests` may vary depending on whethe
 
 See docs for [Docker Swarm](https://docs.docker.com/config/containers/resource_constraints/) or for [Kubernetes](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#how-pods-with-r    esource-limits-are-run).
 
+#### Function: Build Config
+
+The `build_config` field contains a sub-field of `build_args`. This `build_args` can be used to you to pass [Docker build arguments](https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables---build-arg) to the build process. The passed build-time variables are accessed like regular environment variables in the `Dockerfile` but, as mentioned in [Docker docs](https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables---build-arg), these values don’t persist in the intermediate or final images like `ENV` values do and can be specified differently depending on which host they build an image on. 
+
+For example, if you need 2 build-time variables `ARGNAME1` and `ARGNAME2` with the values of `argvalue1` and `argvalue2` respectively, you can specify
+
+```yaml
+build_config:
+  build_args:
+    ARGNAME1: argvalue1
+    ARGNAME2: argvalue2
+```
+
+Important note: The template author must specify [`ARG`](https://docs.docker.com/engine/reference/builder/#arg) accordingly in the `Dockerfile`.
+
+```dockerfile
+ARG ARGNAME1
+ARG ARGNAME2
+```
+
 ### YAML - environment variable substitution
 
 The YAML stack format supports the use of `envsubst`-style templates. This means that you can have a single file with multiple configuration options such as for different user accounts, versions or environments.

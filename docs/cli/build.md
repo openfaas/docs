@@ -100,11 +100,22 @@ The entries in the template's Dockerfile described in 1.0 above need to be prese
 
 ## 3.0 Pass custom build arguments
 
-You can pass `ARG` values to Docker via the CLI.
+You can pass `ARG` values to Docker in two ways:
+
+via the CLI:
 
 ```bash
 faas-cli build --build-arg ARGNAME1=argvalue1 --build-arg ARGNAME2=argvalue2
 ``` 
+
+or in YAML:
+
+```yaml
+build_config:
+  build_args:
+    ARGNAME1: argvalue1
+    ARGNAME2: argvalue2
+```
 
 Remeber to add any `ARG` values to the template's Dockerfile:
 
