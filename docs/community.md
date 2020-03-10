@@ -12,13 +12,12 @@ Blog posts, upcoming/past events and code examples are available on the communit
 
 OpenFaaS has its own Slack workspace, which you are welcome to join.
 
-Various channels are available for discussing how to use and contribute to OpenFaaS, additional sub-communities include:
+Various channels are available for discussing how to use and contribute to OpenFaaS, additional sub-communities include topics like: 
 
-* `#kubernetes` - all topics Kubernetes
-* `#arm-and-pi` - ARM / Raspberry Pi
+* `#general` - k3sup, arkade, Kubernetes and other general chit-chat about cloud / OSS
+* `#openfaas-cloud` OpenFaaS Cloud
+* `#inlets` - your cloud native tunnel
 * `#derek` - GitHub automation through [Derek](https://github.com/alexellis/derek)
-* `#general` - containers, programming, source-control and other related topics to OpenFaaS
-* `#inlets` - tunnels for your local endpoints
 
 Notes:
 
