@@ -23,7 +23,7 @@ Find out more [in the OpenFaaS architecture](https://docs.openfaas.com/architect
 
 There are three recommended ways to install OpenFaaS to a Kubernetes cluster:
 
-* Using the helm chart with our [arkade](https://arkade.dev/) installer, (recommended for dev/test)
+* Using the helm chart with our [arkade](https://get-arkade.dev/) installer, (recommended for dev/test)
 * Using the helm chart directly or [via Weave Flux](https://www.openfaas.com/blog/openfaas-flux/) - ideal for a GitOps/IaaC configuration
 * Using the plain YAML files - generated YAML which you will need to customise
 
