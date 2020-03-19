@@ -31,9 +31,17 @@ Sign-up to join the OpenFaaS Slack workspace using [this form](https://goo.gl/fo
 
 ## Insiders Track and GitHub Sponsors
 
-Find out how you can join 80+ other developers in supporting the work of OpenFaaS, which is supported for free by a community of volunteers.
+Find out how you can get exclusive updates and offers directly from the project lead.
+
+Join 100+ other developers in supporting the continued work of OpenFaaS.
 
 [Become an Insider via GitHub Sponsors](https://github.com/openfaas/faas/blob/master/BACKERS.md)
+
+## SWAG Store
+
+Buy t-shirts, mugs, hoodies and more from the SWAG store.
+
+[OpenFaaS Ltd SWAG Store](https://store.openfaas.com)
 
 ## Social media
 
