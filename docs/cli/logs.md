@@ -18,7 +18,7 @@ The `faas-cli logs NAME` command will stream the logs for the named function.  B
 The logs for a function will look
 
 ```
-<RCF8601 Timestamp> <function name> (<container instance>) <msg>
+<RFC8601 Timestamp> <function name> (<container instance>) <msg>
 ```
 
 where `msg` is the container logs, this typically contains stdout and stderr of the _contianer_.
