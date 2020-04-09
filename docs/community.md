@@ -14,9 +14,9 @@ OpenFaaS has its own Slack workspace, which you are welcome to join.
 
 Various channels are available for discussing how to use and contribute to OpenFaaS, additional sub-communities include topics like: 
 
-* `#general` - k3sup, arkade, Kubernetes and other general chit-chat about cloud / OSS
+* `#general` - [k3sup](https://k3sup.dev/), [arkade app installer](https://get-arkade.dev/), Kubernetes and other general chit-chat about cloud / OSS
 * `#openfaas-cloud` OpenFaaS Cloud
-* `#inlets` - your cloud native tunnel
+* `#inlets` - your Cloud Native Tunnel
 * `#derek` - GitHub automation through [Derek](https://github.com/alexellis/derek)
 
 Notes:

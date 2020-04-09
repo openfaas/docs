@@ -124,7 +124,7 @@ nav:
       - Intro: ./reference/cicd/intro.md
       - GitLab: ./reference/cicd/gitlab.md
       - Jenkins: ./reference/cicd/jenkins.md
-    - SSL:
+    - TLS:
       - Kubernetes: ./reference/ssl/kubernetes-with-cert-manager.md
     - Secrets: ./reference/secrets.md
     - Async: ./reference/async.md
