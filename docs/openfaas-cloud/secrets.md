@@ -35,7 +35,7 @@ So if we wanted to seal a single secret called `api-key` with a value of `test12
 
 ```sh
 faas-cli cloud seal --name username-my-secrets \
-  --literal api-key=1234
+  --literal api-key=test1234
 ```
 
 Your function will access the secret via:
@@ -46,7 +46,7 @@ If you have more than one secret you can enter additional `--literal` flags:
 
 ```sh
 faas-cli cloud seal --name username-my-secrets \
-  --literal api-key=1234 \
+  --literal api-key=test1234 \
   --literal hostname=myhost.com
 ```
 
