@@ -39,6 +39,9 @@ edit_uri: ""
 # Theme and overrides, i.e. language partial
 theme:
   name: material
+  icon:
+    logo: material/library
+    repo: fontawesome/brands/git-alt
 
   # Don't include MkDocs' JavaScript
   include_search_page: false
@@ -62,11 +65,11 @@ extra:
   search:
     languages: "en"
   social:
-    - type: globe
+    - icon: fontawesome/solid/globe-europe
       link: https://www.openfaas.com/
-    - type: github-alt
+    - icon: fontawesome/brands/github-alt
       link: https://github.com/openfaas
-    - type: twitter
+    - icon: fontawesome/brands/twitter
       link: https://twitter.com/openfaas
 
 extra_css:
