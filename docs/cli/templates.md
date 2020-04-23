@@ -124,7 +124,81 @@ You can now edit `handler.go` and use the `faas-cli` to `build` and `deploy` you
 
 ##### Go `go` - dependencies
 
-Dependencies should be managed with a Go vendoring tool such as dep.
+Dependencies should be managed with a Go vendoring tool such as `dep` or Go modules.
+
+With Go modules:
+
+Set the following `build_arg` in your stack.yml file, or use `faas-cli build/up --build-arg GO111MODULE=on`.
+
+```yaml
+functions:
+  with_go_modules:
+    handler: ./with_go_modules
+    lang: go
+    build_args:
+      GO111MODULE: on
+```
+
+If you would like to include sub-modules, you can create a GO_REPLACE.txt file and populate it with the contents of your go.mod. A replace statement is required for use with the classic Go template.
+
+
+Create your sub-package i.e. `handlers` and run `cd handlers ; go mod init`
+
+Here's handlers/handlers.go:
+
+```golang
+package handlers
+
+import (
+	"fmt"
+
+	execute "github.com/alexellis/go-execute/pkg/v1"
+)
+
+func Handle() {
+	ls := execute.ExecTask{
+		Command: "exit 1",
+		Shell:   true,
+	}
+	res, err := ls.Execute()
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("stdout: %q, stderr: %q, exit-code: %d\n", res.Stdout, res.Stderr, res.ExitCode)
+}
+```
+
+
+Within your handler.go:
+
+```golang
+package function
+
+import (
+	"fmt"
+
+	"github.com/alexellis/with-modules/handlers"
+)
+
+// Handle a serverless request
+func Handle(req []byte) string {
+
+	handlers.Handle()
+
+	return fmt.Sprintf("Hello, Go. You said: %s", string(req))
+}
+```
+
+GO_REPLACE.txt:
+
+```
+replace github.com/alexellis/with-modules/handlers => ./function/handlers
+```
+
+Now you can build with `--build-arg GO111MODULE=on` or with a `build_arg` map entry for the function in its stack.yml.
+
+With `dep`:
 
 * Get [dep](https://github.com/golang/dep)
 

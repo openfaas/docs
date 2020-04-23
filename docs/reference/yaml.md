@@ -80,6 +80,24 @@ build_options:
 
 Important note: that the configuration of this value is dependent on the language template.  The template author must specify one or more [`ARG`](https://docs.docker.com/engine/reference/builder/#arg) in the `Dockerfile`.
 
+### Function: Build Args (`build-args`)
+
+A map of build args can be passed to the container builder. These are compatible with Docker, BuildKit and Kaniko. Other containers builders may vary in their support.
+
+An example of a `build_arg` may be for enabling Go modules, or a HTTP_PROXY as per below:
+
+```yaml
+functions:
+  with_go_modules:
+    handler: ./with_go_modules
+    lang: go
+    build_args:
+      HTTP_PROXY: http://squid.corp.ad.example.com
+      GO111MODULE: on
+```
+
+These can also be passed via the CLI using `faas-cli build --build-arg key=value` or `faas-cli up --build-arg key=value`
+
 ### Function: Environmental variables
 
 You can set configuration via environmental variables either in-line within the YAML file or in a separate external file. Do not store confidential or private data in environmental variables. See: secrets.

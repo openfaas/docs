@@ -58,7 +58,7 @@ theme:
   logo: images/logo.svg
 
 # Copyright
-copyright: "Copyright &copy; 2019 OpenFaaS Project"
+copyright: "Copyright &copy; 2020 OpenFaaS Author(s)"
 
 # Options
 extra:
