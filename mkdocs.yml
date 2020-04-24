@@ -166,6 +166,7 @@ nav:
       - First Python Function: ./tutorials/first-python-function.md
       - Test Drive: ./tutorials/test-drive.md
       - Kubernetes HPAv2: ./tutorials/kubernetes-hpa.md
+      - Kubernetes HPAv2 Custom Metrics: ./tutorials/kubernetes-hpa-custom-metrics.md
       - Featured: ./tutorials/featured.md
   - Contributing:
       - Get Started: ./contributing/get-started.md
