@@ -76,6 +76,8 @@ Alternatively you can specify another asynchronous or synchronous function to ru
 By default there is one queue-worker replica deployed which is set up to run a single task of up to 30 seconds in duration.
 
 > You can increase the parallelism by scaling the queue-worker up - i.e. 5 replicas for 5 parallel tasks.
+>
+> Alternatively you can increase the parallelism by setting the queue worker's "max_inflight" option to a value greater than one. This will cause the queue-worker to concurrently receive up to max_inflight many messages and simultaneously invoke their corresponding functions. Should you wish to restrict concurrenty for certain functions, please make use of  [multiple queues](#Multiple-queues) and separate these functions accordingly. When scaling up a queue worker, please be aware that you will get up to 'n * max_inflight' parallel function invocations.
 
 You can tune the values for the number of tasks each queue worker may run in parallel as well as the maximum duration of any asynchronous task that worker processes. Edit the Kubernetes helm chart, YAML or Swarm docker-compose.yml files.
 
