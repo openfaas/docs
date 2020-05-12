@@ -277,8 +277,6 @@ ARG ARGNAME1
 ARG ARGNAME2
 ```
 
-### YAML - environment variable substitution
-
 ## Configuration
 The configuration section allows you to define additional configuration that is global to the entire stack, currently this mostly impacts function build time options.
 
