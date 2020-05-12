@@ -34,10 +34,9 @@ Project tuning:
 * [ ] I am using Kubernetes 1.13 or newer
 * [ ] I am not using Docker Swarm
 * [ ] ~~If running on Docker Swarm I've verified that I am using a proper HEALTHCHECK (read up more on watchdog readme)~~
-* I am using [Endpoint load-balancing](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#endpoint-load-balancing) or [Linkerd2](https://github.com/openfaas-incubator/openfaas-linkerd2)
+* [ ] I am using [Endpoint load-balancing](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#endpoint-load-balancing) or [Linkerd2](https://github.com/openfaas-incubator/openfaas-linkerd2)
 
-
-> A note on DNS: You are likely to get better performance by switching out kube-dns for CoreDNS.
+> A note on DNS: there are known issues with CoreDNS under high load, you should consider implementing on of the approaches described in [KEP 30 NodeLocal DNS Cache](https://github.com/kubernetes/enhancements/blob/master/keps/sig-network/0030-nodelocal-dns-cache.md)
 
 * Watchdog differences
 
@@ -89,3 +88,6 @@ When using a scientific method you need to carry out multiple test runs and acco
 
 OpenFaaS enforces memory limits on core services. If you are going to perform a high load test you will want to extend these beyond the defaults or remove them completely.
 
+* Ignoring the effects of KeepAlive with the TCP protocol
+
+By default TCP implements KeepAlive, if your client uses KeepAlive (which is extremely likely), then you need to enable endpoint load-balancing so that the load is spread between the function replicas, by bypassing KeepAlive for the last step of the invocation. See the checklist.

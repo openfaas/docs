@@ -257,13 +257,14 @@ The [IngressOperator](https://github.com/openfaas-incubator/ingress-operator) in
 
 ### Deploy the IngressOperator
 
-```sh
-git clone https://github.com/openfaas-incubator/ingress-operator
-cd ingress-operator
+You can install the ingress-operator by passing `--set ingressOperator.create=true` to the helm chart at the installation time of OpenFaaS.
 
-kubectl apply -f ./artifacts/operator-crd.yaml
-kubectl apply -f ./artifacts/operator-rbac.yaml
-kubectl apply -f ./artifacts/operator-amd64.yaml
+[arkade](https://get-arkade.dev/) can also set this flag via `--ingress-operator`
+
+```sh
+curl -sSL https://dl.get-arkade.dev | sudo sh
+
+arkade install openfaas --ingress-operator
 ```
 
 Check that the Operator started correctly:
@@ -345,7 +346,19 @@ Verify that the `Certificate` record was created:
 kubectl get cert -n openfaas
 ```
 
-### Use Zalando's skipper IngressController
+### Appendix
+
+#### Deleting FunctionIngress records
+
+You can see the `FunctionIngress` records via:
+
+```bash
+kubectl get fni -n openfaas
+```
+
+Then delete one if you need to via: `kubectl delete fni/name -n openfaas`.
+
+#### Use Zalando's skipper IngressController
 
 [Zalando's skipper IngressController](https://github.com/zalando/skipper) is also supported. To switch over simply add the following to your YAML definition:
 
@@ -354,10 +367,9 @@ spec:
   ingressType: "skipper"
 ```
 
-### What about IngressController X?
+#### What about IngressController X?
 
 Feel free to raise a feature request for your IngressController on the [GitHub repo](https://github.com/openfaas-incubator/ingress-operator).
-
 
 [k8s-rbac]: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
 [helm]: https://helm.sh

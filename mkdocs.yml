@@ -39,6 +39,9 @@ edit_uri: ""
 # Theme and overrides, i.e. language partial
 theme:
   name: material
+  icon:
+    logo: material/library
+    repo: fontawesome/brands/git-alt
 
   # Don't include MkDocs' JavaScript
   include_search_page: false
@@ -55,18 +58,18 @@ theme:
   logo: images/logo.svg
 
 # Copyright
-copyright: "Copyright &copy; 2019 OpenFaaS Project"
+copyright: "Copyright &copy; 2020 OpenFaaS Author(s)"
 
 # Options
 extra:
   search:
     languages: "en"
   social:
-    - type: globe
+    - icon: fontawesome/solid/globe-europe
       link: https://www.openfaas.com/
-    - type: github-alt
+    - icon: fontawesome/brands/github-alt
       link: https://github.com/openfaas
-    - type: twitter
+    - icon: fontawesome/brands/twitter
       link: https://twitter.com/openfaas
 
 extra_css:
@@ -124,7 +127,7 @@ nav:
       - Intro: ./reference/cicd/intro.md
       - GitLab: ./reference/cicd/gitlab.md
       - Jenkins: ./reference/cicd/jenkins.md
-    - SSL:
+    - TLS:
       - Kubernetes: ./reference/ssl/kubernetes-with-cert-manager.md
     - Secrets: ./reference/secrets.md
     - Async: ./reference/async.md
@@ -163,6 +166,7 @@ nav:
       - First Python Function: ./tutorials/first-python-function.md
       - Test Drive: ./tutorials/test-drive.md
       - Kubernetes HPAv2: ./tutorials/kubernetes-hpa.md
+      - Kubernetes HPAv2 Custom Metrics: ./tutorials/kubernetes-hpa-custom-metrics.md
       - Featured: ./tutorials/featured.md
   - Contributing:
       - Get Started: ./contributing/get-started.md

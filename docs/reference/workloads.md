@@ -110,7 +110,7 @@ On Kubernetes is possible to run any container image as an OpenFaaS function as 
 You can specify the HTTP path of your health check and the initial check delay duration with the following annotations:
 
 * `com.openfaas.health.http.path`
-* `om.openfaas.health.http.initialDelay`
+* `com.openfaas.health.http.initialDelay`
 
 Stack file example:
 

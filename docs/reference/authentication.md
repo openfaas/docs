@@ -46,18 +46,21 @@ You will need two DNS A records and to enable `Ingress` for your Kubernetes clus
 * Gateway - `http://gw.oauth.example.com`
 * Auth - `http://auth.oauth.example.com`
 
-
 #### Deploy the plugin using the helm chart
+
+These instructions are valid for 0.3.0 and higher of the commercial auth plugin.
 
 Use `arkade` or `helm` and pass the following overrides, or edit your `values.yaml` file:
 
 ```sh
-export LICENSE=""
+export PROVIDER=""              # Set this to "azure" if using Azure AD.
+export LICENSE=""               # Obtain a trial from OpenFaaS Ltd, see above for instructions.
 export OAUTH_CLIENT_SECRET=""
 export OAUTH_CLIENT_ID=""
 
 arkade install openfaas \
   --set oauth2Plugin.enabled=true \
+  --set oauth2Plugin.provider=$PROVIDER \
   --set oauth2Plugin.license=$LICENSE \
   --set oauth2Plugin.insecureTLS=false \
   --set oauth2Plugin.scopes="openid profile email" \
@@ -127,15 +130,25 @@ You can also export it with `export TOKEN=""` and use it with any command: `faas
 
 See also: [faas-cli README](https://github.com/openfaas/faas-cli)
 
-#### OAuth2 - Access via the CLI (non-interactive / machine-usage)
+#### OAuth2 - Access via the CLI for CI (non-interactive / machine-usage)
 
 Non-inactive or machine-usage is where you need to access the gateway and you cannot follow a web-browser to authenticate. Here, you need to create a special application in your IDP. It will usually be called a "Machine Application" and has a `client_id` and `client_secret`, these are comparable to a username and password.
 
-We need to use the [client credentials flow](https://oauth.net/2/grant-types/client-credentials/).
+You will need to use the [client credentials flow](https://oauth.net/2/grant-types/client-credentials/).
 
 You will need this flow for any actions taken within a cron-job, broker, CI/CD job or similar server-access.
 
-Run the following:
+You can use `faas-cli login`:
+
+```sh
+faas-cli login \
+ --username ${OAUTH_CLIENT_ID} \
+ --password ${OAUTH_CLIENT_SECRET}
+```
+
+Now run any command as usual such as `faas-cli list` or `faas-cli deploy`. The secrets will be fetched from `~/.openfaas/config.yml`.
+
+Note: some providers may also support obtaining a token for this flow, such as Auth0:
 
 ```sh
 faas-cli auth \
@@ -146,9 +159,9 @@ faas-cli auth \
   --audience http://gw.oauth.example.com
 ```
 
-You will receive a token on the command-line and same will be saved to openfaas config file. `faas-cli` will read the token and pass it for future commands which requires authentication. 
+You will receive a token on the command-line which is also saved in `~/.openfaas/config.yml`.
 
-You can also export it with `export TOKEN=""` and use it with any command: `faas-cli list --token="${TOKEN}"`
+The `faas-cli` will read the token and pass it for future commands which requires authentication, you can also export it with `export TOKEN=""` and use it with any command: `faas-cli list --token="${TOKEN}"`
 
 See also: [faas-cli README](https://github.com/openfaas/faas-cli/blob/master/README.md)
 

@@ -73,11 +73,69 @@ Alternatively you can specify another asynchronous or synchronous function to ru
 
 #### Parallelism
 
-By default there is one queue-worker replica deployed which is set up to run a single task of up to 30 seconds in duration with one task in parallel. You can increase the parallelism by scaling the queue-worker up - i.e. 5 replicas for 5 parallel tasks.
+By default there is one queue-worker replica deployed which is set up to run a single task of up to 30 seconds in duration.
+
+> You can increase the parallelism by scaling the queue-worker up - i.e. 5 replicas for 5 parallel tasks.
+>
+> Alternatively you can increase the parallelism by setting the queue worker's "max_inflight" option to a value greater than one. This will cause the queue-worker to concurrently receive up to max_inflight many messages and simultaneously invoke their corresponding functions. Should you wish to restrict concurrenty for certain functions, please make use of  [multiple queues](#Multiple-queues) and separate these functions accordingly. When scaling up a queue worker, please be aware that you will get up to 'n * max_inflight' parallel function invocations.
 
 You can tune the values for the number of tasks each queue worker may run in parallel as well as the maximum duration of any asynchronous task that worker processes. Edit the Kubernetes helm chart, YAML or Swarm docker-compose.yml files.
 
 The [OpenFaaS workshop](https://github.com/openfaas/workshop) has more instructions on running tasks asynchronously.
+
+#### Multiple queues
+
+Asynchronous requests are processed by the queue-worker component using a single topic (`faas-request`), for most use-cases this will be sufficient if most of your functions take a similar amount of time to execute. A problem may arise when you have a mixture of slow and fast running requests within the same single queue. A single slow task can hold up all the other requests and this is because the queue has FIFO semantics - first in, first out.
+
+To use multiple queues you need to do two things:
+
+1) Annotate your functions with a `com.openfaas.queue` queue or (topic) name
+
+Imagine that your new queue is called `slow-queue`, you would run the following:
+
+```bash
+faas-cli store deploy figlet --annotation com.openfaas.queue=slow-queue
+```
+
+2) Create a queue-worker for the new queue name
+
+You now need to deploy a new queue-worker for the queue name, so that it can subscribe to messages and invoke functions without affecting the default queue.
+
+On Kubernetes:
+
+```bash
+export CORE_NS=openfaas
+kubectl get -n $CORE_NS deploy/queue-worker -o yaml --export > slow-queue-queue-worker.yaml
+```
+
+Now replace "queue-worker" with "slow-queue-queue-worker" in `app: queue-worker` and `name: queue-worker`.
+
+```bash
+sed -ie s/app:\ queue-worker/app:\ slow-queue-worker/g slow-queue-queue-worker.yaml
+sed -ie s/name:\ queue-worker/name:\ slow-queue-worker/g slow-queue-queue-worker.yaml
+```
+
+Edit the `faas_nats_channel` environment variable, place `slow-queue` in the `value` field:
+
+```yaml
+        - name: faas_nats_channel
+          value: slow-queue
+```
+
+Deploy the new queue worker for the `slow-queue` queue:
+
+```bash
+export CORE_NS=openfaas
+kubectl create -f slow-queue-queue-worker.yaml --namespace $CORE_NS
+```
+
+You can now invoke your function as per normal and watch the logs of the new queue worker:
+
+```bash
+kubectl logs deploy/slow-queue-worker -n openfaas &
+
+curl http://127.0.0.1:8080/async-function/figlet -d "Ran on the slow-queue"
+```
 
 #### Verbose Output
 
@@ -92,3 +150,4 @@ The following additional request headers will be set when invoking the call back
 | X-Call-Id          | The original function call's [tracing UUID](https://github.com/openfaas/faas/blob/master/gateway/README.md#tracing) |
 | X-Duration-Seconds | Time taken in seconds to execute the original function call |
 | X-Function-Status  | [HTTP status code](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) returned by the original function call |
+| X-Function-Name    | The name of the original function that was executed |

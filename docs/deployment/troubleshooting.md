@@ -10,7 +10,7 @@ See also: [Reference: Asynchronous Functions](/reference/async)
 
 > See also <a href="#Timeouts">Timeouts</a> (below)
 
-When chaning or invoking another function, do this by calling it via the gateway either using the external IP address of the cluster / gateway, or by the internal DNS name.
+When chaining or invoking another function, do this by calling it via the gateway either using the external IP address of the cluster / gateway, or by the internal DNS name.
 
 A common user-error is to try to invoke the gateway from within a function using `http://127.0.0.1` or `localhost` - this address simply points back to the container the function is running in and is invalid.
 
