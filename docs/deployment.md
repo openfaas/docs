@@ -1,12 +1,13 @@
 # Deployment
 
-OpenFaaS can be deployed to a variety of container platforms such as Kubernetes, OpenShift, Docker Swarm and to containerd using the faasd project.
+OpenFaaS can be deployed to a variety of container orchestrators such as Kubernetes, OpenShift, Docker Swarm or to a single host with faasd.
 
-Whilst support is available for Docker Swarm and faasd, we recommend using Kubernetes in production and for work projects.
+!!! info "Kubernetes or Swarm?"
+    We recommend using Kubernetes or OpenShift with OpenFaaS. Whilst Docker Swarm will remain an option for the time-being, the ecosystem for Kubernetes is much richer and commercial support is available from OpenFaaS Ltd.
 
 ## PLONK Stack
 
-[PLONK](https://blog.alexellis.io/getting-started-with-the-plonk-stack-and-serverless/) is a cloud native stack for application developers and an acronym that stands for:
+[PLONK](https://blog.alexellis.io/getting-started-with-the-plonk-stack-and-serverless/) is a Cloud Native stack for building applications which stands for:
 
 * [Prometheus](https://prometheus.io/) - metrics and time-series
 * Linux/Linkerd* - OS or service mesh (Linkerd is optional)
@@ -14,7 +15,7 @@ Whilst support is available for Docker Swarm and faasd, we recommend using Kuber
 * [NATS](https://nats.io/) - asynchronous message bus / queue
 * Kubernetes - declarative, extensible, scale-out, self-healing clustering
 
-Find out more [in the OpenFaaS architecture](https://docs.openfaas.com/architecture/stack/#layers-and-responsibilities)
+OpenFaaS on Kubernetes bundles NATS and Prometheus. You can read about the stack in the [OpenFaaS architecture docs](https://docs.openfaas.com/architecture/stack/#layers-and-responsibilities)
 
 ## Kubernetes (recommended for production and for work)
 
@@ -23,29 +24,40 @@ Find out more [in the OpenFaaS architecture](https://docs.openfaas.com/architect
 
 There are three recommended ways to install OpenFaaS to a Kubernetes cluster:
 
-* Using the helm chart with our [arkade](https://get-arkade.dev/) installer, (recommended for dev/test)
-* Using the helm chart directly or [via Weave Flux](https://www.openfaas.com/blog/openfaas-flux/) - ideal for a GitOps/IaaC configuration
-* Using the plain YAML files - generated YAML which you will need to customise
+* Using our CLI installer [arkade](https://get-arkade.dev/) - (recommended)
+* With the Helm chart, Flux or ArgoCD (GitOps workflow)
+* Or using the statically generated YAML files (not recommended)
 
-Start here: [Deploy to Kubernetes](/deployment/kubernetes/)
+Find out more about each option and how to deploy OpenFaaS to Kubernetes:
+
+[Deploy to Kubernetes](/deployment/kubernetes/)
 
 ## faasd with containerd
 
-faasd is a light-weight option for adopting OpenFaaS which uses the same tooling, ecosystem, templates, and containers as OpenFaaS on Kubernetes, but which doesn't require cluster management. faasd uses [containerd](https://containerd.io/) as a runtime and [CNI](https://github.com/containernetworking/cni) for container networking.
+faasd is a light-weight option for adopting OpenFaaS which uses the same tooling, ecosystem, templates, and containers as OpenFaaS on Kubernetes. The difference is that it runs on a single host removing the need for complex infrastructure and maintenance.
+
+faasd is built with [containerd](https://containerd.io/) and the [Container Networking Interface (CNI)](https://github.com/containernetworking/cni) project.
 
 Why might you try faasd?
 
-* It's a lightweight option and is suited to use-cases such as: appliances, VMs, embedded use, edge, and for IoT. 
-* Teams may also find faasd useful for local development before deploying to Kubernetes.
-* Teams who feel that they could benefit from functions and microservices, but who do not have the bandwidth to learn about Kubernetes may prefer this option.
+* As a lightweight option it is well-suited to use-cases such as: appliances, VMs, embedded use, edge, and for IoT. 
+* Teams may also find faasd useful for local development before adopting or deploying to Kubernetes.
+* Teams who feel that they could benefit from functions and microservices, but who do not have the bandwidth to learn Kubernetes and manage a cluster
 
-Get started with [faasd](https://github.com/alexellis/faasd/)
+[Deploy faasd](https://github.com/openfaas/faasd/)
 
 ## OpenShift
 
-OpenShift is a variant of Kubernetes produced by RedHat: [Deploy to OpenShift](/deployment/openshift/)
+OpenShift is a variant of Kubernetes produced by RedHat.
+
+You can deploy to OpenShift using our CLI installer <a href="https://get-arkade.dev/">arkade</a> or with the standard helm chart.
+
+[Deploy to OpenShift](/deployment/openshift/)
 
 ## Docker Swarm
+
+!!! warning "A foreword on security"
+    Bear in mind that Docker Swarm is widely consider to be approaching "End of Life". Kubernetes with <a href="https://k3s.io">k3s.io</a>, or faasd (above) may make a better alternative for you and your team.
 
 If you prefer to use Docker Swarm, then follow the [deployment guide Docker Swarm](/deployment/docker-swarm/).
 

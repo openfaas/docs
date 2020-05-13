@@ -55,21 +55,27 @@ A guide is available for configuring minikube here:
 
 ### Install the `faas-cli`
 
-You can install the OpenFaaS CLI using `brew` or a `curl` script.
+Windows users are encouraged to download [Git Bash](https://git-scm.com/downloads) for use with the OpenFaaS guides and tooling.
 
-* via `brew`:
+You can install the OpenFaaS CLI using `curl` on MacOS, Windows (Git Bash) and Linux.
+
+```bash
+# MacOS and Linux users
+
+# If you run the script as a normal non-root user then the script
+# will download the faas-cli binary to the current folder
+$ curl -sL https://cli.openfaas.com | sudo sh
+
+# Windows users with (Git Bash)
+$ curl -sL https://cli.openfaas.com | sh
+
+```
+
+The CLI is also available on `brew` for MacOS users, however it may lag behind by a few releases:
 
 ```bash
 brew install faas-cli
 ```
-
-* via `curl`:
-
-```bash
-$ curl -sL https://cli.openfaas.com | sudo sh
-```
-
-If you run the script as a normal non-root user then the script will be downloaded to the current folder.
 
 ### Pick `arkade`, `helm` or plain YAML files
 
