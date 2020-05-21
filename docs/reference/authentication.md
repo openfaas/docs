@@ -41,6 +41,8 @@ You need to use the [OIDC plugin](https://github.com/alexellis/openfaas-oidc-plu
 
 The OIDC plugin is a commercial add-on, and you can request a trial or purchase a license from OpenFaaS Ltd via [sales@openfaas.com](mailto:sales@openfaas.com).
 
+* [Fill out the following form for you trial](https://forms.gle/mFmwtoez1obZzm286)
+
 You will need two DNS A records and to enable `Ingress` for your Kubernetes cluster.
 
 * Gateway - `http://gw.oauth.example.com`
