@@ -421,7 +421,7 @@ By default, deployed functions will use an `imagePullPolicy` of `Always`, which 
 If you're using helm you can pass a configuration flag:
 
 ```sh
-helm upgrade openfaas openfaas/openfaas --install --set "faasnetes.imagePullPolicy=IfNotPresent"
+helm upgrade openfaas openfaas/openfaas --install --set "openfaasImagePullPolicy=IfNotPresent"
 ```
 
 If you're using the plain YAML files then edit `gateway-dep.yml` and set the following for `faas-netes`:
