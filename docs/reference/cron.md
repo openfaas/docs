@@ -188,17 +188,17 @@ spec:
 
 ## Cron Connector
 
-The [cron event connector](https://github.com/zeerorg/cron-connector) is an OpenFaaS event-connector which can be used to trigger functions on a timed-basis. It works with all OpenFaaS providers.
+The [cron-connector](https://github.com/openfaas-incubator/cron-connector) is an OpenFaaS event-connector which can be used to trigger functions on a timed-basis. It makes use of the OpenFaaS REST API, so it is capable of working with all OpenFaaS providers.
 
 ### Kubernetes
 
 * Deploy the connector
 
 ```sh
-curl -s https://raw.githubusercontent.com/zeerorg/cron-connector/master/yaml/kubernetes/connector-dep.yml | kubectl create --namespace openfaas -f -
+arkade install cron-connector
 ```
 
-* Now annotate a function with a `topic` to give it a schedule
+* Now annotate a function with a `topic` of `cron-function` and a `schedule` using a valid CRON expression:
 
 ```yaml
 # (Abridged YAML)
@@ -234,6 +234,8 @@ kubectl logs -n openfaas-fn deploy/nodeinfo -f
 You'll see the function invoked every 5 minutes as per the schedule.
 
 To stop the invocations, remove the two annotations or remove the cron-connector deployment.
+
+If you would like to explore how to write CRON expressions, then see [https://crontab.guru/](https://crontab.guru/)
 
 ## Docker Swarm
 
