@@ -162,6 +162,7 @@ nav:
       - Logs Provider: ./architecture/logs-provider.md
   - Tutorials:
       - Workshop: ./tutorials/workshop.md
+      - Expanded timeouts: ./tutorials/expanded-timeouts.md
       - CLI with Node.js: ./tutorials/CLI-with-node.md
       - First Python Function: ./tutorials/first-python-function.md
       - Test Drive: ./tutorials/test-drive.md
