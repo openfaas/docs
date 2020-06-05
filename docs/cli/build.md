@@ -111,10 +111,9 @@ faas-cli build --build-arg ARGNAME1=argvalue1 --build-arg ARGNAME2=argvalue2
 or in YAML:
 
 ```yaml
-build_config:
-  build_args:
-    ARGNAME1: argvalue1
-    ARGNAME2: argvalue2
+build_args:
+  ARGNAME1: argvalue1
+  ARGNAME2: argvalue2
 ```
 
 Remeber to add any `ARG` values to the template's Dockerfile:
