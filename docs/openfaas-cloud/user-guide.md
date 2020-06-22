@@ -2,7 +2,7 @@
 
 This guide applies to:
 
-* [OpenFaaS Cloud: Self-hosted](/openfaas-cloud/self-hosted/)
+* [OpenFaaS Cloud: Self-hosted](/openfaas-cloud/self-hosted/github)
 * [OpenFaaS Cloud: The Community Cluster](/openfaas-cloud/community-cluster/)
 
 ## The guide
