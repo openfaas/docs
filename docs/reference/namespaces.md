@@ -102,3 +102,11 @@ faas-cli deploy
 
 head -c 16 /dev/urandom | faas-cli invoke --namespace dev stronghash
 ```
+
+Override the namespace configured in the stack.yml when deploying the function and test:
+
+```sh
+faas-cli deploy --namespace staging-fn
+
+head -c 16 /dev/urandom | faas-cli invoke --namespace staging-fn stronghash
+```
