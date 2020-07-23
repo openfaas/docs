@@ -32,17 +32,17 @@ Find out more about each option and how to deploy OpenFaaS to Kubernetes:
 
 [Deploy to Kubernetes](/deployment/kubernetes/)
 
-## faasd with containerd
+## faasd - Serverless for everyone else
 
-faasd is a light-weight option for adopting OpenFaaS which uses the same tooling, ecosystem, templates, and containers as OpenFaaS on Kubernetes. The difference is that it runs on a single host removing the need for complex infrastructure and maintenance.
+faasd is OpenFaaS, reimagined without the complexity and cost of Kubernetes. It runs well on a single host with very modest requirements, and can be deployed in a few moments. Under the hood it uses [containerd](https://containerd.io/) and [Container Networking Interface (CNI)](https://github.com/containernetworking/cni) along with the same core OpenFaaS components from the main project.
 
-faasd is built with [containerd](https://containerd.io/) and the [Container Networking Interface (CNI)](https://github.com/containernetworking/cni) project.
+When should you use faasd over OpenFaaS on Kubernetes?
 
-Why might you try faasd?
-
-* As a lightweight option it is well-suited to use-cases such as: appliances, VMs, embedded use, edge, and for IoT. 
-* Teams may also find faasd useful for local development before adopting or deploying to Kubernetes.
-* Teams who feel that they could benefit from functions and microservices, but who do not have the bandwidth to learn Kubernetes and manage a cluster
+* You have a cost sensitive project - run faasd on a 5-10 USD VPS or on your Raspberry Pi
+* When you just need a few functions or microservices, without the cost of a cluster
+* When you don't have the bandwidth to learn or manage Kubernetes
+* To deploy embedded apps in IoT and edge use-cases
+* To shrink-wrap applications for use with a customer or client
 
 [Deploy faasd](https://github.com/openfaas/faasd/)
 
