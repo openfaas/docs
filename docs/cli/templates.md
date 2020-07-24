@@ -270,7 +270,7 @@ The primary Python template uses Alpine Linux as a runtime environment due to it
 If you need to use pip modules that require compilation then you should try the python3-debian template then add your pip modules to the `requirements.txt` file.
 
 ```
-$ faas-cli template pull https://github.com/openfaas-incubator/python3-debian
+$ faas-cli template pull
 $ faas-cli new numpy-function --lang python3-debian
 $ echo "numpy" > ./numpy-function/requirements.txt
 $ faas-cli build -f ./numpy-function.yml
