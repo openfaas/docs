@@ -54,8 +54,9 @@ spec:
           containers:
           - name: openfaas-cli
             image: openfaas/faas-cli:0.8.3
-            args:
+            command:
             - /bin/sh
+            args:
             - -c
             - echo "verbose" | faas-cli invoke nodeinfo -g http://gateway.openfaas:8080
           restartPolicy: OnFailure
@@ -172,8 +173,9 @@ spec:
                   secretKeyRef:
                     name: basic-auth
                     key: basic-auth-password
-            args:
+            command:
             - /bin/sh
+            args:
             - -c
             - echo -n $PASSWORD | faas-cli login -g http://gateway.openfaas:8080 -u $USERNAME --password-stdin
             - echo "verbose" | faas-cli invoke nodeinfo -g http://gateway.openfaas:8080
