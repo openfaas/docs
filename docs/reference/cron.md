@@ -147,7 +147,7 @@ spec:
         spec:
           containers:
           - name: openfaas-cli
-            image: openfaas/faas-cli:0.8.3
+            image: openfaas/faas-cli:latest
             env:
               - name: USERNAME
                 valueFrom:
@@ -159,8 +159,9 @@ spec:
                   secretKeyRef:
                     name: basic-auth
                     key: basic-auth-password
-            args:
+            command:
             - /bin/sh
+            args:
             - -c
             - echo -n $PASSWORD | faas-cli login -g http://gateway.openfaas:8080 -u $USERNAME --password-stdin
             - echo "verbose" | faas-cli invoke nodeinfo -g http://gateway.openfaas:8080
