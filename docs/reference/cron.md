@@ -6,34 +6,18 @@ If you are deploying OpenFaaS to [Kubernetes][k8s], then we can easily run funct
 
 We assume that you have used the [recommended install of `faas-netes`][faasdeploy] which means that you have OpenFaaS deployed into two namespaces:
 
-1.  `openfaas` for the core componentes (ui, gateway, etc)
+1.  `openfaas` for the core components (ui, gateway, etc)
 2.  `openfaas-fn` for the function deployments
 
 ### Simple Cron Job
 
-For this example, we use the [sample `nodeinfo` function][nodeinfo], which can be deployed using this stack file
+For this example we'll deploy a function which can print system info about the container it's running in:
 
-```yaml
-# stack.yaml
-provider:
-  name: openfaas
-  gateway: http://gateway.openfaas.local
-
-functions:
-  nodeinfo:
-    lang: dockerfile
-    handler: node main.js
-    image: functions/nodeinfo:latest
-    skip_build: true
+```bash
+faas-cli store deploy nodeinfo
 ```
 
-and the cli
-
-```yaml
-$ faas deploy
-```
-
-We can then define a Kubernetes cron job to call this function every minute using this manifest file:
+We can then define a [Kubernetes cron job](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) to call this function every minute using this manifest file:
 
 ```yaml
 # node-cron.yaml
@@ -53,7 +37,8 @@ spec:
         spec:
           containers:
           - name: openfaas-cli
-            image: openfaas/faas-cli:0.8.3
+            image: openfaas/faas-cli:latest
+            imagePullPolicy: IfNotPresent
             command:
             - /bin/sh
             args:
@@ -64,12 +49,13 @@ spec:
 
 You should also update the `image` to the latest version of the `faas-cli` available found via the [Docker Hub](https://hub.docker.com/r/openfaas/faas-cli/tags/) or [faas-cli releases](https://github.com/openfaas/faas-cli/releases) page.
 
-The important thing to notice is that we are using a Docker container with the `faas-cli` to invoke the function. This keeps the job very generic and easy to generize to other functions.
+The important thing to notice is that we are using a Docker container with the `faas-cli` to invoke the function. This keeps the job very generic.
 
 We schedule the job by applying our manifest
 
 ```sh
 $ kubectl apply -f node-cron.yaml
+
 $ kubectl -n=openfaas get cronjob nodeinfo --watch
 NAME       SCHEDULE      SUSPEND   ACTIVE    LAST SCHEDULE   AGE
 nodeinfo   */1 * * * *   False     0         <none>          42s
@@ -173,9 +159,8 @@ spec:
                   secretKeyRef:
                     name: basic-auth
                     key: basic-auth-password
-            command:
-            - /bin/sh
             args:
+            - /bin/sh
             - -c
             - echo -n $PASSWORD | faas-cli login -g http://gateway.openfaas:8080 -u $USERNAME --password-stdin
             - echo "verbose" | faas-cli invoke nodeinfo -g http://gateway.openfaas:8080
