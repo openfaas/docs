@@ -137,6 +137,7 @@ nav:
     - CORS: ./reference/cors.md
     - Cron: ./reference/cron.md
     - Namespaces: ./reference/namespaces.md
+    - Profiles: ./reference/profiles.md
     - YAML: ./reference/yaml.md
   - OpenFaaS Cloud:
       - Intro: ./openfaas-cloud/intro.md
