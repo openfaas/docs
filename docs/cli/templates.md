@@ -273,7 +273,7 @@ If you need to use pip modules that require compilation then you should try the 
 $ faas-cli template pull https://github.com/openfaas-incubator/python3-debian
 $ faas-cli new numpy-function --lang python3-debian
 $ echo "numpy" > ./numpy-function/requirements.txt
-$ faas-build -f ./numpy-function.yml
+$ faas-cli build -f ./numpy-function.yml
 ...
 
 Step 11/17 : RUN pip install -r requirements.txt
