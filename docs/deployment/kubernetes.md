@@ -205,6 +205,12 @@ For a complete tutorial on setting up OpenFaaS for Raspberry Pi / 32-bit ARM usi
 
 Or watch Alex's live video [Kubernetes Homelab with Raspberry Pi and k3sup](https://blog.alexellis.io/raspberry-pi-homelab-with-k3sup/) for a complete walk-through.
 
+In order to deploy functions from the store when running on ARM, you will need to pass in the armhf store listing file as part of the `faas-cli` command:
+
+```bash
+faas-cli store deploy --yaml https://raw.githubusercontent.com/openfaas/store/master/store-armhf.json nodeinfo
+```
+
 When creating new functions please use the templates with a suffix of `-armhf` such as `go-armhf` and `python-armhf` to ensure you get the correct versions for your devices.
 
 * You can run `faas-cli deploy` from anywhere using `--gateway` or `OPENFAAS_GATEWAY`
