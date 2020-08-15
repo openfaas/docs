@@ -169,6 +169,7 @@ nav:
       - Test Drive: ./tutorials/test-drive.md
       - Kubernetes HPAv2: ./tutorials/kubernetes-hpa.md
       - Kubernetes HPAv2 Custom Metrics: ./tutorials/kubernetes-hpa-custom-metrics.md
+      - Local Registry with KinD: ./tutorials/local-kind-registry.md
       - Featured: ./tutorials/featured.md
   - Contributing:
       - Get Started: ./contributing/get-started.md
