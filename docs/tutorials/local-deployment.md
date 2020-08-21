@@ -36,13 +36,59 @@ $ arkade get kubectl
 
 ## Creating a local Kubernetes cluster
 
-We will set up our local Kubernetes cluster using [**KinD**](https://github.com/kubernetes-sigs/kind)(Kubernetes in Docker).
+We will set up our local Kubernetes cluster using [**KinD**](https://github.com/kubernetes-sigs/kind) (Kubernetes in Docker). 
 
 ### Install KinD
 
-Our goal is to keep everything local; this includes a local Docker registry ([Dockerhub](https://hub.docker.com/) for your local machine). KinD provides a [shell script](https://kind.sigs.k8s.io/docs/user/local-registry/) to create a Kubernetes cluster with local Docker registry enabled.
+Our goal is to keep everything local; this includes a local Docker registry ([Dockerhub](https://hub.docker.com/) for your local machine). The official KinD docs provides a [shell script](https://kind.sigs.k8s.io/docs/user/local-registry/) to create a Kubernetes cluster with local Docker registry enabled.
 
->  Download the shell script [here](https://kind.sigs.k8s.io/examples/kind-with-registry.sh).
+```bash
+#!/bin/sh
+set -o errexit
+
+# create registry container unless it already exists
+reg_name='kind-registry'
+reg_port='5000'
+running="$(docker inspect -f '{{.State.Running}}' "${reg_name}" 2>/dev/null || true)"
+if [ "${running}" != 'true' ]; then
+  docker run \
+    -d --restart=always -p "${reg_port}:5000" --name "${reg_name}" \
+    registry:2
+fi
+
+# create a cluster with the local registry enabled in containerd
+cat <<EOF | kind create cluster --config=-
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+containerdConfigPatches:
+- |-
+  [plugins."io.containerd.grpc.v1.cri".registry.mirrors."localhost:${reg_port}"]
+    endpoint = ["http://${reg_name}:${reg_port}"]
+EOF
+
+# connect the registry to the cluster network
+docker network connect "kind" "${reg_name}"
+
+# tell https://tilt.dev to use the registry
+# https://docs.tilt.dev/choosing_clusters.html#discovering-the-registry
+for node in $(kind get nodes); do
+  kubectl annotate node "${node}" "kind.x-k8s.io/registry=localhost:${reg_port}";
+done
+```
+
+>  Download the shell script from [KinD docs](https://kind.sigs.k8s.io/examples/kind-with-registry.sh)
+
+---
+
+### Note:
+You can find similar solution for other tools that enables running Kubernetes clusters locally:
+
+* [k3d](https://k3d.io/usage/guides/registries/#using-a-local-registry)
+
+* [minikube](https://minikube.sigs.k8s.io/docs/handbook/registry/)
+
+* [microk8s](https://microk8s.io/docs/registry-built-in)
+---
 
 Make the script executable:
 
