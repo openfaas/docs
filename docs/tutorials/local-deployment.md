@@ -192,6 +192,7 @@ dictionary = PyDictionary()
 
 def handle(word):     
     return dictionary.meaning(word)
+  
 ```
 
 Our minimal function is complete. 
@@ -228,74 +229,35 @@ functions:
 
 ```
 
-### Port-forward to Localhost
+### Pre-deployment checklist
 
-We need to port-forward the OpenFaas gateway service inside the cluster to our local machine. This makes deployment and access to our functions possible.
+Before we take things off,  we need to make sure these tasks are completed: 
+1. port-forward openfaas gateway service to localhost
 
-Check for OpenFaas `gateway` service:
+2. authenticate `faas-cli` 
 
+
+You can find the instructions for both items in the checklist using: 
 ```bash
-$ kubectl get service -n openfaas
-```
-
-Port-forward gateway service to your local machine.
-```bash
-$ kubectl port-forward -n openfaas svc/gateway 8080:8080
+arkade info openfaas
 ```
 
 Now open a new terminal window, and prepare for take off!
 
 ## Build Push Deploy 
 
-With our setup ready; we can now build our image, push it to the registry, and deploy it to Kubernetes.
-
-**Build the image**:
+With our setup ready; we can now build our image, push it to the registry, and deploy it to Kubernetes. And using `faas-cli` it is possible with a single command! 
 
 ```bash
-$ faas-cli build -f pydict.yml
+faas-cli up -f pydict.yml
 ```
-
-**Push the image to local registry**:
-
-```bash
-$ faas-cli push -f pydict.yml
-```
-
-Before we deploy the function, `faas-cli` requires authentication. 
-
-**Generate password**:
-
-```bash
-$ PASSWORD=$(kubectl get secret -n openfaas basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode; echo)
-```
-
-**Check for password:**
-
-```bash
-$ echo $PASSWORD
-```
-
-**Login to** `faas-cli`:
-
-```bash
-$ echo -n $PASSWORD | faas-cli login --username admin --password-stdin
-```
-
-**Deploy the function**:
-
-```bash
-$ faas-cli deploy -f pydict.yml --gateway http://127.0.0.1:8080
-```
-
 **Make sure the function is running:**
 
 ```bash
 $ kubectl get pods -n openfaas-fn
 ```
 
-## Testing the function
-
-### Test using CLI
+## Test the function
 
 We can invoke our function from CLI using `faas-cli` or `curl`.
 
@@ -303,26 +265,18 @@ We can invoke our function from CLI using `faas-cli` or `curl`.
 $ echo "brevity" | faas-cli invoke pydict
 ```
 
-### Test using OpenFaas Portal
-
-Navigate to `localhost:8080` on your browser. A prompt will ask you for username and password. Use **admin** for *username* and for *password*, use the password generated earlier.
-
-![OpenFaas UI](https://i.imgur.com/FjbjtuT.png)
-
 ### Wrapping Up
 
-With this setup you can build and deploy your functions locally. If you want to create more functions:
+With this setup you can build and deploy your functions locally with ease. To create more functions:
 
 1. scaffold a new function using `faas-cli new`
 
 1. write your function
 
-1. deploy it! - `faas-cli up -f <config-yaml-file>`
-
-`faas-cli up` is a shortcut for `build, push and deploy` command.
+1. deploy it with a single command!  `faas-cli up -f <config-yaml-file>`
 
 > Please show support and **Star** the project on [Github](https://github.com/openfaas/faas)
 
 * Acknowledgements: 
 
-  This post is based upon [Deploy your Serverless Python function locally with OpenFaas in Kubernetes](https://dev.to/yankee/deploy-your-serverless-python-function-locally-with-openfaas-in-kubernetes-18jf) by Yankee Maharjan.
+  This tutorial is based upon [Deploy your Serverless Python function locally with OpenFaas in Kubernetes](https://dev.to/yankee/deploy-your-serverless-python-function-locally-with-openfaas-in-kubernetes-18jf) by Yankee Maharjan.
