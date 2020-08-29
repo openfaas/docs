@@ -44,6 +44,64 @@ faas-cli new --list
 
 Custom binaries can also be used as a function. Just use the `dockerfile` language template and replace the `fprocess` variable with the command you want to run per request. If you would like to pipe arguments to a CLI utility you can prefix the command with `xargs`.
 
+### Running an existing Docker image on OpenFaaS
+
+Let's take a Node.js app which listens on traffic using port 3000, and assume that we can't make any changes to it.
+
+You can view its Dockerfile and code at: [alexellis/expressjs-k8s](https://github.com/alexellis/expressjs-k8s/) and the image is published to the Docker Hub at: `alexellis2/service:0.3.6`
+
+Start by creating a new folder:
+
+```bash
+mkdir -p node-service/
+```
+
+Write a custom Dockerfile `./node-service/Dockerfile`:
+
+```Dockerfile
+# Import the OpenFaaS of-watchdog
+FROM openfaas/of-watchdog:0.7.2 as watchdog
+
+# Add a FROM line from your existing image
+FROM alexellis2/service:0.3.6
+
+# Let's say that the image listens on port 3000 and 
+# that we can't change that easily
+ENV http_port 3000
+
+# Install the watchdog from the base image
+COPY --from=watchdog /fwatchdog /usr/bin/
+
+# Now set the watchdog as the start-up process
+# Along with the HTTP mode, and an upstream URL to 
+# where your HTTP server will be running from the original
+# image.
+ENV mode="http"
+ENV upstream_url="http://127.0.0.1:3000"
+
+# Set fprocess to the value you have in your base image
+ENV fprocess="node index.js"
+CMD ["fwatchdog"]
+```
+
+Now create a stack.yml at the root directory `./stack.yml`:
+
+```yaml
+provider:
+  name: openfaas
+functions:
+  node-service:
+    handler: ./node-service
+    image: docker.io/alexellis2/node-service-watchdog:0.1.0
+    lang: dockerfile
+```
+
+Now run `faas-cli up`
+
+Your code will now listen on port 8080 and fulfil the serverless definition including automatic health-checks and a graceful shutdown.
+
+You can then access the service at: `http://127.0.0.1:8080/function/node-service`
+
 ### Custom service account
 
 When using Kubernetes, OpenFaaS workloads can assume a ServiceAccount in the namespace in which they are deployed.
