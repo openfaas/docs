@@ -243,7 +243,7 @@ You should note that HPA is designed to react slowly to changes in traffic, both
 Now in a new window monitor the progress:
 
 ```sh
-kubectl describe hpa/nodeinfo -n openfaas
+kubectl describe hpa/nodeinfo -n openfaas-fn
 ```
 
 Or in an automated fashion:
