@@ -13,14 +13,18 @@ You need to have **Docker** installed on your machine.
 We will use [arkade](https://github.com/alexellis/arkade) to install and deploy apps and services to Kubernetes.
 
 ```bash
-$ curl -sLS [https://dl.get-arkade.dev](https://dl.get-arkade.dev) | sudo sh
+# Download only, install yourself with sudo
+$ curl -sLS https://dl.get-arkade.dev | sh
+
+# Download and install
+$ curl -sLS https://dl.get-arkade.dev | sudo sh
 ```
 
 **arkade commands:**
 
 * use `arkade get` to download CLI tools and applications.
-
 * use `arkade install` to install applications using [helm charts](https://helm.sh/docs/topics/charts/) or vanilla YAML files.
+* use `arkade info` to get back info about an app you've installed
 
 ### Install kubectl
 
