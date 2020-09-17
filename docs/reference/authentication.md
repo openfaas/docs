@@ -33,24 +33,20 @@ You can configure the gateway to use an auth plugin with the following two envir
 
 See also: [auth plugins](https://github.com/openfaas/faas/tree/master/auth)
 
-### OAuth2 support in the API Gateway (commercial add-on)
+### OIDC and OAuth2 for the OpenFaaS API
 
-The OpenFaaS API Gateway has support for OAuth2 and OpenID Connect as of version 0.14.4. This is enabled through the use of an [external authentication module](https://github.com/openfaas/faas/tree/master/auth) as documented above.
+You can enable authentication via OpenID Connect and OAuth2 using the OpenFaaS REST API. This functionality is part of of the [OpenFaaS Premium Subscription](https://openfaas.com/support/).
 
-You need to use the [OIDC plugin](https://github.com/alexellis/openfaas-oidc-plugin-pkg) which is available in binary format for Linux and MacOS on GitHub.
+* [Get a 14-day free trial here](https://forms.gle/mFmwtoez1obZzm286)
 
-The OIDC plugin is a commercial add-on, and you can request a trial or purchase a license from OpenFaaS Ltd via [sales@openfaas.com](mailto:sales@openfaas.com).
-
-* [Fill out the following form for you trial](https://forms.gle/mFmwtoez1obZzm286)
-
-You will need two DNS A records and to enable `Ingress` for your Kubernetes cluster.
-
-* Gateway - `http://gw.oauth.example.com`
-* Auth - `http://auth.oauth.example.com`
+See also: [OpenFaaS and Okta for SSO](https://www.openfaas.com/blog/openfaas-oidc-okta/)
 
 #### Deploy the plugin using the helm chart
 
-These instructions are valid for 0.3.0 and higher of the commercial auth plugin.
+You will need two DNS A records and to enable `Ingress` for your Kubernetes cluster. In the example below the sub-zone `oauth.example.com` is used, however you can use a top-level domain or your own sub-zone.
+
+* Gateway - `http://gw.oauth.example.com`
+* Auth - `http://auth.oauth.example.com`
 
 Use `arkade` or `helm` and pass the following overrides, or edit your `values.yaml` file:
 
@@ -59,6 +55,7 @@ export PROVIDER=""              # Set this to "azure" if using Azure AD.
 export LICENSE=""               # Obtain a trial from OpenFaaS Ltd, see above for instructions.
 export OAUTH_CLIENT_SECRET=""
 export OAUTH_CLIENT_ID=""
+export DOMAIN="oauth.example.com"
 
 arkade install openfaas \
   --set oauth2Plugin.enabled=true \
@@ -68,11 +65,11 @@ arkade install openfaas \
   --set oauth2Plugin.scopes="openid profile email" \
   --set oauth2Plugin.jwksURL=https://example.eu.auth0.com/.well-known/jwks.json \
   --set oauth2Plugin.tokenURL=https://example.eu.auth0.com/oauth/token \
-  --set oauth2Plugin.audience=https://gw.oauth.example.com \
+  --set oauth2Plugin.audience=https://gw.$DOMAIN \
   --set oauth2Plugin.authorizeURL=https://example.eu.auth0.com/authorize \
-  --set oauth2Plugin.welcomePageURL=https://gw.oauth.example.com \
-  --set oauth2Plugin.cookieDomain=.oauth.example.com \
-  --set oauth2Plugin.baseHost=https://auth.oauth.example.com \
+  --set oauth2Plugin.welcomePageURL=https://gw.$DOMAIN \
+  --set oauth2Plugin.cookieDomain=.$DOMAIN \
+  --set oauth2Plugin.baseHost=https://auth.$DOMAIN \
   --set oauth2Plugin.clientSecret=$OAUTH_CLIENT_SECRET \
   --set oauth2Plugin.clientID=$OAUTH_CLIENT_ID 
 ```
