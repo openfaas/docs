@@ -84,27 +84,11 @@ Deploy OpenFaaS to Kubernetes, OpenShift, or faasd [deployment guides](./deploym
 
 ## Video presentations
 
-### Meet faasd. Look Ma’ No Kubernetes!
-
-[Meet faasd. Look Ma’ No Kubernetes!](https://www.youtube.com/watch?v=ZnZJXI377ak&feature=youtu.be)
-
-### OpenFaaS Cloud + Linkerd: A Secure, Multi-Tenant Serverless Platform
-
-[From KubeCon North America 2019 with Charles Pretzer from Buoyant & Alex Ellis, OpenFaaS Ltd](https://www.youtube.com/watch?v=sD7hCwq3Gw0&feature=emb_title)
-
-### The PLONK Stack/Serverless 2.0 for Kubernetes with OpenFaaS
-
-[Getting Beyond FaaS: The PLONK Stack for Kubernetes Developers - Alex Ellis, OpenFaaS Ltd](https://www.youtube.com/watch?v=NckMekZXRt8&feature=emb_title)
-
-### Digital Transformation of Vision Banco Paraguay with Serverless Functions @ KubeCon late-2018
-
-[From KubeCon North America 2018 with Alex and Patricio Diaz Senior Analyst, Vision Banco SAECA](https://kccna18.sched.com/event/GraO/digital-transformation-of-vision-banco-paraguay-with-serverless-functions-alex-ellis-vmware-patricio-diaz-vision-banco-saeca)
-
-### Closing Keynote at Dockercon early-2017
-
-Functions as a Service or FaaS was a winner in the Cool Hacks contest for Dockercon 2017.
-
-* [Watch Alex present "FaaS" during the Dockercon 2017 keynote](https://blog.docker.com/2017/04/dockercon-2017-mobys-cool-hack-sessions/)
+* [Meet faasd. Look Ma’ No Kubernetes!](https://www.youtube.com/watch?v=ZnZJXI377ak&feature=youtu.be)
+* [OpenFaaS Cloud + Linkerd: A Secure, Multi-Tenant Serverless Platform](https://www.youtube.com/watch?v=sD7hCwq3Gw0&feature=emb_title)
+* [Getting Beyond FaaS: The PLONK Stack for Kubernetes Developers](https://www.youtube.com/watch?v=NckMekZXRt8&feature=emb_title)
+* [Digital Transformation of Vision Banco Paraguay with Serverless Functions @ KubeCon late-2018](https://kccna18.sched.com/event/GraO/digital-transformation-of-vision-banco-paraguay-with-serverless-functions-alex-ellis-vmware-patricio-diaz-vision-banco-saeca)
+* [Introducing "faas" - Cool Hacks Keynote at Dockercon 2017](https://blog.docker.com/2017/04/dockercon-2017-mobys-cool-hack-sessions/)
 
 ## Community
 
