@@ -52,23 +52,27 @@ If you are using OpenFaaS for internal or production use, please feel free to se
 
 ### Support & getting help
 
-* [Consulting](https://www.openfaas.com/consulting) - get hands-on expert help with your cloud, Kubernetes and OpenFaaS migration and projects
+* [Cloud Native Consulting](https://www.openfaas.com/consulting) - get hands-on expert help with your cloud, Kubernetes and OpenFaaS migration and projects
 * [Commercial support](https://www.openfaas.com/support) - a subscription service from OpenFaaS Ltd
 * [Join Slack](https://docs.openfaas.com/community) - run by community volunteers
 
 ### Online training
 
-* **New**: Training course from the LinuxFoundation: [Introduction to Serverless on Kubernetes](https://www.edx.org/course/introduction-to-serverless-on-kubernetes)
+* **New**: Training course from the LinuxFoundation: Introduction to Serverless on Kubernetes
 
     This training course "Introduction to Serverless on Kubernetes" written by the project founder and commissioned by the LinuxFoundation provides an overview of what you need to know to build functions and operate OpenFaaS on public cloud.
 
-* [Self-paced workshop written by the community on GitHub](https://github.com/openfaas/workshop)
+    Training course: [Introduction to Serverless on Kubernetes](https://www.edx.org/course/introduction-to-serverless-on-kubernetes)
+
+* Self-paced workshop written by the community on GitHub
 
     You may also like to try the self-paced workshop on GitHub written by the OpenFaaS community
 
+    Browse the [workshop](https://github.com/openfaas/workshop)
+
 * Corporate trainings
 
-    If you wish to arrange a training session for your team, or a consultation, feel free to contact OpenFaaS Ltd at sales@openfaas.com
+    If you wish to arrange a training session for your team, or a consultation, [feel free to contact OpenFaaS Ltd](https://www.openfaas.com/support/)
 
 ### Quickstart
 
