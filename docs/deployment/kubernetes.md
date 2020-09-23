@@ -201,17 +201,24 @@ You can run these commands on your computer if you have `kubectl` and `KUBECONFI
 
 Use `arkade` to install OpenFaaS, it will determine the correct files to use to install OpenFaaS.
 
-For a complete tutorial on setting up OpenFaaS for Raspberry Pi / 32-bit ARM using Kubernetes see the following blog post from Alex Ellis: [Will it Cluster?](https://blog.alexellis.io/test-drive-k3s-on-raspberry-pi/).
+For a complete tutorial (including OpenFaaS) see:
 
-Or watch Alex's live video [Kubernetes Homelab with Raspberry Pi and k3sup](https://blog.alexellis.io/raspberry-pi-homelab-with-k3sup/) for a complete walk-through.
+* Tutorial: [Walk-through — install Kubernetes to your Raspberry Pi in 15 minutes](https://medium.com/p/walk-through-install-kubernetes-to-your-raspberry-pi-in-15-minutes-84a8492dc95a)
+* Video: [Kubernetes Homelab with Raspberry Pi 4](https://www.youtube.com/watch?v=qsy1Gwa-J5o)
 
-When creating new functions please use the templates with a suffix of `-armhf` such as `go-armhf` and `python-armhf` to ensure you get the correct versions for your devices.
+When creating new functions you will need to run the build on an armhf host.
 
-* You can run `faas-cli deploy` from anywhere using `--gateway` or `OPENFAAS_GATEWAY`
+> Note: expert users can create or use [multi-arch templates](https://github.com/alexellis/multiarch-templates) which can build on a PC and deploy to an armhf host.
+
+* You can run `faas-cli deploy` from any computer using `--gateway` or `OPENFAAS_GATEWAY`
 * But you must build Docker images on a Raspberry Pi, not on your PC or laptop. 
-* You need to use an `-armhf` template
 
-> Note: you cannot deploy the sample functions to ARM devices, but you can use the function store in the gateway UI or via `faas-cli store list --yaml https://raw.githubusercontent.com/openfaas/store/master/store-armhf.json`
+For the Function Store, use the following:
+
+```bash
+faas-cli store list --platform armhf
+faas-cli store deploy NAME
+```
 
 #### 64-bit ARM and AWS Graviton
 
@@ -219,13 +226,19 @@ For 64-bit ARM servers and devices such as ODroid-C2, Rock64, AWS Graviton and t
 
 Use `arkade` to install OpenFaaS, it will determine the correct files to use to install OpenFaaS.
 
-When creating new functions please use the templates with a suffix of `-arm64` such as `node-arm64` to ensure you get the correct versions for your devices.
+When creating new functions you will need to run the build on an ARM64 node.
 
-* You can run `faas-cli deploy` from anywhere using `--gateway` or `OPENFAAS_GATEWAY`
+> Note: expert users can create or use [multi-arch templates](https://github.com/alexellis/multiarch-templates) which can build on a PC and deploy to an ARM64 node.
+
+* You can run `faas-cli deploy` from any computer using `--gateway` or `OPENFAAS_GATEWAY`
 * But you must build Docker images on a Raspberry Pi, not on your PC or laptop. 
-* You need to use an `-arm64` template
 
-> Note: you cannot deploy the sample functions to ARM64 devices, but you can use the function store in the gateway UI or via `faas-cli store list --yaml https://raw.githubusercontent.com/openfaas/store/master/store-arm64.json`
+For the Function Store, use the following:
+
+```bash
+faas-cli store list --platform arm64
+faas-cli store deploy NAME
+```
 
 #### Learn the OpenFaaS fundamentals
 
