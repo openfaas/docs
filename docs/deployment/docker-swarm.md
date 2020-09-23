@@ -56,13 +56,23 @@ $ git clone https://github.com/openfaas/faas && \
 !!! info
     As of OpenFaaS 0.8.6 basic authentication will be enabled by default when running ./deploy\_stack.sh. If you need to disable it pass the flag `--no-auth` to the ./deploy_stack.sh script as above.
 
-### 2.0.1 Raspberry Pi / 32-bit ARM
+### 2.0.1 Raspberry Pi / 32-bit ARM (armhf)
 
 > For a complete tutorial on setting up OpenFaaS for Raspberry Pi / 32-bit ARM using Docker Swarm see the following blog post from Alex Ellis: [Your Serverless Raspberry Pi cluster with Docker](https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/).
 
-When creating new functions please use the templates with a suffix of `-armhf` such as `go-armhf` and `python-armhf` to ensure you get the correct versions for your devices.
+When creating new functions you will need to run the build on an armhf host.
 
-> Note: you cannot deploy the sample functions to ARM devices, but you can use the function store in the gateway UI or via `faas-cli store list --yaml https://raw.githubusercontent.com/openfaas/store/master/store-armhf.json`
+> Note: expert users can create or use [multi-arch templates](https://github.com/alexellis/multiarch-templates) which can build on a PC and deploy to an armhf host.
+
+* You can run `faas-cli deploy` from any computer using `--gateway` or `OPENFAAS_GATEWAY`
+* But you must build Docker images on a Raspberry Pi, not on your PC or laptop. 
+
+For the Function Store, use the following:
+
+```bash
+faas-cli store list --platform armhf
+faas-cli store deploy NAME
+```
 
 ### 2.1 Store your admin credentials
 
