@@ -22,7 +22,7 @@ See also: [Tech stack & layers](/architecture/stack/) & [Preparing for productio
 
 OpenFaaS users can subscribe to a weekly Community Newsletter called Insiders Updates, to keep up to date with new features, bug fixes, events, tutorials and security patches. Insiders Updates are written by the project founder and distributed via GitHub Sponsors.
 
-* [Join Insiders](https://github.com/sponsors/alexelli)
+* [Get a Community Subscription](https://github.com/support/)
 
 ## Governance
 
