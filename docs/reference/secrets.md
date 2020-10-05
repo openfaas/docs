@@ -13,7 +13,11 @@ Using secrets is a two step process. First you need to define a new secret in yo
 
 ### A note on environmental variables
 
-The OpenFaaS contributors believe that enviromental variables should be reserved for non-confidential data only. All secrets are made available in the container file-system and should be read from the following location: `/var/openfaas/secrets/<secret-name>`. Both Kubernetes and Swarm have excellent stores for secrets. In the sample below we show how to create and consume a secret in a function.
+All secrets are made available in the container file-system and should be read from the following location: `/var/openfaas/secrets/<secret-name>`. In the sample below we show how to create and consume a secret in a function. 
+
+> Note: The OpenFaaS philosophy is that environment variables should be used for non-confidential configuration values only, and not used to inject secrets.
+
+The faas-cli can be used to manage secrets on Kubernetes, faasd, and Swarm.
 
 > See also: [YAML reference: environmental variables](yaml.md).
 
@@ -80,6 +84,10 @@ or:
 ```sh
 echo "R^YqzKzSJw51K9zPpQ3R3N" | docker secret create secret-api-key -
 ```
+
+#### Define a secret in faasd (advanced)
+
+For faasd, the secrets created for functions are held as files at `/var/lib/faasd-provider/secrets`. When you deploy a function, these secrets are bind-mounted into your container.
 
 ### Use the secret in your function
 
