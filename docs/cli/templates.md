@@ -429,6 +429,48 @@ npm i --save cheerio
 
 You can now add a `require('cheerio')` statement into your function and make use of this library.
 
+
+#### Java
+
+Two Java templates are provided `java11` and `java11-vertx`, both of which use Gradle as the build system. Please note that the `java8` template is deprecated, and should not be used.
+
+> If you need a different version, then please fork the templates repository, or contact sales@openfaas.com to access additional templates via your OpenFaaS Premium Subscription.
+
+Support is made available for external code repositories via the build.gradle file where you specify dependencies to fetch from repositories or JAR files to be added via the build.
+
+* Write a function `java-function`:
+
+```
+$ faas-cli new --lang java11 java-function
+```
+
+* Write your code in:
+
+./src/main/Handler.java
+
+* Write `junit` tests in:
+
+./src/tests/
+
+* Update gradle config if needed in:
+
+./build.gradle
+./settings.gradle
+
+* Working with headers (advanced)
+
+You can view the code for the IRequest and IResponse in [the OpenFaaS templates-sdk](https://github.com/openfaas/templates-sdk/tree/master/java11/model/src/main/java/com/openfaas/model)
+
+You can use `getHeader(k)` on the Request interface to query a header.
+
+To set a header such as content-type you can use `setHeader(k, v)` on the Response interface.
+
+You can also run the following to create a function using Vert.x
+
+```bash
+$ faas-cli new --lang java11-vertx java-vertx-function
+```
+
 #### CSharp / .NET Core 2.1
 
 You can create functions in .NET Core 2.1 using C# / CSharp.
@@ -521,37 +563,6 @@ $ echo 'OpenFaaS' | faas-cli invoke ruby-function
          "is_answered" : false,
 ...
 ```
-
-#### Java (of-watchdog)
-
-Two Java templates are provided `java8` and `java12`, if you need a different version, then please fork the templates repo or request it from the community.
-
-Support is made available for external code repositories via the build.gradle file where you specify dependencies to fetch from repositories or JAR files to be added via the build.
-
-* Write a function `java-function`:
-
-```
-$ faas-cli new --lang java8 java-function
-```
-
-* Write your code in:
-
-./src/main/Handler.java
-
-* Write `junit` tests in:
-
-./src/tests/
-
-* Update gradle config if needed in:
-
-./build.gradle
-./settings.gradle
-
-* Working with headers
-
-You can use `getHeader(k)` on the Request interface to query a header.
-
-To set a header such as content-type you can use `setHeader(k, v)` on the Response interface.
 
 #### PHP7
 
