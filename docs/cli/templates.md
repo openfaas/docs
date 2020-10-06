@@ -45,9 +45,7 @@ $ faas-cli template store list
 NAME                    SOURCE             DESCRIPTION
 csharp                  openfaas           Official C# template
 dockerfile              openfaas           Official Dockerfile template
-go-armhf                openfaas           Official Golang armhf 
 ...
-node10-express-armhf    openfaas-incubator NodeJS 10 Express armhf template
 node10-express          openfaas-incubator NodeJS 10 Express template
 ruby-http               openfaas-incubator Ruby 2.4 HTTP template
 golang-middleware       openfaas-incubator Golang Middleware template
@@ -67,8 +65,6 @@ Once downloaded, your chosen template and any others stored in the same reposito
 $ faas-cli new --list
 Languages available as templates:
 - node10-express
-- node10-express-arm64
-- node10-express-armhf
 ```
 
 You can add your own store just by specifying the `--url` flag for both commands to pull and list your custom templates store.
@@ -690,14 +686,6 @@ Now the source of the store is changed to the URL you have specified above.
 
 ## ARM / Raspberry Pi
 
-Templates for ARM and Raspberry Pi are provided on a best-effort basis. If you can help with maintenance please let the project contributors know.
+It is possible to migrate to use multi-arch templates with OpenFaaS, feel free to ask the community for direction here.
 
-* ARMv7 / Raspberry Pi
-
-Type in `faas-cli new --list` and look for any languages ending in `-armhf`. You can use any of these for your functions.
-
-* ARM64 / Packet.net / Scaleway ARM 64-bit
-
-For these platforms do the same as above and look for the `-arm64` suffix.
-
-> It is easy to make your own templates so if you need to use this platform please convert one of the "regular" templates for your platform.
+Otherwise, for ARM and Raspberry Pi you will need to build on the device, and not on your PC or CI server.

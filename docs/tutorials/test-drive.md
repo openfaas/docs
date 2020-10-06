@@ -175,15 +175,10 @@ Languages available as templates:
 - csharp
 - dockerfile
 - go
-- go-armhf
 - java8
 - node
-- node-arm64
-- node-armhf
 - python
-- python-armhf
 - python3
-- python3-armhf
 - ruby
 ```
 
