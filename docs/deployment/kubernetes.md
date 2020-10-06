@@ -19,7 +19,7 @@ Once you have a cluster, you can follow the detailed instructions on this page.
 
 ### Local clusters
 
-* [k3s](https://k3s.io) - a light-weight Kubernetes distribution ideal for edge and development - compatible with Raspberry Pi & ARM64 (Packet, AWS Graviton)
+* [k3s](https://k3s.io) - a light-weight Kubernetes distribution ideal for edge and development - compatible with Raspberry Pi & ARM64 (Equinix Metal, AWS Graviton, etc)
 * [k3d](https://github.com/rancher/k3d) - makes k3s available on any computer where Docker is also running
 * [microk8s](https://microk8s.io) - a Kubernetes distribution, specifically for Ubuntu users.
 * [minikube](https://minikube.sigs.k8s.io) - a popular, but heavy-weight option that creates a Linux virtual machine your computer using VirtualBox or similar
@@ -222,7 +222,7 @@ faas-cli store deploy NAME
 
 #### 64-bit ARM and AWS Graviton
 
-For 64-bit ARM servers and devices such as ODroid-C2, Rock64, AWS Graviton and the servers provided by [Packet.net](https://packet.net/).
+For 64-bit ARM servers and devices such as ODroid-C2, Rock64, AWS Graviton and the servers provided by [Equinix Metal (aka Packet)]https://metal.equinix.com).
 
 Use `arkade` to install OpenFaaS, it will determine the correct files to use to install OpenFaaS.
 
