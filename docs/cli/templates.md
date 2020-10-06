@@ -169,7 +169,6 @@ func Handle() {
 }
 ```
 
-
 Within your handler.go:
 
 ```golang
@@ -240,6 +239,18 @@ You can then enable CGO with a build-arg:
 ```
 faas-cli build --build-arg CGO_ENABLED=1
 ```
+
+#### Python 3 templates
+
+For production use, serving machine learning models, and high-traffic functions, it's advisable to use the newer templates built with flask and the OpenFaaS of-watchdog.
+
+See the [python-flask-template repo](https://github.com/openfaas-incubator/python-flask-template) for the following templates:
+
+* python27-flask
+* python3-flask
+* python3-flask-debian
+* python3-http
+* python3-http-debian
 
 #### Python 3 (classic template)
 
