@@ -1,17 +1,5 @@
 # Deployment guide for Kubernetes
 
-OpenFaaS is Kubernetes-native and uses *Deployments*, *Services* and *Secrets*. For more detail check out the ["faas-netes" repository](https://github.com/openfaas/faas-netes).
-
-Use this guide to deploy OpenFaaS to upstream Kubernetes 1.11 or higher.
-
-## Expert installations, proof of concepts and getting help 
-
-If you need help with an OpenFaaS proof-of-concept or a reference architecture, you can contact [sales@openfaas.com](mailto:sales@openfaas.com) to find out more.
-
-A [Premium Subscription is also offered](https://openfaas.com/support/) which provides support and SSO with OIDC and OAuth2.
-
-You can also connect with the [Community](/community/) on Slack and Twitter for help.
-
 ## Build a cluster
 
 Before deploying OpenFaaS, you should provision a Kubernetes cluster. There are many options for deploying a local or remote cluster. You can read about the [various Kubernetes distributions here](https://kubernetes.io/docs/setup/).
@@ -93,7 +81,12 @@ There are three recommended ways to install OpenFaaS and you can pick whatever m
 2) `helm` client - sane defaults and easy to configure through YAML or CLI flags. Secure options such as `helm template` or `helm 3` also exist for those working within restrictive environments.
 3) With GitOps tooling. You can install OpenFaaS and keep it up to date with [Flux](https://github.com/fluxcd/flux) or [ArgoCD](https://argoproj.github.io/argo-cd/).
 
-Guidelines are also provided for [preparing for production](/architecture/production/) and for [performance testing](/architecture/performance).
+#### Getting help, expert installations and proof-of-concepts 
+
+* You can get help by connecting with the community on the [Community Page](/community/).
+* OpenFaaS Ltd offers expert installation, proof-of-concepts, and architecture reviews. Get in touch at: [sales@openfaas.com](mailto:sales@openfaas.com) to find out more.
+* The [OpenFaaS Premium Subscription](https://openfaas.com/support/) offers enterprise-grade authentication with SSO and OpenID Connect (OIDC).
+* Guidelines are also provided for [preparing for production](/architecture/production/) and for [performance testing](/architecture/performance).
 
 #### 1) Deploy the Chart with `arkade` (fastest option)
 
