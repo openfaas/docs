@@ -133,7 +133,7 @@ For cloud users run `kubectl get -n openfaas svc/gateway-external` and look for 
 
 A Helm chart is provided in the `faas-netes` repository. Follow the link below then come back to this page.
 
-* [OpenFaaS Helm chart](https://github.com/openfaas/faas-netes/blob/master/HELM.md)
+* [OpenFaaS Helm chart](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md)
 
     !!! note
         Some users may have concerns about using helm charts due to [security concerns with the `tiller` component](https://engineering.bitnami.com/articles/running-helm-in-production.html). If you fall into this category of users, then don't worry, you can still benefit from the helm chart without using `tiller`.
