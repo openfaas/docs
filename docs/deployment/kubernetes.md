@@ -1,15 +1,22 @@
 # Deployment guide for Kubernetes
 
-## Build a cluster
+Before deploying OpenFaaS, you should provision a Kubernetes cluster.
 
-Before deploying OpenFaaS, you should provision a Kubernetes cluster. There are many options for deploying a local or remote cluster. You can read about the [various Kubernetes distributions here](https://kubernetes.io/docs/setup/).
+## Installing OpenFaaS (an overview)
+
+There are many options for deploying a local or remote cluster. You can read about the [various Kubernetes distributions here](https://kubernetes.io/docs/setup/).
 
 Once you have a cluster, you can follow the detailed instructions on this page.
 
 * Install OpenFaaS CLI
 * Deploy OpenFaaS using via helm or arkade
 * Find your OpenFaaS gateway address
+* Retrieve your gateway credentials
 * Log in, deploy a function, and try out the UI.
+
+From there, you should consider: adding a TLS certificate with Ingress, switching to the OIDC/OAuth2 plugin for authentication, and tuning-up for production use.
+
+## Build your cluster
 
 ### Local clusters
 
@@ -80,13 +87,6 @@ There are three recommended ways to install OpenFaaS and you can pick whatever m
 1) Helm with `arkade install` - arkade installs OpenFaaS to Kubernetes using its official helm chart and is the easiest and quickest way to get up and running.
 2) `helm` client - sane defaults and easy to configure through YAML or CLI flags. Secure options such as `helm template` or `helm 3` also exist for those working within restrictive environments.
 3) With GitOps tooling. You can install OpenFaaS and keep it up to date with [Flux](https://github.com/fluxcd/flux) or [ArgoCD](https://argoproj.github.io/argo-cd/).
-
-#### Getting help, expert installations and proof-of-concepts 
-
-* You can get help by connecting with the community on the [Community Page](/community/).
-* OpenFaaS Ltd offers expert installation, proof-of-concepts, and architecture reviews. Get in touch at: [sales@openfaas.com](mailto:sales@openfaas.com) to find out more.
-* The [OpenFaaS Premium Subscription](https://openfaas.com/support/) offers enterprise-grade authentication with SSO and OpenID Connect (OIDC).
-* Guidelines are also provided for [preparing for production](/architecture/production/) and for [performance testing](/architecture/performance).
 
 #### 1) Deploy the Chart with `arkade` (fastest option)
 
@@ -160,25 +160,14 @@ faas-cli store list --platform armhf
 faas-cli store deploy NAME
 ```
 
-#### 64-bit ARM and AWS Graviton
+Instructions are almost identical for ARM64 users, but use `--platform arm64` instead.
 
-For 64-bit ARM servers and devices such as ODroid-C2, Rock64, AWS Graviton and the servers provided by [Equinix Metal (aka Packet)]https://metal.equinix.com).
+### Getting help, expert installations and proof-of-concepts 
 
-Use `arkade` to install OpenFaaS, it will determine the correct files to use to install OpenFaaS.
-
-When creating new functions you will need to run the build on an ARM64 node.
-
-> Note: expert users can create or use [multi-arch templates](https://github.com/alexellis/multiarch-templates) which can build on a PC and deploy to an ARM64 node.
-
-* You can run `faas-cli deploy` from any computer using `--gateway` or `OPENFAAS_GATEWAY`
-* But you must build Docker images on a Raspberry Pi, not on your PC or laptop. 
-
-For the Function Store, use the following:
-
-```bash
-faas-cli store list --platform arm64
-faas-cli store deploy NAME
-```
+* You can get help by connecting with the community on the [Community Page](/community/).
+* OpenFaaS Ltd offers expert installation, proof-of-concepts, and architecture reviews. Get in touch at: [sales@openfaas.com](mailto:sales@openfaas.com) to find out more.
+* The [OpenFaaS Premium Subscription](https://openfaas.com/support/) offers enterprise-grade authentication with SSO and OpenID Connect (OIDC).
+* Guidelines are also provided for [preparing for production](/architecture/production/) and for [performance testing](/architecture/performance).
 
 #### Learn the OpenFaaS fundamentals
 
