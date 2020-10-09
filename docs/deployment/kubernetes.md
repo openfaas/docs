@@ -4,6 +4,14 @@ OpenFaaS is Kubernetes-native and uses *Deployments*, *Services* and *Secrets*. 
 
 Use this guide to deploy OpenFaaS to upstream Kubernetes 1.11 or higher.
 
+## Expert installations, proof of concepts and getting help 
+
+If you need help with an OpenFaaS proof-of-concept or a reference architecture, you can contact [sales@openfaas.com](mailto:sales@openfaas.com) to find out more.
+
+A [Premium Subscription is also offered](https://openfaas.com/support/) which provides support and SSO with OIDC and OAuth2.
+
+You can also connect with the [Community](/community/) on Slack and Twitter for help.
+
 ## Build a cluster
 
 Before deploying OpenFaaS, you should provision a Kubernetes cluster. There are many options for deploying a local or remote cluster. You can read about the [various Kubernetes distributions here](https://kubernetes.io/docs/setup/).
@@ -15,21 +23,21 @@ Once you have a cluster, you can follow the detailed instructions on this page.
 * Find your OpenFaaS gateway address
 * Log in, deploy a function, and try out the UI.
 
-> If you should need technical support, then see the [Community Page](/community/).
-
 ### Local clusters
 
-* [k3s](https://k3s.io) - a light-weight Kubernetes distribution ideal for edge and development - compatible with Raspberry Pi & ARM64 (Equinix Metal, AWS Graviton, etc)
+Below are the most popular ways to run a local Kubernetes cluster, but OpenFaaS should run on any.
+
 * [k3d](https://github.com/rancher/k3d) - makes k3s available on any computer where Docker is also running
-* [microk8s](https://microk8s.io) - a Kubernetes distribution, specifically for Ubuntu users.
+* [KinD](https://kind.sigs.k8s.io) - upstream Kubernetes running inside a Docker container.
+* [k3s](https://k3s.io) - a light-weight Kubernetes distribution ideal for edge and development - compatible with Raspberry Pi & ARM64 (Equinix Metal, AWS Graviton, etc)
 * [minikube](https://minikube.sigs.k8s.io) - a popular, but heavy-weight option that creates a Linux virtual machine your computer using VirtualBox or similar
-* [Docker for Mac/Windows](https://docs.docker.com/docker-for-mac/install/) - Docker's Desktop edition has an option to run a local Kubernetes cluster
+* [microk8s](https://microk8s.io) - a Kubernetes distribution, specifically for Ubuntu users.
 
 ### Remote/managed options
 
 You can run `k3s` and `k3d` on a single node Virtual Machine so that you don't have to run Kubernetes on your own computer.
 
-* The [k3sup (ketchup)](https://k3sup.dev) tool can help you to do this by installing k3s onto a remote VM
+* The [k3sup ("ketchup")](https://k3sup.dev) tool can help you to do this by installing k3s onto a remote VM
 
 Kubernetes services/engines:
 
@@ -80,8 +88,6 @@ brew install faas-cli
 ### Pick `arkade`, `helm` or plain YAML files
 
 There are three recommended ways to install OpenFaaS and you can pick whatever makes sense for you and your team.
-
-> If you need help with an OpenFaaS proof-of-concept or a reference architecture, you can contact [sales@openfaas.com](mailto:sales@openfaas.com) to find out more.
 
 * `arkade install` - arkade installs OpenFaaS to Kubernetes using its official helm chart and is the easiest and quickest way to get up and running.
 
