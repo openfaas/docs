@@ -99,7 +99,7 @@ Within a few seconds (or minutes if on a poor WiFi connection) the API gateway a
 `http://127.0.0.1:8080`
 
 !!! tip
-    If you're running on Linux you may find that accessing `localhost` times out. We recommend using an IPv4 address such as http://127.0.0.1:8080 to prevent any ambiguity.
+    If you're running on Linux you may find that accessing `localhost` times out, most probably because it resolves to IPv6, and (IPv6 is not supported by docker-compose v3 and swarm)[https://docs.docker.com/compose/compose-file/#enable_ipv6]. We recommend using an IPv4 address such as http://127.0.0.1:8080 to prevent any ambiguity.
 
 ## 2.2 Deploy functions from the OpenFaaS Function Store
 
