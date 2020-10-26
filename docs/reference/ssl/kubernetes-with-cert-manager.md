@@ -5,7 +5,7 @@ You can obtain TLS certificates for the OpenFaaS API Gateway and for your functi
 We will use the following components:
 
  - [Nginx IngressController][nginx-ingress]
- - OpenFaaS installed via [helm][openfaas-helm] or (`helm template` if you can't use `tiller`)
+ - OpenFaaS installed via [helm][openfaas-helm]
  - [cert-manager][cert-manager]
 
 We will split this tutorial into two parts:
