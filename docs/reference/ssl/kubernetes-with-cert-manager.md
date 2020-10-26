@@ -4,9 +4,9 @@ You can obtain TLS certificates for the OpenFaaS API Gateway and for your functi
 
 We will use the following components:
 
+ - [Nginx IngressController][nginx-ingress]
  - OpenFaaS installed via [helm][openfaas-helm] or (`helm template` if you can't use `tiller`)
  - [cert-manager][cert-manager]
- - [Nginx IngressController][nginx-ingress]
 
 We will split this tutorial into two parts:
 
@@ -17,13 +17,9 @@ We will split this tutorial into two parts:
 
 This part guides you through setting up all the pre-requisite components to enable TLS for your gateway. You can then access your gateway via a URL such as `https://gw.example.com` and each function such as: `https://gw.example.com/function/nodeinfo`.
 
-### Configure Helm and Tiller
+### Configure Helm
 
-First install Helm and the Tiller [following the instructions provided by Helm][helm-install]
-
-### Install OpenFaaS
-
-Follow the instructions found in the [OpenFaaS Helm Chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#deploy-openfaas). As part of these instructions you will create a basic-auth password to secure the Gateway's API and UI.
+First install Helm v3 [following the instructions provided by Helm][helm-install]
 
 ### Install nginx-ingress
 
@@ -32,7 +28,8 @@ This example will use a Kubernetes [IngressController](https://kubernetes.io/doc
 Add Nginx using the helm `chart-ingress`:
 
 ```sh
-$ helm install stable/nginx-ingress --name nginxingress --set rbac.create=true
+$ helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+$ helm install nginxingress ingress-nginx/ingress-nginx
 ```
 
 The full configuration options for nginx [can be found here][nginx-configuration].
@@ -46,10 +43,16 @@ nginxingress-nginx-ingress-controller        LoadBalancer   192.168.137.172   13
 
 Caveats: 
 
+* Alternatively, use [arkade](https://github.com/alexellis/arkade) to install nginx-ingress.
+
+  ```sh
+  arkade install ingress-nginx
+  ```
+
 * If you do not have a cloud provider for your Kubernetes cluster, but have a public IP, then you can install Nginx in "host-mode" and use the IP of one or more of your nodes for the DNS record.
 
   ```sh
-  $ helm install stable/nginx-ingress --name nginxingress --set rbac.create=true,controller.hostNetwork=true controller.daemonset.useHostPort=true,dnsPolicy=ClusterFirstWithHostNet,controller.kind=DaemonSet
+  $ helm install  nginxingress ingress-nginx/ingress-nginx --set rbac.create=true,controller.hostNetwork=true controller.daemonset.useHostPort=true,dnsPolicy=ClusterFirstWithHostNet,controller.kind=DaemonSet
   ```
 
   Taken from tutorial: [Setup a private Docker registry with TLS on Kubernetes](https://github.com/alexellis/k8s-tls-registry)
@@ -57,6 +60,16 @@ Caveats:
 * If you do not have a public IP for your Kubernetes cluster, then you can use a project like [Inlets](https://inlets.dev) and bypass using cert-manager. Inlets has around half a dozen examples of configurations for Kubernetes.
 
   [HTTPS for your local endpoints with inlets and Caddy](https://blog.alexellis.io/https-inlets-local-endpoints/)
+
+### Install OpenFaaS
+
+Follow the instructions found in the [OpenFaaS Helm Chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#deploy-openfaas). As part of these instructions you will create a basic-auth password to secure the Gateway's API and UI.
+
+Alternatively, use [arkade](https://github.com/alexellis/arkade) to install openfaas:
+
+  ```sh
+  arkade install openfaas
+  ```
 
 ### Create a DNS record
 
