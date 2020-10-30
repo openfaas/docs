@@ -12,6 +12,7 @@ We will split this tutorial into two parts:
 
 - 1.0 TLS for the Gateway
 - 2.0 TLS and custom domains for your functions
+- 3.0 REST-style API mapping for your functions
 
 ## 1.0 TLS for the Gateway
 
@@ -378,6 +379,81 @@ Then delete one if you need to via: `kubectl delete fni/name -n openfaas`.
 ```yaml
 spec:
   ingressType: "skipper"
+```
+
+## 3.0 REST-style API mapping for your functions
+
+The FunctionIngress discussed above provides a simple way to create a custom URL mapping scheme for your functions. This is a common request from users, and means that you can map your functions into a REST-style API.
+
+
+Here we map three functions to a REST-style API:
+
+```
+https://gateway.example.com/function/env -> https://api.example.com/v1/env/
+https://gateway.example.com/nodeinfo -> https://api.example.com/v1/nodeinfo/
+https://gateway.example.com/certinfo -> https://api.example.com/v1/certinfo/
+```
+
+```
+faas-cli deploy --image functions/alpine:latest --name env --fprocess env
+faas-cli store deploy nodeinfo
+faas-cli store deploy certinfo
+```
+
+Save the following in a file "fni.yaml" and customise it as required.
+
+Then run `kubectl apply -f fni.yaml`.
+
+To create the TLS Issuer, see the steps above.
+
+```yaml
+apiVersion: openfaas.com/v1alpha2
+kind: FunctionIngress
+metadata:
+  name: nodeinfo
+  namespace: openfaas
+spec:
+  domain: "api.example.com"
+  function: "nodeinfo"
+  ingressType: "nginx"
+  path: "/v1/nodeinfo/(.*)"
+  tls:
+    enabled: true
+    issuerRef:
+      name: "letsencrypt-staging"
+      kind: "Issuer"
+---
+apiVersion: openfaas.com/v1alpha2
+kind: FunctionIngress
+metadata:
+  name: env
+  namespace: openfaas
+spec:
+  domain: "api.example.com"
+  function: "env"
+  ingressType: "nginx"
+  path: "/v1/env/(.*)"
+  tls:
+    enabled: true
+    issuerRef:
+      name: "letsencrypt-staging"
+      kind: "Issuer"
+---
+apiVersion: openfaas.com/v1alpha2
+kind: FunctionIngress
+metadata:
+  name: certinfo
+  namespace: openfaas
+spec:
+  domain: "api.example.com"
+  function: "certinfo"
+  ingressType: "nginx"
+  path: "/v1/certinfo/(.*)"
+  tls:
+    enabled: true
+    issuerRef:
+      name: "letsencrypt-staging"
+      kind: "Issuer"
 ```
 
 #### What about IngressController X?
