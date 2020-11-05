@@ -60,7 +60,7 @@ We will cover creating and configuring a GitHub App for webhooks and events and 
 
 It is highly recommended to enable authentication through OAuth. To set it up follow the steps in the next section. If you have decided not to configure OAuth then you can finish here.
 
-That's it, you can now input this data into the [ofc-bootstrap](https://github.com/openfaas-incubator/ofc-bootstrap) 1-click tool, or follow the developer instructions in the [openfaas-cloud](https://github.com/openfaas/openfaas-cloud/tree/master/docs) repo.
+That's it, you can now input this data into the [ofc-bootstrap](https://github.com/openfaas/ofc-bootstrap) 1-click tool, or follow the developer instructions in the [openfaas-cloud](https://github.com/openfaas/openfaas-cloud/tree/master/docs) repo.
 
 ### Create a GitHub OAuth integration (optional)
 
@@ -86,4 +86,4 @@ We will now create a GitHub OAuth integration so that we and our users can log i
 
     ![](/images/openfaas-cloud/github-oauth-02.png)
 
-That's it, you can now input this data into the [ofc-bootstrap](https://github.com/openfaas-incubator/ofc-bootstrap) 1-click tool, or follow the developer instructions in the [openfaas-cloud](https://github.com/openfaas/openfaas-cloud/tree/master/docs) repo.
+That's it, you can now input this data into the [ofc-bootstrap](https://github.com/openfaas/ofc-bootstrap) 1-click tool, or follow the developer instructions in the [openfaas-cloud](https://github.com/openfaas/openfaas-cloud/tree/master/docs) repo.

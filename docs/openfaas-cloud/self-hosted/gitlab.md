@@ -2,7 +2,7 @@
 
 This guide is for connecting your own self-hosted GitLab instance to your OpenFaaS Cloud deployment.
 
-Use this guide to configure your `init.yaml` file for use with [ofc-bootstrap](https://github.com/openfaas-incubator/ofc-bootstrap).
+Use this guide to configure your `init.yaml` file for use with [ofc-bootstrap](https://github.com/openfaas/ofc-bootstrap).
 
 ### Edit your init.yaml file
 

@@ -56,7 +56,7 @@ Useful commands:
 
 #### Something else not working?
 
-Make sure that you clearly followed all the instructions in the [README for ofc-bootstrap](https://github.com/openfaas-incubator/ofc-bootstrap/blob/master/README.md), read them through and check them off one-by-one.
+Make sure that you clearly followed all the instructions in the [README for ofc-bootstrap](https://github.com/openfaas/ofc-bootstrap/blob/master/README.md), read them through and check them off one-by-one.
 
 Make sure that you edited `init.yaml`, read all the comments and updated the values that you needed to. If in doubt, ask questions on Slack.
 

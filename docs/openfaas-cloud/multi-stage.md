@@ -18,7 +18,7 @@ Staging is deployed from the `staging` branch.
 
 #### Configuration
 
-Install OpenFaaS Cloud with [ofc-bootstrap](https://github.com/openfaas-incubator/ofc-bootstrap), once for each environment on separate clusters. Some configuration in `init.yaml` needs to be changed, other settings can remain the same:
+Install OpenFaaS Cloud with [ofc-bootstrap](https://github.com/openfaas/ofc-bootstrap), once for each environment on separate clusters. Some configuration in `init.yaml` needs to be changed, other settings can remain the same:
 
 * Set the `root_domain`
 

@@ -21,6 +21,7 @@ For this reason you should always collate statistics from the `openfaas` organis
 | [media](https://github.com/openfaas/media)             | Press-kit and media for the project branding and swag             |
 | [openfaas.github.io](https://github.com/openfaas/openfaas.github.io)               | Source for https://www.openfaas.com and blog |
 | [openfaas-cloud](https://github.com/openfaas/openfaas-cloud)        | OpenFaaS Cloud - portable, multi-user Serverless Functions powered by GitOps |
+| [ofc-bootstrap](https://github.com/openfaas/ofc-bootstrap) | "one-click" CLI to install OpenFaaS Cloud on Kubernetes |
 | [workshop](https://github.com/openfaas/workshop)             | Practical training and hands-on labs for learning OpenFaaS |
 
 ### OpenFaaS Incubator
@@ -35,7 +36,6 @@ Some people have wrongly assumed that the "incubator" organisation means that th
 | [faas-idler](https://github.com/openfaas-incubator/faas-idler)         | Scale OpenFaaS functions to zero replicas after specified period of inactivity   |
 | [openfaas-operator](https://github.com/openfaas-incubator/openfaas-operator)         | The OpenFaaS CRD Operator for Kubernetes   |
 | [kafka-connector](https://github.com/openfaas-incubator/kafka-connector)         | The Kafka connector connects OpenFaaS functions to Kafka topics   |
-| [ofc-bootstrap](https://github.com/openfaas-incubator/ofc-bootstrap) | "one-click" CLI to install OpenFaaS Cloud on Kubernetes |
 | [ingress-operator](https://github.com/openfaas-incubator/ingress-operator/) | Provides `FunctionIngress` CRD for Custom Domains on Kubernetes |
 | [connector-sdk](https://github.com/openfaas-incubator/connector-sdk)         | Build your own event connectors for OpenFaaS |
 | [vcenter-connector](https://github.com/openfaas-incubator/vcenter-connector) | Trigger OpenFaaS Functions from events in VMware vCenter |
