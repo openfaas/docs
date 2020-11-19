@@ -2,9 +2,7 @@
 
 ## Community resources
 
-Blog posts, upcoming/past events and code examples are available on the community resources page indexed by year.
-
-> Be counted: If you're speaking or have spoken about OpenFaaS or have a book, tutorial, blog post or workshop, please let the community know by raising a pull request to have it listed on this page.
+Blog posts, upcoming/past events and code examples are available on the community resources page indexed by year. Please send us a Pull Request!
 
 * [OpenFaaS Community Page](https://github.com/openfaas/faas/blob/master/community.md)
 
@@ -24,9 +22,11 @@ Channels:
 * `#openfaas-cloud` - OpenFaaS Cloud development and help
 * `#inlets` - help, news and community for inlets - The Cloud Native Tunnel
 
-Consulting and priority support is available [for OpenFaaS Ltd customers](https://openfaas.com/support/).
-
 Fill out [this form to join](https://goo.gl/forms/SqpLSdyzVoOboRqs1).
+
+## Consulting and commercial users
+
+Consulting and priority support is available [for OpenFaaS Ltd customers](https://openfaas.com/support/).
 
 ## Community Insiders Program and GitHub Sponsors
 
