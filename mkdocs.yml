@@ -141,7 +141,6 @@ nav:
     - YAML: ./reference/yaml.md
   - OpenFaaS Cloud:
       - Intro: ./openfaas-cloud/intro.md
-      - Community Cluster: ./openfaas-cloud/community-cluster.md
       - Self-hosted:
         - Configure GitHub: ./openfaas-cloud/self-hosted/github.md
         - Configure GitLab: ./openfaas-cloud/self-hosted/gitlab.md
