@@ -12,7 +12,7 @@ OpenFaaS (or Functions as a Service) is a framework for building serverless func
 
 > Please support the project and put a **Star** on the repo.
 
-OpenFaaS is Kubernetes and Docker-native.
+OpenFaaS runs natively on Kubernetes and uses OCI-compatible containers.
 
 # Overview
 
