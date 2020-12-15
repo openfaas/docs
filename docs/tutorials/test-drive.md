@@ -8,11 +8,11 @@ Please start [Lab 1 here](https://github.com/openfaas/workshop)
 
 ## TestDrive (v1 - classic version)
 
-OpenFaaS (or Functions as a Service) is a framework for building serverless functions on Docker Swarm and Kubernetes with first class metrics. Any UNIX process can be packaged as a function in FaaS enabling you to consume a range of web events without repetitive boiler-plate coding.
+OpenFaaS (or Functions as a Service) is a framework for building serverless functions on Kubernetes and faasd with first class metrics. Any UNIX process can be packaged as a function in FaaS enabling you to consume a range of web events without repetitive boiler-plate coding.
 
 > Please support the project and put a **Star** on the repo.
 
-OpenFaaS is Kubernetes and Docker-native. In this test-drive we'll be using Docker Inc's online lab for Docker Swarm called play-with-docker.
+OpenFaaS is Kubernetes and Docker-native.
 
 # Overview
 

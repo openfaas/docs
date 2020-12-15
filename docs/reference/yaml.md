@@ -139,7 +139,7 @@ environment:
 
 ### Function: Secure secrets
 
-OpenFaaS functions can make use of secure secrets using the secret store from Kubernetes or Docker Swarm. This is the recommended way to store secure access keys, tokens and other private data.
+OpenFaaS functions can make use of secure secrets using the secret store from Kubernetes or faasd. This is the recommended way to store secure access keys, tokens and other private data.
 
 Create the secret with your orchestration tool i.e. `kubectl` or `docker secret create` then list the secret name as part of an array of secrets.
 

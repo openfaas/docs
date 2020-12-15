@@ -54,13 +54,13 @@ You can deploy to OpenShift using our CLI installer <a href="https://get-arkade.
 
 [Deploy to OpenShift](/deployment/openshift/)
 
-## Docker Swarm
+## Docker Swarm (deprecated)
 
-!!! warning "A foreword on security"
-    Bear in mind that Docker Swarm is widely consider to be approaching "End of Life". Kubernetes with <a href="https://k3s.io">k3s.io</a>, or faasd (above) may make a better alternative for you and your team.
+!!! warning "Deprecation of free community support"
+    Free community support for Docker Swarm has been discontinued. If you run Docker Swarm and OpenFaaS in your business and require continued support, then [contact support](https://openfaas.com/support/) as soon as you can.
 
-If you prefer to use Docker Swarm, then follow the [deployment guide Docker Swarm](/deployment/docker-swarm/).
+Why has this decision been made? Docker Swarm is widely consider to be "End of Life" product. Projects like Kubernetes have a much broader ecosystem and are receiving continual investment from their respective communities.
 
-### Docker Swarm Playground
+If you were attracted to Docker Swarm because you believe it to be easier to manage than Kubernetes, we recommend taking a look at a managed Kubernetes service, or [k3s.io](https://k3s.io).
 
-If you cannot run Docker on your local machine, or can't install anything locally, then you can try OpenFaaS on play-with-docker.com (PWD). Follow the [playground guide here](/deployment/play-with-docker/)
+If you need next to no operations, then faasd (above) should be the top of your list.

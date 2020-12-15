@@ -8,7 +8,7 @@ When deploying OpenFaaS it is recommended that you use [Kubernetes](https://kube
 
 These instructions apply for both Kubernetes and OpenShift 3.x.
 
-> Note: Docker Swarm and other providers are available, but are beyond the scope of this document.
+> Note: Docker Swarm is not supported for production use.
 
 ### Advanced Kubernetes configuration
 

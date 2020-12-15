@@ -110,9 +110,8 @@ nav:
   - Getting Started:
       - Deployment: deployment.md
       - Kubernetes: ./deployment/kubernetes.md
+      - faasd: ./deployment/faasd.md
       - OpenShift: ./deployment/openshift.md
-      - Docker Swarm: ./deployment/docker-swarm.md
-      - Docker Playground: ./deployment/play-with-docker.md
       - Troubleshooting: ./deployment/troubleshooting.md
   - CLI:
       - Installation: ./cli/install.md
@@ -165,7 +164,6 @@ nav:
       - Expanded timeouts: ./tutorials/expanded-timeouts.md
       - CLI with Node.js: ./tutorials/CLI-with-node.md
       - First Python Function: ./tutorials/first-python-function.md
-      - Test Drive: ./tutorials/test-drive.md
       - Kubernetes HPAv2: ./tutorials/kubernetes-hpa.md
       - Kubernetes HPAv2 Custom Metrics: ./tutorials/kubernetes-hpa-custom-metrics.md
       - Local Registry with KinD: ./tutorials/local-kind-registry.md

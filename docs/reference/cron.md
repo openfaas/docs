@@ -225,9 +225,9 @@ To stop the invocations, remove the two annotations or remove the cron-connector
 
 If you would like to explore how to write CRON expressions, then see [https://crontab.guru/](https://crontab.guru/)
 
-## Docker Swarm
+## faasd
 
-Docker Swarm has no concepts of scheduled tasks or cron, but we have a suitable recommendation which you can use with your OpenFaaS cluster. If you deploy a Jenkins master service, then you can use that to manage your scheduled tasks. It will handle distributed locking, concurrency and queueing.
+faasd has no concepts of scheduled tasks or cron, but we have a suitable recommendation which you can use with your OpenFaaS cluster. If you deploy a Jenkins master service, then you can use that to manage your scheduled tasks. It will handle distributed locking, concurrency and queueing.
 
 Example usage:
 

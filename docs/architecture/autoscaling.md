@@ -53,7 +53,7 @@ For a technical overview see the blog post: [Scale to Zero and Back Again with O
 
 ### Scaling up from zero replicas
 
-Scaling up from zero replicas or 0/0 can be toggled through the `scale_from_zero` environment variable for the OpenFaaS Gateway. This is turned on by default for both Kubernetes and Docker Swarm.
+Scaling up from zero replicas or 0/0 can be toggled through the `scale_from_zero` environment variable for the OpenFaaS Gateway. This is turned on by default on Kubernetes and faasd.
 
 The latency between accepting a request for an unavailable function and serving the request is sometimes called a "Cold Start".
 
