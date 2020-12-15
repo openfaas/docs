@@ -42,6 +42,7 @@ See also: [performance testing](/architecture/performance/) and [going to produc
 
 ## ARM / Raspberry Pi
 
+* [Walk-through — install Kubernetes to your Raspberry Pi in 15 minutes](https://medium.com/@alexellisuk/walk-through-install-kubernetes-to-your-raspberry-pi-in-15-minutes-84a8492dc95a?postPublishedType=repub)
 * [Will it cluster? k3s on your Raspberry Pi](https://blog.alexellis.io/test-drive-k3s-on-raspberry-pi/) - build a lightweight cluster using Rancher's k3s Kubernetes distribution
 * [Kubernetes on Raspbian](https://github.com/alexellis/k8s-on-raspbian)
 * [Build your own bare-metal ARM cluster](https://blog.alexellis.io/build-your-own-bare-metal-arm-cluster/)
