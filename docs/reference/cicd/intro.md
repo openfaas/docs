@@ -10,7 +10,7 @@ See also: [OpenFaaS Cloud](../../../openfaas-cloud/intro/)
 
 ### Use the native `faas-cli`
 
-It is recommended to use the `faas-cli` binary for building and deploying your functions whether that is to Kubernetes or Docker Swarm.
+It is recommended to use the `faas-cli` binary for building and deploying your functions whether that is to Kubernetes or faasd.
 
 * Build only:
     ```

@@ -37,7 +37,6 @@ If you are new with Docker, Kubernetes, or Go and would like to learn or just im
     * [Tutorials from Alex Ellis](https://blog.alexellis.io/tag/kubernetes/)
 * **Docker**
     * [Docker Documentation](https://docs.docker.com)
-    * [Docker Swarm Documentation](https://docs.docker.com/engine/swarm/)
 * [Travis CI User Documentation](https://docs.travis-ci.com)
 
 ## Communicate with the community

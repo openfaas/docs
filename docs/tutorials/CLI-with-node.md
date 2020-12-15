@@ -24,8 +24,6 @@ Before starting you should setup OpenFaaS on your laptop or cluster using a depl
 
 [Deployment guide](http://docs.openfaas.com/deployment/)
 
-If you're not sure which to pick - you can deploy and setup Docker Swarm in around 60 seconds.
-
 ### Get the CLI
 
 For the latest version of the CLI type in the following:

@@ -22,6 +22,8 @@ The default address for the gateway on Kubernetes is `http://gateway.openfaas:80
 
 ### On Docker Swarm
 
+> Note: Free community support for Docker Swarm is deprecated.
+
 The default address for the gateway is `http://gateway:8080`
 
 ## Error with "faas" provider
