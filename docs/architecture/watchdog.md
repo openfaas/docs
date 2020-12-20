@@ -20,7 +20,7 @@ Technical documentation on the classic watchdog is available along with a table 
 
 The `of-watchdog` project is complimentary to the Classic Watchdog mentioned above. It was started in October 2017 and provides an alternative to STDIO for communication between the watchdog and the function.
 
-Status: this component is suitable for use in production and is part of the [openfaas-incubator](https://github.com/openfaas-incubator) GitHub organisation.
+Status: this component is suitable for use in production and is part of the [openfaas](https://github.com/openfaas) GitHub organisation.
 
 <a href="/architecture/watchdog-modes.png"><img src="/architecture/watchdog-modes.png"></a>
 

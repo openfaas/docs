@@ -72,7 +72,7 @@ Set the non-root user flag so that every function is forced to run in a restrict
 
 The faas-netes controller for OpenFaaS is the most mature, well tested and supported. You may also use the OpenFaaS Operator if you would like to use a Function CRD. If you are not sure which to use, then use faas-netes.
 
-> See also: [faas-netes](https://github.com/openfaas/faas-netes), [openfaas-operator](https://github.com/openfaas-incubator/openfaas-operator).
+See the [helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas) for more.
 
 #### Single or multi-stage?
 

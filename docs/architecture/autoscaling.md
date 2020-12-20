@@ -77,9 +77,9 @@ There are two approaches available for idling functions:
 
 #### 1) faas-idler
 
-You can use the [faas-idler](https://github.com/openfaas-incubator/faas-idler) project which is currently available from the openfaas-incubator organisation. `faas-idler` allows some basic presents to be configured and then monitors the built-in Prometheus metrics on a regular basis to determine if a function should be scaled to zero. Only functions with a label of `com.openfaas.scale.zero=true` are scaled to zero, all others are ignored. Functions are scaled to zero through the OpenFaaS REST API.
+You can use the [faas-idler](https://github.com/openfaas/faas-idler) project which is currently available from the openfaas organisation. `faas-idler` allows some basic presents to be configured and then monitors the built-in Prometheus metrics on a regular basis to determine if a function should be scaled to zero. Only functions with a label of `com.openfaas.scale.zero=true` are scaled to zero, all others are ignored. Functions are scaled to zero through the OpenFaaS REST API.
 
-The [faas-idler](https://github.com/openfaas-incubator/faas-idler) is deployed by default with Kubernetes and Swarm, but runs in a "dryRun" mode. To have it make actual changes to the functions, update the `dryRun` mode to "false".
+The [faas-idler](https://github.com/openfaas/faas-idler) is deployed by default with Kubernetes and Swarm, but runs in a "dryRun" mode. To have it make actual changes to the functions, update the `dryRun` mode to "false".
 
 #### 2) OpenFaaS REST API
 

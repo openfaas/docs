@@ -16,24 +16,22 @@ Each provider implements the following behaviours:
 
 ## Official Providers
 
-### Kubernetes Providers
+### Kubernetes Provider
 
-[`faas-netes`](https://github.com/openfaas/faas-netes) is the official OpenFaaS provider for [Kubernetes](https://kubernetes.io/) bundled with the Helm chart.
+[`faas-netes`](https://github.com/openfaas/faas-netes) is the official OpenFaaS provider for [Kubernetes](https://kubernetes.io/) bundled with the Helm chart. It also provides a Function CRD using the `-operator=true` flag.
 
-[`openfaas-operator`](https://github.com/openfaas-incubator/openfaas-operator) a [Kubernetes Operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) which also provides a CRD, also available as an option in the helm chart.
+### faasd providers
 
-### Docker Swarm Provider
+[`faasd`](https://github.com/openfaas/faasd) OpenFaaS for a single node, without clustering. It's very fast cold-starts, very cheap to run.
+
+### Docker Swarm Provider (deprecated)
 
 [`faas-swarm`](https://github.com/openfaas/faas-swarm) is the official OpenFaaS provider for [Docker Swarm](https://docs.docker.com/swarm/overview/).
 
-### faas-memory
+### faas-memory (example)
 
 The [`faas-memory`](https://github.com/openfaas-incubator/faas-memory) provider uses an in-memory store for state and is provided for for testing purposes and and as an example.
 
 ## Community Providers
 
 View a list of [Community Providers here](https://github.com/openfaas/faas/blob/master/community.md#openfaas-providers)
-
-## Discussion and getting more information
-
-Join the `#faas-provider` channel on [OpenFaaS Slack](https://docs.openfaas.com/community/)

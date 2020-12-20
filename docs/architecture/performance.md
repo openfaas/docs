@@ -40,7 +40,7 @@ Project tuning:
 
 * Watchdog differences
 
-> The [current version of OpenFaaS templates](https://github.com/openfaas/templates) use the original `watchdog` which `forks` processes - a bit like CGI. The newer watchdog [of-watchdog](https://github.com/openfaas-incubator/of-watchdog) is more similar to fastCGI/HTTP and should be used for any benchmarking or performance testing along with one of the newer templates.
+> The [current version of OpenFaaS templates](https://github.com/openfaas/templates) use the original `watchdog` which `forks` processes - a bit like CGI. The newer watchdog [of-watchdog](https://github.com/openfaas/of-watchdog) is more similar to fastCGI/HTTP and should be used for any benchmarking or performance testing along with one of the newer templates.
 
 [Read more on the differences in the docs](http://docs.openfaas.com/architecture/watchdog/)
 
