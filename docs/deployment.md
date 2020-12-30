@@ -2,8 +2,8 @@
 
 OpenFaaS can be deployed to a variety of container orchestrators such as Kubernetes, OpenShift, Docker Swarm or to a single host with faasd.
 
-!!! info "Kubernetes or Swarm?"
-    We recommend using Kubernetes or OpenShift with OpenFaaS. Whilst Docker Swarm will remain an option for the time-being, the ecosystem for Kubernetes is much richer and commercial support is available from OpenFaaS Ltd.
+!!! info "Kubernetes or faasd?"
+    We recommend using Kubernetes or OpenShift when using OpenFaaS for work because it can scale well, and OpenFaaS Ltd can provide commercial support, should you need it. faasd is already being used in production by some companies, but you should make yourself aware of the tradeoffs. Users can move between either deployment option at a later date.
 
 ## PLONK Stack
 
