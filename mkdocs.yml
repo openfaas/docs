@@ -22,8 +22,8 @@
 # Project information
 site_name: OpenFaaS
 site_description: OpenFaaS - Serverless Functions Made Simple
-site_author: OpenFaaS Project
-site_url: https://www.openfaas.com/
+site_author: OpenFaaS Authors
+site_url: https://docs.openfaas.com/
 
 # Repository
 repo_name: openfaas/faas
