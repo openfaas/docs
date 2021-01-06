@@ -24,12 +24,11 @@ The minimum (initial) and maximum replica count can be set at deployment time by
 
 * `com.openfaas.scale.factor` by default this is set to `20%` and has to be a value between 0-100 (including borders)
 
-* `com.openfaas.scale.zero` - set to `true` for scaling to zero, faas-idler must also be deployed and set to `dryRun=false`
+* `com.openfaas.scale.zero` - set to `true` for scaling to zero, faas-idler must also be deployed which is part of OpenFaaS PRO
 
 > Note: 
 Setting `com.openfaas.scale.min` and `com.openfaas.scale.max` to the same value, allows to disable the auto-scaling functionality of openfaas. 
 Setting `com.openfaas.scale.factor=0` also allows to disable the auto-scaling functionality of openfaas.
-
 
 For each alert fired the auto-scaler will add a number of replicas, which is a defined percentage of the max replicas. This percentage can be set using `com.openfaas.scale.factor`. For example setting `com.openfaas.scale.factor=100` will instantly scale to max replicas. This label enables to define the overall scaling behavior of the function.
 
@@ -79,7 +78,7 @@ There are two approaches available for idling functions:
 
 You can use the faas-idler which is available with [OpenFaaS PRO](https://openfaas.com/support). `faas-idler` allows some basic presents to be configured and then monitors the built-in Prometheus metrics on a regular basis to determine if a function should be scaled to zero. Only functions with a label of `com.openfaas.scale.zero=true` are scaled to zero, all others are ignored. Functions are scaled to zero through the OpenFaaS REST API.
 
-To have it make actual changes to the functions, update the `dryRun` mode to "false".
+If you wish to only observe which functions would have been scaled down - pass the "-read-only" flag, or set this via the helm chart.
 
 #### 2) OpenFaaS REST API
 
