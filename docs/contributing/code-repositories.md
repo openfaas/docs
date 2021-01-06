@@ -31,13 +31,10 @@ Some people have wrongly assumed that the "incubator" organisation means that th
 
 | Repository        | Headline                         |
 |:------------------|:---------------------------------|
-| [of-watchdog](https://github.com/openfaas-incubator/of-watchdog)              | The OpenFaaS watchdog re-written with mode-abstractions for both STDIO & HTTP |
-| [faas-idler](https://github.com/openfaas-incubator/faas-idler)         | Scale OpenFaaS functions to zero replicas after specified period of inactivity   |
-| [openfaas-operator](https://github.com/openfaas-incubator/openfaas-operator)         | The OpenFaaS CRD Operator for Kubernetes   |
-| [kafka-connector](https://github.com/openfaas-incubator/kafka-connector)         | The Kafka connector connects OpenFaaS functions to Kafka topics   |
-| [ofc-bootstrap](https://github.com/openfaas-incubator/ofc-bootstrap) | "one-click" CLI to install OpenFaaS Cloud on Kubernetes |
-| [ingress-operator](https://github.com/openfaas-incubator/ingress-operator/) | Provides `FunctionIngress` CRD for Custom Domains on Kubernetes |
-| [connector-sdk](https://github.com/openfaas-incubator/connector-sdk)         | Build your own event connectors for OpenFaaS |
+| [of-watchdog](https://github.com/openfaas/of-watchdog)              | The OpenFaaS watchdog re-written with mode-abstractions for both STDIO & HTTP |
+| [ofc-bootstrap](https://github.com/openfaas/ofc-bootstrap) | "one-click" CLI to install OpenFaaS Cloud on Kubernetes |
+| [ingress-operator](https://github.com/openfaas/ingress-operator/) | Provides `FunctionIngress` CRD for Custom Domains on Kubernetes |
+| [connector-sdk](https://github.com/openfaas/connector-sdk)         | Build your own event connectors for OpenFaaS |
 | [vcenter-connector](https://github.com/openfaas-incubator/vcenter-connector) | Trigger OpenFaaS Functions from events in VMware vCenter |
 | [faas-federation](https://github.com/openfaas-incubator/faas-federation) | Federate two OpenFaaS installations into one API |
 | [faas-memory](https://github.com/openfaas-incubator/faas-memory) | An OpenFaaS Provider example using memory for state. |
@@ -46,17 +43,15 @@ Some people have wrongly assumed that the "incubator" organisation means that th
 
 | Repository        | Headline                         |
 |:------------------|:---------------------------------|
-| [workshop-vscode](https://github.com/openfaas-incubator/workshop-vscode) | Run a Kubernetes workshop with VSCode in the browser |
-| [openfaas-linkerd2](https://github.com/openfaas-incubator/openfaas-linkerd2) | Lightweight Serverless on Kubernetes with mTLS and traffic-splitting with Linkerd2 |
+| [workshop-vscode](https://github.com/openfaas/workshop-vscode) | Run a Kubernetes workshop with VSCode in the browser |
+| [openfaas-linkerd2](https://github.com/openfaas/openfaas-linkerd2) | Lightweight Serverless on Kubernetes with mTLS and traffic-splitting with Linkerd2 |
 | [openfaas-function-auth](https://github.com/openfaas-incubator/openfaas-function-auth) | Examples of authentication in OpenFaaS Serverless functions. |
 
 ### Templates
 
 | Repository        | Headline                         |
 |:------------------|:---------------------------------|
-| [node10-express-template](https://github.com/openfaas-incubator/node10-express-template) | Node.js 10 Express template providing additional context and control over the HTTP response from your function |
-| [node10-express-service](https://github.com/openfaas-incubator/node10-express-service) | Template with Node.js and Express.js exposed fully |
-| [node8-express-template](https://github.com/openfaas-incubator/node8-express-template) | Node.js 8 template for OpenFaaS with HTTP via Express.js |
+| [templates](https://github.com/openfaas/templates)         | Official templates for OpenFaaS CLI used to scaffold a new function |
 | [golang-http-template](https://github.com/openfaas-incubator/golang-http-template) | Golang template providing additional control over the HTTP request and response.|
 | [powershell-http](https://github.com/openfaas-incubator/powershell-http-template) | PowerShell HTTP template |
 | [ruby-http](https://github.com/openfaas-incubator/ruby-http) | A Ruby HTTP template for OpenFaaS |
