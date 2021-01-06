@@ -80,7 +80,6 @@ kubectl top pod -n openfaas
 NAME                                 CPU(cores)   MEMORY(bytes)   
 alertmanager-666c65c694-k8q6h        2m           10Mi            
 basic-auth-plugin-6d97c6dc5b-rbw29   1m           4Mi             
-faas-idler-67f9dcd4fc-85rbt          1m           4Mi             
 gateway-7c687d498f-nvjh8             4m           21Mi            
 nats-d4c9d8d95-fxrc2                 1m           6Mi             
 prometheus-549c7d687d-zznmq          9m           41Mi            
