@@ -571,6 +571,44 @@ $ echo 'OpenFaaS' | faas-cli invoke ruby-function
 ...
 ```
 
+#### Ruby HTTP
+
+As an alternative to the `ruby` template, which uses the classic watchdog, we have an alternative where you can set HTTP response headers.
+
+```
+faas-cli template store pull ruby-http
+
+faas-cli new --lang ruby-http k8s-get-pods
+```
+
+To add support for native dependencies such as kubeclient, you need to add the `dev` package to the `build_options`:
+
+```yaml
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  k8s-get-pods:
+    lang: ruby-http
+    handler: ./k8s-get-pods
+    image: k8s-get-pods:latest
+    build_options:
+    - dev
+```
+
+Then update your Gemfile:
+
+```
+source 'https://rubygems.org'
+
+gem "kubeclient"
+```
+
+```
+faas-cli build -f k8s-get-pods.yml
+```
+
 #### PHP7
 
 To create a PHP7 function named `my-function` type in:
