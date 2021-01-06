@@ -26,17 +26,18 @@ OpenFaaS users can subscribe to a weekly Community Newsletter called Insiders Up
 
 ## Governance
 
-OpenFaaS is an independent open-source project created by [Alex Ellis](https://www.alexellis.io), which is being built and shaped by a [growing community of contributors](https://www.openfaas.com/team/).
+The core of OpenFaaS is an independent open-source project originally created by [Alex Ellis](https://www.alexellis.io) in 2016. It is now being built and shaped by a [growing community of contributors and end-users](https://www.openfaas.com/team/).
 
 OpenFaaS is hosted by OpenFaaS Ltd (registration: 11076587), a company which also offers commercial services, homepage sponsorships, and support. OpenFaaS &reg; is a registered trademark in England and Wales.
 
-## Support for OpenFaaS
+### Support for OpenFaaS
 
-The source code for OpenFaaS is free to use and open source under the terms of the MIT license.
+In addition to the core Open Source projects, OpenFaaS Ltd offers:
 
-OpenFaaS Ltd offers [commercial support and enterprise add-ons](https://www.openfaas.com/support) for end-users and [training and consulting services for Cloud and Kubernetes](https://www.openfaas.com/consulting).
+* [commercial support and enterprise add-ons](https://www.openfaas.com/support) such as OpenFaaS PRO
+* [training and consulting services for Cloud and Kubernetes](https://www.openfaas.com/consulting) for end-users
 
-## Users of OpenFaaS
+### Users of OpenFaaS
 
 Several dozen end-user companies have given permission for their logo to be used on [openfaas.com](https://www.openfaas.com), you can find specific information about use-cases in the [ADOPTERS.md](https://github.com/openfaas/faas/blob/master/ADOPTERS.md) file and on the [OpenFaaS blog](https://www.openfaas.com/blog/).
 
@@ -104,7 +105,7 @@ If you'd like to join OpenFaaS community Slack channel to chat with contributors
 
 ## Contributing
 
-OpenFaaS is written in Golang and is MIT licensed - contributions are welcomed whether that means providing feedback, testing existing and new feature or hacking on the source.
+OpenFaaS is written in Golang and contributions are welcomed from end-users and the community. It could mean providing feedback through testing features, proposing enhancements, or getting involved with the maintenance of almost to 40 projects.
 
 * View the [contributing page](/community/#contribute)
 
