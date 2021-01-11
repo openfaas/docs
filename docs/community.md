@@ -1,11 +1,5 @@
 # OpenFaaS Community
 
-## Community resources
-
-Blog posts, upcoming/past events and code examples are available on the community resources page indexed by year. Please send us a Pull Request!
-
-* [OpenFaaS Community Page](https://github.com/openfaas/faas/blob/master/community.md)
-
 ## Slack Workspace
 
 Guidelines for using Slack:
@@ -24,11 +18,15 @@ Channels:
 
 Fill out [this form to join](https://goo.gl/forms/SqpLSdyzVoOboRqs1).
 
-## Consulting and commercial users
+## Getting help
+
+The GitHub repositories can be a rich source of information, but you are encouraged to ask your support questions through Slack and keep the issue tracker for flagging issues with the code or release and for proposing features to support your use-case.
+
+### Consulting and commercial users
 
 Consulting and priority support is available [for OpenFaaS Ltd customers](https://openfaas.com/support/).
 
-## Community Insiders Program and GitHub Sponsors
+### Community Insiders Program and GitHub Sponsors
 
 Find out how you can get exclusive updates and offers directly from the project lead.
 
@@ -36,22 +34,24 @@ Join 150+ other developers in supporting the continued work of OpenFaaS.
 
 [Become an Insider via GitHub Sponsors](https://github.com/sponsors/alexellis)
 
-## SWAG Store
+### SWAG Store
 
 Buy t-shirts, mugs, hoodies and more from the SWAG store.
 
 [OpenFaaS Ltd SWAG Store](https://store.openfaas.com)
 
-## Social media
+## Community resources
+
+Blog posts, upcoming/past events and code examples are available on the community resources page indexed by year. Please send us a Pull Request!
+
+* [OpenFaaS Community Page](https://github.com/openfaas/faas/blob/master/community.md)
+
+### Social media
 
 * Twitter: [@OpenFaaS](https://twitter.com/openfaas)
 * LinkedIn: [#TeamServerless Group](https://www.linkedin.com/groups/13670843/)
 
-### Slack vs. GitHub issues
-
-The GitHub repositories can be a rich source of information, but you are encouraged to ask your support questions through Slack and keep the issue tracker for flagging issues with the code or release and for proposing features to support your use-case. 
-
-## Contribute
+### Contribute
 
 * How do I become a contributor?
 
@@ -59,7 +59,7 @@ Anyone is invited to contribute to the project in-line with the [contribution gu
 
 Start here: [Contribute to the project](./contributing/get-started.md)
 
-## Press-kit/media/swag
+### Press-kit/media/swag
 
 For stickers, swag, media or press-kit information head over to [openfaas/media](https://github.com/openfaas/media/blob/master/README.md)
 
