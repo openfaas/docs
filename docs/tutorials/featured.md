@@ -21,7 +21,6 @@ See also: [performance testing](/architecture/performance/) and [going to produc
 * [Get storage for your Severless Functions with Minio & Docker](https://blog.alexellis.io/openfaas-storage-for-your-functions/)
 * [Micro-tutorial for Redis and Node.js](https://gist.github.com/alexellis/e05a7b573ae22b209f0214d5766ff07e)
 * [Staying on topic: trigger your OpenFaaS functions with Apache Kafka](https://www.openfaas.com/blog/kafka-connector/)
-* [GitHub Actions for OpenFaaS](https://lucasroesler.com/2019/09/action-packed-functions/)
 
 ## OpenFaaS Cloud
 

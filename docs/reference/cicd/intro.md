@@ -64,4 +64,4 @@ Examples with Docker-in-Docker: [Jenkins Pipeline examples](../jenkins/)
 
 ### GitHub Actions
 
-* [GitHub Actions for OpenFaaS](https://lucasroesler.com/2019/09/action-packed-functions/) by Lucas Roesler
+* [Build and deploy OpenFaaS functions with GitHub Actions](https://www.openfaas.com/blog/openfaas-functions-with-github-actions/) By Utsav Anand
