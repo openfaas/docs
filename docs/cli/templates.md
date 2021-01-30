@@ -395,6 +395,19 @@ This is useful where the original body needs to be passed to the function code w
     RAW_BODY: true
 ```
 
+##### Node.js 12 `node12` - Set max raw request body size
+Change the maximum size of a RAW request body by setting the environment variable `MAX_RAW_SIZE`. The default value is `'100kb'`
+> Note: the value must be enclosed in quotes `'` `'`
+
+This is useful when the function is expected to receive large amounts of data in a single request. For instance, when working with large data sets and complex object types. This value is applied irrespective of RAW_BODY e.g. when `Content-Type: application/octet-stream`.
+
+
+```yaml
+  environment:
+    MAX_RAW_SIZE: '5mb'
+```
+
+
 ##### Node.js 12 `node12` - Set max json request body size
 Change the maximum size of a JSON request body by setting the environment variable `MAX_JSON_SIZE`. The default value is `'100kb'`
 > Note: the value must be enclosed in quotes `'` `'`
