@@ -10,6 +10,10 @@ Once you've installed the `faas-cli` you can start creating and deploying functi
 
 The `faas-cli up` command automates all of the above in a single command.
 
+For Raspberry Pi and ARM, you must use the `publish` command instead of `build` and `push`, or `up`.
+
+See the notes here: [Building multi-arch images for ARM and Raspberry Pi](/cli/build/)
+
 ## Templates
 
 The OpenFaaS CLI has a template engine built-in which can create new functions in a given programming language. The way this works is by reading a list of templates from the `./template` location in your current working folder.

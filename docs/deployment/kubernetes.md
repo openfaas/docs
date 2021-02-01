@@ -137,30 +137,27 @@ A Helm chart is provided in the `faas-netes` repository. Follow the link below t
         
         See the [Chart readme](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md#deployment-with-helm-template) for how to generate your own static YAML files using `helm template`.
 
-#### Notes for Raspberry Pi & 32-bit ARM (armhf)
+### Using Raspberry Pi and ARM
 
-Use `arkade` to install OpenFaaS, it will determine the correct files to use to install OpenFaaS.
+Use `arkade` to install OpenFaaS, it will determine the correct files and container images to install OpenFaaS on an ARM device.
+
+To build and deploy images for Raspberry Pi and ARM, see the notes here: [Building multi-arch images for ARM and Raspberry Pi](/cli/build/)
 
 For a complete tutorial (including OpenFaaS) see:
 
 * Tutorial: [Walk-through — install Kubernetes to your Raspberry Pi in 15 minutes](https://medium.com/p/walk-through-install-kubernetes-to-your-raspberry-pi-in-15-minutes-84a8492dc95a)
 * Video: [Kubernetes Homelab with Raspberry Pi 4](https://www.youtube.com/watch?v=qsy1Gwa-J5o)
 
-When creating new functions you will need to run the build on an armhf host.
-
-> Note: expert users can create or use [multi-arch templates](https://github.com/alexellis/multiarch-templates) which can build on a PC and deploy to an armhf host.
-
-* You can run `faas-cli deploy` from any computer using `--gateway` or `OPENFAAS_GATEWAY`
-* But you must build Docker images on a Raspberry Pi, not on your PC or laptop. 
-
-For the Function Store, use the following:
+For the Function Store, use the `--platform` flag to filter to compatible images:
 
 ```bash
+export OPENFAAS_URL=http://IP:8080/
+
 faas-cli store list --platform armhf
-faas-cli store deploy NAME
+faas-cli store deploy NAME --platform armhf
 ```
 
-Instructions are almost identical for ARM64 users, but use `--platform arm64` instead.
+For 64-bit ARM OSes use `--platform arm64` instead.
 
 ### Getting help, expert installations and proof-of-concepts 
 

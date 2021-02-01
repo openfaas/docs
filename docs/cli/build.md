@@ -20,6 +20,44 @@ When it comes to continuous integration and delivery you can use the `faas-cli` 
 
 If you are using an alternative container image builder or are automating the `faas-cli` then you can use the `--shrinkwrap` flag which will produce a folder named `./build/function-name` with a Dockerfile. This bundle can be used with any container builder.
 
+## Building multi-arch images for ARM and Raspberry Pi
+
+If you're Raspberry Pi or ARM servers to run your OpenFaaS on Kubernetes or with faasd server, then you will need to use the `publish` command instead which uses emulation and in some templates cross-compilation to build an ARM image from your PC.
+
+> It is important that you do not install Docker or any build tools on your faasd instance. faasd is a server to serve your functions, and should be treated as such.
+
+The technique used for cross-compilation relies on Docker's [buildx](https://docs.docker.com/buildx/working-with-buildx/) extension and [buildkit project](https://docs.docker.com/develop/develop-images/build_enhancements/). This is usually pre-configured with Docker Desktop, and Docker CE when installed on an Ubuntu system.
+
+First install the QEMU utilities which allow for cross-compilation:
+
+```bash
+$ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+```
+
+Now run this command on your laptop or workstation, not on the Raspberry Pi:
+
+```bash
+faas-cli publish -f stack.yml --platforms linux/arm/v7
+```
+
+If you're running a 64-bit ARM OS like Ubuntu, then use:
+
+```bash
+faas-cli publish -f stack.yml --platforms linux/arm64
+```
+
+You can also add multiple platforms to publish an image which will run on an ARM device, and on a regular Intel host:
+
+```bash
+faas-cli publish -f stack.yml --platforms linux/arm/v7,linux/amd64
+```
+
+Then deploy the function:
+
+```bash
+faas-cli deploy -f stack.yml
+```
+
 ## 1.0 Apply build options
 
 The OpenFaaS CLI enables functions to be built with different options, e.g. `dev`, `debug`, etc.
