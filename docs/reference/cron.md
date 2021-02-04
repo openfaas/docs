@@ -37,7 +37,7 @@ spec:
         spec:
           containers:
           - name: openfaas-cli
-            image: openfaas/faas-cli:latest
+            image: ghcr.io/openfaas/faas-cli:latest
             imagePullPolicy: IfNotPresent
             command:
             - /bin/sh
@@ -47,7 +47,7 @@ spec:
           restartPolicy: OnFailure
 ```
 
-You should also update the `image` to the latest version of the `faas-cli` available found via the [Docker Hub](https://hub.docker.com/r/openfaas/faas-cli/tags/) or [faas-cli releases](https://github.com/openfaas/faas-cli/releases) page.
+You should also update the `image` to the latest version of the `faas-cli` available found via the [GitHub Container Registry](https://github.com/orgs/openfaas/packages/container/package/faas-cli) or [faas-cli releases](https://github.com/openfaas/faas-cli/releases) page.
 
 The important thing to notice is that we are using a Docker container with the `faas-cli` to invoke the function. This keeps the job very generic.
 
@@ -147,7 +147,7 @@ spec:
         spec:
           containers:
           - name: openfaas-cli
-            image: openfaas/faas-cli:latest
+            image: ghcr.io/openfaas/faas-cli:latest
             env:
               - name: USERNAME
                 valueFrom:
