@@ -390,6 +390,7 @@ module.exports = (event, context) => {
 ```
 
 ##### Node.js 12 `node12` - Access to the raw body
+
 Set the environment variable `RAW_BODY` to `true` to set the `context.body` to the original request body rather than the default behavior of parsing it as JSON.
 
 This is useful where the original body needs to be passed to the function code without any parsing or processing. For instance, when working with binary data, or verifying the signature of a webhook.
@@ -399,7 +400,16 @@ This is useful where the original body needs to be passed to the function code w
     RAW_BODY: true
 ```
 
+The raw body has a default maximum of 100KB to prevent abuse from users. This can be configured manually to deal with larger payloads:
+
+```yaml
+  environment:
+    RAW_BODY: true
+    MAX_RAW_BODY: 512kb
+```
+
 ##### Node.js 12 `node12` - Set max json request body size
+
 Change the maximum size of a JSON request body by setting the environment variable `MAX_JSON_SIZE`. The default value is `'100kb'`
 > Note: the value must be enclosed in quotes `'` `'`
 
