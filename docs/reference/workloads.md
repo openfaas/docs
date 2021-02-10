@@ -106,7 +106,7 @@ You can then access the service at: `http://127.0.0.1:8080/function/node-service
 
 When using Kubernetes, OpenFaaS workloads can assume a ServiceAccount in the namespace in which they are deployed.
 
-For example if a workload needed to read logs from the Kubernetes API usng a ServiceAccount named `function-logs-sa`, you could bind it in this way:
+For example if a workload needed to read logs from the Kubernetes API using a ServiceAccount named `function-logs-sa`, you could bind it in this way:
 
 *stack.yml*
 
