@@ -2,19 +2,26 @@
 
 Via an extensible API, OpenFaaS provides access to function logs via the Gateway API and the CLI. This provides a simple and consistent way to access function logs regardless of your orchestration provider.
 
-
 The official `faas-swarm` and `faas-netes` providers stream logs directly from the cluster API, this means that you will get the same logs as when you use `docker service logs` and `kubectl logs`. OpenFaaS only wraps wraps the existing container-native log systems, so you can always access function logs via the orchestration CLIs.
 
 The `faas-cli logs NAME` command will stream the logs for the named function.  By default, it will attempt to follow the logs, but you can control the behavior of the stream using these flags
 
 ```sh
---follow                 continue printing new logs until the end of the request, up to 30s (default true)
---since duration         return logs newer than a relative duration like 5s
---since-time timestamp   include logs since the given timestamp (RFC3339)
---tail int               number of recent log lines file to display. Defaults to -1, unlimited if <=0 (default -1)
+  -g, --gateway string           Gateway URL starting with http(s):// (default "http://127.0.0.1:8080")
+  -h, --help                     help for logs
+      --instance                 print the function instance name/id
+      --lines int                number of recent log lines file to display. Defaults to -1, unlimited if <=0 (default -1)
+      --name                     print the function name
+  -n, --namespace string         Namespace of the function
+  -o, --output logformat         output logs as (plain|keyvalue|json), JSON includes all available keys
+      --since duration           return logs newer than a relative duration like 5s
+      --since-time timestamp     include logs since the given timestamp (RFC3339)
+  -t, --tail                     tail logs and continue printing new logs until the end of the request, up to 30s (default true)
+      --time-format timeformat   string format for the timestamp, any value go time format string is allowed, empty will not print the timestamp (default 2006-01-02T15:04:05Z07:00)
 ```
 
 ## Log structure
+
 The logs for a function will look
 
 ```
@@ -29,6 +36,14 @@ An example log output for `nodeinfo` from the function store is
 2019-07-21 07:57:14.437219758 +0000 UTC nodeinfo (nodeinfo-867cc95845-p9882) 2019/07/21 07:57:14 Wrote 92 Bytes - Duration: 0.121959 seconds
 ```
 
+You can also get logs in JSON format:
+
+```bash
+$ faas-cli logs trove --format json
+
+{"name":"trove","namespace":"openfaas-fn","instance":"9174","timestamp":"2021-02-12T17:01:03.088068Z","text":"User requested \"Insiders Update: 1st Feb 2020 - Java, KubeCon, Istio, Crossplane and more!\""}
+```
+
 ## Filter and Search
 
 The CLI writes logs to stdout, so it can easily be chained with any of your favorite CLI tools: `grep`, `sed`, [`fzf`](https://github.com/junegunn/fzf) etc.
@@ -40,6 +55,7 @@ faas-cli store deploy SentimentAnalysis --env write_debug=true
 echo "i like code" | faas-cli invoke sentimentanalysis
 echo "i like functions" | faas-cli invoke sentimentanalysis
 echo "i like containers" | faas-cli invoke sentimentanalysis
+
 faas-cli logs sentimentanalysis | grep sentence_count
 2019-07-22 12:44:08.202436478 +0000 UTC sentimentanalysis (sentimentanalysis-7887c5d8c5-5rnb5) {"polarity": 0.0, "sentence_count": 1, "subjectivity": 0.0}
 2019-07-22 12:44:10.11422064 +0000 UTC sentimentanalysis (sentimentanalysis-7887c5d8c5-5rnb5) {"polarity": 0.0, "sentence_count": 1, "subjectivity": 0.0}
