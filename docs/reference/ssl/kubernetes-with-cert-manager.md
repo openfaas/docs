@@ -267,24 +267,26 @@ This part builds on part 1.0 and now enables custom domains for any of your func
 
 For example, rather than accessing a function `nodeinfo` via `https://gw.example.com/function/nodeinfo`, you can now use a custom URL such as: `https://nodeinfo.example.com`.
 
-The [IngressOperator](https://github.com/openfaas-incubator/ingress-operator) introduces a new CRD (Custom Resource Definition) called `FunctionIngress`. The role of `FunctionIngress` is to create an `Ingress` Kubernetes object to map a function to a domain-name, and optionally to also provision a TLS certificate using cert-manager.
+The [IngressOperator](https://github.com/openfaas/ingress-operator) introduces a new CRD (Custom Resource Definition) called `FunctionIngress`. The role of `FunctionIngress` is to create an `Ingress` Kubernetes object to map a function to a domain-name, and optionally to also provision a TLS certificate using cert-manager.
 
 ### Deploy the IngressOperator
 
-You can install the ingress-operator by passing `--set ingressOperator.create=true` to the helm chart at the installation time of OpenFaaS.
+You can install the [ingress-operator](https://github.com/openfaas/ingress-operator) by passing `--set ingressOperator.create=true` to the helm chart at the installation time of OpenFaaS.
 
-[arkade](https://get-arkade.dev/) can also set this flag via `--ingress-operator`
+Alternatively, use [arkade](https://get-arkade.dev):
 
-```sh
+```bash
 curl -sSL https://dl.get-arkade.dev | sudo sh
 
-arkade install openfaas --ingress-operator
+arkade install openfaas \
+  --ingress-operator
 ```
 
 Check that the Operator started correctly:
 
-```
-kubectl get deploy/ingress-operator -n openfaas -o wide
+```bash
+kubectl get deploy/ingress-operator \
+  -n openfaas -o wide
 ```
 
 If it's working, you will see `AVAILABLE` showing `1`. Otherwise use `kubectl logs` or `kubectl get events` for more information.
@@ -458,7 +460,7 @@ spec:
 
 #### What about IngressController X?
 
-Feel free to raise a feature request for your IngressController on the [GitHub repo](https://github.com/openfaas-incubator/ingress-operator).
+Feel free to raise a feature request for your IngressController on the [GitHub repo](https://github.com/openfaas/ingress-operator).
 
 [k8s-rbac]: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
 [helm]: https://helm.sh
