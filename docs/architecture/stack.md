@@ -23,6 +23,6 @@ Prometheus collects metrics which are available via the Gateway's API and which 
 
 By changing the URL for a function from `/function/NAME` to `/async-function/NAME` an invocation can be run in a queue using NATS Streaming. You can also pass an optional callback URL.
 
-[faas-netes](https://github.com/openfaas/faas-netes/) is the most popular orchestration provider for OpenFaaS, but Docker Swarm, Hashicorp Nomad, AWS Fargate/ECS, and AWS Lambda are also available. Providers are built with the [faas-provider SDK](https://github.com/openfaas/faas-provider).
+[faas-netes](https://github.com/openfaas/faas-netes/) is the most popular orchestration provider for OpenFaaS, but Docker Swarm, Hashicorp Nomad, AWS Fargate/ECS, and AWS Lambda have also been developed by the community. Providers are built with the [faas-provider SDK](https://github.com/openfaas/faas-provider).
 
 See also: [Gateway architecture](/architecture/gateway/), [Autoscaling](/architecture/autoscaling/), [Asynchronous invocations](/reference/async/), and [Going to production](/architecture/production/)

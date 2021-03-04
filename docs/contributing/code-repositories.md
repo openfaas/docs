@@ -14,30 +14,27 @@ For this reason you should always collate statistics from the `openfaas` organis
 | [docs](https://github.com/openfaas/docs)              | Official docs repository for this site - i.e. https://docs.openfaas.com             |
 | [faas](https://github.com/openfaas/faas)              | Main repository for project issues, suggestions, documentation and roadmap/backlog items. Also includes UI portal and API gateway |
 | [faas-netes](https://github.com/openfaas/faas-netes)        | Kubernetes provider for OpenFaaS contains YAML and helm for deployment |
-| [faas-swarm](https://github.com/openfaas/faas-swarm)        | Docker Swarm provider for OpenFaaS contains a stack file for deployment |
 | [faas-cli](https://github.com/openfaas/faas-cli)          | CLI for operating with OpenFaaS similar to `kubectl` or `docker` CLI    |
 | [templates](https://github.com/openfaas/templates)         | Official templates for OpenFaaS CLI used to scaffold a new function |
 | [nats-queue-worker](https://github.com/openfaas/nats-queue-worker) | Asynchronous processing for deferred / queued work with OpenFaaS, based upon NATS Streaming |
 | [media](https://github.com/openfaas/media)             | Press-kit and media for the project branding and swag             |
 | [openfaas.github.io](https://github.com/openfaas/openfaas.github.io)               | Source for https://www.openfaas.com and blog |
-| [openfaas-cloud](https://github.com/openfaas/openfaas-cloud)        | OpenFaaS Cloud - portable, multi-user Serverless Functions powered by GitOps |
 | [workshop](https://github.com/openfaas/workshop)             | Practical training and hands-on labs for learning OpenFaaS |
-
-### OpenFaaS Incubator
-
-The [openfaas-incubator organisation](https://github.com/openfaas-incubator/) contains projects which are under active development.
-
-Some people have wrongly assumed that the "incubator" organisation means that these projects have a special status, or that they are unsuitable for production. Projects that are unsuitable for production usage will say so in their readme file as part of the project status.
-
-| Repository        | Headline                         |
-|:------------------|:---------------------------------|
 | [of-watchdog](https://github.com/openfaas/of-watchdog)              | The OpenFaaS watchdog re-written with mode-abstractions for both STDIO & HTTP |
-| [ofc-bootstrap](https://github.com/openfaas/ofc-bootstrap) | "one-click" CLI to install OpenFaaS Cloud on Kubernetes |
 | [ingress-operator](https://github.com/openfaas/ingress-operator/) | Provides `FunctionIngress` CRD for Custom Domains on Kubernetes |
 | [connector-sdk](https://github.com/openfaas/connector-sdk)         | Build your own event connectors for OpenFaaS |
 | [vcenter-connector](https://github.com/openfaas-incubator/vcenter-connector) | Trigger OpenFaaS Functions from events in VMware vCenter |
-| [faas-federation](https://github.com/openfaas-incubator/faas-federation) | Federate two OpenFaaS installations into one API |
 | [faas-memory](https://github.com/openfaas-incubator/faas-memory) | An OpenFaaS Provider example using memory for state. |
+
+### Deprecated
+
+| Repository        | Headline                         |
+|:------------------|:---------------------------------|
+| [faas-swarm](https://github.com/openfaas/faas-swarm)        | Docker Swarm provider for OpenFaaS contains a stack file for deployment |
+| [openfaas-cloud](https://github.com/openfaas/openfaas-cloud)        | OpenFaaS Cloud - portable, multi-user Serverless Functions powered by GitOps |
+| [ofc-bootstrap](https://github.com/openfaas/ofc-bootstrap) | "one-click" CLI to install OpenFaaS Cloud on Kubernetes |
+| [faas-federation](https://github.com/openfaas-incubator/faas-federation) | Federate two OpenFaaS installations into one API |
+
 
 ### Training & tutorials
 
