@@ -2,7 +2,7 @@
 
 Via an extensible API, OpenFaaS provides access to function logs via the Gateway API and the CLI. This provides a simple and consistent way to access function logs regardless of your orchestration provider.
 
-The official `faas-swarm` and `faas-netes` providers stream logs directly from the cluster API, this means that you will get the same logs as when you use `docker service logs` and `kubectl logs`. OpenFaaS only wraps wraps the existing container-native log systems, so you can always access function logs via the orchestration CLIs.
+The log provider for Kubernetes `faas-netes` fetches records directly from the Kubernetes API, so it will give similar output to `kubectl logs -n openfaas-fn deploy/function`.
 
 The `faas-cli logs NAME` command will stream the logs for the named function.  By default, it will attempt to follow the logs, but you can control the behavior of the stream using these flags
 
@@ -64,7 +64,13 @@ faas-cli logs sentimentanalysis | grep sentence_count
 
 ## Log Retention and History
 
-Log retention and history will be determined by your cluster configuration and the log provider installed. The default configuration in the official function providers (`faas-swarm` and `faas-netes`) stream logs directly from the cluster containers. This means that you will only see logs from running function containers, no long term history.  So deleting a function will also remove access to those logs.
+Log retention and history will be determined by your cluster configuration and the log provider installed. The default configuration in the function provider for Kubernetes streams logs directly from the cluster. This means that you will only see logs from running function containers, and no long term history is not available. If you delete a function, you remove access to its logs.
+
+With faasd, logs are stored in the [journal](https://wiki.archlinux.org/index.php/Systemd/Journal), so the retention period lasts beyond the life of a function, however it may be limited by time or the number of lines.
+
+If you want to retain logs over time, consider using a log aggregator like [Elastic Search](https://www.elastic.co/), [Logz.io](https://logz.io) or [Humio](https://www.humio.com) as an external data-store.
+
+[Grafana Loki](https://grafana.com/oss/loki/) can also provide fast access to logs without much additional overhead on the cluster. A log provider exists to enable "faas-cli" and the OpenFaaS API to query an external data-store, instead of Kubernetes itself.
 
 ## Alternative Log Providers
 
