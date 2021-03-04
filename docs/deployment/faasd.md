@@ -12,6 +12,12 @@ faasd is [OpenFaaS](https://github.com/openfaas/) reimagined, but without the co
 
 faasd does not create the same maintenance burden you'll find with maintaining, upgrading, and securing a Kubernetes cluster. You can deploy it and walk away, in the worst case, just deploy a new VM and deploy your functions again.
 
+Watch a video comparing the two:
+
+[![](https://img.youtube.com/vi/ZnZJXI377ak/hqdefault.jpg)](https://www.youtube.com/watch?v=ZnZJXI377ak)
+
+[Meet faasd. Look Ma’ No Kubernetes! - Serverless Summit](https://www.youtube.com/watch?v=ZnZJXI377ak)
+
 ## Deployment
 
 faasd is a static binary which requires a Linux system configured with systemd.
