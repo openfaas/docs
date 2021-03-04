@@ -17,18 +17,24 @@ faasd does not create the same maintenance burden you'll find with maintaining, 
 faasd is a static binary which requires a Linux system configured with systemd.
 
 Minimal system resources are required such as:
+
 * 512MB-1GB RAM
 * 1-4 vCPU cores
 * 10-25GB of disk space
 * The Raspberry Pi 3 and 4 are also supported
 
 Local development/testing:
+
 * Windows and Mac users can use multipass to deploy faasd in a VM
 * Linux users can deploy faasd directly, or also use multipass
 
 Production use:
+
 * Use the bash installation script
 * Deploy using the provided cloud-init script
 * Deploy using terraform, or adapt the terraform examples
 
-See the [project README](https://github.com/openfaas/faasd/) for more.
+### Get started
+
+* Checkout the [faasd course & handbook](https://gumroad.com/l/serverless-for-everyone-else)
+* Browse the [faasd code](https://github.com/openfaas/faasd/) on GitHubs
