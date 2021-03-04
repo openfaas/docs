@@ -35,7 +35,7 @@ kubectl logs -n openfaas deploy/gateway
 Next, check the events in the openfaas namespace:
 
 ```bash
-kubectl get events -n openfaas-fn \
+kubectl get events -n openfaas \
   --sort-by=.metadata.creationTimestamp 
 ```
 
