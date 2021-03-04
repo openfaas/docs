@@ -132,11 +132,6 @@ A Helm chart is provided in the `faas-netes` repository. Follow the link below t
 
 * [OpenFaaS Helm chart](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md)
 
-    !!! note
-        Some users may have concerns about using helm charts due to [security concerns with the `tiller` component](https://engineering.bitnami.com/articles/running-helm-in-production.html). If you fall into this category of users, then don't worry, you can still benefit from the helm chart without using `tiller`.
-        
-        See the [Chart readme](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md#deployment-with-helm-template) for how to generate your own static YAML files using `helm template`.
-
 ### Using Raspberry Pi and ARM
 
 Use `arkade` to install OpenFaaS, it will determine the correct files and container images to install OpenFaaS on an ARM device.
