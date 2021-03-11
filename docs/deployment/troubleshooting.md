@@ -166,3 +166,15 @@ You will need to ensure that you are doing one of the following:
 ### I want to remove OpenFaaS from a cluster
 
 See the [Helm chart instructions](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas)
+
+### How can I use structured logs in my function
+
+By default, the logs will be in the format
+
+```
+<RCF8601 Timestamp> <function name> (<container instance>) <msg>
+```
+
+By setting the environment variable `prefix_logs` to `false` in your function, this will only send the `<msg>` part to the terminal. This allows you to use structured logs that outputs a JSON (or equivalent) payload.
+
+See the [Logs](https://docs.openfaas.com/cli/logs/#structured-logs) documentation for more details.
