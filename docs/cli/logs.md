@@ -76,3 +76,8 @@ If you want to retain logs over time, consider using a log aggregator like [Elas
 
 The log system is designed to be extended with alternative providers, this means that logs could instead be supplied by a persistent storage, e.g. Loki or ElasticSearch.  See the [logs provider overview](../architecture/logs-provider.md) for more details about how providers work and available alternatives.
 
+## Structured Logs
+
+Structured logs are a form of machine-readable logs that treats logs as data sets rather than text which allows logs to be more easily searched and analyzed. Typically, these will be in the form of a JSON object on a single line and will allow you to achieve a high level of granular detail.
+
+Introduced in of-watchdog v0.8.2, you can set the `prefix_logs` environment variable to `false`. This will remove the log prefix for all messages received via stdout/stderr, meaning that only the `<msg>` will be sent to the terminal.
