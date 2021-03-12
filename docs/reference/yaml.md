@@ -161,9 +161,9 @@ This an optional boolean field, set to `false` by default.
 
 ### Function: Constraints
 
-Constraints are passed directly to the underlying container orchestrator. They allow you to pin a function to certain host or type of host.
+Constraints are passed _directly_ to the underlying container orchestrator. They allow you to pin a function to certain host or type of host.
 
-Here is an example of picking only hosts with a Linux OS in Docker Swarm:
+Here is an example of picking only hosts with a Linux OS in _Docker Swarm_:
 
 ```yaml
    constraints:
@@ -176,6 +176,8 @@ Or only using nodes running with Windows:
    constraints:
      - "node.platform.os == windows"
 ```
+
+> Important note: The constraints for Kubernetes must be [nodeSelector](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector)s in the format "<label-key>=<label-value>"
 
 ### Function: Labels
 
