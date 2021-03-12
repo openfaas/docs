@@ -161,9 +161,9 @@ This an optional boolean field, set to `false` by default.
 
 ### Function: Constraints
 
-Constraints are passed directly to the underlying container orchestrator. They allow you to pin a function to certain host or type of host.
+Constraints are passed _directly_ to the underlying container orchestrator. They allow you to pin a function to certain host or type of host.
 
-Here is an example of picking only hosts with a Linux OS in Docker Swarm:
+Here is an example of picking only hosts with a Linux OS in _Docker Swarm_:
 
 ```yaml
    constraints:
@@ -176,6 +176,8 @@ Or only using nodes running with Windows:
    constraints:
      - "node.platform.os == windows"
 ```
+
+> Important note: The constraints for Kubernetes must be [nodeSelector](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector)s in the format "<label-key>=<label-value>"
 
 ### Function: Labels
 
@@ -255,7 +257,7 @@ The meanings and formats of `limits` and `requests` may vary depending on whethe
  - Requests ensures the stated host resource is available for the container to use
  - Limits specify the maximum amount of host resources that a container can consume
 
-See docs for [Docker Swarm](https://docs.docker.com/config/containers/resource_constraints/) or for [Kubernetes](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#how-pods-with-r    esource-limits-are-run).
+See docs for [Docker Swarm](https://docs.docker.com/config/containers/resource_constraints/) or for [Kubernetes](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#how-pods-with-resource-limits-are-run).
 
 ## Configuration
 The configuration section allows you to define additional configuration that is global to the entire stack, currently this mostly impacts function build time options.
