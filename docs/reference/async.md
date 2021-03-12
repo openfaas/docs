@@ -48,7 +48,7 @@ You can use `netcat` to check the Call Id during invocation:
 ```
 $ curl http://127.0.0.1:8080/async-function/figlet \
   --data "Hi" \
-  --header "X-Callback-Urlhttp://<your-ip>:8888"
+  --header "X-Callback-Url: http://<your-ip>:8888"
 ```
 
 ```
