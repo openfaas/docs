@@ -28,13 +28,19 @@ The logs for a function will look
 <RCF8601 Timestamp> <function name> (<container instance>) <msg>
 ```
 
-where `msg` is the container logs, this typically contains stdout and stderr of the _contianer_.
+where `msg` is the container logs, this typically contains stdout and stderr of the _contianer_.  The values of `<RCF8601 Timestamp>`, `<function name>`, `<container instance>` come from the log provider (by default this is the orchestration systems: kubeneretes log API or journalctl).
 
 An example log output for `nodeinfo` from the function store is
 
 ```sh
 2019-07-21 07:57:14.437219758 +0000 UTC nodeinfo (nodeinfo-867cc95845-p9882) 2019/07/21 07:57:14 Wrote 92 Bytes - Duration: 0.121959 seconds
 ```
+Here
+
+* `<RCF8601 Timestamp>` is `2019-07-21 07:57:14.437219758 +0000 UTC`,
+* `<function name>` is `nodeinfo`,
+* `<container instance>` is `nodeinfo-867cc95845-p9882`, and
+* `<msg>` is `2019/07/21 07:57:14 Wrote 92 Bytes - Duration: 0.121959 seconds` where `2019/07/21 07:57:14` is the timestamp prefix and `Wrote 92 Bytes - Duration: 0.121959 seconds` the log message from the watchdog.
 
 You can also get logs in JSON format:
 
@@ -81,3 +87,22 @@ The log system is designed to be extended with alternative providers, this means
 Structured logs are a form of machine-readable logs that treats logs as data sets rather than text which allows logs to be more easily searched and analyzed. Typically, these will be in the form of a JSON object on a single line and will allow you to achieve a high level of granular detail.
 
 Introduced in of-watchdog v0.8.2, you can set the `prefix_logs` environment variable to `false`. This will remove the log prefix for all messages received via stdout/stderr, meaning that only the `<msg>` will be sent to the terminal.
+
+Revisiting the example from earlier, when `prefix_logs = false`, the CLI log output will be
+
+```sh
+2019-07-21 07:57:14.437219758 +0000 UTC nodeinfo (nodeinfo-867cc95845-p9882) Wrote 92 Bytes - Duration: 0.121959 seconds
+```
+Here
+
+* `<RCF8601 Timestamp>` is `2019-07-21 07:57:14.437219758 +0000 UTC`,
+* `<function name>` is `nodeinfo`,
+* `<container instance>` is `nodeinfo-867cc95845-p9882`, and
+* `<msg>` is `Wrote 92 Bytes - Duration: 0.121959 seconds` is the log message from the watchdog.
+
+The CLI allows you to hide the metadata fields, to get _just_ the log message without any metadata, deploy your function with `prefix_logs = false` and use these flags
+
+```
+$ faas-cli logs <function name> --name=false --instance=false --time-format=''
+Wrote 92 Bytes - Duration: 0.121959 seconds
+```
