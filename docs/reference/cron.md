@@ -2,7 +2,7 @@
 
 ## Kubernetes
 
-If you are deploying OpenFaaS to [Kubernetes][k8s], then we can easily run functions as cron jobs using the aptley named [Cron Job resource][k8scron].
+If you are deploying OpenFaaS to [Kubernetes][k8s], then we can easily run functions as cron jobs using the aptly named [Cron Job resource][k8scron].
 
 We assume that you have used the [recommended install of `faas-netes`][faasdeploy] which means that you have OpenFaaS deployed into two namespaces:
 
