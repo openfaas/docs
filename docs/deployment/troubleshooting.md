@@ -36,7 +36,7 @@ Next, check the events in the openfaas namespace:
 
 ```bash
 kubectl get events -n openfaas \
-  --sort-by=.metadata.creationTimestamp 
+  --sort-by=.metadata.creationTimestamp
 ```
 
 Common issues:
@@ -69,7 +69,7 @@ Next, check the events in the openfaas-fn namespace:
 
 ```bash
 kubectl get events -n openfaas-fn \
-  --sort-by=.metadata.creationTimestamp 
+  --sort-by=.metadata.creationTimestamp
 ```
 
 Common issues:
@@ -161,7 +161,7 @@ Alternatively, consider using the [Single-Sign On module from OpenFaaS PRO](http
 You will need to ensure that you are doing one of the following:
 
 * Setting `direct_functions` to false, which allows the provider to balance calls randomly between replicas of your functions.
-* Use a service mesh like Linkerd or Istio, which can do advanced traffic-management such as least-connections 
+* Use a service mesh like Linkerd or Istio, which can do advanced traffic-management such as least-connections
 
 ### I want to remove OpenFaaS from a cluster
 
@@ -169,12 +169,20 @@ See the [Helm chart instructions](https://github.com/openfaas/faas-netes/tree/ma
 
 ### How can I use structured logs in my function
 
-By default, the logs will be in the format
+By default, the watchdog will prefix the function logs with a timestamp
+
+```
+<RCF8601 Timestamp> <msg>
+```
+
+By setting the environment variable `prefix_logs` to `false` in your function, this will only send the `<msg>` part to the terminal. This allows you to use structured logs that outputs a JSON (or equivalent) payload.
+
+Note that the `faas-cli logs` command will still include function metadata in the output
 
 ```
 <RCF8601 Timestamp> <function name> (<container instance>) <msg>
 ```
 
-By setting the environment variable `prefix_logs` to `false` in your function, this will only send the `<msg>` part to the terminal. This allows you to use structured logs that outputs a JSON (or equivalent) payload.
+The values of `<RCF8601 Timestamp>`, `<function name>`, `<container instance>` come from the log provider and are not part of the log message, the fields can be disabled with CLI flags.
 
 See the [Logs](https://docs.openfaas.com/cli/logs/#structured-logs) documentation for more details.
