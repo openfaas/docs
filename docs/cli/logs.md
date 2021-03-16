@@ -28,7 +28,7 @@ The logs for a function will look
 <RCF8601 Timestamp> <function name> (<container instance>) <msg>
 ```
 
-where `msg` is the container logs, this typically contains stdout and stderr of the _contianer_.  The values of `<RCF8601 Timestamp>`, `<function name>`, `<container instance>` come from the log provider (by default this is the orchestration systems: kubeneretes log API or journalctl).
+where `msg` is the container logs, this typically contains stdout and stderr of the _container_.  The values of `<RCF8601 Timestamp>`, `<function name>`, `<container instance>` come from the log provider (by default this is the orchestration systems: Kubernetes log API or journalctl).
 
 An example log output for `nodeinfo` from the function store is
 
