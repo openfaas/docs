@@ -71,13 +71,23 @@ X-Start-Time: 1543915495384346700
 
 Alternatively you can specify another asynchronous or synchronous function to run instead.
 
+#### Configuration & Limits
+
+There are limits for asynchronous functions, which you should understand before using them:
+
+* Timeouts - the timeout for any asynchronous function must "agree" with all other timeouts within the system, including the gateway and the function.
+* Concurrency / parallelism - the amount of function invocations processed at any one time.
+* Named queues - by default there is one queue, but additional queues can be added. Each named queue can have its own timeout and concurrency.
+* Payload size - the maximum size is configured to be 1MB. The limit is defined by NATS, but can be changed. Use a database, or S3 bucket for storing large payloads, and pass an identifier to function calls.
+* Retries - retries are available in [OpenFaaS PRO](https://openfaas.com/support/) with an exponential back-off.
+
 #### Parallelism
 
 By default there is one queue-worker replica deployed which is set up to run a single task of up to 30 seconds in duration.
 
 > You can increase the parallelism by scaling the queue-worker up - i.e. 5 replicas for 5 parallel tasks.
 >
-> Alternatively you can increase the parallelism by setting the queue worker's "max_inflight" option to a value greater than one. This will cause the queue-worker to concurrently receive up to max_inflight many messages and simultaneously invoke their corresponding functions. Should you wish to restrict concurrenty for certain functions, please make use of  [multiple queues](#Multiple-queues) and separate these functions accordingly. When scaling up a queue worker, please be aware that you will get up to 'n * max_inflight' parallel function invocations.
+> Alternatively you can increase the parallelism by setting the queue worker's "max_inflight" option to a value greater than one. This will cause the queue-worker to concurrently receive up to max_inflight many messages and simultaneously invoke their corresponding functions. Should you wish to restrict concurrency for certain functions, please make use of [multiple queues](#Multiple-queues) and separate these functions accordingly. When scaling up a queue worker, please be aware that you will get up to 'n * max_inflight' parallel function invocations.
 
 You can tune the values for the number of tasks each queue worker may run in parallel as well as the maximum duration of any asynchronous task that worker processes. Edit the Kubernetes helm chart, YAML or Swarm docker-compose.yml files.
 
