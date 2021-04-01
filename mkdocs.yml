@@ -58,7 +58,7 @@ theme:
   logo: images/logo.svg
 
 # Copyright
-copyright: "Copyright &copy; 2020 OpenFaaS Author(s)"
+copyright: "Copyright &copy; 2021 OpenFaaS Author(s)"
 
 # Options
 extra:
@@ -121,6 +121,11 @@ nav:
       - Logs: ./cli/logs.md
       - Working with image tags: ./cli/tags.md
       - Shell auto completion: ./cli/completion.md
+  - OpenFaaS PRO:
+      - Introduction: ./openfaas-pro/introduction.md
+      - Single Sign-On: ./openfaas-pro/sso.md
+      - Scale to Zero: ./openfaas-pro/scale-to-zero.md
+      - Kafka events: ./openfaas-pro/kafka-events.md
   - Reference:
     - CI/CD:
       - Intro: ./reference/cicd/intro.md
@@ -132,11 +137,11 @@ nav:
     - Async: ./reference/async.md
     - Triggers: ./reference/triggers.md
     - Workloads: ./reference/workloads.md
-    - Auth: ./reference/authentication.md
-    - CORS: ./reference/cors.md
+    - Authentication: ./reference/authentication.md
     - Cron: ./reference/cron.md
     - Namespaces: ./reference/namespaces.md
     - Profiles: ./reference/profiles.md
+    - CORS: ./reference/cors.md
     - YAML: ./reference/yaml.md
   # - OpenFaaS Cloud:
   #     - Intro: ./openfaas-cloud/intro.md

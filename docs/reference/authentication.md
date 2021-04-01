@@ -1,8 +1,11 @@
-# Authentication for functions
+# Authentication
 
 There are two main concerns for authentication for OpenFaaS: the administrative API Gateway API and the individual functions.
 
-## For the API Gateway
+!!! warning "TLS is not optional"
+    You must always enable HTTPS when using OpenFaaS over the Internet, or through an untrusted network, and virtually any network should be considered as untrusted.
+
+## OpenFaaS API
 
 ### Basic authentication
 
@@ -12,15 +15,17 @@ These APIs exist at:
 
 * `/system/`
 
-The OpenFaaS API Gateway as of version 0.8.2 provides built-in basic authentication. It is enabled by default for OpenFaaS on Swarm and Kubernetes when using the helm chart. 
+The OpenFaaS API Gateway provides built-in basic authentication. It is enabled by default for OpenFaaS on Kubernetes and faasd.
 
-It is strongly recommended that you enable basic authentication and use a strong password to protect the `/system/` route. If you prefer to use an alternative authentication strategy then you can also use a reverse proxy such as [Kong](https://getkong.org/docs/) to enable OAuth or another strategy.
+Commercial users should explore the [Single Sign-On](/openfaas-pro/sso) feature of OpenFaaS PRO, to prevent the need to share credentials between users and systems.
 
-The Kubernetes YAML configuration does not use basic authentication at this point and is only useful for quick testing. If you cannot use helm for any reason then use "tillerless" helm to generate YAML files with basic authentication turned on.
+### Single Sign-On (SSO) and OIDC
 
-Once basic authentication is enabled you will need to use `faas-cli login` before using the CLI.
+Single Sign-On (SSO) uses your identity provider such as Auth0, Okta, Azure Active Directory or GitLab to authenticate users to your OpenFaaS API. It supports the CLI, UI and machine-based authentication. It means that you no longer need to share a single credential with any administrators, and don't need to redeploy your OpenFaaS installation if an employee leaves the company, and you need to rotate the password.
 
-### Auth plugins
+Learn more about (SSO) and OIDC in [OpenFaaS PRO](/openfaas-pro/sso)
+
+### Authentication plugins
 
 When using an auth plugin, the API Gateway will delegate authentication of the `/system/` routes to a microservice.
 
@@ -33,146 +38,46 @@ You can configure the gateway to use an auth plugin with the following two envir
 
 See also: [auth plugins](https://github.com/openfaas/faas/tree/master/auth)
 
-### OIDC and OAuth2 for the OpenFaaS API
+## Authentication for functions
 
-You can enable authentication via OpenID Connect and OAuth2 using the OpenFaaS REST API. This functionality is part of of the [OpenFaaS Premium Subscription](https://openfaas.com/support/).
-
-* [Get a 14-day free trial here](https://forms.gle/mFmwtoez1obZzm286)
-
-See also: [OpenFaaS and Okta for SSO](https://www.openfaas.com/blog/openfaas-oidc-okta/)
-
-#### Deploy the plugin using the helm chart
-
-You will need two DNS A records and to enable `Ingress` for your Kubernetes cluster. In the example below the sub-zone `oauth.example.com` is used, however you can use a top-level domain or your own sub-zone.
-
-* Gateway - `http://gw.oauth.example.com`
-* Auth - `http://auth.oauth.example.com`
-
-Use `arkade` or `helm` and pass the following overrides, or edit your `values.yaml` file:
-
-```sh
-export PROVIDER=""              # Set this to "azure" if using Azure AD.
-export LICENSE=""               # Obtain a trial from OpenFaaS Ltd, see above for instructions.
-export OAUTH_CLIENT_SECRET=""
-export OAUTH_CLIENT_ID=""
-export DOMAIN="oauth.example.com"
-
-arkade install openfaas \
-  --set oauth2Plugin.enabled=true \
-  --set oauth2Plugin.provider=$PROVIDER \
-  --set oauth2Plugin.license=$LICENSE \
-  --set oauth2Plugin.insecureTLS=false \
-  --set oauth2Plugin.scopes="openid profile email" \
-  --set oauth2Plugin.jwksURL=https://example.eu.auth0.com/.well-known/jwks.json \
-  --set oauth2Plugin.tokenURL=https://example.eu.auth0.com/oauth/token \
-  --set oauth2Plugin.audience=https://gw.$DOMAIN \
-  --set oauth2Plugin.authorizeURL=https://example.eu.auth0.com/authorize \
-  --set oauth2Plugin.welcomePageURL=https://gw.$DOMAIN \
-  --set oauth2Plugin.cookieDomain=.$DOMAIN \
-  --set oauth2Plugin.baseHost=https://auth.$DOMAIN \
-  --set oauth2Plugin.clientSecret=$OAUTH_CLIENT_SECRET \
-  --set oauth2Plugin.clientID=$OAUTH_CLIENT_ID 
-```
-
-The `authorizeURL`, `tokenURL` and `jwksURL` contain my personal tenant URL, remember to customize this to your own from Auth0, or your IDP.
-
-For `cookieDomain` - set the root URL of both of your sub-domains i.e. `.oauth.example.com`, this is so that the cookie set by the auth service can be used by the gateway.
-
-You should also create an additional Ingress and TLS certificate as per below:
-
-```yaml
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: openfaas-auth
-  namespace: openfaas
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    kubernetes.io/ingress.class: nginx
-spec:
-  rules:
-  - host: auth.oauth.example
-    http:
-      paths:
-      - backend:
-          serviceName: oauth2-plugin
-          servicePort: 8080
-        path: /
-  tls:
-  - hosts:
-    - auth.oauth.example
-    secretName: openfaas-auth
-```
-
-#### OAuth2 - Access the UI
-
-The UI uses the [code grant flow](https://oauth.net/2/grant-types/authorization-code/).
-
-Just visit the gateway and you will be redirected to your IDP to log in: http://gw.oauth.example.com
-
-#### OAuth2 - Access via the CLI (interactive)
-
-The CLI uses the [implicit grant flow](https://oauth.net/2/grant-types/implicit/) for interactive usage such as your daily workflow from your own computer / workstation.
-
-Run the following:
-
-```sh
-faas-cli auth \
-  --auth-url https://tenant0.eu.auth0.com/authorize \
-  --audience http://gw.oauth.example.com \
-  --client-id "${OAUTH_CLIENT_ID}"
-```
-
-You will receive a token on the command-line and same will be saved to openfaas config file. `faas-cli` will read the token and pass it for future commands which requires authentication. 
-
-You can also export it with `export TOKEN=""` and use it with any command: `faas-cli list --token="${TOKEN}"`
-
-See also: [faas-cli README](https://github.com/openfaas/faas-cli)
-
-#### OAuth2 - Access via the CLI for CI (non-interactive / machine-usage)
-
-Non-inactive or machine-usage is where you need to access the gateway and you cannot follow a web-browser to authenticate. Here, you need to create a special application in your IDP. It will usually be called a "Machine Application" and has a `client_id` and `client_secret`, these are comparable to a username and password.
-
-You will need to use the [client credentials flow](https://oauth.net/2/grant-types/client-credentials/).
-
-You will need this flow for any actions taken within a cron-job, broker, CI/CD job or similar server-access.
-
-You can use `faas-cli login`:
-
-```sh
-faas-cli login \
- --username ${OAUTH_CLIENT_ID} \
- --password ${OAUTH_CLIENT_SECRET}
-```
-
-Now run any command as usual such as `faas-cli list` or `faas-cli deploy`. The secrets will be fetched from `~/.openfaas/config.yml`.
-
-Note: some providers may also support obtaining a token for this flow, such as Auth0:
-
-```sh
-faas-cli auth \
-  --grant client_credentials \
-  --auth-url https://tenant0.eu.auth0.com/oauth/token \
-  --client-id "${OAUTH_CLIENT_ID}" \
-  --client-secret "${OAUTH_CLIENT_SECRET}"\
-  --audience http://gw.oauth.example.com
-```
-
-You will receive a token on the command-line which is also saved in `~/.openfaas/config.yml`.
-
-The `faas-cli` will read the token and pass it for future commands which requires authentication, you can also export it with `export TOKEN=""` and use it with any command: `faas-cli list --token="${TOKEN}"`
-
-See also: [faas-cli README](https://github.com/openfaas/faas-cli/blob/master/README.md)
-
-## For functions
-
-Functions are exposed at:
+Functions are exposed on two routes on the OpenFaaS API Gateway:
 
 * `/function/`
 * `/async-function/`
 
-Functions exposed on OpenFaaS often do not need to have authentication enabled, this is because they may be responding to webhooks from an external system such as GitHub or Patreon. Neither GitHub, nor Patreon will support authenticating with OAuth or basic authentication strategies, but rely on HMAC.
+Whether your functions require authentication will depend upon the consumers of those functions and the goals of your application. Most OpenFaaS templates enable full control of the HTTP request and response, so you can use any mechanism you like with your functions.
 
-HMAC involves a shared symmetric secret - both parties store the key securely. The sender computes a hash of the body of the request with their symmetric key and sends this data to the receiver along with the hash value in the HTTP header. The receiver then computes a hash of the body with their copy of the key and checks that this matches what the sender supplied in the HTTP header. See the reference on [secrets](./secrets.md) for a walk-through on using secret values with functions.
+In most cases, whatever you would use with a HTTP server or microservice can be applied with OpenFaaS.
+
+### Webhooks
+
+When functions receive webhooks, most publishers of events will not support any form of authentication. Messages are verified using symmetric keys, where the client (your function) and the server (GitHub, Stripe, YouTube, etc) share the same secret. When a webhook is received, then your function must create a hash of the payload and compare it with a digest sent by the server. If they match, then the message is genuine. This technique is called [HMAC (hash-based message authentication code)](https://en.wikipedia.org/wiki/HMAC).
+
+!!! info "What's HMAC?"
+    HMAC involves a shared symmetric secret - both parties store the key securely. The sender computes a hash of the body of the request with their symmetric key and sends this data to the receiver along with the hash value in the HTTP header. The receiver then computes a hash of the body with their copy of the key and checks that this matches what the sender supplied in the HTTP header.
 
 See also: [Lab 11: Enabling trust with HMAC](https://github.com/openfaas/workshop/blob/master/lab11.md) from the OpenFaaS workshop.
+
+### Websites and portals for users
+
+Building a portal for users is also a common use-case for functions. You can enable OAuth or a social login by integrating a middleware within your function. Middleware exists for most programming languages to authenticate a function.
+
+### Basic authentication
+
+You can enable basic-authentication for a web-portal or an API by setting the appropriate header such as `WWW-Authenticate: Basic realm="User Visible Realm"`. This is the approach that the OpenFaaS gateway takes, and the OpenFaaS PRO edition comes with an OIDC integration.
+
+Learn more: [Basic auth](https://en.wikipedia.org/wiki/Basic_access_authentication)
+
+### Bearer tokens and API keys
+
+You can also create and manage your own Bearer tokens or API keys. These are simply shared secrets, where the client (the user or machine invoking the function) and the server (the function) share a copy of the token.
+
+You can assign a token to a function using a secret and then read the value back at run-time to authenticate requests.
+
+Example of invoking a function with a Bearer token:
+
+```
+curl https://gw.example.com -H "Authorization: Bearer TOKEN"
+```
+
+See an example using a HTTP header: [secrets](./secrets.md).

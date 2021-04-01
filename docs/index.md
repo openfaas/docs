@@ -6,60 +6,29 @@ OpenFaaS&reg; makes it easy for developers to deploy event-driven functions and 
 
 [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/fold_left.svg?style=social&label=Follow%20%40openfaas)](https://twitter.com/openfaas)
 
-**Highlights**
+## Highlights
 
-* Ease of use through UI portal and *one-click* install
-* Write functions in any language for Linux or Windows and package in Docker/OCI image format
-* Portable - runs on existing hardware or public/private cloud with [Kubernetes](https://github.com/openfaas/faas-netes) or containerd
-* [CLI](http://github.com/openfaas/faas-cli) available with YAML format for templating and defining functions
-* Auto-scales as demand increases
+* Open source functions framework - run it on any cloud without fear of lock-in
+* Write functions in any language and package them in Docker/OCI-format containers
+* Easy to use - built-in UI, powerful CLI and one-click installation
+* Scale as you go - handle spikes in traffic, and scale down when idle
+* Active community - contribute and belong
 
 ![Stack](https://github.com/openfaas/faas/raw/master/docs/of-layer-overview.png)
 
 See also: [Tech stack & layers](/architecture/stack/) & [Preparing for production](/architecture/production/)
 
-## Community Subscription
+## Online training
 
-OpenFaaS users can subscribe to a weekly Community Newsletter called Insiders Updates, to keep up to date with new features, bug fixes, events, tutorials and security patches. Insiders Updates are written by the project founder and distributed via GitHub Sponsors.
+* **Our Official eBook**: Serverless For Everyone Else
 
-* [Get a Community Subscription](https://github.com/support/)
+    In [Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else), you'll gain a working knowledge of the value and use-cases of serverless functions. You'll then build your own with Node.js and learn how to secure and monitor them. Learn directly from the OpenFaaS Founder.
 
-## Governance
+    [![eBook cover](/images/serverless-for-everyone-else.png)](https://gumroad.com/l/serverless-for-everyone-else)
 
-The core of OpenFaaS is an independent open-source project originally created by [Alex Ellis](https://www.alexellis.io) in 2016. It is now being built and shaped by a [growing community of contributors and end-users](https://www.openfaas.com/team/).
+    [Get the eBook and training video on Gumroad](https://gumroad.com/l/serverless-for-everyone-else)
 
-OpenFaaS is hosted by OpenFaaS Ltd (registration: 11076587), a company which also offers commercial services, homepage sponsorships, and support. OpenFaaS &reg; is a registered trademark in England and Wales.
-
-### Support for OpenFaaS
-
-In addition to the core Open Source projects, OpenFaaS Ltd offers:
-
-* [commercial support and enterprise add-ons](https://www.openfaas.com/support) such as OpenFaaS PRO
-* [training and consulting services for Cloud and Kubernetes](https://www.openfaas.com/consulting) for end-users
-
-### Users of OpenFaaS
-
-Several dozen end-user companies have given permission for their logo to be used on [openfaas.com](https://www.openfaas.com), you can find specific information about use-cases in the [ADOPTERS.md](https://github.com/openfaas/faas/blob/master/ADOPTERS.md) file and on the [OpenFaaS blog](https://www.openfaas.com/blog/).
-
-If you are using OpenFaaS for internal or production use, please feel free to send a pull request to the ADOPTERS.md file, to email support@openfaas.com or to comment on [this issue](https://github.com/openfaas/faas/issues/776).
-
-
-## Get started with OpenFaaS
-
-### Official blog and documentation
-
-* Read the documentation: [docs.openfaas.com](https://docs.openfaas.com/deployment)
-* Read latest news and tutorials on the [Official Blog](https://www.openfaas.com/blog/)
-
-### Support & getting help
-
-* [Cloud Native Consulting](https://www.openfaas.com/consulting) - get hands-on expert help with your cloud, Kubernetes and OpenFaaS migration and projects
-* [Commercial support](https://www.openfaas.com/support) - a subscription service from OpenFaaS Ltd
-* [Join Slack](https://docs.openfaas.com/community) - run by community volunteers
-
-### Online training
-
-* **New**: Training course from the LinuxFoundation: Introduction to Serverless on Kubernetes
+* Training course from the [LinuxFoundation](LinuxFoundation): Introduction to Serverless on Kubernetes
 
     This training course "Introduction to Serverless on Kubernetes" written by the project founder and commissioned by the LinuxFoundation provides an overview of what you need to know to build functions and operate OpenFaaS on public cloud.
 
@@ -71,9 +40,20 @@ If you are using OpenFaaS for internal or production use, please feel free to se
 
     Browse the [workshop](https://github.com/openfaas/workshop)
 
-* Corporate trainings
+## Support & getting help
 
-    If you wish to arrange a training session for your team, or a consultation, [feel free to contact OpenFaaS Ltd](https://www.openfaas.com/support/)
+* [OpenFaaS PRO and Premium Consulting](https://www.openfaas.com/support) - Learn about OpenFaaS PRO features and our commercial services
+* [Join Slack](https://docs.openfaas.com/community) - a community run by volunteers
+* [OpenFaaS Blog](https://www.openfaas.com/blog/) - read latest news and tutorials
+
+## Become a Sponsor
+
+!!! info "How is OpenFaaS funded?"
+    OpenFaaS is free and open-source. As an end-user, supporter or commercial company, you can become a sponsor and get unique benefits, whilst also supporting the project and community.
+
+You can access exclusive updates, discounts, news and tutorials through the [The Treasure Trove Portal](https://faasd.exit.openfaas.pro/function/trove/) with over 80 updates from the OpenFaaS Founder going back to 2019.
+
+* [Become a GitHub Sponsor today](https://github.com/support/)
 
 ### Quickstart
 
@@ -103,7 +83,13 @@ Have you written a blog about OpenFaaS? Send a Pull Request to the community pag
 
 If you'd like to join OpenFaaS community Slack channel to chat with contributors or get some help - then fill out the [Google Forms page](https://goo.gl/forms/SqpLSdyzVoOboRqs1)
 
-## Contributing
+### Users of OpenFaaS
+
+Several dozen end-user companies have given permission for their logo to be used on [openfaas.com](https://www.openfaas.com), you can find specific information about use-cases in the [ADOPTERS.md](https://github.com/openfaas/faas/blob/master/ADOPTERS.md) file and on the [OpenFaaS blog](https://www.openfaas.com/blog/).
+
+If you are using OpenFaaS for internal or production use, please feel free to send a pull request to the ADOPTERS.md file, to email support@openfaas.com or to comment on [this issue](https://github.com/openfaas/faas/issues/776).
+
+### Contributing
 
 OpenFaaS is written in Golang and contributions are welcomed from end-users and the community. It could mean providing feedback through testing features, proposing enhancements, or getting involved with the maintenance of almost to 40 projects.
 
@@ -111,10 +97,16 @@ OpenFaaS is written in Golang and contributions are welcomed from end-users and 
 
 If you would like to contribute to the documentation site or find out more check out the [docs repo](https://github.com/openfaas/docs).
 
-### Grafana dashboards
+## Grafana dashboards
 
 Example of a Grafana dashboards linked to OpenFaaS showing auto-scaling live in action: [here](https://grafana.com/dashboards/3526)
 
 ![](https://pbs.twimg.com/media/C9caE6CXUAAX_64.jpg:large)
 
 An alternative community dashboard is [available here](https://grafana.com/dashboards/3434)
+
+## Governance
+
+The core of OpenFaaS is an independent open-source project originally created by [Alex Ellis](https://www.alexellis.io) in 2016. It is now being built and shaped by a [growing community of contributors and end-users](https://www.openfaas.com/team/).
+
+OpenFaaS is hosted by OpenFaaS Ltd (registration: 11076587), a company which also offers commercial services, homepage sponsorships, and support. OpenFaaS &reg; is a registered trademark in England and Wales.
