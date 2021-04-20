@@ -177,6 +177,57 @@ Or only using nodes running with Windows:
      - "node.platform.os == windows"
 ```
 
+To assign a function to a given NodePool or Node:
+
+
+First, update stack.yml:
+
+```yaml
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  low:
+    lang: go
+    handler: ./low
+    image: alexellis2/low:latest
+    constraints:
+    - "lowmem=true"
+```
+
+And run `faas-cli up` or `faas-cli deploy`.
+
+You'll see an error like the following. So we need to add the `lowmem=true` label to one or more nodes.
+
+```bash
+kubectl get event -n  openfaas-fn -w
+LAST SEEN   TYPE      REASON              KIND         MESSAGE
+15m         Warning   FailedScheduling    Pod          0/3 nodes are available: 3 node(s) didn't match node selector.
+```
+
+Apply a label to the nodes or nodepool:
+
+```bash
+kubectl label node/primary-ofc-3irgb --overwrite lowmem=true
+```
+
+Check the label was applied:
+
+```bash
+kubectl get nodes -l lowmem=true
+NAME                STATUS   ROLES    AGE    VERSION
+primary-ofc-3irgb   Ready    <none>   136d   v1.19.3
+```
+
+Now deploy the code again, or wait for the scheduler to move the pod to the matching node.
+
+```bash
+kubectl get pod -n openfaas-fn -o wide
+NAME                 READY   STATUS    IP             NODE
+low-5fbb9fd6-t69q4   1/1     Running   10.244.5.121   primary-ofc-3irgb
+```
+
 ### Function: Labels
 
 Labels can be applied through a map which is passed directly to the container scheduler.
