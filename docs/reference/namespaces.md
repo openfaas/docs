@@ -20,32 +20,19 @@ Multiple namespaces can be used for the following use-cases:
 
 This is only implemented for faas-netes at present, the default Kubernetes provider.
 
-Additional RBAC permissions are required to work with namespaces, therefore you have two options:
+Additional RBAC permissions are required to work with namespaces, using a `ClusterRole` is currently supported for multiple namespaces.
 
-* 1) simplest option - use a ClusterRole
+```sh
+arkade install openfaas --clusterrole
+```
 
-    ```sh
-    arkade install openfaas --clusterrole
-    ```
+Or via helm, set this override:
 
-    Or via helm, set this override:
+```sh
+--set clusterRole=true
+```
 
-    ```
-    --set clusterRole=true
-    ```
-
-    The ClusterRole will allow OpenFaaS to operate in each namespace you create.
-
-
-* 2) Least-privilege option
-
-    Install as per normal:
-
-    ```sh
-    arkade install openfaas
-    ```
-
-    Then create the required Roles and RoleBindings for all of the resources. We can support you with this configuration [via an OpenFaaS PRO subscription](https://openfaas.com/support/).
+If you cannot use a `ClusterRole` for any reason, then feel free to [contact us](https://openfaas.com/support/) about custom development for your needs.
 
 ## Create one or more additional namespaces
 
