@@ -32,7 +32,7 @@ Or via helm, set this override:
 --set clusterRole=true
 ```
 
-If you cannot use a `ClusterRole` for any reason, then feel free to [contact us](https://openfaas.com/support/) about custom development for your needs.
+If you cannot use a `ClusterRole` for any reason, then feel free to ask us about [OpenFaaS PRO](https://openfaas.com/support/) which includes a separate configuration suitable for enterprise companies.
 
 ## Create one or more additional namespaces
 
