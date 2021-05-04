@@ -9,7 +9,7 @@ Multiple namespaces can be used for the following use-cases:
 * logical segregation of stacks within a single company or team
 
 !!! warning "Additional configuration required"
-  You must configure OpenFaaS to have sufficient permissions to administrate multiple namespaces, this feature will not work in a default installation.
+    You must configure OpenFaaS to have sufficient permissions to administrate multiple namespaces, this feature will not work in a default installation.
 
 ## Pre-reqs
 
