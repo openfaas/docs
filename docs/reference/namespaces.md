@@ -1,12 +1,15 @@
 # Namespaces support
 
-OpenFaaS has support for multiple-namespaces, this is currently in Alpha and is being [worked on actively and tracked on this issue](https://github.com/openfaas/faas-netes/issues/511).
+OpenFaaS has support for multiple-namespaces.
 
 Multiple namespaces can be used for the following use-cases:
 
 * multi-tenancy (when combined with NetworkPolicy)
 * multiple stages or environments within a single cluster - i.e. dev/staging/prod
 * logical segregation of stacks within a single company or team
+
+!!! warning "Additional configuration required"
+  You must configure OpenFaaS to have sufficient permissions to administrate multiple namespaces, this feature will not work in a default installation.
 
 ## Pre-reqs
 
@@ -42,7 +45,7 @@ Additional RBAC permissions are required to work with namespaces, therefore you 
     arkade install openfaas
     ```
 
-    Then add a Role and RoleBinding for each additional namespace, use the example from the default `openfaas-fn` namespace.
+    Then create the required Roles and RoleBindings for all of the resources. We can support you with this configuration [via an OpenFaaS PRO subscription](https://openfaas.com/support/).
 
 ## Create one or more additional namespaces
 
