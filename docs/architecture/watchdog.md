@@ -14,7 +14,7 @@ The classic watchdog has historically been used for all of the official OpenFaaS
 
 Technical documentation on the classic watchdog is available along with a table with all configuration options.
 
-* [Watchdog README](https://github.com/openfaas/faas/blob/master/watchdog/README.md)
+* [Watchdog README](https://github.com/openfaas/classic-watchdog/blob/master/README.md)
 
 ## of-watchdog
 
