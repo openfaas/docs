@@ -28,7 +28,7 @@ If running in read-only mode, then you can write files to the `/tmp/` mount only
 
 ### FaaS Functions
 
-To build a FaaS Function simply use the [OpenFaaS CLI](/cli/install) to scaffold a new function using one of the official templates or one of your own templates. All FaaS Functions make use of the [OpenFaaS classic watchdog](/architecture/watchdog) or the next-gen [of-watchdog](https://github.com/openfaas-incubator/of-watchdog).
+To build a FaaS Function simply use the [OpenFaaS CLI](/cli/install) to scaffold a new function using one of the official templates or one of your own templates. All FaaS Functions make use of the [OpenFaaS classic watchdog](/architecture/watchdog) or the next-gen [of-watchdog](https://github.com/openfaas/of-watchdog).
 
 ```
 faas-cli template pull
@@ -159,7 +159,7 @@ A stateless microservice can be built using the `dockerfile` language type and t
 
 An example of a stateless microservice may be an Express.js application using Node.js, a Sinatra app with Ruby or an ASP.NET 2.0 Core website.
 
-Use of the [OpenFaaS next-gen of-watchdog](https://github.com/openfaas-incubator/of-watchdog) is optional, but recommended for stateless microservices to provide a consistent experience for timeouts, logging and configuration.
+Use of the [OpenFaaS next-gen of-watchdog](https://github.com/openfaas/of-watchdog) is optional, but recommended for stateless microservices to provide a consistent experience for timeouts, logging and configuration.
 
 On Kubernetes is possible to run any container image as an OpenFaaS function as long as your application exposes port 8080 and has a HTTP health check endpoint.
 
