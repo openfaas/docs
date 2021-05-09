@@ -93,19 +93,13 @@ For faasd, the secrets created for functions are held as files at `/var/lib/faas
 
 OpenFaaS secrets are mounted as files to `/var/openfaas/secrets` inside your function's filesystem. To use a secret, just read the file from the secrets location using the name of the secret for the filename such as: `/var/openfaas/secrets/secret-api-key`.
 
-_Note_: prior to version `0.8.2` secrets were mounted to `/run/secrets`. The example functions demonstrate a smooth upgrade implementation.
-
 A simple `go` implementation could look like this
 
 ```go
 func getAPISecret(secretName string) (secretBytes []byte, err error) {
 	// read from the openfaas secrets folder
 	secretBytes, err = ioutil.ReadFile("/var/openfaas/secrets/" + secretName)
-	if err != nil {
-		// read from the original location for backwards compatibility with openfaas <= 0.8.2
-		secretBytes, err = ioutil.ReadFile("/run/secrets/" + secretName)
-	}
-
+  
 	return secretBytes, err
 }
 ```
