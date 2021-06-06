@@ -97,37 +97,33 @@ You should now see the value you entered. Sometimes DNS can take 1-5 minutes to 
 Following the recommended [default installation for cert-manager][cert-manager-helm], we install it into a new `cert-manager` namespace using the following commands:
 
 ```sh
-# Install the CustomResourceDefinition resources separately
-kubectl apply --validate=false -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.11/deploy/manifests/00-crds.yaml
-
-# Create the namespace for cert-manager
-kubectl create namespace cert-manager
-
 # Add the Jetstack Helm repository
 helm repo add jetstack https://charts.jetstack.io
 
 # Update your local Helm chart repository cache
 helm repo update
 
-# Install the cert-manager Helm chart
+# Install the cert-manager Helm chart (including cert-manager CRDs)
 helm install \
-  --name cert-manager \
+  cert-manager \
   --namespace cert-manager \
-  --version v0.11.0 \
+  --create-namespace \
+  --set installCRDs=true \
+  --version v1.3.1 \
   jetstack/cert-manager
 ```
 
-This configuration will work for most deployments, but you can also see https://cert-manager.readthedocs.io/en/latest/getting-started/install.html#steps for additional instructions and options for installing cert-manager.
+This configuration will work for most deployments, but you can also see https://cert-manager.io/docs/installation/kubernetes/ for additional instructions and options for installing cert-manager.
 
 ### Configure cert-manager
 
-In additional to the controller installed in the previous step, we must also configure an "Issuer" before `cert-manager` can create certificates for our services. For convenience we will create an Issuer for both Let's Encrypt's production API and their staging API. The staging API has much higher rate limits. We will use it to issue a test certificate before switching over to a production certificate if everything works as expected.
+In additional to the controller installed in the previous step, we must also [configure an "Issuer"][cert-manager-configuration] before `cert-manager` can create certificates for our services. For convenience we will create an Issuer for both Let's Encrypt's production API and their staging API. The staging API has much higher rate limits. We will use it to issue a test certificate before switching over to a production certificate if everything works as expected.
 
 Replace `<your-email-here>` with the contact email that will be shown with the TLS certificate.
 
 ```yaml
 # letsencrypt-issuer.yaml
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
   name: letsencrypt-staging
@@ -141,14 +137,14 @@ spec:
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       # Secret resource used to store the account's private key.
-      name: example-issuer-account-key
+      name: staging-issuer-account-key
     # Add a single challenge solver, HTTP01 using nginx
     solvers:
     - http01:
         ingress:
           class: nginx
 ---
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
   name: letsencrypt-prod
@@ -162,7 +158,7 @@ spec:
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       # Secret resource used to store the account's private key.
-      name: example-issuer-account-key
+      name: prod-issuer-account-key
     # Add a single challenge solver, HTTP01 using nginx
     solvers:
     - http01:
@@ -208,7 +204,7 @@ $ helm upgrade openfaas \
 
 ### Check the certificate
 
-A certificate will be created automatically through "Ingress Shim", part of cert-manager. The Ingress Shim reads annotations to decide which certificates to provision for us.
+A certificate will be created automatically through cert-manager's [`ingress-shim` component][cert-manager-ingress-shim]. The `ingress-shim` reads annotations to decide which certificates to provision for us.
 
 You can validate that certificate has been obtained successfully using:
 
@@ -258,7 +254,7 @@ $ kubectl -n openfaas get certificate,secret openfaas-crt
 
 - If you want to tail the Nginx logs, you can use
 ```sh
-$ kubectl logs -f $(kubectl get po -l "app=nginxingress,component=controller" -o jsonpath="{.items[0].metadata.name}")
+$ kubectl logs -f $(kubectl get po -l "app.kubernetes.io/instance=nginxingress,app.kubernetes.io/component=controller" -o jsonpath="{.items[0].metadata.name}")
 ```
 
 ## 2.0 TLS and custom domains for functions
@@ -468,5 +464,7 @@ Feel free to raise a feature request for your IngressController on the [GitHub r
 [nginx-configuration]: https://github.com/helm/charts/tree/master/stable/nginx-ingress#configuration
 [openfaas-helm]: https://docs.openfaas.com/deployment/kubernetes/#20a-deploy-with-helm
 [cert-manager]: https://github.com/jetstack/cert-manager
-[cert-manager-helm]: https://cert-manager.readthedocs.io/en/latest/getting-started/install.html#installing-with-helm
+[cert-manager-helm]: https://cert-manager.io/docs/installation/kubernetes/#installing-with-helm
+[cert-manager-ingress-shim]: https://cert-manager.io/docs/usage/ingress/
+[cert-manager-configuration]: https://cert-manager.io/docs/configuration/
 [nginx-ingress]: https://github.com/kubernetes/ingress-nginx
