@@ -69,22 +69,62 @@ This an optional boolean field, set to `false` by default.
 
 ### Function: Build Options
 
-The `build_options` field can be used to you to pass a list of [Docker build arguments](https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables---build-arg) to the build process.  When the language template supports it, this allows you to customize the build without modifying the underlying template.
+The `build_options` field can be used to pass a list of additional configurations for a template.
 
-For example, the [official python3 language template](https://github.com/openfaas/templates/blob/master/template/python3/Dockerfile) can be used to additional Alpine `apk` packages to be installed during build process. To install the [`ca-certificates`](https://pkgs.alpinelinux.org/package/edge/main/x86_64/ca-certificates) package for your `python3` function, you can specify
+These must be pre-defined within the template and can be used to populate the `ADDITIONAL_PACKAGE` field in the Dockerfile used by the template.
+
+For instance, here's an example from the `python3` template which is based upon Alpine Linux.
+
+> Note: if you want to install Python development packages, you may find that the `python3-debian` template is a better fit, since it comes with build tools pre-installed.
+
+```yaml
+language: python3
+fprocess: python3 index.py
+build_options:
+  - name: mysql
+    packages: 
+      - mysql-client
+      - mysql-dev
+  - name: pillow
+    packages: 
+      - jpeg-dev
+      - zlib-dev
+      - freetype-dev
+      - lcms2-dev
+      - openjpeg-dev
+      - tiff-dev
+      - tk-dev
+      - tcl-dev
+      - harfbuzz-dev
+      - fribidi-dev
+```
+
+Given the template defines a `mysql` and `pillow` build option, you can add either or both of them to your stack.yml file so that these preconfigured packages are installed at build time.
 
 ```yaml
 build_options:
 - ca-certificates
 ```
 
-Important note: that the configuration of this value is dependent on the language template.  The template author must specify one or more [`ARG`](https://docs.docker.com/engine/reference/builder/#arg) in the `Dockerfile`.
+The packages listed will be expounded into the [Dockerfile](https://github.com/openfaas/templates/blob/master/template/python3/Dockerfile) at build-time via the `ADDITIONAL_PACKAGE` environment variable.
+
+```Dockerfile
+FROM --platform=${TARGETPLATFORM:-linux/amd64} python:3-alpine
+
+# Allows you to add additional packages via build-arg
+ARG ADDITIONAL_PACKAGE
+
+# Install packages
+RUN apk --no-cache add ca-certificates ${ADDITIONAL_PACKAGE}
+```
+
+If you don't want to or cannot update the template, then you can pass the `ADDITIONAL_PACKAGE` directly instead, see the next section.
 
 ### Function: Build Args (`build-args`)
 
 A map of build args can be passed to the container builder. These are compatible with Docker, BuildKit and Kaniko. Other containers builders may vary in their support.
 
-An example of a `build_arg` may be for enabling Go modules, or a HTTP_PROXY as per below:
+An example of a build argument may be for enabling Go modules, or a HTTP_PROXY as per below:
 
 ```yaml
 functions:
