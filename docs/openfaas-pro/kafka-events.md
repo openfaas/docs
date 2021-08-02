@@ -6,6 +6,8 @@ OpenFaaS PRO offers an additional component that can be used to invoke functions
 
 You can install the Kafka connector using its [helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/kafka-connector), or by using arkade.
 
+Are you an Aiven customer? See also: [Event-driven OpenFaaS with Managed Kafka from Aiven](https://www.openfaas.com/blog/openfaas-kafka-aiven/)
+
 ### Installation with arkade
 
 ```bash
@@ -52,5 +54,6 @@ Now deploy your function, and publish an event to your Kafka broker on the `paym
 
 ## See also
 
-Blog post / walk-through: [Staying on topic: trigger your OpenFaaS functions with Apache Kafka](https://www.openfaas.com/blog/kafka-connector/)
-
+* [Event-driven OpenFaaS with Managed Kafka from Aiven](https://www.openfaas.com/blog/openfaas-kafka-aiven/)
+* [Quick start with the Helm chart - self-hosted, SASL and TLS Client Certificates](https://github.com/openfaas/faas-netes/blob/master/chart/kafka-connector/quickstart.md)
+* Launch blog post: [Staying on topic: trigger your OpenFaaS functions with Apache Kafka](https://www.openfaas.com/blog/kafka-connector/)
