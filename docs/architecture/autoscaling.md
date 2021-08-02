@@ -76,7 +76,7 @@ There are two approaches available for idling functions:
 
 #### 1) faas-idler
 
-You can use the faas-idler which is available with [OpenFaaS PRO](https://openfaas.com/support). `faas-idler` allows some basic presents to be configured and then monitors the built-in Prometheus metrics on a regular basis to determine if a function should be scaled to zero. Only functions with a label of `com.openfaas.scale.zero=true` are scaled to zero, all others are ignored. Functions are scaled to zero through the OpenFaaS REST API.
+You can use the faas-idler which is available with [OpenFaaS PRO](https://openfaas.com/support). `faas-idler` allows some basic presets to be configured and then monitors the built-in Prometheus metrics on a regular basis to determine if a function should be scaled to zero. Only functions with a label of `com.openfaas.scale.zero=true` are scaled to zero, all others are ignored. Functions are scaled to zero through the OpenFaaS REST API.
 
 If you wish to only observe which functions would have been scaled down - pass the "-read-only" flag, or set this via the helm chart.
 
