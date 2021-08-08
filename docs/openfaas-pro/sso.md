@@ -23,20 +23,20 @@ export OAUTH_CLIENT_ID=""
 export DOMAIN="oauth.example.com"
 
 arkade install openfaas \
-  --set oauth2Plugin.enabled=true \
-  --set oauth2Plugin.provider=$PROVIDER \
-  --set oauth2Plugin.license=$LICENSE \
-  --set oauth2Plugin.insecureTLS=false \
-  --set oauth2Plugin.scopes="openid profile email" \
-  --set oauth2Plugin.jwksURL=https://example.eu.auth0.com/.well-known/jwks.json \
-  --set oauth2Plugin.tokenURL=https://example.eu.auth0.com/oauth/token \
-  --set oauth2Plugin.audience=https://gw.$DOMAIN \
-  --set oauth2Plugin.authorizeURL=https://example.eu.auth0.com/authorize \
-  --set oauth2Plugin.welcomePageURL=https://gw.$DOMAIN \
-  --set oauth2Plugin.cookieDomain=.$DOMAIN \
-  --set oauth2Plugin.baseHost=https://auth.$DOMAIN \
-  --set oauth2Plugin.clientSecret=$OAUTH_CLIENT_SECRET \
-  --set oauth2Plugin.clientID=$OAUTH_CLIENT_ID 
+  --set oidcAuthPlugin.enabled=true \
+  --set oidcAuthPlugin.provider=$PROVIDER \
+  --set oidcAuthPlugin.license=$LICENSE \
+  --set oidcAuthPlugin.insecureTLS=false \
+  --set oidcAuthPlugin.scopes="openid profile email" \
+  --set oidcAuthPlugin.jwksURL=https://example.eu.auth0.com/.well-known/jwks.json \
+  --set oidcAuthPlugin.tokenURL=https://example.eu.auth0.com/oauth/token \
+  --set oidcAuthPlugin.audience=https://gw.$DOMAIN \
+  --set oidcAuthPlugin.authorizeURL=https://example.eu.auth0.com/authorize \
+  --set oidcAuthPlugin.welcomePageURL=https://gw.$DOMAIN \
+  --set oidcAuthPlugin.cookieDomain=.$DOMAIN \
+  --set oidcAuthPlugin.baseHost=https://auth.$DOMAIN \
+  --set oidcAuthPlugin.clientSecret=$OAUTH_CLIENT_SECRET \
+  --set oidcAuthPlugin.clientID=$OAUTH_CLIENT_ID 
 ```
 
 The `authorizeURL`, `tokenURL` and `jwksURL` contain my personal tenant URL, remember to customize this to your own from Auth0, or your IDP.
