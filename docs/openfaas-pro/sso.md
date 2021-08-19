@@ -80,6 +80,8 @@ spec:
     secretName: openfaas-auth
 ```
 
+Check that your Ingress is working by visiting: `https://auth.oauth.example.com/health`, make sure you have a valid certificate in place.
+
 ### Troubleshooting
 
 Check that your `client_id`, `client_secret`, base host, cookie domain, auth URL, scopes, domains, etc are all set correctly.
@@ -94,7 +96,9 @@ OpenFaaS PRO customers have support included as part of their package and can [c
 
 The UI uses the [code grant flow](https://oauth.net/2/grant-types/authorization-code/).
 
-Just visit the gateway and you will be redirected to your IdP to log in: http://gw.oauth.example.com
+Just visit the gateway and you will be redirected to your IdP to log in: http://gw.oauth.example.com/
+
+A cookie will be set in your browser so that you don't have to log in again until it expires.
 
 ### Gain access via the CLI (interactive)
 
