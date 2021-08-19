@@ -39,7 +39,7 @@ arkade install openfaas \
   --set oidcAuthPlugin.clientID=$OAUTH_CLIENT_ID 
 ```
 
-The `authorizeURL`, `tokenURL` and `jwksURL` contain my personal tenant URL, remember to customize this to your own from Auth0, or your IDP.
+The `authorizeURL`, `tokenURL` and `jwksURL` contain my personal tenant URL, remember to customize this to your own from Auth0, or your IdP.
 
 For `cookieDomain` - set the root URL of both of your sub-domains i.e. `.oauth.example.com`, this is so that the cookie set by the auth service can be used by the gateway.
 
@@ -84,7 +84,7 @@ spec:
 
 Check that your `client_id`, `client_secret`, base host, cookie domain, auth URL, scopes, domains, etc are all set correctly.
 
-You may also run into issues if your redirect domain is not set correctly in the IDp and in your arkade install command.
+You may also run into issues if your redirect domain is not set correctly in the IdP and in your arkade install command.
 
 You can check the logs of the plugin via: `kubectl logs -n openfaas deploy/oauth2-plugin`
 
@@ -94,7 +94,7 @@ OpenFaaS PRO customers have support included as part of their package and can [c
 
 The UI uses the [code grant flow](https://oauth.net/2/grant-types/authorization-code/).
 
-Just visit the gateway and you will be redirected to your IDP to log in: http://gw.oauth.example.com
+Just visit the gateway and you will be redirected to your IdP to log in: http://gw.oauth.example.com
 
 ### Gain access via the CLI (interactive)
 
@@ -117,7 +117,7 @@ See also: [faas-cli README](https://github.com/openfaas/faas-cli)
 
 ### Gain access via the CLI for CI (non-interactive / machine-usage)
 
-Non-inactive or machine-usage is where you need to access the gateway and you cannot follow a web-browser to authenticate. Here, you need to create a special application in your IDP. It will usually be called a "Machine Application" and has a `client_id` and `client_secret`, these are comparable to a username and password.
+Non-inactive or machine-usage is where you need to access the gateway and you cannot follow a web-browser to authenticate. Here, you need to create a special application in your IdP. It will usually be called a "Machine Application" and has a `client_id` and `client_secret`, these are comparable to a username and password.
 
 You will need to use the [client credentials flow](https://oauth.net/2/grant-types/client-credentials/).
 
