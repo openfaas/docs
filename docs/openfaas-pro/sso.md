@@ -80,6 +80,16 @@ spec:
     secretName: openfaas-auth
 ```
 
+### Troubleshooting
+
+Check that your `client_id`, `client_secret`, base host, cookie domain, auth URL, scopes, domains, etc are all set correctly.
+
+You may also run into issues if your redirect domain is not set correctly in the IDp and in your arkade install command.
+
+You can check the logs of the plugin via: `kubectl logs -n openfaas deploy/oauth2-plugin`
+
+OpenFaaS PRO customers have support included as part of their package and can [contact us via email](mailto:contact@openfaas.com).
+
 ### Gain access via the UI
 
 The UI uses the [code grant flow](https://oauth.net/2/grant-types/authorization-code/).
