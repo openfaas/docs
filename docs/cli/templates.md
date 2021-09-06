@@ -81,9 +81,11 @@ There are several Golang templates available, which are listed below.
 
 | Name | Style        | Watchdog     | Dependencies     |
 |:-----|:-------------|:-------------|:-----------------|
-| `go` | Function     | classic      | `dep`            |
-| `golang-middleware` | Microservice     | of-watchdog      | `dep` or Go modules            |
-| `golang-http` | Function     | of-watchdog      | `dep` or Go modules            |
+| `go` | Function     | classic      | vendoring or Go modules            |
+| `golang-middleware` | Microservice     | of-watchdog      | vendoring or Go modules
+| of-watchdog      |            |
+| `golang-http` | Function     | of-watchdog      | vendoring or Go modules
+| of-watchdog      |            |
 
 All templates are available via `faas-cli template store list/pull`
 
@@ -124,7 +126,7 @@ You can now edit `handler.go` and use the `faas-cli` to `build` and `deploy` you
 
 ##### Go `go` - dependencies
 
-Dependencies should be managed with a Go vendoring tool such as `dep` or Go modules.
+Dependencies should be managed with a Go modules. Vendoring is also supported.
 
 With Go modules:
 
