@@ -61,7 +61,7 @@ Choose a template and retrieve it locally with the command:
 
 ```sh
 $ faas-cli template store pull node10-express
-```  
+```
 
 Once downloaded, your chosen template and any others stored in the same repository will be available to use:
 
@@ -79,13 +79,11 @@ The classic templates are held in the [openfaas/templates](https://github.com/op
 
 There are several Golang templates available, which are listed below.
 
-| Name | Style        | Watchdog     | Dependencies     |
-|:-----|:-------------|:-------------|:-----------------|
-| `go` | Function     | classic      | vendoring or Go modules            |
-| `golang-middleware` | Microservice     | of-watchdog      | vendoring or Go modules
-| of-watchdog      |            |
-| `golang-http` | Function     | of-watchdog      | vendoring or Go modules
-| of-watchdog      |            |
+| Name                | Style        | Watchdog    | Dependencies            |
+|:--------------------|:-------------|:------------|:------------------------|
+| `go`                | Function     | classic     | vendoring or Go modules |
+| `golang-middleware` | Microservice | of-watchdog | vendoring or Go modules |
+| `golang-http`       | Function     | of-watchdog | vendoring or Go modules |
 
 All templates are available via `faas-cli template store list/pull`
 
@@ -128,8 +126,6 @@ You can now edit `handler.go` and use the `faas-cli` to `build` and `deploy` you
 
 Dependencies should be managed with a Go modules. Vendoring is also supported.
 
-With Go modules:
-
 Set the following `build_arg` in your stack.yml file, or use `faas-cli build/up --build-arg GO111MODULE=on`.
 
 ```yaml
@@ -141,7 +137,11 @@ functions:
       GO111MODULE: on
 ```
 
-If you would like to include sub-modules, you can create a GO_REPLACE.txt file and populate it with the contents of your go.mod. A replace statement is required for use with the classic Go template.
+Now use `go mod init function` to initialize your function. Once initialized, you can now use  `go get` to manage your dependencies.
+
+###### Including sub-mobuldes
+
+If you would like to include sub-modules, a certain replace statement is required in your `go.mod` file: `replace handler/function => ./`. This replace statement allows Go to see and use all sub-modules you create with-in your handler, for example
 
 
 Create your sub-package i.e. `handlers` and run `cd handlers ; go mod init`
@@ -179,7 +179,7 @@ package function
 import (
 	"fmt"
 
-	"github.com/alexellis/with-modules/handlers"
+	"handler/function/handlers"
 )
 
 // Handle a serverless request
@@ -191,39 +191,29 @@ func Handle(req []byte) string {
 }
 ```
 
-GO_REPLACE.txt:
+Now add the following replace statement to your `go.mod`
 
 ```
-replace github.com/alexellis/with-modules/handlers => ./function/handlers
+replace handler/function => ./
+```
+
+This can also be affected using
+
+```sh
+go mod edit -replace handler/function=./
 ```
 
 Now you can build with `--build-arg GO111MODULE=on` or with a `build_arg` map entry for the function in its stack.yml.
 
-With `dep`:
 
-* Get [dep](https://github.com/golang/dep)
+###### With vendoring
 
-```
-$ go get -u github.com/golang/dep/cmd/dep
-```
-
-* Initialise the dependencies
-
-```
-$ $GOPATH/bin/dep init
-```
+You can also use vendoring with Go modules. This can reduce build times, help deal with private module dependencies, or help with ensuring reproducible builds.
 
 * Now vendor a library
 
-Make sure you're in the `go-fn` folder, now use `dep ensure -add` and the name of the library you want. In this example we are vendoring the `github.com/cnf/structhash` package for use in our function.
+Go supports vendoring using `go mod vendor`. Make sure you're in the `go-fn` folder, now use `go mod vendor` to create (or later update) your vendor folder. Go will now use this vendor folder while building your function.
 
-```
-$ dep ensure -add github.com/cnf/structhash
-```
-
-* Reference the package from function
-
-You can now edit your function and add an import statement in `handler.go` to `github.com/cnf/structhash`.
 
 ##### Go `go` - with CGO
 
@@ -303,12 +293,12 @@ Successfully installed numpy-1.14.2
 
 There are three Node.js templates which use the newer of-watchdog:
 
-| Name | Style | Runtime | Version | async/await | Supported by nodejs.org |
-|:-----|:--------|:--------|:--------|:--------------|:------------------------|
-| node8-express            | Function | NodeJS | 8.x | no      | no                      |
-| node10-express           | Function | NodeJS | 10.x | no      | no                      |
-| node10-express-service   | Micro-service | NodeJS | 10.x | no      | no                      |
-| node12                   | Function | NodeJS | 12.x | yes     | yes, LTS version        |
+| Name                   | Style         | Runtime | Version | async/await | Supported by nodejs.org |
+|:-----------------------|:--------------|:--------|:--------|:------------|:------------------------|
+| node8-express          | Function      | NodeJS  | 8.x     | no          | no                      |
+| node10-express         | Function      | NodeJS  | 10.x    | no          | no                      |
+| node10-express-service | Micro-service | NodeJS  | 10.x    | no          | no                      |
+| node12                 | Function      | NodeJS  | 12.x    | yes         | yes, LTS version        |
 
 It is recommended that all new users opt for the `node12` template.
 
