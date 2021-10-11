@@ -13,11 +13,21 @@ You will need two DNS A records and to enable `Ingress` for your Kubernetes clus
 * Gateway - `http://gw.oauth.example.com`
 * Auth - `http://auth.oauth.example.com`
 
-Use `arkade` or `helm` and pass the following overrides, or edit your `values.yaml` file:
+Create a secret so that the plugin can access your OpenFaaS Pro license:
+
+```bash
+kubectl create secret generic \
+  -n openfaas \
+  openfaas-license \
+  --from-file license=$HOME/.openfaas/LICENSE
+```
+
+Cookies for UI sessions will be set at the `.oauth.example.com` level so that they can be shared between the gateway and the authentication plugin.
+
+Use `arkade` to install openfaas with the following overrides:
 
 ```sh
 export PROVIDER=""              # Set this to "azure" if using Azure AD.
-export LICENSE=""               # Obtain a trial from OpenFaaS Ltd, see above for instructions.
 export OAUTH_CLIENT_SECRET=""
 export OAUTH_CLIENT_ID=""
 export DOMAIN="oauth.example.com"
@@ -25,13 +35,10 @@ export DOMAIN="oauth.example.com"
 arkade install openfaas \
   --set oidcAuthPlugin.enabled=true \
   --set oidcAuthPlugin.provider=$PROVIDER \
-  --set oidcAuthPlugin.license=$LICENSE \
   --set oidcAuthPlugin.insecureTLS=false \
   --set oidcAuthPlugin.scopes="openid profile email" \
-  --set oidcAuthPlugin.jwksURL=https://example.eu.auth0.com/.well-known/jwks.json \
-  --set oidcAuthPlugin.tokenURL=https://example.eu.auth0.com/oauth/token \
+  --set oidcAuthPlugin.openidURL=https://example.eu.auth0.com/.well-known/openid-configuration \
   --set oidcAuthPlugin.audience=https://gw.$DOMAIN \
-  --set oidcAuthPlugin.authorizeURL=https://example.eu.auth0.com/authorize \
   --set oidcAuthPlugin.welcomePageURL=https://gw.$DOMAIN \
   --set oidcAuthPlugin.cookieDomain=.$DOMAIN \
   --set oidcAuthPlugin.baseHost=https://auth.$DOMAIN \
@@ -39,7 +46,13 @@ arkade install openfaas \
   --set oidcAuthPlugin.clientID=$OAUTH_CLIENT_ID 
 ```
 
-The `authorizeURL`, `tokenURL` and `jwksURL` contain my personal tenant URL, remember to customize this to your own from Auth0, or your IdP.
+> If you prefer, you can also use `helm` and pass the following overrides via `--set key=value`, or edit your `values.yaml` file. But if this is your first time setting up the plugin, you should first try the documentation as given before adapting it to helm. 
+
+> Note: as of version 0.5.0 of the plugin
+>
+> The `authorizeURL`, `tokenURL` and `jwksURL` values are no longer required. Instead `openidURL` is used to provide the OpenID Discovery endpoint such as `https://example.eu.auth0.com/.well-known/openid-configuration`
+> 
+> The license is no longer passed as a variable, instead it is accessed via a secret in the `openfaas` namespace.
 
 For `cookieDomain` - set the root URL of both of your sub-domains i.e. `.oauth.example.com`, this is so that the cookie set by the auth service can be used by the gateway.
 
