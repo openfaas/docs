@@ -24,3 +24,4 @@ There are several markdown extensions that can be used to create special formatt
 
 The list of OpenFaaS users can be found within [docs/index.md](docs/index.md#users-of-openfaas).  Additions to this list should be made while maintaining the alphabetical ordering.
 
+
