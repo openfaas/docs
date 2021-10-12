@@ -53,14 +53,17 @@ Caveats:
 * If you do not have a cloud provider for your Kubernetes cluster, but have a public IP, then you can install Nginx in "host-mode" and use the IP of one or more of your nodes for the DNS record.
 
   ```sh
-  $ helm install  nginxingress ingress-nginx/ingress-nginx --set rbac.create=true,controller.hostNetwork=true controller.daemonset.useHostPort=true,dnsPolicy=ClusterFirstWithHostNet,controller.kind=DaemonSet
+  $ helm install nginxingress ingress-nginx/ingress-nginx \
+    --set rbac.create=true,controller.hostNetwork=true \ 
+    --set controller.daemonset.useHostPort=true \
+    --set dnsPolicy=ClusterFirstWithHostNet \
+    --set controller.kind=DaemonSet
   ```
 
   Taken from tutorial: [Setup a private Docker registry with TLS on Kubernetes](https://github.com/alexellis/k8s-tls-registry)
 
-* If you do not have a public IP for your Kubernetes cluster, then you can use a project like [Inlets](https://inlets.dev) and bypass using cert-manager. Inlets has around half a dozen examples of configurations for Kubernetes.
 
-  [HTTPS for your local endpoints with inlets and Caddy](https://blog.alexellis.io/https-inlets-local-endpoints/)
+If you do not have a public IP for your Kubernetes cluster, then you can use the [inlets-operator](https://github.com/inlets/inlets-operator) to get a LoadBalancer for your local or private cluster, even behind NAT or a firewall.
 
 ### Install OpenFaaS
 
@@ -236,6 +239,16 @@ In your projects containing OpenFaaS functions, you can now deploy using your do
 ```sh
 faas-cli login --gateway https://gw.example.com --username <username> --password <password>
 faas-cli deploy --gateway https://gw.example.com
+```
+
+### Alternatives to using the helm chart
+
+An arkade app also exists which makes the above much easier by automating the Issuer and Ingress records for you:
+
+```bash
+  arkade install openfaas-ingress \
+  --domain openfaas.example.com \
+  --email openfaas@example.com
 ```
 
 ### Verify and Debug
