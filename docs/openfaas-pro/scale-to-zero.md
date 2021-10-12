@@ -2,6 +2,8 @@
 
 OpenFaaS PRO offers an additional component that can be used to scale idle functions to zero replicas. When scaled to zero, functions do not consume CPU or memory, and are then scaled back to the minimum desired amount of replicas upon first use.
 
+> Note: This functionality is part of [OpenFaaS Pro](https://openfaas.com/support/).
+
 ## Installation
 
 You can enable Scale to Zero using arkade or helm.
@@ -56,4 +58,11 @@ Then, you can invoke the function and you'll see the function scale up and get i
 echo | faas-cli invoke daily-job
 ```
 
-You can learn more about OpenFaaS auto-scaling here: [autoscaling](/reference/autoscaling.md)
+You can also deploy a store function, but bear in mind that they are not necessarily suitable for load testing:
+
+```bash
+faas-cli store deploy nodeinfo \
+  --annotation com.openfaas.scale.zero=true
+```
+
+You can learn more about OpenFaaS auto-scaling here: [autoscaling](/architecture/autoscaling)

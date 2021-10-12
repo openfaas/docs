@@ -6,7 +6,7 @@ OpenFaaS PRO is a commercial distribution of the OpenFaaS project for companies 
 
 OpenFaaS PRO launched with the following features, with commercial support provided via email for customers.
 
-* [Single Sign-On and OIDC](/openfaas-pro/sso) for enterprise-grade authentication and credential management
+* [Single Sign-On using OIDC](/openfaas-pro/sso) for enterprise-grade authentication and credential management
 * [Scale idle functions to zero](/openfaas-pro/scale-to-zero) to save on cost and increase efficiency
 * [Trigger functions via Kafka](/openfaas-pro/kafka-events) to integrate with existing events and systems
 

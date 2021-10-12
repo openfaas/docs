@@ -1,6 +1,8 @@
 # Trigger functions from Kafka
 
-OpenFaaS PRO offers an additional component that can be used to invoke functions from Kafka topics.
+Trigger function invocations from messages received on Kafka topics.
+
+> Note: This functionality is part of [OpenFaaS Pro](https://openfaas.com/support/).
 
 ## Installation
 
