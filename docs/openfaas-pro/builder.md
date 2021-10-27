@@ -21,7 +21,7 @@ The Pro Builder is available to OpenFaaS Pro customers. Email your support conta
 
 ## Usage
 
-Create a build context using the `faas-cli --shrinkwrap` command:
+Create a build context using the `faas-cli build --shrinkwrap` command:
 
 ```bash
 rm -rf /tmp/functions

@@ -2,7 +2,7 @@
 
 The `faas-provider` provides the CRUD API for Functions as well as the invoke capabilities.
 
-The [`faas-provider`](https://github.com/openfaas/faas-provider) is an SDK written in Go which conforms to the OpenFaaS Provider's HTTP REST API. Providers which implement the interface should be compatible with the OpenFaaS toolchain and ecosystem, including the UI, CLI, Function Store, Template Store and OpenFaaS Cloud.
+The [`faas-provider`](https://github.com/openfaas/faas-provider) is an SDK written in Go which conforms to the OpenFaaS Provider's HTTP REST API. Providers which implement the interface should be compatible with the OpenFaaS toolchain and ecosystem, including the UI, CLI, Function Store and Template Store.
 
 ![Conceptual diagram](/images/providers/providers-conceptual-flow.png)
 

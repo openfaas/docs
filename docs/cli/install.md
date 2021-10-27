@@ -60,7 +60,7 @@ There is no "latest" tag, so find the version of the CLI you want to use from th
 
 Use-cases for the Docker image:
 
-* Generate the build context without running `docker build`  - `faas-cli --shrinkwrap` 
+* Generate the build context without running `docker build`  - `faas-cli build --shrinkwrap` 
 * Deploy an existing image to a remote server `faas-cli deploy`
 * Manage secrets with `faas-cli secret`
 * Invoke functions via cron with `faas-cli invoke`

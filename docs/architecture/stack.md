@@ -6,7 +6,6 @@ The recommended platform for deploying OpenFaaS is [Kubernetes](https://kubernet
 
 ![Layers](https://github.com/openfaas/faas/raw/master/docs/of-layer-overview.png)
 
-* [OpenFaaS Cloud](/openfaas-cloud/intro/) builds upon OpenFaaS to deliver GitOps with GitHub.com or GitLab self-hosted
 * [NATS](https://github.com/nats-io) provides asynchronous execution and queuing
 * [Prometheus](https://prometheus.io/) provides metrics and enables auto-scaling through [AlertManager](https://prometheus.io/docs/alerting/overview/)
 * A container registry holds each immutable artifact that can be deployed on OpenFaaS via the API

@@ -50,9 +50,3 @@ docker-build:
 For Kubernetes you do not need the flag of `--send-registry-auth` for the `faas-cli deploy` command. 
 
 Save this file in the git repo root of each set of functions you want to build and deploy.
-
-## Build functions for your team or whole instance
-
-It may be tiresome to maintain individual files for each repo and project. OpenFaaS Cloud automates this task and supports both GitHub and GitLab.
-
-See also: [OpenFaaS Cloud](../../../openfaas-cloud/intro/)

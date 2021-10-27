@@ -2,12 +2,6 @@
 
 Due to the fact that OpenFaaS functions are built into portable Docker images you can use any container builder to build your functions. The `faas-cli` can be used to `build`, `push` and `deploy` your functions.
 
-### OpenFaaS Cloud (easiest option)
-
-OpenFaaS Cloud provides automatic, integrated CI/CD for public and private repositories hosted on GitHub.com or self-hosted GitLab.
-
-See also: [OpenFaaS Cloud](../../../openfaas-cloud/intro/)
-
 ### Use the native `faas-cli`
 
 It is recommended to use the `faas-cli` binary for building and deploying your functions whether that is to Kubernetes or faasd.
@@ -36,6 +30,14 @@ You can also use `--parallel` or / `--filter` when you have multiple functions i
     The `faas-cli build` command invokes the `docker` CLI with the various flags and parameters required. If you want to use an alternative builder you can use the `--shrinkwrap` flag to generate a folder named `./build/<function>` which can then be used with any other container builder such as [BuildKit](https://github.com/moby/buildkit) or [Kaniko](https://blog.alexellis.io/quick-look-at-google-kaniko/).
 
 See also: [`faas-cli build` reference](/cli/build/).
+
+### Building via REST API
+
+Customers of OpenFaaS Pro can make use of our in-cluster builder.
+
+Send your code as generated with `faas-cli build --shrinkwrap` to the `/build` endpoint of the OpenFaaS Pro builder and receive a JSON response with build logs and a URL to the published image.
+
+Learn more: [Pro Builder API](/openfaas-pro/builder/)
 
 ### GitLab
 
