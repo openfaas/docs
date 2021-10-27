@@ -1,8 +1,8 @@
-# Retries for asynchronous messages
+# Retries for functions
 
 OpenFaaS Pro offers an upgraded queue-worker which allows for messages to be retried a number of times using an exponential back-off algorithm to mitigate the impact associated with retrying messages.
 
-> Note: This functionality is part of [OpenFaaS Pro](https://openfaas.com/support/).
+> Note: This feature is included for [OpenFaaS Pro](https://openfaas.com/support/) customers.
 
 There are two primary use-cases for retrying asynchronous messages:
 

@@ -126,6 +126,8 @@ nav:
       - Single Sign-On: ./openfaas-pro/sso.md
       - Scale to Zero: ./openfaas-pro/scale-to-zero.md
       - Kafka events: ./openfaas-pro/kafka-events.md
+      - Retries: ./openfaas-pro/retries.md
+      - Function Builder: ./openfaas-pro/builder.md
   - Reference:
     - CI/CD:
       - Intro: ./reference/cicd/intro.md

@@ -2,7 +2,7 @@
 
 OpenFaaS Pro offers an additional component that can be used to scale idle functions to zero replicas. When scaled to zero, functions do not consume CPU or memory, and are then scaled back to the minimum desired amount of replicas upon first use.
 
-> Note: This functionality is part of [OpenFaaS Pro](https://openfaas.com/support/).
+> Note: This feature is included for [OpenFaaS Pro](https://openfaas.com/support/) customers.
 
 ## Installation
 

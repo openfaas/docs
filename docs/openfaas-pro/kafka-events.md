@@ -2,7 +2,7 @@
 
 Trigger function invocations from messages received on Kafka topics.
 
-> Note: This functionality is part of [OpenFaaS Pro](https://openfaas.com/support/).
+> Note: This feature is included for [OpenFaaS Pro](https://openfaas.com/support/) customers.
 
 ## Installation
 
