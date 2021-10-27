@@ -11,10 +11,9 @@ Guidelines for using Slack:
 Channels:
 
 * `#openfaas` - news, events, offers and questions relating to OpenFaaS
-* `#contributors` - contribute to projects maintained by the OpenFaaS commjunity
-* `#general` - OSS, Cloud Native, Kubernetes, containers, coding or [k3sup](https://k3sup.dev/) and [arkade app installer](https://get-arkade.dev/)
-* `#openfaas-cloud` - OpenFaaS Cloud development and help
-* `#inlets` - help, news and community for inlets - The Cloud Native Tunnel
+* `#contributors` - contribute to projects maintained by the OpenFaaS community
+* `#general` - OSS, Cloud Native, Kubernetes, containers, coding or [k3sup](https://k3sup.dev/) and the [arkade marketplace](https://arkade.dev/)
+* `#inlets` - community and support for [production-ready inlets tunnels](https://inlets.dev/)
 
 Fill out [this form to join](https://goo.gl/forms/SqpLSdyzVoOboRqs1).
 
@@ -28,21 +27,19 @@ Consulting and priority support is available [for OpenFaaS Ltd customers](https:
 
 ### Community Insiders Program and GitHub Sponsors
 
-Find out how you can get exclusive updates and offers directly from the project lead.
+Sponsor the project as an individual from 25 USD / mo and get access to exclusive updates on OpenFaaS from the project founder:
 
-Join 150+ other developers in supporting the continued work of OpenFaaS.
+[Become an Insider via GitHub Sponsors](https://github.com/sponsors/openfaas)
 
-[Become an Insider via GitHub Sponsors](https://github.com/sponsors/alexellis)
+### eBooks and training
 
-### SWAG Store
+Learn everything you need to know to build and run functions with OpenFaaS in our handbook: [Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)
 
-Buy t-shirts, mugs, hoodies and more from the SWAG store.
-
-[OpenFaaS Ltd SWAG Store](https://store.openfaas.com)
+Start your journey with Go or go deeper into unit-testing, Goroutines, GitHub Actions and Prometheus metrics with: [Everyday Go](https://openfaas.gumroad.com/l/everyday-golang)
 
 ## Community resources
 
-Blog posts, upcoming/past events and code examples are available on the community resources page indexed by year. Please send us a Pull Request!
+Blog posts, upcoming/past events and code examples are available on the community resources page indexed by year. Please send us a Pull Request.
 
 * [OpenFaaS Community Page](https://github.com/openfaas/faas/blob/master/community.md)
 
