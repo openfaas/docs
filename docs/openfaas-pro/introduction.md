@@ -20,15 +20,12 @@ Coming soon:
 
 Is there something else you need for your organisation? Let us know [via an email introduction](mailto:contact@openfaas.com).
 
-You can apply for a [free 14-day trial](https://openfaas.com/support/)
-
 ## Support
 
-Support is included for OpenFaaS Pro features for customers. During the trial period, users may access the Slack community and documentation free of charge, however this is not reflective of the commercial support service.
+Support is included for OpenFaaS Pro features for customers.
 
-Support for the broader OpenFaaS Project is available through Premium Consulting.
+Support for the 40 Open Source projects that make up OpenFaaS is available through an Enterprise Support agreement from OpenFaaS Ltd.
 
 ## Pricing
 
 Are you interested in OpenFaaS Pro for your organisation? Find out more, kick the tires with a 14-day free trial, or find out more about OpenFaaS Pro [Contact us](https://openfaas.com/support/)
-
