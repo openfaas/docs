@@ -54,7 +54,7 @@ If you'd like to add an event source which is not listed below you can fork the 
 
 ### Cron Connector
 
-The [cron-connector](https://github.com/openfaas/cron-connector) is an OpenFaaS event-connector which can be used to trigger functions on a timed-basis. It works with all OpenFaaS providers.
+The [cron-connector](https://github.com/openfaas/cron-connector) is an OpenFaaS event-connector which can be used to trigger functions on a timed-basis. It works with all OpenFaaS Providers.
 
 ### MQTT Connector
 
@@ -68,7 +68,7 @@ OpenFaaS has a built-in queue system with NATS Streaming, however you can also i
 
 View the [nats-connector](https://github.com/openfaas/nats-connector)
 
-### Apache Kafka (OpenFaaS PRO)
+### Apache Kafka (OpenFaaS Pro)
 
 Connect your function(s) to [Apache Kafka](https://kafka.apache.org) topics.
 

@@ -1,6 +1,6 @@
 # Function Logs
 
-Via an extensible API, OpenFaaS provides access to function logs via the Gateway API and the CLI. This provides a simple and consistent way to access function logs regardless of your orchestration provider.
+Via an extensible API, OpenFaaS Provides access to function logs via the Gateway API and the CLI. This provides a simple and consistent way to access function logs regardless of your orchestration provider.
 
 The log provider for Kubernetes `faas-netes` fetches records directly from the Kubernetes API, so it will give similar output to `kubectl logs -n openfaas-fn deploy/function`.
 

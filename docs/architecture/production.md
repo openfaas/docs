@@ -174,7 +174,7 @@ For high-throughput, low-latency operations you may prefer to use the of-watchdo
 
 ### Use a non-root user
 
-Each template authored by the OpenFaaS project already uses a non-root user, but if you have your own templates then ensure that they are running as a non-root user to help mitigate against vulnerabilities. 
+Each template authored by the OpenFaaS Project already uses a non-root user, but if you have your own templates then ensure that they are running as a non-root user to help mitigate against vulnerabilities. 
 
 ### Enable a read-only filesystem
 

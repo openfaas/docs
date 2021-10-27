@@ -154,7 +154,7 @@ Now run the following command which will give you the commands you require to re
 arkade info openfaas
 ```
 
-Alternatively, consider using the [Single-Sign On module from OpenFaaS PRO](https://docs.openfaas.com/reference/authentication/#oidc-and-oauth2-for-the-openfaas-api).
+Alternatively, consider using the [Single-Sign On module from OpenFaaS Pro](https://docs.openfaas.com/reference/authentication/#oidc-and-oauth2-for-the-openfaas-api).
 
 ### Traffic is not being spread evenly between functions
 

@@ -79,7 +79,7 @@ There are limits for asynchronous functions, which you should understand before 
 * Concurrency / parallelism - the amount of function invocations processed at any one time.
 * Named queues - by default there is one queue, but additional queues can be added. Each named queue can have its own timeout and concurrency.
 * Payload size - the maximum size is configured to be 1MB. The limit is defined by NATS, but can be changed. Use a database, or S3 bucket for storing large payloads, and pass an identifier to function calls.
-* Retries - retries are available in [OpenFaaS PRO](https://openfaas.com/support/) with an exponential back-off.
+* Retries - retries are available in [OpenFaaS Pro](https://openfaas.com/support/) with an exponential back-off.
 
 #### Parallelism
 

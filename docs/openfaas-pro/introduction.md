@@ -1,10 +1,10 @@
-## OpenFaaS PRO
+## OpenFaaS Pro
 
-OpenFaaS PRO is a commercial distribution of the OpenFaaS project for companies and enterprises.
+OpenFaaS Pro is a commercial distribution of the OpenFaaS Project for companies and enterprises.
 
 ## Included features
 
-OpenFaaS PRO launched with the following features, with commercial support provided via email for customers.
+OpenFaaS Pro launched with the following features, with commercial support provided via email for customers.
 
 * [Single Sign-On using OIDC](/openfaas-pro/sso) for enterprise-grade authentication and credential management
 * [Scale idle functions to zero](/openfaas-pro/scale-to-zero) to save on cost and increase efficiency
@@ -22,11 +22,11 @@ You can apply for a [free 14-day trial](https://openfaas.com/support/)
 
 ## Support
 
-Support is included for OpenFaaS PRO features for customers. During the trial period, users may access the Slack community and documentation free of charge, however this is not reflective of the commercial support service.
+Support is included for OpenFaaS Pro features for customers. During the trial period, users may access the Slack community and documentation free of charge, however this is not reflective of the commercial support service.
 
-Support for the broader OpenFaaS project is available through Premium Consulting.
+Support for the broader OpenFaaS Project is available through Premium Consulting.
 
 ## Pricing
 
-Are you interested in OpenFaaS PRO for your organisation? Find out more, kick the tires with a 14-day free trial, or find out more about OpenFaaS PRO [Contact us](https://openfaas.com/support/)
+Are you interested in OpenFaaS Pro for your organisation? Find out more, kick the tires with a 14-day free trial, or find out more about OpenFaaS Pro [Contact us](https://openfaas.com/support/)
 

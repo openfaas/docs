@@ -22,7 +22,7 @@ Examples may be: writing some Go code, reviewing a PR, helping with the website 
 
 If you are new with Docker, Kubernetes, or Go and would like to learn or just improve your skills, you may find the following links useful.
 
-Check out Alex's eBook on Everyday Go - with examples, recipes and techniques used on the OpenFaaS project in production: [Everyday Go](https://gumroad.com/l/everyday-golang)
+Check out Alex's eBook on Everyday Go - with examples, recipes and techniques used on the OpenFaaS Project in production: [Everyday Go](https://gumroad.com/l/everyday-golang)
 
 * **Golang**
     * [Go Official Website](https://golang.org)

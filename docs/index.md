@@ -42,7 +42,7 @@ See also: [Tech stack & layers](/architecture/stack/) & [Preparing for productio
 
 ## Support & getting help
 
-* [OpenFaaS PRO and Premium Consulting](https://www.openfaas.com/support) - Learn about OpenFaaS PRO features and our commercial services
+* [OpenFaaS Pro and Premium Consulting](https://www.openfaas.com/support) - Learn about OpenFaaS Pro features and our commercial services
 * [Join Slack](https://docs.openfaas.com/community) - a community run by volunteers
 * [OpenFaaS Blog](https://www.openfaas.com/blog/) - read latest news and tutorials
 

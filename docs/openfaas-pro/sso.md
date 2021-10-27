@@ -107,7 +107,7 @@ You may also run into issues if your redirect domain is not set correctly in the
 
 You can check the logs of the plugin via: `kubectl logs -n openfaas deploy/oauth2-plugin`
 
-OpenFaaS PRO customers have support included as part of their package and can [contact us via email](mailto:contact@openfaas.com).
+OpenFaaS Pro customers have support included as part of their package and can [contact us via email](mailto:contact@openfaas.com).
 
 ### Gain access via the UI
 

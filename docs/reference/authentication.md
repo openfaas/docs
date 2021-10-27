@@ -17,13 +17,13 @@ These APIs exist at:
 
 The OpenFaaS API Gateway provides built-in basic authentication. It is enabled by default for OpenFaaS on Kubernetes and faasd.
 
-Commercial users should explore the [Single Sign-On](/openfaas-pro/sso) feature of OpenFaaS PRO, to prevent the need to share credentials between users and systems.
+Commercial users should explore the [Single Sign-On](/openfaas-pro/sso) feature of OpenFaaS Pro, to prevent the need to share credentials between users and systems.
 
 ### Single Sign-On (SSO) and OIDC
 
 Single Sign-On (SSO) uses your identity provider such as Auth0, Okta, Azure Active Directory or GitLab to authenticate users to your OpenFaaS API. It supports the CLI, UI and machine-based authentication. It means that you no longer need to share a single credential with any administrators, and don't need to redeploy your OpenFaaS installation if an employee leaves the company, and you need to rotate the password.
 
-Learn more about (SSO) and OIDC in [OpenFaaS PRO](/openfaas-pro/sso)
+Learn more about (SSO) and OIDC in [OpenFaaS Pro](/openfaas-pro/sso)
 
 ### Authentication plugins
 
@@ -64,7 +64,7 @@ Building a portal for users is also a common use-case for functions. You can ena
 
 ### Basic authentication
 
-You can enable basic-authentication for a web-portal or an API by setting the appropriate header such as `WWW-Authenticate: Basic realm="User Visible Realm"`. This is the approach that the OpenFaaS gateway takes, and the OpenFaaS PRO edition comes with an OIDC integration.
+You can enable basic-authentication for a web-portal or an API by setting the appropriate header such as `WWW-Authenticate: Basic realm="User Visible Realm"`. This is the approach that the OpenFaaS gateway takes, and the OpenFaaS Pro edition comes with an OIDC integration.
 
 Learn more: [Basic auth](https://en.wikipedia.org/wiki/Basic_access_authentication)
 

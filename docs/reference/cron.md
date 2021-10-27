@@ -176,7 +176,7 @@ spec:
 
 ## Cron Connector
 
-The [cron-connector](https://github.com/openfaas/cron-connector) is an OpenFaaS event-connector which can be used to trigger functions on a timed-basis. It makes use of the OpenFaaS REST API, so it is capable of working with all OpenFaaS providers.
+The [cron-connector](https://github.com/openfaas/cron-connector) is an OpenFaaS event-connector which can be used to trigger functions on a timed-basis. It makes use of the OpenFaaS REST API, so it is capable of working with all OpenFaaS Providers.
 
 ### Kubernetes
 

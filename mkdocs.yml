@@ -121,7 +121,7 @@ nav:
       - Logs: ./cli/logs.md
       - Working with image tags: ./cli/tags.md
       - Shell auto completion: ./cli/completion.md
-  - OpenFaaS PRO:
+  - OpenFaaS Pro:
       - Introduction: ./openfaas-pro/introduction.md
       - Single Sign-On: ./openfaas-pro/sso.md
       - Scale to Zero: ./openfaas-pro/scale-to-zero.md
