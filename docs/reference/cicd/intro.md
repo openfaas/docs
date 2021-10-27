@@ -39,11 +39,19 @@ Send your code as generated with `faas-cli build --shrinkwrap` to the `/build` e
 
 Learn more: [Pro Builder API](/openfaas-pro/builder/)
 
+### GitHub Actions
+
+GitHub Actions coupled with GitHub Container Registry is a fast and efficient way to build functions from public or private without hosting additional infrastructure.
+
+We provide a complete multi-arch example in [Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else).
+
 ### GitLab
 
-GitLab is both a source-control management system and a CI tool.
+GitLab is a source-control management system which is offered on a SaaS or self-hosted basis.
 
-You can find a pipeline example on the [GitLab CI/CD page](../gitlab/).
+You can find a GitLab pipeline example on the [GitLab CI/CD page](../gitlab/).
+
+If you require support, [you can contact us](https://openfaas.com/support/) about consulting services.
 
 ### GitHub
 
@@ -63,7 +71,3 @@ It's really up to you.
 ### Git examples with Jenkins Pipeline
 
 Examples with Docker-in-Docker: [Jenkins Pipeline examples](../jenkins/)
-
-### GitHub Actions
-
-* [Build and deploy OpenFaaS functions with GitHub Actions](https://www.openfaas.com/blog/openfaas-functions-with-github-actions/) By Utsav Anand
