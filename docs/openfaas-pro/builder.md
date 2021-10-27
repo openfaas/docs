@@ -17,7 +17,9 @@ Various self-hosted, open source and managed registries are supported.
 
 ## Installation
 
-The Pro Builder is available to OpenFaaS Pro customers. Email your support contact for more information.
+The Pro Builder is available to OpenFaaS Pro customers.
+
+Install the builder using its [helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/pro-builder).
 
 ## Usage
 
