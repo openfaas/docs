@@ -118,15 +118,18 @@ For example, a mixture of taints and affinity can put less critical functions on
 In this example, we create a Profile using taints and affinity to place functions on the node with a GPU.  We will also ensure that _only_ functions that require the GPU are scheduled on these nodes. This ensures that the functions that need to use the GPU are not blocked by other standard functions taking resources on these special nodes.
 
 1. Install the latest `faas-netes` release and the CRD. The is most easily done with [`arkade`](https://github.com/alexellis/arkade)
+
     ```sh
     arkade install openfaas
     ```
+
     This default installation will enable Profiles.
 
 2. Label _and_ Taint the node with the GPU
+
     ```sh
-    kubectl labels nodes node1 gpu=installed
-    kubectl taint nodes node1 gpu:NoSchedule
+    kubectl label nodes <NODE_NAME> gpu=installed
+    kubectl taint nodes <NODE_NAME> gpu:NoSchedule
     ```
 
 3. Create a Profile to that allows functions to run on this node
@@ -145,15 +148,17 @@ In this example, we create a Profile using taints and affinity to place function
         affinity:
           nodeAffinity:
             requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                - matchExpressions:
+              nodeSelectorTerms:
+              - matchExpressions:
                 - key: gpu
                   operator: In
                   values:
                   - installed
     EOF
     ```
+
 3. Let your developers creating functions that need GPU support, they must use this annotation
-    ```
+
+    ```yaml
     com.openfaas.profile: withgpu
     ```
