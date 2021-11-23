@@ -302,7 +302,7 @@ There are three Node.js templates which use the newer of-watchdog:
 | node17                 | Function      | NodeJS  | 17.x    | yes, Current            |
 
 
-It is recommended that all new users opt for the `node16` template.
+It is recommended that all new users opt for an [Active LTS version](https://nodejs.org/en/about/releases/) of Node.js.
 
 ##### Node.js - async/await
 
