@@ -15,7 +15,7 @@ Channels:
 * `#general` - OSS, Cloud Native, Kubernetes, containers, coding or [k3sup](https://k3sup.dev/) and the [arkade marketplace](https://arkade.dev/)
 * `#inlets` - community and support for [production-ready inlets tunnels](https://inlets.dev/)
 
-Fill out [this form to join](https://goo.gl/forms/SqpLSdyzVoOboRqs1).
+Fill out [this form to join](https://forms.gle/j9SiJUnBpHtZNdDY9).
 
 ## Getting help
 
