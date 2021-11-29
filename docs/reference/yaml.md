@@ -437,10 +437,10 @@ configuration:
       source: https://github.com/openfaas-incubator/openfaas-rust-template
 ```
 
-Pull templates listed under the `templates` field:
+Pull templates listed under the `configuration.templates` field:
 
 ```sh
-$ faas-cli pull template stack
+$ faas-cli template pull stack
 ```
 
 By default if only `name` is provided the template will be pulled from the template store.
