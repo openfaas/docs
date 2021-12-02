@@ -82,8 +82,8 @@ Connect your functions to [AWS SQS](https://aws.amazon.com/sqs/) queues using Fo
 
 You can trigger OpenFaaS functions using Minio's webhook or Kafka integration.
 
-* [Minio's webhook integration](https://blog.minio.io/introducing-webhooks-for-minio-e2c3ad26deb2)
-* [Minio's Kafka integration](https://docs.minio.io/docs/minio-bucket-notification-guide.html#apache-kafka)
+* [Minio's webhook integration](https://blog.min.io/introducing-webhooks-for-minio/)
+* [Minio's Kafka integration](https://docs.min.io/docs/minio-bucket-notification-guide.html#apache-kafka)
 
 ### CloudEvents
 
