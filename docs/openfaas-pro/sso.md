@@ -119,20 +119,25 @@ A cookie will be set in your browser so that you don't have to log in again unti
 
 ### Gain access via the CLI (interactive)
 
-The CLI uses the [implicit grant flow](https://oauth.net/2/grant-types/implicit/) for interactive usage such as your daily workflow from your own computer / workstation.
+For interactive usage such as your daily workflow from your own computer / workstation. The CLI uses the [code grant flow](https://oauth.net/2/grant-types/authorization-code/) [with the PKCE extensions](https://oauth.net/2/pkce/). The `code_challenge_method` for PKCE is set to SHA256, if you require the "plain" method, reach out to support.
 
 Run the following:
 
 ```sh
 faas-cli auth \
+  --grant code \
   --auth-url https://tenant0.eu.auth0.com/authorize \
-  --audience http://gw.oauth.example.com \
-  --client-id "${OAUTH_CLIENT_ID}"
+  --token-url https://tenant0.eu.auth0.com/oauth/token \
+  --client-id "${OAUTH_CLIENT_ID}" \
 ```
 
-You will receive a token on the command-line and same will be saved to openfaas config file. `faas-cli` will read the token and pass it for future commands which requires authentication. 
+> `--audience` is optional
+
+You will receive a token on the command-line and same will be saved to openfaas config file. `faas-cli` will read the token and pass it for future commands which requires authentication.
 
 You can also export it with `export TOKEN=""` and use it with any command: `faas-cli list --token="${TOKEN}"`
+
+> The implicit code grant flow is supported for legacy users, [but is no longer recommended](https://oauth.net/2/grant-types/implicit/). Use the code grant flow with PKCE instead.
 
 See also: [faas-cli README](https://github.com/openfaas/faas-cli)
 
@@ -162,7 +167,7 @@ faas-cli auth \
   --auth-url https://tenant0.eu.auth0.com/oauth/token \
   --client-id "${OAUTH_CLIENT_ID}" \
   --client-secret "${OAUTH_CLIENT_SECRET}"\
-  --audience http://gw.oauth.example.com
+  --audience http://gw.oauth.example.com \
 ```
 
 You will receive a token on the command-line which is also saved in `~/.openfaas/config.yml`.
