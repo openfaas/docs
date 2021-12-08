@@ -42,8 +42,7 @@ See also: [Tech stack & layers](/architecture/stack/) & [Preparing for productio
 
 ## Support & getting help
 
-* [OpenFaaS Pro and Premium Consulting](https://www.openfaas.com/support) - Learn about OpenFaaS Pro features and our commercial services
-* [Join Slack](https://docs.openfaas.com/community) - a community run by volunteers
+* [Contact us for support](https://www.openfaas.com/support) - Learn about OpenFaaS Pro features and our commercial services
 * [OpenFaaS Blog](https://www.openfaas.com/blog/) - read latest news and tutorials
 
 ## Become a Sponsor
@@ -75,13 +74,9 @@ Deploy OpenFaaS to Kubernetes, OpenShift, or faasd [deployment guides](./deploym
 
 OpenFaaS has a thriving community of Open Source contributors and users.
 
-* Find out more on the [community page](/community/) and join the Slack workspace
-
 Have you written a blog about OpenFaaS? Send a Pull Request to the community page below.
 
 * [Read blogs/articles and find events about OpenFaaS](https://github.com/openfaas/faas/blob/master/community.md)
-
-If you'd like to join OpenFaaS community Slack channel to chat with contributors or get some help - then fill out the [Google Forms page](https://goo.gl/forms/SqpLSdyzVoOboRqs1)
 
 ### Users of OpenFaaS
 

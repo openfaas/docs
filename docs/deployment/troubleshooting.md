@@ -10,7 +10,7 @@ The troubleshooting instructions for [faasd](https://github.com/openfaas/faasd) 
 
 Kubernetes is a complex distributed system, and there are many things that can cause friction for new users. This guide is devoted to helping you help yourself.
 
-If you want to ask for help, make sure that you have run all of the commands below before doing so. Be prepared with a text file that you can upload to Slack as a snippet, or that you can email in, or attach to a GitHub issue.
+If you want to ask for help, make sure that you have run all of the commands below before doing so.
 
 ### OpenFaaS didn't start
 

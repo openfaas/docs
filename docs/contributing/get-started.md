@@ -43,8 +43,6 @@ Check out Alex's eBook on Everyday Go - with examples, recipes and techniques us
 
 ## Communicate with the community
 
-Let the project team know in the #contributors channel on Slack.
-
 * Decide how many hours you think you may be able to contribute
 * Think about where you are most comfortable starting out and what you would like to work on
 * Ask for help if you don't know where to begin

@@ -1,37 +1,40 @@
 # OpenFaaS Community
 
-## Slack Workspace
+## GitHub Sponsors
 
-Guidelines for using Slack:
+If you become an individual sponsor for OpenFaaS on GitHub, then you'll get access to:
 
-* When asking questions please be consider and use a thread
-* We can't answer questions like "why doesn't X work" unless you provide a snippet or GitHub repo to reproduce a problem
-* If you're a commercial user please let us know which company you're representing
+* Show up as a Sponsor on Issues and Pull requests on GitHub (Sponsors are prioritised)
+* Weekly emails from the project lead on features, news and updates
+* Get discounts and offers in the [OpenFaaS Sponsors' Portal](https://insiders.alexellis.io/)
 
-Channels:
+[Become an individual sponsor via GitHub](https://github.com/sponsors/openfaas)
 
-* `#openfaas` - news, events, offers and questions relating to OpenFaaS
-* `#contributors` - contribute to projects maintained by the OpenFaaS community
-* `#general` - OSS, Cloud Native, Kubernetes, containers, coding or [k3sup](https://k3sup.dev/) and the [arkade marketplace](https://arkade.dev/)
-* `#inlets` - community and support for [production-ready inlets tunnels](https://inlets.dev/)
+## Being successful with OpenFaaS
 
-Fill out [this form to join](https://forms.gle/j9SiJUnBpHtZNdDY9).
+You shouldn't need to become an OpenFaaS expert overnight to find your way. Therefore we offer abundant free resources online, and commercial support for those of you who want to go faster and be certain of your approach.
 
-## Getting help
+* The docs and blog
 
-The GitHub repositories can be a rich source of information, but you are encouraged to ask your support questions through Slack and keep the issue tracker for flagging issues with the code or release and for proposing features to support your use-case.
+    The OpenFaaS documentation has everything you need to get started and go to production. If you need more than this, you can [contact us about commercial support](https://openfaas.com/support/).
 
-### Consulting and commercial users
+    Read the [blog](https://openfaas.com/blog) on a regular basis to keep up with news, features and to learn use-cases.
 
-Consulting and priority support is available [for OpenFaaS Ltd customers](https://openfaas.com/support/).
+* Technical support
 
-### Community Insiders Program and GitHub Sponsors
+    Commercial users of OpenFaaS can contact the team to find out about support and other ways we can help you have success with the project.
 
-Sponsor the project as an individual from 25 USD / mo and get access to exclusive updates on OpenFaaS from the project founder:
+    [Contact support](https://openfaas.com/support/)
 
-[Become an Insider via GitHub Sponsors](https://github.com/sponsors/openfaas)
+* How we use GitHub
 
-### eBooks and training
+    The OpenFaaS GitHub repositories are only for tracking actual code changes. Issues can be created if they have reproducible instructions (a test case) and context. Who you are, what progress you're trying to achieve.
+
+    GitHub is not for asking questions or for getting technical support.
+
+## Training and eBooks
+
+You can book a 2 hour training workshop with the founder of OpenFaaS: "Introduction to Serverless on Kubernetes" for your team. [Register interest](https://openfaas.com/support/) for more information.
 
 Learn everything you need to know to build and run functions with OpenFaaS in our handbook: [Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)
 
@@ -52,7 +55,14 @@ Blog posts, upcoming/past events and code examples are available on the communit
 
 * How do I become a contributor?
 
-Anyone is invited to contribute to the project in-line with the [contribution guide](https://github.com/openfaas/faas/blob/master/CONTRIBUTING.md) - you can also read the guide for ideas on how to get involved. We invite new contributors to join our Slack community. We would also ask you to propose any changes or contributions ahead of time, especially when there is no issue or proposal already tracking it.
+Anyone is invited to contribute to the project in-line with the [contribution guide](https://github.com/openfaas/faas/blob/master/CONTRIBUTING.md) - you can also read the guide for ideas on how to get involved.
+
+Key points:
+
+* Propose your idea in an issue
+* Always fill out the whole issue and PR template
+* Give the context of why you need this and what company you're working for
+* Don't start work on it until you receive approval from a maintainer
 
 Start here: [Contribute to the project](./contributing/get-started.md)
 
