@@ -156,6 +156,20 @@ arkade info openfaas
 
 Alternatively, consider using the [Single-Sign On module from OpenFaaS Pro](https://docs.openfaas.com/reference/authentication/#oidc-and-oauth2-for-the-openfaas-api).
 
+### Can I manage functions via kubectl?
+
+Yes using the Function Custom Resource: [Learn how to manage your functions with kubectl](https://www.openfaas.com/blog/manage-functions-with-kubectl/)
+
+This is required for Flux or ArgoCD. It also lets you deploy functions via Helm.
+
+### How to I manage different environments like staging and production?
+
+OpenFaaS supports both multiple-namespaces and multiple configuration files for functions. Learn more: [Configure your OpenFaaS functions for staging and production](https://www.openfaas.com/blog/custom-environments/)
+
+### Does OpenFaaS support multi-tenancy?
+
+Yes, if configured correctly. [Call us to find out more](https://openfaas.com/support)
+
 ### Traffic is not being spread evenly between functions
 
 You will need to ensure that you are doing one of the following:
