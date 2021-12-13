@@ -1,31 +1,31 @@
 ## OpenFaaS Pro
 
-OpenFaaS Pro is a commercial distribution of the OpenFaaS Project for companies and enterprises.
+OpenFaaS Pro is a commercial distribution of OpenFaaS for companies and enterprises.
 
 ## Included features
 
 OpenFaaS Pro launched with the following features, with commercial support provided via email for customers.
 
-* [Single Sign-On using OIDC](/openfaas-pro/sso) for enterprise-grade authentication and credential management
+* [Trigger functions via Kafka](/openfaas-pro/kafka-events) for event-driven functions and to integrate with your existing systems
 * [Scale idle functions to zero](/openfaas-pro/scale-to-zero) to save on cost and increase efficiency
-* [Trigger functions via Kafka](/openfaas-pro/kafka-events) to integrate with existing events and systems
-* [Retries for invocations](/openfaas-pro/retries) to handle failures, known problems and concurrency-limited functions
-* [Build functions via REST API](/openfaas-pro/builder) to create functions from source code and scale out
+* [Retries for invocations](/openfaas-pro/retries) to handle failures, known problems with downstream APIs and concurrency-limited functions
+* [Single Sign-On using OIDC](/openfaas-pro/sso) for enterprise-grade authentication and more secure credential management
+* [Build functions via REST API](/openfaas-pro/builder) to create functions from source code, without defining and managing hundreds of independent CI jobs.
 
-Coming soon:
+On our roadmap:
 
-* New UI portal for managing and monitoring OpenFaaS functions across namespaces
-* Advanced concurrency limiting for functions
-* Advanced multi-tenancy support and configurations
+* A new UI portal for managing and monitoring OpenFaaS functions across namespaces
+* Advanced concurrency limiting for functions for private or memory/CPU bound workloads.
+* Advanced authorization model for multi-tenancy and service providers
 
-Is there something else you need for your organisation? Let us know [via an email introduction](mailto:contact@openfaas.com).
+Is there something else you need for your organisation? [Get in touch with us here](https://openfaas.com/support/).
 
 ## Support
 
-Support is included for OpenFaaS Pro features for customers.
+Support is included for OpenFaaS Pro features for customers via email.
 
-Support for the 40 Open Source projects that make up OpenFaaS is available through an Enterprise Support agreement from OpenFaaS Ltd.
+Support for the 40+ Open Source projects that make up OpenFaaS is available through an Enterprise Support agreement from OpenFaaS Ltd.
 
-## Pricing
+## Getting started
 
-Are you interested in OpenFaaS Pro for your organisation? Find out more, kick the tires with a 14-day free trial, or find out more about OpenFaaS Pro [Contact us](https://openfaas.com/support/)
+Are you interested in OpenFaaS for your organisation? [Contact us](https://openfaas.com/support/) to find out more.
