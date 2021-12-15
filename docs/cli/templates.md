@@ -289,7 +289,7 @@ Successfully installed numpy-1.14.2
 ...
 ```
 
-#### Node.js 14 `node14` (of-watchdog template)
+#### Node.js templates (of-watchdog template)
 
 There are three Node.js templates which use the newer of-watchdog:
 
@@ -299,13 +299,12 @@ There are three Node.js templates which use the newer of-watchdog:
 | node14                 | Function      | NodeJS  | 14.x    | yes         | yes, LTS version        |
 | node16                 | Function      | NodeJS  | 16.x    | yes         | yes, "current" version        |
 
-It is recommended that all new users opt for the `node14` template.
 
-The event and context objects can be used to read the HTTP request and headers, and to set a response.
+The `nodeXX` templates use event and context objects can be used to read the HTTP request and headers, and to set a response. You can learn about what's avaiable in the [index.js](https://github.com/openfaas/templates/blob/master/template/node12/index.js) file.
 
-For more details on the `event` and `context` objects, see the [index.js](https://github.com/openfaas/templates/blob/master/template/node12/index.js) file.
+For a full reference guide to writing functions, managing secrets and connection pools see the manual: [Serverless for Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)
 
-##### Node.js 14 `node14` - async/await
+##### Node.js templates - async/await
 
 ```js
 "use strict"
@@ -318,7 +317,7 @@ module.exports = async (event, context) => {
 }
 ```
 
-##### Node.js 14 `node14` - adding unit tests
+##### Node.js templates - adding unit tests
 
 By default, an empty test step is written to package.json inside your function's handler folder, you can override this with your own command or test runner.
 
@@ -356,7 +355,9 @@ describe('MyFunction', function() {
 
 If the tests fail, this will also fail the build of your function and prevent it from passing. The logs will be made available via the logs of `faas-cli build/up`.
 
-##### Node.js 14 `node14` - async/await with error
+For a more detailed example, see: [Serverless for Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)
+
+##### Node.js templates - async/await with error
 
 ```js
 "use strict"
@@ -366,7 +367,7 @@ module.exports = async (event, context) => {
 }
 ```
 
-##### Node.js 14 `node14` - without async/await
+##### Node.js templates - without async/await
 
 ```js
 "use strict"
@@ -382,7 +383,7 @@ module.exports = (event, context) => {
 }
 ```
 
-##### Node.js 14 `node14` - Access to the raw body
+##### Node.js templates - Access to the raw body
 
 Set the environment variable `RAW_BODY` to `true` to set the `context.body` to the original request body rather than the default behavior of parsing it as JSON.
 
@@ -401,7 +402,7 @@ The raw body has a default maximum of 100KB to prevent abuse from users. This ca
     MAX_RAW_BODY: 512kb
 ```
 
-##### Node.js 14 `node14` - Set max json request body size
+##### Node.js templates - Set max json request body size
 
 Change the maximum size of a JSON request body by setting the environment variable `MAX_JSON_SIZE`. The default value is `'100kb'`
 > Note: the value must be enclosed in quotes `'` `'`
