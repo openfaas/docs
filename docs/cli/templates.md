@@ -310,7 +310,7 @@ For a full reference guide to writing functions, managing secrets and connection
 "use strict"
 
 module.exports = async (event, context) => {
-    const result =             {
+    const result = {
         status: "Received input: " + JSON.stringify(event.body),
     };
     return result
@@ -318,6 +318,8 @@ module.exports = async (event, context) => {
 ```
 
 ##### Node.js templates - adding unit tests
+
+Writing unit tests means that you get to exercise your code without building and deploying a container to OpenFaaS. It can save you a lot of time if you need to iterate often. It also means that you can provide tests that run every time your function is built.
 
 By default, an empty test step is written to package.json inside your function's handler folder, you can override this with your own command or test runner.
 
@@ -353,7 +355,7 @@ describe('MyFunction', function() {
 })
 ```
 
-If the tests fail, this will also fail the build of your function and prevent it from passing. The logs will be made available via the logs of `faas-cli build/up`.
+If the tests fail, this will also fail the build of your function and prevent it from passing.
 
 For a more detailed example, see: [Serverless for Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)
 
@@ -370,16 +372,17 @@ module.exports = async (event, context) => {
 ##### Node.js templates - without async/await
 
 ```js
-"use strict"
+'use strict'
 
-module.exports = (event, context) => {
-    let err;
-    const result =             {
-        status: "Received input: " + JSON.stringify(event.body),
-    };
+module.exports = async (event, context) => {
+  const result = {
+    'body': JSON.stringify(event.body),
+    'content-type': event.headers["content-type"]
+  }
 
-    context.succeed(result).
-    status(201);
+  return context
+    .status(200)
+    .succeed(result)
 }
 ```
 
