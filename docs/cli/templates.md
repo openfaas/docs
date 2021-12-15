@@ -289,22 +289,23 @@ Successfully installed numpy-1.14.2
 ...
 ```
 
-#### Node.js 12 `node12` (of-watchdog template)
+#### Node.js 14 `node14` (of-watchdog template)
 
 There are three Node.js templates which use the newer of-watchdog:
 
 | Name                   | Style         | Runtime | Version | async/await | Supported by nodejs.org |
 |:-----------------------|:--------------|:--------|:--------|:------------|:------------------------|
-| node8-express          | Function      | NodeJS  | 8.x     | no          | no                      |
-| node10-express         | Function      | NodeJS  | 10.x    | no          | no                      |
-| node10-express-service | Micro-service | NodeJS  | 10.x    | no          | no                      |
-| node12                 | Function      | NodeJS  | 12.x    | yes         | yes, LTS version        |
+| node12                 | Function      | NodeJS  | 12.x    | yes         | No        |
+| node14                 | Function      | NodeJS  | 14.x    | yes         | yes, LTS version        |
+| node16                 | Function      | NodeJS  | 16.x    | yes         | yes, "current" version        |
 
-It is recommended that all new users opt for the `node12` template.
+It is recommended that all new users opt for the `node14` template.
 
-For more details on the `event` and `context` objects, see the [README.md](https://github.com/openfaas-incubator/node10-express-template) for the node10-express template, this also applies to `node12`.
+The event and context objects can be used to read the HTTP request and headers, and to set a response.
 
-##### Node.js 12 `node12` - async/await
+For more details on the `event` and `context` objects, see the [index.js](https://github.com/openfaas/templates/blob/master/template/node12/index.js) file.
+
+##### Node.js 14 `node14` - async/await
 
 ```js
 "use strict"
@@ -317,7 +318,7 @@ module.exports = async (event, context) => {
 }
 ```
 
-##### Node.js 12 `node12` - adding unit tests
+##### Node.js 14 `node14` - adding unit tests
 
 By default, an empty test step is written to package.json inside your function's handler folder, you can override this with your own command or test runner.
 
@@ -355,7 +356,7 @@ describe('MyFunction', function() {
 
 If the tests fail, this will also fail the build of your function and prevent it from passing. The logs will be made available via the logs of `faas-cli build/up`.
 
-##### Node.js 12 `node12` - async/await with error
+##### Node.js 14 `node14` - async/await with error
 
 ```js
 "use strict"
@@ -365,7 +366,7 @@ module.exports = async (event, context) => {
 }
 ```
 
-##### Node.js 12 `node12` - without async/await
+##### Node.js 14 `node14` - without async/await
 
 ```js
 "use strict"
@@ -381,7 +382,7 @@ module.exports = (event, context) => {
 }
 ```
 
-##### Node.js 12 `node12` - Access to the raw body
+##### Node.js 14 `node14` - Access to the raw body
 
 Set the environment variable `RAW_BODY` to `true` to set the `context.body` to the original request body rather than the default behavior of parsing it as JSON.
 
@@ -400,7 +401,7 @@ The raw body has a default maximum of 100KB to prevent abuse from users. This ca
     MAX_RAW_BODY: 512kb
 ```
 
-##### Node.js 12 `node12` - Set max json request body size
+##### Node.js 14 `node14` - Set max json request body size
 
 Change the maximum size of a JSON request body by setting the environment variable `MAX_JSON_SIZE`. The default value is `'100kb'`
 > Note: the value must be enclosed in quotes `'` `'`
