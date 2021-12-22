@@ -18,9 +18,9 @@ OpenFaaS&reg; makes it easy for developers to deploy event-driven functions and 
 
 See also: [Tech stack & layers](/architecture/stack/) & [Preparing for production](/architecture/production/)
 
-## Online training
+## Self-service training
 
-* **Our Official eBook**: Serverless For Everyone Else
+* **The Official Manual for OpenFaaS**: Serverless For Everyone Else
 
     In [Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else), you'll gain a working knowledge of the value and use-cases of serverless functions. You'll then build your own with Node.js and learn how to secure and monitor them. Learn directly from the OpenFaaS Founder.
 
@@ -32,18 +32,19 @@ See also: [Tech stack & layers](/architecture/stack/) & [Preparing for productio
 
     This training course "Introduction to Serverless on Kubernetes" written by the project founder and commissioned by the LinuxFoundation provides an overview of what you need to know to build functions and operate OpenFaaS on public cloud.
 
+    Examples are provided in Python.
+
     Training course: [Introduction to Serverless on Kubernetes](https://www.edx.org/course/introduction-to-serverless-on-kubernetes)
 
-* Self-paced workshop written by the community on GitHub
-
-    You may also like to try the self-paced workshop on GitHub written by the OpenFaaS community
-
-    Browse the [workshop](https://github.com/openfaas/workshop)
-
-## Support & getting help
-
-* [Contact us for support](https://www.openfaas.com/support) - Learn about OpenFaaS Pro features and our commercial services
 * [OpenFaaS Blog](https://www.openfaas.com/blog/) - read latest news and tutorials
+
+    Learn about features and capabilities through case-studies and tutorials.
+
+## Going to production
+
+OpenFaaS OSS is suitable for developers. OpenFaaS Pro & Enterprise is for production.
+
+[Contact us](https://openfaas.com/support/) to find out more about OpenFaaS in production 
 
 ## Become a Sponsor
 
@@ -65,7 +66,6 @@ Deploy OpenFaaS to Kubernetes, OpenShift, or faasd [deployment guides](./deploym
 ## Video presentations
 
 * [Meet faasd. Look Ma’ No Kubernetes!](https://www.youtube.com/watch?v=ZnZJXI377ak&feature=youtu.be)
-* [OpenFaaS Cloud + Linkerd: A Secure, Multi-Tenant Serverless Platform](https://www.youtube.com/watch?v=sD7hCwq3Gw0&feature=emb_title)
 * [Getting Beyond FaaS: The PLONK Stack for Kubernetes Developers](https://www.youtube.com/watch?v=NckMekZXRt8&feature=emb_title)
 * [Digital Transformation of Vision Banco Paraguay with Serverless Functions @ KubeCon late-2018](https://kccna18.sched.com/event/GraO/digital-transformation-of-vision-banco-paraguay-with-serverless-functions-alex-ellis-vmware-patricio-diaz-vision-banco-saeca)
 * [Introducing "faas" - Cool Hacks Keynote at Dockercon 2017](https://blog.docker.com/2017/04/dockercon-2017-mobys-cool-hack-sessions/)
@@ -96,7 +96,7 @@ If you would like to contribute to the documentation site or find out more check
 
 Example of a Grafana dashboards linked to OpenFaaS showing auto-scaling live in action: [here](https://grafana.com/dashboards/3526)
 
-![](https://pbs.twimg.com/media/C9caE6CXUAAX_64.jpg:large)
+![Preview of the dashboard](https://pbs.twimg.com/media/C9caE6CXUAAX_64.jpg:large)
 
 An alternative community dashboard is [available here](https://grafana.com/dashboards/3434)
 
