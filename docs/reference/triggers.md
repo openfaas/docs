@@ -38,7 +38,7 @@ https://<gateway URL>:<port>/async-function/<function name>
 
 You can also pass an `X-Callback-Url` header with the URL of another endpoint for the response.
 
-More on async: [Async Functions](https://docs.openfaas.com/reference/async/)
+More on async: [Async Functions](/reference/async/)
 
 ## CLI
 
@@ -50,13 +50,17 @@ echo "triggered" | faas-cli invoke figlet
 
 > CLI invocation can also be async by passing the `-a` flag to the `invoke` call
 
+Find out more: [faas-cli on GitHub](https://github.com/openfaas/faas-cli)
+
 ## Other Event Sources
 
 ### Event-connector pattern
 
 The OpenFaaS connector-pattern allows you to create a broker or separate microservice which maps functions to topics and invokes functions via the OpenFaaS Gateway meaning that the OpenFaaS code does not need to be modified per trigger/event-source.
 
-![](../images/connector-pattern.png)
+![Event-connector pattern](../images/connector-pattern.png)
+
+> Pictured: Event-connector pattern. One topic, subject or queue can be broadcast to multiple functions.
 
 #### Add your own event source
 
