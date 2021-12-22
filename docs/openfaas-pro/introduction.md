@@ -9,6 +9,7 @@ OpenFaaS Pro launched with the following features, with commercial support provi
 * [Trigger functions via Kafka](/openfaas-pro/kafka-events) for event-driven functions and to integrate with your existing systems
 * [Scale idle functions to zero](/openfaas-pro/scale-to-zero) to save on cost and increase efficiency
 * [Retries for invocations](/openfaas-pro/retries) to handle failures, known problems with downstream APIs and concurrency-limited functions
+* [Trigger functions from AWS SQS](openfaas-pro/sqs-events) to integrate with events from AWS.
 * [Single Sign-On using OIDC](/openfaas-pro/sso) for enterprise-grade authentication and more secure credential management
 * [Build functions via REST API](/openfaas-pro/builder) to create functions from source code, without defining and managing hundreds of independent CI jobs.
 
