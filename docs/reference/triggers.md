@@ -1,12 +1,20 @@
 # Triggers
 
-OpenFaaS functions can be triggered easily by any kind of event. A small piece of code will convert from the event-source and trigger the function using the OpenFaaS Gateway API.
+OpenFaaS functions can be triggered easily by any kind of event. The most common use-case is HTTP which acts as a lingua franca between internet-connected systems.
 
-The most common use-case is HTTP which acts as a lingua franca between internet-connected systems.
+Connectors map one or more topics, subjects or queues from a stateful messaging system or event-source to a number of functions in your cluster.
+
+Can't find the event-source or trigger that you were looking for? [Contact us for more info](https://openfaas.com/support)
 
 ## Cron
 
-Looking to trigger a function on a schedule? Have a look at the [Cron page](/reference/cron/) for more information on how to use Kubernetes `CronJob` and other options such as the cron-connector.
+Looking to trigger a function on a schedule?
+
+The cron-connector can be used to trigger a function on a schedule, by adding a couple of annotations to your stack.yml file.
+
+Kubernetes also supports a `CronJob` mechanism, which you can use as an alternative.
+
+See also: [Scheduling function runs](/reference/cron/) for more information.
 
 ## HTTP / webhooks
 
@@ -30,6 +38,8 @@ https://<gateway URL>:<port>/async-function/<function name>
 
 You can also pass an `X-Callback-Url` header with the URL of another endpoint for the response.
 
+More on async: [Async Functions](https://docs.openfaas.com/reference/async/)
+
 ## CLI
 
 Trigger a function using the `faas-cli` by using the function name
@@ -52,6 +62,20 @@ The OpenFaaS connector-pattern allows you to create a broker or separate microse
 
 If you'd like to add an event source which is not listed below you can fork the OpenFaaS event [connector SDK](https://github.com/openfaas/connector-sdk) which is written in Go and use this to connect your pub/sub topics or message queues to functions in OpenFaaS.
 
+### Apache Kafka (OpenFaaS Pro)
+
+Connect your function(s) to [Apache Kafka](https://kafka.apache.org) topics.
+
+See also: [Staying on topic: trigger your OpenFaaS functions with Apache Kafka](https://www.openfaas.com/blog/kafka-connector/)
+
+[Request more info](https://openfaas.com/support/)
+
+### AWS SQS (OpenFaaS Pro)
+
+Trigger your functions from AWS SQS queues.
+
+[Request more info](https://openfaas.com/support/)
+
 ### Cron Connector
 
 The [cron-connector](https://github.com/openfaas/cron-connector) is an OpenFaaS event-connector which can be used to trigger functions on a timed-basis. It works with all OpenFaaS Providers.
@@ -62,21 +86,11 @@ The [MQTT Connector](https://github.com/openfaas/mqtt-connector) can be used in 
 
 Example usage: [Drone tracking project for Packet.com's session CES 2020](https://github.com/packet-labs/iot).
 
-### NATS
+### NATS Pub/sub
 
 OpenFaaS has a built-in queue system with NATS Streaming, however you can also invoke functions using the pub/sub mechanism of [NATS](https://nats.io).
 
 View the [nats-connector](https://github.com/openfaas/nats-connector)
-
-### Apache Kafka (OpenFaaS Pro)
-
-Connect your function(s) to [Apache Kafka](https://kafka.apache.org) topics.
-
-See also: [Staying on topic: trigger your OpenFaaS functions with Apache Kafka](https://www.openfaas.com/blog/kafka-connector/)
-
-### AWS SQS (third-party project)
-
-Connect your functions to [AWS SQS](https://aws.amazon.com/sqs/) queues using Form3's OpenFaaS AWS SQS connector: [form3tech-oss/openfaas-sqs-connector](https://github.com/form3tech-oss/openfaas-sqs-connector)
 
 ### Minio / S3
 
@@ -85,33 +99,25 @@ You can trigger OpenFaaS functions using Minio's webhook or Kafka integration.
 * [Minio's webhook integration](https://blog.min.io/introducing-webhooks-for-minio/)
 * [Minio's Kafka integration](https://docs.min.io/docs/minio-bucket-notification-guide.html#apache-kafka)
 
+### AWS SNS
+
+AWS SNS subscriptions can be used to trigger OpenFaaS functions. The approach does not require any separate connector. You can subscribe to an SNS topic and confirm the subscription via HTTP.
+
+The AWS SDKs can be used to manage the subscription and to verify messages.
+
 ### CloudEvents
 
 [CloudEvents](https://cloudevents.io/) is a specification for describing event data in a common way.
 
-Follow this example to learn how to trigger functions using the Azure EventGrid and CloudEvents.
+No connector is required to trigger OpenFaaS functions using CloudEvents.
 
-More information in the repository: [johnmccabe/cloudevents-slack-demo](https://github.com/johnmccabe/cloudevents-slack-demo)
-
-### AWS SNS (third-party project)
-
-You can use AWS SNS to trigger functions using AWS SNS Notifications and Subscriptions. This approach can be used to export almost any data-source or event from your Amazon Web Services (AWS) console such as S3 of DynamoDB to an OpenFaaS function.
-
-Find more information in the following repository: [affix/OpenFaaS-SNS](https://github.com/affix/OpenFaaS-SNS)
-
-### Redis (third-party project)
-
-Invoke functions using Redis pub/sub and the [Sidekiq model](https://sidekiq.org).
-
-View the [sidekiq-connector](https://github.com/affix/sidekiq-connector)
-
-> Note: the Redis connector currently has no support for gateways using Basic Authentication, but [this is being worked on](https://github.com/affix/sidekiq-connector/issues/1) by the author.
+Follow this example to learn how to trigger functions using the Azure EventGrid and CloudEvents: [johnmccabe/cloudevents-slack-demo](https://github.com/johnmccabe/cloudevents-slack-demo)
 
 ### RabbitMQ (third-party project)
 
-Invoke functions from RabbitMQ topics
+Invoke functions from RabbitMQ topics. This is a third party project.
 
-More information in the repository: [Templum/rabbitmq-connector](https://github.com/Templum/rabbitmq-connector)
+More information in the repository: [templum/rabbitmq-connector](https://github.com/Templum/rabbitmq-connector)
 
 ### IFTTT
 
@@ -123,13 +129,12 @@ See an example of a function built to forward Tweets from IFTTTT to Slack using 
 
 Visit [ifttt.com](https://ifttt.com) to learn more.
 
-
 ### VMware vCenter
 
 The vcenter-connector by OpenFaaS is an event connector built to consume events from [VMware's vCenter product](https://en.wikipedia.org/wiki/VCenter).
 
 > With this project your functions can subscribe to events generated by the changes in your vCenter installation - for instance a VM being created, turned on or deleted. By using the connector you can extend the behaviours and functionality of vCenter and create custom workflows for your platform.
 
-Status: under active development, available re-packaged from VMware as ["VEBA"](https://github.com/vmware-samples/vcenter-event-broker-appliance).
+Status: if you require support for this project, [reach out to us for more info](https://openfaas.com/support/)
 
 Link: [openfaas-vcenter-connector](https://github.com/openfaas-incubator/openfaas-vcenter-connector)
