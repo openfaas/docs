@@ -123,11 +123,11 @@ nav:
       - Shell auto completion: ./cli/completion.md
   - OpenFaaS Pro:
       - Introduction: ./openfaas-pro/introduction.md
-      - Single Sign-On: ./openfaas-pro/sso.md
       - Scale to Zero: ./openfaas-pro/scale-to-zero.md
       - Kafka events: ./openfaas-pro/kafka-events.md
       - AWS SQS events: ./openfaas-pro/sqs-events.md
       - Retries: ./openfaas-pro/retries.md
+      - Single Sign-On: ./openfaas-pro/sso.md
       - Function Builder: ./openfaas-pro/builder.md
   - Reference:
     - CI/CD:

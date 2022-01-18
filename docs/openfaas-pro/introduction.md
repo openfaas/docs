@@ -9,7 +9,7 @@ OpenFaaS Pro is a commercially licensed distribution of OpenFaaS with additional
 Eventing:
 
 * [Trigger functions via Kafka](/openfaas-pro/kafka-events) for event-driven functions and to integrate with your existing systems
-* [Trigger functions from AWS SQS](openfaas-pro/sqs-events) to integrate with events from AWS.
+* [Trigger functions from AWS SQS](/openfaas-pro/sqs-events) to integrate with events from AWS.
 
 Efficiency and redundancy:
 
