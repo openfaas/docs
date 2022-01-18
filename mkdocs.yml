@@ -122,7 +122,7 @@ nav:
       - Working with image tags: ./cli/tags.md
       - Shell auto completion: ./cli/completion.md
   - OpenFaaS Pro:
-      - Introduction: ./openfaas-pro/introduction.md
+      - Overview: ./openfaas-pro/introduction.md
       - Scale to Zero: ./openfaas-pro/scale-to-zero.md
       - Kafka events: ./openfaas-pro/kafka-events.md
       - AWS SQS events: ./openfaas-pro/sqs-events.md
