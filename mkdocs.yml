@@ -128,10 +128,12 @@ nav:
       - AWS SQS events: ./openfaas-pro/sqs-events.md
       - Retries: ./openfaas-pro/retries.md
       - Single Sign-On: ./openfaas-pro/sso.md
-      - Function Builder: ./openfaas-pro/builder.md
+      - Function Builder API: ./openfaas-pro/builder.md
   - Reference:
     - CI/CD:
       - Intro: ./reference/cicd/intro.md
+      - GitHub Actions: ./reference/cicd/github-actions.md
+      - Function Builder API: ./openfaas-pro/builder.md
       - GitLab: ./reference/cicd/gitlab.md
       - Jenkins: ./reference/cicd/jenkins.md
     - TLS:
@@ -147,13 +149,13 @@ nav:
     - CORS: ./reference/cors.md
     - YAML: ./reference/yaml.md
   - Design & Architecture:
+      - Production: ./architecture/production.md
       - Stack: ./architecture/stack.md
       - Gateway: ./architecture/gateway.md
       - Watchdog: ./architecture/watchdog.md
       - Autoscaling: ./architecture/autoscaling.md
       - Metrics: ./architecture/metrics.md
       - Performance: ./architecture/performance.md
-      - Production: ./architecture/production.md
       - FaaS Provider: ./architecture/faas-provider.md
       - Logs Provider: ./architecture/logs-provider.md
   - Tutorials:

@@ -59,4 +59,6 @@ OpenFaaS Enterprise comes with a more timely SLA and is suitable for the require
 
 ### Getting started
 
+OpenFaaS Pro is for users on Kubernetes, but most of the features are also compatible with faasd. Customers can request configuration for OpenFaaS Pro for faasd via support.
+
 Are you interested in OpenFaaS for your organisation? [Contact us](https://openfaas.com/support/) to find out more.

@@ -59,3 +59,9 @@ Now deploy your function, and publish an event to your Kafka broker on the `paym
 * [Event-driven OpenFaaS with Managed Kafka from Aiven](https://www.openfaas.com/blog/openfaas-kafka-aiven/)
 * [Quick start with the Helm chart - self-hosted, SASL and TLS Client Certificates](https://github.com/openfaas/faas-netes/blob/master/chart/kafka-connector/quickstart.md)
 * Launch blog post: [Staying on topic: trigger your OpenFaaS functions with Apache Kafka](https://www.openfaas.com/blog/kafka-connector/)
+
+## Would you like a demo?
+
+Feel free to reach out to us for a demo or to ask any questions you may have.
+
+* [Let's talk](https://openfaas.com/support/)

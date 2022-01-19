@@ -16,12 +16,25 @@ With our event connector, you can trigger function invocations from messages on 
 ### On Kubernetes
 
 * Set up AWS
+
     You can configure permissions using a dedicated IAM user, or if your cluster is configured for AWS IAM, ambient credentials mapped into the Pod at runtime.
 
 * Set up the connector
+
     You can install the SQS connector using its [helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/sqs-connector).
 
     The values.yaml file can be customised to suit the needs of your SQS queue and the consumer.
+
+* Tuning the connector for your needs
+
+    `queueURL` - the URL for your SQS queue
+
+    `visibilityTimeout` - Maximum time to keep message hidden from other processors whilst executing function
+
+    `waitTime` - Time to wait between polling SQS queue for messages.
+
+    `maxMessages` - Maximum messages to fetch at once - between 1-10
+
 
 ## Usage
 
@@ -58,3 +71,9 @@ Test it out:
 * You'll receive a JSON payload with the details of which file was uploaded
 * Fetch the file with the AWS SDK and resize it with a library of your choice
 * Finally upload it to a different S3 Bucket.
+
+## Would you like a demo?
+
+Feel free to reach out to us for a demo or to ask any questions you may have.
+
+* [Let's talk](https://openfaas.com/support/)

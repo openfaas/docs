@@ -175,3 +175,9 @@ You will receive a token on the command-line which is also saved in `~/.openfaas
 The `faas-cli` will read the token and pass it for future commands which requires authentication, you can also export it with `export TOKEN=""` and use it with any command: `faas-cli list --token="${TOKEN}"`
 
 See also: [faas-cli README](https://github.com/openfaas/faas-cli/blob/master/README.md)
+
+## Would you like a demo?
+
+Feel free to reach out to us for a demo or to ask any questions you may have.
+
+* [Let's talk](https://openfaas.com/support/)

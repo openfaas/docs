@@ -66,3 +66,9 @@ faas-cli store deploy nodeinfo \
 ```
 
 You can learn more about OpenFaaS auto-scaling here: [autoscaling](/architecture/autoscaling)
+
+## Would you like a demo?
+
+Feel free to reach out to us for a demo or to ask any questions you may have.
+
+* [Let's talk](https://openfaas.com/support/)

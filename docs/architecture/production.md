@@ -1,30 +1,45 @@
-# Deploy OpenFaaS in Production
+# Deploy OpenFaaS Pro in Production
 
-This page contains recommendations for deploying OpenFaaS for production usage. It is by no means exhaustive and comes with no warranty or liability.
+OpenFaaS is meant for open-source developers, but OpenFaaS Pro is meant for production.
+
+This page contains recommendations for tuning OpenFaaS Pro for production usage.
+
+!!! info "Did you know?"
+    We offer an initial onboarding call for OpenFaaS Pro users, or a more detailed review as part of our Enterprise Support package.
+    
+    [Talk to us](https://openfaas.com/support/)
 
 ## Decide on your Kubernetes flavour
 
-When deploying OpenFaaS it is recommended that you use [Kubernetes](https://kubernetes.io/). A managed Kubernetes service such as GKE, EKS is recommended if you are using public cloud. You can also deploy to your own infrastructure.
+OpenFaaS Pro requires [Kubernetes](https://kubernetes.io/).
 
-These instructions apply for both Kubernetes and OpenShift 3.x.
+It's recommended that you use a managed service from a public cloud provider such as GKE, AWS EKS or Digital Ocean Kubernetes. You can also deploy to your own infrastructure in the cloud or privately, on-premises.
 
-> Note: Docker Swarm is not supported for production use.
+These instructions apply for both Kubernetes, however OpenShift 3.x and 4.x are compatible with some additional tuning, which you can request via support.
 
 ### Advanced Kubernetes configuration
 
 * [Encrypting Secret Data at Rest](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) (optional)
 
-    The default configuration for Kubernetes is to store secrets in base64, some users may want to encrypt their secrets at rest. By enabling this configuration, the secrets used by OpenFaaS will also be encrypted at rest.
+    The default configuration for Kubernetes is to store secrets in base64 which is equivalent to plaintext and is not a form of encryption. Kubernetes supports encrypting secrets at rest and because OpenFaaS uses Kubernetes secrets, its secrets will also be encrypted at rest.
 
-### Chart options
+### Helm Charts
 
 The `helm` chart is the most flexible way to deploy OpenFaaS and allows you to customize many different options such as whether scale-to-zero is enabled, how many replicas to have of each component and what kind of healthchecks or probes to use.
-
-Depending on your existing usage of `helm` or your preferences you may not want to use the *Tiller* component of helm. In this case you can use `helm template` in the deployment guide to generate YAML files to apply on your cluster.
 
 You will find each helm chart option documented in the OpenFaaS chart:
 
 > See also: [OpenFaaS Chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#configuration)
+
+The chart is compatible with [GitOps-style](https://www.weave.works/technologies/gitops/) tooling such as [Flux](https://fluxcd.io/) and [ArgoCD](https://argo-cd.readthedocs.io/en/stable/). We recommend using one of these tools to manage your deployment of OpenFaaS declaratively.
+
+Note that some optional components such as the Kafka event-connector and cron-connector have their own separate helm charts.
+
+### Take advantage of the OpenFaaS Pro add-ons
+
+Check out the overview to see what is available to you under your license:
+
+* [OpenFaaS Pro Overview](https://docs.openfaas.com/openfaas-pro/introduction/)
 
 #### High-availability (HA)
 
@@ -32,19 +47,19 @@ It is recommended that you have high-availability for the OpenFaaS components in
 
 * OpenFaaS gateway
 
-    The gateway supports more than one replica and can be auto-scaled with HPAv2
+    For a production environment, we recommend a minimum of three replicas of the gateway. You can set an additional auto-scaling rule with HPAv2 if you have purchased additional licenses for that environment.
 
 * OpenFaaS queue-worker
 
-    Scale the queue worker replicas according to the maximum level of asynchronous tasks you want to process in parallel. 
+    The queue worker is responsible for processing asynchronous invocations. It's recommended to run at least two replicas of this service. Each queue worker can potentially run hundreds of invocations concurrently, and can be configured with different queues per function if required.
 
-You may also want to set a minimum availability level for each function of > 1.
-
-See the chart options for how to set the number of replicas.
+See the faas-netes chart for more options on the above.
 
 #### Endpoint load-balancing
 
-Read up on endpoint load-balancing and decide whether you need to pick an alternative strategy to the default offered by Kubernetes.
+Endpoint load-balancing is where OpenFaaS distributes load between functions using the endpoints of each function replica in the cluster.
+
+You should use this as a default, but if you use a service mesh you will need to turn it off because a service mesh manages this for you using its own proxy.
 
 * [Endpoint load-balancing](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#endpoint-load-balancing)
 
@@ -53,6 +68,8 @@ Read up on endpoint load-balancing and decide whether you need to pick an altern
 Configure each timeout as appropriate for your workloads. If you expect all functions or endpoints to return within a few seconds then set a timeout to accommodate that. If you expect all workloads to run for several minutes then bear that in mind with your values.
 
 > Note: You may have a timeout configured in your IngressController or cloud LoadBalancer. See your documentation or contact your administrator to check the value and make sure they are in-sync.
+
+See also: [Expanded timeouts](/tutorials/expanded-timeouts/)
 
 #### Configure function health-check probes
 
@@ -70,7 +87,11 @@ Set the non-root user flag so that every function is forced to run in a restrict
 
 #### Choose the operator or faas-netes
 
-The faas-netes controller for OpenFaaS is the most mature, well tested and supported. You may also use the OpenFaaS Operator if you would like to use a Function CRD. If you are not sure which to use, then use faas-netes.
+The faas-netes controller for OpenFaaS is the most mature, well tested and supported.
+
+You may also use the OpenFaaS Operator if you would like to use a Function CRD, which is required for GitOps-style tooling like Flux and ArgoCD.
+
+If you are not sure which to use, then faas-netes is a good choice.
 
 See the [helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas) for more.
 
@@ -106,6 +127,8 @@ openfaas-fn
 ```
 
 Assume that no suffix means that the environment or stage is for production deployments.
+
+Find out more here: [Configure your OpenFaaS functions for staging and production](https://www.openfaas.com/blog/custom-environments/)
 
 ## Configure networking
 
@@ -148,13 +171,19 @@ You can enable mutual TLS (mTLS) between OpenFaaS services using Linkerd or Isti
 
 ### Configure NetworkPolicy
 
-You may want to configure NetworkPolicy to restrict communication between the openfaas Functions namespace and the core components of OpenFaaS. This is dependent on using a network driver which supports NetworkPolicy such as Weavenet.
+You may want to configure NetworkPolicy to restrict communication between the openfaas Functions namespace and the core components of OpenFaaS.
+
+This is to prevent unauthorized or unintended access to the core components of OpenFaaS (the control plane) by functions deployed by your users.
+
+This is dependent on using a network driver which supports NetworkPolicy such as [Weave Net](https://kubernetes.io/docs/tasks/administer-cluster/network-policy-provider/weave-network-policy/) or [Calico](https://projectcalico.docs.tigera.io/security/calico-network-policy).
 
 See also: [an example from OpenFaaS Cloud](https://github.com/openfaas/openfaas-cloud/tree/master/yaml/network-policy)
 
 ## NATS Streaming (asynchronous invocations)
 
-If you are using the asynchronous invocations available in OpenFaaS then you may want to ensure high-availability or persistence for NATS Streaming. The default configuration uses in-memory storage. Options include clustering NATS and MySQL.
+If you are using the asynchronous invocations available in OpenFaaS then you may want to ensure high-availability or persistence for NATS Streaming. The default configuration uses in-memory storage which means if the NATS Pod crashes or is relocated to another node, you may lose messages.
+
+The easiest way to make NATS durable for production is to turn it off in the OpenFaaS chart, and to install it separately using the NATS Operator or helm chart using a Persistent Volume or SQL as a backend. 
 
 > See also: [NATS documentation](https://nats-io.github.io/docs/)
 
@@ -182,6 +211,8 @@ It is recommended that you use a read-only filesystem. You will still be able to
 
 ### Use secrets and environmental variables appropriately
 
+Find out more here: [Configure your OpenFaaS functions for staging and production](https://www.openfaas.com/blog/custom-environments/)
+
 * Secrets are for confidential data
 
     Example: API key, IP address, username
@@ -190,3 +221,9 @@ It is recommended that you use a read-only filesystem. You will still be able to
 
     Example: verbose logging, runtime mode, timeout values
 
+## Reach out for a review
+
+!!! info "Did you know?"
+    We offer an initial onboarding call for OpenFaaS Pro users, or a more detailed review as part of our Enterprise Support package.
+    
+    [Talk to us](https://openfaas.com/support/)

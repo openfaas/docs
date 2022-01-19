@@ -1,16 +1,21 @@
-# Function Builder
+# Function Builder API
 
-OpenFaaS Pro offers an API called the Pro Builder which you can run in your cluster to build container images from functions.
+The Function Builder API provides a simple REST API to create your functions from source code.
 
 > Note: This feature is included for [OpenFaaS Pro](https://openfaas.com/support/) customers.
 
-There are many tools that you can use to build OpenFaaS container images, so why would you need the Pro Builder?
+This is ideal if:
 
-* You want to build images via API
-* You need to build many images and other tooling makes this hard to scale
-* You want to build images within your cluster, rather than using separate external infrastructure
-* You want a more secure method than mounting a Docker socket into your container
+* You're offering OpenFaaS as a service provider
 
+  You can invoke the Function Builder's API from your own product
+* You need to build dozens or hundreds of functions
+
+  Do you really want to manage and maintain that many CI jobs in Jenkins or GitLab?
+* You're already building images in-cluster with the Docker Socket
+
+  You realise how bad this is, and you want a more secure alternative
+  
 The Pro Builder uses Buildkit, developed by the Docker community to perform fast, cached, in-cluster builds via a HTTP API and uses mTLS for encryption.
 
 Various self-hosted, open source and managed registries are supported.
@@ -112,3 +117,9 @@ The Pro Builder can be scaled out, which also deploys additional replicas of Bui
 kubectl scale -n openfaas deploy/pro-builder \
   --replicas=3
 ```
+
+## Would you like a demo?
+
+Feel free to reach out to us for a demo or to ask any questions you may have.
+
+* [Let's talk](https://openfaas.com/support/)

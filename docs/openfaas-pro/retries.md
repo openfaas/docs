@@ -75,3 +75,8 @@ curl -i localhost:8080/function/chaos-fn/set --data-binary '
 ' --header "Content-type: application/json"
 ```
 
+## Would you like a demo?
+
+Feel free to reach out to us for a demo or to ask any questions you may have.
+
+* [Let's talk](https://openfaas.com/support/)
