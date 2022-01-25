@@ -1,10 +1,12 @@
 ## OpenFaaS Pro
 
-OpenFaaS is meant for open-source developers, OpenFaaS Pro is meant for production.
+OpenFaaS Pro is a commercially licensed distribution of OpenFaaS with additional features, configurations and commercial support from the founders. 
+
+!!! info "Do we need the Community Edition or Pro?"
+
+    OpenFaaS Community Edition (CE) is meant for open-source developers, OpenFaaS Pro is meant for production.
 
 ### Additional capabilities
-
-OpenFaaS Pro is a commercially licensed distribution of OpenFaaS with additional features, configurations and support. 
 
 Eventing:
 
@@ -24,7 +26,7 @@ Service providers and large teams:
 
 * [Build functions via REST API](/openfaas-pro/builder) to create your functions from source code, without creating and maintaining hundreds of independent CI jobs.
 
-On our roadmap:
+### On our roadmap
 
 * A new Pro UI dashboard for managing and monitoring OpenFaaS functions across namespaces
 * Enhanced RBAC for functions and the OpenFaaS REST API  
