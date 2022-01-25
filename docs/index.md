@@ -23,7 +23,7 @@ See also: [Tech stack & layers](/architecture/stack/) & [Preparing for productio
 
 Start out with one of the options from our self-service training range:
 
-* [See our Official Training page](/tutorial/training/)
+* [See our Official Training page](/tutorials/training/)
 
 Or go ahead and deploy OpenFaaS straight to Kubernetes/OpenShift or to a VM using faasd:
 
