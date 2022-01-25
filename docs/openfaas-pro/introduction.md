@@ -15,6 +15,7 @@ Eventing:
 
 Efficiency and redundancy:
 
+* [Flexible auto-scaling engine](/architecture/autoscaling/) to get the scaling just right either on RPS, Inflight requests or CPU.
 * [Scale idle functions to zero](/openfaas-pro/scale-to-zero) to save on cost and increase efficiency
 * [Retries for invocations](/openfaas-pro/retries) to handle failures, known problems with downstream APIs and concurrency-limited functions
 
