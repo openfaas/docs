@@ -1,5 +1,7 @@
 # Featured tutorials
 
+See also: [Official Training resources](/tutorial/training)
+
 ## OpenFaaS deployment guides for Kubernetes
 
 - [Amazon EKS](https://www.weave.works/blog/getting-started-with-openfaas-kubernetes-operator-on-eks)
@@ -30,14 +32,8 @@ See also: [performance testing](/architecture/performance/) and [going to produc
 
 ## Service Mesh
 
+* [Learn how Istio can provide a service mesh for your functions](https://www.openfaas.com/blog/istio-functions/)
 * [Linkerd2 and OpenFaaS lab](https://github.com/openfaas-incubator/openfaas-linkerd2) for automatic TLS between pods, retries, timeouts and more.
-* [Installing Istio and OpenFaaS](https://github.com/stefanprodan/istio-gke/blob/master/docs/openfaas/00-index.md) - instructions written for GKE, but applies to any Kubernetes service. Covers: mTLS, access policies, external traffic access, TLS and canary deployments.
-
-## Workshop / labs
-
-* [Official workshop: Kubernetes & Swarm](https://github.com/openfaas/workshop)
-* [Linkerd2 and OpenFaaS lab](https://github.com/openfaas-incubator/openfaas-linkerd2)
-* [Lab environment - VSCode in the browser with k3s](https://github.com/openfaas-incubator/workshop-vscode)
 
 ## ARM / Raspberry Pi
 

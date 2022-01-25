@@ -158,8 +158,9 @@ nav:
       - Performance: ./architecture/performance.md
       - FaaS Provider: ./architecture/faas-provider.md
       - Logs Provider: ./architecture/logs-provider.md
+  - Training:
+      - Overview: ./tutorials/training.md
   - Tutorials:
-      - Workshop: ./tutorials/workshop.md
       - Expanded timeouts: ./tutorials/expanded-timeouts.md
       - CLI with Node.js: ./tutorials/CLI-with-node.md
       - First Python Function: ./tutorials/first-python-function.md

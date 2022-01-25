@@ -8,71 +8,52 @@ OpenFaaS&reg; makes it easy for developers to deploy event-driven functions and 
 
 ## Highlights
 
-* Open source functions framework - run it on any cloud without fear of lock-in
+* Open source functions framework - run functions on any cloud without fear of lock-in
 * Write functions in any language and package them in Docker/OCI-format containers
 * Easy to use - built-in UI, powerful CLI and one-click installation
 * Scale as you go - handle spikes in traffic, and scale down when idle
 * Active community - contribute and belong
+* Community Edition for developers, [Pro edition & support for production](/openfaas-pro/introduction/)
 
 ![Stack](https://github.com/openfaas/faas/raw/master/docs/of-layer-overview.png)
 
 See also: [Tech stack & layers](/architecture/stack/) & [Preparing for production](/architecture/production/)
 
-## Self-service training
+## Get started
 
-* **The Official Manual for OpenFaaS**: Serverless For Everyone Else
+Start out with one of the options from our self-service training range:
 
-    In [Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else), you'll gain a working knowledge of the value and use-cases of serverless functions. You'll then build your own with Node.js and learn how to secure and monitor them. Learn directly from the OpenFaaS Founder.
+* [See our Official Training page](/tutorial/training/)
 
-    [![eBook cover](/images/serverless-for-everyone-else.png)](https://gumroad.com/l/serverless-for-everyone-else)
-
-    [Get the eBook and training video on Gumroad](https://gumroad.com/l/serverless-for-everyone-else)
-
-* Training course from the [LinuxFoundation](LinuxFoundation): Introduction to Serverless on Kubernetes
-
-    This training course "Introduction to Serverless on Kubernetes" written by the project founder and commissioned by the LinuxFoundation provides an overview of what you need to know to build functions and operate OpenFaaS on public cloud.
-
-    Examples are provided in Python.
-
-    Training course: [Introduction to Serverless on Kubernetes](https://www.edx.org/course/introduction-to-serverless-on-kubernetes)
-
-* [OpenFaaS Blog](https://www.openfaas.com/blog/) - read latest news and tutorials
-
-    Learn about features and capabilities through case-studies and tutorials.
-
-## Going to production
-
-OpenFaaS OSS is suitable for developers. OpenFaaS Pro & Enterprise is for production.
-
-[Contact us](https://openfaas.com/support/) to find out more about OpenFaaS in production 
-
-## Become a Sponsor
-
-!!! info "How is OpenFaaS funded?"
-    OpenFaaS is free and open-source. As an end-user, supporter or commercial company, you can become a sponsor and get unique benefits, whilst also supporting the project and community.
-
-You can access exclusive updates, discounts, news and tutorials through the [The Treasure Trove Portal](https://faasd.exit.openfaas.pro/function/trove/) with over 80 updates from the OpenFaaS Founder going back to 2019.
-
-* [Become a GitHub Sponsor today](https://github.com/support/)
-
-### Quickstart
+Or go ahead and deploy OpenFaaS straight to Kubernetes/OpenShift or to a VM using faasd:
 
 ![Portal](https://github.com/openfaas/faas/raw/master/docs/inception.png)
 
 *Pictured: API gateway portal - designed for ease of use*
 
-Deploy OpenFaaS to Kubernetes, OpenShift, or faasd [deployment guides](./deployment/)
+* [Deployment guides](./deployment/)
 
 ## Video presentations
 
-* [Meet faasd. Look Ma’ No Kubernetes!](https://www.youtube.com/watch?v=ZnZJXI377ak&feature=youtu.be)
-* [Getting Beyond FaaS: The PLONK Stack for Kubernetes Developers](https://www.youtube.com/watch?v=NckMekZXRt8&feature=emb_title)
-* [Digital Transformation of Vision Banco Paraguay with Serverless Functions @ KubeCon late-2018](https://kccna18.sched.com/event/GraO/digital-transformation-of-vision-banco-paraguay-with-serverless-functions-alex-ellis-vmware-patricio-diaz-vision-banco-saeca)
+* [Meet faasd. Look Ma’ No Kubernetes! 2020](https://www.youtube.com/watch?v=ZnZJXI377ak&feature=youtu.be)
+* [Getting Beyond FaaS: The PLONK Stack for Kubernetes Developers 2019](https://www.youtube.com/watch?v=NckMekZXRt8&feature=emb_title)
+* [Serverless Beyond the Hype - Alex Ellis - GOTO 2018](https://www.youtube.com/watch?v=yOpYYYRuDQ0)
+* [How LivePerson is Tailoring its Conversational Platform Using OpenFaaS - Simon Pelczer 2019](https://www.youtube.com/watch?v=bt06Z28uzPA)
+* [Digital Transformation of Vision Banco Paraguay with Serverless Functions @ KubeCon 2018](https://kccna18.sched.com/event/GraO/digital-transformation-of-vision-banco-paraguay-with-serverless-functions-alex-ellis-vmware-patricio-diaz-vision-banco-saeca)
 * [Introducing "faas" - Cool Hacks Keynote at Dockercon 2017](https://blog.docker.com/2017/04/dockercon-2017-mobys-cool-hack-sessions/)
 
 ## Community
 
 OpenFaaS has a thriving community of Open Source contributors and users.
+
+### Going to production
+
+!!! info "Do we need the Community Edition or Pro?"
+    The OpenFaaS Community Edition is suitable for developers. OpenFaaS Pro is built for use in production.
+
+    You can find out more about [OpenFaaS Pro here](/openfaas-pro/introduction) or [contact us to find out more](https://openfaas.com/support/).
+
+### Have you written a blog post or given a talk?
 
 Have you written a blog about OpenFaaS? Send a Pull Request to the community page below.
 
@@ -84,6 +65,15 @@ Several dozen end-user companies have given permission for their logo to be used
 
 If you are using OpenFaaS for internal or production use, please feel free to send a pull request to the ADOPTERS.md file, to email support@openfaas.com or to comment on [this issue](https://github.com/openfaas/faas/issues/776).
 
+### Become a Sponsor
+
+!!! info "How is OpenFaaS funded?"
+    OpenFaaS is free and open-source. As an end-user, supporter or commercial company, you can become a sponsor and get unique benefits, whilst also supporting the project and community.
+
+You can access exclusive updates, discounts, news and tutorials through the [The Treasure Trove Portal](https://faasd.exit.openfaas.pro/function/trove/) with over 80 updates from the OpenFaaS Founder going back to 2019.
+
+* [Become a GitHub Sponsor today](https://github.com/support/)
+
 ### Contributing
 
 OpenFaaS is written in Golang and contributions are welcomed from end-users and the community. It could mean providing feedback through testing features, proposing enhancements, or getting involved with the maintenance of almost to 40 projects.
@@ -91,14 +81,6 @@ OpenFaaS is written in Golang and contributions are welcomed from end-users and 
 * View the [contributing page](/community/#contribute)
 
 If you would like to contribute to the documentation site or find out more check out the [docs repo](https://github.com/openfaas/docs).
-
-## Grafana dashboards
-
-Example of a Grafana dashboards linked to OpenFaaS showing auto-scaling live in action: [here](https://grafana.com/dashboards/3526)
-
-![Preview of the dashboard](https://pbs.twimg.com/media/C9caE6CXUAAX_64.jpg:large)
-
-An alternative community dashboard is [available here](https://grafana.com/dashboards/3434)
 
 ## Governance
 

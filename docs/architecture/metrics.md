@@ -4,13 +4,17 @@
 
 The Gateway component exposes several metrics to help you monitor the health and behavior of your functions
 
-| Metric                              | Type       | Description                         | Labels                     |
-| ----------------------------------- | ---------- | ----------------------------------- | -------------------------- |
-| `gateway_functions_seconds`         | histogram  | Function invocation time taken      | `function_name`            |
-| `gateway_function_invocation_total` | counter    | Function invocation count           | `function_name`, `code`    |
-| `gateway_service_count`             | counter    | Number of function replicas         | `function_name`            |
-| `http_request_duration_seconds`     | histogram  | Seconds spent serving HTTP requests | `method`, `path`, `status` |
-| `http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `status` |
+| Metric                              | Type       | Description                         | Labels                     | Edition            |
+| ----------------------------------- | ---------- | ----------------------------------- | -------------------------- |--------------------|
+| `gateway_functions_seconds`         | histogram  | Function invocation time taken      | `function_name`            | Community Edition  |
+| `gateway_function_invocation_total` | counter    | Function invocation count           | `function_name`, `code`    | Community Edition  |
+| `gateway_service_count`             | counter    | Number of function replicas         | `function_name`            | Community Edition  |
+| `gateway_service_target`            | gauge      | Target load for the function        | `function_name`            | Pro Edition  |
+| `gateway_service_min`               | gauge      |  Min number of function replicas    | `function_name`            | Pro Edition  |
+| `http_request_duration_seconds`     | histogram  | Seconds spent serving HTTP requests | `method`, `path`, `status` | Community Edition  |
+| `http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `status` | Community Edition  |
+| `http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `status` | Community Edition  |
+
 
 The `http_request*` metrics record the latency and statistics of `/system/*` routes to monitor the OpenFaaS gateway and its provider. The `/async-function` route is also recorded in these metrics to observe asynchronous ingestion rate and latency.
 
@@ -20,10 +24,10 @@ These basic metrics can be used to track the health of your functions as well a 
 
 ### Function invocation rate
 
-Return the per-second rate of invocation as measured over the previous 20 seconds:
+Return the per-second rate of invocation as measured over the previous 1 minute:
 
 ```
-rate ( gateway_function_invocation_total [20s])
+rate ( gateway_function_invocation_total [1m])
 ```
 
 ### Function replica count / scaling
@@ -65,16 +69,11 @@ rate ( gateway_function_invocation_total{function_name='echo'} [20s])
 
 The classic and of-watchdog both provide Prometheus instrumentation on TCP port 8081 on the path /metrics. This is to enable the use-case of HPAv2 from the Kubernetes ecosystem.
 
-| Metric                              | Type       | Description                         | Labels                     |
-| ----------------------------------- | ---------- | ----------------------------------- | -------------------------- |
-| `http_request_duration_seconds`     | histogram  | Seconds spent serving HTTP requests | `method`, `path`, `status` |
-| `http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `status` |
+| Metric                              | Type       | Description                         | Labels                       | Edition            |
+| ----------------------------------- | ---------- | ----------------------------------- | ---------------------------- |--------------------|
+| `http_request_duration_seconds`     | histogram  | Seconds spent serving HTTP requests | `method`, `path`, `status`   | Community Edition  |
+| `http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `status`   | Community Edition  |
+| `http_requests_in_flight`           | gauge      | The number of HTTP requests in flight | `method`, `path`, `status` | Pro Edition        |
 
 The `http_request*` metrics record the latency and statistics of `/system/*` routes to monitor the OpenFaaS gateway and its provider. The `/async-function` route is also recorded in these metrics to observe asynchronous ingestion rate and latency.
 
-### Minimum watchdog versions
-
-The metrics endpoint was added in the following versions and is enabled automatically.
-
-* watchdog: 0.13.0
-* of-watchdog 0.5.0

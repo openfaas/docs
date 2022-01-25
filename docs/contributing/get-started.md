@@ -8,13 +8,13 @@ Examples may be: writing some Go code, reviewing a PR, helping with the website 
 
 ## Five practical ideas to get started
 
-* Try the [workshop](https://github.com/openfaas/workshop)
+* Try the samples in [Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)
+
+* Write a blog post and add it to the [community file](https://github.com/openfaas/faas/blob/master/community.md)
 
 * Read the [architecture diagrams](https://docs.openfaas.com/architecture/gateway/)
 
 * Submit a function to the [Function Store](https://github.com/openfaas/store)
-
-* Write a blog post and add it to the [community file](https://github.com/openfaas/faas/blob/master/community.md)
 
 * Improve the [OpenFaaS CLI tooling](https://github.com/openfaas/faas-cli) with a PR or documentation
 
