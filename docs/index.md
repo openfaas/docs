@@ -59,11 +59,9 @@ Have you written a blog about OpenFaaS? Send a Pull Request to the community pag
 
 * [Read blogs/articles and find events about OpenFaaS](https://github.com/openfaas/faas/blob/master/community.md)
 
-### Users of OpenFaaS
+### OpenFaaS Adopters
 
-Several dozen end-user companies have given permission for their logo to be used on [openfaas.com](https://www.openfaas.com), you can find specific information about use-cases in the [ADOPTERS.md](https://github.com/openfaas/faas/blob/master/ADOPTERS.md) file and on the [OpenFaaS blog](https://www.openfaas.com/blog/).
-
-If you are using OpenFaaS for internal or production use, please feel free to send a pull request to the ADOPTERS.md file, to email support@openfaas.com or to comment on [this issue](https://github.com/openfaas/faas/issues/776).
+If you're using OpenFaaS within your team, send a pull request to [ADOPTERS.md](https://github.com/openfaas/faas/blob/master/ADOPTERS.md) to let us know, or email us at: [contact@openfaas.com](mailto:contact@openfaas.com)
 
 ### Become a Sponsor
 

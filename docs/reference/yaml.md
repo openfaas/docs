@@ -1,6 +1,20 @@
-# YAML format reference
+# OpenFaaS YAML file reference
 
-This page covers the OpenFaaS YAML stack file used to configure functions.
+OpenFaaS has its own YAML file called a "stack file" which is used to provide configuration for functions.
+
+This page is the reference guide to the schema and how to use each field.
+
+Configuration is split between:
+
+* build-time - how to build a container from the source provided
+* deploy time - how to deploy the function to and in OpenFaaS
+
+!!! tip "Generate Kubernetes resources"
+    Did you know that the OpenFaaS YAML files can also be converted into Kubernetes resources using `faas-cli generate`?
+
+    If you use a GitOps tool like Argo or Flux, you can retain your `stack.yml` file for building functions, and testing locally, then generate a CustomResource when required with: `faas-cli generate | kubectl apply -f`
+
+## Functions belong together
 
 The YAML file can hold one to many functions separated by separate entries.
 
@@ -13,7 +27,7 @@ $ faas-cli new --lang go fn2 --append=fn1.yml
 
 Produces:
 
-```YAML
+```yaml
 provider:
   name: openfaas
   gateway: http://127.0.0.1:8080
@@ -27,6 +41,12 @@ functions:
     lang: go
     handler: ./fn2
     image: fn2:latest
+```
+
+Then rename your file to stack.yml, so you don't need to specify the `-f` flag when using the CLI.
+
+```bash
+mv fn1.yml stack.yml
 ```
 
 ## Provider

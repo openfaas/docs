@@ -130,24 +130,25 @@ nav:
       - Single Sign-On: ./openfaas-pro/sso.md
       - Function Builder API: ./openfaas-pro/builder.md
   - Reference:
+    - OpenFaaS YAML: ./reference/yaml.md
+    - Secrets: ./reference/secrets.md
+    - Async: ./reference/async.md
+    - Triggers: ./reference/triggers.md
+    - Workloads: ./reference/workloads.md
+    - Cron: ./reference/cron.md
+    - Private Registries: ./reference/private-registries.md
+    - TLS:
+      - Kubernetes: ./reference/ssl/kubernetes-with-cert-manager.md
     - CI/CD:
       - Intro: ./reference/cicd/intro.md
       - GitHub Actions: ./reference/cicd/github-actions.md
       - Function Builder API: ./openfaas-pro/builder.md
       - GitLab: ./reference/cicd/gitlab.md
       - Jenkins: ./reference/cicd/jenkins.md
-    - TLS:
-      - Kubernetes: ./reference/ssl/kubernetes-with-cert-manager.md
-    - Secrets: ./reference/secrets.md
-    - Async: ./reference/async.md
-    - Triggers: ./reference/triggers.md
-    - Workloads: ./reference/workloads.md
-    - Authentication: ./reference/authentication.md
-    - Cron: ./reference/cron.md
     - Namespaces: ./reference/namespaces.md
-    - Profiles: ./reference/profiles.md
+    - Authentication: ./reference/authentication.md
     - CORS: ./reference/cors.md
-    - YAML: ./reference/yaml.md
+    - Profiles: ./reference/profiles.md
   - Design & Architecture:
       - Production: ./architecture/production.md
       - Stack: ./architecture/stack.md
