@@ -119,7 +119,7 @@ faas-cli store deploy nodeinfo \
 --label com.openfaas.scale.type=rps \
 --label com.openfaas.scale.target-proportion=0.90 \
 --label com.openfaas.scale.zero=true \
---label com.openfaas.scale.zero-duration=60s
+--label com.openfaas.scale.zero-duration=10m
 
 hey -z 3m -c 5 -q 20 \
   http://127.0.0.1:8080/function/nodeinfo
@@ -137,7 +137,7 @@ faas-cli store deploy figlet \
 --label com.openfaas.scale.type=cpu \
 --label com.openfaas.scale.target-proportion=0.50 \
 --label com.openfaas.scale.zero=true \
---label com.openfaas.scale.zero-duration=5m
+--label com.openfaas.scale.zero-duration=30m
 
 hey -m POST -d data -z 3m -c 5 -q 10 \
   http://127.0.0.1:8080/function/figlet
@@ -159,6 +159,8 @@ faas-cli store deploy cows \
 hey -m POST -d data -z 3m -c 5 -q 10 \
   http://127.0.0.1:8080/function/cows
 ```
+
+Note that `com.openfaas.scale.zero=false` is the default, so this is not strictly required.
 
 ## Scaling to Zero aka "Zero-scale"
 
