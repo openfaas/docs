@@ -13,11 +13,13 @@ There are two primary use-cases for retrying asynchronous messages:
 
 You can install the Pro version of the queue worker by editing the values.yaml file of the [OpenFaaS chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas).
 
+You must also set:
+
 ```yaml
-# Requires OpenFaaS Pro subscription
+openfaasPro: true
+
 queueWorkerPro:
   image: ghcr.io/openfaas/queue-worker-pro:0.1.0-rc4
-  enabled: false
   maxRetryAttempts: "10"
   maxRetryWait: "120s"
   initialRetryWait: "10s"
@@ -33,7 +35,6 @@ The `httpRetryCodes` is a comma-separated list of HTTP status codes which the qu
 ## Usage
 
 To test the retry functionality, you can use our chaos function, which allows a function to be configured to return a canned response, or to timeout with a given duration.
-
 
 ```bash
 git clone https://github.com/alexellis/chaos-fn

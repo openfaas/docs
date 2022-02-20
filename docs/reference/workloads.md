@@ -163,14 +163,17 @@ Use of the [OpenFaaS next-gen of-watchdog](https://github.com/openfaas/of-watchd
 
 On Kubernetes is possible to run any container image as an OpenFaaS function as long as your application exposes port 8080 and has a HTTP health check endpoint.
 
-#### Custom HTTP health check
+#### Custom HTTP health checks
+
+> This feature is available for OpenFaaS Pro customers only
 
 You can specify the HTTP path of your health check and the initial check delay duration with the following annotations:
 
 * `com.openfaas.health.http.path`
 * `com.openfaas.health.http.initialDelay`
+* `com.openfaas.health.http.periodSeconds`
 
-Stack file example:
+For example, you may have a function that takes 30s to initialise, but then only needs to be checked every 5s after that.
 
 ```yaml
 functions:
@@ -180,6 +183,7 @@ functions:
     annotations:
       com.openfaas.health.http.path: "/healthz"
       com.openfaas.health.http.initialDelay: "30s"
+      com.openfaas.health.http.periodSeconds: 5s
 ``` 
 
 > Note: The initial delay value must be a valid Go duration e.g. `80s` or `3m`. 
