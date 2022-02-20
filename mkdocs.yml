@@ -65,7 +65,7 @@ extra:
   search:
     languages: "en"
   social:
-    - icon: fontawesome/solid/globe-europe
+    - icon: fontawesome/solid/earth-europe
       link: https://www.openfaas.com/
     - icon: fontawesome/brands/github-alt
       link: https://github.com/openfaas
