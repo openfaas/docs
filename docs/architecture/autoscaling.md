@@ -16,8 +16,8 @@ Configuration is via a label on the function.
 
 All calls made through the gateway whether to a synchronous function `/function/` route or via the asynchronous `/async-function` route count towards this method of auto-scaling.
 
-![Preview of the dashboard](https://pbs.twimg.com/media/C9caE6CXUAAX_64.jpg:large)
-> Preview of the Grafana dashboard during scaling.
+![OpenFaaS Pro auto-scaling dashboard with Grafana](https://pbs.twimg.com/media/FJ9EBVdWQAM9DeW?format=jpg&name=medium)
+> OpenFaaS Pro auto-scaling dashboard with Grafana
 
 ## How auto-scaling works
 
