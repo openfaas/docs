@@ -149,6 +149,26 @@ metadata:
     app: openfaas
 ```
 
+### Custom TerminationGracePeriod for long running functions
+
+!!! info "OpenFaaS Pro feature"
+    This feature is part of the [OpenFaaS Pro](/openfaas-pro/introduction) distribution.
+
+You can configure your functions to drain any requests in flight when scaling down. This prevents errors and makes sure all work is processed, before Kubernetes finally removes any Pods.
+
+To set a custom [TerminationGracePeriod](https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/) for a function, configure a `write_timeout` environment variable.
+
+```yaml
+functions:
+  email-batch:
+     environment:
+       write_timeout: "1m"
+```
+
+When scaling down the function after scaling up, or scaling to zero, Kubernetes will wait for 1m before removing the function. If there is no work to be done, it could exit sooner because the OpenFaaS watchdog does a safe shutdown.
+
+Read more here: [Improving long-running jobs for OpenFaaS users](https://www.openfaas.com/blog/long-running-jobs/)
+
 ### Stateless microservices
 
 A stateless microservice can be built using the `dockerfile` language type and the OpenFaaS CLI - or by building a custom Docker image which serves traffic on port `8080` and deploying that via the RESTful API, CLI or UI.

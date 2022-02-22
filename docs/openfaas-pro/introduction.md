@@ -6,24 +6,35 @@ OpenFaaS Pro is a commercially licensed distribution of OpenFaaS with additional
 
     OpenFaaS Community Edition (CE) is meant for open-source developers, OpenFaaS Pro is meant for production.
 
-### Additional capabilities
+### Core platform
 
-The following capabilities can be enabled independently. Follow the link to see example usage and deployment information. If you can't find what you're looking for, reach out to us so that we can improve the documentation for everyone.
+Efficiency and redundancy:
+
+* [New auto-scaling engine](/architecture/autoscaling/) to get the scaling just right either on Requests Per Second (RPS), Inflight requests or CPU.
+* [Scale idle functions to zero](/openfaas-pro/scale-to-zero) to save on compute costs, increase efficiency and lower your threat profile
+* [Retry failed invocations for functions](/openfaas-pro/retries) to handle issues with downstream APIs and back-pressure on concurrency-limited functions
+
+### Workload tuning
+
+In production, it's important to tune functions to make the most of Kubernetes features to increase performance and keep functions healthy.
+
+* Custom HTTP health checks for functions - including path, period seconds and initial delay
+* Custom Kubernetes service accounts for functions to access the Kubernetes API
+* Custom runtime profiles for security & isolation using gVisor, kata containers etc.
+* Custom TerminationGracePeriod for draining work for long running functions
+
+### Events and triggers
 
 Event-driven programming and triggers:
 
 * [Trigger functions via Kafka](/openfaas-pro/kafka-events) for event-driven functions and to integrate with your existing systems
 * [Trigger functions from AWS SQS](/openfaas-pro/sqs-events) to integrate with events from AWS.
 
-Efficiency and redundancy:
-
-* [Flexible auto-scaling engine](/architecture/autoscaling/) to get the scaling just right either on Requests Per Second (RPS), Inflight requests or CPU.
-* [Scale idle functions to zero](/openfaas-pro/scale-to-zero) to save on compute costs, increase efficiency and lower your threat profile
-* [Retry failed invocations for functions](/openfaas-pro/retries) to handle issues with downstream APIs and back-pressure on concurrency-limited functions
-
-Security:
+### Security
 
 * [Single Sign-On using OpenID Connect (OIDC)](/openfaas-pro/sso) means each user authenticates with their own identity, instead of sharing one set of credentials, which is insecure. Use your existing OIDC-compatible Identity Provider (IdP).
+
+### Platform building features
 
 Build functions at scale - for services providers and large teams:
 
