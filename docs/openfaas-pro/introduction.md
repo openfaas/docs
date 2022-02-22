@@ -14,14 +14,16 @@ Efficiency and redundancy:
 * [Scale idle functions to zero](/openfaas-pro/scale-to-zero) to save on compute costs, increase efficiency and lower your threat profile
 * [Retry failed invocations for functions](/openfaas-pro/retries) to handle issues with downstream APIs and back-pressure on concurrency-limited functions
 
-### Workload tuning
+Workload tuning:
 
-In production, it's important to tune functions to make the most of Kubernetes features to increase performance and keep functions healthy.
+In production, many of our customers need to tune health checks, set custom service accounts or termination periods for safe shutdown of functions.
 
 * Custom HTTP health checks for functions - including path, period seconds and initial delay
 * Custom Kubernetes service accounts for functions to access the Kubernetes API
 * Custom runtime profiles for security & isolation using gVisor, kata containers etc.
 * Custom TerminationGracePeriod for draining work for long running functions
+
+Read more: [OpenFaaS workloads](https://docs.openfaas.com/reference/workloads/) and [Custom Profiles](https://docs.openfaas.com/reference/profiles/#use-an-alternative-runtimeclass)
 
 ### Events and triggers
 
