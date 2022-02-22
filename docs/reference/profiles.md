@@ -53,12 +53,11 @@ When installing OpenFaaS on Kubernetes, Profiles use a CRD. This must be install
 
 > Note: Profiles requires `faas-netes` version `>= 0.12.0` and/or Helm chart version `>= 6.0.0`.
 
-
 ### Available Options
 
-Profiles in Kubernetes work by injecting the supplied configuration directly into the correct locations of the Function's Deployment. This allows us to directly expose the underlying API without any additional modifications. Currently, it exposes the following Pod and Container options from the Kubernetes API
+Profiles in Kubernetes work by injecting the supplied configuration directly into the correct locations of the Function's Deployment. This allows us to directly expose the underlying API without any additional modifications. Currently, it exposes the following Pod and Container options from the Kubernetes API.
 
-- `runtimeClassName` : See https://kubernetes.io/docs/concepts/containers/runtime-class/ for a description and links to any additional documentation about Pod Runtime Class
+- `runtimeClassName` : (OpenFaaS Pro only) See https://kubernetes.io/docs/concepts/containers/runtime-class/ for a description and links to any additional documentation about Pod Runtime Class
 - `tolerations` : https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/ for a description and links to any additional documentation about Tolerations.
 - `affinity` : https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity for a description and links to any additional documentation about Node Affinity.
 - `podSecurityContext` : https://kubernetes.io/docs/tasks/configure-pod-container/security-context/ for a description and links to any additional documentation about the Pod Security Context.
@@ -68,13 +67,19 @@ The configuration use the exact options that you find in the Kubernetes document
 ### Examples
 
 #### Use an Alternative RuntimeClass
+
+!!! info "OpenFaaS Pro feature"
+    This feature is part of the [OpenFaaS Pro](/openfaas-pro/introduction) distribution.
+
 A popular alternative container runtime class is [gVisor](https://gvisor.dev/) that provides additional sandboxing between containers. If you have created a cluster that is using gVisor, you will need to set the `runTimeClass` on the Pods that are created. This is not exposed in the OpenFaaS API, but it can be set via a Profile.
 
 1. Install the latest `faas-netes` release and the CRD. The is most easily done with [`arkade`](https://github.com/alexellis/arkade)
     ```sh
-    arkade install openfaas
+    arkade install openfaas \
+      --set openfaasPro=true
     ```
     This default installation will enable Profiles.
+
 2. Create a Profile to apply the runtime class
     ```yaml
     kubectl apply -f- << EOF
@@ -87,7 +92,9 @@ A popular alternative container runtime class is [gVisor](https://gvisor.dev/) t
         runtimeClassName: gvisor
     EOF
     ```
+
 3. Let your developers know that they need to use this annotation
+
     ```
     com.openfaas.profile: gvisor
     ```
@@ -109,6 +116,7 @@ functions:
 ```
 
 #### Use Tolerations and Affinity to Separate Workloads
+
 The OpenFaaS API exposes the Kubernetes `NodeSelector` via [`constraints`](/docs/reference/yaml#function-constraints). This provides a very simple selection based on labels on Nodes.
 
 The Kubernetes API also exposes two features affinity/anti-affinity and taint/tolerations that further expand the types of constraints you can express.  OpenFaaS Profiles allow you to set these options, allowing you to more accurately isolate workloads, keep certain workloads together on the same nodes, or to keep certain workloads separate.

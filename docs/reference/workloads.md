@@ -10,14 +10,7 @@ All workloads must:
 * assume ephemeral storage
 * be stateless
 
-And integrate with a health-check mechanism:
-
-On Swarm:
-
-* create a lock file in `/tmp/.lock` - removing this file signals service degradation
-* add a `HEALTHCHECK` instruction if using Docker Swarm
-
-On Kubernetes:
+And integrate with a health-check mechanism with Kubernetes:
 
 * or enable httpProbe in the `helm` chart and implement `/_/health` as a HTTP endpoint
 * create a lock file in `/tmp/.lock` - removing this file signals service degradation
@@ -26,9 +19,9 @@ On Kubernetes:
 
 If running in read-only mode, then you can write files to the `/tmp/` mount only. These files may be accessible upon subsequent requests but it is not guaranteed. For instance - if you have two replicas of a function then both may have different contents in their `/tmp/` mount. When running without read-only mode you can write files to the user's home directory subject to the same rules.
 
-### FaaS Functions
+### Functions
 
-To build a FaaS Function simply use the [OpenFaaS CLI](/cli/install) to scaffold a new function using one of the official templates or one of your own templates. All FaaS Functions make use of the [OpenFaaS classic watchdog](/architecture/watchdog) or the next-gen [of-watchdog](https://github.com/openfaas/of-watchdog).
+To build a function simply use the [OpenFaaS CLI](/cli/install) to scaffold a new function using one of the official templates or one of your own templates. All FaaS Functions make use of the [OpenFaaS classic watchdog](/architecture/watchdog) or the next-gen [of-watchdog](https://github.com/openfaas/of-watchdog).
 
 ```
 faas-cli template pull
@@ -104,7 +97,10 @@ You can then access the service at: `http://127.0.0.1:8080/function/node-service
 
 ### Custom service account
 
-When using Kubernetes, OpenFaaS workloads can assume a ServiceAccount in the namespace in which they are deployed.
+!!! info "OpenFaaS Pro feature"
+    This feature is part of the [OpenFaaS Pro](/openfaas-pro/introduction) distribution.
+
+When using Kubernetes, OpenFaaS Pro functions can assume a ServiceAccount in the namespace in which they are deployed.
 
 For example if a workload needed to read logs from the Kubernetes API using a ServiceAccount named `function-logs-sa`, you could bind it in this way:
 
@@ -165,7 +161,8 @@ On Kubernetes is possible to run any container image as an OpenFaaS function as 
 
 #### Custom HTTP health checks
 
-> This feature is available for OpenFaaS Pro customers only
+!!! info "OpenFaaS Pro feature"
+    This feature is part of the [OpenFaaS Pro](/openfaas-pro/introduction) distribution.
 
 You can specify the HTTP path of your health check and the initial check delay duration with the following annotations:
 
