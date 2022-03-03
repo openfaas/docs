@@ -155,6 +155,7 @@ functions:
       HTTP_PROXY: http://squid.corp.ad.example.com
       GO111MODULE: on
 ```
+Important note: The template author must specify [`ARG`](https://docs.docker.com/engine/reference/builder/#arg) accordingly in the `Dockerfile`.
 
 These can also be passed via the CLI using `faas-cli build --build-arg key=value` or `faas-cli up --build-arg key=value`
 
@@ -367,6 +368,7 @@ The meanings and formats of `limits` and `requests` may vary depending on whethe
  - Limits specify the maximum amount of host resources that a container can consume
 
 See docs for [Docker Swarm](https://docs.docker.com/config/containers/resource_constraints/) or for [Kubernetes](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#how-pods-with-r    esource-limits-are-run).
+
 
 ## Configuration
 The configuration section allows you to define additional configuration that is global to the entire stack, currently this mostly impacts function build time options.
