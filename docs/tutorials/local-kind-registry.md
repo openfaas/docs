@@ -14,10 +14,10 @@ We will use [arkade](https://github.com/alexellis/arkade) to install and deploy 
 
 ```bash
 # Download only, install yourself with sudo
-$ curl -sLS https://dl.get-arkade.dev | sh
+$ curl -sLS https://get.arkade.dev | sh
 
 # Download and install
-$ curl -sLS https://dl.get-arkade.dev | sudo sh
+$ curl -sLS https://get.arkade.dev | sudo sh
 ```
 
 **arkade commands:**
