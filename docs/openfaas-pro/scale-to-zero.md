@@ -6,9 +6,11 @@ OpenFaaS Pro offers an additional component that can be used to scale idle funct
 
 ## Installation
 
-You can enable Scale to Zero using arkade or helm.
+Scale to Zero is enabled automatically when you install OpenFaaS Pro with helm, see [the helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas).
 
-Learn how to enable Scale to Zero [using the helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas).
+!!! info "Remember faas-idler?"
+
+    If you worked with an older version of OpenFaaS Pro, then you'll remember faas-idler. It has now been replaced by the [OpenFaaS Pro autoscaler](/architecture/autoscaling) which performs both Horizontal Scaling of functions between their minimum and maximum replica count, and down to zero.
 
 ## Usage
 
@@ -41,7 +43,7 @@ functions:
 Once you have deployed and invoked your function, you should see it start to appear in the logs:
 
 ```bash
-kubectl logs -n openfaas deploy/faas-idler -f
+kubectl logs -n openfaas deploy/autoscaler -f
 ```
 
 Open another terminal to monitor the replicas of your function:
