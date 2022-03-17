@@ -146,7 +146,7 @@ If you need to set environment variable, or to simulate secrets being mounted, y
 
 ### I forgot my credentials for the gateway
 
-Download [arkade](https://get-arkade.dev).
+Download [arkade](https://arkade.dev).
 
 Now run the following command which will give you the commands you require to retrieve your password.
 
@@ -155,6 +155,10 @@ arkade info openfaas
 ```
 
 Alternatively, consider using the [Single-Sign On module from OpenFaaS Pro](https://docs.openfaas.com/reference/authentication/#oidc-and-oauth2-for-the-openfaas-api).
+
+### How do I call one function from another?
+
+See the notes on the asynchronous invocations page under: [Making an asynchronous call from another function](/reference/async)
 
 ### Can I manage functions via kubectl?
 

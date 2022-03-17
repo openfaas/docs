@@ -71,6 +71,18 @@ X-Start-Time: 1543915495384346700
 
 Alternatively you can specify another asynchronous or synchronous function to run instead.
 
+### Making an asynchronous call from another function
+
+You cannot use the address `127.0.0.1` when calling the gateway from within a function, because this refers to the function's container and local network, not the gateway's.
+
+Instead, use the following URL: `http://gateway.openfaas.svc.cluster.local:8080/async-function/NAME`
+
+The suffix minimises unnecessary DNS lookups, so increases performance. This suffix is usually `svc.cluster.local`, however, this may vary between clusters.
+
+For a synchronous call, use `http://gateway.openfaas.svc.cluster.local:8080/function/NAME`.
+
+The same URL applies for any `X-Callback-Url` that you wish to pass.
+
 #### Configuration & Limits
 
 There are limits for asynchronous functions, which you should understand before using them:

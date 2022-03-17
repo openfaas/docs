@@ -169,6 +169,18 @@ You can enable mutual TLS (mTLS) between OpenFaaS services using Linkerd or Isti
 
 * [Tutorial/Lab: Linkerd2 & OpenFaaS](https://github.com/openfaas-incubator/openfaas-linkerd2)
 
+### Reduce DNS lookups when calling other functions
+
+By default, Kubernetes will search for a name like `gateway` with every domain and local domain extension within `/etc/hosts`, which could lead to dozens of DNS lookups per outgoing HTTP call from a function.
+
+To make this most efficient, always address the gateway using its complete name:
+
+```
+http://gateway.openfaas.svc.cluster.local:8080/function/function-name
+```
+
+The suffix is usually `svc.cluster.local`, however, this can vary between clusters.
+
 ### Configure NetworkPolicy
 
 You may want to configure NetworkPolicy to restrict communication between the openfaas Functions namespace and the core components of OpenFaaS.
