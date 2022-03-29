@@ -113,6 +113,20 @@ Common issues:
 * You are trying to access the gateway from your function, you must use the string `http://gateway.openfaas:8080`, otherwise it will be unreachable to you.
 * Your cloud LoadBalancer may have a timeout set of 60 seconds, which could prevent your call from executing successfully, consider increasing the timeout if you can, or execute the function asynchronously.
 
+### My function gets a nil or empty body
+
+If the body of the HTTP request is empty, the chances are that you are not setting a "Content-type" header in your request to the function.
+
+For example:
+
+```bash
+curl -s -i http://127.0.0.1:8080/function/node-tester \
+  -H "Content-type: application/json" \
+  --data-binary '{"employeeID": 10}'
+```
+
+Some legacy HTTP servers such as [WSGI](https://en.wikipedia.org/wiki/Web_Server_Gateway_Interface) do not supported the default "chunked" transfer encoding. In this case, if you're using the of-watchdog, you should set the environment variable of `http_buffer_req_body: true`. This causes the HTTP request to be buffered in memory, then sent in one shot to the upstream function.
+
 ### My function takes too long to start up
 
 Your function is failing because it takes too long to start-up.
@@ -134,13 +148,16 @@ Example:
 
 ```bash
 faas-cli new --lang go test-this
+
 faas-cli build -f test-this.yml
 
-docker run -p 8080:8080 --name test-this \
- -ti test-this:latest
+docker run -p 8081:8080 \
+  --rm \
+  --name test-this \
+  -ti test-this:latest
 ```
 
-Then invoke your function via `http://127.0.0.1:8080`.
+Then invoke your function via `http://127.0.0.1:8081`.
 
 If you need to set environment variable, or to simulate secrets being mounted, you can do so with `--env/-e` and `-v` to simulate mounting secrets at `/var/openfaas/secrets`.
 
