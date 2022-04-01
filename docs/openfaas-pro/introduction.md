@@ -22,9 +22,11 @@ The OpenFaaS Pro autoscaler emits detailed usage information, meaning functions 
 
 Usability and operations:
 
-[![The OpenFaaS dashboard](https://pbs.twimg.com/media/FPKw2VUWYA4pzV7?format=jpg&name=medium)](https://twitter.com/alexellisuk/status/1509463370088521728/)
+[![The OpenFaaS dashboard](https://pbs.twimg.com/media/FPKw2VUWYA4pzV7?format=jpg&name=medium)](/openfaas-pro/dashboard/)
 
 The OpenFaaS dashboard integrates with CPU & RAM usage metrics, and container logs to give you insights on your functions in one place. You can also add metadata from your source control management tool like a SHA, owner, project or URL to the source code.
+
+* [OpenFaaS Dashboard](/openfaas-pro/dashboard/)
 
 ### Events and triggers
 
@@ -66,6 +68,51 @@ Build functions at scale - for services providers and large teams:
 * Enhanced multi-tenant isolation for large organisations and service providers
 
 Is there something else you need for your team or organisation? [Get in touch with us here](https://openfaas.com/support/).
+
+### Comparison
+
+!!! info "Do we need the Community Edition or Pro?"
+
+    OpenFaaS Community Edition (CE) is meant for open-source developers, OpenFaaS Pro is meant for production.
+
+Support
+
+| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
+| ----------------------| ------------------|------------------------|---------------------------------|
+| Suitability           | Open Source developers and basic exploration  | Production, business critical, or PoC | Production, business critical, or PoC |
+| Support via email     | N/a               | Pro features only      | OSS & Pro within 1 business day |
+| Support via GitHub    | N/a               | Pro features only      | OSS & Pro within 1 business day |
+| Support via Slack     | N/a               | N/a                    | Up to 5 developers              |
+| Private customers' community   | N/a               | Private access to GitHub community for two people | Private access to GitHub community for team |  
+
+Features
+
+| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
+| ----------------------| ------------------|------------------------|---------------------------------|
+| Dashboard         | Basic, legacy UI portal (in code-freeze)  | Dashboard with metrics, logs and multiple namespace support | As per Pro |
+| Metrics         | Basic HTTP invocation metrics  | Plus advanced CPU/RAM usage metrics      | As per Pro |
+| Autoscaling granularity   | Single rule for all functions | Custom per functions      | As per Pro |
+| Autoscaling strategy   | RPS-only | CPU utilization, Capacity (inflight requests) or RPS      | As per Pro |
+| Authentication | Shared token with every user | Sign-On with OIDC Okta/Auth0 | Custom Single Sign-On with your IdP |
+| Scale to Zero | Not supported | Custom rule per function | As per Pro |
+| Custom Kubernetes service account      | N/a             | Supported per function | As per Pro |
+
+Durability and reliability
+
+| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
+| ----------------------| ------------------|------------------------|---------------------------------|
+| Health checks | Not supported | Custom HTTP path and intervals per function | As per Pro |
+| Retry failed invocations | Not supported | Retry certain HTTP codes with a back-off | As per Pro |
+| GDPR                  | Sensitive data printed in logs | Sensitive data omitted from logs | As per Pro | 
+| Grafana Dashboard      | N/a             | Supplied with advanced metrics in private repository | As per Pro |
+| Secure isolation with Kata containers or gVisor      | N/a             | Supported via a runtimeClass | As per Pro |
+
+Event-brokers
+
+| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
+| ----------------------| ------------------|------------------------|---------------------------------|
+| Kafka broker | Not supported | Supports SASL or TLS auth, Aiven, Confluent and self-hosted | As per Pro |
+| AWS SQS | Not supported | Supported | As per Pro |
 
 ### Trusted by
 
