@@ -120,9 +120,9 @@ OpenFaaS Pro is trusted by:
 
 * Fortune 500 company (name withheld)
 * Fortune 500 company (name withheld)
+* Check Point Software Technologies Ltd (Global 2000 company)
 * Waylay.io
 * RateHub.ca
-* Check Point Software Technologies Ltd
 * Surge "workwithsurge"
 
 Tell us about your use-case for OpenFaaS and see what other companies are doing in the: [ADOPTERS.md file](https://github.com/openfaas/faas/blob/master/ADOPTERS.md) 
