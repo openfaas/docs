@@ -61,7 +61,9 @@ Build functions at scale - for services providers and large teams:
 * Scaling upon inflight requests for long running & memory/CPU bound functions (released Jan 2022)
 * A new Pro UI dashboard for managing and monitoring OpenFaaS functions across namespaces (released March 2022)
 * CPU and RAM usage metrics within the OpenFaaS API, CLI and Pro UI dashboard (released Feb 2022)
-* Migration to JetStream from NATS Streaming (which will be deprecated in 2023) 
+* AWS SQS event-connector (released January 2022)
+* Migration to JetStream from NATS Streaming (which will be deprecated in 2023)
+* Structured logging / JSON for OpenFaaS Pro customers
 * Concurrency limiting for functions - i.e. one request per container
 * Enhanced RBAC for functions and the OpenFaaS REST API
 * AMQP event trigger for RabbitMQ and Azure Service Bus
