@@ -31,7 +31,9 @@ The technique used for cross-compilation relies on Docker's [buildx](https://doc
 First install the QEMU utilities which allow for cross-compilation:
 
 ```bash
-$ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+$ docker run --rm --privileged \
+  multiarch/qemu-user-static \
+  --reset -p yes
 ```
 
 The faas-cli attempts to enable Docker's experimental flag for the CLI, but you may need to run the following, if you get an error:

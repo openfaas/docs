@@ -141,12 +141,12 @@ Now use `go mod init function` to initialize your function. Once initialized, yo
 
 ###### Vendoring for use of private repos and modules
 
-You must set `GO111MODULE=off` and `GOMOD=-mod=vendor` in the `build_args` section of `stack.yml`, or pass the relevant flags with `faas-cli build/up/publish --build-arg key=value`.
+You must set `GO111MODULE=off` and `GOFLAGS=-mod=vendor` in the `build_args` section of `stack.yml`, or pass the relevant flags with `faas-cli build/up/publish --build-arg key=value`.
 
 ```yaml
     build_args:
       GO111MODULE: off
-      GOMOD: "-mod vendor"
+      GOFLAGS: "-mod vendor"
 ```
 
 ###### Including sub-modules
