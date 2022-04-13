@@ -146,7 +146,7 @@ You must set `GO111MODULE=off` and `GOFLAGS=-mod=vendor` in the `build_args` sec
 ```yaml
     build_args:
       GO111MODULE: off
-      GOFLAGS: "-mod vendor"
+      GOFLAGS: "-mod=vendor"
 ```
 
 ###### Including sub-modules
