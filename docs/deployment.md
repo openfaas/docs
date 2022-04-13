@@ -24,7 +24,7 @@ OpenFaaS on Kubernetes bundles NATS and Prometheus. You can read about the stack
 
 There are three recommended ways to install OpenFaaS to a Kubernetes cluster:
 
-* Using our CLI installer [arkade](https://get-arkade.dev/) - (recommended)
+* Using our CLI installer [arkade](https://arkade.dev/) - (recommended)
 * With the Helm chart, Flux or ArgoCD (GitOps workflow)
 * Or using the statically generated YAML files (not recommended)
 
@@ -50,7 +50,7 @@ When should you use faasd over OpenFaaS on Kubernetes?
 
 OpenShift is a variant of Kubernetes produced by RedHat.
 
-You can deploy to OpenShift using our CLI installer <a href="https://get-arkade.dev/">arkade</a> or with the standard helm chart.
+You can deploy to OpenShift using our CLI installer <a href="https://arkade.dev/">arkade</a> or with the standard helm chart.
 
 [Deploy to OpenShift](/deployment/openshift/)
 

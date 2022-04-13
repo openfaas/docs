@@ -79,19 +79,27 @@ The classic templates are held in the [openfaas/templates](https://github.com/op
 
 There are several Golang templates available, which are listed below.
 
-| Name                | Style        | Watchdog    | Dependencies            |
-|:--------------------|:-------------|:------------|:------------------------|
-| `go`                | Function     | classic     | vendoring or Go modules |
-| `golang-middleware` | Microservice | of-watchdog | vendoring or Go modules |
-| `golang-http`       | Function     | of-watchdog | vendoring or Go modules |
+| Name                | Style        | Watchdog    | Dependencies            | Go version | Base OS       |
+|:--------------------|:-------------|:------------|:------------------------|:-----------|:--------------|
+| `golang-middleware` | Middleware/HTTP | of-watchdog | vendoring or Go modules | 1.18       | Alpine Linux  |
+| `golang-http`       | Function     | of-watchdog | vendoring or Go modules | 1.18       | Alpine Linux  |
+| `go`                | Function     | classic     | vendoring or Go modules | 1.18       | Alpine Linux  |
 
 All templates are available via `faas-cli template store list/pull`
 
-#### Go `golang-http` - (of-watchdog template)
+#### Go - use of static files
 
-[Read the README for golang-http](https://github.com/openfaas/golang-http-template), this template has a similar-style of API to AWS Lambda.
+This applies to `go`, `golang-middleware` and `golang-http`.
 
-Golang modules are supported via `--build-arg` using `GO111MODULE=1` or `GO111MODULE=auto`
+You may wish to copy some form of static data or files into your container image so that it can be used by the Go code at runtime.
+
+Just create a folder called `static` and then read from the folder however you need:
+
+```go
+tmpl, err := template.ParseFiles("./static/templates/user.html.tpl")
+
+data, err := os.ReadFile("./static/customers.txt")
+```
 
 #### Go `golang-middleware` - (of-watchdog template)
 
@@ -102,9 +110,18 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-Golang modules are supported via `--build-arg` using `GO111MODULE=1` or `GO111MODULE=auto`
+Go modules are turned on by default.
+
+#### Go `golang-http` - (of-watchdog template)
+
+[Read the README for golang-http](https://github.com/openfaas/golang-http-template), this template has a similar-style of API to AWS Lambda.
+
+Go modules are turned on by default.
 
 #### Go `go` - (classic template)
+
+!!! warning "Use a different template for new functions"
+    The classic template for Golang aka `go` is retained and maintained for backwards compatibility purposes. New functions should be created with the golang-middleware or golang-http templates.
 
 To create a new function named `go-fn` in Go type in the following:
 

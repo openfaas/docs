@@ -12,9 +12,9 @@ The core components required are:
 
 * [Download Helm3](https://helm.sh/docs/intro/install/)
 
-If you're an [arkade](https://get-arkade.dev/) user, helm is available at `~/.arkade/bin/helm3/`, add it to your path with `export PATH=$PATH:~/.arkade/bin/helm3/`.
+If you're an [arkade](https://arkade.dev/) user, helm is available at `~/.arkade/bin/helm3/`, add it to your path with `export PATH=$PATH:~/.arkade/bin/helm3/`.
 
-* Install OpenFaaS via Helm or via [arkade](https://get-arkade.dev/)
+* Install OpenFaaS via Helm or via [arkade](https://arkade.dev/)
 
 You will need to use the latest version of the chart and faas-netes.
 

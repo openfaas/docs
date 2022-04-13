@@ -282,10 +282,10 @@ The [IngressOperator](https://github.com/openfaas/ingress-operator) introduces a
 
 You can install the [ingress-operator](https://github.com/openfaas/ingress-operator) by passing `--set ingressOperator.create=true` to the helm chart at the installation time of OpenFaaS.
 
-Alternatively, use [arkade](https://get-arkade.dev):
+Alternatively, use [arkade](https://arkade.dev):
 
 ```bash
-curl -sSL https://dl.get-arkade.dev | sudo sh
+curl -sSL https://get.arkade.dev | sudo sh
 
 arkade install openfaas \
   --ingress-operator
