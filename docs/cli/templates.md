@@ -124,9 +124,9 @@ You can now edit `handler.go` and use the `faas-cli` to `build` and `deploy` you
 
 ##### Go `go` - dependencies
 
-Dependencies should be managed with a Go modules. Vendoring is also supported.
+Dependencies should be managed with a Go modules. Vendoring is also supported when you need to use private code, see the next section.
 
-Set the following `build_arg` in your stack.yml file, or use `faas-cli build/up --build-arg GO111MODULE=on`.
+You must set `GO111MODULE=on` in the `build_args` section of `stack.yml`, or pass the relevant flags with `faas-cli build/up/publish --build-arg key=value`.
 
 ```yaml
 functions:
@@ -139,10 +139,19 @@ functions:
 
 Now use `go mod init function` to initialize your function. Once initialized, you can now use  `go get` to manage your dependencies.
 
-###### Including sub-mobuldes
+###### Vendoring for use of private repos and modules
+
+You must set `GO111MODULE=off` and `GOMOD=-mod=vendor` in the `build_args` section of `stack.yml`, or pass the relevant flags with `faas-cli build/up/publish --build-arg key=value`.
+
+```yaml
+    build_args:
+      GO111MODULE: off
+      GOMOD: "-mod vendor"
+```
+
+###### Including sub-modules
 
 If you would like to include sub-modules, a certain replace statement is required in your `go.mod` file: `replace handler/function => ./`. This replace statement allows Go to see and use all sub-modules you create with-in your handler, for example
-
 
 Create your sub-package i.e. `handlers` and run `cd handlers ; go mod init`
 
