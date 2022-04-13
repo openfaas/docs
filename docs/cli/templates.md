@@ -52,7 +52,7 @@ dockerfile              openfaas           Official Dockerfile template
 ...
 node10-express          openfaas-incubator NodeJS 10 Express template
 ruby-http               openfaas-incubator Ruby 2.4 HTTP template
-golang-middleware       openfaas-incubator Golang Middleware template
+golang-middleware       openfaas Golang Middleware template
 csharp-httprequest      distantcam         C# HTTP template
 ...
 ```
@@ -89,13 +89,13 @@ All templates are available via `faas-cli template store list/pull`
 
 #### Go `golang-http` - (of-watchdog template)
 
-[Read the README for golang-http](https://github.com/openfaas-incubator/golang-http-template), this template has a similar-style of API to AWS Lambda.
+[Read the README for golang-http](https://github.com/openfaas/golang-http-template), this template has a similar-style of API to AWS Lambda.
 
 Golang modules are supported via `--build-arg` using `GO111MODULE=1` or `GO111MODULE=auto`
 
 #### Go `golang-middleware` - (of-watchdog template)
 
-[Read the README for golang-middleware](https://github.com/openfaas-incubator/golang-http-template), this template is ideal for full control over the HTTP request and response and corresponds to a HTTP middleware in Go.
+[Read the README for golang-middleware](https://github.com/openfaas/golang-http-template), this template is ideal for full control over the HTTP request and response and corresponds to a HTTP middleware in Go.
 
 ```golang
 func Handle(w http.ResponseWriter, r *http.Request) {
@@ -236,7 +236,7 @@ faas-cli build --build-arg CGO_ENABLED=1
 
 For production use, serving machine learning models, and high-traffic functions, it's advisable to use the newer templates built with flask and the OpenFaaS of-watchdog.
 
-See the [python-flask-template repo](https://github.com/openfaas-incubator/python-flask-template) for the following templates:
+See the [python-flask-template repo](https://github.com/openfaas/python-flask-template) for the following templates:
 
 * python27-flask
 * python3-flask
