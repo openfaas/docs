@@ -82,10 +82,12 @@ Support
 | Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Suitability           | Open Source developers and basic exploration  | Production, business critical, or PoC | Production, business critical, or PoC |
-| Support via email     | N/a               | Pro features only      | OSS & Pro within 1 business day |
-| Support via GitHub    | N/a               | Pro features only      | OSS & Pro within 1 business day |
+| Support via email     | N/a               | Pro features only      | Response within 1 business day |
+| Support via GitHub    | N/a               | Pro features only      | Response within 1 business day |
 | Support via Slack     | N/a               | N/a                    | Up to 5 developers              |
 | Private customers' community   | N/a               | Private access to GitHub community for two people | Private access to GitHub community for team |  
+
+Enterprise Support comes with an SLA, defined separately. Support for OpenFaaS Pro is on a self-service basis, with no SLA offered.
 
 Features
 
