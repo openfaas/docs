@@ -22,8 +22,8 @@ openssl ec -in jwt_key -pubout -out jwt_key.pub
 # Store both in a secret in the openfaas namespace
 kubectl -n openfaas \
   create secret generic dashboard-jwt \
-  --from-file=key=./key \
-  --from-file=key.pub=./key.pub
+  --from-file=key=./jwt_key \
+  --from-file=key.pub=./jwt_key.pub
 ```
 
 To enable the dashboard feature, add the following to your values.yaml file for the openfaas chart:
