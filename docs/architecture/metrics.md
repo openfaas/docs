@@ -8,7 +8,7 @@ The Gateway component exposes several metrics to help you monitor the health and
 | ----------------------------------- | ---------- | ----------------------------------- | -------------------------- |--------------------|
 | `gateway_functions_seconds`         | histogram  | Function invocation time taken      | `function_name`            | Community Edition  |
 | `gateway_function_invocation_total` | counter    | Function invocation count           | `function_name`, `code`    | Community Edition  |
-| `gateway_service_count`             | counter    | Number of function replicas         | `function_name`            | Community Edition  |
+| `gateway_service_count`             | counter    | Number of function replicas         | `function_name`            | Pro Edition  |
 | `gateway_service_target`            | gauge      | Target load for the function        | `function_name`            | Pro Edition  |
 | `gateway_service_min`               | gauge      |  Min number of function replicas    | `function_name`            | Pro Edition  |
 | `http_request_duration_seconds`     | histogram  | Seconds spent serving HTTP requests | `method`, `path`, `status` | Community Edition  |
