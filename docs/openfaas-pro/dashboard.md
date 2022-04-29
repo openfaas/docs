@@ -111,6 +111,22 @@ spec:
 
 You can use the same tunnel and exit server for multiple domains, to expose both the gateway and the dashboard with TLS and authentication.
 
+If you don't want to expose your dashboard to users, then you can access it as and when required using port-forwarding. Instead of giving a domain and DNS record, you can set the public url in your values.yaml file to `localhost` or an empty string.
+
+```yaml
+dashboard:
+  enabled: true
+  publicURL: "localhost"
+```
+
+To access the dashboard run:
+
+```bash
+kubectl port-forward \
+  -n openfaas \
+  svc/dashboard 8080:8080
+```
+
 ## Using the dashboard
 
 Your browser can save the password for your various OpenFaaS environments, so that the credentials can follow you between machines, or be saved in password manager like 1Password.
