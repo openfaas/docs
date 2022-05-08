@@ -4,6 +4,69 @@ The OpenFaaS Dashboard is a new UI, rebuilt to make operating and understanding 
 
 > Note: This feature is included for [OpenFaaS Pro](https://openfaas.com/support/) customers.
 
+## Using the dashboard
+
+Your browser can save the password for your various OpenFaaS environments, so that the credentials can follow you between machines, or be saved in password manager like 1Password.
+
+![Login to the dashboard](/images/dashboard/login-dashboard.png)
+> Login to the dashboard
+
+Once logged in, you'll be met by the namespace selector. Namespaces can be used to group functions together, or to provide a level of isolation between teams using the same OpenFaaS installation.
+
+![Select a namespace to explore](/images/dashboard/ns-picker.png)
+> Select a namespace to explore
+
+See also: [Namespace support](/reference/namespaces/)
+
+![An overview of functions](/images/dashboard/fn-overview.png)
+> An overview of functions
+
+Note that the fields such as repository and SHA can be populated at deploy time and integrate into the UI to create links and show you what's deployed.
+
+![The details for a function](/images/dashboard/details.png)
+
+> View the details for a function, including metrics, logs and metadata about its deployment
+
+![View logs without a terminal, in one place](/images/dashboard/logs.png)
+
+> The logs of the figlet function, viewed without `kubectl` or needing separate terminal access.
+
+```bash
+faas-cli store deploy \
+    figlet \
+    --gateway https://of-pro.example.com \
+    --env write_debug=true \
+    --env read_debug=true
+for i in {0..3}; do curl https://of-pro.example.com/function/figlet -d $i ; done
+```
+
+To populate the metadata in the UI, simply set the following at deployment time via `faas-cli deploy` or the OpenFaaS Custom Resource:
+
+| Type | Key | Example value |
+|------|-----|---------------|
+| annotation | `com.openfaas.git-repo-url` | `https://github.com/openfaas/store-functions` |
+| label | `com.openfaas.git-owner` | `openfaas` |
+| label | `com.openfaas.git-repo` | `store-functions` |
+| label | `com.openfaas.git-branch` | `master` |
+| label | `com.openfaas.git-sha` | `665d9597547d8e0425630ba2dbb73c2951a61ce2` |
+
+Here's an example:
+
+```bash
+faas-cli store deploy cows \
+  --label com.openfaas.scale.min=2 \
+  --annotation com.openfaas.git-repo-url=https://github.com/openfaas/store-functions \
+  --label com.openfaas.git-owner=openfaas \
+  --label com.openfaas.git-repo=store-functions \
+  --label com.openfaas.git-branch=master \
+  --label com.openfaas.git-sha=f79e2c86e8d67f747d1e449ba6ca63eb5858e5bb
+```
+
+Any of these fields can be replaced through environment substitution in stack.yml or using helm during CI/CD.
+
+See also: [Environment substitution in stack.yml](http://localhost:8000/reference/yaml/#yaml-environment-variable-substitution)
+
+
 ## Installation
 
 The OpenFaaS Dashboard is installed through the [openfaas helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas), and will also work with faasd.
@@ -126,68 +189,6 @@ kubectl port-forward \
   -n openfaas \
   svc/dashboard 8080:8080
 ```
-
-## Using the dashboard
-
-Your browser can save the password for your various OpenFaaS environments, so that the credentials can follow you between machines, or be saved in password manager like 1Password.
-
-![Login to the dashboard](/images/dashboard/login-dashboard.png)
-> Login to the dashboard
-
-Once logged in, you'll be met by the namespace selector. Namespaces can be used to group functions together, or to provide a level of isolation between teams using the same OpenFaaS installation.
-
-![Select a namespace to explore](/images/dashboard/ns-picker.png)
-> Select a namespace to explore
-
-See also: [Namespace support](/reference/namespaces/)
-
-![An overview of functions](/images/dashboard/fn-overview.png)
-> An overview of functions
-
-Note that the fields such as repository and SHA can be populated at deploy time and integrate into the UI to create links and show you what's deployed.
-
-![The details for a function](/images/dashboard/details.png)
-
-> View the details for a function, including metrics, logs and metadata about its deployment
-
-![View logs without a terminal, in one place](/images/dashboard/logs.png)
-
-> The logs of the figlet function, viewed without `kubectl` or needing separate terminal access.
-
-```bash
-faas-cli store deploy \
-    figlet \
-    --gateway https://of-pro.example.com \
-    --env write_debug=true \
-    --env read_debug=true
-for i in {0..3}; do curl https://of-pro.example.com/function/figlet -d $i ; done
-```
-
-To populate the metadata in the UI, simply set the following at deployment time via `faas-cli deploy` or the OpenFaaS Custom Resource:
-
-| Type | Key | Example value |
-|------|-----|---------------|
-| annotation | `com.openfaas.git-repo-url` | `https://github.com/openfaas/store-functions` |
-| label | `com.openfaas.git-owner` | `openfaas` |
-| label | `com.openfaas.git-repo` | `store-functions` |
-| label | `com.openfaas.git-branch` | `master` |
-| label | `com.openfaas.git-sha` | `665d9597547d8e0425630ba2dbb73c2951a61ce2` |
-
-Here's an example:
-
-```bash
-faas-cli store deploy cows \
-  --label com.openfaas.scale.min=2 \
-  --annotation com.openfaas.git-repo-url=https://github.com/openfaas/store-functions \
-  --label com.openfaas.git-owner=openfaas \
-  --label com.openfaas.git-repo=store-functions \
-  --label com.openfaas.git-branch=master \
-  --label com.openfaas.git-sha=f79e2c86e8d67f747d1e449ba6ca63eb5858e5bb
-```
-
-Any of these fields can be replaced through environment substitution in stack.yml or using helm during CI/CD.
-
-See also: [Environment substitution in stack.yml](http://localhost:8000/reference/yaml/#yaml-environment-variable-substitution)
 
 ## Would you like a demo?
 
