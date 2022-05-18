@@ -378,7 +378,7 @@ The `templates` list allows you to define the information required to pull the t
 configuration:
   templates:
     - name: python3-http
-      source: https://github.com/openfaas-incubator/python-flask-template
+      source: https://github.com/openfaas/python-flask-template
 ```
 
 ### Copy
