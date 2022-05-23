@@ -2,7 +2,7 @@
 
 OpenFaaS enables long-running tasks or function invocations to run in the background through the use of NATS Streaming. This decouples the HTTP transaction between the caller and the function.
 
-* The HTTP request is  serialized to NATS Streaming through the gateway as a "producer".
+* The HTTP request is serialized to NATS Streaming through the gateway as a "producer".
 * The queue-worker acts as a subscriber and deserializes the HTTP request and uses it to invoke the function directly
 
 The asynchronous workflow can have a longer, separate timeout compared with synchronous timeout on the gateway.
