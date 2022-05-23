@@ -64,7 +64,7 @@ You can also deploy a store function, but bear in mind that they are not necessa
 
 ```bash
 faas-cli store deploy nodeinfo \
-  --annotation com.openfaas.scale.zero=true
+  --label com.openfaas.scale.zero=true
 ```
 
 You can learn more about OpenFaaS auto-scaling here: [autoscaling](/architecture/autoscaling)
