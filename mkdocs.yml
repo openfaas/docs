@@ -151,6 +151,7 @@ nav:
     - CORS: ./reference/cors.md
     - Profiles: ./reference/profiles.md
   - Design & Architecture:
+      - Invocations: ./architecture/invocations.md
       - Production: ./architecture/production.md
       - Stack: ./architecture/stack.md
       - Gateway: ./architecture/gateway.md
