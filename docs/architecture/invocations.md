@@ -92,6 +92,10 @@ See also: [Triggers](/reference/triggers)
 
 The OpenFaaS REST API is used to manage functions, it has basic authentication enabled by default, and we provide instructions to enable encryption with TLS and a reverse proxy.
 
+Some users may manage their functions using the "Function" Custom Resource Definition (CRD) which can be installed with the Helm chart. The Function CRD is observed by the operator which can create resources in Kubernetes, bypassing the REST API of the gateway. The REST API is still used for invocations.
+
+See also: [Learn how to manage your functions with kubectl](https://www.openfaas.com/blog/manage-functions-with-kubectl/)
+
 OpenFaaS Pro offers authentication using JWT tokens obtained through an Open ID Connect (OIDC) flow and an Identity Provider (IdP).
 
 * [TLS with OpenFaaS](/reference/ssl/kubernetes-with-cert-manager)
@@ -130,3 +134,7 @@ On Google Cloud, you can create a node-pool with gVisor and enable it.
 For self-hosted Kubernetes, you may want to explore Kata containers.
 
 With either, you then need to configure the Pod's "runtimeClass" setting, which is done with an [OpenFaaS Profile](/reference/profiles).
+
+### Does OpenFaaS have a Custom Resource Definition (CRD)?
+
+OpenFaaS has a Function CRD, and you can find out how to use it in the following tutorial: [Learn how to manage your functions with kubectl](https://www.openfaas.com/blog/manage-functions-with-kubectl/)

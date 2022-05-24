@@ -1,61 +1,77 @@
 # OpenFaaS Community
 
-## GitHub Sponsors
+!!! info "Where is the code for "openfaas"?"
 
-If you become an individual sponsor for OpenFaaS on GitHub, then you'll get access to:
+    There are over 40 projects and components which make up the OpenFaaS codebase, so no one repository can be used to track or gauge activity or the total effort of the community.
+    
+    You can find out aggregate GitHub Stars, commits, forks and contributors and statistics on our [project leaderboard](https://kenfdev.o6s.io/github-stats-page).
 
-* Show up as a Sponsor on Issues and Pull requests on GitHub (Sponsors are prioritised)
-* Weekly emails from the project lead on features, news and updates
-* Get discounts and offers in the [OpenFaaS Sponsors' Portal](https://insiders.alexellis.io/)
+![Community contributors](https://www.openfaas.com/images/spring-easter/contributors.jpg)
 
-[Become an individual sponsor via GitHub](https://github.com/sponsors/openfaas)
+> OpenFaaS was started in 2016 by Alex Ellis, and now has hundreds of contributors.
 
-## Being successful with OpenFaaS
+## Weekly Office Hours
 
-You shouldn't need to become an OpenFaaS expert overnight to find your way. Therefore we offer abundant free resources online, and commercial support for those of you who want to go faster and be certain of your approach.
+You can meet with the community behind OpenFaaS, k3sup, arkade and inlets at our Weekly Office Hours call.
 
-* The docs and blog
+This is a shared time for collaboration and for contributing and is provided instead of a Slack Workspace or Discord Server.
 
-    The OpenFaaS documentation has everything you need to get started and go to production. If you need more than this, you can [contact us about commercial support](https://openfaas.com/support/).
+* [Register here](https://github.com/openfaas/faas/issues/1683)
 
-    Read the [blog](https://openfaas.com/blog) on a regular basis to keep up with news, features and to learn use-cases.
+## Self-service with OpenFaaS
 
-* Technical support
+Self-service can be a quick and easy way to get started with [OpenFaaS CE or OpenFaaS Pro](/openfaas-pro/introduction).
 
-    Commercial users of OpenFaaS can contact the team to find out about support and other ways we can help you have success with the project.
+* [Official OpenFaaS documentation](https://docs.openfaas.com/)
+    
+    Learn about how to deploy and configure OpenFaaS and functions, along with how the architecture works in the documentation.
 
-    [Contact support](https://openfaas.com/support/)
+* [Official Blog](https://openfaas.com/blog)
+    
+    You should visit the official blog on a regular basis to keep up with news, features and to learn use-cases.
 
-* How we use GitHub
+* [OpenFaaS on GitHub](https://github.com/openfaas/)
 
-    The OpenFaaS GitHub repositories are only for tracking actual code changes. Issues can be created if they have reproducible instructions (a test case) and context. Who you are, what progress you're trying to achieve.
+    We use GitHub for collaboration and for tracking our own work in the community.
 
-    GitHub is not for asking questions or for getting technical support.
+    If you need technical support, we provide free online training, a weekly call and Enterprise Support plans (see below).
 
-## Training and eBooks
+* [GitHub Sponsors for @openfaas](https://github.com/sponsors/openfaas)
 
-You can book a 2 hour training workshop with the founder of OpenFaaS: "Introduction to Serverless on Kubernetes" for your team. [Register interest](https://openfaas.com/support/) for more information.
+    If you become an individual sponsor for OpenFaaS on GitHub, you'll get discounts on our eBooks and show up as a Sponsor on Issues and Pull Requests, which means you are more likely to get our attention.
 
-Learn everything you need to know to build and run functions with OpenFaaS in our handbook: [Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)
+To find out about Enterprise Support and Proof of Concepts projects, reach out to us for more information: [Contact us](https://openfaas.com/support/).
+## Training resources and eBooks
 
-Start your journey with Go or go deeper into unit-testing, Goroutines, GitHub Actions and Prometheus metrics with: [Everyday Go](https://openfaas.gumroad.com/l/everyday-golang)
+Learn everything you need to know to build and run functions with OpenFaaS in our handbook:
 
-## Community resources
+* [Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)
 
-Blog posts, upcoming/past events and code examples are available on the community resources page indexed by year. Please send us a Pull Request.
+Start your journey with Go or go deeper into unit-testing, Goroutines, GitHub Actions and Prometheus metrics:
 
-* [OpenFaaS Community Page](https://github.com/openfaas/faas/blob/master/community.md)
+* [Everyday Golang](https://openfaas.gumroad.com/l/everyday-golang)
 
-### Social media
+!!! info "Want a personalised workshop?"
 
-* Twitter: [@OpenFaaS](https://twitter.com/openfaas)
-* LinkedIn: [#TeamServerless Group](https://www.linkedin.com/groups/13670843/)
+    You can book a 2 hour training workshop with the founder of OpenFaaS: "Introduction to Serverless on Kubernetes" for your team.
+    
+    [Contact us](mailto:contact@openfaas.com) for more information.
 
-### Contribute
+See also: [Official OpenFaaS Training](/tutorials/training)
+
+## Resources created by the community
+
+We keep track of blog posts, events and projects from the community, indexed by year. You can send a us a Pull Request to add yours or browse past submissions.
+
+See also: [OpenFaaS Community Page](https://github.com/openfaas/faas/blob/master/community.md)
+
+## Contributing
 
 * How do I become a contributor?
 
-Anyone is invited to contribute to the project in-line with the [contribution guide](https://github.com/openfaas/faas/blob/master/CONTRIBUTING.md) - you can also read the guide for ideas on how to get involved.
+    If you're considering making a contribution, then we have a [contribution guide](https://github.com/openfaas/faas/blob/master/CONTRIBUTING.md) which will help you understand how the process works.
+
+    You may also like the [contributing page](/contributing/get-started) to orient yourself and learn the various repositories.
 
 Key points:
 
@@ -64,12 +80,23 @@ Key points:
 * Give the context of why you need this and what company you're working for
 * Don't start work on it until you receive approval from a maintainer
 
-Start here: [Contribute to the project](./contributing/get-started.md)
+Start here: [Contribute to the project](/contributing/get-started)
 
-### Press-kit/media/swag
+## Press-kit/media/swag
 
-For stickers, swag, media or press-kit information head over to [openfaas/media](https://github.com/openfaas/media/blob/master/README.md)
+For stickers, swag, media or press-kit information head over to our [openfaas/media](https://github.com/openfaas/media/blob/master/README.md) repo.
 
-Please use statistics across the whole GitHub organisation for numbers of contributors, GitHub stars, forks and other activity. OpenFaaS does not operate a mono-repo, so taking statistics just from the (faas) repository is misrepresentation.
+> You may order your own t-shirts and / or stickers with our logo for personal use only, so long as you do not combine it with any other logos, marks or text.
 
-See also: [OpenFaaS Organisation statistics](https://kenfdev.o6s.io/github-stats-page).
+OpenFaaS does not operate a mono-repo, so taking statistics just from the (faas) repository is misrepresentation.
+
+We count statistics across the whole GitHub organisation for numbers of contributors, GitHub stars, forks and etc.
+
+See also: [Official OpenFaaS statistics](https://kenfdev.o6s.io/github-stats-page).
+
+### Social media
+
+* Twitter: [@openfaas](https://twitter.com/openfaas), see also: `#FaaSFriday` and `#TeamServerless`
+* LinkedIn: [#TeamServerless Group](https://www.linkedin.com/groups/13670843/)
+
+If you're interested in sponsoring the OpenFaaS homepage, feel free to [reach out via email to contact@openfaas.com](mailto:contact@openfaas.com).
