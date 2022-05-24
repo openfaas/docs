@@ -4,14 +4,14 @@ This page aims to explain function invocations and lifecycle.
 
 In an OpenFaaS installation, functions can be invoked through HTTP requests to the OpenFaaS gateway, specifying the path as part of the URL.
 
-There are some differences between OpenFaaS with [Kubernetes](/deployment/kubernetes.md) and [faasd](/deployment/faasd.md), so this page focuses on users of Kubernetes.
+There are some differences between OpenFaaS with [Kubernetes](/deployment/kubernetes) and [faasd](/deployment/faasd), so this page focuses on users of Kubernetes.
 
 ![Conceptual diagram: a synchronous invocation](/images/invoke.png)
 > Conceptual diagram: a synchronous invocation.
 
 Each function is deployed as a Kubernetes Deployment and Service, with a number of replicas. Just like any other Kubernetes workload, it can be scaled up and down and handle multiple concurrent requests.
 
-See also: [OpenFaaS Stack](/architecture/stack.md)
+See also: [OpenFaaS Stack](/architecture/stack)
 
 ## How is a function bundled?
 
@@ -32,11 +32,11 @@ handler.js      package.json
 
 As explained on the link below, the Classic Watchdog can be used to turn CLIs or bash into HTTP endpoints for use as functions.
 
-See also: [Watchdog](/architecture/watchdog.md)
+See also: [Watchdog](/architecture/watchdog)
 
 If you have existing containers that server HTTP traffic, then the chances are that OpenFaaS may be able to deploy them for you:
 
-See also: [Workload definition](/reference/workloads.md)
+See also: [Workload definition](/reference/workloads)
 
 ## What gets created when a function is deployed?
 
@@ -52,9 +52,9 @@ kubectl get -n openfaas-fn service/cows -o yaml
 kubectl get -n openfaas-fn deploy/cows -o yaml
 ```
 
-By default, all functions have a minimum of 1 replica set [through auto-scaling labels](/architecture/autoscaling.md), this can prevent a so called "cold-start", where a deployment is set to 0 replicas, and a Pod needs to be created to serve an incoming request.
+By default, all functions have a minimum of 1 replica set [through auto-scaling labels](/architecture/autoscaling), this can prevent a so called "cold-start", where a deployment is set to 0 replicas, and a Pod needs to be created to serve an incoming request.
 
-The [Scale to Zero functionality of OpenFaaS Pro](/openfaas-pro/scale-to-zero.md) can be used to scale idle functions down to 0 replicas, to save on resources.
+The [Scale to Zero functionality of OpenFaaS Pro](/openfaas-pro/scale-to-zero) can be used to scale idle functions down to 0 replicas, to save on resources.
 
 ## How many times can a function be invoked?
 
@@ -70,7 +70,7 @@ The connection between the caller and the function remains connected until the i
 
 See the below for TLS termination, custom domains and mapping various functions to traditional REST paths:
 
-* [TLS with OpenFaaS](/reference/ssl/kubernetes-with-cert-manager.md)
+* [TLS with OpenFaaS](/reference/ssl/kubernetes-with-cert-manager)
 
 ## How to asynchronous invocations work?
 
@@ -78,15 +78,15 @@ With an asynchronous invocation, the HTTP request is enqueued to NATS, followed 
 
 There is never any direct connection between the caller and the function, so the caller gets an immediate response, and can subscribe for a response via a webhook when the result of the invocation is available.
 
-See also: [asynchronous invocations in OpenFaaS](/reference/async.md)
+See also: [asynchronous invocations in OpenFaaS](/reference/async)
 
 ## What about events?
 
 A number of event triggers are supported in OpenFaaS CE and OpenFaaS Pro. With each of them, a long-running daemon subscribes to a topic or queue, then when it receives messages looks up the relevant functions and invokes them synchronously or asynchronously.
 
-Popular event sources include: [Cron](/reference/cron.md), [Apache Kafka](/openfaas-pro/kafka-events.md) and [AWS SQS](/openfaas-pro/sqs-events.md).
+Popular event sources include: [Cron](/reference/cron), [Apache Kafka](/openfaas-pro/kafka-events) and [AWS SQS](/openfaas-pro/sqs-events).
 
-See also: [Triggers](/reference/triggers.md)
+See also: [Triggers](/reference/triggers)
 
 ## What about authentication?
 
@@ -94,8 +94,8 @@ The OpenFaaS REST API is used to manage functions, it has basic authentication e
 
 OpenFaaS Pro offers authentication using JWT tokens obtained through an Open ID Connect (OIDC) flow and an Identity Provider (IdP).
 
-* [TLS with OpenFaaS](/reference/ssl/kubernetes-with-cert-manager.md)
-* [Authentication with OIDC](/openfaas-pro/sso.md)
+* [TLS with OpenFaaS](/reference/ssl/kubernetes-with-cert-manager)
+* [Authentication with OIDC](/openfaas-pro/sso)
 
 For functions, you should provide your own authentication mechanism, such as a shared token, OIDC, HMAC or basic authentication.
 
@@ -113,15 +113,15 @@ See also: [How to process your data the resilient way with back pressure](https:
 
 ### How to I retry failed requests?
 
-See also: [How to process your data the resilient way with back pressure](https://www.openfaas.com/blog/limits-and-backpressure/) and [Retrying requests](/openfaas-pro/retries.md)
+See also: [How to process your data the resilient way with back pressure](https://www.openfaas.com/blog/limits-and-backpressure/) and [Retrying requests](/openfaas-pro/retries)
 
 ### Can I bring an existing HTTP service to OpenFaaS?
 
 You may be able to bring it straight over to OpenFaaS, if you can configure it to bind to HTTP port 8080 and you also configure a HTTP health check path, so that Kubernetes knows when it's ready to receive traffic.
 
-If you cannot change your code, you may want to add the ["of-watchdog"](/architecture/watchdog.md) to the Dockerfile.
+If you cannot change your code, you may want to add the ["of-watchdog"](/architecture/watchdog) to the Dockerfile.
 
-See also: [Workload definition](/reference/workloads.md)
+See also: [Workload definition](/reference/workloads)
 
 ### How do I enable isolation for multi-tenant workloads?
 
@@ -129,4 +129,4 @@ On Google Cloud, you can create a node-pool with gVisor and enable it.
 
 For self-hosted Kubernetes, you may want to explore Kata containers.
 
-With either, you then need to configure the Pod's "runtimeClass" setting, which is done with an [OpenFaaS Profile](/reference/profiles.md).
+With either, you then need to configure the Pod's "runtimeClass" setting, which is done with an [OpenFaaS Profile](/reference/profiles).
