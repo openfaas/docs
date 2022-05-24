@@ -6,7 +6,7 @@
     
     You can find out aggregate GitHub Stars, commits, forks and contributors and statistics on our [project leaderboard](https://kenfdev.o6s.io/github-stats-page).
 
-![Community contributors](https://www.openfaas.com/images/spring-easter/contributors.jpg)
+[![Community contributors](https://www.openfaas.com/images/spring-easter/contributors.jpg)](https://kenfdev.o6s.io/github-stats-page)
 
 > OpenFaaS was started in 2016 by Alex Ellis, and now has hundreds of contributors.
 
