@@ -67,7 +67,7 @@ You can use the `openfaas-ingress` arkade app, or create an Ingress record manua
 ```bash
   arkade install openfaas-ingress \
   --domain gw.oauth.example \
-  --oauth2-plugin-domain auth.oauth.example \
+  --oidc-plugin-domain auth.oauth.example \
   --email webmaster@example.com
 ```
 
