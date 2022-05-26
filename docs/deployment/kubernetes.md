@@ -8,15 +8,13 @@ OpenFaaS should run on any compliant Kubernetes distribution.
 
 There are many options for deploying a local or remote cluster. You can read about the [various Kubernetes distributions here](https://kubernetes.io/docs/setup/).
 
-Once you have a cluster, you can follow the detailed instructions on this page.
+The OpenFaaS helm chart ships with its own stack that includes NATS, Prometheus and a number of its own components like the OpenFaaS gateway and queue-worker, for more about what's included, you can [read up on the stack](architecture/stack).
 
-* Install the OpenFaaS CLI
-* Deploy OpenFaaS using arkade or Helm
-* Find your OpenFaaS gateway address
-* Retrieve your gateway credentials
-* Log in, deploy a function, and try out the UI.
+The chart can be installed with helm and kubectl or arkade, we recommend arkade which also prints out everything you need to know to access the UI and deploy your first function.
 
-From there, you should consider: adding a TLS certificate with Ingress, switching to the OIDC/OAuth2 plugin for authentication, and tuning-up for production use.
+From there, you should consider: adding a [TLS certificate](/reference/ssl/kubernetes-with-cert-manager) and trying out one of our training courses commissioned by the CNCF/LinuxFoundation, or an eBook. There are also lots of other free resources on the [official blog](https://openfaas.com/blog).
+
+Once you're familiar with how the Community Edition works, you may want to explore going to production with: [OpenFaaS Pro](/openfaas-pro/introduction).
 
 ### Options for local cluster clusters
 
@@ -67,7 +65,7 @@ $ curl -sL https://cli.openfaas.com | sudo sh
 $ curl -sL https://cli.openfaas.com | sh
 ```
 
-Brew is available, however will lag behind by a few versions, so we don't recommend this option.
+Brew is available, however may lag behind by a few versions, so we don't recommend this option.
 
 ```bash
 brew install faas-cli
@@ -78,7 +76,7 @@ brew install faas-cli
 There are three recommended ways to install OpenFaaS and you can pick whatever makes sense for you and your team. All options use the OpenFaaS helm chart.
 
 1) Arkade (our recommended option)
-    We recommend using [arkade](https://arkade.dev/) to install openfaas, which makes installing OpenFaaS a 1-liner. It still uses Helm, so it can be used in production.
+    We recommend using [arkade](https://arkade.dev/) to install openfaas, which makes installing OpenFaaS a 1-liner. It still uses the Helm chart, so it can also be used in production.
 
 2) Helm
     A helm chart is also available for those who are very well versed with `kubectl` and want to understand exactly what is being installed.
@@ -138,6 +136,12 @@ These are advanced tools and are not recommended for local development.
 * [ArgoCD](https://argoproj.github.io/argo-cd/)
 
 Refer to the respective documentation for more information.
+
+See also:
+
+* [OpenFaaS and Flux v1](https://www.openfaas.com/blog/openfaas-flux/)
+* [OpenFaaS and Flux v2](https://www.openfaas.com/blog/upgrade-to-fluxv2-openfaas/)
+* [OpenFaaS and Argo](https://www.openfaas.com/blog/bring-gitops-to-your-openfaas-functions-with-argocd/)
 
 ### Official training
 

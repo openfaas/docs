@@ -100,3 +100,7 @@ faas-cli deploy --namespace staging-fn
 
 head -c 16 /dev/urandom | faas-cli invoke --namespace staging-fn stronghash
 ```
+
+## Namespaces in faasd
+
+For instructions on how to manage multiple namespaces with faasd, see [Serverless For Everyone Else]().
