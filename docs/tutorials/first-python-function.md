@@ -8,7 +8,7 @@ Let's write a Python function with [OpenFaaS](https://github.com/openfaas/faas) 
 
 **Pre-requisites:**
 
-* [Docker CE 17.05](https://www.docker.com/community-edition) or later (for use on Swarm)
+* [Docker CE](https://www.docker.com/get-started/)
 * Bash - if you're using Windows then install [Git bash](https://git-scm.com/downloads)
 * [Brew](https://brew.sh) (optional)
 
@@ -119,7 +119,7 @@ hello-python        latest       e0344b26305f     one minute ago
 
 **Testing on a single host**
 
-If you're trying this out on a single Docker Swarm cluster, then you don't need to push your images to a registry, they'll just be used from the local Docker library. If you're using Kubernetes and `minikube` and don't want to push to a remote container registry, then see the helm chart for how to set the `ImagePullPolicy`. This will enable use of images from the local library on Kubernetes.
+If you're using Kubernetes and `minikube` and don't want to push to a remote container registry, then see the helm chart for how to set the `ImagePullPolicy`. This will enable use of images from the local library on Kubernetes.
 
 **Remote host, or multi-node cluster**
 
@@ -239,45 +239,9 @@ $ curl 127.0.0.1:8080/function/hello-python --data-binary '{
 
 You can also access the function just as easily via the UI.
 
-![](https://blog.alexellis.io/content/images/2017/08/invoke.png)
-
-
-**Logging and troubleshooting**
-
-* Docker Swarm
-
-You can check the services deployed through the command:
-
-```
-$ docker service ls
-```
-
-Check a specific function like this:
-
-```
-docker service ps <function_name_here>
-```
-
-Find the logs for a function like this:
-
-```
-docker service logs <function_name_here>
-```
-
-> If your function has a lot of logs, then prefix this with `--tail 20`. Use `-f` if you want to stream them.
-
-* Metrics
-
-[Prometheus](https://prometheus.io/) is also baked into the FaaS stack, which means you can checkout the various metrics on how your functions are being used as well as how long they're taking to run. You can view the Prometheus UI at http://127.0.0.1:9090
-
-* Troubleshooting
+![Preview of invocations](https://blog.alexellis.io/content/images/2017/08/invoke.png)
 
 If you run into any errors you can follow our [troubleshooting guide](http://docs.openfaas.com/deployment/troubleshooting/) in the documentation
-
-Here are two top tips:
-
-* If it's a multi-node cluster, you have to push your images to the Docker Hub or similar registry before deploying
-* If you're still getting the error `docker service logs --no-trunc=true hello-python` will give a bit more info.
 
 ### Step 5 - Going further
 

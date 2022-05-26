@@ -101,7 +101,7 @@ By default there is one queue-worker replica deployed which is set up to run a s
 >
 > Alternatively you can increase the parallelism by setting the queue worker's "max_inflight" option to a value greater than one. This will cause the queue-worker to concurrently receive up to max_inflight many messages and simultaneously invoke their corresponding functions. Should you wish to restrict concurrency for certain functions, please make use of [multiple queues](#Multiple-queues) and separate these functions accordingly. When scaling up a queue worker, please be aware that you will get up to 'n * max_inflight' parallel function invocations.
 
-You can tune the values for the number of tasks each queue worker may run in parallel as well as the maximum duration of any asynchronous task that worker processes. Edit the Kubernetes helm chart, YAML or Swarm docker-compose.yml files.
+You can tune the values for the number of tasks each queue worker may run in parallel as well as the maximum duration of any asynchronous task that worker processes. Edit the Kubernetes helm chart or the docker-compose.yml file for faasd.
 
 The [OpenFaaS workshop](https://github.com/openfaas/workshop) has more instructions on running tasks asynchronously.
 

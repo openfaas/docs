@@ -333,7 +333,7 @@ Example of setting a custom HTTP health check path and initial check delay:
 
 Applying memory and CPU limits can be done through the `limits` and `requests` [fields](https://godoc.org/github.com/openfaas/faas-cli/stack#FunctionResources). It is advisable to always set a limit for your functions to prevent them consuming too many resources in your system.
 
-> Important note: The value for memory for Kubernetes needs to be in the format "Mi" and for Docker Swarm it must be in the format "m"
+> Important note: The value for memory for Kubernetes needs to be in the format "Mi".
 
 Here we constrain the url-ping function to only use 40Mb of RAM at a maximum.
 
@@ -366,12 +366,14 @@ The meanings and formats of `limits` and `requests` may vary depending on whethe
  - Requests ensures the stated host resource is available for the container to use
  - Limits specify the maximum amount of host resources that a container can consume
 
-See docs for [Docker Swarm](https://docs.docker.com/config/containers/resource_constraints/) or for [Kubernetes](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#how-pods-with-r    esource-limits-are-run).
+Read more for: [Kubernetes](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#how-pods-with-resource-limits-are-run).
 
 ## Configuration
+
 The configuration section allows you to define additional configuration that is global to the entire stack, currently this mostly impacts function build time options.
 
 ### Templates
+
 The `templates` list allows you to define the information required to pull the templates for your functions.  This list of templates will automatically be pulled when you build your functions. When configured correctly, this allows you to completely build your functions with just `faas-cli build`.  Without this section, you must manually `faas-cli template pull <source>` _before_ you use `faas-cli build`.
 
 ```yaml

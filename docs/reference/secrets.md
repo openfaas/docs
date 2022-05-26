@@ -17,7 +17,7 @@ All secrets are made available in the container file-system and should be read f
 
 > Note: The OpenFaaS philosophy is that environment variables should be used for non-confidential configuration values only, and not used to inject secrets.
 
-The faas-cli can be used to manage secrets on Kubernetes, faasd, and Swarm.
+The faas-cli can be used to manage secrets on Kubernetes and faasd.
 
 > See also: [YAML reference: environmental variables](yaml.md).
 
@@ -68,26 +68,11 @@ kubectl create secret generic secret-api-key \
   --namespace openfaas-fn
 ```
 
-#### Define a secret in Docker Swarm (advanced)
-
-Docker has a built-in [secrets store](https://docs.docker.com/engine/swarm/secrets/) just like Kubernetes which can be used to securely store secrets for our functions.
-
-Type in:
-
-```sh
-docker secret create secret-api-key \
- ~/secrets/secret_api_key.txt
-```
-
-or:
-
-```sh
-echo "R^YqzKzSJw51K9zPpQ3R3N" | docker secret create secret-api-key -
-```
-
 #### Define a secret in faasd (advanced)
 
 For faasd, the secrets created for functions are held as files at `/var/lib/faasd-provider/secrets`. When you deploy a function, these secrets are bind-mounted into your container.
+
+Use the `faas-cli secret` commands to create and manage your secrets.
 
 ### Use the secret in your function
 
@@ -125,7 +110,7 @@ Create a `stack.yaml` file in the current directory:
 
 Now deploy the function with: `faas-cli deploy`
 
-Once the deploy is done you can test the function using the `faas-cli` or `curl`. The function reads the secret value that was mounted into the container by OpenFaaS and then returns a success or failure message based on if your header matches that secret value. The same code runs exactly the same without modifications on both Kubernetes and Docker Swarm.
+Once the deploy is done you can test the function using the `faas-cli` or `curl`. The function reads the secret value that was mounted into the container by OpenFaaS and then returns a success or failure message based on if your header matches that secret value. The same code runs exactly the same without modifications on both Kubernetes and faasd.
 
 Let's see how that works:
 

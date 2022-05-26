@@ -31,9 +31,7 @@ Project tuning:
 * [ ] I have turned off `write_debug` and `read_debug` so that the logs for the function are kept sparse
 * [ ] I am monitoring / collecting logs from the core services and function under test
 * [ ] I am monitoring the system for feedback through Prometheus and / or Grafana - i.e. throughput and 200/500 errors
-* [ ] I am using Kubernetes 1.13 or newer
-* [ ] I am not using Docker Swarm
-* [ ] ~~If running on Docker Swarm I've verified that I am using a proper HEALTHCHECK (read up more on watchdog readme)~~
+* [ ] I am using Kubernetes 1.21 or newer
 * [ ] I am using [Endpoint load-balancing](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#endpoint-load-balancing) or [Linkerd2](https://github.com/openfaas-incubator/openfaas-linkerd2)
 
 > A note on DNS: there are known issues with CoreDNS under high load, you should consider implementing on of the approaches described in [KEP 30 NodeLocal DNS Cache](https://github.com/kubernetes/enhancements/blob/master/keps/sig-network/0030-nodelocal-dns-cache.md)

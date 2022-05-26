@@ -149,7 +149,7 @@ Image: callme built.
 
 It is recommended to change the "tag" in the image field after each change, but by default OpenFaaS will attempt to pull your function from the Docker Hub or a remote container registry. This enables you to iterate on your functions quickly without changing their Docker "tag".
 
-> If you are using a single-node Docker Swarm cluster on your laptop then you can skip this step. If you are using `minikube` or a single-node Kubernetes cluster then you can set the ImagePullPolicy to "IfNotPresent" in the helm chart for the Kubernetes controller, this will allow you to work with images within your library.
+> If you are using `minikube` or a single-node Kubernetes cluster then you can set the ImagePullPolicy to "IfNotPresent" in the helm chart for the Kubernetes controller, this will allow you to work with images within your library.
 
 Now edit the `callme.yml` YAML file and set the "image" line to your username on the Docker Hub such as: `alexellis/callme`. Then build the function again.
 

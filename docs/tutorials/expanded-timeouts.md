@@ -48,4 +48,3 @@ For the newer templates based upon HTTP which use the of-watchdog, adapt the fol
 
 Check the [troubleshooting guide](https://docs.openfaas.com/deployment/troubleshooting/) and work through the exercises above.
 
-For Docker Swarm, simply edit `docker-compose.yml` and redeploy the stack.

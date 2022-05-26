@@ -2,6 +2,12 @@
 
 The [OpenFaaS Pro](/openfaas-pro/introduction/) Scaler scales functions horizontally between a minimum and maximum number of replicas, or to zero.
 
+Watch Alex's overview of auto-scaling in OpenFaaS at KubeCon:
+
+[![Live stream](https://img.youtube.com/vi/ka5QjX0JgFo/hqdefault.jpg)](https://www.youtube.com/watch?v=ka5QjX0JgFo)
+
+Watch now: [How and Why We Rebuilt Auto-scaling in OpenFaaS with Prometheus](https://www.youtube.com/watch?v=ka5QjX0JgFo)
+
 Configuration is via a label on the function.
 
 | Label                                  | Description                                                   | Default |
@@ -213,7 +219,7 @@ The API Gateway handles AlertManager alerts through its `/system/alert` route.
 
 The auto-scaling provided by this method can be disabled by either deleting the AlertManager deployment or by scaling the deployment to zero replicas.
 
-The AlertManager rules ([alert.rules](https://github.com/openfaas/faas/blob/master/prometheus/alert.rules.yml)) for Swarm can be viewed here and altered as a configuration map.
+The [AlertManager rule](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/templates/prometheus-cfg.yaml#L131) used in the Community Edition can be viewed here.
 
 All calls made through the gateway whether to a synchronous function `/function/` route or via the asynchronous `/async-function` route count towards this method of auto-scaling.
 

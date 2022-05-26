@@ -17,7 +17,7 @@ For this reason you should always collate statistics from the `openfaas` organis
 | [faasd](https://github.com/openfaas/faasd)              | Alternative to `faas-netes` - OpenFaaS for containerd, for a single node. |
 | [templates](https://github.com/openfaas/templates)         | Official templates for OpenFaaS CLI used to scaffold a new function |
 | [nats-queue-worker](https://github.com/openfaas/nats-queue-worker) | Asynchronous processing for deferred / queued work with OpenFaaS, based upon NATS Streaming |
-| [certifier](https://github.com/openfaas/certifier)         | End-to-end tests written in Go for verifying OpenFaaS with Swarm or Kubernetes after a release, this also runs through CI for the `faas` repo |
+| [certifier](https://github.com/openfaas/certifier)         | End-to-end tests written in Go for verifying OpenFaaS with Kubernetes or faasd after a release, this also runs through CI for the `faas` repo |
 | [of-watchdog](https://github.com/openfaas/of-watchdog)              | The OpenFaaS watchdog re-written with mode-abstractions for both STDIO & HTTP |
 | [classic-watchdog](https://github.com/openfaas/of-watchdog)              | The OpenFaaS watchdog re-written with mode-abstractions for both STDIO & HTTP |
 | [openfaas.github.io](https://github.com/openfaas/openfaas.github.io)               | Source for https://www.openfaas.com and blog |
