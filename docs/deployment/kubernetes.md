@@ -12,7 +12,9 @@ The OpenFaaS helm chart ships with its own stack that includes NATS, Prometheus 
 
 The chart can be installed with helm and kubectl or arkade, we recommend arkade which also prints out everything you need to know to access the UI and deploy your first function.
 
-From there, you should consider: adding a [TLS certificate](/reference/ssl/kubernetes-with-cert-manager) and trying out one of our training courses commissioned by the CNCF/LinuxFoundation, or an eBook. There are also lots of other free resources on the [official blog](https://openfaas.com/blog).
+From there, you should consider: adding a [TLS certificate](/reference/ssl/kubernetes-with-cert-manager) and trying out one of our training courses commissioned by the CNCF/LinuxFoundation, or an eBook.
+
+See also: [Training materials and eBooks](/tutorials/training)
 
 Once you're familiar with how the Community Edition works, you may want to explore going to production with: [OpenFaaS Pro](/openfaas-pro/introduction).
 
@@ -110,49 +112,72 @@ Other options for installation are available with `arkade install openfaas --hel
 
 After the installation you'll receive a command to retrieve your OpenFaaS URL and password.
 
+```bash
+  Info for app: openfaas
+  # Get the faas-cli
+  curl -SLsf https://cli.openfaas.com | sudo sh
+
+  # Forward the gateway to your machine
+  kubectl rollout status -n openfaas deploy/gateway
+  kubectl port-forward -n openfaas svc/gateway 8080:8080 &
+
+  # If basic auth is enabled, you can now log into your gateway:
+  PASSWORD=$(kubectl get secret -n openfaas basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode; echo)
+  echo -n $PASSWORD | faas-cli login --username admin --password-stdin
+
+  faas-cli store deploy figlet
+  faas-cli list
+
+  # For Raspberry Pi
+  faas-cli store list \
+  --platform armhf
+
+  faas-cli store deploy figlet \
+  --platform armhf
+
+  # Find out more at:
+  # https://github.com/openfaas/faas
+  ```
+
 You can get this information back at any time using:
 
 ```bash
 arkade info openfaas
 ```
 
-A good place to go next is the [official training material for OpenFaaS](/tutorials/training/). You'll find links further down on this page.
+A good place to go next is the [official training material for OpenFaaS](/tutorials/training/) including courses and eBooks.
 
 If you would like to set up public access with a TLS certificate and a custom domain, then follow this tutorial: [Get TLS for OpenFaaS the easy way with arkade](https://blog.alexellis.io/tls-the-easy-way-with-openfaas-and-k3sup/)
 
-#### 2) Deploy the Chart with `helm`
+#### 2) Deploy the OpenFaaS Chart with `helm`
 
-A Helm chart is provided in the `faas-netes` repository.
+We recommend that you set up OpenFaaS using arkade, however the helm chart is also provided on GitHub:
 
 * [OpenFaaS Helm chart](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md)
+
+You'll find [additional charts](https://github.com/openfaas/faas-netes/tree/master/chart) and arkade apps for components like the cron-connector and certain OpenFaaS Pro event sources for Kafka and AWS SQS.
 
 ### 3) GitOps Tooling
 
 There are two popular options for installing the OpenFaaS helm chart with a GitOps approach.
 
-These are advanced tools and are not recommended for local development.
+These are advanced tools for use in production and are not recommended for local development.
 
-* [Flux v1](https://github.com/fluxcd/flux) / [Flux v2](https://github.com/fluxcd/flux2)
 * [ArgoCD](https://argoproj.github.io/argo-cd/)
+* [Flux v2](https://github.com/fluxcd/flux2)
+* [Flux v1](https://github.com/fluxcd/flux) (considered deprecated)
 
 Refer to the respective documentation for more information.
 
 See also:
 
-* [OpenFaaS and Flux v1](https://www.openfaas.com/blog/openfaas-flux/)
-* [OpenFaaS and Flux v2](https://www.openfaas.com/blog/upgrade-to-fluxv2-openfaas/)
 * [OpenFaaS and Argo](https://www.openfaas.com/blog/bring-gitops-to-your-openfaas-functions-with-argocd/)
+* [OpenFaaS and Flux v2](https://www.openfaas.com/blog/upgrade-to-fluxv2-openfaas/)
+* [OpenFaaS and Flux v1](https://www.openfaas.com/blog/openfaas-flux/)
 
-### Official training
+OpenFaaS also ships with a Function Custom Resource Definition which is required for use with GitOps tooling or to package functions with Helm.
 
-Consult the [official training page](/tutorials/training/) for guides, tutorials, examples and courses.
-
-You can also find a list of [community tutorials, events, and videos](https://github.com/openfaas/faas/blob/master/community.md).
-
-![Preview of the gateway UI](https://camo.githubusercontent.com/72f71cb0b0f6cae1c84f5a40ad57b7a9e389d0b7/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f44466b5575483158734141744e4a362e6a70673a6d656469756d)
-> Preview of the gateway UI
-
-A walk-through video shows auto-scaling in action and the Prometheus UI: [walk-through video](https://www.youtube.com/watch?v=0DbrLsUvaso).
+See also: [Learn how to manage your functions with kubectl](https://www.openfaas.com/blog/manage-functions-with-kubectl/)
 
 ### Troubleshooting
 
@@ -162,19 +187,21 @@ If you are running into any issues please check out the troubleshooting guide an
 
 ### Support 
 
-OpenFaaS Ltd offers support and and a commercial distribution for Production called OpenFaaS Pro.
+OpenFaaS Ltd offers support and and a commercial distribution for Production called OpenFaaS Pro. Feel free to [contact us](https://openfaas.com/support/) for more.
 
-Find out more by [contacting us](https://openfaas.com/support/)
+Guidelines are also provided for [preparing for production](/architecture/production/) and for [performance testing](/architecture/performance) with OpenFaaS Pro.
 
-Guidelines are also provided for [preparing for production](/architecture/production/) and for [performance testing](/architecture/performance).
-
-### Appendix
+## Appendix
 
 ### Private registries for your functions
 
-See notes here: []()
+See notes here: [Private container registries with OpenFaaS](/reference/private-registries.md)
 
-#### A note for Google Kubernetes Engine (GKE)
+### Community tutorials and blog posts
+
+You can also find a list of [community tutorials, events, and videos](https://github.com/openfaas/faas/blob/master/community.md).
+
+### A note for Google Kubernetes Engine (GKE)
 
 You'll need to create an RBAC role with the following command:
 
@@ -186,14 +213,14 @@ $ kubectl create clusterrolebinding "cluster-admin-$(whoami)" \
 
 Also, ensure any [default load-balancer timeouts within GKE](https://cloud.google.com/load-balancing/docs/https/#timeouts_and_retries) are understood and configured appropriately.
 
-#### Deploy with TLS
+### Deploy with TLS
 
 To enable TLS while using Helm, try one of the following references:
 
 * [Get TLS for OpenFaaS the easy way with arkade](https://blog.alexellis.io/tls-the-easy-way-with-openfaas-and-k3sup/)
 * [Configure TLS with nginx-ingress and cert-manager](/reference/ssl/kubernetes-with-cert-manager/)
 
-#### Setting an Image Pull Policy for your functions
+### Setting an Image Pull Policy for your functions
 
 Every time a function is deployed or is scaled up, Kubernetes will pull a potentially updated copy of the image from the registry. If you are using static image tags like `latest`, this is necessary.
 
@@ -201,7 +228,7 @@ When set to `IfNotPresent`, function deployments may not be updated when using s
 
 When set to `Never`, only local (or pulled) images will work. This is useful if you want to tightly control which images are available and run in your Kubernetes cluster.
 
-#### Using Raspberry Pi and ARM
+### Using Raspberry Pi and ARM
 
 Use `arkade` to install OpenFaaS, it will determine the correct files and container images to install OpenFaaS on an ARM device.
 
@@ -222,4 +249,3 @@ faas-cli store deploy NAME --platform armhf
 ```
 
 For 64-bit ARM OSes use `--platform arm64` instead.
-
