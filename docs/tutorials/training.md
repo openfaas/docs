@@ -13,13 +13,13 @@
 
 No Kubernetes knowledge is required. Also available in a team edition.
 
-* [Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)
+Link: [Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)
 
 ### OpenFaaS and Golang
 
 Everyday Go is a practical, hands-on guide to writing CLIs, web pages, and microservices in Go. It also features a chapter dedicated to development and testing of functions using OpenFaaS and Go.
 
-* [Everyday Golang](https://openfaas.gumroad.com/l/everyday-golang)
+Link: [Everyday Golang](https://openfaas.gumroad.com/l/everyday-golang)
 
 ### Introduction to Serverless on Kubernetes
 
@@ -33,11 +33,25 @@ All of the examples are written with Python in mind, which also covers:
 * Ingress and routing for functions.
 * Custom Grafana dashboard
 
-* [Introduction to Serverless on Kubernetes](https://www.openfaas.com/blog/introduction-to-serverless-linuxfoundation/)
+Link: [Introduction to Serverless on Kubernetes](https://www.openfaas.com/blog/introduction-to-serverless-linuxfoundation/)
 
-### Serverless on Kubernetes primer for your developer community
+### Kubernetes at the Edge with K3s
 
-Book a 2-hour workshop for your development community with Alex Ellis.
+In this course, authored by Alex Ellis, you'll learn the various Kubernetes API primitives and how to containerise an application with Docker.
+
+Highlights for OpenFaaS users:
+
+* What is K3s and why is it needed?
+* Kubernetes API Primitives
+* How to build software for multiple CPU architectures like ARM and Intel
+* Functions at the Edge with MQTT
+* Continuous Delivery with ArgoCD and Flux
+
+Link: [Introduction to Kubernetes on Edge with K3s](https://www.classcentral.com/course/introduction-to-kubernetes-on-edge-with-k3s-40995)
+
+### Workshop: Serverless on Kubernetes primer for your developer community
+
+Book a 2-hour workshop for your development community with [Alex Ellis](https://github.com/alexellis).
 
 Get an overview of the landscape, available FaaS projects for Kubernetes, custom demos, free copies of Serverless For Everyone Else, and a chance for Q&A.
 
