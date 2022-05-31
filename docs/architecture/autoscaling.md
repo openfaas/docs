@@ -95,6 +95,15 @@ Scaling to zero is based upon traffic observed from the gateway within a set per
 
 ## Testing out the various modes
 
+A quick primer on [hey](https://github.com/rakyll/hey) a load testing tool written in Go.
+
+* `-c` - concurrent connections
+* `-z` - duration of the test as a Go duration
+* `-t` timeout in seconds
+* `q` - limit queries per second
+
+You can install hey with [arkade](https://arkade.dev) using: `arkade get hey`.
+
 **1) Capacity-based scaling:**
 
 ```bash
@@ -109,7 +118,7 @@ faas-cli store deploy sleep \
 # target: 5 inflight
 # 100% utilization of target
 
-hey -z 3m -c 5 -q 5 \
+hey -t 10 -z 3m -c 5 -q 5 \
   http://127.0.0.1:8080/function/sleep
 ```
 
