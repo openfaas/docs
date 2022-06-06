@@ -122,12 +122,14 @@ Event-brokers
 
 OpenFaaS Pro is trusted by:
 
-* Fortune 500 company (name withheld)
-* Fortune 500 company (name withheld)
+* Fortune 500 company (semiconductor / global technology)
+* Fortune 500 company (financial services)
 * Check Point Software Technologies Ltd (Global 2000 company)
+* Yokogawa Electric Corporation (Global 2000 company)
 * Waylay.io
 * RateHub.ca
 * Surge "workwithsurge"
+* Edge Delta
 
 Tell us about your use-case for OpenFaaS and see what other companies are doing in the: [ADOPTERS.md file](https://github.com/openfaas/faas/blob/master/ADOPTERS.md) 
 
