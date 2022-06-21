@@ -14,11 +14,9 @@ Multiple namespaces can be used for the following use-cases:
 ## Pre-reqs
 
 * Kubernetes
-* faas-netes for the faas-provider (default)
+* OpenFaaS Pro on Kubernetes (or faasd, see final section)
 
 ## Configure OpenFaaS with additional permissions
-
-This is only implemented for faas-netes at present, the default Kubernetes provider.
 
 Additional RBAC permissions are required to work with namespaces, using a `ClusterRole` is currently supported for multiple namespaces.
 
@@ -32,7 +30,7 @@ Or via helm, set this override:
 --set clusterRole=true
 ```
 
-If you cannot use a `ClusterRole` for any reason, then feel free to ask us about [OpenFaaS Pro](https://openfaas.com/support/) which includes a separate configuration suitable for enterprise companies.
+If you cannot use a `ClusterRole` for any reason, then feel free to ask us about [OpenFaaS Pro](https://openfaas.com/support/) which includes a separate configuration suitable for enterprise companies called a "Split Installation".
 
 ## Create one or more additional namespaces
 
@@ -100,6 +98,14 @@ faas-cli deploy --namespace staging-fn
 
 head -c 16 /dev/urandom | faas-cli invoke --namespace staging-fn stronghash
 ```
+
+## Controlling network access
+
+You should consider whether network policies or service mesh policies are required to restrict traffic between namespaces.
+
+## Multi-tenancy
+
+Using an OpenFaaS Pro, you can enable a [Profile](/reference/profiles) to isolate potentially hostile functions using gVisor or Kata containers.
 
 ## Namespaces in faasd
 
