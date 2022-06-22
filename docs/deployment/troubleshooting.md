@@ -195,14 +195,18 @@ Yes, if configured correctly. [Call us to find out more](https://openfaas.com/su
 
 You will need to ensure that you are doing one of the following:
 
-* Setting `direct_functions` to false, which allows the provider to balance calls randomly between replicas of your functions.
+* Setting `direct_functions` to `false`, which allows the provider to balance calls randomly between replicas of your functions.
 * Use a service mesh like Linkerd or Istio, which can do advanced traffic-management such as least-connections 
 
-### I want to remove OpenFaaS from a cluster
+### I'm not seeing CPU or RAM data for functions in Grafana with OpenFaaS Pro
 
-See the [Helm chart instructions](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas)
+You can find the dashboard JSON files in the [Customer Community](https://github.com/openfaas/openfaas-pro). Check that you have the latest version of the dashboard. Sometimes Grafana makes breaking changes in its schema between versions, so edit the panels and check the PromQL statements are present. If they are missing, edit the JSON file in a text editor to retrieve the queries.
 
-### How can I use structured logs in my function
+You may also want to check that your data source is set to the internal OpenFaaS Prometheus instance.
+
+Finally, check that you've installed the OpenFaaS Pro Helm chart with the ClusterRole setting. This is required to access each node in the cluster to retrieve Pod CPU and RAM usage metrics.
+
+### How can I use structured logs in my function?
 
 By default, the logs will be in the format
 
@@ -213,3 +217,7 @@ By default, the logs will be in the format
 By setting the environment variable `prefix_logs` to `false` in your function, this will only send the `<msg>` part to the terminal. This allows you to use structured logs that outputs a JSON (or equivalent) payload.
 
 See the [Logs](https://docs.openfaas.com/cli/logs/#structured-logs) documentation for more details.
+
+### I want to remove OpenFaaS from a cluster
+
+See the [Helm chart instructions](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas)
