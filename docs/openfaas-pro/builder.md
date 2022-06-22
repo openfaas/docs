@@ -4,25 +4,37 @@ The Function Builder API provides a simple REST API to create your functions fro
 
 > Note: This feature is included for [OpenFaaS Pro](https://openfaas.com/support/) customers.
 
-This is ideal if:
+The Function Builder is designed to be integrated via HTTP to automate building images in your cluster, and for service providers.
 
-* You're offering OpenFaaS as a service provider
+Most users will find that `docker` and the `faas-cli` will be sufficient for most needs.
 
-  You can invoke the Function Builder's API from your own product
-* You need to build dozens or hundreds of functions
+## So is it right for you? 
 
-  Do you really want to manage and maintain that many CI jobs in Jenkins or GitLab?
-* You're already building images in-cluster with the Docker Socket
+* You're a service provider with custom functionality or functions
 
-  You realise how bad this is, and you want a more secure alternative
-  
-The Pro Builder uses Buildkit, developed by the Docker community to perform fast, cached, in-cluster builds via a HTTP API and uses mTLS for encryption.
+    If you offer a way for customers to provide you custom code, you can invoke the Function Builder API to create a container image, which you can then deploy via the OpenFaaS REST API.
 
-Various self-hosted, open source and managed registries are supported.
+    This means you can extend your platform for customers with a few simple steps.
+
+* You manage dozens or hundreds of functions
+
+    Instead of defining hundreds of different CI jobs or definitions in Jenkins, GitHub Actions, or GitLab, you can integrate with the Builder's REST API to build functions programmatically.
+
+    That means you have less to maintain and keep up to date, particularly if you need to make a change across your functions later down the line or if you want to apply policies and governance.
+
+* You're already building images in-cluster
+
+    If you're sharing a Docker socket from the host into your cluster, or running a container with Docker in Docker (DIND), or in privileged mode, this is making your cluster vulnerable to serious attacks.
+
+    The Function Builder API builds images in-cluster, but can run without root privileges, or needing to run Docker.
+
+The Function Builder uses Buildkit, developed by the Docker community to perform fast, cached, in-cluster builds via a HTTP API and uses mTLS for encryption.
+
+You can use various self-hosted, open-source and managed cloud container registries with the Function Builder API.
 
 ## Installation
 
-The Pro Builder is available to OpenFaaS Pro customers.
+The Function Builder is available to OpenFaaS Pro customers.
 
 Install the builder using its [helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/pro-builder).
 
@@ -110,9 +122,59 @@ curl -H "X-Build-Signature: sha256=$HMAC" -s http://127.0.0.1:8081/build -X POST
 }
 ```
 
+## HTTP client examples
+
+A HTTP client has three tasks to perform:
+
+1. Construct a folder called `context` with the files needed to build a container
+
+    `faas-cli build --shrinkwrap` can help here, and allow you to use the existing templates we provide, or one of your own.
+
+    Any valid folder with a Dockerfile will work.
+
+3. Create a configuration file
+
+    The configuration file should be called `com.openfaas.docker.config` and be placed outside of the `context` folder (see the example above with curl)
+
+3. Create a tar file
+
+    Create a tar file which contains `com.openfaas.docker.config` and `context/*`.
+
+4. Calculate the HMAC of the tar file
+
+    Calculate the HMAC of the tar file using a standard crypto library, you'll also need to input the payload secret for the function builder.
+
+5. Invoke the API via HTTP
+
+    Next, invoke the API's `/build` endpoint.
+
+    You'll receive a JSON result with the status, logs and an image name if the image was published successfully.
+
+    ```json
+    {
+      "logs": [ "Output from buildkit", "Another log line" ],
+      "imageName": "docker.io/alexellis2/test-image-hello:0.1.0",
+      "status": "success"
+    }
+    ```
+
+There are several examples available of how to call the Function Builder's API via different programming languages: [openfaas-function-builder-api-examples](https://github.com/welteki/openfaas-function-builder-api-examples)
+
+You should be able to translate the example given with curl into any programming language, but if you need additional support, feel free to [reach out to us](https://openfaas.com/support).
+
+## Monitoring the builder
+
+The builder has additional metrics which will be scraped by the Prometheus instance installed by the OpenFaaS helm chart.
+
+![Metrics for the builder](/images/builder-metrics.png)
+
+> Pictured: metrics for the builder showing inflight builds, average duration and HTTP status codes to detect errors.
+
+* [Download the Grafana JSON file from the Customer Community](https://github.com/openfaas/openfaas-pro/tree/master/dashboards)
+
 ## In-cluster access
 
-You can access the Pro Builder via your code, or an OpenFaaS function by specifying its URL and its in-cluster service name. You do not need to expose the builder's API publicly.
+You can access the Function Builder via your code, or an OpenFaaS function by specifying its URL and its in-cluster service name. You do not need to expose the builder's API publicly.
 
 ```
 http://pro-builder.openfaas:8080/build
@@ -133,22 +195,12 @@ You may need to enable build arguments for the Dockerfile, these can be passed t
 
 ## Scaling the builder
 
-The Pro Builder can be scaled out, which also deploys additional replicas of Buildkit:
+The Function Builder can be scaled out, which also deploys additional replicas of Buildkit:
 
 ```bash
 kubectl scale -n openfaas deploy/pro-builder \
   --replicas=3
 ```
-
-## Monitoring the builder
-
-The builder has additional metrics which will be scraped by the Prometheus instance installed by the OpenFaaS helm chart.
-
-![Metrics for the builder](/images/builder-metrics.png)
-
-> Pictured: metrics for the builder showing inflight builds, average duration and HTTP status codes to detect errors.
-
-* [Download the Grafana JSON file from the Customer Community](https://github.com/openfaas/openfaas-pro/tree/master/dashboards)
 
 ## Would you like a demo?
 
