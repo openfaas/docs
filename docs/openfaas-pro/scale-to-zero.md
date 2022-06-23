@@ -6,7 +6,7 @@ OpenFaaS Pro offers an additional component that can be used to scale idle funct
 
 ## Installation
 
-Scale to Zero is enabled automatically when you install OpenFaaS Pro with helm, see [the helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas).
+Scale to Zero is enabled automatically when you install OpenFaaS Pro with helm and set `autoscaler.enabled: true`. You can see a sample configuration for [OpenFaaS Pro](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/values-pro.yaml) here.
 
 !!! info "Remember faas-idler?"
 
@@ -14,12 +14,15 @@ Scale to Zero is enabled automatically when you install OpenFaaS Pro with helm, 
 
 ## Usage
 
-Once enabled in your cluster, you can opt functions into being scaled to zero by adding the following label to stack.yml.
+Once enabled in your cluster, you can opt functions into being scaled to zero by adding the following labels to stack.yml:
+
+* `com.openfaas.scale.zero` - `true` or `false` - default is false
+* `com.openfaas.scale.zero-duration` - the time in a Go duration where there are no requests incoming before scaling a function down i.e. `20m`, `1h`
 
 Create a new function:
 
 ```bash
-export OPENFAAS_PREFIX=ghcr.io/openfaas
+export OPENFAAS_PREFIX=ttl.sh/daily-job:1h
 faas-cli new --lang go daily-job
 ```
 
@@ -35,9 +38,16 @@ functions:
   daily-job:
     labels:
       com.openfaas.scale.zero: true
+      com.openfaas.scale.zero-duration: 15m
     lang: go
     handler: ./daily-job
-    image: ghcr.io/openfaas:daily-job
+    image: ttl.sh/daily-job:1h
+```
+
+Then build and deploy the function:
+
+```bash
+faas-cli up -f daily-job.yml
 ```
 
 Once you have deployed and invoked your function, you should see it start to appear in the logs:
@@ -64,8 +74,11 @@ You can also deploy a store function, but bear in mind that they are not necessa
 
 ```bash
 faas-cli store deploy nodeinfo \
-  --label com.openfaas.scale.zero=true
+  --label com.openfaas.scale.zero=true \
+  --label com.openfaas.scale.zero-duration=15m
 ```
+
+To disable scale to zero for any function, set `com.openfaas.scale.zero` to `false`, or don't add the label at all.
 
 You can learn more about OpenFaaS auto-scaling here: [autoscaling](/architecture/autoscaling)
 

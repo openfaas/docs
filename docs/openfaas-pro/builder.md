@@ -152,9 +152,17 @@ A HTTP client has three tasks to perform:
 
     ```json
     {
-      "logs": [ "Output from buildkit", "Another log line" ],
-      "imageName": "docker.io/alexellis2/test-image-hello:0.1.0",
-      "status": "success"
+        "log": [
+            "v: 2022-06-23T09:10:12Z [ship 15/16] RUN npm test 0.35s",
+            "v: 2022-06-23T09:10:13Z [ship 16/16] WORKDIR /home/app/",
+            "v: 2022-06-23T09:10:13Z [ship 16/16] WORKDIR /home/app/ 0.09s",
+            "v: 2022-06-23T09:10:13Z exporting to image",
+            "s: 2022-06-23T09:11:06Z pushing manifest for ttl.sh/openfaas-image:1h@sha256:b077f553245c09d789980d081d33d46b93a23c24a5ec0a9c3c26be2c768db93e 0",
+            "s: 2022-06-23T09:11:09Z pushing manifest for ttl.sh/openfaas-image:1h@sha256:b077f553245c09d789980d081d33d46b93a23c24a5ec0a9c3c26be2c768db93e 0",
+            "v: 2022-06-23T09:10:13Z exporting to image 5.18s"
+        ],
+        "image": "ttl.sh/openfaas-image:1h",
+        "status": "success"
     }
     ```
 
