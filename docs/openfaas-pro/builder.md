@@ -166,7 +166,7 @@ A HTTP client has three tasks to perform:
     }
     ```
 
-There are several examples available of how to call the Function Builder's API via different programming languages: [openfaas-function-builder-api-examples](https://github.com/welteki/openfaas-function-builder-api-examples)
+There are several examples available of how to call the Function Builder's API via different programming languages: [openfaas-function-builder-api-examples](https://github.com/openfaas/function-builder-examples)
 
 You should be able to translate the example given with curl into any programming language, but if you need additional support, feel free to [reach out to us](https://openfaas.com/support).
 
