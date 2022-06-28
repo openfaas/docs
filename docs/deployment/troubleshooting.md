@@ -113,6 +113,12 @@ Common issues:
 * You are trying to access the gateway from your function, you must use the string `http://gateway.openfaas:8080`, otherwise it will be unreachable to you.
 * Your cloud LoadBalancer may have a timeout set of 60 seconds, which could prevent your call from executing successfully, consider increasing the timeout if you can, or execute the function asynchronously.
 
+### The queue-worker keeps retrying my function
+
+If the queue-worker keeps retrying your function check if `ack_wait` is set to a high enough timeout. It should be set to a value higher than your functions timeout.
+
+See [Expanded timeouts](https://docs.openfaas.com/tutorials/expanded-timeouts/)
+
 ### My function gets a nil or empty body
 
 If the body of the HTTP request is empty, the chances are that you are not setting a "Content-type" header in your request to the function.
