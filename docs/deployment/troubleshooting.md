@@ -108,6 +108,7 @@ faas-cli logs NAME
 ```
 
 Common issues:
+
 * You are using a service mesh, and therefore must set `direct_functions` to `true` so that the gateway uses the name of the function to resolve it
 * You have not configured a high enough timeout on all the required components. See [Expanded timeouts](https://docs.openfaas.com/tutorials/expanded-timeouts/)
 * You are trying to access the gateway from your function, you must use the string `http://gateway.openfaas:8080`, otherwise it will be unreachable to you.
