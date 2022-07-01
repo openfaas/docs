@@ -225,6 +225,48 @@ By setting the environment variable `prefix_logs` to `false` in your function, t
 
 See the [Logs](https://docs.openfaas.com/cli/logs/#structured-logs) documentation for more details.
 
+### How do I rotate or change a secret that my function is already using?
+
+With either Kubernetes or faasd, you can delete the secret and create it with the new value. Kubernetes also allows you to edit the secret's value using `kubectl`, without deleting it.
+
+Then, with Kubernetes, the secret will be updated on disk without needing to restart the Pod. This change could take several minutes before it reflects.
+
+See also: [Automatic secret updates in Kubernetes](https://kubernetes.io/docs/concepts/configuration/secret/#mounted-secrets-are-updated-automatically)
+
+Example:
+
+```bash
+faas-cli secret create username \
+  --from-literal alex
+
+faas-cli store deploy alpine \
+  --secret username \
+  --env fprocess="cat /var/openfaas/secrets/username" \
+  --name print-secret
+
+echo | faas-cli invoke --name print-secret
+alex
+```
+
+Then:
+
+```bash
+faas-cli secret remove username
+faas-cli secret create username \
+  --from-literal ellis
+
+# Wait a few minutes
+echo | faas-cli invoke --name print-secret
+ellis
+```
+
+If your handler reads and caches the password in memory, then you'll also need to restart the function's Pod:
+
+```bash
+kubectl rollout restart -n openfaas-fn \
+  deploy/print-secret
+```
+
 ### I want to remove OpenFaaS from a cluster
 
 See the [Helm chart instructions](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas)
