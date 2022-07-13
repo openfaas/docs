@@ -72,7 +72,7 @@ See the below for TLS termination, custom domains and mapping various functions 
 
 * [TLS with OpenFaaS](/reference/ssl/kubernetes-with-cert-manager)
 
-## How to asynchronous invocations work?
+## How do asynchronous invocations work?
 
 With an asynchronous invocation, the HTTP request is enqueued to NATS, followed by an "accepted" header and call-id being returned to the caller. Next, at some time in the future, a separate queue-worker component dequeues the message and invokes the function synchronously.
 
@@ -115,7 +115,7 @@ You could set this value to 1, if you wanted to ensure that only one request exe
 
 See also: [How to process your data the resilient way with back pressure](https://www.openfaas.com/blog/limits-and-backpressure/)
 
-### How to I retry failed requests?
+### How do I retry failed requests?
 
 See also: [How to process your data the resilient way with back pressure](https://www.openfaas.com/blog/limits-and-backpressure/) and [Retrying requests](/openfaas-pro/retries)
 
