@@ -59,7 +59,7 @@ See [Serverless For Everyone Else](https://store.openfaas.com/l/serverless-for-e
 
 ## The Kubernetes CronJob
 
-[Kubernetes][k8s] has its own [CronJob API resource][k8scron], which cam be used to schedule regularly function executions with a cron expression.
+[Kubernetes][k8s] has its own [CronJob API resource][k8scron], which can be used to schedule regular function executions with a cron expression.
 
 We assume that you have used the [recommended install of `faas-netes`][faasdeploy] which means that you have OpenFaaS deployed into two namespaces:
 
