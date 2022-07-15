@@ -74,3 +74,13 @@ The classic and of-watchdog both provide Prometheus instrumentation on TCP port 
 | `http_request_duration_seconds`     | histogram  | Seconds spent serving HTTP requests | `method`, `path`, `status`   | Community Edition  |
 | `http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `status`   | Community Edition  |
 | `http_requests_in_flight`           | gauge      | The number of HTTP requests in flight | `method`, `path`, `status` | Pro Edition        |
+
+## Provider
+The Provider component exposes several metrics.
+
+| Metric                              | Type       | Description                         | Labels                     | Edition            |
+| ----------------------------------- | ---------- | ----------------------------------- | ---------------------------|--------------------|
+| `provider_http_request_duration_seconds`     | histogram  | Seconds spent serving HTTP requests | `method`, `path`, `code`   | Community Edition  |
+| `provider_http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `code`   | Community Edition  |
+
+The `http_request*` metrics record the latency and statistics of `/system/*` routes. Part of this information is also recorded in the metrics for the Gateway component. The purpose of exposing separate metrics on the provider component is to show the count of calls, to show efficiency, and to show the duration for performance testing, along with errors to flag unseen issues.
