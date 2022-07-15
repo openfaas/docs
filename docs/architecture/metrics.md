@@ -74,6 +74,3 @@ The classic and of-watchdog both provide Prometheus instrumentation on TCP port 
 | `http_request_duration_seconds`     | histogram  | Seconds spent serving HTTP requests | `method`, `path`, `status`   | Community Edition  |
 | `http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `status`   | Community Edition  |
 | `http_requests_in_flight`           | gauge      | The number of HTTP requests in flight | `method`, `path`, `status` | Pro Edition        |
-
-The `http_request*` metrics record the latency and statistics of `/system/*` routes to monitor the OpenFaaS gateway and its provider. The `/async-function` route is also recorded in these metrics to observe asynchronous ingestion rate and latency.
-
