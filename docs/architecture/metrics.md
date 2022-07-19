@@ -84,3 +84,12 @@ The [FaaS Provider](/architecture/faas-provider) is the back-end API used by oth
 | `provider_http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `code`   | Community Edition  |
 
 The `http_request*` metrics record the latency and statistics of `/system/*` routes. Part of this information is also recorded in the metrics for the Gateway component. The purpose of exposing separate metrics on the provider component is to show the count of calls, to show efficiency, and to show the duration for performance testing, along with errors to flag unseen issues.
+
+## JetStream for OpenFaaS
+The queue-worker for NATS JetStream exposes metrics to help you get insight in the behavior of your OpenFaaS queues.
+
+| Metric                                  | Type       | Description                                     | Labels       | Edition     |
+| ----------------------------------------| ---------- | ------------------------------------------------| -------------|-------------|
+| `queue_worker_pending_messages`         | gauge      | Amount of messages waiting to be processed on given `queue_name`, `kubernetes_pod_name` | `queue_name` | Pro Edition |
+| `queue_worker_messages_processed_total` | counter    | Total number of messages processed              | `queue_name`, `kubernetes_pod_name` | Pro Edition |
+| `queue_worker_messages_submitted_total` | gauge      | Total number of messages submitted to the queue by the gateway | `queue_name`, `kubernetes_pod_name` | Pro Edition |
