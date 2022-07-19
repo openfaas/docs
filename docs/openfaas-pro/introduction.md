@@ -58,12 +58,18 @@ Build functions at scale - for services providers and large teams:
 
 ### On our roadmap
 
+Recently released:
+
 * Scaling upon inflight requests for long running & memory/CPU bound functions (released Jan 2022)
 * A new Pro UI dashboard for managing and monitoring OpenFaaS functions across namespaces (released March 2022)
 * CPU and RAM usage metrics within the OpenFaaS API, CLI and Pro UI dashboard (released Feb 2022)
 * AWS SQS event-connector (released January 2022)
-* Migration to JetStream from NATS Streaming (which will be deprecated in 2023)
-* Structured logging / JSON for OpenFaaS Pro customers
+
+Upcoming:
+
+* Redesigned async system with NATS JetStream which replaces NATS Streaming (shipping soon)
+    * NATS Streaming is available for CE and will be deprecated in June 2023.
+* Structured logging / JSON for OpenFaaS Pro customers in the queue-worker (shipping soon)
 * Concurrency limiting for functions - i.e. one request per container
 * Enhanced RBAC for functions and the OpenFaaS REST API
 * AMQP event trigger for RabbitMQ and Azure Service Bus
@@ -75,7 +81,9 @@ Is there something else you need for your team or organisation? [Get in touch wi
 
 !!! info "Do we need the Community Edition or Pro?"
 
-    OpenFaaS Community Edition (CE) is meant for open-source developers, OpenFaaS Pro is meant for production.
+    OpenFaaS Community Edition (CE) is meant for basic exploration, OpenFaaS Pro is meant for production.
+
+OpenFaaS Pro is built to run in production, with reliability, security and durability in mind. It's the first step towards building a relationship with the team who make OpenFaaS, and comes with exclusive features and configurations that most customers will need to operate a product or service.
 
 Support
 
@@ -85,14 +93,17 @@ Support
 | Support via email     | N/a               | Pro features only      | Response within 1 business day |
 | Support via GitHub    | N/a               | Pro features only      | Response within 1 business day |
 | Support via Slack     | N/a               | N/a                    | Up to 5 developers              |
-| Private customers' community   | N/a               | Private access to GitHub community for two people | Private access to GitHub community for team |  
+| Access to Customer Community   | N/a      | Private access to Customer Community for 2 named contacts | As Per Pro, for more named contacts |  
 
 Enterprise Support comes with an SLA, defined separately. Support for OpenFaaS Pro is on a self-service basis, with no SLA offered.
+
+The Customer Community provides direct access to developers of OpenFaaS, and other customers for exclusive configurations & guides, early access to features, collaboration and announcements.
 
 Features
 
 | Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
+| Async | NATS Streaming (deprecated in June 2023) | NATS JetStream (new) | As per Pro |
 | Dashboard         | Basic, legacy UI portal (in code-freeze)  | Dashboard with metrics, logs and multiple namespace support | As per Pro |
 | Metrics         | Basic HTTP invocation metrics  | Plus advanced CPU/RAM usage metrics      | As per Pro |
 | Autoscaling granularity   | Single rule for all functions | Custom per functions      | As per Pro |
@@ -100,6 +111,7 @@ Features
 | Authentication | Shared token with every user | Sign-On with OIDC Okta/Auth0 | Custom Single Sign-On with your IdP |
 | Scale to Zero | Not supported | Custom rule per function | As per Pro |
 | Custom Kubernetes service account      | N/a             | Supported per function | As per Pro |
+| Split installation without ClusterAdmin role | N/a | Provided in Customer Community | As Per Pro | 
 
 Durability and reliability
 
@@ -107,7 +119,9 @@ Durability and reliability
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Health checks | Not supported | Custom HTTP path and intervals per function | As per Pro |
 | Retry failed invocations | Not supported | Retry certain HTTP codes with a back-off | As per Pro |
-| GDPR                  | Sensitive data printed in logs | Sensitive data omitted from logs | As per Pro | 
+| Highly Available messaging | Not available for NATS Streaming | Available for NATS JetStream, with 3x servers. | As per Pro |
+| Long executions of async functions | Manual configuration | Automated configuration with NATS JetStream | As per Pro |
+| GDPR                  | Sensitive information printed in logs | Sensitive information is omitted from logs | As per Pro | 
 | Grafana Dashboard      | N/a             | Supplied with advanced metrics in private repository | As per Pro |
 | Secure isolation with Kata containers or gVisor      | N/a             | Supported via a runtimeClass | As per Pro |
 
@@ -117,6 +131,7 @@ Event-brokers
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Kafka broker | Not supported | Supports SASL or TLS auth, Aiven, Confluent and self-hosted | As per Pro |
 | AWS SQS | Not supported | Supported | As per Pro |
+| Cron and scheduled invocations | Community support | Community support | Full support |
 
 ### Trusted by
 
@@ -131,16 +146,20 @@ OpenFaaS Pro is trusted by:
 * Surge "workwithsurge"
 * Edge Delta
 
-Tell us about your use-case for OpenFaaS and see what other companies are doing in the: [ADOPTERS.md file](https://github.com/openfaas/faas/blob/master/ADOPTERS.md) 
+Tell us about your use-case for OpenFaaS Pro, CE or faasd and see what other companies are doing in the: [ADOPTERS.md file](https://github.com/openfaas/faas/blob/master/ADOPTERS.md) 
 
 ### Support
 
-OpenFaaS Pro operates on a self-service model with support via email for OpenFaaS Pro features.
+OpenFaaS Enterprise comes with support for the Certified Open Source Components and OpenFaaS Pro, with support via email within a Service Level Agreement (SLA). Along with email support, each team gets their own dedicated Slack channel for questions, collaboration and assistance.
 
-OpenFaaS Enterprise comes with a more timely SLA and is suitable for the requirements of critical applications or larger organisations.
+OpenFaaS Pro operates on a self-service model with support for OpenFaaS Pro features only via email.
+
+Both tiers come with access to the Customer Community, for feedback & collaboration with the OpenFaaS developers and other customers. 
+
+No support is offered to commercial users of OpenFaaS CE, which is primarily meant for exploration and open source developers.
 
 ### Getting started
 
-OpenFaaS Pro is for users on Kubernetes, but most of the features are also compatible with faasd. Customers can request configuration for OpenFaaS Pro for faasd via support.
+OpenFaaS Pro is primarily developed for Kubernetes, however most of the features are also compatible with faasd.
 
 Are you interested in OpenFaaS for your organisation? [Contact us](https://openfaas.com/support/) to find out more.
