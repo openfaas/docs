@@ -76,7 +76,7 @@ The classic and of-watchdog both provide Prometheus instrumentation on TCP port 
 | `http_requests_in_flight`           | gauge      | The number of HTTP requests in flight | `method`, `path`, `status` | Pro Edition        |
 
 ## Provider
-The Provider component exposes several metrics.
+The [FaaS Provider](/architecture/faas-provider) is the back-end API used by other OpenFaaS components like the Gateway. It exposes several metrics.
 
 | Metric                              | Type       | Description                         | Labels                     | Edition            |
 | ----------------------------------- | ---------- | ----------------------------------- | ---------------------------|--------------------|
