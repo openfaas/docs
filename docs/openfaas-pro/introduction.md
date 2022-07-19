@@ -43,6 +43,7 @@ To avoid errors when scaling up or down, you may need to tune your function's co
 * Custom Kubernetes service accounts for functions to access the Kubernetes API
 * Custom runtime profiles for security & isolation using gVisor, kata containers etc.
 * Custom TerminationGracePeriod for draining work for long running functions
+* Custom support for probing Istio endpoints during scale from zero
 
 Read more: [OpenFaaS workloads](https://docs.openfaas.com/reference/workloads/) and [Custom Profiles](https://docs.openfaas.com/reference/profiles/#use-an-alternative-runtimeclass)
 
@@ -69,6 +70,7 @@ Upcoming:
 
 * Redesigned async system with NATS JetStream which replaces NATS Streaming (shipping soon)
     * NATS Streaming is available for CE and will be deprecated in June 2023.
+* Dedicated Helm chart for installing additional queue-workers with JetStream
 * Structured logging / JSON for OpenFaaS Pro customers in the queue-worker (shipping soon)
 * Concurrency limiting for functions - i.e. one request per container
 * Enhanced RBAC for functions and the OpenFaaS REST API
@@ -99,19 +101,27 @@ Enterprise Support comes with an SLA, defined separately. Support for OpenFaaS P
 
 The Customer Community provides direct access to developers of OpenFaaS, and other customers for exclusive configurations & guides, early access to features, collaboration and announcements.
 
-Features
+Core features
 
 | Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
-| Async | NATS Streaming (deprecated in June 2023) | NATS JetStream (new) | As per Pro |
-| Dashboard         | Basic, legacy UI portal (in code-freeze)  | Dashboard with metrics, logs and multiple namespace support | As per Pro |
+| Async / queueing | NATS Streaming (deprecated in June 2023) | NATS JetStream (new) | As per Pro |
+| Dashboard         | Basic, legacy UI portal (in code-freeze)  | Dashboard with metrics, logs and multiple namespaces | As per Pro |
 | Metrics         | Basic HTTP invocation metrics  | Plus advanced CPU/RAM usage metrics      | As per Pro |
-| Autoscaling granularity   | Single rule for all functions | Custom per functions      | As per Pro |
+| CPU & RAM utilization | Not available | Integrated with Prometheus metrics, OpenFaaS REST API & CLI | As per Pro
 | Autoscaling strategy   | RPS-only | CPU utilization, Capacity (inflight requests) or RPS      | As per Pro |
-| Authentication | Shared token with every user | Sign-On with OIDC Okta/Auth0 | Custom Single Sign-On with your IdP |
-| Scale to Zero | Not supported | Custom rule per function | As per Pro |
-| Custom Kubernetes service account      | N/a             | Supported per function | As per Pro |
-| Split installation without ClusterAdmin role | N/a | Provided in Customer Community | As Per Pro | 
+| Autoscaling granularity   | Single rule for all functions | Custom per functions      | As per Pro |
+| Scale to Zero | Not supported | Custom delay per function | As per Pro |
+| Kubernetes service accounts for functions      | N/a             | Supported per function | As per Pro |
+| Grafana Dashboards      | N/a             | 3x dashboards supplied in Customer Community | As per Pro |
+
+Platform features
+
+| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
+| ----------------------| ------------------|------------------------|---------------------------------|
+| Deploy functions via REST API | Available | As per CE | As per CE | 
+| Build containers and functions via REST API | N/a | Supported | As per Pro |
+| Multiple namespace support | N/a | Supported with Kubernetes | As per Pro |
 
 Durability and reliability
 
@@ -121,8 +131,15 @@ Durability and reliability
 | Retry failed invocations | Not supported | Retry certain HTTP codes with a back-off | As per Pro |
 | Highly Available messaging | Not available for NATS Streaming | Available for NATS JetStream, with 3x servers. | As per Pro |
 | Long executions of async functions | Manual configuration | Automated configuration with NATS JetStream | As per Pro |
-| GDPR                  | Sensitive information printed in logs | Sensitive information is omitted from logs | As per Pro | 
-| Grafana Dashboard      | N/a             | Supplied with advanced metrics in private repository | As per Pro |
+
+Security
+
+| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
+| ----------------------| ------------------|------------------------|---------------------------------|
+| Authentication | Shared token with every user | Sign-On with OIDC Okta/Auth0 | Custom Single Sign-On with your IdP |
+| Split installation without ClusterAdmin role | N/a | Provided in Customer Community | As Per Pro | 
+| Compatibility with Istio for mTLS | N/a | Supported | As per Pro |
+| GDPR                  | Sensitive information printed in logs | Sensitive information is omitted from logs | As per Pro |
 | Secure isolation with Kata containers or gVisor      | N/a             | Supported via a runtimeClass | As per Pro |
 
 Event-brokers
