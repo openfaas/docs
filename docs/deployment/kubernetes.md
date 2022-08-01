@@ -8,7 +8,7 @@ OpenFaaS should run on any compliant Kubernetes distribution.
 
 There are many options for deploying a local or remote cluster. You can read about the [various Kubernetes distributions here](https://kubernetes.io/docs/setup/).
 
-The OpenFaaS helm chart ships with its own stack that includes NATS, Prometheus and a number of its own components like the OpenFaaS gateway and queue-worker, for more about what's included, you can [read up on the stack](architecture/stack).
+The OpenFaaS helm chart ships with its own stack that includes NATS, Prometheus and a number of its own components like the OpenFaaS gateway and queue-worker, for more about what's included, you can [read up on the stack](/architecture/stack).
 
 The chart can be installed with helm and kubectl or arkade, we recommend arkade which also prints out everything you need to know to access the UI and deploy your first function.
 
