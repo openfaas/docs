@@ -6,8 +6,6 @@ The Function Builder API provides a simple REST API to create your functions fro
 
 The Function Builder is designed to be integrated via HTTP to automate building images in your cluster, and for service providers.
 
-Most users will find that `docker` and the `faas-cli` will be sufficient for most needs.
-
 ## So is it right for you? 
 
 * You're a service provider with custom functionality or functions
@@ -37,6 +35,8 @@ You can use various self-hosted, open-source and managed cloud container registr
 The Function Builder is available to OpenFaaS Pro customers.
 
 Install the builder using its [helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/pro-builder).
+
+See also: [code samples with Node.js, Python, Go and PHP](https://github.com/openfaas/function-builder-examples)
 
 ## Usage
 
