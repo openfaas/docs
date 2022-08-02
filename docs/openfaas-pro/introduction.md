@@ -107,7 +107,7 @@ Core features
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Async / queueing | NATS Streaming (deprecated in June 2023) | NATS JetStream (new) | As per Pro |
 | Dashboard         | Basic, legacy UI portal (in code-freeze)  | Dashboard with metrics, logs and multiple namespaces | As per Pro |
-| Metrics         | Basic HTTP invocation metrics  | Plus advanced CPU/RAM usage metrics      | As per Pro |
+| Metrics         | HTTP invocation metrics  | Plus CPU/RAM usage metrics and async/queue metrics      | As per Pro |
 | CPU & RAM utilization | Not available | Integrated with Prometheus metrics, OpenFaaS REST API & CLI | As per Pro
 | Autoscaling strategy   | RPS-only | CPU utilization, Capacity (inflight requests) or RPS      | As per Pro |
 | Autoscaling granularity   | Single rule for all functions | Custom per functions      | As per Pro |
@@ -177,6 +177,6 @@ No support is offered to commercial users of OpenFaaS CE, which is primarily mea
 
 ### Getting started
 
-OpenFaaS Pro is primarily developed for Kubernetes, however most of the features are also compatible with faasd.
+OpenFaaS Pro is primarily developed for Kubernetes, however most of the features are also compatible with faasd. Learn about faasd and OpenFaaS Pro here: [The Event-Driven Edge with OpenFaaS](https://www.openfaas.com/blog/eventdriven-edge/)
 
 Are you interested in OpenFaaS for your organisation? [Contact us](https://openfaas.com/support/) to find out more.
