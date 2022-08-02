@@ -117,7 +117,7 @@ curl -H "X-Build-Signature: sha256=$HMAC" -s http://127.0.0.1:8081/build -X POST
 ....
     "v: 2021-10-20T16:48:34Z exporting to image 8.01s"
   ],
-  "imageName": "docker.io/alexellis2/test-image-hello:0.1.0",
+  "image": "docker.io/alexellis2/test-image-hello:0.1.0",
   "status": "success"
 }
 ```
