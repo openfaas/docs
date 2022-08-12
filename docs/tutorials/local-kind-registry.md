@@ -86,7 +86,7 @@ done
 
 You can find similar solutions for other local Kubernetes distributions:
 
-* [k3d](https://k3d.io/usage/guides/registries/#using-a-local-registry) - local registries
+* [k3d](https://k3d.io/v5.4.4/usage/registries/#using-a-local-registry) - local registries
 * [minikube](https://minikube.sigs.k8s.io/docs/handbook/registry/) - registry add-on
 * [microk8s](https://microk8s.io/docs/registry-built-in) - built-in registry
 ---
