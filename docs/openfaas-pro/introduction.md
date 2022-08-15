@@ -162,6 +162,7 @@ OpenFaaS Pro is trusted by:
 * RateHub.ca
 * Surge "workwithsurge"
 * Edge Delta
+* Patchworks Integration Limited
 
 Tell us about your use-case for OpenFaaS Pro, CE or faasd and see what other companies are doing in the: [ADOPTERS.md file](https://github.com/openfaas/faas/blob/master/ADOPTERS.md) 
 
