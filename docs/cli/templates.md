@@ -422,12 +422,12 @@ This is useful where the original body needs to be passed to the function code w
     RAW_BODY: true
 ```
 
-The raw body has a default maximum of 100KB to prevent abuse from users. This can be configured manually to deal with larger payloads:
+The raw body has a default maximum size of 100KB to prevent abuse from users. This can be configured manually to deal with larger payloads:
 
 ```yaml
   environment:
     RAW_BODY: true
-    MAX_RAW_BODY: 512kb
+    MAX_RAW_SIZE: 512kb
 ```
 
 ##### Node.js templates - Set max json request body size
