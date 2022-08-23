@@ -4,9 +4,9 @@ In this tutorial you'll learn how to expand the default timeouts of OpenFaaS to 
 
 ## Part 1 - the core components
 
-When installing with Kubernetes, you need to set various timeout values for the distributed components of the OpenFaaS control plane.
+When running OpenFaaS on Kubernetes, you need to set various timeout values for the distributed components of the OpenFaaS control plane. These options are explained in the [helm chart README](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas). The easiest option for new users is to set them all to the same value.
 
-These options are explained in the [helm chart README](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas). The easiest option for new users is to set them all to the same value.
+ > For faasd users, you'll need to edit the equivalent fields in your `docker-compose.yaml` file.
 
 We will set:
 
@@ -16,35 +16,55 @@ We will set:
 * `faasnetes.writeTimeout`
 * `faasnetes.readTimeout`
 
-For async tasks, also set:
+For the timeout to work with async invocations you also need to set:
 
 * `queueWorker.ackWait`
 
-All timeouts are to be specified in Golang duration format i.e. `1m` or `12s`, or `1m12s`.
+All timeouts are to be specified in Golang duration format i.e. `1m` or `60s`, or `1m30s`.
+
+The `HARD_TIMEOUT` is set 1-2s higher than the `TIMEOUT` value since one needs to happen before the other.
 
 ```bash
-export TIMEOUT=2m
+export TIMEOUT=5m
+export HARD_TIMEOUT=5m2s
 
 arkade install openfaas \
   --set gateway.upstreamTimeout=$TIMEOUT \
-  --set gateway.writeTimeout=$TIMEOUT \
-  --set gateway.readTimeout=$TIMEOUT \
-  --set faasnetes.writeTimeout=$TIMEOUT \
-  --set faasnetes.readTimeout=$TIMEOUT \
+  --set gateway.writeTimeout=$HARD_TIMEOUT \
+  --set gateway.readTimeout=$HARD_TIMEOUT \
+  --set faasnetes.writeTimeout=$HARD_TIMEOUT \
+  --set faasnetes.readTimeout=$HARD_TIMEOUT \
   --set queueWorker.ackWait=$TIMEOUT
 ```
 
-One installed with these settings, you can invoke functions for up to `2m` synchronously and asynchronously.
+One installed with these settings, you can invoke functions for up to `5m` synchronously and asynchronously.
+
+If using Helm or Argo CD, then add the following to your values.yaml file instead:
+
+```yaml
+gateway:
+  writeTimeout: 5m1s
+  readTimeout: 5m1s
+  upstreamTimeout: 5m
+
+faasnetes:
+  writeTimeout: 5m1s
+  readTimeout: 5m1s
+
+queueWorker:
+  ackWait: 5m
+```
 
 ## Part 2 - Your function's timeout
 
 Now that OpenFaaS will allow a longer timeout, configure your function.
 
+For the newer templates based upon HTTP which use the of-watchdog, adapt the following sample: [go-long: Golang function that runs for a long time](https://github.com/alexellis/go-long)
+
 For classic templates using the classic watchdog, you can follow the workshop: [Lab 8 - Advanced feature - Timeouts](https://github.com/openfaas/workshop/blob/master/lab8.md)
 
-For the newer templates based upon HTTP which use the of-watchdog, adapt the following sample: [go-long: Golang function that runs for a long time](https://github.com/alexellis/go-long)
+If you're unsure which template you're using, check the source code of the Dockerfile in the `templates` folder when you build your functions.
 
 ## Further support
 
-Check the [troubleshooting guide](https://docs.openfaas.com/deployment/troubleshooting/) and work through the exercises above.
-
+Check the [troubleshooting guide](https://docs.openfaas.com/deployment/troubleshooting/).
