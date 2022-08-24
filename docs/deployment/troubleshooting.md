@@ -45,6 +45,12 @@ Common issues:
 * The gateway must be able to talk to nats and prometheus. If these are crashing, you probably have networking issues preventing containers from talking to each over or looking up each other over DNS.
 * Have you got enough resources free in your cluster for all the services to start? `kubectl describe nodes` or `kubectl top node` should give you some hints here.
 
+### My function isn't updating
+
+Try using the `faas-cli describe` command to check whether the function has been updated.
+
+You can usually view the YAML from Kubernetes for a function with the `kubectl get -n openfaas deploy/NAME` command, then check the logs for the two pods in the gateway and for events in the openfaas-fn namespace.
+
 ### My function didn't start
 
 Look for `0/1`, restarts or errors showing up here:
