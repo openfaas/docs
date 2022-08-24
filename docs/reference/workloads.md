@@ -205,3 +205,4 @@ functions:
 
 > Note: The initial delay value must be a valid Go duration e.g. `80s` or `3m`. 
 
+The `timeoutSeconds` value for liveness and readiness probes can be set globally for the installation: [OpenFaaS chart reference](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#faas-netes--operator). A global `initialDelaySeconds` and `periodSeconds` can also be set for the installation, any overrides set for these two values in annotations will take precedence.
