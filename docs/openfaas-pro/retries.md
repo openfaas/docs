@@ -95,6 +95,8 @@ The invocation will fail, returning a 429 message. This will be received by the 
 
 Allow it to fail several times, seeing the retry time back off exponentially.
 
+> For undelivered messages that reach maximum retries the response is posted to the [callback url](https://docs.openfaas.com/reference/async/#how-it-works). 
+
 Then, whenever you like, fix the error by changing the canned HTTP response to "200 OK". This will allow the next retry to complete:
 
 ```bash
