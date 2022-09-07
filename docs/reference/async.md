@@ -93,15 +93,19 @@ There are limits for asynchronous functions, which you should understand before 
 * Payload size - the maximum size is configured to be 1MB. The limit is defined by NATS, but can be changed. Use a database, or S3 bucket for storing large payloads, and pass an identifier to function calls.
 * Retries - retries are available in [OpenFaaS Pro](https://openfaas.com/support/) with an exponential back-off.
 
+The queue-worker uses a single timeout for how long it will spend processing a message, that is called `ack_wait`. If your longest function can run for *25 minutes*, then the `ack_wait` should be set to at least `25m`.
+
 #### Parallelism
 
 By default there is one queue-worker replica deployed which is set up to run a single task of up to 30 seconds in duration.
 
-> You can increase the parallelism by scaling the queue-worker up - i.e. 5 replicas for 5 parallel tasks.
->
-> Alternatively you can increase the parallelism by setting the queue worker's "max_inflight" option to a value greater than one. This will cause the queue-worker to concurrently receive up to max_inflight many messages and simultaneously invoke their corresponding functions. Should you wish to restrict concurrency for certain functions, please make use of [multiple queues](#Multiple-queues) and separate these functions accordingly. When scaling up a queue worker, please be aware that you will get up to 'n * max_inflight' parallel function invocations.
+You can increase the parallelism by setting the queue worker's "max_inflight" option to a value greater than one. This will cause the queue-worker to concurrently receive up to max_inflight many messages and simultaneously invoke their corresponding functions. Should you wish to restrict concurrency for certain functions, please make use of [multiple queues](#Multiple-queues) and separate these functions accordingly. When scaling up a queue worker, please be aware that you will get up to 'n * max_inflight' parallel function invocations.
 
-You can tune the values for the number of tasks each queue worker may run in parallel as well as the maximum duration of any asynchronous task that worker processes. Edit the Kubernetes helm chart or the docker-compose.yml file for faasd.
+Additional replicas of the queue-worker can also be added, such that the total async concurrency for a cluster will be: max_inflight * (number of queue-worker replicas).
+
+So a value of `max_inflight` 100 and 1 queue-worker, will mean a system-wide async concurrency of 100. A value of `max_inflight` 100 and 3 queue-workers, will mean a system-wide async concurrency of 300.
+
+Edit the Kubernetes helm chart or the docker-compose.yml file for faasd.
 
 The [OpenFaaS workshop](https://github.com/openfaas/workshop) has more instructions on running tasks asynchronously.
 

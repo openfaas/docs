@@ -12,6 +12,12 @@ Kubernetes is a complex distributed system, and there are many things that can c
 
 If you want to ask for help, make sure that you have run all of the commands below before doing so.
 
+### OpenFaaS and Function Checker
+
+We recommend that all users run our automated config-checker tool which will help you to identify common problems with timeouts and function configuration.
+
+* [openfaas/config-checker](https://github.com/openfaas/config-checker)
+
 ### OpenFaaS didn't start
 
 Look for `0/1`, restarts or errors showing up here:
