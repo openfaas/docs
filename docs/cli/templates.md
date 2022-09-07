@@ -28,7 +28,7 @@ This page shows how to generate functions in the most popular languages and expl
 
 ### Classic vs. of-watchdog templates
 
-The *Classic Templates* are held in the [openfaas/templates](https://github.com/openfaas/templates) repository and are based upon the *Classic Watchdog* which uses STDIO to communicate with your function. The of-watchdog uses HTTP to communicate with functions and most of its templates are available in the [openfaas-incubator](https://github.com/openfaas-incubator/) organisation on GitHub and in the store.
+The *Classic Templates* are held in the [openfaas/templates](https://github.com/openfaas/templates) repository and are based upon the *Classic Watchdog* which uses STDIO to communicate with your function. The of-watchdog uses HTTP to communicate with functions and most of its templates are available in the [openfaas](https://github.com/openfaas/) organisation in their own separate repositories on GitHub and in the store.
 
 How to pick:
 
@@ -50,7 +50,6 @@ NAME                    SOURCE             DESCRIPTION
 csharp                  openfaas           Official C# template
 dockerfile              openfaas           Official Dockerfile template
 ...
-node10-express          openfaas-incubator NodeJS 10 Express template
 ruby-http               openfaas-incubator Ruby 2.4 HTTP template
 golang-middleware       openfaas Golang Middleware template
 csharp-httprequest      distantcam         C# HTTP template
