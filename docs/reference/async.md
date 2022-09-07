@@ -99,15 +99,15 @@ The queue-worker uses a single timeout for how long it will spend processing a m
 
 By default there is one queue-worker replica deployed which is set up to run a single task of up to 30 seconds in duration.
 
-You can increase the parallelism by setting the queue worker's "max_inflight" option to a value greater than one. This will cause the queue-worker to concurrently receive up to max_inflight many messages and simultaneously invoke their corresponding functions. Should you wish to restrict concurrency for certain functions, please make use of [multiple queues](#Multiple-queues) and separate these functions accordingly. When scaling up a queue worker, please be aware that you will get up to 'n * max_inflight' parallel function invocations.
+You can increase the parallelism by setting the queue worker's "max_inflight" option to a value greater than one. This will cause the queue-worker to concurrently receive up to max_inflight many messages and simultaneously invoke their corresponding functions. Should you wish to restrict concurrency for certain functions, please make use of [multiple queues](#Multiple-queues) and separate these functions accordingly.
 
 Additional replicas of the queue-worker can also be added, such that the total async concurrency for a cluster will be: max_inflight * (number of queue-worker replicas).
 
 So a value of `max_inflight` 100 and 1 queue-worker, will mean a system-wide async concurrency of 100. A value of `max_inflight` 100 and 3 queue-workers, will mean a system-wide async concurrency of 300.
 
-Edit the Kubernetes helm chart or the docker-compose.yml file for faasd.
+Kubernetes users can tune this in the values.yaml file of the openfaas helm chart. faasd users should edit the docker-compose.yml file.
 
-The [OpenFaaS workshop](https://github.com/openfaas/workshop) has more instructions on running tasks asynchronously.
+The official eBook for OpenFaaS has more details on the async system in OpenFaaS. See also: [Training](/tutorials/training/)
 
 #### Multiple queues
 
