@@ -16,7 +16,7 @@ If you want to ask for help, make sure that you have run all of the commands bel
 
 We recommend that all users run our automated config-checker tool which will help you to identify common problems with timeouts and function configuration.
 
-* [openfaas/config-checker](https://github.com/openfaas/config-checker)
+- [openfaas/config-checker](https://github.com/openfaas/config-checker)
 
 ### OpenFaaS didn't start
 
@@ -42,14 +42,14 @@ Next, check the events in the openfaas namespace:
 
 ```bash
 kubectl get events -n openfaas \
-  --sort-by=.metadata.creationTimestamp 
+  --sort-by=.metadata.creationTimestamp
 ```
 
 Common issues:
 
-* Have you forgotten to create the password required for the gateway?
-* The gateway must be able to talk to nats and prometheus. If these are crashing, you probably have networking issues preventing containers from talking to each over or looking up each other over DNS.
-* Have you got enough resources free in your cluster for all the services to start? `kubectl describe nodes` or `kubectl top node` should give you some hints here.
+- Have you forgotten to create the password required for the gateway?
+- The gateway must be able to talk to nats and prometheus. If these are crashing, you probably have networking issues preventing containers from talking to each over or looking up each other over DNS.
+- Have you got enough resources free in your cluster for all the services to start? `kubectl describe nodes` or `kubectl top node` should give you some hints here.
 
 ### My function isn't updating
 
@@ -81,14 +81,14 @@ Next, check the events in the openfaas-fn namespace:
 
 ```bash
 kubectl get events -n openfaas-fn \
-  --sort-by=.metadata.creationTimestamp 
+  --sort-by=.metadata.creationTimestamp
 ```
 
 Common issues:
 
-* You are using a private registry, but haven't configured any image pull secrets. See: [Kubernetes deployment instructions](https://docs.openfaas.com/deployment/kubernetes/)
-* You haven't created a secret which is required for your function to start. Check your function request or stack.yml, and create any missing secrets.
-* Your function is crashing due to an error in your code, check the logs.
+- You are using a private registry, but haven't configured any image pull secrets. See: [Kubernetes deployment instructions](https://docs.openfaas.com/deployment/kubernetes/)
+- You haven't created a secret which is required for your function to start. Check your function request or stack.yml, and create any missing secrets.
+- Your function is crashing due to an error in your code, check the logs.
 
 ### My function is timing out
 
@@ -121,10 +121,10 @@ faas-cli logs NAME
 
 Common issues:
 
-* You are using a service mesh, and therefore must set `direct_functions` to `true` so that the gateway uses the name of the function to resolve it
-* You have not configured a high enough timeout on all the required components. See [Expanded timeouts](https://docs.openfaas.com/tutorials/expanded-timeouts/)
-* You are trying to access the gateway from your function, you must use the string `http://gateway.openfaas:8080`, otherwise it will be unreachable to you.
-* Your cloud LoadBalancer may have a timeout set of 60 seconds, which could prevent your call from executing successfully, consider increasing the timeout if you can, or execute the function asynchronously.
+- You are using a service mesh, and therefore must set `direct_functions` to `true` so that the gateway uses the name of the function to resolve it
+- You have not configured a high enough timeout on all the required components. See [Expanded timeouts](https://docs.openfaas.com/tutorials/expanded-timeouts/)
+- You are trying to access the gateway from your function, you must use the string `http://gateway.openfaas:8080`, otherwise it will be unreachable to you.
+- Your cloud LoadBalancer may have a timeout set of 60 seconds, which could prevent your call from executing successfully, consider increasing the timeout if you can, or execute the function asynchronously.
 
 ### The queue-worker keeps retrying my function
 
@@ -150,8 +150,8 @@ Some legacy HTTP servers such as [WSGI](https://en.wikipedia.org/wiki/Web_Server
 
 Your function is failing because it takes too long to start-up.
 
-* Learn how to configure a custom HTTP health-check that you can respond to from your function
-* Learn how to extend the window between your function starting, and its initial health-check run
+- Learn how to configure a custom HTTP health-check that you can respond to from your function
+- Learn how to extend the window between your function starting, and its initial health-check run
 
 See: [Custom HTTP health check](https://docs.openfaas.com/reference/workloads/#custom-http-health-check)
 
@@ -159,9 +159,9 @@ See: [Custom HTTP health check](https://docs.openfaas.com/reference/workloads/#c
 
 You can usually do one of the following:
 
-* Use unit-testing in the language of your choice (fastest)
-* Use `faas-cli build` followed by `docker run` (easy)
-* Try hot-reloading with docker-compose (advanced)
+- Use unit-testing in the language of your choice (fastest)
+- Use `faas-cli build` followed by `docker run` (easy)
+- Try hot-reloading with docker-compose (advanced)
 
 Example:
 
@@ -214,8 +214,8 @@ Yes, if configured correctly. [Call us to find out more](https://openfaas.com/su
 
 You will need to ensure that you are doing one of the following:
 
-* Setting `direct_functions` to `false`, which allows the provider to balance calls randomly between replicas of your functions.
-* Use a service mesh like Linkerd or Istio, which can do advanced traffic-management such as least-connections 
+- Setting `direct_functions` to `false`, which allows the provider to balance calls randomly between replicas of your functions.
+- Use a service mesh like Linkerd or Istio, which can do advanced traffic-management such as least-connections
 
 ### I'm not seeing CPU or RAM data for functions in Grafana with OpenFaaS Pro
 
@@ -230,7 +230,7 @@ Finally, check that you've installed the OpenFaaS Pro Helm chart with the Cluste
 By default, the logs will be in the format
 
 ```
-<RCF8601 Timestamp> <function name> (<container instance>) <msg>
+<RFC8601 Timestamp> <function name> (<container instance>) <msg>
 ```
 
 By setting the environment variable `prefix_logs` to `false` in your function, this will only send the `<msg>` part to the terminal. This allows you to use structured logs that outputs a JSON (or equivalent) payload.

@@ -4,7 +4,7 @@ Via an extensible API, OpenFaaS Provides access to function logs via the Gateway
 
 The log provider for Kubernetes `faas-netes` fetches records directly from the Kubernetes API, so it will give similar output to `kubectl logs -n openfaas-fn deploy/function`.
 
-The `faas-cli logs NAME` command will stream the logs for the named function.  By default, it will attempt to follow the logs, but you can control the behavior of the stream using these flags
+The `faas-cli logs NAME` command will stream the logs for the named function. By default, it will attempt to follow the logs, but you can control the behavior of the stream using these flags
 
 ```sh
   -g, --gateway string           Gateway URL starting with http(s):// (default "http://127.0.0.1:8080")
@@ -25,7 +25,7 @@ The `faas-cli logs NAME` command will stream the logs for the named function.  B
 The logs for a function will look
 
 ```
-<RCF8601 Timestamp> <function name> (<container instance>) <msg>
+<RFC8601 Timestamp> <function name> (<container instance>) <msg>
 ```
 
 where `msg` is the container logs, this typically contains stdout and stderr of the _contianer_.
@@ -48,7 +48,7 @@ $ faas-cli logs trove --format json
 
 The CLI writes logs to stdout, so it can easily be chained with any of your favorite CLI tools: `grep`, `sed`, [`fzf`](https://github.com/junegunn/fzf) etc.
 
-For example, when you set the `write_debug` environment variable in the Sentiment Analysis function from the Store, it will print the function output to the logs, we can then search that output using grep.  For example,
+For example, when you set the `write_debug` environment variable in the Sentiment Analysis function from the Store, it will print the function output to the logs, we can then search that output using grep. For example,
 
 ```sh
 faas-cli store deploy SentimentAnalysis --env write_debug=true
@@ -74,7 +74,7 @@ If you want to retain logs over time, consider using a log aggregator like [Elas
 
 ## Alternative Log Providers
 
-The log system is designed to be extended with alternative providers, this means that logs could instead be supplied by a persistent storage, e.g. Loki or ElasticSearch.  See the [logs provider overview](../architecture/logs-provider.md) for more details about how providers work and available alternatives.
+The log system is designed to be extended with alternative providers, this means that logs could instead be supplied by a persistent storage, e.g. Loki or ElasticSearch. See the [logs provider overview](../architecture/logs-provider.md) for more details about how providers work and available alternatives.
 
 ## Structured Logs
 
