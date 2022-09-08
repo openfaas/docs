@@ -230,7 +230,7 @@ Finally, check that you've installed the OpenFaaS Pro Helm chart with the Cluste
 By default, the logs will be in the format
 
 ```
-<RCF8601 Timestamp> <function name> (<container instance>) <msg>
+<RFC8601 Timestamp> <function name> (<container instance>) <msg>
 ```
 
 By setting the environment variable `prefix_logs` to `false` in your function, this will only send the `<msg>` part to the terminal. This allows you to use structured logs that outputs a JSON (or equivalent) payload.
