@@ -77,21 +77,25 @@ Scaling to zero is based upon traffic observed from the gateway within a set per
 
 ## Scaling modes
 
-* RPS `rps`
-
-  Based upon requests per second completed, good for functions that execute quickly. The default scaling point for OpenFaaS functions used to be 5 RPS for each functions.
-
 * Capacity `capacity`
 
-  Based upon inflight requests, good for: slow running functions or functions which can only handle a limited number of requests at once. This can also be used instead or RPS to ensure an even load between functions.
+  Based upon inflight requests (or connections), ideal for: long-running functions or functions which can only handle a limited number of requests at once.
+  
+  A hard limit can be enforced through the `max_inflight` environment variable on the function, so the caller will need to retry the request some of the time. The OpenFaaS Pro queue-worker does this automatically, see also: [Retries]](/openfaas-pro/retries).
+
+* RPS `rps`
+
+  Based upon requests per second completed by the function. A good fit for functions which execute quickly and have high throughput.
+
+  You can tune this value on a per function basis.
 
 * CPU `cpu`
 
-  Configured using milli-CPU, this strategy is ideal for CPU-bound workloads, or where RPS and Capacity are not giving the expected results.
+  Based upon CPU usage of the function, this strategy is idea for CPU-bound workloads, or where Capacity and RPS are not giving the optimal scaling profile. The value configured here is in milli-CPU, so 1000 accounts for *1 CPU core*.
 
 * Scaling to zero
 
-  Scaling to zero is disabled by default, but can be used in combination with any of the three modes.
+  Scaling to zero is an opt-in feature on a per function basis. It can be used in combination with any of the three scaling modes listed above.
 
 ## Testing out the various modes
 
@@ -106,7 +110,12 @@ You can install hey with [arkade](https://arkade.dev) using: `arkade get hey`.
 
 **1) Capacity-based scaling:**
 
+This function takes 1-2 seconds to complete, and uses a target, or *soft limit* of 5 concurrent requests.
+
 ```bash
+# target: 5 inflight
+# 100% utilization of target
+
 faas-cli store deploy sleep \
 --label com.openfaas.scale.max=10 \
 --label com.openfaas.scale.target=5 \
@@ -115,12 +124,15 @@ faas-cli store deploy sleep \
 --label com.openfaas.scale.zero=true \
 --label com.openfaas.scale.zero-duration=5m
 
-# target: 5 inflight
-# 100% utilization of target
-
+# With a timeout of 10 seconds
+# Run for 3 minutes
+# With 5 concurrent callers
+# Limited to 5 QPS per caller
 hey -t 10 -z 3m -c 5 -q 5 \
   http://127.0.0.1:8080/function/sleep
 ```
+
+To apply a hard limit, add `--env max_inflight=5` to the `faas-cli store deploy` command. 
 
 **2) RPS-based scaling:**
 
@@ -136,6 +148,9 @@ faas-cli store deploy nodeinfo \
 --label com.openfaas.scale.zero=true \
 --label com.openfaas.scale.zero-duration=10m
 
+# Run for 3 minutes
+# With 5 concurrent callers
+# Limited to 20 QPS per caller
 hey -z 3m -c 5 -q 20 \
   http://127.0.0.1:8080/function/nodeinfo
 ```
@@ -154,7 +169,10 @@ faas-cli store deploy figlet \
 --label com.openfaas.scale.zero=true \
 --label com.openfaas.scale.zero-duration=30m
 
-hey -m POST -d data -z 3m -c 5 -q 10 \
+# Run for 3 minutes
+# With 5 concurrent callers
+# Limited to 20 QPS per caller
+hey -m POST -d data -z 3m -c 5 -q 20 \
   http://127.0.0.1:8080/function/figlet
 ```
 
@@ -175,7 +193,7 @@ hey -m POST -d data -z 3m -c 5 -q 10 \
   http://127.0.0.1:8080/function/cows
 ```
 
-Note that `com.openfaas.scale.zero=false` is the default, so this is not strictly required.
+Note that `com.openfaas.scale.zero=false` is a default, so this is not strictly required.
 
 ## Scaling to Zero aka "Zero-scale"
 
