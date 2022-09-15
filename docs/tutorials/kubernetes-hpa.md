@@ -8,11 +8,11 @@ Kubernetes has a Pod auto-scaling mechanism built-in called Horizontal Pod Autos
 
 We'll use the [hey](https://github.com/rakyll/hey) tool which also features in the OpenFaaS workshop for auto-scaling.
 
-Download the latest release for your OS from this page and rename it to `hey` or `hey.exe`: [https://github.com/rakyll/hey/releases](https://github.com/rakyll/hey/releases)
+You can use [arkade](https://github.com/alexellis/arkade) to get `hey`.
 
-### Helm
-
-Some of the dependencies in this tutorial may rely on `helm`. The client-side CLI called `helm` is not insecure, but some people have concerns about using the server-side component named `tiller`. If you think that using helm's tiller component is insecure, then you should use the `helm template` command instead.
+```sh
+arkade get hey
+```
 
 ### Install OpenFaaS
 
@@ -20,16 +20,17 @@ Use the Deployment guide or an existing installation, you should also install th
 
 ### Install the metrics server
 
-HPAv2 relies on the [Kubernetes metrics-server](https://github.com/kubernetes-incubator/metrics-server) which can be installed using a helm chart.
+HPAv2 relies on the [Kubernetes metrics-server](https://github.com/kubernetes-sigs/metrics-server) which can be installed using a helm chart.
 
 Most cloud providers are compatible with the metrics-server, but some are not, or require an additional "insecure" flag to be configured.
 
 ```sh
-helm install --name metrics-server --namespace kube-system \
-  stable/metrics-server
+helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+
+helm upgrade --install metrics-server metrics-server/metrics-server
 ```
 
-You can see the [Helm chart](https://github.com/helm/charts/tree/master/stable/metrics-server) for more options.
+You can see the [Helm chart](https://artifacthub.io/packages/helm/metrics-server/metrics-server) for more options.
 
 ## 2. Check your metrics-server
 
@@ -50,10 +51,9 @@ kubectl logs deploy/metrics-server -n kube-system
 If you don't see any metrics, then you may be using a cloud which needs the "insecure" work-around.
 
 ```sh
-helm del --purge metrics-server
+helm del metrics-server
 
-helm install --name metrics-server --namespace kube-system \
-  stable/metrics-server \
+helm upgrade --install metrics-server metrics-server/metrics-server \
   --set args="{--kubelet-insecure-tls,--kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname}"
 ```
 
@@ -90,40 +90,18 @@ queue-worker-544bcb7c67-72l72        1m           3Mi
 
 ### Disable auto-scaling with OpenFaaS
 
-You can either disable the OpenFaaS auto-scaling functionality completely, or just on a per-function basis
-
-#### Disable auto-scaling from OpenFaaS on a per function basis
-
-If you want to mix OpenFaaS auto-scaling and HPAv2, then add the additional label when deploying your functions:
-
-```
-faas-cli deploy --label com.openfaas.scale.factor=0
-```
-
-Or add the label to your `stack.yml` YAML file:
+To disable auto-scaling for all functions you can deploy OpenFaaS without the autoscaler. Set this in you `values.yaml` file:
 
 ```yaml
-version: 1.0
-provider:
-  name: openfaas
-  gateway: http://127.0.0.1:31112
-functions:
-  nodeinfo:
-    image: functions/nodeinfo:latest
-    skip_build: true
-    requests:
-      cpu: 10m
-    labels:
-      com.openfaas.scale.factor: 0
+autoscaler:
+  enabled: false
 ```
 
-#### Disable auto-scaling from OpenFaaS on all functions
-
-Disable auto-scaling by scaling alertmanager down to zero replicas, this will stop it from firing alerts.
-
-```sh
-kubectl scale -n openfaas deploy/alertmanager --replicas=0
-```
+> If you are using legacy scaling for the Community Edition (CE), disable auto-scaling by scaling alertmanager down to zero replicas. This will stop it from firing alerts.
+> 
+> ```sh
+> kubectl scale -n openfaas deploy/alertmanager --replicas=0
+> ```
 
 ### Deploy your first function
 
@@ -288,7 +266,7 @@ Note that whilst the scaling up was relatively quick, the scale-down may take si
 
 ## 3. Wrapping up
 
-In this tutorial we disabled the auto-scaling built into OpenFaaS which uses Prometheus and Alertmanager, and added in Kubernetes' own HPAv2 mechanism and its metrics-server.
+In this tutorial we disabled the auto-scaling component built into OpenFaaS and added in Kubernetes' own HPAv2 mechanism and its metrics-server.
 
 ### Notes and caveats
 
