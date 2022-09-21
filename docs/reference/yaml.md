@@ -468,3 +468,42 @@ $ faas-cli template pull stack
 By default if only `name` is provided the template will be pulled from the template store.
 
 The templates will be automatically pulled during build time.
+
+### YAML - pinning versions of templates
+
+Templates may change over time, including breaking changes.
+
+If you want additional stability, or have run into an issue with a newer version of a template, you can pin it.
+
+You can pin a template to a specific release tag or branch by adding `#` plus the name required to the URL for the `source` field.
+
+For example:
+
+```yaml
+configuration:
+  templates:
+    - name: golang-middleware
+      source: https://github.com/openfaas/golang-http-template#0.7.0
+```
+
+Then run:
+
+```sh
+$ faas-cli template pull stack
+
+Pulling template: golang-middleware from configuration file: stack.yml
+Fetch templates from repository: https://github.com/openfaas/golang-http-template at 0.7.0
+2022/09/21 16:18:56 Attempting to expand templates from https://github.com/openfaas/golang-http-template
+2022/09/21 16:18:58 Fetched 2 template(s) : [golang-http golang-middleware] from https://github.com/openfaas/golang-http-template
+```
+
+As an alternative, you can fork any template and customise it or change it to suit your needs, and use that URL instead, even if it has the same name as the original template.
+
+For example:
+
+```yaml
+configuration:
+  templates:
+    - name: golang-middleware
+      source: https://github.com/alexellis/golang-http-template
+```
