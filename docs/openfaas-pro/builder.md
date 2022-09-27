@@ -214,6 +214,10 @@ kubectl scale -n openfaas deploy/pro-builder \
 
 You can limit the amount of concurrent requests that a builder will accept by setting `proBuilder.maxInflight: N` within the helm chart or the `max_inflight` environment variable on the Deployment.
 
+We would encourage you to review the RAM and CPU limits that you've set for your builder, and to experiment with what kind of value to use for `max_inflight`. You could start with a high number, and reduce it over time, until it's too low to get the kind of results you need.
+
+Your total build capacity will be: `max_inflight` * `pro-builder replicas`, so if you have 2 replicas and max_inflight is 3, then you can build 6 functions at once.
+
 Once in place, a busy worker will return responses like this:
 
 ```bash
