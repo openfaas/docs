@@ -210,6 +210,28 @@ kubectl scale -n openfaas deploy/pro-builder \
   --replicas=3
 ```
 
+## Limiting the amount of concurrent requests
+
+You can limit the amount of concurrent requests that a builder will accept by setting `proBuilder.maxInflight: N` within the helm chart or the `max_inflight` environment variable on the Deployment.
+
+Once in place, a busy worker will return responses like this:
+
+```bash
+HTTP/1.1 429 Too Many Requests
+Date: Tue, 27 Sep 2022 11:07:06 GMT
+Content-Length: 62
+Content-Type: text/plain; charset=utf-8
+Connection: close
+
+Concurrent request limit exceeded. Max concurrent requests: 1
+```
+
+The pro-builder will be marked as unready by Kubernetes, and if you have other replicas (see above section), then when you retry the request, it should hit a ready worker instead.
+
+**Why not use a function to invoke the API?**
+
+If you do not have code to retry invocations in your own product/system, OpenFaaS Pro supports this through its async queue-worker, and you could use a function in a separate namespace like `openfaas-system` to queue builds more reliably during busy periods. Feel free to reach out to us if you have questions about this approach. 
+
 ## Would you like a demo?
 
 Feel free to reach out to us for a demo or to ask any questions you may have.
