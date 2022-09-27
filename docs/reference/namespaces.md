@@ -4,9 +4,9 @@ OpenFaaS has support for multiple-namespaces.
 
 Multiple namespaces can be used for the following use-cases:
 
-* multi-tenancy (when combined with NetworkPolicy)
-* multiple stages or environments within a single cluster - i.e. dev/staging/prod
-* logical segregation of stacks within a single company or team
+* multi-tenancy (must be combined with other OpenFaaS Pro security features)
+* multiple stages or environments within a single cluster with all of dev/staging/prod (to save money)
+* logical segregation of groups of functions within a single company or team (ingestion, inference, cron)
 
 !!! warning "Additional configuration required"
     You must configure OpenFaaS to have sufficient permissions to administrate multiple namespaces, this feature will not work in a default installation.

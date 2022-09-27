@@ -87,7 +87,7 @@ Is there something else you need for your team or organisation? [Get in touch wi
 
 OpenFaaS Pro is built to run in production, with reliability, security and durability in mind. It's the first step towards building a relationship with the team who make OpenFaaS, and comes with exclusive features and configurations that most customers will need to operate a product or service.
 
-Support
+**Support**
 
 | Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
@@ -95,13 +95,13 @@ Support
 | Support via email     | N/a               | Pro features only      | Response within 1 business day |
 | Support via GitHub    | N/a               | Pro features only      | Response within 1 business day |
 | Support via Slack     | N/a               | N/a                    | Up to 5 developers              |
-| Access to Customer Community   | N/a      | Private access to Customer Community for 2 named contacts | As Per Pro, for more named contacts |  
+| Access to Customer Community   | N/a      | Private access to Customer Community for 2 named contacts | As per Pro, for more named contacts |  
 
 Enterprise Support comes with an SLA, defined separately. Support for OpenFaaS Pro is on a self-service basis, with no SLA offered.
 
 The Customer Community provides direct access to developers of OpenFaaS, and other customers for exclusive configurations & guides, early access to features, collaboration and announcements.
 
-Core features
+**Core features**
 
 | Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
@@ -110,12 +110,12 @@ Core features
 | Metrics         | HTTP invocation metrics  | Plus CPU/RAM usage metrics and async/queue metrics      | As per Pro |
 | CPU & RAM utilization | Not available | Integrated with Prometheus metrics, OpenFaaS REST API & CLI | As per Pro
 | Autoscaling strategy   | RPS-only | CPU utilization, Capacity (inflight requests) or RPS      | As per Pro |
-| Autoscaling granularity   | Single rule for all functions | Custom per functions      | As per Pro |
+| Autoscaling granularity   | Single rule for all functions | Global defaults with override available per function      | As per Pro |
 | Scale to Zero | Not supported | Custom delay per function | As per Pro |
 | Kubernetes service accounts for functions      | N/a             | Supported per function | As per Pro |
 | Grafana Dashboards      | N/a             | 3x dashboards supplied in Customer Community | As per Pro |
 
-Platform features
+**Platform features**
 
 | Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
@@ -123,7 +123,7 @@ Platform features
 | Build containers and functions via REST API | N/a | Supported | As per Pro |
 | Multiple namespace support | N/a | Supported with Kubernetes | As per Pro |
 
-Durability and reliability
+**Durability and reliability**
 
 | Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
@@ -132,15 +132,17 @@ Durability and reliability
 | Highly Available messaging | Not available for NATS Streaming | Available for NATS JetStream, with 3x servers. | As per Pro |
 | Long executions of async functions | Manual configuration | Automated configuration with NATS JetStream | As per Pro |
 
-Security
+**Security**
 
 | Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
-| Authentication | Shared token with every user | Sign-On with OIDC Okta/Auth0 | Custom Single Sign-On with your IdP |
-| Split installation without ClusterAdmin role | N/a | Provided in Customer Community | As Per Pro | 
+| Authentication for OpenFaaS API, CLI and UI | Shared token between everyone who uses OpenFaaS | Sign-On with OIDC Okta/Auth0 | Custom Single Sign-On with your own OIDC-compatible IdP |
+| Split installation without ClusterAdmin role | N/a | Provided in Customer Community | As per Pro | 
 | Compatibility with Istio for mTLS | N/a | Supported | As per Pro |
-| GDPR                  | Sensitive information printed in logs | Sensitive information is omitted from logs | As per Pro |
+| PCI/GDPR compliance       | Sensitive information is printed into the logs for each asynchronous request | Sensitive information is redacted from logs for asynchronous requests | As per Pro |
 | Secure isolation with Kata containers or gVisor      | N/a             | Supported via a runtimeClass | As per Pro |
+| Service links injected as environment variables | Yes, cannot be disabled | Disabled as a default | As per Pro |
+| Pod privileged escalation | Default for Kubernetes | Explicitly disabled | As per Pro |
 
 Event-brokers
 
