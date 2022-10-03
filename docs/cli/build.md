@@ -36,6 +36,10 @@ $ docker run --rm --privileged \
   --reset -p yes
 ```
 
+Or if you're an arkade user, run `arkade install qemu-static`.
+
+In addition, for CI, you can also add the `--reset-qemu` flag to `faas-cli publish`.
+
 The faas-cli attempts to enable Docker's experimental flag for the CLI, but you may need to run the following, if you get an error:
 
 ```
@@ -48,7 +52,7 @@ Now run this command on your laptop or workstation, not on the Raspberry Pi:
 faas-cli publish -f stack.yml --platforms linux/arm/v7
 ```
 
-If you're running a 64-bit ARM OS like Ubuntu, then use:
+If you're running a 64-bit ARM OS like Ubuntu on an AWS Graviton or Raspberry Pi 4, then use:
 
 ```bash
 faas-cli publish -f stack.yml --platforms linux/arm64
