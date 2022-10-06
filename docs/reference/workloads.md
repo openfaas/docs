@@ -203,6 +203,10 @@ functions:
       com.openfaas.health.http.periodSeconds: 5s
 ``` 
 
-> Note: The initial delay value must be a valid Go duration e.g. `80s` or `3m`. 
+> Note: The initial delay value must be a valid Go duration e.g. `80s` or `3m`.
+
+Readiness probes use the same HTTP path as the health check by default. A custom ready path can be set with the following annotation:
+
+* `com.openfaas.ready.http.path`
 
 The `timeoutSeconds` value for liveness and readiness probes can be set globally for the installation: [OpenFaaS chart reference](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#faas-netes--operator). A global `initialDelaySeconds` and `periodSeconds` can also be set for the installation, any overrides set for these two values in annotations will take precedence.
