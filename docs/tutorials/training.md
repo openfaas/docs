@@ -47,7 +47,7 @@ Highlights for OpenFaaS users:
 * Functions at the Edge with MQTT
 * Continuous Delivery with ArgoCD and Flux
 
-Link: [Introduction to Kubernetes on Edge with K3s](https://www.classcentral.com/course/introduction-to-kubernetes-on-edge-with-k3s-40995)
+Link: [Introduction to Kubernetes on Edge with K3s](https://training.linuxfoundation.org/training/introduction-to-kubernetes-on-edge-with-k3s-lfs156x/)
 
 ### Workshop: Serverless on Kubernetes primer for your developer community
 
