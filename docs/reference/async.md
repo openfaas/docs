@@ -1,8 +1,8 @@
 ## Asynchronous Functions
 
-OpenFaaS enables long-running tasks or function invocations to run in the background through the use of NATS Streaming. This decouples the HTTP transaction between the caller and the function.
+OpenFaaS enables long-running tasks or function invocations to run in the background through the use of NATS JetStream or NATS Streaming. This decouples the HTTP transaction between the caller and the function.
 
-* The HTTP request is serialized to NATS Streaming through the gateway as a "producer".
+* The HTTP request is serialized to NATS through the gateway as a "producer".
 * The queue-worker acts as a subscriber and deserializes the HTTP request and uses it to invoke the function directly
 
 The asynchronous workflow can have a longer, separate timeout compared with synchronous timeout on the gateway.
@@ -127,6 +127,20 @@ faas-cli store deploy figlet --annotation com.openfaas.queue=slow-queue
 
 You now need to deploy a new queue-worker for the queue name, so that it can subscribe to messages and invoke functions without affecting the default queue.
 
+If you are using JetStream (you have set `queueMode: jetstream` in your `values.yaml` file) then you can use the [queue-worker helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/queue-worker) to deploy the additional queue.
+
+```bash
+helm upgrade slow-queue openfaas/queue-worker \
+  --install \
+  --namespace openfaas \
+  --set maxInflight=5 \
+  --set nats.stream.name=slow-queue \
+  --set nats.consumer.durableName=slow-queue-workers \
+  --set upstreamTimeout=15m
+```
+
+If you are using NATS Streaming an additional queue can be deployed with these manual steps.
+
 On Kubernetes:
 
 ```bash
@@ -155,7 +169,7 @@ export CORE_NS=openfaas
 kubectl create -f slow-queue-queue-worker.yaml --namespace $CORE_NS
 ```
 
-You can now invoke your function as per normal and watch the logs of the new queue worker:
+After deploying your queue-worker using one of these methods you can invoke your function as per normal and watch the logs of the new queue worker:
 
 ```bash
 kubectl logs deploy/slow-queue-worker -n openfaas &
