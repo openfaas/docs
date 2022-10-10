@@ -123,6 +123,7 @@ nav:
       - Shell auto completion: ./cli/completion.md
   - OpenFaaS Pro:
       - Overview: ./openfaas-pro/introduction.md
+      - JetStream: ./openfaas-pro/jetstream.md
       - Dashboard: ./openfaas-pro/dashboard.md
       - Scale to Zero: ./openfaas-pro/scale-to-zero.md
       - Kafka events: ./openfaas-pro/kafka-events.md
