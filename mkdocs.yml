@@ -62,6 +62,10 @@ copyright: "Copyright &copy; 2021 OpenFaaS Author(s)"
 
 # Options
 extra:
+  analytics:
+    provider: google
+    property: G-VN3JWY5DTN
+    anonymize_ip: true
   search:
     languages: "en"
   social:
