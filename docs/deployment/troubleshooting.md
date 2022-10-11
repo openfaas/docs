@@ -180,6 +180,23 @@ Then invoke your function via `http://127.0.0.1:8081`.
 
 If you need to set environment variable, or to simulate secrets being mounted, you can do so with `--env/-e` and `-v` to simulate mounting secrets at `/var/openfaas/secrets`.
 
+### I am getting an incorrect password error or authorized access
+
+If you're using [ArgoCD to install OpenFaaS](https://www.openfaas.com/blog/bring-gitops-to-your-openfaas-functions-with-argocd/), then it may be changing the password continually whenever it synchronises the app that you created. Make sure you turn off the "generateBasicAuth" setting in values.yaml or the flags you pass.
+
+Create a password for the admin user before you create the ArgoCD App.
+
+```bash
+kubectl create secret generic basic-auth \
+  -n openfaas \
+  --from-literal basic-auth-user=admin \
+  --from-literal basic-auth-password=$(openssl rand -base64 32)
+```
+
+If you're not an ArgoCD user, make sure that nobody has has reinstalled OpenFaaS, and then check the below on "I forgot my credentials"
+
+In the worst case, restart all the components to force them to reload the password from the Kubernetes secret: `kubectl rollout restart -n openfaas deploy`
+
 ### I forgot my credentials for the gateway
 
 Download [arkade](https://arkade.dev).
