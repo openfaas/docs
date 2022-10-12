@@ -98,7 +98,7 @@ mean per pod = 90 / 1 = 90
 
   Based upon inflight requests (or connections), ideal for: long-running functions or functions which can only handle a limited number of requests at once.
   
-  A hard limit can be enforced through the `max_inflight` environment variable on the function, so the caller will need to retry the request some of the time. The OpenFaaS Pro queue-worker does this automatically, see also: [Retries]](/openfaas-pro/retries).
+  A hard limit can be enforced through the `max_inflight` environment variable on the function, so the caller will need to retry the request some of the time. The OpenFaaS Pro queue-worker does this automatically, see also: [Retries](/openfaas-pro/retries).
 
 * RPS `rps`
 
@@ -160,7 +160,7 @@ faas-cli store deploy sleep \
 --label com.openfaas.scale.max=10 \
 --label com.openfaas.scale.target=1 \
 --label com.openfaas.scale.type=capacity \
---label com.openfaas.scale.target-proportion=0.95
+--label com.openfaas.scale.target-proportion=0.95 \
 --env max_inflight=1
 
 # With a timeout of 10 seconds
