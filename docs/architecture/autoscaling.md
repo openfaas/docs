@@ -37,13 +37,14 @@ Then, a query is run periodically to calculate the current load.
 The current load is used to calculate the new number of replicas.
 
 ```
-desired = current replicas * (current load / (target load per replica * current replicas))
+desired = ready pods * ( mean load per pod / target load per pod )
 ```
 
 The target-proportion flag can be used to adjust how early or late scaling occurs:
 
+
 ```
-desired = current replicas * (current load / ( (target load per replica * current replicas) * target proportion ) )
+desired = ready pods * ( mean load per pod / ( target load per pod * target-proportion ) )
 ```
 
 For example:
@@ -54,26 +55,42 @@ For example:
 * We are assuming `com.openfaas.scale.target-proportion` is set to 1.0 (100%).
 
 ```
-3 = 1 * (15 / (5 * 1))
+mean per pod = 15 / 1
+
+3 = ceil ( 1 * ( 15 / 5 * 1 ) )
 ```
 
 Therefore, 3 replicas will be set.
 
-With 3 replicas, the load will be spread more evenly, and evaluate as follows:
+With 3 replicas and 25 ongoing requests, the load will be spread more evenly, and evaluate as follows:
 
 ```
-3 = 3 * (15 / (5 * 3))
+mean per pod = 25 / 3 = 8.33
+
+5 =  ceil( 3 * ( 8.33 / 5 * 1 ) )
 ```
 
 When the load is no longer present, it will evaluate as follows:
 
 ```
-0 = 3 * (0 / (5 * 3))
+mean per pod = 0 / 3 = 0
+
+0 = ceil ( 3 * ( 0 / 5 * 1) )
 ```
 
 But the function will not be set to zero yet, it will be brought up to the minimum range which is 1.
 
 Scaling to zero is based upon traffic observed from the gateway within a set period of time defined via `com.openfaas.scale.zero-duration`.
+
+If you are limiting how much concurrency goes to a function, let's say for 100 requests maximum, then you may want to set the target to 100 with a proportion of 0.7, in this instance, when there are 70 ongoing requests, the autoscaler will add more replicas:
+
+
+```
+total load = 90
+mean per pod = 90 / 1 = 90
+
+2 =  ceil( 1 * ( 90 / ( 100 * 0.7 ) ) )
+```
 
 ## Scaling modes
 
@@ -133,6 +150,28 @@ hey -t 10 -z 3m -c 5 -q 5 \
 ```
 
 To apply a hard limit, add `--env max_inflight=5` to the `faas-cli store deploy` command. 
+
+What if you need to limit a function to processing only one request at a time?
+
+Change the target to `1`, `target-proportion` to `0.95` and set the `max_inflight` to `1`.
+
+```bash
+faas-cli store deploy sleep \
+--label com.openfaas.scale.max=10 \
+--label com.openfaas.scale.target=1 \
+--label com.openfaas.scale.type=capacity \
+--label com.openfaas.scale.target-proportion=0.95
+--env max_inflight=1
+
+# With a timeout of 10 seconds
+# Run for 3 minutes
+# With 5 concurrent callers
+# Limited to 5 QPS per caller
+hey -t 10 -z 3m -c 5 -q 5 \
+  http://127.0.0.1:8080/function/sleep
+```
+
+You'll see the replicas scale up to 5 over time, and back to 1 when the test is complete. No pod will serve more than one request at a time.
 
 **2) RPS-based scaling:**
 
