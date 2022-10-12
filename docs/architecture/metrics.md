@@ -9,6 +9,7 @@ The Gateway component exposes several metrics to help you monitor the health and
 | `gateway_functions_seconds`         | histogram  | Function invocation time taken      | `function_name`            | Community Edition  |
 | `gateway_function_invocation_total` | counter    | Function invocation count           | `function_name`, `code`    | Community Edition  |
 | `gateway_service_count`             | counter    | Number of function replicas         | `function_name`            | Community Edition  |
+| `gateway_service_ready_count`             | counter    | Number of function replicas which are in a ready state | `function_name`            | Pro Edition  |
 | `gateway_service_target`            | gauge      | Target load for the function        | `function_name`            | Pro Edition  |
 | `gateway_service_min`               | gauge      |  Min number of function replicas    | `function_name`            | Pro Edition  |
 | `http_request_duration_seconds`     | histogram  | Seconds spent serving HTTP requests | `method`, `path`, `status` | Community Edition  |
@@ -18,7 +19,18 @@ The Gateway component exposes several metrics to help you monitor the health and
 
 The `http_request*` metrics record the latency and statistics of `/system/*` routes to monitor the OpenFaaS gateway and its provider. The `/async-function` route is also recorded in these metrics to observe asynchronous ingestion rate and latency.
 
-## Examples
+## CPU & RAM usage/consumption
+
+CPU & RAM usage/consumption metrics are available for OpenFaaS Pro users via Prometheus and the OpenFaaS REST API, OpenFaaS Pro Dashboard and OpenFaaS CLI via `faas-cli describe`.
+
+| Metric                              | Type       | Description                         | Labels                     | Edition            |
+| ----------------------------------- | ---------- | ----------------------------------- | -------------------------- |--------------------|
+| `pod_cpu_usage_seconds_total`         | counter  | CPU seconds consumed by all the replicas of a given function | `function_name`, `namespace`| Pro Edition  |
+| `pod_memory_working_set_bytes`         | gauge  | Bytes of RAM consumed by all the replicas of a given function | `function_name`, `namespace`| Pro Edition  |
+
+## Example queries for dashboarding
+
+OpenFaaS Pro customers have access to 4 different dashboards which we've co-designed with our users, you can find out more in the [comparison page of OpenFaaS CE vs Pro](/openfaas-pro/introduction)
 
 These basic metrics can be used to track the health of your functions as well a general usage patterns. See the Prometheus [documentation][prom-query-basics] and [examples][prom-query-examples] for more details about the available options and query functions. Below are several queries you might want to include in a basic [Grafana](https://grafana.com) dashboard for observing your OpenFaaS functions
 
@@ -76,6 +88,7 @@ The classic and of-watchdog both provide Prometheus instrumentation on TCP port 
 | `http_requests_in_flight`           | gauge      | The number of HTTP requests in flight | `method`, `path`, `status` | Pro Edition        |
 
 ## Provider
+
 The [FaaS Provider](/architecture/faas-provider) is the back-end API used by other OpenFaaS components like the Gateway. It exposes several metrics.
 
 | Metric                              | Type       | Description                         | Labels                     | Edition            |
