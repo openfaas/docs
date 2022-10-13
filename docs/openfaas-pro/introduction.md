@@ -138,7 +138,7 @@ Any user of OpenFaaS is welcome to attend [a weekly Office Hours call](/communit
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Health checks | Not supported | [Health checks](/reference/workloads) supported with custom HTTP path and intervals per function | As per Pro |
 | Retry failed invocations | Not supported | [Retry invocations](/openfaas-pro/retries) for certain HTTP codes with a back-off | As per Pro |
-| Highly Available messaging] | Not available for NATS Streaming | Available for NATS JetStream, with 3x servers. | As per Pro |
+| Highly Available messaging | Not available for NATS Streaming | Available for NATS JetStream, with 3x servers. | As per Pro |
 | Long executions of async functions | Manual configuration | Automated configuration with NATS JetStream | As per Pro |
 
 **Security**
