@@ -179,16 +179,28 @@ Use of the [OpenFaaS next-gen of-watchdog](https://github.com/openfaas/of-watchd
 
 On Kubernetes is possible to run any container image as an OpenFaaS function as long as your application exposes port 8080 and has a HTTP health check endpoint.
 
-#### Custom HTTP health checks
+### Custom HTTP health checks
 
 !!! info "OpenFaaS Pro feature"
     This feature is part of the [OpenFaaS Pro](/openfaas-pro/introduction) distribution.
+
+The `timeoutSeconds`, `initialDelaySeconds` and `periodSeconds` for liveness and readiness probes can be set globally for the installation: [OpenFaaS chart reference](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#faas-netes--operator).
+
+Annotations can be used to configure probes on a per function basis. Any overrides set in annotations will take precedence over the global configuration.
 
 You can specify the HTTP path of your health check and the initial check delay duration with the following annotations:
 
 * `com.openfaas.health.http.path`
 * `com.openfaas.health.http.initialDelay`
 * `com.openfaas.health.http.periodSeconds`
+
+Readiness probes use the same HTTP path as the health check by default. The path, initial check delay and failure threshold can be set with these annotations:
+
+* `com.openfaas.ready.http.path`
+* `com.openfaas.ready.http.initialDelay`
+* `com.openfaas.ready.http.periodSeconds`
+* `com.openfaas.ready.http.failureThreshold`
+
 
 For example, you may have a function that takes 30s to initialise, but then only needs to be checked every 5s after that.
 
@@ -198,15 +210,9 @@ functions:
     image: docker.io/stefanprodan/kubesec:v2.1
     skip_build: true
     annotations:
-      com.openfaas.health.http.path: "/healthz"
-      com.openfaas.health.http.initialDelay: "30s"
-      com.openfaas.health.http.periodSeconds: 5s
+      com.openfaas.ready.http.path: "/_/ready"
+      com.openfaas.ready.http.initialDelay: "30s"
+      com.openfaas.ready.http.periodSeconds: 5s
 ``` 
 
 > Note: The initial delay value must be a valid Go duration e.g. `80s` or `3m`.
-
-Readiness probes use the same HTTP path as the health check by default. A custom ready path can be set with the following annotation:
-
-* `com.openfaas.ready.http.path`
-
-The `timeoutSeconds` value for liveness and readiness probes can be set globally for the installation: [OpenFaaS chart reference](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#faas-netes--operator). A global `initialDelaySeconds` and `periodSeconds` can also be set for the installation, any overrides set for these two values in annotations will take precedence.
