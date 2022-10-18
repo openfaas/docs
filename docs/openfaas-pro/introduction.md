@@ -114,6 +114,7 @@ Any user of OpenFaaS is welcome to attend [a weekly Office Hours call](/communit
 | Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Scale to Zero | Not supported | [Global default, or custom time per function](/openfaas-pro/scale-to-zero) | As per Pro |
+| Build functions using private npm, Go and Pip modules | Public Git repos only | Public and private repos with SSH authentication | As Per Pro |
 | Kubernetes service accounts for functions      | N/a             | [Supported per function](/reference/workloads) | As per Pro |
 | Autoscaling strategy   | RPS-only | [CPU utilization, Capacity (inflight requests) or RPS](/architecture/autoscaling)      | As per Pro |
 | Autoscaling granularity   | Single rule for all functions | Global defaults with override available per function      | As per Pro |
@@ -123,14 +124,6 @@ Any user of OpenFaaS is welcome to attend [a weekly Office Hours call](/communit
 | CPU & RAM utilization | Not available | Integrated with Prometheus metrics, OpenFaaS REST API & CLI | As per Pro
 | Grafana Dashboards      | N/a             | 4x dashboards supplied in [Customer Community](https://github.com/openfaas/openfaas-pro) - overview, spotlight for debugging a function, queue-worker and Function Builder API | As per Pro |
 | License                 | [MIT](https://github.com/openfaas/faas/blob/master/LICENSE)             | [Commercial license EULA](https://github.com/openfaas/faas/blob/master/pro/EULA)     | As per Pro |
-
-**Platform features**
-
-| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
-| ----------------------| ------------------|------------------------|---------------------------------|
-| Deploy functions via REST API | Yes | As per CE | As per CE | 
-| Build containers and functions via REST API | N/a | [Yes via Function Builder API](/openfaas-pro/builder) | As per Pro |
-| Multiple namespace support | Not supported | Supported on Kubernetes | As per Pro |
 
 **Durability and reliability**
 
@@ -145,13 +138,13 @@ Any user of OpenFaaS is welcome to attend [a weekly Office Hours call](/communit
 
 | Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
-| Authentication for OpenFaaS API, CLI and UI | Shared token between everyone who uses OpenFaaS | [Sign-On with OIDC Okta/Auth0](/openfaas-pro/sso) | [Custom Single Sign-On with your own OIDC-compatible IdP](/openfaas-pro/sso) |
-| Split installation without ClusterAdmin role | N/a | Provided in [Customer Community](https://github.com/openfaas/openfaas-pro) | As per Pro | 
+| Authentication for OpenFaaS API, CLI and UI | Shared admin password between everyone who uses OpenFaaS | [Sign-On with OIDC Okta/Auth0](/openfaas-pro/sso) | [Custom Single Sign-On with your own OIDC-compatible IdP](/openfaas-pro/sso) |
 | Compatibility with Istio for mTLS | N/a | Supported | As per Pro |
 | PCI/GDPR compliance       | Sensitive information such as the request body/response body, headers may be printed into the logs for each asynchronous invocation | Sensitive information is not printed to the logs for asynchronous requests | As per Pro |
 | Secure isolation with Kata containers or gVisor      | N/a             | Supported using an [OpenFaaS Pro Profile and runtimeClass](/reference/profiles) | As per Pro |
 | [Service links](https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#accessing-the-service) injected as environment variables | Yes, cannot be disabled | Disabled as a default | As per Pro |
 | [Pod privilege escalation](https://kubernetes.io/docs/concepts/security/pod-security-standards/#restricted) | Default for Kubernetes | Explicitly disabled | As per Pro |
+| Split installation without ClusterAdmin role | N/a | Provided in [Customer Community](https://github.com/openfaas/openfaas-pro) | As per Pro | 
 
 **Event-brokers**
 
@@ -160,6 +153,14 @@ Any user of OpenFaaS is welcome to attend [a weekly Office Hours call](/communit
 | [Kafka event trigger](/openfaas-pro/kafka-events) | Not supported | Supports SASL or TLS auth, Aiven, Confluent and self-hosted | As per Pro |
 | [AWS SQS trigger](/openfaas-pro/sqs-events) | Not supported | Supported | As per Pro |
 | [Cron and scheduled invocations](/reference/cron) | Community support | Community support | Full support |
+
+**Platform features**
+
+| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
+| ----------------------| ------------------|------------------------|---------------------------------|
+| Deploy functions via REST API | Yes | As per CE | As per CE | 
+| Build containers and functions via REST API | N/a | [Yes via Function Builder API](/openfaas-pro/builder) | As per Pro |
+| Multiple namespace support | Not supported | Supported on Kubernetes | As per Pro |
 
 ### Trusted by
 
