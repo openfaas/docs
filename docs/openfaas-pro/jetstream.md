@@ -28,7 +28,8 @@ Prometheus metrics are available for monitoring things like the number of messag
 
 An overview of all the available metrics can be found in the [metrics reference](/architecture/metrics/#jetstream-for-openfaas)
 
-![](https://www.openfaas.com/images/2022-07-jetstream-for-openfaas/queue-worker-dashboard.png)
+![Grafana dashboard for the queue-worker](https://www.openfaas.com/images/2022-07-jetstream-for-openfaas/queue-worker-dashboard.png)
+> Grafana dashboard for the queue-worker
 
 ### Multiple queues
 
@@ -53,7 +54,8 @@ jetstreamQueueWorker:
     format: json
 ```
 
-![](https://www.openfaas.com/images/2022-07-jetstream-for-openfaas/structured-logs.png)
+![Structured logs formatted for the console](https://www.openfaas.com/images/2022-07-jetstream-for-openfaas/structured-logs.png)
+> Structured logs formatted for the console
 
 ## See also
 
