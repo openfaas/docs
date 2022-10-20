@@ -4,6 +4,12 @@
 
 The OpenFaaS design allows it to provide a standard API across several different container ochestration tools: Kubernetes, containerd, and others. These [faas-providers](/docs/architecture/faas-provider.md) generally implement the same core features and allow your to functions to remain portable and be deployed on _any_ certified OpenFaaS installation regardless of the orchestration layer. However, there are certain workloads or deployments that require more advanced features or fine tuning of configuration. To allow maximum flexibility without overloading the OpenFaaS function configuration, we have introduced the concept of Profiles. This is simply a reserved function annotation that the `faas-provider` can detect and use to apply the advanced configuration.
 
+In some cases, there may be a 1:1 mapping between Profiles and Functions, this is to be expected for TopologySpreadConstraints, Affinity rules. We see no issue with performance or scalability.
+
+In other cases, one Profile may serve more than one function, such as when using a toleration or a runtime class.
+
+Multiple Profiles can be composed together for functions, if required.
+
 > Note: The general design is inspired by [StorageClasses](https://kubernetes.io/docs/concepts/storage/storage-classes/)  and [IngressClasses](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class) in Kubernetes. If you are familiar with Kubernetes, these comparisons may be helpful, but they are not required to understand Profiles in OpenFaaS.
 
 ## Using Profiles When You Deploy a Function
@@ -36,14 +42,11 @@ If you need multiple profiles, you can use a comma separated value:
 com.openfaas.profile: <profile_name1>,<profile_name2>
 ```
 
-> Note: You must ask your cluster administrator which, if any profiles, are available.
-
+Profiles are created in the `openfaas` namespace, so typically will be created and maintained by Cluster Administrators.
 
 ## Creating Profiles
 
-Profiles must be pre-created, similar to Secrets, by the cluster admin. The OpenFaaS API does not provide a way to create Profiles because they are hyper specific to the orchestration tool.
-
-Because Kubernetes is the only provider currently supporting Profiles, the following walk-through documents the process and options for Kubernetes.
+Profiles must be pre-created, similar to Secrets, usually by the cluster admin. The OpenFaaS API does not provide a way to create Profiles because they are hyper specific to the orchestration tool.
 
 ### Enable Profiles
 
@@ -53,11 +56,12 @@ When installing OpenFaaS on Kubernetes, Profiles use a CRD. This must be install
 
 Profiles in Kubernetes work by injecting the supplied configuration directly into the correct locations of the Function's Deployment. This allows us to directly expose the underlying API without any additional modifications. Currently, it exposes the following Pod and Container options from the Kubernetes API.
 
+- `podSecurityContext` : (OpenFaaS CE & Pro) https://kubernetes.io/docs/tasks/configure-pod-container/security-context/ for a description and links to any additional documentation about the Pod Security Context.
+- `nodeSelectors` : (OpenFaaS CE & Pro)
+- `tolerations` : (OpenFaaS CE & Pro) https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/ for a description and links to any additional documentation about Tolerations.
 - `runtimeClassName` : (OpenFaaS Pro) https://kubernetes.io/docs/concepts/containers/runtime-class/ for a description and links to any additional documentation about Pod Runtime Class
 - `topologySpreadConstraints` : (OpenFaaS Pro) (https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) for a description and links to any additional documentation about the Pod Security Context.
-- `tolerations` : https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/ for a description and links to any additional documentation about Tolerations.
-- `podSecurityContext` : https://kubernetes.io/docs/tasks/configure-pod-container/security-context/ for a description and links to any additional documentation about the Pod Security Context.
-- `affinity` : https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity for a description and links to any additional documentation about Node Affinity.
+- `affinity` : (OpenFaaS Pro) https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity for a description and links to any additional documentation about Node Affinity.
 
 The configuration use the exact options that you find in the Kubernetes documentation.
 
@@ -111,6 +115,79 @@ functions:
     annotations:
       com.openfaas.profile: gvisor
 ```
+
+
+#### Specify a nodeSelector to schedule functions to specific nodes
+
+This example works for OpenFaaS CE. OpenFaaS Pro users should consider using TopologySpreadConstraints or Affinity rules.
+
+> "nodeSelector is the simplest recommended form of node selection constraint. You can add the nodeSelector field to your Pod specification and specify the node labels you want the target node to have. Kubernetes only schedules the Pod onto nodes that have each of the labels you specify."
+
+Read the Kubernetes docs: [Assign Pods to Nodes](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/)
+
+Label a node as follows:
+
+```yaml
+cat <<EOF > kind-nodeselectors.yaml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  extraPortMappings:
+  - containerPort: 31112
+    hostPort: 31112
+- role: worker
+- role: worker
+EOF
+
+kind create cluster --config kind-nodeselectors.yaml
+
+kubectl label node/kind-worker customer=1
+kubectl label node/kind-worker2 customer=2
+```
+
+kind-worker will take on functions with a constraint of `customer=1` and kind-worker2 will take on the workloads for customer 2.
+
+Now deploy a function with a nodeselector:
+
+```yaml
+cat <<EOF > stack.yml
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  customer1-env:
+    skip_build: true
+    image: ghcr.io/openfaas/alpine:latest
+    fprocess: env
+    constraints:
+    - "customer=1"
+  customer2-env:
+    skip_build: true
+    image: ghcr.io/openfaas/alpine:latest
+    fprocess: env
+    constraints:
+    - "customer=1"
+EOF
+
+faas-cli deploy stack.yml
+```
+
+Confirm the scheduling:
+
+```
+$ kubectl get deploy -o wide -n openfaas-fn
+
+NAME            READY   UP-TO-DATE   AVAILABLE   AGE    CONTAINERS      IMAGES                           SELECTOR
+customer1-env   1/1     1            1           18s    customer1-env   ghcr.io/openfaas/alpine:latest   faas_function=customer1-env
+customer2-env   1/1     1            1           18s    customer2-env   ghcr.io/openfaas/alpine:latest   faas_function=customer2-env
+```
+
+This will also work if you have several nodes dedicated to a particular customer, just apply the label to each node and add the constraint at deployment time.
+
+You may also want to consider using a taint and toleration to ensure OpenFaaS workload components do not get scheduled to these nodes.
+
 
 #### Spreading your functions out across different zones for High Availability
 
@@ -192,78 +269,11 @@ A note on whenUnsatisfiable:
 
 The constraint of `whenUnsatisfiable: DoNotSchedule` will mean pods are not scheduled if they cannot be balanced evenly. This may become an issue for you if your nodes are of difference sizes, therefore you may also want to consider changing this value to `ScheduleAnyway`
 
-#### Specify a nodeSelector to schedule functions to specific nodes
-
-> "nodeSelector is the simplest recommended form of node selection constraint. You can add the nodeSelector field to your Pod specification and specify the node labels you want the target node to have. Kubernetes only schedules the Pod onto nodes that have each of the labels you specify."
-
-Read the Kubernetes docs: [Assign Pods to Nodes](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/)
-
-Label a node as follows:
-
-```yaml
-cat <<EOF > kind-nodeselectors.yaml
-kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-nodes:
-- role: control-plane
-  extraPortMappings:
-  - containerPort: 31112
-    hostPort: 31112
-- role: worker
-- role: worker
-EOF
-
-kind create cluster --config kind-nodeselectors.yaml
-
-kubectl label node/kind-worker customer=1
-kubectl label node/kind-worker2 customer=2
-```
-
-kind-worker will take on functions with a constraint of `customer=1` and kind-worker2 will take on the workloads for customer 2.
-
-Now deploy a function with a nodeselector:
-
-```yaml
-cat <<EOF > stack.yml
-version: 1.0
-provider:
-  name: openfaas
-  gateway: http://127.0.0.1:8080
-functions:
-  customer1-env:
-    skip_build: true
-    image: ghcr.io/openfaas/alpine:latest
-    fprocess: env
-    constraints:
-    - "customer=1"
-  customer2-env:
-    skip_build: true
-    image: ghcr.io/openfaas/alpine:latest
-    fprocess: env
-    constraints:
-    - "customer=1"
-EOF
-
-faas-cli deploy stack.yml
-```
-
-Confirm the scheduling:
-
-```
-$ kubectl get deploy -o wide -n openfaas-fn
-
-NAME            READY   UP-TO-DATE   AVAILABLE   AGE    CONTAINERS      IMAGES                           SELECTOR
-customer1-env   1/1     1            1           18s    customer1-env   ghcr.io/openfaas/alpine:latest   faas_function=customer1-env
-customer2-env   1/1     1            1           18s    customer2-env   ghcr.io/openfaas/alpine:latest   faas_function=customer2-env
-```
-
-This will also work if you have several nodes dedicated to a particular customer, just apply the label to each node and add the constraint at deployment time.
-
-You may also want to consider using a taint and toleration to ensure OpenFaaS workload components do not get scheduled to these nodes.
-
 #### Use Tolerations and Affinity to Separate Workloads
 
-The OpenFaaS API exposes the Kubernetes `NodeSelector` via [`constraints`](/docs/reference/yaml#function-constraints). This provides a very simple selection based on labels on Nodes.
+Tolerations are available in the Community Edition, and could be used with NodeSelectors. The OpenFaaS API exposes the Kubernetes `NodeSelector` via [`constraints`](/docs/reference/yaml#function-constraints). This provides a very simple selection based on labels on Nodes.
+
+This example is for OpenFaaS Pro because it uses Affinity.
 
 The Kubernetes API also exposes two features affinity/anti-affinity and taint/tolerations that further expand the types of constraints you can express. OpenFaaS Profiles allow you to set these options, allowing you to more accurately isolate workloads, keep certain workloads together on the same nodes, or to keep certain workloads separate.
 
