@@ -54,6 +54,30 @@ functions:
 
 Now deploy your function, and publish an event to your Kafka broker on the `payment.created` topic.
 
+### Message body, headers and metadata
+
+The body of the message in binary format will be received as the body of the function or incoming HTTP request.
+
+For headers and metadata:
+
+* `X-Topic` - the Kafka topic
+* `X-Kafka-*` - each header on the Kafka message is outputted with the form: `X-Kafka-Key: Value`
+* `X-Kafka-Partition` - the partition in Kafka that the message was received on
+* `X-Kafka-Offset` - the offset in Kafka that the message was received on
+* `X-Kafka-Key` - if set on the message, the key of the message in Kafka
+
+The default content-type is configured as `text/plain`, but can be changed to another content-type such as `application/json` or `application/octet-stream` by the [values.yaml file](https://github.com/openfaas/faas-netes/blob/master/chart/kafka-connector/values.yaml) for the connector.
+
+Most templates make these variables available through their request or context object, for example:
+
+* [golang-middleware](https://github.com/openfaas/golang-http-template)
+* [python3-http](https://github.com/openfaas/python-flask-template)
+* [node17](https://docs.openfaas.com/cli/templates/#nodejs-templates-of-watchdog-template)
+
+For detailed examples with Node.js, see: [Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)
+
+For detailed examples with Go, see: [Everyday Golang (Premium Edition)](https://openfaas.gumroad.com/l/everyday-golang)
+
 ## See also
 
 * [Event-driven OpenFaaS with Managed Kafka from Aiven](https://www.openfaas.com/blog/openfaas-kafka-aiven/)
