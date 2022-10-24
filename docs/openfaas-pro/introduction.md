@@ -175,6 +175,7 @@ OpenFaaS Pro is trusted by:
 * Surge "workwithsurge"
 * Edge Delta
 * Patchworks Integration Limited
+* Klar MX
 
 Tell us about your use-case for OpenFaaS Pro, CE or faasd and see what other companies are doing in the: [ADOPTERS file](https://github.com/openfaas/faas/blob/master/ADOPTERS) 
 
