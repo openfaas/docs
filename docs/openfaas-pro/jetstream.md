@@ -160,15 +160,23 @@ Once the Stream has been created the Consumer can be added. We will create a con
 ```bash
 nats consumer \
   create faas-request faas-workers \
+  --pull \
   --deliver=all \
+  --filter="" \
+  --ack=explicit \
+  --replay=instant \
+  --no-headers-only \
+  --backoff=none
+  --max-deliver=-1 \
   --wait=3m \
   --max-waiting=900 \
-  --max-pending=4000
+  --max-pending=4000 \
 ```
 
-This command creates a pull consumer that makes available all messages for every subject on the stream. When you are prompted for the remaining values you can select the defaults.
+This command creates a pull consumer that makes available all messages for every subject on the stream. We require that each message is acknowledged explicitly.
 
 Important configuration flags:
+  - The queue-worker will control how many times a message can be redelivered,`--max-deliver` has to be set to `-1` to allow unlimited deliveries.
 
   - The queue-worker automatically extends the ack window for functions that require more time to complete. In order to prevent us from having to extend the ack window to often we recommend configuring a default acknowledgement waiting time of 3 minutes. This can be configured with the `--wait` flag.
 
