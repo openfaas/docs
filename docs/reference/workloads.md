@@ -149,6 +149,8 @@ metadata:
     app: openfaas
 ```
 
+For a full code example and additional use cases, read: [Learn how to access the Kubernetes API from a Function ](https://www.openfaas.com/blog/access-kubernetes-from-a-function/)
+
 ### Custom TerminationGracePeriod for long running functions
 
 !!! info "OpenFaaS Pro feature"
