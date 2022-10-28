@@ -34,10 +34,10 @@ For Go users, make use of vendoring. It's what we use and it means you do not ha
 
 The below example is for Python and the pip package manager, but the same approach will work for different package managers like npm.
 
-1) Download and enable the OpenFaaS Pro plugin
-2) Create a local file in the format required
-3) Update a `build_secret` in `stack.yml` so it gets mounted into the container
-3) Run `faas-cli build` or `faas-cli publish`, `faas-cli up` is not available at this time
+1. Download and enable the OpenFaaS Pro plugin
+2. Create a local file in the format required
+3. Update a `build_secret` in `stack.yml` so it gets mounted into the container
+4. Run `faas-cli build` or `faas-cli publish`, `faas-cli up` is not available at this time
 
 ### Private access to a Python pip repository
 
