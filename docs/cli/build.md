@@ -30,6 +30,17 @@ When using Docker's buildkit project to build your containers, faas-cli can pass
 
 Any other mechanism should be considered insecure because it will leak into the final image or the local image in one way or another.
 
+For Go users, make use of vendoring. It's what we use and it means you do not have to resort to insecure practices like sharing Personal Access Tokens (PAT) between users.
+
+The below example is for Python and the pip package manager, but the same approach will work for different package managers like npm.
+
+1) Download and enable the OpenFaaS Pro plugin
+2) Create a local file in the format required
+3) Update a `build_secret` in `stack.yml` so it gets mounted into the container
+3) Run `faas-cli build` or `faas-cli publish`, `faas-cli up` is not available at this time
+
+### Private access to a Python pip repository
+
 First enable OpenFaaS Pro:
 
 ```bash
