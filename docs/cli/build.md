@@ -20,55 +20,107 @@ When it comes to continuous integration and delivery you can use the `faas-cli` 
 
 If you are using an alternative container image builder or are automating the `faas-cli` then you can use the `--shrinkwrap` flag which will produce a folder named `./build/function-name` with a Dockerfile. This bundle can be used with any container builder.
 
-## Building multi-arch images for ARM and Raspberry Pi
+## Plugins and build-time secrets
 
-If you're Raspberry Pi or ARM servers to run your OpenFaaS on Kubernetes or with faasd server, then you will need to use the `publish` command instead which uses emulation and in some templates cross-compilation to build an ARM image from your PC.
+!!! info "Experimental feature"
 
-> It is important that you do not install Docker or any build tools on your faasd instance. faasd is a server to serve your functions, and should be treated as such.
+    This is an experimental feature which means that it may change in the future.
 
-The technique used for cross-compilation relies on Docker's [buildx](https://docs.docker.com/buildx/working-with-buildx/) extension and [buildkit project](https://docs.docker.com/develop/develop-images/build_enhancements/). This is usually pre-configured with Docker Desktop, and Docker CE when installed on an Ubuntu system.
+When using Docker's buildkit project to build your containers, faas-cli can pass in the arguments to mount different secrets into the build process.
 
-First install the QEMU utilities which allow for cross-compilation:
+Any other mechanism should be considered insecure because it will leak into the final image or the local image in one way or another.
 
-```bash
-$ docker run --rm --privileged \
-  multiarch/qemu-user-static \
-  --reset -p yes
-```
-
-Or if you're an arkade user, run `arkade install qemu-static`.
-
-In addition, for CI, you can also add the `--reset-qemu` flag to `faas-cli publish`.
-
-The faas-cli attempts to enable Docker's experimental flag for the CLI, but you may need to run the following, if you get an error:
-
-```
-export DOCKER_CLI_EXPERIMENTAL=enabled
-```
-
-Now run this command on your laptop or workstation, not on the Raspberry Pi:
+First enable OpenFaaS Pro:
 
 ```bash
-faas-cli publish -f stack.yml --platforms linux/arm/v7
+faas-cli plugin get pro
+faas-cli pro enable
 ```
 
-If you're running a 64-bit ARM OS like Ubuntu on an AWS Graviton or Raspberry Pi 4, then use:
+Create a function:
 
 ```bash
-faas-cli publish -f stack.yml --platforms linux/arm64
+export OPENFAAS_PREFIX=alexellis2
+faas-cli template store pull python3-http
+faas-cli new --lang python3-http withprivate
+mv withprivate.yml stack.yml
 ```
 
-You can also add multiple platforms to publish an image which will run on an ARM device, and on a regular Intel host:
+Next, set up a build secret, for instance to fetch Pip modules from a private PyPi repository:
+
+```yaml
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+
+functions:
+  withprivate:
+    lang: python3-http
+    handler: ./withprivate
+    image: openfaasltd/withprivate:0.0.1
+    build_secrets:
+      pipconf: /home/alex/.config/pip/pip.conf
+```
+
+Set up the private authentication for `pip.conf`:
+
+```ini
+[global]
+index-url = https://aws:CODEARTIFACT_TOKEN@OWNER-DOMAIN.d.codeartifact.us-east-1.amazonaws.com/pypi/REPOSITORY/simple/
+```
+
+Then run a build with:
 
 ```bash
-faas-cli publish -f stack.yml --platforms linux/arm/v7,linux/amd64
+faas-cli build
 ```
 
-Then deploy the function:
+The `faas-cli publish` command can also be used instead of `faas-cli build`.
+
+Within a GitHub Action, the short-lived token associated to the job is used to verify your license for this feature.
+
+Add to your workflow.yaml:
+
+```yaml
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+```
+
+Then:
 
 ```bash
-faas-cli deploy -f stack.yml
+faas-cli plugin get pro
+faas-cli pro enable
+
+faas-cli build / publish
 ```
+
+You'll also need our especially updated Python template, where we tell buildkit to mount the secret passed in from the OpenFaaS Pro plugin:
+
+```Dockerfile
+RUN --mount=type=secret,id=pipconf,mode=0666,dst=/home/app/.config/pip/pip.conf \
+        pip install --user -r requirements.txt
+```
+
+If you run into any issues add `-v -v -v` to the `pip install` command.
+
+If you're cloning from a private Git repository, without using a private PyPi repository, then you can use the `.netrc` approach instead:
+
+.netrc:
+
+```
+machine github.com
+login username
+password PAT
+```
+
+```Dockerfile
+RUN --mount=type=secret,id=netrc,mode=0666,dst=/home/app/.netrc \
+        pip install --user -r requirements.txt
+```
+
+Bear in mind that at this time, `GITHUB_TOKEN` in a GitHub Action cannot be used to clone other repositories, even within the same organisation.
 
 ## 1.0 Apply build options
 
@@ -211,4 +263,54 @@ The following regex would result in `fn1`, `fn2` & `fn3` being built from the ea
 
 ```bash
 faas-cli build --regex "fn[0-9]$"
+```
+
+## Building multi-arch images for ARM and Raspberry Pi
+
+If you're Raspberry Pi or ARM servers to run your OpenFaaS on Kubernetes or with faasd server, then you will need to use the `publish` command instead which uses emulation and in some templates cross-compilation to build an ARM image from your PC.
+
+> It is important that you do not install Docker or any build tools on your faasd instance. faasd is a server to serve your functions, and should be treated as such.
+
+The technique used for cross-compilation relies on Docker's [buildx](https://docs.docker.com/buildx/working-with-buildx/) extension and [buildkit project](https://docs.docker.com/develop/develop-images/build_enhancements/). This is usually pre-configured with Docker Desktop, and Docker CE when installed on an Ubuntu system.
+
+First install the QEMU utilities which allow for cross-compilation:
+
+```bash
+$ docker run --rm --privileged \
+  multiarch/qemu-user-static \
+  --reset -p yes
+```
+
+Or if you're an arkade user, run `arkade install qemu-static`.
+
+In addition, for CI, you can also add the `--reset-qemu` flag to `faas-cli publish`.
+
+The faas-cli attempts to enable Docker's experimental flag for the CLI, but you may need to run the following, if you get an error:
+
+```
+export DOCKER_CLI_EXPERIMENTAL=enabled
+```
+
+Now run this command on your laptop or workstation, not on the Raspberry Pi:
+
+```bash
+faas-cli publish -f stack.yml --platforms linux/arm/v7
+```
+
+If you're running a 64-bit ARM OS like Ubuntu on an AWS Graviton or Raspberry Pi 4, then use:
+
+```bash
+faas-cli publish -f stack.yml --platforms linux/arm64
+```
+
+You can also add multiple platforms to publish an image which will run on an ARM device, and on a regular Intel host:
+
+```bash
+faas-cli publish -f stack.yml --platforms linux/arm/v7,linux/amd64
+```
+
+Then deploy the function:
+
+```bash
+faas-cli deploy -f stack.yml
 ```
