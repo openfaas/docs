@@ -37,7 +37,7 @@ Below we have an example for Python using the pip package manager and for node m
 1. Download and enable the OpenFaaS Pro plugin
 2. Create a local file in the format required
 3. Update a `build_secret` in `stack.yml` so it gets mounted into the container
-4. Run `faas-cli build` or `faas-cli publish`, `faas-cli up` is not available at this time
+4. Run `faas-cli pro build` or `faas-cli pro publish`, `faas-cli pro up` is not available at this time
 
 ### Private access to a Python pip repository
 
@@ -83,10 +83,10 @@ index-url = https://aws:CODEARTIFACT_TOKEN@OWNER-DOMAIN.d.codeartifact.us-east-1
 Then run a build with:
 
 ```bash
-faas-cli build
+faas-cli pro build
 ```
 
-The `faas-cli publish` command can also be used instead of `faas-cli build`.
+The `faas-cli pro publish` command can also be used instead of `faas-cli pro build`.
 
 Within a GitHub Action, the short-lived token associated to the job is used to verify your license for this feature.
 
@@ -104,7 +104,7 @@ Then:
 faas-cli plugin get pro
 faas-cli pro enable
 
-faas-cli build / publish
+faas-cli pro build / publish
 ```
 
 You'll also need to update the Python template to mount the secret passed in from the OpenFaaS Pro plugin:
