@@ -32,7 +32,7 @@ Any other mechanism should be considered insecure because it will leak into the 
 
 For Go users, make use of vendoring. It's what we use and it means you do not have to resort to insecure practices like sharing Personal Access Tokens (PAT) between users.
 
-The below example is for Python and the pip package manager, but the same approach will work for different package managers like npm.
+Below we have an example for Python using the pip package manager and for node modules with npm. The approach is similar for different package managers.
 
 1. Download and enable the OpenFaaS Pro plugin
 2. Create a local file in the format required
@@ -70,7 +70,7 @@ functions:
     handler: ./withprivate
     image: openfaasltd/withprivate:0.0.1
     build_secrets:
-      pipconf: /home/alex/.config/pip/pip.conf
+      pipconf: ${HOME}/.config/pip/pip.conf
 ```
 
 Set up the private authentication for `pip.conf`:
@@ -107,7 +107,7 @@ faas-cli pro enable
 faas-cli build / publish
 ```
 
-You'll also need our especially updated Python template, where we tell buildkit to mount the secret passed in from the OpenFaaS Pro plugin:
+You'll also need to update the Python template to mount the secret passed in from the OpenFaaS Pro plugin:
 
 ```Dockerfile
 RUN --mount=type=secret,id=pipconf,mode=0666,dst=/home/app/.config/pip/pip.conf \
@@ -132,6 +132,73 @@ RUN --mount=type=secret,id=netrc,mode=0666,dst=/home/app/.netrc \
 ```
 
 Bear in mind that at this time, `GITHUB_TOKEN` in a GitHub Action cannot be used to clone other repositories, even within the same organisation.
+
+### Private npm modules
+
+Get the OpenFaaS Pro plugin and enable it:
+
+```bash
+faas-cli plugin get pro
+faas-cli pro enable
+```
+
+Create a function:
+
+```bash
+export OPENFAAS_PREFIX=openfaasltd
+faas-cli template store pull node17
+faas-cli new --lang python3-http withprivatenpm
+mv withprivatenpm.yml stack.yml
+```
+
+You will need to create an authentication token to install private npm modules. These instructions will differ depending on the registry you want to use:
+
+- For the npmjs registry you can generate a token using the npm cli, see: [Create a new access token](https://docs.npmjs.com/using-private-packages-in-a-ci-cd-workflow#create-a-new-access-token).
+- For Github Packages, see: [Authenticating to GitHub Packages](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-to-github-packages)
+
+Once you have an authentication token you can add a registry user account with the `npm login` command:
+
+```bash
+npm login --scope=@OWNER --registry=https://npm.pkg.github.com
+
+> Username: USERNAME
+> Password: TOKEN
+> Email: PUBLIC-EMAIL-ADDRESS
+```
+
+Or edit your `~/.npmrc` file to include the authentication token for your npm registry.
+
+```
+//registry.npmjs.org/:_authToken=TOKEN
+```
+
+Add the `.npmrc` file as a build secret to the `stack.yml` file:
+
+```yaml
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  withprivatenpm:
+    lang: node17
+    handler: ./withprivatenpm
+    image: openfaasltd/withprivatenpm:latest
+    build_secrets:
+      npmrc: ${HOME}/.npmrc
+```
+
+Run a build with:
+
+```bash
+faas-cli pro build -f stack.yml
+```
+
+You'll also need an updated version of the node template to mount the secret passed in from the OpenFaaS Pro plugin. Update `template/node17/Dockerfile` and replace the second `npm i` command with:
+
+```Dockerfile
+RUN --mount=type=secret,id=npmrc,mode=0666,dst=/home/app/.npmrc npm i
+```
 
 ## 1.0 Apply build options
 
