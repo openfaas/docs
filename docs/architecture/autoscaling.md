@@ -285,7 +285,7 @@ The API Gateway handles AlertManager alerts through its `/system/alert` route.
 
 The auto-scaling provided by this method can be disabled by either deleting the AlertManager deployment or by scaling the deployment to zero replicas.
 
-The [AlertManager rule](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/templates/prometheus-cfg.yaml#L131) used in the Community Edition can be viewed here.
+The [AlertManager rule](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/templates/prometheus-cfg.yaml#L164) used in the Community Edition can be viewed here.
 
 All calls made through the gateway whether to a synchronous function `/function/` route or via the asynchronous `/async-function` route count towards this method of auto-scaling.
 
