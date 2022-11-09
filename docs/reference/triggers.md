@@ -142,3 +142,9 @@ The vcenter-connector by OpenFaaS is an event connector built to consume events 
 Status: if you require support for this project, [reach out to us for more info](https://openfaas.com/support/)
 
 Link: [openfaas-vcenter-connector](https://github.com/openfaas-incubator/openfaas-vcenter-connector)
+
+### Pushbullet (third-party project)
+
+Invoke functions from [Pushbullet](https://www.pushbullet.com) channels. This is a third party project.
+
+More information in the repository: [MrSimonEmms/openfaas-pushbullet-connector](https://github.com/MrSimonEmms/openfaas-pushbullet-connector)
