@@ -394,6 +394,7 @@ configuration:
 ```
 
 ### Copy
+
 The `copy` list allows you to define additional project paths that will be copied into your function's handler folder.
 
 ```yaml
@@ -469,9 +470,17 @@ $ DOCKER_USER="alexellis2" faas-cli build
 
 ### YAML - template stack configuration
 
-The `configuration` field stand alone and not part of the `function` field.
+The `configuration` field stand alone and not part of the `function` field, add it to the top level of the YAML file.
 
 ```yaml
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+
+...
+
 configuration:
   templates:
     - name: perl-alpine
