@@ -377,6 +377,16 @@ The configuration section allows you to define additional configuration that is 
 The `templates` list allows you to define the information required to pull the templates for your functions.  This list of templates will automatically be pulled when you build your functions. When configured correctly, this allows you to completely build your functions with just `faas-cli build`.  Without this section, you must manually `faas-cli template pull <source>` _before_ you use `faas-cli build`.
 
 ```yaml
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  create-batch:
+    lang: python3-http-debian
+    handler: ./create-batch
+    image: welteki2/create-batch:0.0.1
+
 configuration:
   templates:
     - name: python3-http
@@ -387,6 +397,16 @@ configuration:
 The `copy` list allows you to define additional project paths that will be copied into your function's handler folder.
 
 ```yaml
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  hello:
+    lang: python3
+    handler: ./hello
+    image: openfaas/hello:0.1.0
+
 configuration:
   copy:
     - ./common
