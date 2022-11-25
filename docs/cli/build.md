@@ -48,12 +48,23 @@ faas-cli plugin get pro
 faas-cli pro enable
 ```
 
-Create a function:
+Download the OpenFaaS Pro template using your customer credentials:
 
 ```bash
-export OPENFAAS_PREFIX=alexellis2
-faas-cli template store pull python3-http
-faas-cli new --lang python3-http withprivate
+faas-cli template pull https://github.com/openfaas/openfaas-pro
+
+faas-cli new --list
+Languages available as templates:
+- python@3.8-debian
+```
+
+Create a new function from the template:
+
+```bash
+export OPENFAAS_PREFIX=docker.io/alexellis2
+
+faas-cli new --lang python@3.8-debian \
+  withprivate
 mv withprivate.yml stack.yml
 ```
 
@@ -107,15 +118,6 @@ faas-cli pro enable
 faas-cli pro build / publish
 ```
 
-You'll also need to update the Python template to mount the secret passed in from the OpenFaaS Pro plugin:
-
-```Dockerfile
-RUN --mount=type=secret,id=pipconf,mode=0666,dst=/home/app/.config/pip/pip.conf \
-        pip install --user -r requirements.txt
-```
-
-If you run into any issues add `-v -v -v` to the `pip install` command.
-
 If you're cloning from a private Git repository, without using a private PyPi repository, then you can use the `.netrc` approach instead:
 
 .netrc:
@@ -126,9 +128,14 @@ login username
 password PAT
 ```
 
-```Dockerfile
-RUN --mount=type=secret,id=netrc,mode=0666,dst=/home/app/.netrc \
-        pip install --user -r requirements.txt
+Then update stack.yml:
+
+```yaml
+functions:
+  withprivate:
+..
+    build_secrets:
+      netrc: ${HOME}/.netrc
 ```
 
 Bear in mind that at this time, `GITHUB_TOKEN` in a GitHub Action cannot be used to clone other repositories, even within the same organisation.
@@ -147,7 +154,7 @@ Create a function:
 ```bash
 export OPENFAAS_PREFIX=openfaasltd
 faas-cli template store pull node17
-faas-cli new --lang python3-http withprivatenpm
+faas-cli new --lang node17 withprivatenpm
 mv withprivatenpm.yml stack.yml
 ```
 
