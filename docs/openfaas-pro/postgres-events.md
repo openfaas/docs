@@ -1,14 +1,14 @@
 # Trigger functions from Postgres
 
-Trigger functions efficiently without the overhead of database triggers.
+Trigger functions from [PostgreSQL](https://www.postgresql.org/) tables efficiently without the overhead of database triggers.
 
 > Note: This feature is included for [OpenFaaS Pro](https://openfaas.com/support/) customers.
 
 ## Installation
 
-### Postgres database
+### Configure your Postgresql database
 
-You can configure a cloud/managed Postgres database or install Postgres locally, the following settings are required in `postgresql.conf`:
+You can configure a cloud/managed Postgresql database or install Postgres locally, the following settings are required in `postgresql.conf`:
 
 ```yaml
 wal_level = logical
@@ -36,7 +36,7 @@ Connect and test it:
 PGPASSWORD=passwd psql -U postgres -h 127.0.0.1
 ```
 
-### On Kubernetes
+### Install the connector with Helm
 
 * Set up the connector
 
@@ -52,11 +52,11 @@ PGPASSWORD=passwd psql -U postgres -h 127.0.0.1
 
 ## Usage
 
-Deploy our tester function which prints out the HTTP headers and body of any invocation:
+You can deploy our [tester function](https://github.com/openfaas/store-functions/blob/master/printer/handler.go) which prints out the HTTP headers and body of any invocation.
 
 A function can subscribe to a subset of the values you set in the `filters` field in values.yaml when installing with helm.
 
-Separate each one with a comma, as follows:
+Separate each one with a comma, as follows, or give just one if that's what you need.
 
 ```bash
 faas-cli deploy \
@@ -70,7 +70,7 @@ Create a test table and insert some data:
 ```bash
 CREATE TABLE customer (id integer primary key generated always as identity, name text, created_at timestamp);
 
-insert into customer (name,created_at) values ('Alex Ellis', now());
+insert into customer (name, created_at) values ('Alex Ellis', now());
 ```
 
 You should see the following output:
@@ -90,7 +90,7 @@ faas-cli logs printer
 2022-12-05T17:06:30Z X-Topic=[customer:delete]
 2022-12-05T17:06:30Z X-Message-Id=[7]
 2022-12-05T17:06:30Z X-Connector=[connector-sdk openfaasltd/postgres-connector]
-2022-12-05T17:06:30Z X-Db-Id=[0ae31f36-71a7-498b-af11-f3b67d4422e2]
+2022-12-05T17:06:30Z X-Event-Id=[0ae31f36-71a7-498b-af11-f3b67d4422e2]
 2022-12-05T17:06:30Z 
 2022-12-05T17:06:30Z {"id":"0ae31f36-71a7-498b-af11-f3b67d4422e2","schema":"public","table":"customer","action":"delete","data":{"id":44,"name":null,"created_at":null},"commitTime":"2022-12-05T17:07:37.802252Z"}
 2022-12-05T17:06:30Z 
@@ -140,8 +140,8 @@ Additional headers are also made available, which mean you can efficiently filte
 * `X-Event-Action` - the action that was performed on the table, e.g. `insert`, `update`, `delete`
 * `X-Event-Table` - the table that was affected
 * `X-Topic` - the topic that was used to subscribe to the event i.e. `customer:insert`
-* `X-Message-Id` - the message ID of the event
-
+* `X-Event-Id` - a UUID for the delivery of this event 
+* `X-Message-Id` - the message ID of the event - increments from 0 to N based upon the amount of events received by the connector
 
 ## Would you like a demo?
 
