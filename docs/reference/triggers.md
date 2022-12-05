@@ -6,17 +6,9 @@ Connectors map one or more topics, subjects or queues from a stateful messaging 
 
 Can't find the event-source or trigger that you were looking for? [Contact us for more info](https://openfaas.com/support)
 
-## Cron
+## Built-in triggers
 
-Looking to trigger a function on a schedule?
-
-The cron-connector can be used to trigger a function on a schedule, by adding a couple of annotations to your stack.yml file.
-
-Kubernetes also supports a `CronJob` mechanism, which you can use as an alternative.
-
-See also: [Scheduling function runs](/reference/cron/) for more information.
-
-## HTTP / webhooks
+### HTTP / webhooks
 
 This is the default, and standard method for interacting with your Functions.
 
@@ -26,7 +18,7 @@ The function URL follows the pattern of:
 https://<gateway URL>:<port>/function/<function name>
 ```
 
-## Async / NATS Streaming
+### Async / NATS Streaming
 
 You can execute a function or microservice asynchronously by replacing `/function/` with `/async-function/` when accessing the endpoint via the OpenFaaS gateway.
 
@@ -40,7 +32,7 @@ You can also pass an `X-Callback-Url` header with the URL of another endpoint fo
 
 More on async: [Async Functions](/reference/async/)
 
-## CLI
+### CLI
 
 Trigger a function using the `faas-cli` by using the function name
 
@@ -52,37 +44,42 @@ echo "triggered" | faas-cli invoke figlet
 
 Find out more: [faas-cli on GitHub](https://github.com/openfaas/faas-cli)
 
-## Other Event Sources
+## Additional triggers
 
-### Event-connector pattern
-
-The OpenFaaS connector-pattern allows you to create a broker or separate microservice which maps functions to topics and invokes functions via the OpenFaaS Gateway meaning that the OpenFaaS code does not need to be modified per trigger/event-source.
+The OpenFaaS event-pattern allows you to create a broker or separate microservice which maps functions to topics and invokes functions via the OpenFaaS Gateway meaning that the OpenFaaS code does not need to be modified per trigger/event-source.
 
 ![Event-connector pattern](../images/connector-pattern.png)
 
 > Pictured: Event-connector pattern. One topic, subject or queue can be broadcast to multiple functions.
 
-#### Add your own event source
-
-If you'd like to add an event source which is not listed below you can fork the OpenFaaS event [connector SDK](https://github.com/openfaas/connector-sdk) which is written in Go and use this to connect your pub/sub topics or message queues to functions in OpenFaaS.
-
 ### Apache Kafka (OpenFaaS Pro)
 
-Connect your function(s) to [Apache Kafka](https://kafka.apache.org) topics.
+Trigger your functions via [Apache Kafka](https://kafka.apache.org) topics.
 
-See also: [Staying on topic: trigger your OpenFaaS functions with Apache Kafka](https://www.openfaas.com/blog/kafka-connector/)
+[Read the documentation](https://docs.openfaas.com/openfaas-pro/kafka-events/)
+
+See also:
+
+* [Staying on topic: trigger your OpenFaaS functions with Apache Kafka](https://www.openfaas.com/blog/kafka-connector/)
+* [Event-driven OpenFaaS with Managed Kafka from Aiven](https://www.openfaas.com/blog/openfaas-kafka-aiven/)
+
+### Postgres (OpenFaaS Pro)
+
+Trigger functions based upon Postgres events including: insert, update and delete.
 
 [Request more info](https://openfaas.com/support/)
 
 ### AWS SQS (OpenFaaS Pro)
 
-Trigger your functions from AWS SQS queues.
+Trigger your functions from events within AWS by publishing events to various AWS SQS queues.
 
-[Request more info](https://openfaas.com/support/)
+[Read the documentation](https://docs.openfaas.com/openfaas-pro/sqs-events/)
 
 ### Cron Connector
 
-The [cron-connector](https://github.com/openfaas/cron-connector) is an OpenFaaS event-connector which can be used to trigger functions on a timed-basis. It works with all OpenFaaS Providers.
+The [cron-connector](https://github.com/openfaas/cron-connector) can be used to trigger functions on a timed schedule. It uses traditional cron expressions.
+
+See also: [Scheduling function runs](/reference/cron/) in the docs.
 
 ### MQTT Connector
 
@@ -90,18 +87,20 @@ The [MQTT Connector](https://github.com/openfaas/mqtt-connector) can be used in 
 
 Example usage: [Drone tracking project for Packet.com's session CES 2020](https://github.com/packet-labs/iot).
 
-### NATS Pub/sub
-
-OpenFaaS has a built-in queue system with NATS Streaming, however you can also invoke functions using the pub/sub mechanism of [NATS](https://nats.io).
-
-View the [nats-connector](https://github.com/openfaas/nats-connector)
-
 ### Minio / S3
 
 You can trigger OpenFaaS functions using Minio's webhook or Kafka integration.
 
 * [Minio's webhook integration](https://blog.min.io/introducing-webhooks-for-minio/)
 * [Minio's Kafka integration](https://docs.min.io/docs/minio-bucket-notification-guide.html#apache-kafka)
+
+For S3 on AWS, see the AWS SQS Connector.
+
+### NATS Pub/sub
+
+OpenFaaS has a built-in queue system with NATS Streaming, however you can also invoke functions using the pub/sub mechanism of [NATS](https://nats.io) Core.
+
+View the [nats-connector](https://github.com/openfaas/nats-connector)
 
 ### AWS SNS
 

@@ -131,6 +131,7 @@ nav:
       - Dashboard: ./openfaas-pro/dashboard.md
       - Scale to Zero: ./openfaas-pro/scale-to-zero.md
       - Kafka events: ./openfaas-pro/kafka-events.md
+      - Postgres events: ./openfaas-pro/postgres-events.md
       - AWS SQS events: ./openfaas-pro/sqs-events.md
       - Retries: ./openfaas-pro/retries.md
       - Single Sign-On: ./openfaas-pro/sso.md
