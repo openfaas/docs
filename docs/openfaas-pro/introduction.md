@@ -114,7 +114,8 @@ Any user of OpenFaaS is welcome to attend [a weekly Office Hours call](/communit
 | Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Scale to Zero | Not supported | [Global default, or custom time per function](/openfaas-pro/scale-to-zero) | As per Pro |
-| Build functions using private npm, Go and Pip modules | Public Git repos only | Public and private repos with SSH authentication | As Per Pro |
+| Scale to From | Not supported | Supported, with additional checks for Istio | As per Pro |
+| Build functions using private npm, Go and Pip modules | Not available | Enabled through build-time secrets | As Per Pro |
 | Kubernetes service accounts for functions      | N/a             | [Supported per function](/reference/workloads) | As per Pro |
 | Autoscaling strategy   | RPS-only | [CPU utilization, Capacity (inflight requests) or RPS](/architecture/autoscaling)      | As per Pro |
 | Autoscaling granularity   | Single rule for all functions | Global defaults with override available per function      | As per Pro |
@@ -160,7 +161,7 @@ Any user of OpenFaaS is welcome to attend [a weekly Office Hours call](/communit
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Deploy functions via REST API | Yes | As per CE | As per CE | 
 | Build containers and functions via REST API | N/a | [Yes via Function Builder API](/openfaas-pro/builder) | As per Pro |
-| Multiple namespace support | Not supported | Supported on Kubernetes | As per Pro |
+| Multiple namespace support | No support | Supported with Kubernetes namespaces | As per Pro |
 
 ### Trusted by
 
