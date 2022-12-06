@@ -1,6 +1,9 @@
 # Namespaces support
 
-OpenFaaS has support for multiple-namespaces.
+!!! info "OpenFaaS Pro feature"
+    This feature is part of the [OpenFaaS Pro](/openfaas-pro/introduction) distribution.
+
+OpenFaaS Pro has support for multiple-namespaces, which is part of the configuration required to build a multi-tenant product or service.
 
 Multiple namespaces can be used for the following use-cases:
 
