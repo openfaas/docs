@@ -152,6 +152,7 @@ Any user of OpenFaaS is welcome to attend [a weekly Office Hours call](/communit
 | Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | [Kafka event trigger](/openfaas-pro/kafka-events) | Not supported | Supports SASL or TLS auth, Aiven, Confluent and self-hosted | As per Pro |
+| [Postgres trigger](/openfaas-pro/postgres-events) | Not supported | Supports insert, update and delete, with table-level filters | As per Pro |
 | [AWS SQS trigger](/openfaas-pro/sqs-events) | Not supported | Supported | As per Pro |
 | [Cron and scheduled invocations](/reference/cron) | Community support | Community support | Full support |
 
