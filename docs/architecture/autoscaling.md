@@ -264,16 +264,6 @@ The latency between accepting a request for an unavailable function and serving 
 
     That shouldn't happen, providing that you've set an adequate value for the idle detection for your function. But if it does, the OpenFaaS watchdog and our official function templates will allow a graceful termination of the function. See also: [Improving long-running jobs for OpenFaaS users](https://www.openfaas.com/blog/long-running-jobs/)
 
-## Scaling using Kubernetes HPA
-
-You can also use the Kubernetes [Horizontal Pod Autoscaler (HPA)](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) to scale functions on CPU and RAM, at the cost of integration and ease of use. The HPA scaler also doesn't support scaling to zero replicas.
-
-First, disable the OpenFaaS autoscaler for a given function by setting the minimum and maximum replicas to the same value.
-
-Then scale upon CPU or RAM, using the guide below:
-
-* [Kubernetes HPAv2 with OpenFaaS](/tutorials/kubernetes-hpa/)
-
 ## Legacy scaling for the Community Edition (CE)
 
 !!! warning "Legacy scaling for the Community Edition (CE)"
