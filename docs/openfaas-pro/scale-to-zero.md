@@ -12,8 +12,6 @@ Scaling to zero can also increase security:
 * If any of your functions have a vulnerability, the attack surface is reduced to only the time they are running
 * Each time the function runs, it may be run on a different node with a freshly pulled image
 
-> Note: This feature is included for [OpenFaaS Pro](https://openfaas.com/support/) customers.
-
 ## Installation
 
 Scale to Zero is enabled automatically when you install OpenFaaS Pro with helm and set `autoscaler.enabled: true`. You can see a sample configuration for [OpenFaaS Pro](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/values-pro.yaml) here.

@@ -26,6 +26,10 @@ The Function Builder is designed to be integrated via HTTP to automate building 
 
     The Function Builder API builds images in-cluster, but can run without root privileges, or needing to run Docker.
 
+* You are using GovCloud
+
+    If you're using GovCloud, then your auditer or compliance partner may have already told you that your product should not have external dependencies on separate build systems. The Function Builder API can be run rootless, without privileges and without needing to share a Docker socket.
+
 The Function Builder uses Buildkit, developed by the Docker community to perform fast, cached, in-cluster builds via a HTTP API and uses mTLS for encryption.
 
 You can use various self-hosted, open-source and managed cloud container registries with the Function Builder API.

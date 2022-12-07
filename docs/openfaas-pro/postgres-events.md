@@ -6,6 +6,11 @@ Trigger functions from [PostgreSQL](https://www.postgresql.org/) tables efficien
 
 ## Installation
 
+There are two options for triggering functions from Postgres:
+
+1) Using logical replication and the Write Ahead Log (WAL) (explained here)
+2) Using LISTEN/NOTIFY and a series of table-level triggers (contact us for instructions)
+
 ### Configure your Postgresql database
 
 You can configure a cloud/managed Postgresql database or install Postgres locally, the following settings are required in `postgresql.conf`:

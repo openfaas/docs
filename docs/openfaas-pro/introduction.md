@@ -70,6 +70,7 @@ Recently released:
     * NATS Streaming is available for CE and will be deprecated in June 2023.
     * Dedicated Helm chart for installing additional queue-workers with JetStream
     * Structured logging / JSON for OpenFaaS Pro customers in the queue-worker
+* Postgres event connector using either WAL or LISTEN/NOTIFY
 
 Upcoming:
 
@@ -101,13 +102,13 @@ We see it as the start of a two-way relationship and an opportunity to collabora
 | Support via Slack     | N/a               | N/a                    | Up to 5 developers              |
 | Access to [Customer Community](https://github.com/openfaas/openfaas-pro)   | N/a      | Private access to [Customer Community](https://github.com/openfaas/openfaas-pro) for 2 named contacts per production cluster | As per Pro, for more named contacts |
 
-Enterprise Support comes with an SLA, defined separately. Support for OpenFaaS Pro is on a self-service basis, with no SLA offered.
+Enterprise Support comes with an SLA, defined separately. Support for OpenFaaS Pro is on a self-service basis, with no formal SLA offered.
 
-The [Customer Community](https://github.com/openfaas/openfaas-pro) provides direct access to developers of OpenFaaS, and other customers for exclusive configurations & guides, early access to features, collaboration and announcements.
+The [Customer Community](https://github.com/openfaas/openfaas-pro) is available to all customers and provides direct access to developers of OpenFaaS, and other customers for exclusive configurations & guides, early access to features, collaboration and announcements.
 
 Did you know?
 
-Any user of OpenFaaS is welcome to attend [a weekly Office Hours call](/community), which is a shared space to collaborate and tell us about your use-case.
+Any user of OpenFaaS is welcome to attend [a weekly Office Hours call](/community), which is a shared space for collaboration.
 
 **Core features**
 
@@ -120,20 +121,32 @@ Any user of OpenFaaS is welcome to attend [a weekly Office Hours call](/communit
 | Autoscaling strategy   | RPS-only | [CPU utilization, Capacity (inflight requests) or RPS](/architecture/autoscaling)      | As per Pro |
 | Autoscaling granularity   | Single rule for all functions | Global defaults with override available per function      | As per Pro |
 | UI Dashboard         | Legacy UI (in code-freeze)  | [New dashboard](/openfaas-pro/dashboard) with metrics, logs, CI integration and support for multiple namespaces | As per Pro |
-| Async / queueing | NATS Streaming (deprecated in June 2023) | NATS JetStream (new) | As per Pro |
+| Async / queueing | In-memory only, max 10 items in queue, 256KB message size | NATS JetStream (new) | As per Pro |
 | Metrics         | HTTP invocation metrics  | Plus CPU/RAM usage metrics and async/queue metrics      | As per Pro |
-| CPU & RAM utilization | Not available | Integrated with Prometheus metrics, OpenFaaS REST API & CLI | As per Pro
+| CPU & RAM utilization | Not available | Integrated with Prometheus metrics, OpenFaaS REST API & CLI | As per Pro |
 | Grafana Dashboards      | N/a             | 4x dashboards supplied in [Customer Community](https://github.com/openfaas/openfaas-pro) - overview, spotlight for debugging a function, queue-worker and Function Builder API | As per Pro |
 | License                 | [MIT](https://github.com/openfaas/faas/blob/master/LICENSE)             | [Commercial license EULA](https://github.com/openfaas/faas/blob/master/pro/EULA)     | As per Pro |
+
+> Did you know? Synadia, the vendor of NATS Streaming announced the product is now deprecated, and it will receive no updates from June 2023 onwards. OpenFaaS Ltd developed an alternative based upon their newest product JetStream. [Learn more about JetStream for OpenFaaS](https://docs.openfaas.com/openfaas-pro/jetstream/)
+
+**Event-connectors**
+
+| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
+| ----------------------| ------------------|------------------------|---------------------------------|
+| [Kafka event trigger](/openfaas-pro/kafka-events) | Not supported | Supports SASL or TLS auth, Aiven, Confluent and self-hosted | As per Pro |
+| [Postgres trigger](/openfaas-pro/postgres-events) | Not supported | Supports insert, update and delete, with table-level filters using WAL or LISTEN/NOTIFY. | As per Pro |
+| [AWS SQS trigger](/openfaas-pro/sqs-events) | Not supported | Supported | As per Pro |
+| [Cron and scheduled invocations](/reference/cron) | Community support | Community support | Full support |
 
 **Durability and reliability**
 
 | Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Health checks | Not supported | [Health checks](/reference/workloads) supported with custom HTTP path and intervals per function | As per Pro |
-| Retry failed invocations | Not supported | [Retry invocations](/openfaas-pro/retries) for certain HTTP codes with a back-off | As per Pro |
-| Highly Available messaging | Not available for NATS Streaming | Available for NATS JetStream, with 3x servers. | As per Pro |
-| Long executions of async functions | Manual configuration | Automated configuration with NATS JetStream | As per Pro |
+| Retries for failed function invocations | Not supported | [Retry invocations](/openfaas-pro/retries) for configured HTTP codes with an exponential back-off | As per Pro |
+| Highly Available messaging | Not available, in-memory only | Available for NATS JetStream, with 3x servers. | As per Pro |
+| Long executions of async functions | Limited to 5 minutes | Configurable duration | As per Pro |
+| Callback to custom URL for async functions | Supported | As per CE | As per CE |
 
 **Security**
 
@@ -146,15 +159,6 @@ Any user of OpenFaaS is welcome to attend [a weekly Office Hours call](/communit
 | [Service links](https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#accessing-the-service) injected as environment variables | Yes, cannot be disabled | Disabled as a default | As per Pro |
 | [Pod privilege escalation](https://kubernetes.io/docs/concepts/security/pod-security-standards/#restricted) | Default for Kubernetes | Explicitly disabled | As per Pro |
 | Split installation without ClusterAdmin role | N/a | Provided in [Customer Community](https://github.com/openfaas/openfaas-pro) | As per Pro | 
-
-**Event-brokers**
-
-| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
-| ----------------------| ------------------|------------------------|---------------------------------|
-| [Kafka event trigger](/openfaas-pro/kafka-events) | Not supported | Supports SASL or TLS auth, Aiven, Confluent and self-hosted | As per Pro |
-| [Postgres trigger](/openfaas-pro/postgres-events) | Not supported | Supports insert, update and delete, with table-level filters | As per Pro |
-| [AWS SQS trigger](/openfaas-pro/sqs-events) | Not supported | Supported | As per Pro |
-| [Cron and scheduled invocations](/reference/cron) | Community support | Community support | Full support |
 
 **Platform features**
 
