@@ -218,3 +218,12 @@ functions:
 ``` 
 
 > Note: The initial delay value must be a valid Go duration e.g. `80s` or `3m`.
+
+### Function information
+
+!!! info "OpenFaaS Pro feature"
+    This feature is part of the [OpenFaaS Pro](/openfaas-pro/introduction) distribution.
+
+OpenFaaS exposes some information to functions through environment variables.
+
+The function name is made available in every function as an environment variable `OPENFAAS_NAME`.
