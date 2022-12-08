@@ -2,9 +2,12 @@
 
 The Function Builder API provides a simple REST API to create your functions from source code.
 
-> Note: This feature is included for [OpenFaaS Pro](https://openfaas.com/support/) customers.
+!!! info "OpenFaaS Enterprise feature"
+    This feature is included for [OpenFaaS Enterprise](/openfaas-pro/introduction) customers.
 
 The Function Builder is designed to be integrated via HTTP to automate building images in your cluster, and for service providers.
+
+> See also: [How to build functions from source code with the Function Builder API](https://www.openfaas.com/blog/how-to-build-via-api/)
 
 ## So is it right for you? 
 
