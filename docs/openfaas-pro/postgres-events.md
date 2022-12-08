@@ -8,8 +8,8 @@ Trigger functions from [PostgreSQL](https://www.postgresql.org/) tables efficien
 
 There are two options for triggering functions from Postgres:
 
-1) Using logical replication and the Write Ahead Log (WAL) (explained here)
-2) Using LISTEN/NOTIFY and a series of table-level triggers (contact us for instructions)
+1. Using logical replication and the Write Ahead Log (WAL) (explained here)
+2. Using LISTEN/NOTIFY and a series of table-level triggers (contact us for instructions)
 
 ### Configure your Postgresql database
 
@@ -45,7 +45,7 @@ PGPASSWORD=passwd psql -U postgres -h 127.0.0.1
 
 * Set up the connector
 
-    You can install the SQS connector using its [helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/postgres-connector).
+    You can install the Postgres connector using its [helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/postgres-connector).
 
     The values.yaml file can be customised to suit your needs.
 
