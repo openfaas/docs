@@ -44,8 +44,8 @@ No longer maintained, source available.
 
 | Repository        | Headline                         |
 |:------------------|:---------------------------------|
-| [workshop-vscode](https://github.com/openfaas/workshop-vscode) | Run a Kubernetes workshop with VSCode in the browser |
-| [openfaas-linkerd2](https://github.com/openfaas/openfaas-linkerd2) | Lightweight Serverless on Kubernetes with mTLS and traffic-splitting with Linkerd2 |
+| [workshop-vscode](https://github.com/openfaas-incubator/workshop-vscode) | Run a Kubernetes workshop with VSCode in the browser |
+| [openfaas-linkerd-workshop](https://github.com/openfaas/openfaas-linkerd-workshop) | Lightweight Serverless on Kubernetes with mTLS and traffic-splitting with Linkerd2 |
 | [openfaas-function-auth](https://github.com/openfaas-incubator/openfaas-function-auth) | Examples of authentication in OpenFaaS Serverless functions. |
 
 ### Templates
