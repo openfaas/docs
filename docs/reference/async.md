@@ -97,6 +97,8 @@ The queue-worker uses a single timeout for how long it will spend processing a m
 
 #### Parallelism
 
+> OpenFaaS CE supports max_inflight of 1, OpenFaaS Pro supports a custom value.
+
 By default there is one queue-worker replica deployed which is set up to run a single task of up to 30 seconds in duration.
 
 You can increase the parallelism by setting the queue worker's "max_inflight" option to a value greater than one. This will cause the queue-worker to concurrently receive up to max_inflight many messages and simultaneously invoke their corresponding functions. Should you wish to restrict concurrency for certain functions, please make use of [multiple queues](#Multiple-queues) and separate these functions accordingly.
@@ -109,7 +111,9 @@ Kubernetes users can tune this in the values.yaml file of the openfaas helm char
 
 The official eBook for OpenFaaS has more details on the async system in OpenFaaS. See also: [Training](/tutorials/training/)
 
-#### Multiple queues
+#### Dedicated queues
+
+> OpenFaaS Pro supports a single shared queue for asynchronous requests. OpenFaaS Enterprise supports dedicated queues per function.
 
 Asynchronous requests are processed by the queue-worker component using a single topic (`faas-request`), for most use-cases this will be sufficient if most of your functions take a similar amount of time to execute. A problem may arise when you have a mixture of slow and fast running requests within the same single queue. A single slow task can hold up all the other requests and this is because the queue has FIFO semantics - first in, first out.
 
@@ -139,40 +143,11 @@ helm upgrade slow-queue openfaas/queue-worker \
   --set upstreamTimeout=15m
 ```
 
-If you are using NATS Streaming an additional queue can be deployed with these manual steps.
-
-On Kubernetes:
-
-```bash
-export CORE_NS=openfaas
-kubectl get -n $CORE_NS deploy/queue-worker -o yaml --export > slow-queue-queue-worker.yaml
-```
-
-Now replace "queue-worker" with "slow-queue-queue-worker" in `app: queue-worker` and `name: queue-worker`.
-
-```bash
-sed -ie s/app:\ queue-worker/app:\ slow-queue-worker/g slow-queue-queue-worker.yaml
-sed -ie s/name:\ queue-worker/name:\ slow-queue-worker/g slow-queue-queue-worker.yaml
-```
-
-Edit the `faas_nats_channel` environment variable, place `slow-queue` in the `value` field:
-
-```yaml
-        - name: faas_nats_channel
-          value: slow-queue
-```
-
-Deploy the new queue worker for the `slow-queue` queue:
-
-```bash
-export CORE_NS=openfaas
-kubectl create -f slow-queue-queue-worker.yaml --namespace $CORE_NS
-```
 
 After deploying your queue-worker using one of these methods you can invoke your function as per normal and watch the logs of the new queue worker:
 
 ```bash
-kubectl logs deploy/slow-queue-worker -n openfaas &
+kubectl logs deploy/slow-queue-worker -n openfaas
 
 curl http://127.0.0.1:8080/async-function/figlet -d "Ran on the slow-queue"
 ```
