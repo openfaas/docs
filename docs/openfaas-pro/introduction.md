@@ -131,6 +131,8 @@ Scaling to zero is also a Pro feature, which can be customised on a function-lev
 
 **Core features**
 
+| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
+| ----------------------| ------------------|------------------------|---------------------------------|
 | UI Dashboard         | Legacy UI (in code-freeze)  | [New UI dashboard](/openfaas-pro/dashboard) with metrics, logs & CI integration | As per Pro, but with support for multiple namespaces |
 | Consume secrets in `faas-cli build` for npm, Go and Pypy | Not available | Via build-time secrets | As Per Pro |
 | Kubernetes service accounts for functions      | N/a             | [Supported per function](/reference/workloads) | As per Pro |
