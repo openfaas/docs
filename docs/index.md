@@ -12,10 +12,11 @@ OpenFaaS&reg; makes it easy for developers to deploy event-driven functions and 
 * Write functions in any language and package them in Docker/OCI-format containers
 * Easy to use - built-in UI, powerful CLI and one-click installation
 * Scale as you go - handle spikes in traffic, and scale down when idle
-* Active community - contribute and belong
-* Community Edition for exploration and PoCs with a [Pro edition for commercial use and production](/openfaas-pro/introduction/)
+* [OpenFaaS Pro](/openfaas-pro/introduction/) for commercial use and production
+* Community Edition - explore functions, or build a PoC without any cost
 
-![Stack](https://github.com/openfaas/faas/raw/master/docs/of-layer-overview.png)
+![OpenFaaS Stack](https://github.com/openfaas/faas/raw/master/docs/of-layer-overview.png)
+> Conceptual layers of the OpenFaaS stack
 
 See also: [Tech stack & layers](/architecture/stack/) & [Preparing for production](/architecture/production/)
 
@@ -27,9 +28,9 @@ Start out with one of the options from our self-service training range:
 
 Or go ahead and deploy OpenFaaS straight to Kubernetes/OpenShift or to a VM using faasd:
 
-![Portal](https://github.com/openfaas/faas/raw/master/docs/inception.png)
+![Original portal UI](https://github.com/openfaas/faas/raw/master/docs/inception.png)
 
-*Pictured: API gateway portal - designed for ease of use*
+*Pictured: Original portal UI, replaced by the [OpenFaaS Pro Dashboard](/openfaas-pro/dashboard)*
 
 * [Deployment guides](./deployment/)
 
@@ -46,12 +47,16 @@ Or go ahead and deploy OpenFaaS straight to Kubernetes/OpenShift or to a VM usin
 
 OpenFaaS has a thriving community of Open Source contributors and users.
 
+### Weekly Office Hours
+
+Find out more about our weekly office hours call on the [Community Page](/community)
+
 ### Going to production
 
-!!! info "Do we need the Community Edition or Pro?"
-    The OpenFaaS Community Edition is suitable for developers. OpenFaaS Pro is built for use in production.
+!!! info "Do we need the Community Edition (CE) or Pro?"
+    The OpenFaaS (CE) is suitable for exploration or a PoC. OpenFaaS Pro was specifically built for use in production.
 
-    You can find out more about [OpenFaaS Pro here](/openfaas-pro/introduction) or [contact us to find out more](https://openfaas.com/support/).
+    You can find out more about [OpenFaaS Pro here](/openfaas-pro/introduction) or [contact us to book a meeting](https://openfaas.com/support/).
 
 ### Have you written a blog post or given a talk?
 
@@ -63,18 +68,9 @@ Have you written a blog about OpenFaaS? Send a Pull Request to the community pag
 
 If you're using OpenFaaS within your team, send a pull request to [ADOPTERS.md](https://github.com/openfaas/faas/blob/master/ADOPTERS.md) to let us know, or email us at: [contact@openfaas.com](mailto:contact@openfaas.com)
 
-### Become a Sponsor
-
-!!! info "How is OpenFaaS funded?"
-    OpenFaaS is free and open-source. As an end-user, supporter or commercial company, you can become a sponsor and get unique benefits, whilst also supporting the project and community.
-
-You can access exclusive updates, discounts, news and tutorials through the [The Treasure Trove Portal](https://faasd.exit.openfaas.pro/function/trove/) with over 80 updates from the OpenFaaS Founder going back to 2019.
-
-* [Become a GitHub Sponsor today](https://github.com/support/)
-
 ### Contributing
 
-OpenFaaS is written in Golang and contributions are welcomed from end-users and the community. It could mean providing feedback through testing features, proposing enhancements, or getting involved with the maintenance of almost to 40 projects.
+OpenFaaS is written in Go and contributions are welcomed from end-users and the community. It could mean providing feedback through testing features, proposing enhancements, or getting involved with the maintenance of almost 50 projects.
 
 * View the [contributing page](/community/#contribute)
 
