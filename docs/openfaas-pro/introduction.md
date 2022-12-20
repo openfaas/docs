@@ -14,6 +14,7 @@ Efficiency and redundancy:
 * [Scale idle functions to zero](/openfaas-pro/scale-to-zero) to save on compute costs, increase efficiency and lower your threat profile
 * [Retry failed invocations for functions](/openfaas-pro/retries) to handle issues with downstream APIs and back-pressure on concurrency-limited functions
 * CPU and RAM usage metrics for every function to measure usage and fine-tune limits
+* GitOps compatibility with the Function CustomResource, with Helm, ArgoCD and FluxCD.
 
 [![Scaling that works for various types of functions](https://pbs.twimg.com/media/FJ9EBVdWQAM9DeW?format=jpg&name=medium)](/architecture/autoscaling/)
 > Scaling that works for various types of functions
@@ -138,6 +139,8 @@ Scaling to zero is also a Pro feature, which can be customised on a function-lev
 | Metrics         | HTTP invocation metrics  | HTTP, CPU/RAM usage, and async/queue metrics      | As per Pro |
 | CPU & RAM utilization | Not available | Integrated with Prometheus metrics, OpenFaaS REST API & CLI | As per Pro |
 | Grafana Dashboards      | N/a             | 4x dashboards supplied in [Customer Community](https://github.com/openfaas/openfaas-pro) - overview, spotlight for debugging a function, queue-worker and Function Builder API | As per Pro |
+| GitOps & CRD support | N/a | ArgoCD & FluxCD compatibility using the Function CRD | As per Pro |
+| Deployment options | faas-cli, or REST API | faas-cli, REST API, kubectl or GitOps solution using Function CRD | As per Pro |
 
 > Did you know? Synadia, the vendor of NATS Streaming announced the product is now deprecated, and it will receive no updates from June 2023 onwards. OpenFaaS Ltd developed an alternative based upon their newest product JetStream. [Learn more about JetStream for OpenFaaS](https://docs.openfaas.com/openfaas-pro/jetstream/)
 
@@ -146,10 +149,10 @@ Scaling to zero is also a Pro feature, which can be customised on a function-lev
 | Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Number of topics per function   | One topic per function | Multiple topics per function | As per Pro |
-| [Kafka event trigger](/openfaas-pro/kafka-events) | Not supported | Supports SASL or TLS auth, Aiven, Confluent and self-hosted | As per Pro |
-| [Postgres trigger](/openfaas-pro/postgres-events) | Not supported | Supports insert, update and delete, with table-level filters using WAL or LISTEN/NOTIFY. | As per Pro |
-| [AWS SQS trigger](/openfaas-pro/sqs-events) | Not supported | Supported | As per Pro |
-| [Cron and scheduled invocations](/reference/cron) | Community support | Community support | Full support |
+| [Kafka event trigger](/openfaas-pro/kafka-events) | Not supported | Supports SASL or TLS auth, Aiven, Confluent and self-hosted | Support with SLA |
+| [Postgres trigger](/openfaas-pro/postgres-events) | Not supported | Supports insert, update and delete, with table-level filters using WAL or LISTEN/NOTIFY. | Support with SLA |
+| [AWS SQS trigger](/openfaas-pro/sqs-events) | Not supported | Standard support | Support with SLA |
+| [Cron and scheduled invocations](/reference/cron) | Community support | Standard support | Support with SLA |
 
 **Durability and reliability**
 
