@@ -95,31 +95,37 @@ We see it as the start of a two-way relationship and an opportunity to collabora
 
 **Support**
 
-| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
-| ----------------------| ------------------|------------------------|---------------------------------|
-| Suitability           | Open Source developers and initial exploration  | Production, business critical, or PoC | Production, business critical, or PoC |
-| SLA                   | N/a               | N/a                    | Response within 1 business day for P1 |
-| Support via email     | N/a               | Pro features only      | All certified Open Source and commercial components |
-| Support via GitHub    | N/a               | Pro features only      | N/a |
-| Support via Slack     | N/a               | N/a                    | Up to 5 developers              |
-| License                 | [MIT](https://github.com/openfaas/faas/blob/master/LICENSE)             | [Commercial license EULA](https://github.com/openfaas/faas/blob/master/pro/EULA)     | As per Pro |
-| Review meeting | N/a            | N/a                    | Quarterly via Zoom as required |
+| Description                 | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS for Enterprise             |
+| ----------------------------| ------------------|------------------------|---------------------------------|
+| Suitability                 | Open Source developers and initial exploration  | Production, business critical, or PoC | Regulated companies which may have additional legal and compliance requirements |
+| SLA                         | N/a               | N/a                    | Response within 1 business day for P1 |
+| Buying process              | N/a           | Invoice paid by bank transfer           | Supplier portals, custom paperwork, negotiation with procurement. |
+| Legal review of contract    | N/a           | N/a                     | Yes |
+| Signing of Mutual NDA       | N/a               | N/a                    | Subject to agreement |
+| Additional compliance needs | N/a         | N/a                    | Subject to agreement |
+| Support via email           | N/a               | Pro features only      | All certified Open Source and commercial components |
+| Support via GitHub          | N/a               | Pro features only using the Customer Community      | N/a |
+| Support via Slack           | N/a               | N/a                    | Up to 5 developers              |
+| License                     | [MIT](https://github.com/openfaas/faas/blob/master/LICENSE)             | [Commercial license EULA](https://github.com/openfaas/faas/blob/master/pro/EULA)     | As per Pro |
+| Architecture review  | N/a            | N/a                    | With our team via Zoom |
 | Onboarding call | N/a            | N/a                    | With our team via Zoom |
-| [Customer Community](https://github.com/openfaas/openfaas-pro)   | N/a      | Private access to [Customer Community](https://github.com/openfaas/openfaas-pro) 1x per licensed cluster | As per Pro |
+| [Customer Community](https://github.com/openfaas/openfaas-pro)   | N/a      | Private access to [Customer Community](https://github.com/openfaas/openfaas-pro) - one user per licensed cluster | Custom amount of users |
 
-Enterprise Support comes with an SLA, defined separately. Support for OpenFaaS Pro is on a self-service basis, with no formal SLA offered.
+OpenFaaS For Enterprise comes with an SLA, defined separately. It is suitable for companies which have a separate legal and procurement department, who are regulated and have additional legal or compliance requirements. The annual architecture review is to reduce risk by reviewing the configuration and informing the team of any recommended changes to the installation and configuration of OpenFaaS.
 
-The [Customer Community](https://github.com/openfaas/openfaas-pro) is available to all customers and provides direct access to developers of OpenFaaS, and other customers for exclusive configurations & guides, early access to features, collaboration and announcements.
+Support for OpenFaaS Pro is on a self-service basis, with no formal SLA offered.
+
+The [Customer Community](https://github.com/openfaas/openfaas-pro) is a private GitHub repository for giving feedback to the OpenFaaS team, for early access to new features and collaboration with other customers.
 
 Did you know?
 
-Any user of OpenFaaS is welcome to attend [a weekly Office Hours call](/community), which is a shared space for collaboration.
+The OpenFaaS community holds a weekly [Office Hours call](/community) on Zoom where you can start contributing to the project and ask any additional questions you may have.
 
 **Autoscaling**
 
 Did you know? OpenFaaS Pro's autoscaling engine can scale many different types of functions and closely match the load with the right amount of replicas.
 
-| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
+| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Scale to Zero | Not supported | [Global default, or custom time per function](/openfaas-pro/scale-to-zero) | As per Pro |
 | Scale to From | Not supported | Supported, with additional checks for Istio | As per Pro |
@@ -132,7 +138,7 @@ Scaling to zero is also a Pro feature, which can be customised on a function-lev
 
 **Core features**
 
-| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
+| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | UI Dashboard         | Legacy UI (in code-freeze)  | [New UI dashboard](/openfaas-pro/dashboard) with metrics, logs & CI integration | As per Pro, but with support for multiple namespaces |
 | Consume secrets in `faas-cli build` for npm, Go and Pypy | Not available | Via build-time secrets | As Per Pro |
@@ -148,7 +154,7 @@ Scaling to zero is also a Pro feature, which can be customised on a function-lev
 
 **Event-connectors**
 
-| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
+| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Number of topics per function   | One topic per function | Multiple topics per function | As per Pro |
 | [Kafka event trigger](/openfaas-pro/kafka-events) | Not supported | Supports SASL or TLS auth, Aiven, Confluent and self-hosted | Support with SLA |
@@ -158,7 +164,7 @@ Scaling to zero is also a Pro feature, which can be customised on a function-lev
 
 **Durability and reliability**
 
-| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
+| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Readiness probes | Not supported | [Readiness probes](/reference/workloads) supported with custom HTTP path and intervals per function | As per Pro |
 | Retries for failed function invocations | Not supported | [Retry invocations](/openfaas-pro/retries) for configured HTTP codes with an exponential back-off | As per Pro |
@@ -168,7 +174,7 @@ Scaling to zero is also a Pro feature, which can be customised on a function-lev
 
 **Security**
 
-| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
+| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Authentication for OpenFaaS API, CLI and UI | Shared admin password between everyone who uses OpenFaaS | N/a | [Single Sign-On with OIDC](/openfaas-pro/sso) |
 | Compatibility with Istio for mTLS | N/a | Supported | As per Pro |
@@ -184,7 +190,7 @@ Isolation using Kata containers or gVisor is advisable when running untrusted co
 
 We have several customers of varying size who host code on behalf of their customers. OpenFaaS can provide a complete workflow from building the code securely, to deploying it within an isolated namespace. It's easy to integrate with existing systems using the REST APIs we make available.
 
-| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS Enterprise             |
+| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Deploy functions via REST API | Yes | As per CE | As per CE | 
 | Build containers and functions via REST API | N/a | N/a | [Yes via Function Builder API](/openfaas-pro/builder) |
@@ -211,7 +217,7 @@ Tell us about your use-case for OpenFaaS Pro, CE or faasd and see what other com
 
 ### Support
 
-OpenFaaS Enterprise comes with support for the Certified Open Source Components and OpenFaaS Pro, with support via email within a Service Level Agreement (SLA). Along with email support, each team gets their own dedicated Slack channel for questions, collaboration and assistance.
+OpenFaaS for Enterprise comes with support for the Certified Open Source Components and OpenFaaS Pro, with support via email within a Service Level Agreement (SLA). Along with email support, each team gets their own dedicated Slack channel for questions, collaboration and assistance.
 
 OpenFaaS Pro operates on a self-service model with support for OpenFaaS Pro features only via email.
 
