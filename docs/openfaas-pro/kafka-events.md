@@ -26,7 +26,15 @@ See [helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/kafka-
 
 ## Usage
 
-Once you have configured a number of topics, you can then annotate your functions so that they get triggered by any incoming messages on those topics.
+The topics you need to connect to functions are set on a connector.
+
+A single connector can have either a single topic, or a comma-separated list of topics.
+
+Customers tend to prefer to deploy a single copy of the connector for each topic, so that they can be scaled to match the number of consumers set on the partition.
+
+But it's also possible to use a single connector and pass in multiple topics i.e. `payment.created,customer.onboarded,invoice.generate`.
+
+Your function(s) can then subscribe to one or more topics by setting the topic annotation with the name of the topic, or a comma separated list of topics.
 
 Create a new function:
 
