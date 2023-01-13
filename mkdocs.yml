@@ -133,6 +133,7 @@ nav:
       - Kafka events: ./openfaas-pro/kafka-events.md
       - Postgres events: ./openfaas-pro/postgres-events.md
       - AWS SQS events: ./openfaas-pro/sqs-events.md
+      - AWS SNS events: ./openfaas-pro/sns-events.md
       - Retries: ./openfaas-pro/retries.md
       - Single Sign-On: ./openfaas-pro/sso.md
       - Function Builder API: ./openfaas-pro/builder.md

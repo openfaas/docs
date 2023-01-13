@@ -75,6 +75,12 @@ Trigger your functions from events within AWS by publishing events to various AW
 
 [Read the documentation](https://docs.openfaas.com/openfaas-pro/sqs-events/)
 
+### AWS SNS (OpenFaaS Pro)
+
+Trigger OpenFaaS functions based upon many different types of events generated in AWS using an AWS SNS subscription.
+
+[Read the documentation](https://docs.openfaas.com/openfaas-pro/sns-events/)
+
 ### Cron Connector
 
 The [cron-connector](https://github.com/openfaas/cron-connector) can be used to trigger functions on a timed schedule. It uses traditional cron expressions.
@@ -101,12 +107,6 @@ For S3 on AWS, see the AWS SQS Connector.
 OpenFaaS has a built-in queue system with NATS Streaming, however you can also invoke functions using the pub/sub mechanism of [NATS](https://nats.io) Core.
 
 View the [nats-connector](https://github.com/openfaas/nats-connector)
-
-### AWS SNS
-
-AWS SNS subscriptions can be used to trigger OpenFaaS functions. The approach does not require any separate connector. You can subscribe to an SNS topic and confirm the subscription via HTTP.
-
-The AWS SDKs can be used to manage the subscription and to verify messages.
 
 ### CloudEvents
 
