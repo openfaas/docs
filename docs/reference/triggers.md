@@ -18,7 +18,7 @@ The function URL follows the pattern of:
 https://<gateway URL>:<port>/function/<function name>
 ```
 
-### Async / NATS Streaming
+### Async / JetStream
 
 You can execute a function or microservice asynchronously by replacing `/function/` with `/async-function/` when accessing the endpoint via the OpenFaaS gateway.
 
@@ -44,15 +44,17 @@ echo "triggered" | faas-cli invoke figlet
 
 Find out more: [faas-cli on GitHub](https://github.com/openfaas/faas-cli)
 
-## Additional triggers
+## OpenFaaS Pro triggers
 
-The OpenFaaS event-pattern allows you to create a broker or separate microservice which maps functions to topics and invokes functions via the OpenFaaS Gateway meaning that the OpenFaaS code does not need to be modified per trigger/event-source.
+With the connector patterns, you can trigger functions from any event-source or messaging system, without having to add SDKs or subscription code to each of your functions.
 
-![Event-connector pattern](../images/connector-pattern.png)
+This means a function can be triggered by Apache Kafka, AWS SNS and Cron, without having any direct coupling to of these systems. As functions scale, there is no additional load generated on the underlying event sources.
 
-> Pictured: Event-connector pattern. One topic, subject or queue can be broadcast to multiple functions.
+[![Event-connector pattern](../images/connector-pattern.png)](../images/connector-pattern.png)
 
-### Apache Kafka (OpenFaaS Pro)
+> Pictured: Event-connector pattern. Each topic, subject or queue can be broadcast to one or many functions.
+
+### Apache Kafka
 
 Trigger your functions via [Apache Kafka](https://kafka.apache.org) topics.
 
@@ -63,29 +65,35 @@ See also:
 * [Staying on topic: trigger your OpenFaaS functions with Apache Kafka](https://www.openfaas.com/blog/kafka-connector/)
 * [Event-driven OpenFaaS with Managed Kafka from Aiven](https://www.openfaas.com/blog/openfaas-kafka-aiven/)
 
-### Postgres (OpenFaaS Pro)
+### Postgres
 
-Trigger functions based upon Postgres events including: insert, update and delete.
+Trigger functions based upon Postgres events including: insert, update and delete. The default mode uses the efficient Write Ahead Log (WAL) that is also used by Postgres for replication.
 
-[Request more info](https://openfaas.com/support/)
+[Read the documentation](/openfaas-pro/postgres-events)
 
-### AWS SQS (OpenFaaS Pro)
+### AWS SQS
 
-Trigger your functions from events within AWS by publishing events to various AWS SQS queues.
+Trigger your functions from events within AWS by publishing events to AWS SQS queues.
 
-[Read the documentation](https://docs.openfaas.com/openfaas-pro/sqs-events/)
+[Read the documentation](/openfaas-pro/sqs-events)
 
-### AWS SNS (OpenFaaS Pro)
+### AWS SNS
 
-Trigger OpenFaaS functions based upon many different types of events generated in AWS using an AWS SNS subscription.
+Trigger OpenFaaS functions based upon many different types of events generated in AWS using an AWS SNS subscription. Events are sent by AWS via HTTPS and the connector will require as public endpoint to be accessible. Events are verified using the AWS public key and TLS ensures encryption of messages.
 
-[Read the documentation](https://docs.openfaas.com/openfaas-pro/sns-events/)
+If you are unable to expose a public endpoint for any reason, and still need events from AWS, we recommend using the SQS connector instead.
+
+[Read the documentation](/openfaas-pro/sns-events)
 
 ### Cron Connector
 
 The [cron-connector](https://github.com/openfaas/cron-connector) can be used to trigger functions on a timed schedule. It uses traditional cron expressions.
 
+When using the Community Edition (CE) of the connector, functions can only be invoked by the cron connector, however OpenFaaS Pro customers can set up a function to be invoked by Cron and any other connectors that they need.
+
 See also: [Scheduling function runs](/reference/cron/) in the docs.
+
+## Community Triggers
 
 ### MQTT Connector
 
@@ -104,7 +112,7 @@ For S3 on AWS, see the AWS SQS Connector.
 
 ### NATS Pub/sub
 
-OpenFaaS has a built-in queue system with NATS Streaming, however you can also invoke functions using the pub/sub mechanism of [NATS](https://nats.io) Core.
+OpenFaaS Pro has a built-in queue and integration with NATS JetStream, however you can also invoke functions using the pub/sub mechanism of [NATS](https://nats.io) Core.
 
 View the [nats-connector](https://github.com/openfaas/nats-connector)
 
@@ -122,16 +130,6 @@ Invoke functions from RabbitMQ topics. This is a third party project.
 
 More information in the repository: [templum/rabbitmq-connector](https://github.com/Templum/rabbitmq-connector)
 
-### IFTTT
-
-You can trigger OpenFaaS functions using webhooks sent via the (if this, then that) service.
-
-An example may be triggering a function which forwards Tweets about your brand or project to a given Slack channel. For this combination use the "Twitter search" Applet and have it trigger the "Make a web request" Applet giving the public URL of your OpenFaaS gateway and the receiver function such as https://gw.my-company.com/function/slack-forwarder
-
-See an example of a function built to forward Tweets from IFTTTT to Slack using Golang: [filter-tweets](https://github.com/openfaas-incubator/social-functions/blob/master/filter-tweets/handler.go).
-
-Visit [ifttt.com](https://ifttt.com) to learn more.
-
 ### VMware vCenter
 
 The vcenter-connector by OpenFaaS is an event connector built to consume events from [VMware's vCenter product](https://en.wikipedia.org/wiki/VCenter).
@@ -147,3 +145,13 @@ Link: [openfaas-vcenter-connector](https://github.com/openfaas-incubator/openfaa
 Invoke functions from [Pushbullet](https://www.pushbullet.com) channels. This is a third party project.
 
 More information in the repository: [MrSimonEmms/openfaas-pushbullet-connector](https://github.com/MrSimonEmms/openfaas-pushbullet-connector)
+
+### IFTTT
+
+You can trigger OpenFaaS functions using webhooks sent via the (if this, then that) service.
+
+An example may be triggering a function which forwards Tweets about your brand or project to a given Slack channel. For this combination use the "Twitter search" Applet and have it trigger the "Make a web request" Applet giving the public URL of your OpenFaaS gateway and the receiver function such as https://gw.my-company.com/function/slack-forwarder
+
+See an example of a function built to forward Tweets from IFTTTT to Slack using Golang: [filter-tweets](https://github.com/openfaas-incubator/social-functions/blob/master/filter-tweets/handler.go).
+
+Visit [ifttt.com](https://ifttt.com) to learn more.
