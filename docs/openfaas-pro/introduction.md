@@ -67,19 +67,24 @@ Recently released:
 * CPU and RAM usage metrics within the OpenFaaS API, CLI and Pro UI dashboard (released Feb 2022)
 * AWS SQS event-connector (released January 2022)
 * Concurrency limiting for functions - i.e. one request per container
-* Redesigned async system with NATS JetStream which replaces NATS Streaming (available in pilot)
+* Redesigned async system with NATS JetStream which replaces NATS Streaming (released)
     * NATS Streaming is available for CE and will be deprecated in June 2023.
     * Dedicated Helm chart for installing additional queue-workers with JetStream
     * Structured logging / JSON for OpenFaaS Pro customers in the queue-worker
-* Postgres event connector using either WAL or LISTEN/NOTIFY
+* Postgres event connector using either WAL or LISTEN/NOTIFY (released Dec 2022)
+* AWS SNS event-connector released Jan 2023
 
 Upcoming:
 
-* Enhanced RBAC for functions and the OpenFaaS REST API
-* AMQP event trigger for RabbitMQ and Azure Service Bus
+* Ongoing conversion to structured/JSON logging of OpenFaaS Pro components
+* Enhanced RBAC for the OpenFaaS REST API for OpenFaaS for Enterprises
+* Additional event triggers i.e. AMQP event trigger for RabbitMQ and Azure Service Bus
+* Proactive remote monitoring for support customers
 * Enhanced multi-tenant isolation for large organisations and service providers
 
 Is there something else you need for your team or organisation? [Get in touch with us here](https://openfaas.com/support/).
+
+If you're already a customer, we welcome suggestions for the roadmap in [the Customer Community](https://github.com/openfaas/openfaas-pro).
 
 ### Comparison
 
