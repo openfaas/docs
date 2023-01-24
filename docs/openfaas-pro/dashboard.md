@@ -126,6 +126,7 @@ The username is `admin` and the password is the same one used for `faas-cli logi
 Once deployed, you can leave your dashboard private, and access it via port-forwarding, or create a Public Ingress record to access it over the Internet.
 
 There two three options for Public Ingress:
+
 * Kubernetes Ingress Controller
 * Istio Gateway/VirtualService.
 
