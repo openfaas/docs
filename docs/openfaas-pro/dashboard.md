@@ -73,6 +73,8 @@ The OpenFaaS Dashboard is installed through the [openfaas helm chart](https://gi
 
 Before deploying, you'll need to have created a secret for your license, you'll find instruction in the helm chart for this.
 
+### Create a signing key
+
 Next, you need to create a JWT signing key and a separate secret for this. It's used to sign and validate logged in sessions.
 
 ```bash
@@ -99,9 +101,35 @@ dashboard:
 
 The `publicURL`, doesn't necessarily have to be publicly exposed on the Internet, but it does need to be a fully qualified domain name (FQDN).
 
-### Create Ingress to access the dashboard
+### Access your dashboard via port-forwarding
 
-Once deployed, you will need to create an Ingress record or an Istio VirtualService to access the service.
+If you don't want to expose your dashboard to users over the Internet, then you can access it as and when required using port-forwarding. Instead of giving a domain and DNS record, you can set the public url in your values.yaml file to `localhost` or an empty string.
+
+```yaml
+dashboard:
+  enabled: true
+  publicURL: "localhost"
+```
+
+To access the dashboard run the following, whenever you need it:
+
+```bash
+kubectl port-forward \
+  -n openfaas \
+  svc/dashboard 8080:8080
+```
+
+The username is `admin` and the password is the same one used for `faas-cli login`.
+
+### Expose your dashboard on the Internet
+
+Once deployed, you can leave your dashboard private, and access it via port-forwarding, or create a Public Ingress record to access it over the Internet.
+
+There two three options for Public Ingress:
+* Kubernetes Ingress Controller
+* Istio Gateway/VirtualService.
+
+If your cluster does not have a public IP, but you still want to access the dashboard over the Internet, we have included notes on how [inlets.dev](https://inlets.dev) can help.
 
 Assuming you already have a Let's Encrypt Issuer and are using ingress-nginx, you could use the following example:
 
@@ -173,22 +201,6 @@ spec:
 ```
 
 You can use the same tunnel and exit server for multiple domains, to expose both the gateway and the dashboard with TLS and authentication.
-
-If you don't want to expose your dashboard to users, then you can access it as and when required using port-forwarding. Instead of giving a domain and DNS record, you can set the public url in your values.yaml file to `localhost` or an empty string.
-
-```yaml
-dashboard:
-  enabled: true
-  publicURL: "localhost"
-```
-
-To access the dashboard run:
-
-```bash
-kubectl port-forward \
-  -n openfaas \
-  svc/dashboard 8080:8080
-```
 
 ## Would you like a demo?
 
