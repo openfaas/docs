@@ -64,7 +64,7 @@ faas-cli store deploy cows \
 
 Any of these fields can be replaced through environment substitution in stack.yml or using helm during CI/CD.
 
-See also: [Environment substitution in stack.yml](http://localhost:8000/reference/yaml/#yaml-environment-variable-substitution)
+See also: [Environment substitution in stack.yml](/reference/yaml/#yaml-environment-variable-substitution)
 
 
 ## Installation
