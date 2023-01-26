@@ -58,6 +58,17 @@ Build functions at scale - for services providers and large teams:
 
 * [Build functions via REST API](/openfaas-pro/builder) using source code without the need to create and manage dozens or hundreds of independent CI jobs.
 
+### Grafana dashboards
+
+OpenFaaS comes with [built-in Prometheus metrics](/architecture/metrics). We provide [a collection of Grafana dashboards](/openfaas-pro/grafana-dashboards) to customers to help with monitoring OpenFaaS and individual functions.
+
+
+### Private code from functions
+
+Get access to Pro plugins for the faas-cli and additional function templates to build functions that require code from private Git, PyPy or NPM.
+
+* Use private npm, python, go modules from functions with [faas-cli plugins and build-time secrets](/cli/build/#plugins-and-build-time-secrets)
+
 ### On our roadmap
 
 Recently released:
