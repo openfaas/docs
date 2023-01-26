@@ -139,6 +139,7 @@ nav:
       - Retries: ./openfaas-pro/retries.md
       - Single Sign-On: ./openfaas-pro/sso.md
       - Function Builder API: ./openfaas-pro/builder.md
+      - Grafana dashboards: ./openfaas-pro/grafana-dashboards.md
   - Reference:
     - OpenFaaS YAML: ./reference/yaml.md
     - Secrets: ./reference/secrets.md
