@@ -41,13 +41,13 @@ for i in {0..3}; do curl https://of-pro.example.com/function/figlet -d $i ; done
 ```
 
 To populate the metadata in the UI, simply set the following at deployment time via `faas-cli deploy` or the OpenFaaS Custom Resource:
-
+ 
 | Type | Key | Example value |
 |------|-----|---------------|
-| annotation | `com.openfaas.git-repo-url` | `https://github.com/openfaas/store-functions` |
-| label | `com.openfaas.git-owner` | `openfaas` |
-| label | `com.openfaas.git-repo` | `store-functions` |
 | label | `com.openfaas.git-branch` | `master` |
+| label | `com.openfaas.git-owner` | `openfaas` |
+| annotation | `com.openfaas.git-repo-url` | `https://github.com/openfaas/store-functions` |
+| label | `com.openfaas.git-repo` | `store-functions` |
 | label | `com.openfaas.git-sha` | `665d9597547d8e0425630ba2dbb73c2951a61ce2` |
 
 Here's an example:
@@ -64,8 +64,39 @@ faas-cli store deploy cows \
 
 Any of these fields can be replaced through environment substitution in stack.yml or using helm during CI/CD.
 
-See also: [Environment substitution in stack.yml](/reference/yaml/#yaml-environment-variable-substitution)
+Example snippet from stack.yml:
 
+```yaml
+functions:
+  cows:
+    lang: go
+    handler: ./cows
+    image: alexellis2/cows:0.1
+    labels:
+      com.openfaas.git-sha: ${GIT_SHA:-dev}
+```
+
+Then using environment variables from your CI system such as GitHub Actions or GitLab CI, override any variables you want to change.
+
+Example of injecting the SHA from Gitlab:
+
+```bash
+GIT_SHA=$CI_COMMIT_SHA faas-cli deploy
+```
+
+Example with GitHub Actions:
+
+```bash
+GIT_SHA=$GITHUB_SHA faas-cli deploy
+```
+
+When the GIT_SHA variable is omitted, then the text `dev` will be inputted instead.
+
+See also:
+
+* [GitLab CI Environment variables](https://docs.gitlab.com/ee/ci/variables/#list-all-variables)
+* [GitHub Actions Environment variables](https://docs.github.com/en/github-ae@latest/actions/learn-github-actions/variables#default-environment-variables)
+* [Environment substitution in stack.yml](/reference/yaml/#yaml-environment-variable-substitution)
 
 ## Installation
 
