@@ -10,8 +10,8 @@ The Gateway component exposes several metrics to help you monitor the health and
 | `gateway_function_invocation_total` | counter    | Function invocation count           | `function_name`, `code`    | Community Edition  |
 | `gateway_invocation_function_started`             | counter    | Invocations started, including async | `function_name`            | Pro Edition  |
 | `gateway_invocation_function_invocation_inflight`             | gauge    | Total connections inflight for function invocations | `function_name`            | Pro Edition  |
-| `gateway_service_count`             | counter    | Number of function replicas         | `function_name`            | Community Edition  |
-| `gateway_service_ready_count`             | counter    | Number of function replicas which are in a ready state | `function_name`            | Pro Edition  |
+| `gateway_service_count`             | gauge    | Number of function replicas         | `function_name`            | Community Edition  |
+| `gateway_service_ready_count`             | gauge    | Number of function replicas which are in a ready state | `function_name`            | Pro Edition  |
 | `gateway_service_target`            | gauge      | Target load for the function        | `function_name`            | Pro Edition  |
 | `gateway_service_min`               | gauge      |  Min number of function replicas    | `function_name`            | Pro Edition  |
 
