@@ -133,13 +133,14 @@ Did you know? OpenFaaS Pro's autoscaling engine can scale many different types o
 | Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Scale to Zero | Not supported | [Global default, or custom time per function](/openfaas-pro/scale-to-zero) | As per Pro |
+| Maximum replicas per function | 5/5 | Unbounded | As per Pro |
 | Scale to From | Not supported | Supported, with additional checks for Istio | As per Pro |
 | Autoscaling strategy   | RPS-only | [CPU utilization, Capacity (inflight requests) or RPS](/architecture/autoscaling)      | As per Pro |
-| Autoscaling granularity   | Single rule for all functions | Global defaults with override available per function      | As per Pro |
+| Autoscaling granularity   | Single rule for all functions | Configurable per function | As per Pro |
 
-Data-driven, intensive, or long running functions are best suited to capacity-based autoscaling, which is available in OpenFaaS Pro.
+Data-driven, intensive, or long running functions are best suited to capacity-based autoscaling, which is only available in OpenFaaS Pro.
 
-Scaling to zero is also a Pro feature, which can be customised on a function-level.
+Scaling to zero is also a Pro feature, which can be opted into on a per function basis, with a custom idle threshold.
 
 **Core features**
 
@@ -149,7 +150,7 @@ Scaling to zero is also a Pro feature, which can be customised on a function-lev
 | Consume secrets in `faas-cli build` for npm, Go and Pypy | Not available | Via build-time secrets | As Per Pro |
 | Kubernetes service accounts for functions      | N/a             | [Supported per function](/reference/workloads) | As per Pro |
 | Async / queueing | In-memory only, max 10 items in queue, 256KB message size | JetStream with shared queue | JetStream with dedicated queues |
-| Metrics         | HTTP invocation metrics  | HTTP, CPU/RAM usage, and async/queue metrics      | As per Pro |
+| Metrics         | Basic function metrics  | Function, HTTP, CPU/RAM usage, and async/queue metrics      | As per Pro |
 | CPU & RAM utilization | Not available | Integrated with Prometheus metrics, OpenFaaS REST API & CLI | As per Pro |
 | Grafana Dashboards      | N/a             | 4x dashboards supplied in [Customer Community](https://github.com/openfaas/openfaas-pro) - overview, spotlight for debugging a function, queue-worker and Function Builder API | As per Pro |
 | GitOps & CRD support | N/a | ArgoCD & FluxCD compatibility using the Function CRD | As per Pro |
