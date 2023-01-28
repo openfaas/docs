@@ -8,14 +8,20 @@ The Gateway component exposes several metrics to help you monitor the health and
 | ----------------------------------- | ---------- | ----------------------------------- | -------------------------- |--------------------|
 | `gateway_functions_seconds`         | histogram  | Function invocation time taken      | `function_name`            | Community Edition  |
 | `gateway_function_invocation_total` | counter    | Function invocation count           | `function_name`, `code`    | Community Edition  |
+| `gateway_invocation_function_started`             | counter    | Invocations started, including async | `function_name`            | Pro Edition  |
+| `gateway_invocation_function_invocation_inflight`             | gauge    | Total connections inflight for function invocations | `function_name`            | Pro Edition  |
 | `gateway_service_count`             | counter    | Number of function replicas         | `function_name`            | Community Edition  |
 | `gateway_service_ready_count`             | counter    | Number of function replicas which are in a ready state | `function_name`            | Pro Edition  |
 | `gateway_service_target`            | gauge      | Target load for the function        | `function_name`            | Pro Edition  |
 | `gateway_service_min`               | gauge      |  Min number of function replicas    | `function_name`            | Pro Edition  |
-| `http_request_duration_seconds`     | histogram  | Seconds spent serving HTTP requests | `method`, `path`, `status` | Community Edition  |
-| `http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `status` | Community Edition  |
-| `http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `status` | Community Edition  |
 
+Standard HTTP metrics often recorded by microservices are also available for OpenFaaS Pro customers.
+
+| Metric                              | Type       | Description                         | Labels                     | Edition            |
+| ----------------------------------- | ---------- | ----------------------------------- | -------------------------- |--------------------|
+| `http_request_duration_seconds`     | histogram  | Seconds spent serving HTTP requests | `method`, `path`, `status` | Pro Edition  |
+| `http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `status` | Pro Edition  |
+| `http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `status` | Pro Edition  |
 
 The `http_request*` metrics record the latency and statistics of `/system/*` routes to monitor the OpenFaaS gateway and its provider. The `/async-function` route is also recorded in these metrics to observe asynchronous ingestion rate and latency.
 
@@ -106,3 +112,4 @@ The queue-worker for NATS JetStream exposes metrics to help you get insight in t
 | `queue_worker_pending_messages`         | gauge      | Amount of messages waiting to be processed on given `queue_name`, `kubernetes_pod_name` | `queue_name` | Pro Edition |
 | `queue_worker_messages_processed_total` | counter    | Total number of messages processed              | `queue_name`, `kubernetes_pod_name` | Pro Edition |
 | `queue_worker_messages_submitted_total` | gauge      | Total number of messages submitted to the queue by the gateway | `queue_name`, `kubernetes_pod_name` | Pro Edition |
+
