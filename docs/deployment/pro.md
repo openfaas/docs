@@ -13,6 +13,8 @@ The Core platform features of OpenFaaS Pro consists of:
 * OpenFaaS Pro Gateway
 * OpenFaaS Pro Kubernetes Operator with Custom Resource Definitions (CRDs) i.e. `Function` and `Profile`
 * OpenFaaS Pro UI Dashboard
+* OpenFaaS Pro Autoscaler
+* OpenFaaS Pro Queue Worker for JetStream
 * OpenFaaS Pro CLI `faas-cli pro`
 
 The Core platform is installed using the same Helm chart as OpenFaaS CE, only with some additional values set, to deploy the additional Pro components and versions.
