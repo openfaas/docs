@@ -1,10 +1,10 @@
-# Deployment guide for Kubernetes
+# Deploy OpenFaaS Community Edition (CE) to Kubernetes
 
-Before deploying OpenFaaS, you should provision a Kubernetes cluster.
+Before deploying OpenFaaS Community Edition (CE), you will need to create a Kubernetes cluster.
 
-OpenFaaS should run on any compliant Kubernetes distribution.
+In our experience, OpenFaaS CE and Pro will run on any Kubernetes cluster, whether that's a local version, self-managed on-premises, or a managed cloud offering.
 
-## Installing OpenFaaS (overview)
+## Overview 
 
 There are many options for deploying a local or remote cluster. You can read about the [various Kubernetes distributions here](https://kubernetes.io/docs/setup/).
 
@@ -45,39 +45,15 @@ Guides for managed Kubernetes engines:
 
 ### Install the `faas-cli`
 
-!!! tip
-    Windows users are encouraged to download [Git Bash](https://git-scm.com/downloads) for use with the OpenFaaS guides and tooling.
+The faas-cli is required to manage OpenFaaS and to deploy functions:
 
-You can download the `faas-cli` for MacOS, Windows (Git Bash) or Linux using [arkade](https://arkade.dev/):
-
-```bash
-arkade get faas-cli
-```
-
-Alternatively, the CLI is available via a download script:
-
-```bash
-# MacOS and Linux users
-
-# If you run the script as a normal non-root user then the script
-# will download the faas-cli binary to the current folder
-$ curl -sL https://cli.openfaas.com | sudo sh
-
-# Windows users with (Git Bash)
-$ curl -sL https://cli.openfaas.com | sh
-```
-
-Brew is available, however may lag behind by a few versions, so we don't recommend this option.
-
-```bash
-brew install faas-cli
-```
+[Install the faas-cli](/cli/install)
 
 ### Install OpenFaaS Pro with `arkade` or `helm`
 
-Click here for installation instructions for OpenFaaS Pro and OpenFaaS for Enterprises:
+If you have purchased an OpenFaaS Pro or OpenFaaS for Enterprises license, use the following link:
 
-* [Install OpenFaaS Pro](/deployment/pro)
+[Install OpenFaaS Pro](/deployment/pro)
 
 ### Install OpenFaaS Community Edition (CE) via `arkade` or `helm`
 
