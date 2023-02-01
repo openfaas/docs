@@ -114,8 +114,9 @@ nav:
       - Introduction: index.md
       - Community: community.md
   - Getting Started:
-      - Deployment: deployment.md
-      - Kubernetes: ./deployment/kubernetes.md
+      - Deployment overview: deployment.md
+      - OpenFaaS CE: ./deployment/kubernetes.md
+      - OpenFaaS Pro: ./deployment/pro.md
       - faasd: ./deployment/faasd.md
       - OpenShift: ./deployment/openshift.md
       - Troubleshooting: ./deployment/troubleshooting.md

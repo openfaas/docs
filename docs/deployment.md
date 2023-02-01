@@ -34,7 +34,7 @@ Find out more about each option and how to deploy OpenFaaS to Kubernetes:
 
 ## OpenFaaS Pro/OpenFaaS for Enterprises (production, commercial use)
 
-* [Deploy OpenFaas Pro/for Enterprises](/deployment/pro)
+* [Deploy OpenFaaS Pro/for Enterprises](/deployment/pro)
 
 See also:
 
