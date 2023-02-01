@@ -1,13 +1,33 @@
 # Installation
 
-You can install the CLI with a `curl` utility script, `brew` or by downloading the binary from the releases page. Once installed you'll get the `faas-cli` command and `faas` alias.
+We recommend installing faas-cli through arkade, for the quickest and easiest installation.
 
-## Linux or macOS
+There is also a bash script for downloading the binary, and support for `brew`.
 
-Utility script with `curl`:
+## Installation with arkade
+
+Install arkade:
 
 ```bash
-$ curl -sSL https://cli.openfaas.com | sudo -E sh
+curl -sSL https://get.arkade.dev | sudo -E sh
+```
+
+Install faas-cli:
+
+```bash
+arkade get faas-cli
+```
+
+You can update faas-cli at any time by running the above command again.
+
+arkade can also be used to download around 120 different DevOps and Kubernetes tools, [find out more in the arkade README](https://arkade.dev)
+
+## Installation with Bash
+
+For Linux or macOS users, the following script can be used:
+
+```bash
+curl -sSL https://cli.openfaas.com | sudo -E sh
 ```
 
 > The flag `-E` allows for any `http_proxy` environmental variables to be passed through to the installation bash script.
@@ -15,17 +35,17 @@ $ curl -sSL https://cli.openfaas.com | sudo -E sh
 Non-root with curl downloads the binary into your current directory and will then print installation instructions:
 
 ```bash
-$ curl -sSL https://cli.openfaas.com | sh
+curl -sSL https://cli.openfaas.com | sh
 ```
 
 Via brew:
 
 ```bash
-$ brew install faas-cli
+brew install faas-cli
 ```
 
 !!! note
-    The `brew` release may not run the latest minor release but is updated regularly.
+    The version of faas-cli installed by `brew` is likely to lag behind a little, so we recommend using arkade instead.
 
 ## Windows
 
@@ -48,19 +68,19 @@ Several overrides exist which will be used by default if set and no other comman
 
 If you're running the faas-cli with `sudo` we recommend using `sudo -E` to pass through any environmental variables you may have configured such as a `http_proxy`, `https_proxy` or `no_proxy` entry.
 
-## Docker image
+## Running `faas-cli` with docker
 
 The `faas-cli` is also available as a Docker image making it convenient for use in CI jobs such as with a Jenkins pipeline or a task in cron.
 
-https://hub.docker.com/r/openfaas/faas-cli/tags/
+![ghcr.io/openfaas/faas-cli](https://ghcr.io/openfaas/faas-cli)
 
 There is no "latest" tag, so find the version of the CLI you want to use from the tags page on the Docker Hub. These correspond to the release from GitHub.
 
-> Note: the Docker image cannot be used to perform a build directly, but you can use it to generate a build context which can be used with a container builder such as Docker, buildkit or Kaniko in another part of your build pipeline.
+> Note: the Docker image cannot be used to perform a build directly, but you can use it to generate a build context which can be used with a container builder such as the OpenFaaS Pro Function Builder API, Docker, buildkit or Kaniko in another part of your build pipeline.
 
 Use-cases for the Docker image:
 
-* Generate the build context without running `docker build`  - `faas-cli build --shrinkwrap` 
+* Generate the build context without running docker with the `faas-cli build --shrinkwrap` command
 * Deploy an existing image to a remote server `faas-cli deploy`
 * Manage secrets with `faas-cli secret`
 * Invoke functions via cron with `faas-cli invoke`
@@ -72,6 +92,6 @@ The [contributing guide](/community/#contribute) has instructions for building f
 
 * **Star/fork** on GitHub: [faas-cli](https://github.com/openfaas/faas-cli)
 
-## Tutorial: learn how to use the CLI
+## Tutorial
 
-[Morning coffee with the OpenFaaS CLI](https://blog.alexellis.io/quickstart-openfaas-cli/)
+[5 tips and tricks for the OpenFaaS CLI by Alex Ellis](https://www.openfaas.com/blog/five-cli-tips/)

@@ -73,7 +73,13 @@ Brew is available, however may lag behind by a few versions, so we don't recomme
 brew install faas-cli
 ```
 
-### Install the OpenFaaS chart using `arkade` or `helm`
+### Install OpenFaaS Pro with `arkade` or `helm`
+
+Click here for installation instructions for OpenFaaS Pro and OpenFaaS for Enterprises:
+
+* [Install OpenFaaS Pro](/deployment/pro)
+
+### Install OpenFaaS Community Edition (CE) via `arkade` or `helm`
 
 There are three recommended ways to install OpenFaaS and you can pick whatever makes sense for you and your team. All options use the OpenFaaS helm chart.
 

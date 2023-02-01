@@ -17,7 +17,7 @@ OpenFaaS can be deployed to a variety of container orchestrators such as Kuberne
 
 OpenFaaS on Kubernetes bundles NATS and Prometheus. You can read about the stack in the [OpenFaaS architecture docs](https://docs.openfaas.com/architecture/stack/#layers-and-responsibilities)
 
-## Kubernetes (recommended for production and for work)
+## OpenFaaS Community Edition (CE) for Kubernetes (Internal use, development and Proof of concept)
 
 !!! warning "A foreword on security"
     Authentication is enabled by default with OpenFaaS, however you will also need to obtain a TLS certificate for your cluster if you are using OpenFaaS on the public Internet. Free certificates are available from LetsEncrypt.org.
@@ -31,6 +31,15 @@ There are three recommended ways to install OpenFaaS to a Kubernetes cluster:
 Find out more about each option and how to deploy OpenFaaS to Kubernetes:
 
 [Deploy to Kubernetes](/deployment/kubernetes/)
+
+## OpenFaaS Pro/OpenFaaS for Enterprises (production, commercial use)
+
+* [Deploy OpenFaas Pro/for Enterprises](/deployment/pro)
+
+See also:
+
+* [Detailed comparison CE vs. Pro](https://docs.openfaas.com/openfaas-pro/introduction/)
+* [View pricing](https://openfaas.com/pricing)
 
 ## faasd - Serverless for everyone else
 
