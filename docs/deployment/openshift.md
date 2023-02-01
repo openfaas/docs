@@ -1,6 +1,6 @@
 # Deployment guide for OpenShift 3.11
 
-OpenFaaS has been tested with OpenShift 3.11.
+OpenFaaS CE has been tested with OpenShift 3.11 and also works with OpenShift 4.x, but no instructions are provided at this time.
 
 ## Deploy in a container
 
