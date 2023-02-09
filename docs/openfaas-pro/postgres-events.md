@@ -45,7 +45,9 @@ There are two options for triggering functions from Postgres:
 
 === "Trigger mode"
 
-    The connector will automatically create a database schema named `openfaas` and a function `openfaas.notify_event` when trigger mode is enabled.
+    On start-up, the connector will create a database schema named `openfaas` and a function named `notify_event` which emits events using `pg_notify()`.
+
+    If you are following least-privilege principles, you'll need to define a Postgresql user with the above permissions.
     
     To receive events on table changes a trigger needs to be created for one or more specific tables to. The [usage](#usage) section explains how to create these.
 
