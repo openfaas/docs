@@ -88,7 +88,8 @@ Recently released:
 Upcoming:
 
 * Ongoing conversion to structured/JSON logging of OpenFaaS Pro components
-* Enhanced RBAC for the OpenFaaS REST API for OpenFaaS for Enterprises
+* IAM & RBAC for the OpenFaaS REST API
+* Webhook-based auditing of the OpenFaaS REST API
 * Additional event triggers i.e. AMQP event trigger for RabbitMQ and Azure Service Bus
 * Proactive remote monitoring for support customers
 * Enhanced multi-tenant isolation for large organisations and service providers
