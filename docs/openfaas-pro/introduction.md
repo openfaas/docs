@@ -229,6 +229,9 @@ OpenFaaS Pro is trusted by:
 * Edge Delta
 * Patchworks Integration Limited
 * Klar MX
+* Live Time Value (LTV) Co.
+* BCubed Engineering
+* Kubiya
 
 Tell us about your use-case for OpenFaaS Pro, CE or faasd and see what other companies are doing in the: [ADOPTERS file](https://github.com/openfaas/faas/blob/master/ADOPTERS) 
 
