@@ -82,8 +82,10 @@ Recently released:
     * NATS Streaming is available for CE and will be deprecated in June 2023.
     * Dedicated Helm chart for installing additional queue-workers with JetStream
     * Structured logging / JSON for OpenFaaS Pro customers in the queue-worker
+* Custom readiness per function for enhanced concurrency limiting (released Oct 2022)
 * Postgres event connector using either WAL or LISTEN/NOTIFY (released Dec 2022)
-* AWS SNS event-connector released Jan 2023
+* Access to private artifact registries from `faas-cli build` for npm, Pip, Go modules, etc (released Dec 2022)
+* AWS SNS event-connector (released Jan 2023)
 
 Upcoming:
 
