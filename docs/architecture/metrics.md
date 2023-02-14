@@ -2,23 +2,25 @@
 
 ## Gateway
 
-The Gateway component exposes several metrics to help you monitor the health and behavior of your functions
+The Gateway component exposes several metrics to help you monitor the health and behavior of your functions.
+
+The Community Edition exposes basic metrics, with OpenFaaS Pro extending on the data available.
 
 | Metric                              | Type       | Description                         | Labels                     | Edition            |
 | ----------------------------------- | ---------- | ----------------------------------- | -------------------------- |--------------------|
 | `gateway_functions_seconds`         | histogram  | Function invocation time taken      | `function_name`            | Community Edition  |
 | `gateway_function_invocation_total` | counter    | Function invocation count           | `function_name`, `code`    | Community Edition  |
-| `gateway_invocation_function_started`             | counter    | Invocations started, including async | `function_name`            | Pro Edition  |
-| `gateway_invocation_function_invocation_inflight`             | gauge    | Total connections inflight for function invocations | `function_name`            | Pro Edition  |
 | `gateway_service_count`             | gauge    | Number of function replicas         | `function_name`            | Community Edition  |
-| `gateway_service_ready_count`             | gauge    | Number of function replicas which are in a ready state | `function_name`            | Pro Edition  |
-| `gateway_service_target`            | gauge      | Target load for the function        | `function_name`            | Pro Edition  |
-| `gateway_service_min`               | gauge      |  Min number of function replicas    | `function_name`            | Pro Edition  |
 
-Standard HTTP metrics often recorded by microservices are also available for OpenFaaS Pro customers.
+Advanced metrics for OpenFaaS Pro users:
 
 | Metric                              | Type       | Description                         | Labels                     | Edition            |
 | ----------------------------------- | ---------- | ----------------------------------- | -------------------------- |--------------------|
+| `gateway_invocation_function_started`             | counter    | Invocations started, including async | `function_name`            | Pro Edition  |
+| `gateway_invocation_function_invocation_inflight`             | gauge    | Total connections inflight for function invocations | `function_name`            | Pro Edition  |
+| `gateway_service_ready_count`             | gauge    | Number of function replicas which are in a ready state | `function_name`            | Pro Edition  |
+| `gateway_service_target`            | gauge      | Target load for the function        | `function_name`            | Pro Edition  |
+| `gateway_service_min`               | gauge      |  Min number of function replicas    | `function_name`            | Pro Edition  |
 | `http_request_duration_seconds`     | histogram  | Seconds spent serving HTTP requests | `method`, `path`, `status` | Pro Edition  |
 | `http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `status` | Pro Edition  |
 | `http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `status` | Pro Edition  |
@@ -33,6 +35,37 @@ CPU & RAM usage/consumption metrics are available for OpenFaaS Pro users via Pro
 | ----------------------------------- | ---------- | ----------------------------------- | -------------------------- |--------------------|
 | `pod_cpu_usage_seconds_total`         | counter  | CPU seconds consumed by all the replicas of a given function | `function_name`, `namespace`| Pro Edition  |
 | `pod_memory_working_set_bytes`         | gauge  | Bytes of RAM consumed by all the replicas of a given function | `function_name`, `namespace`| Pro Edition  |
+
+## JetStream for OpenFaaS
+
+The queue-worker for NATS JetStream exposes metrics to help you get insight in the behavior of your OpenFaaS queues.
+
+| Metric                                  | Type       | Description                                     | Labels       | Edition     |
+| ----------------------------------------| ---------- | ------------------------------------------------| -------------|-------------|
+| `queue_worker_pending_messages`         | gauge      | Amount of messages waiting to be processed on given `queue_name`, `kubernetes_pod_name` | `queue_name` | Pro Edition |
+| `queue_worker_messages_processed_total` | counter    | Total number of messages processed              | `queue_name`, `kubernetes_pod_name` | Pro Edition |
+| `queue_worker_messages_submitted_total` | gauge      | Total number of messages submitted to the queue by the gateway | `queue_name`, `kubernetes_pod_name` | Pro Edition |
+
+## Watchdog
+
+The classic and of-watchdog both provide Prometheus instrumentation on TCP port 8081 on the path /metrics. This is to enable the use-case of HPAv2 from the Kubernetes ecosystem.
+
+| Metric                              | Type       | Description                         | Labels                       | Edition            |
+| ----------------------------------- | ---------- | ----------------------------------- | ---------------------------- |--------------------|
+| `http_request_duration_seconds`     | histogram  | Seconds spent serving HTTP requests | `method`, `path`, `status`   | Community Edition  |
+| `http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `status`   | Community Edition  |
+| `http_requests_in_flight`           | gauge      | The number of HTTP requests in flight | `method`, `path`, `status` | Pro Edition        |
+
+## Provider
+
+The [FaaS Provider](/architecture/faas-provider) is the back-end API used by other OpenFaaS components like the Gateway. It exposes several metrics.
+
+| Metric                              | Type       | Description                         | Labels                     | Edition            |
+| ----------------------------------- | ---------- | ----------------------------------- | ---------------------------|--------------------|
+| `provider_http_request_duration_seconds`     | histogram  | Seconds spent serving HTTP requests | `method`, `path`, `code`   | Pro Edition  |
+| `provider_http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `code`   | Pro Edition  |
+
+The `http_request*` metrics record the latency and statistics of `/system/*` routes. Part of this information is also recorded in the metrics for the Gateway component. The purpose of exposing separate metrics on the provider component is to show the count of calls, to show efficiency, and to show the duration for performance testing, along with errors to flag unseen issues.
 
 ## Example queries for dashboarding
 
@@ -82,34 +115,3 @@ rate ( gateway_function_invocation_total{function_name='echo'} [20s])
 
 [prom-query-basics]: https://prometheus.io/docs/prometheus/latest/querying/basics/
 [prom-query-examples]: https://prometheus.io/docs/prometheus/latest/querying/examples/
-
-## Watchdog
-
-The classic and of-watchdog both provide Prometheus instrumentation on TCP port 8081 on the path /metrics. This is to enable the use-case of HPAv2 from the Kubernetes ecosystem.
-
-| Metric                              | Type       | Description                         | Labels                       | Edition            |
-| ----------------------------------- | ---------- | ----------------------------------- | ---------------------------- |--------------------|
-| `http_request_duration_seconds`     | histogram  | Seconds spent serving HTTP requests | `method`, `path`, `status`   | Community Edition  |
-| `http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `status`   | Community Edition  |
-| `http_requests_in_flight`           | gauge      | The number of HTTP requests in flight | `method`, `path`, `status` | Pro Edition        |
-
-## Provider
-
-The [FaaS Provider](/architecture/faas-provider) is the back-end API used by other OpenFaaS components like the Gateway. It exposes several metrics.
-
-| Metric                              | Type       | Description                         | Labels                     | Edition            |
-| ----------------------------------- | ---------- | ----------------------------------- | ---------------------------|--------------------|
-| `provider_http_request_duration_seconds`     | histogram  | Seconds spent serving HTTP requests | `method`, `path`, `code`   | Community Edition  |
-| `provider_http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `code`   | Community Edition  |
-
-The `http_request*` metrics record the latency and statistics of `/system/*` routes. Part of this information is also recorded in the metrics for the Gateway component. The purpose of exposing separate metrics on the provider component is to show the count of calls, to show efficiency, and to show the duration for performance testing, along with errors to flag unseen issues.
-
-## JetStream for OpenFaaS
-The queue-worker for NATS JetStream exposes metrics to help you get insight in the behavior of your OpenFaaS queues.
-
-| Metric                                  | Type       | Description                                     | Labels       | Edition     |
-| ----------------------------------------| ---------- | ------------------------------------------------| -------------|-------------|
-| `queue_worker_pending_messages`         | gauge      | Amount of messages waiting to be processed on given `queue_name`, `kubernetes_pod_name` | `queue_name` | Pro Edition |
-| `queue_worker_messages_processed_total` | counter    | Total number of messages processed              | `queue_name`, `kubernetes_pod_name` | Pro Edition |
-| `queue_worker_messages_submitted_total` | gauge      | Total number of messages submitted to the queue by the gateway | `queue_name`, `kubernetes_pod_name` | Pro Edition |
-
