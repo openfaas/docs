@@ -106,7 +106,7 @@ Before deploying, you'll need to have created a secret for your license, you'll 
 
 ### Create a signing key
 
-Next, you need to create a JWT signing key and a separate secret for this. It's used to sign and validate logged in sessions.
+You need to create a JWT signing key and a separate secret for the dashboard. It's used to sign and validate logged in sessions.
 
 ```bash
 # Generate a private key
@@ -122,15 +122,28 @@ kubectl -n openfaas \
   --from-file=key.pub=./jwt_key.pub
 ```
 
+!!! note
+
+    For easy deployment during development this step can be skipped. The dashboard will automatically create the required signing keys on startup.
+
+    Note that these keys will be recreated any time the dashboard container is restarted invalidating any logged in sessions.
+
+### Configure the dashboard
+
 To enable the dashboard feature, add the following to your values.yaml file for the openfaas chart:
 
 ```yaml
 dashboard:
   enabled: true
   publicURL: https://dashboard.example.com
+  # Name of signing key secret for sessions.
+  # Can be left blank for development deployments.
+  signingKeySecret: "dashboard-jwt" 
 ```
 
 The `publicURL`, doesn't necessarily have to be publicly exposed on the Internet, but it does need to be a fully qualified domain name (FQDN).
+
+The `signingKeySecret` can be left blank to auto generate signing keys (See: [Create a signing key](#create-a-signing-key)).
 
 ### Access your dashboard via port-forwarding
 
