@@ -1,5 +1,15 @@
 # Auto-scaling your functions
 
+On this page:
+
+* OpenFaaS Pro Autoscaler (below)
+* [Alert-manager based auto-scaling for Community Edition](#legacy-scaling-for-the-community-edition-ce)
+
+## OpenFaaS Pro Autoscaler
+
+!!! info "OpenFaaS Pro feature"
+    This feature is included for [OpenFaaS Pro](/openfaas-pro/introduction) customers, and is designed for commercial use and production systems.
+
 The [OpenFaaS Pro](/openfaas-pro/introduction/) Scaler scales functions horizontally between a minimum and maximum number of replicas, or to zero.
 
 Watch Alex's overview of auto-scaling in OpenFaaS at KubeCon:
@@ -267,7 +277,7 @@ The latency between accepting a request for an unavailable function and serving 
 ## Legacy scaling for the Community Edition (CE)
 
 !!! warning "Legacy scaling for the Community Edition (CE)"
-    The Community Edition (CE) of OpenFaaS uses our legacy scaling technology, which is meant for development only. Instead, use our OpenFaaS Pro scaler.
+    The Community Edition (CE) of OpenFaaS uses legacy scaling technology, which is meant for development only.
 
 A single auto-scaling rule defined in the mounted configuration file for AlertManager, which is used for all functions. AlertManager reads usage (requests per second) metrics from Prometheus in order to know when to fire an alert to the API Gateway.
 
@@ -285,15 +295,15 @@ The minimum (initial) and maximum replica count can be set at deployment time by
 
 * `com.openfaas.scale.min` - by default this is set to `1`, which is also the lowest value and unrelated to scale-to-zero
 
-* `com.openfaas.scale.max` - the current default value is `20` for 20 replicas
+* `com.openfaas.scale.max` - the default and maximum value is `5` for 5/5 Pods
 
 * `com.openfaas.scale.factor` by default this is set to `20%` and has to be a value between 0-100 (including borders)
 
 * `com.openfaas.scale.zero` - set to `true` for scaling to zero, faas-idler must also be deployed which is part of OpenFaaS Pro
 
-> Note: 
-Setting `com.openfaas.scale.min` and `com.openfaas.scale.max` to the same value, allows to disable the auto-scaling functionality of openfaas. 
-Setting `com.openfaas.scale.factor=0` also allows to disable the auto-scaling functionality of openfaas.
+> Note:
+> Setting `com.openfaas.scale.min` and `com.openfaas.scale.max` to the same value, allows to disable the auto-scaling functionality of openfaas. 
+> Setting `com.openfaas.scale.factor=0` also allows to disable the auto-scaling functionality of openfaas.
 
 For each alert fired the auto-scaler will add a number of replicas, which is a defined percentage of the max replicas. This percentage can be set using `com.openfaas.scale.factor`. For example setting `com.openfaas.scale.factor=100` will instantly scale to max replicas. This label enables to define the overall scaling behavior of the function.
 
