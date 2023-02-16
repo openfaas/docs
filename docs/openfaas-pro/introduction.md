@@ -147,7 +147,7 @@ Did you know? OpenFaaS Pro's autoscaling engine can scale many different types o
 | Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Scale to Zero | Not supported | [Global default, or custom time per function](/openfaas-pro/scale-to-zero) | As per Pro |
-| Maximum replicas per function | 5/5 | Unbounded | As per Pro |
+| Maximum replicas per function | 5 Pods | No limit applied | As per Pro |
 | Scale to From | Not supported | Supported, with additional checks for Istio | As per Pro |
 | Autoscaling strategy   | RPS-only | [CPU utilization, Capacity (inflight requests) or RPS](/architecture/autoscaling)      | As per Pro |
 | Autoscaling granularity   | Single rule for all functions | Configurable per function | As per Pro |
