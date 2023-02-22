@@ -16,7 +16,9 @@ You can meet with the community behind OpenFaaS, k3sup, arkade and inlets at our
 
 This is a shared time for collaboration and for contributing and is provided instead of a Slack Workspace or Discord Server.
 
-* [Register here](https://github.com/openfaas/faas/issues/1683)
+Times: Every Wednesday @ 1630 GMT+0 (Or GMT+1 during daylight savings)
+
+* [Register with Zoom](https://github.com/openfaas/faas/issues/1683)
 
 ## Self-service with OpenFaaS
 
