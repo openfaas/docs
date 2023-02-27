@@ -87,37 +87,40 @@ Web Identity Federation allows you to build a trust relationship with an externa
 
 * What Identity Providers are supported?
   
-  Any compliant OpenID Connect provider can be used, such as Auth0, Okta, Keycloak, GitLab, GitHub, etc. Some providers have quirks, which may need an additional patch or configuration. Feel free to reach out to us.
+    Any compliant OpenID Connect provider can be used, such as Auth0, Okta, Keycloak, GitLab, GitHub, etc. Some providers have quirks, which may need an additional patch or configuration. Feel free to reach out to us.
 
 * Which should I use?
 
-  If you'd like to get started quickly, and do not have an OIDC solution with your organisation, you can get started auth [Auth0](https://auth0.com/) for free.
+    If you'd like to get started quickly, and do not have an OIDC solution with your organisation, you can get started auth [Auth0](https://auth0.com/) for free.
 
 * How can I integrate LDAP users to OpenFaaS IAM?
 
-  OpenFaaS IAM is designed to work with any OIDC provider, so you can use any OIDC provider that supports LDAP integration. Examples include Auth0, Azure Active Directory, Okta, Keycloak or [Dex](https://github.com/dexidp/dex).
+    OpenFaaS IAM is designed to work with any OIDC provider, so you can use any OIDC provider that supports LDAP integration. Examples include Auth0, Azure Active Directory, Okta, Keycloak or [Dex](https://github.com/dexidp/dex).
 
 * What is the difference between OpenFaaS IAM and Classic OpenFaaS SSO?
 
-  OpenFaaS SSO is a stable feature that covers authentication only. It can be made to further restrict authentication to certain users or emails by creating rules within the OIDC provider itself.
+    OpenFaaS SSO is a stable feature that covers authentication only. It can be made to further restrict authentication to certain users or emails by creating rules within the OIDC provider itself.
 
-  OpenFaaS IAM is a complete authentication, authorization and Web Identity Federation solution.
+    OpenFaaS IAM is a complete authentication, authorization and Web Identity Federation solution.
 
 * What is the difference between OpenFaaS IAM and an admin password?
 
-  The default for OpenFaaS CE is to use a single administrative password. It is long lived, and rarely changed, so it's not advisable to share this with your team or to encode it within your CI/CD systems.
+    The default for OpenFaaS CE is to use a single administrative password. It is long lived, and rarely changed, so it's not advisable to share this with your team or to encode it within your CI/CD systems.
 
-  OpenFaaS Pro users should use Classic SSO to prevent password sharing and to increase security.
+    OpenFaaS Pro users should use Classic SSO to prevent password sharing and to increase security.
 
 * Do I need to set up OpenFaaS IAM in development or staging, as well as production?
 
-  We recommend using basic authentication in developer environments, and then setting up OpenFaaS IAM in staging and production.
+    We recommend using basic authentication in developer environments, and then setting up OpenFaaS IAM in staging and production.
 
-  In staging, you could grant broader permissions to your team, and then restrict permissions in production.
+    In staging, you could grant broader permissions to your team, and then restrict permissions in production.
 
 * How to I build a multi-tenant system with OpenFaaS IAM?
 
-  For each user or group, create a separate Kubernetes namespace, and then grant them write access to that namespace only.
+    There are many considerations, and we'd encourage you to contact the support team to discuss your requirements.
 
-  There are further restrictions that can be applied such as forcing a non-root user for functions, and Kubernetes limit ranges, and a runtimeClass to sandbox the Pod and its containers from accessing the host.
+    As a guide, for each user or group, create a separate Kubernetes namespace, and then grant them write access to that namespace only.
 
+    There are further restrictions that can be applied such as forcing a non-root user for functions, and Kubernetes limit ranges, and a runtimeClass to sandbox the Pod and its containers from accessing the host.
+
+    If you're using Google Compute Engine, you can create a node pool with gVisor enabled with a runtimeClass. For Amazon Elastic Kubernetes Service, Fargate can be used for isolation using a runtimeClass and node pool.
