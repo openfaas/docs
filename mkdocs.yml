@@ -130,14 +130,19 @@ nav:
       - Shell auto completion: ./cli/completion.md
   - OpenFaaS Pro:
       - Overview: ./openfaas-pro/introduction.md
-      - JetStream: ./openfaas-pro/jetstream.md
-      - Dashboard: ./openfaas-pro/dashboard.md
       - Scale to Zero: ./openfaas-pro/scale-to-zero.md
+      - Dashboard: ./openfaas-pro/dashboard.md
+      - Retries: ./openfaas-pro/retries.md
+      - IAM & Policy:
+        - Overview: ./openfaas-pro/iam/overview.md
+        - Auth0 Example: ./openfaas-pro/iam/example-auth0.md
+        - GitHub Actions Federation: ./openfaas-pro/iam/github-actions-federation.md
+        - GitLab Federation: ./openfaas-pro/iam/gitlab-federation.md
+      - JetStream: ./openfaas-pro/jetstream.md
       - Kafka events: ./openfaas-pro/kafka-events.md
       - Postgres events: ./openfaas-pro/postgres-events.md
       - AWS SQS events: ./openfaas-pro/sqs-events.md
       - AWS SNS events: ./openfaas-pro/sns-events.md
-      - Retries: ./openfaas-pro/retries.md
       - Single Sign-On: ./openfaas-pro/sso.md
       - Function Builder API: ./openfaas-pro/builder.md
       - Grafana dashboards: ./openfaas-pro/grafana-dashboards.md
