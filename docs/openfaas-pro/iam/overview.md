@@ -91,7 +91,7 @@ Web Identity Federation allows you to build a trust relationship with an externa
 
 * Which should I use?
 
-    If you'd like to get started quickly, and do not have an OIDC solution with your organisation, you can get started auth [Auth0](https://auth0.com/) for free.
+    If you'd like to get started quickly, and do not have an OIDC solution with your organisation, you can get started with [Auth0](https://auth0.com/) on one of their free plans.
 
 * How can I integrate LDAP users to OpenFaaS IAM?
 
