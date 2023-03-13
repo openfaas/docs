@@ -277,7 +277,7 @@ The latency between accepting a request for an unavailable function and serving 
 ## Legacy scaling for the Community Edition (CE)
 
 !!! warning "Legacy scaling for the Community Edition (CE)"
-    The Community Edition (CE) of OpenFaaS uses legacy scaling technology, which is meant for development only.
+    The Community Edition (CE) is meant for development only, or internal use in non-business use-cases.
 
 A single auto-scaling rule defined in the mounted configuration file for AlertManager, which is used for all functions. AlertManager reads usage (requests per second) metrics from Prometheus in order to know when to fire an alert to the API Gateway.
 
@@ -298,8 +298,6 @@ The minimum (initial) and maximum replica count can be set at deployment time by
 * `com.openfaas.scale.max` - the default and maximum value is `5` for 5/5 Pods
 
 * `com.openfaas.scale.factor` by default this is set to `20%` and has to be a value between 0-100 (including borders)
-
-* `com.openfaas.scale.zero` - set to `true` for scaling to zero, faas-idler must also be deployed which is part of OpenFaaS Pro
 
 > Note:
 > Setting `com.openfaas.scale.min` and `com.openfaas.scale.max` to the same value, allows to disable the auto-scaling functionality of openfaas. 
