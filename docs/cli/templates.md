@@ -316,15 +316,17 @@ Successfully installed numpy-1.14.2
 
 #### Node.js templates (of-watchdog template)
 
-There are three Node.js templates which use the newer of-watchdog:
+There are several Node.js templates available which use the newer of-watchdog:
 
 | Name                   | Style         | Runtime | Version | async/await | Supported by nodejs.org |
 |:-----------------------|:--------------|:--------|:--------|:------------|:------------------------|
-| node12                 | Function      | NodeJS  | 12.x    | yes         | No        |
-| node14                 | Function      | NodeJS  | 14.x    | yes         | yes, LTS version        |
-| node16                 | Function      | NodeJS  | 16.x    | yes         | yes, "current" version        |
+| node12                 | Function      | NodeJS  | 12.x    | yes         | no        |
+| node14                 | Function      | NodeJS  | 14.x    | yes         | no        |
+| node16                 | Function      | NodeJS  | 16.x    | yes         | LTS version, maintenance |
+| node17                 | Function      | NodeJS  | 17.x    | yes         | no        |
+| node18                 | Function      | NodeJS  | 18.x    | yes         | LTS version, active      |
 
-The `nodeXX` templates use event and context objects can be used to read the HTTP request and headers, and to set a response. You can learn about what's avaiable in the [index.js](https://github.com/openfaas/templates/blob/master/template/node14/index.js) file.
+The `nodeXX` templates use event and context objects can be used to read the HTTP request and headers, and to set a response. You can learn about what's available in the [index.js](https://github.com/openfaas/templates/blob/master/template/node18/index.js) file.
 
 For a full reference guide to writing functions, managing secrets and connection pools see the manual: [Serverless for Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)
 
