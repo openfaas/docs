@@ -80,7 +80,7 @@ spec:
     - Function:Admin
     - Secret:Read
     effect: Allow
-    resource: dev:*
+    resource: ["dev:*"]
 ```
 
 > Allow read and write to functions and secrets within the `dev` namespace:
@@ -97,7 +97,8 @@ spec:
     action:
     - Function:Read
     effect: Allow
-    resource: staging-fn:*
+    resource:
+    - "staging-fn:*"
 ```
 
 > Allow only read access to functions within the `staging-fn` namespace:
@@ -113,8 +114,8 @@ Note the `--audience` flag which must be set to the URL of the OpenFaaS gateway.
 ```bash
 faas-cli pro auth \
   --grant code \
-  --auth-url https://alexellis.eu.auth0.com/authorize \
-  --token-url https://alexellis.eu.auth0.com/oauth/token \
+  --auth-url https://example.eu.auth0.com/authorize \
+  --token-url https://example.eu.auth0.com/oauth/token \
   --client-id 17F3M3rS8ORQUPDHsgkq0YVHheZVH8dpaGHRTjAx5x0 \
   --audience https://gw.example.com
 ```

@@ -14,10 +14,10 @@ First define a new JwtIssuer resource, setting the `aud` field to the URL of you
 apiVersion: openfaas.com/v1
 kind: JwtIssuer
 metadata:
-  name: token.actions.githubusercontent.com
+  name: gitlab.com
   namespace: openfaas
 spec:
-  iss: https://token.actions.githubusercontent.com
+  iss: https://gitlab.com
   aud:
   - https://gw.example.com
   tokenExpiry: 30m
@@ -43,7 +43,7 @@ spec:
     - Function:Admin
     - Secret:Read
     effect: Allow
-    resource: dev:*
+    resource: ["dev:*"]
 ```
 
 ## Bind a Policy to a Role

@@ -43,7 +43,7 @@ spec:
     - Function:Admin
     - Secret:Read
     effect: Allow
-    resource: dev:*
+    resource: ["dev:*"]
 ```
 
 ## Bind a Policy to a Role
