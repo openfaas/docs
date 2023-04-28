@@ -185,7 +185,7 @@ The builder has additional metrics which will be scraped by the Prometheus insta
 
 > Pictured: metrics for the builder showing inflight builds, average duration and HTTP status codes to detect errors.
 
-* [Download the Grafana JSON file from the Customer Community](https://github.com/openfaas/openfaas-pro/tree/master/dashboards)
+* [Download the Grafana JSON file from the Customer Community](https://github.com/openfaas/customers/tree/master/dashboards)
 
 ## In-cluster access
 

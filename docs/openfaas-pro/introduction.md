@@ -98,7 +98,7 @@ Upcoming:
 
 Is there something else you need for your team or organisation? [Get in touch with us here](https://openfaas.com/support/).
 
-If you're already a customer, we welcome suggestions for the roadmap in [the Customer Community](https://github.com/openfaas/openfaas-pro).
+If you're already a customer, we welcome suggestions for the roadmap in [the Customer Community](https://github.com/openfaas/customers).
 
 ### Comparison
 
@@ -128,13 +128,13 @@ We see it as the start of a two-way relationship and an opportunity to collabora
 | License                     | [MIT](https://github.com/openfaas/faas/blob/master/LICENSE)             | [Commercial license EULA](https://github.com/openfaas/faas/blob/master/pro/EULA)     | As per Pro |
 | Architecture review  | N/a            | N/a                    | With our team via Zoom |
 | Onboarding call | N/a            | N/a                    | With our team via Zoom |
-| [Customer Community](https://github.com/openfaas/openfaas-pro)   | N/a      | Private access to [Customer Community](https://github.com/openfaas/openfaas-pro) - one user per licensed cluster | Custom amount of users |
+| [Customer Community](https://github.com/openfaas/customers)   | N/a      | Private access to [Customer Community](https://github.com/openfaas/customers) - one user per licensed cluster | Custom amount of users |
 
 OpenFaaS For Enterprise comes with an SLA, defined separately. It is suitable for companies which have a separate legal and procurement department, who are regulated and have additional legal or compliance requirements. The annual architecture review is to reduce risk by reviewing the configuration and informing the team of any recommended changes to the installation and configuration of OpenFaaS.
 
 Support for OpenFaaS Pro is on a self-service basis, with no formal SLA offered.
 
-The [Customer Community](https://github.com/openfaas/openfaas-pro) is a private GitHub repository for giving feedback to the OpenFaaS team, for early access to new features and collaboration with other customers.
+The [Customer Community](https://github.com/openfaas/customers) is a private GitHub repository for giving feedback to the OpenFaaS team, for early access to new features and collaboration with other customers.
 
 Did you know?
 
@@ -166,7 +166,7 @@ Scaling to zero is also a Pro feature, which can be opted into on a per function
 | Async / queueing | In-memory only, max 10 items in queue, 256KB message size | JetStream with shared queue | JetStream with dedicated queues |
 | Metrics         | Basic function metrics  | Function, HTTP, CPU/RAM usage, and async/queue metrics      | As per Pro |
 | CPU & RAM utilization | Not available | Integrated with Prometheus metrics, OpenFaaS REST API & CLI | As per Pro |
-| Grafana Dashboards      | N/a             | 4x dashboards supplied in [Customer Community](https://github.com/openfaas/openfaas-pro) - overview, spotlight for debugging a function, queue-worker and Function Builder API | As per Pro |
+| Grafana Dashboards      | N/a             | 4x dashboards supplied in [Customer Community](https://github.com/openfaas/customers) - overview, spotlight for debugging a function, queue-worker and Function Builder API | As per Pro |
 | GitOps & CRD support | N/a | ArgoCD & FluxCD compatibility using the Function CRD | As per Pro |
 | Deployment options | faas-cli, or REST API | faas-cli, REST API, kubectl or GitOps solution using Function CRD | As per Pro |
 
@@ -202,7 +202,7 @@ Scaling to zero is also a Pro feature, which can be opted into on a per function
 | Secure isolation with Kata containers or gVisor      | N/a             | N/a | Supported using an [OpenFaaS Pro Profile and runtimeClass](/reference/profiles) |
 | [Service links](https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#accessing-the-service) injected as environment variables | Yes, cannot be disabled | Disabled as a default | As per Pro |
 | [Pod privilege escalation](https://kubernetes.io/docs/concepts/security/pod-security-standards/#restricted) | Default for Kubernetes | Explicitly disabled | As per Pro |
-| Split installation without ClusterAdmin role | N/a | Provided in [Customer Community](https://github.com/openfaas/openfaas-pro) | As per Pro | 
+| Split installation without ClusterAdmin role | N/a | Provided in [Customer Community](https://github.com/openfaas/customers) | As per Pro | 
 
 Isolation using Kata containers or gVisor is advisable when running untrusted code, or when you want to ensure that your functions are not vulnerable to container escape attacks.
 
@@ -244,7 +244,7 @@ OpenFaaS for Enterprise comes with support for the Certified Open Source Compone
 
 OpenFaaS Pro operates on a self-service model with support for OpenFaaS Pro features only via email.
 
-Both tiers come with access to the [Customer Community](https://github.com/openfaas/openfaas-pro), for feedback & collaboration with the OpenFaaS developers and other customers. 
+Both tiers come with access to the [Customer Community](https://github.com/openfaas/customers), for feedback & collaboration with the OpenFaaS developers and other customers. 
 
 No support is offered to commercial users of OpenFaaS CE, which is primarily meant for exploration and open source developers.
 

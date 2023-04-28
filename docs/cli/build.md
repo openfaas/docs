@@ -51,7 +51,7 @@ faas-cli pro enable
 Download the OpenFaaS Pro template using your customer credentials:
 
 ```bash
-faas-cli template pull https://github.com/openfaas/openfaas-pro
+faas-cli template pull https://github.com/openfaas/customers
 
 faas-cli new --list
 Languages available as templates:

@@ -236,7 +236,7 @@ You will need to ensure that you are doing one of the following:
 
 ### I'm not seeing CPU or RAM data for functions in Grafana with OpenFaaS Pro
 
-You can find the dashboard JSON files in the [Customer GitHub](https://github.com/openfaas/openfaas-pro). Check that you have the latest version of the dashboard. Sometimes Grafana makes breaking changes in its schema between versions, so edit the panels and check the PromQL statements are present. If they are missing, edit the JSON file in a text editor to retrieve the queries.
+You can find the dashboard JSON files in the [Customer GitHub](https://github.com/openfaas/customers). Check that you have the latest version of the dashboard. Sometimes Grafana makes breaking changes in its schema between versions, so edit the panels and check the PromQL statements are present. If they are missing, edit the JSON file in a text editor to retrieve the queries.
 
 You may also want to check that your data source is set to the internal OpenFaaS Prometheus instance.
 

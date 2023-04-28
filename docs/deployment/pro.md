@@ -21,7 +21,7 @@ The Core platform is installed using the same Helm chart as OpenFaaS CE, only wi
 
 You'll also want to install our Grafana dashboards, which give you access to additional metrics:
 
-* [Grafana Dashboards](https://github.com/openfaas/openfaas-pro/tree/master/dashboards)
+* [Grafana Dashboards](https://github.com/openfaas/customers/tree/master/dashboards)
 
 ## Pro CLI
 
