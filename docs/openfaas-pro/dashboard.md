@@ -160,10 +160,12 @@ To access the dashboard run the following, whenever you need it:
 ```bash
 kubectl port-forward \
   -n openfaas \
-  svc/dashboard 8080:8080
+  svc/dashboard 8081:8080
 ```
 
 The username is `admin` and the password is the same one used for `faas-cli login`.
+
+Then access the URL via `http://127.0.0.1:8081`
 
 ### Expose your dashboard on the Internet
 
