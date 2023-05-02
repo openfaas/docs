@@ -50,7 +50,7 @@ The OpenFaaS Pro Function Builder API can be deployed through a separate Helm ch
 
 Detailed installation instructions including the various options for values.yaml are available in the [`openfaas` helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas).
 
-We recommend using the following configuration for the `values.yaml` file:
+We recommend using the following configuration for the `values-custom.yaml` file:
 
 ```yaml
 openfaasPro: true
@@ -110,9 +110,9 @@ Then add the Helm chart repo, update it and deploy the chart, running `helm repo
 helm repo update
 
 helm upgrade openfaas \
-    --install chart/openfaas \
-    --namespace openfaas \
-    -f ./values-pro.yaml
+  --install openfaas/openfaas \
+  --namespace openfaas
+  -f ./values-custom.yaml
 ```
 
 ## How to check your installation
