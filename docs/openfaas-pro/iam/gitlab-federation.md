@@ -23,7 +23,7 @@ spec:
   tokenExpiry: 30m
 ```
 
-> Issuer for https://token.actions.githubusercontent.com
+> Issuer for https://gitlab.com
 
 ## Create a Policy
 
