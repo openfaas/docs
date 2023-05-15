@@ -114,24 +114,14 @@ Note the `--audience` flag which must be set to the URL of the OpenFaaS gateway.
 ```bash
 faas-cli pro auth \
   --grant code \
-  --auth-url https://example.eu.auth0.com/authorize \
-  --token-url https://example.eu.auth0.com/oauth/token \
+  --authority https://example.eu.auth0/ \
   --client-id 17F3M3rS8ORQUPDHsgkq0YVHheZVH8dpaGHRTjAx5x0 \
   --audience https://gw.example.com
 ```
 
-Exchange the resulting id_token for an OpenFaaS Access token:
+The faas-cli will save the OpenFaaS Access token and use it when you run commands that require authentication to the gateway.
 
+Running the following command will list functions in the `dev` namespace of the authenticated user has sufficient permissions.
 ```bash
-export ID_TOKEN=""
-export ACCESS_TOKEN=$(curl -s https://gw.example.com/oauth/token?grant_type=urn:ietf:params:oauth:grant-type:token-exchange -d "$id_token")
+faas-cli list --namespace dev
 ```
-
-You can then use the OpenFaaS Access token as follows:
-
-```bash
-faas-cli list --token $ACCESS_TOKEN
-```
-
-In a future version of the `faas-cli` the above token exchange will be automated.
-
