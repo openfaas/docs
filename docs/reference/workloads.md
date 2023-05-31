@@ -186,21 +186,25 @@ On Kubernetes is possible to run any container image as an OpenFaaS function as 
 !!! info "OpenFaaS Pro feature"
     This feature is part of the [OpenFaaS Pro](/openfaas-pro/introduction) distribution.
 
-The `timeoutSeconds`, `initialDelaySeconds` and `periodSeconds` for liveness and readiness probes can be set globally for the installation: [OpenFaaS chart reference](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#faas-netes--operator).
+Liveness and readiness probes can be set globally for the installation: [OpenFaaS chart reference](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#faas-netes--operator).
 
 Annotations can be used to configure probes on a per function basis. Any overrides set in annotations will take precedence over the global configuration.
 
-You can specify the HTTP path of your health check and the initial check delay duration with the following annotations:
+You can specify the HTTP path of your health check and control the behavior of the probe with the following annotations:
 
 * `com.openfaas.health.http.path`
-* `com.openfaas.health.http.initialDelay`
+* `com.openfaas.health.http.initialDelaySeconds`
 * `com.openfaas.health.http.periodSeconds`
+* `com.openfaas.health.http.timeoutSeconds`
+* `com.openfaas.health.http.failureThreshold`
 
-Readiness probes use the same HTTP path as the health check by default. The path, initial check delay and failure threshold can be set with these annotations:
+Readiness probes use the same HTTP path as the health check by default. The path, and other probing fields can be configured with these annotations:
 
 * `com.openfaas.ready.http.path`
-* `com.openfaas.ready.http.initialDelay`
+* `com.openfaas.ready.http.initialDelaySeconds`
 * `com.openfaas.ready.http.periodSeconds`
+* `com.openfaas.ready.http.timeoutSeconds`
+* `com.openfaas.ready.http.successThreshold`
 * `com.openfaas.ready.http.failureThreshold`
 
 
@@ -213,11 +217,9 @@ functions:
     skip_build: true
     annotations:
       com.openfaas.ready.http.path: "/_/ready"
-      com.openfaas.ready.http.initialDelay: "30s"
-      com.openfaas.ready.http.periodSeconds: 5s
-``` 
-
-> Note: The initial delay value must be a valid Go duration e.g. `80s` or `3m`.
+      com.openfaas.ready.http.initialDelaySeconds: 30
+      com.openfaas.ready.http.periodSeconds: 5
+```
 
 ### Function information
 
