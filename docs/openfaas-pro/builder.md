@@ -177,6 +177,19 @@ There are several examples available of how to call the Function Builder's API v
 
 You should be able to translate the example given with curl into any programming language, but if you need additional support, feel free to [reach out to us](https://openfaas.com/support).
 
+The `faas-cli` `publish` and `up` commands can use the `--remote-builder` flag to perform build operations from builder api. Path to the file containing the payload secret should also be specified through the `--payload-secret` flag.
+
+Here are some examples:
+```bash
+# with publish command
+faas-cli publish --remote-builder http://127.0.0.1:8081/build \
+  --payload-secret $HOME/.openfaas/payload.txt
+  
+# with up command
+faas-cli up --remote-builder http://127.0.0.1:8081/build \
+  --payload-secret $HOME/.openfaas/payload.txt
+```
+
 ## Monitoring the builder
 
 The builder has additional metrics which will be scraped by the Prometheus instance installed by the OpenFaaS helm chart.
