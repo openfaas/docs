@@ -47,6 +47,41 @@ See also: [code samples with Node.js, Python, Go and PHP](https://github.com/ope
 
 ## Usage
 
+We provide the following examples to help you explore and get started:
+
+* Remote builds via faas-cli
+* Step by step commands with curl and bash
+* HTTP client examples in various languages
+
+### Remote builds with `faas-cli`
+
+The `faas-cli` `publish` and `up` commands can use the `--remote-builder` flag to perform remote builds with the Function Builder. The path to the file containing the payload secret should be specified through the `--payload-secret` flag.
+
+First, port-forward the builder, and obtain the payload secret:
+
+```
+kubectl port-forward -n openfaas \
+    deploy/pro-builder 8081:8080
+export PAYLOAD=$(kubectl get secret -n openfaas payload-secret -o jsonpath='{.data.payload-secret}' | base64 --decode)
+echo $PAYLOAD > $HOME/.openfaas/payload.txt
+```
+
+To publish an image using the remote builder:
+
+```bash
+faas-cli publish --remote-builder http://127.0.0.1:8081/build \
+  --payload-secret $HOME/.openfaas/payload.txt
+```
+
+To publish, then deploy that image to the cluster:
+
+```
+faas-cli up --remote-builder http://127.0.0.1:8081/build \
+  --payload-secret $HOME/.openfaas/payload.txt
+```
+
+### Remote builds via `curl`
+
 Create a build context using the `faas-cli build --shrinkwrap` command:
 
 ```bash
@@ -129,7 +164,7 @@ curl -H "X-Build-Signature: sha256=$HMAC" -s http://127.0.0.1:8081/build -X POST
 }
 ```
 
-## HTTP client examples
+### Remote builds with a HTTP client
 
 A HTTP client has three tasks to perform:
 
@@ -177,20 +212,7 @@ There are several examples available of how to call the Function Builder's API v
 
 You should be able to translate the example given with curl into any programming language, but if you need additional support, feel free to [reach out to us](https://openfaas.com/support).
 
-The `faas-cli` `publish` and `up` commands can use the `--remote-builder` flag to perform build operations from builder api. Path to the file containing the payload secret should also be specified through the `--payload-secret` flag.
-
-Here are some examples:
-```bash
-# with publish command
-faas-cli publish --remote-builder http://127.0.0.1:8081/build \
-  --payload-secret $HOME/.openfaas/payload.txt
-  
-# with up command
-faas-cli up --remote-builder http://127.0.0.1:8081/build \
-  --payload-secret $HOME/.openfaas/payload.txt
-```
-
-## Monitoring the builder
+## Monitor the builder
 
 The builder has additional metrics which will be scraped by the Prometheus instance installed by the OpenFaaS helm chart.
 
@@ -223,7 +245,7 @@ You may need to enable build arguments for the Dockerfile, these can be passed t
 
 ## Scaling the builder
 
-The Function Builder can be scaled out, which also deploys additional replicas of Buildkit:
+The Function Builder can be scaled out, which also deploys additional replicas of the Function Builder:
 
 ```bash
 kubectl scale -n openfaas deploy/pro-builder \

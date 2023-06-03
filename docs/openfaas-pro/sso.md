@@ -2,7 +2,9 @@
 
 You can enable authentication via OpenID Connect and OAuth2 using the OpenFaaS REST API.
 
-> Note: This feature is included for [OpenFaaS Pro](https://openfaas.com/support/) customers.
+!!! info "Single Sign-On is becoming OpenFaaS IAM"
+
+    The original Single Sign-On feature for OpenFaaS is being rebuilt with fine-grained access control, Web Identity Federation and auditing. [Learn more](/openfaas-pro/iam/overview)
 
 The SSO support has been tested with: Auth0, Okta, Keycloak and Azure Active Directory. If your IdP is ODIC compatible, it should work, but customers can request support using the channels provided to you when you bought your OpenFaaS Pro license.
 
