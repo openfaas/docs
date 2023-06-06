@@ -167,8 +167,9 @@ Scaling to zero is also a Pro feature, which can be opted into on a per function
 | Metrics         | Basic function metrics  | Function, HTTP, CPU/RAM usage, and async/queue metrics      | As per Pro |
 | CPU & RAM utilization | Not available | Integrated with Prometheus metrics, OpenFaaS REST API & CLI | As per Pro |
 | Grafana Dashboards      | N/a             | 4x dashboards supplied in [Customer Community](https://github.com/openfaas/customers) - overview, spotlight for debugging a function, queue-worker and Function Builder API | As per Pro |
-| GitOps & CRD support | N/a | ArgoCD & FluxCD compatibility using the Function CRD | As per Pro |
-| Deployment options | faas-cli, or REST API | faas-cli, REST API, kubectl or GitOps solution using Function CRD | As per Pro |
+| GitOps & CRD support | Not available | ArgoCD, FluxCD and Helm compatibility using the Function CRD | As per Pro |
+| Deployment options | faas-cli or REST API | As per CE, plus: Function CRD with kubectl, Helm or GitOps | As per Pro |
+| Custom Resource Definition | Not available | Function and Profile CRDs | As per Pro |
 
 > Did you know? Synadia, the vendor of NATS Streaming announced the product is now deprecated, and it will receive no updates from June 2023 onwards. OpenFaaS Ltd developed an alternative based upon their newest product JetStream. [Learn more about JetStream for OpenFaaS](https://docs.openfaas.com/openfaas-pro/jetstream/)
 
