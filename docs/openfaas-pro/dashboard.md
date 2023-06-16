@@ -145,6 +145,57 @@ The `publicURL`, doesn't necessarily have to be publicly exposed on the Internet
 
 The `signingKeySecret` can be left blank to auto generate signing keys (See: [Create a signing key](#create-a-signing-key)).
 
+### Configure the dashboard with IAM
+
+If you have enabled [Identity and Access Management (IAM) for OpenFaaS](/openfaas-pro/iam/overview/) authentication to the dashboard happens via OpenID Connect(OIDC). This requires a few extra configuration steps.
+
+1. Configure an OIDC provider.
+    
+    If you have already configured your OIDC provider and registered it with OpenFaaS this step can be skipped. If you did not configure any providers or want to register a separate provider for the dashboard continue.
+    
+    You must configure your provider and create a new client app for OpenFaaS. For precise information see the documentation of your OIDC provider.
+    
+    The dashboard has support for the following authentication flows:
+
+      - Authorization Code Flow
+      - Authorization Code Flow with Proof Key fo Code Exchange (PKCE)
+
+    Once your provider is configured it needs to be registered as a JWT Issuer with OpenFaaS. See: [register a provider](/openfaas-pro/iam/example-auth0/)
+
+2. Generate AES encryption key
+
+    An AES encryption key needs to be generated and stored in secret in the openfaas namespace. This AES key is used to encrypt the OpenFaaS access token.
+
+    ```bash
+    # Generate a key
+    openssl rand -hex 16 > aes_key
+
+    # Store the key in a secret in the openfaas namespace
+    kubectl -n openfaas \
+      create secret generic aes-key \
+      --from-file=aes-key=./aes_key
+    ```
+
+3. Configure the OpenFaaS deployment
+
+    Add the following to `iam` section in your values.yaml file for the openfaas chart:
+
+    ```yaml
+    iam:
+      dashboardIssuer:
+        # URL if the issuer
+        url: "https://example.auth0.com"
+        clientId: ""
+        # Name of Kubernetes secret containing the client secret.
+        # Can be left blank if a client secret is not required e.g for the PKCE flow.
+        clientSecret: "auth0-client-secret"
+        scopes: []
+    ```
+
+    The clientSecret can be left blank if your OIDC provider does not require a secret.
+
+    Depending on your provider and setup you might need to request additional scopes. These can be set through the `scopes` parameter.
+
 ### Access your dashboard via port-forwarding
 
 If you don't want to expose your dashboard to users over the Internet, then you can access it as and when required using port-forwarding. Instead of giving a domain and DNS record, you can set the public url in your values.yaml file to `localhost` or an empty string.
