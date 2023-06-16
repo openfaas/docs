@@ -189,7 +189,10 @@ If you have enabled [Identity and Access Management (IAM) for OpenFaaS](/openfaa
         # Name of Kubernetes secret containing the client secret.
         # Can be left blank if a client secret is not required e.g for the PKCE flow.
         clientSecret: "auth0-client-secret"
-        scopes: []
+        scopes:
+          - openid
+          - profile
+          - email
     ```
 
     The clientSecret can be left blank if your OIDC provider does not require a secret.
