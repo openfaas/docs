@@ -111,7 +111,7 @@ helm repo update
 
 helm upgrade openfaas \
   --install openfaas/openfaas \
-  --namespace openfaas
+  --namespace openfaas \
   -f ./values-custom.yaml
 ```
 
