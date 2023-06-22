@@ -176,7 +176,18 @@ If you have enabled [Identity and Access Management (IAM) for OpenFaaS](/openfaa
       --from-file=aes-key=./aes_key
     ```
 
-3. Configure the OpenFaaS deployment
+3. Create a Kubernetes secret for the OAuth client secret
+    
+    This step can be skipped if the issuer used for the dashboard does not need a client secret. Retrieve the client secret from your identity provider and store it a file `client_secret`. 
+
+    ```bash
+    kubectl create secret generic \
+      -n openfaas \
+      oauth-client-secret \
+      --from-file client_secret=./client_secret
+    ```
+
+4. Configure the OpenFaaS deployment
 
     Add the following to `iam` section in your values.yaml file for the openfaas chart:
 
@@ -188,7 +199,7 @@ If you have enabled [Identity and Access Management (IAM) for OpenFaaS](/openfaa
         clientId: ""
         # Name of Kubernetes secret containing the client secret.
         # Can be left blank if a client secret is not required e.g for the PKCE flow.
-        clientSecret: "auth0-client-secret"
+        clientSecret: "oauth-client-secret"
         scopes:
           - openid
           - profile
