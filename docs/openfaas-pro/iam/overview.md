@@ -36,10 +36,16 @@ Workflow for human users:
 * If a human user is authenticating, then the registered OIDC provider will be used to obtain an id_token.
 * This token is then exchanged for an OpenFaaS Access token using the OpenFaaS Gateway.
 
+![Authentication flow for the OpenFaaS CLI](/images/iam/cli-auth-flow.png)
+> Authentication flow for the OpenFaaS CLI
+
 Workflow for machine users:
 
 * If a machine user is authenticating, then an id_token is usually already present.
 * It will be exchanged for an OpenFaaS Access token using the OpenFaaS Gateway.
+
+![Authentication flow with Identity Federation](/images/iam/ci-auth-flow.png)
+> Authentication flow with Identity Federation
 
 There must be at least one registered OIDC provider for human users to authenticate, and then any number of additional issuers can be defined for Web Identity Federation.
 
