@@ -4,7 +4,7 @@ In this guide, you'll learn how to deploy from GitHub Actions CI/CD using OpenFa
 
 You'll need to create YAML files for an Issuer, a Policy and a Role. These need to be applied through kubectl, Helm or a GitOps tool.
 
-Your build will need to be adapted in order to receive an id_token from GitLab, which will be exchanged for an OpenFaaS access token.
+Your build will need to be adapted in order to receive an id_token from GitHub, which will be exchanged for an OpenFaaS access token.
 
 ## Define an Issuer for GitHub Actions
 
@@ -101,6 +101,55 @@ The example must match the issuer and organisation name of "openfaas", and can m
 
 You could restrict this further by looking at the "actor" for instance.
 
-Finally, you need to apply all of the above objects, and can test it end to end.
+Finally, you need to apply all of the above objects.
 
-See an example [GitHub Actions Workflow](https://github.com/alexellis/minty/blob/master/.github/workflows/federate.yml)
+## Create a GitHub Actions workflow
+
+To access the OpenFaaS gateway from a workflow you should adapt the workflow to:
+
+- Fetch a GitHub Actions id_token
+- Authenticate to OpenFaaS with the id_token using the faas-cli pro plugin.
+
+This is an example of a workflow file:
+```yaml
+name: federate
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+    - '*'
+jobs:
+  auth:
+    # Add "id-token" with the intended permissions.
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 1
+      - name: Dump env
+        run: env
+      - name: Install faas-cli
+        run: curl -sLS https://cli.openfaas.com | sudo sh          
+      - name: Get token and use the CLI
+        run: |
+          export OPENFAAS_URL="https://gw.example.com"
+
+          OIDC_TOKEN=$(curl -sLS "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=$OPENFAAS_URL" -H "User-Agent: actions/oidc-client" -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN")
+          JWT=$(echo $OIDC_TOKEN | jq -j '.value')
+
+          faas-cli plugin get pro
+          faas-cli pro enable
+
+          faas-cli pro auth --token=$JWT
+
+          faas-cli list -n dev
+          faas-cli ns
+          faas-cli store deploy -n dev printer --name p1
+```
+
+First a GitHub Actions id_token is fetched. The workflow uses the faas-cli pro plugin to authenticate to the OpenFaaS gateway using the GitHub Actions id_token. It will exchange the token for an OpenFaaS token and save it. Next the faas-cli can be used to talk to the gateway.
