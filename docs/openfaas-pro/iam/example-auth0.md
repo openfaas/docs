@@ -9,7 +9,7 @@ Create an application on Auth0 for the OpenFaaS gateway, you'll need to obtain t
 An Issuer for `https://alexellis.eu.auth0.com/` might look like this:
 
 ```yaml
-apiVersion: openfaas.com/v1
+apiVersion: iam.openfaas.com/v1
 kind: JwtIssuer
 metadata:
   name: alexellis.eu.auth0.com
@@ -27,7 +27,7 @@ spec:
 Once registered, a Role must be created which maps users within the Issuer to be mapped to a set of Policies
 
 ```yaml
-apiVersion: openfaas.com/v1
+apiVersion: iam.openfaas.com/v1
 kind: Role
 metadata:
   name: dev-staff-deployers
@@ -67,7 +67,7 @@ A user's email could also be fuzzy matched with a condition, for example:
 Finally, one or more Policies must be created which describe which permissions a user has, and on which resources.
 
 ```yaml
-apiVersion: openfaas.com/v1
+apiVersion: iam.openfaas.com/v1
 kind: Policy
 metadata:
   name: dev-rw
@@ -86,7 +86,7 @@ spec:
 > Allow read and write to functions and secrets within the `dev` namespace:
 
 ```yaml
-apiVersion: openfaas.com/v1
+apiVersion: iam.openfaas.com/v1
 kind: Policy
 metadata:
   name: staging-readonly
