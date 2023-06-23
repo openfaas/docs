@@ -71,12 +71,53 @@ spec:
 
 The example must match the GitLab issuer, for the login of "alexellis", with any project within the "consortia" group.
 
-Within your GitLab job, you must obtain an id_token with the proper audience `aud` field set with the address of your OpenFaaS gateway:
+## Create a GitLab CI/CD pipeline
 
+To access the OpenFaaS gateway from a CI/CD pipeline you should adapt your job to:
+
+- Obtain an id_token with the proper audience.
+- Authenticate to OpenFaaS with the id_token using the faas-cli pro plugin.
+
+Example `.gitlab-ci.yml` file:
 ```yaml
+stages:
+  - build
+
+services:
+  - docker:dind
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG} # i.e. master
+  paths:
+  - ./faas-cli
+  - ./template
+
+build_job:
+  stage: build
+  image: docker:latest
+  variables:
+    OPENFAAS_URL: https://gw.example.com
+
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - apk add --no-cache git curl
+    - if [ -f "./faas-cli" ] ; then cp ./faas-cli /usr/local/bin/faas-cli || 0 ; fi
+    - if [ ! -f "/usr/local/bin/faas-cli" ] ; then apk add --no-cache curl git && curl -sSL https://cli.openfaas.com | sh && chmod +x /usr/local/bin/faas-cli && cp /usr/local/bin/faas-cli ./faas-cli ; fi
+
+    - faas-cli plugin get pro
+    - faas-cli pro enable
+
+    - faas-cli pro auth --token=$ID_TOKEN_1
+
+    - faas-cli list -n dev
+    - faas-cli ns
+    - faas-cli store deploy -n dev printer --name p1
+
   id_tokens:
     ID_TOKEN_1:
       aud: https://gw.example.com
 ```
 
-See an example repository and `.gitlab-ci.yml` file on GitLab [gitlab.com/consortia/deploy-fn](https://gitlab.com/consortia/deploy-fn/-/blob/main/.gitlab-ci.yml)
+Within your GitLab job, you must obtain an id_token with the proper audience `aud` field set with the address of your OpenFaaS gateway.
+
+Next the faas-cli pro plugin can be used to authenticate to the OpenFaaS gateway using the id_token. It will exchange the token for an OpenFaaS token and save it. The faas-cli can then be used to talk to the gateway.
