@@ -11,7 +11,7 @@ Your build will need to be adapted in order to receive an id_token from GitLab, 
 First define a new JwtIssuer resource, setting the `aud` field to the URL of your OpenFaaS Gateway.
 
 ```yaml
-apiVersion: openfaas.com/v1
+apiVersion: iam.openfaas.com/v1
 kind: JwtIssuer
 metadata:
   name: token.actions.githubusercontent.com
@@ -30,7 +30,7 @@ spec:
 Next, define a Policy with the least privileges required to perform the desired actions.
 
 ```yaml
-apiVersion: openfaas.com/v1
+apiVersion: iam.openfaas.com/v1
 kind: Policy
 metadata:
   name: dev-rw
@@ -81,7 +81,7 @@ There are around a dozen different fields available within the GitHub Actions `i
 > Example from: [Deploy without credentials with GitHub Actions and OIDC](https://blog.alexellis.io/deploy-without-credentials-using-oidc-and-github-actions/)
 
 ```yaml
-apiVersion: openfaas.com/v1
+apiVersion: iam.openfaas.com/v1
 kind: Role
 metadata:
   name: dev-actions-deployer

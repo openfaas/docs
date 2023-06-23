@@ -11,7 +11,7 @@ Your build will need to be adapted in order to receive an id_token from GitLab, 
 First define a new JwtIssuer resource, setting the `aud` field to the URL of your OpenFaaS Gateway.
 
 ```yaml
-apiVersion: openfaas.com/v1
+apiVersion: iam.openfaas.com/v1
 kind: JwtIssuer
 metadata:
   name: gitlab.com
@@ -30,7 +30,7 @@ spec:
 Next, define a Policy with the least privileges required to perform the desired actions.
 
 ```yaml
-apiVersion: openfaas.com/v1
+apiVersion: iam.openfaas.com/v1
 kind: Policy
 metadata:
   name: dev-rw
@@ -53,7 +53,7 @@ Next, you need to bind the Policy to a Role.
 There are around a dozen different fields available within GitLab's `id_token`, you can view a complete list at: [GitLab OIDC: Shared information](https://docs.gitlab.com/ee/integration/openid_connect_provider.html#shared-information)
 
 ```yaml
-apiVersion: openfaas.com/v1
+apiVersion: iam.openfaas.com/v1
 kind: Role
 metadata:
   name: gitlab-dev-actions-deployer
