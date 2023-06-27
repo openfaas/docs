@@ -310,11 +310,9 @@ Let's deploy a function from the store:
 faas-cli store deploy nodeinfo
 ```
 
-Now create a DNS A record in your DNS manager pointing to your IngressController's public IP.
+If you're using ingress-nginx, then check the public IP with `kubectl get svc/nginxingress-nginx-ingress-controller`, note down the `EXTERNAL-IP`.
 
-Check the public IP with `kubectl get svc/nginxingress-nginx-ingress-controller`, note down the `EXTERNAL-IP`.
-
-* `nodeinfo.example.com` pointing to the `EXTERNAL-IP`
+Create a DNS A record or CNAME `nodeinfo.example.com` pointing to the `EXTERNAL-IP`
 
 ### Create a `FunctionIngress` Custom Resource (without TLS)
 
@@ -331,6 +329,8 @@ spec:
   function: "nodeinfo"
   ingressType: "nginx"
 ```
+
+Change ingressType if you're using a different Ingress like `traefik`.
 
 Verify that the `Ingress` record was created:
 
@@ -374,6 +374,10 @@ kubectl get cert -n openfaas
 ```
 
 ### Appendix
+
+#### Custom annotations
+
+Any annotations that you add to the `FunctionIngress` will be added to the `Ingress` record. This is useful for adding custom annotations that your IngressController supports such as timeouts, rate-limiting or authorization settings.
 
 #### Deleting FunctionIngress records
 
