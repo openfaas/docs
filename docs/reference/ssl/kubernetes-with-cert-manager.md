@@ -272,33 +272,35 @@ $ kubectl logs -f $(kubectl get po -l "app.kubernetes.io/instance=nginxingress,a
 
 ## 2.0 TLS and custom domains for functions
 
+It's important that you never expose a function to the Internet directly, but only via the OpenFaaS gateway. The gateway is required in the invocation path to provide metrics, auto-scaling and asynchronous invocations etc.
+
 This part builds on part 1.0 and now enables custom domains for any of your functions. You will need to have installed OpenFaaS and an IngressController. For TLS, which is optional you need to have cert-manager and at least one `Issuer`.
 
 For example, rather than accessing a function `nodeinfo` via `https://gw.example.com/function/nodeinfo`, you can now use a custom URL such as: `https://nodeinfo.example.com`.
 
 The [IngressOperator](https://github.com/openfaas/ingress-operator) introduces a new CRD (Custom Resource Definition) called `FunctionIngress`. The role of `FunctionIngress` is to create an `Ingress` Kubernetes object to map a function to a domain-name, and optionally to also provision a TLS certificate using cert-manager.
 
-### Deploy the IngressOperator
+### How to enable the OpenFaaS IngressOperator
 
-You can install the [ingress-operator](https://github.com/openfaas/ingress-operator) by passing `--set ingressOperator.create=true` to the helm chart at the installation time of OpenFaaS.
+You can install the [ingress-operator](https://github.com/openfaas/ingress-operator) by passing `--set ingressOperator.create=true` to the Helm chart at the installation time of OpenFaaS. Or by adding the following to your `values.yaml` file:
 
-Alternatively, use [arkade](https://arkade.dev):
-
-```bash
-curl -sSL https://get.arkade.dev | sudo sh
-
-arkade install openfaas \
-  --ingress-operator
+```yaml
+ingressOperator:
+  create: true
 ```
 
-Check that the Operator started correctly:
+If you use arkade, add the `--ingress-operator` flag to `arkade install openfaas`.
+
+Check that the operator was deployed and has started:
 
 ```bash
-kubectl get deploy/ingress-operator \
-  -n openfaas -o wide
+kubectl get -n openfaas deploy/ingress-operator \
+  -o wide
+
+kubectl logs -n openfaas deploy/ingress-operator -f
 ```
 
-If it's working, you will see `AVAILABLE` showing `1`. Otherwise use `kubectl logs` or `kubectl get events` for more information.
+If it's working, you will see `AVAILABLE` showing `1`.
 
 ### Deploy a function
 
