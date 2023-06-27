@@ -319,7 +319,7 @@ Create a DNS A record or CNAME `nodeinfo.example.com` pointing to the `EXTERNAL-
 Now create a `FunctionIngress` custom resource:
 
 ```yaml
-apiVersion: openfaas.com/v1alpha2
+apiVersion: openfaas.com/v1
 kind: FunctionIngress
 metadata:
   name: nodeinfo-tls
@@ -351,7 +351,7 @@ To enable TLS, we just need to add the `tls` section and the following fields:
 > Note: The `FunctionIngress` currently makes use of the `HTTP01` challenge.
 
 ```yaml
-apiVersion: openfaas.com/v1alpha2
+apiVersion: openfaas.com/v1
 kind: FunctionIngress
 metadata:
   name: nodeinfo-tls
@@ -424,7 +424,7 @@ Then run `kubectl apply -f fni.yaml`.
 To create the TLS Issuer, see the steps above.
 
 ```yaml
-apiVersion: openfaas.com/v1alpha2
+apiVersion: openfaas.com/v1
 kind: FunctionIngress
 metadata:
   name: nodeinfo
@@ -440,7 +440,7 @@ spec:
       name: "letsencrypt-staging"
       kind: "Issuer"
 ---
-apiVersion: openfaas.com/v1alpha2
+apiVersion: openfaas.com/v1
 kind: FunctionIngress
 metadata:
   name: env
@@ -456,7 +456,7 @@ spec:
       name: "letsencrypt-staging"
       kind: "Issuer"
 ---
-apiVersion: openfaas.com/v1alpha2
+apiVersion: openfaas.com/v1
 kind: FunctionIngress
 metadata:
   name: certinfo
