@@ -148,6 +148,7 @@ nav:
       - Grafana dashboards: ./openfaas-pro/grafana-dashboards.md
   - Reference:
     - OpenFaaS YAML: ./reference/yaml.md
+    - REST API: ./reference/rest-api.md
     - Secrets: ./reference/secrets.md
     - Async: ./reference/async.md
     - Triggers: ./reference/triggers.md

@@ -1,9 +1,9 @@
-# Namespaces support
+# Multiple Namespaces
 
-!!! info "OpenFaaS Pro feature"
-    This feature is part of the [OpenFaaS Enterprise](/openfaas-pro/introduction) distribution.
+!!! info "OpenFaaS For Enterprises"
+    This feature is part of [OpenFaaS For Enterprises](/openfaas-pro/introduction).
 
-OpenFaaS Pro has support for multiple-namespaces, which is part of the configuration required to build a multi-tenant product or service.
+OpenFaaS For Enterprises has support for multiple-namespaces, which is part of the configuration required to build a multi-tenant product or service.
 
 Multiple namespaces can be used for the following use-cases:
 
@@ -13,6 +13,8 @@ Multiple namespaces can be used for the following use-cases:
 
 !!! warning "Additional configuration required"
     You must configure OpenFaaS to have sufficient permissions to administrate multiple namespaces, this feature will not work in a default installation.
+
+Read our guidelines on [How to Build a Multi-tenant Platform with OpenFaaS](https://www.openfaas.com/blog/build-a-multi-tenant-functions-platform/).
 
 ## Pre-reqs
 

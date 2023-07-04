@@ -1,44 +1,8 @@
-# Authentication
+# Authentication for functions
 
 There are two main concerns for authentication for OpenFaaS: the administrative API Gateway API and the individual functions.
 
-!!! warning "TLS is not optional"
-    You must always enable HTTPS when using OpenFaaS over the Internet, or through an untrusted network, and virtually any network should be considered as untrusted.
-
-## OpenFaaS API
-
-### Basic authentication
-
-When exposing OpenFaaS on the public internet it is important to protect the administrative API endpoints of the API Gateway.
-
-These APIs exist at:
-
-* `/system/`
-
-The OpenFaaS API Gateway provides built-in basic authentication. It is enabled by default for OpenFaaS on Kubernetes and faasd.
-
-Commercial users should explore the [Single Sign-On](/openfaas-pro/sso) feature of OpenFaaS Pro, to prevent the need to share credentials between users and systems.
-
-### Single Sign-On (SSO) and OIDC
-
-Single Sign-On (SSO) uses your identity provider such as Auth0, Okta, Azure Active Directory or GitLab to authenticate users to your OpenFaaS API. It supports the CLI, UI and machine-based authentication. It means that you no longer need to share a single credential with any administrators, and don't need to redeploy your OpenFaaS installation if an employee leaves the company, and you need to rotate the password.
-
-Learn more about (SSO) and OIDC in [OpenFaaS Pro](/openfaas-pro/sso)
-
-### Authentication plugins
-
-When using an auth plugin, the API Gateway will delegate authentication of the `/system/` routes to a microservice.
-
-By default the [basic auth plugin](https://github.com/openfaas/faas/tree/master/auth/basic-auth) is used.
-
-You can configure the gateway to use an auth plugin with the following two environment variables:
-
-* `auth_proxy_url` - the URL to the endpoint to use i.e. `http://auth-module.openfaas:8080/validate`
-* `auth_pass_body` - whether to pass the body of the request to the auth module, the default value is `false`
-
-See also: [auth plugins](https://github.com/openfaas/faas/tree/master/auth)
-
-## Authentication for functions
+This page covers authentication for functions, for the OpenFaaS API see: [Docs: OpenFaaS API](/reference/rest-api/).
 
 Functions are exposed on two routes on the OpenFaaS API Gateway:
 
@@ -58,15 +22,15 @@ When functions receive webhooks, most publishers of events will not support any 
 
 See also: [Lab 11: Enabling trust with HMAC](https://github.com/openfaas/workshop/blob/master/lab11.md) from the OpenFaaS workshop.
 
+A more recent example shows how to validate and verify webhooks from Discord: [Build a serverless Discord bot with OpenFaaS and Golang](https://www.openfaas.com/blog/build-a-serverless-discord-bot/) 
+
 ### Websites and portals for users
 
-Building a portal for users is also a common use-case for functions. You can enable OAuth or a social login by integrating a middleware within your function. Middleware exists for most programming languages to authenticate a function.
+Websites, portals and dashboards can be built using OpenFaaS.
 
-### Basic authentication
+For authentication and authorization, signing on can be implemented using OAuth and many languages and frameworks have middleware to automate that for you.
 
-You can enable basic-authentication for a web-portal or an API by setting the appropriate header such as `WWW-Authenticate: Basic realm="User Visible Realm"`. This is the approach that the OpenFaaS gateway takes, and the OpenFaaS Pro edition comes with an OIDC integration.
-
-Learn more: [Basic auth](https://en.wikipedia.org/wiki/Basic_access_authentication)
+As an example of this, see [Alex Ellis' Sponsors Portal](https://insiders.alexellis.io/), it's authenticates users using GitHub and authorizes them if their sponsorship amount covers the minimum amount.
 
 ### Bearer tokens and API keys
 
@@ -77,7 +41,17 @@ You can assign a token to a function using a secret and then read the value back
 Example of invoking a function with a Bearer token:
 
 ```
-curl https://gw.example.com -H "Authorization: Bearer TOKEN"
+export TOKEN=""
+
+curl https://gw.example.com/function/function1 \
+    -H "Authorization: Bearer $TOKEN"
 ```
 
 See an example using a HTTP header: [secrets](./secrets.md).
+
+
+### Basic authentication
+
+You can enable basic-authentication for a web-portal or an API by setting the appropriate header such as `WWW-Authenticate: Basic realm="User Visible Realm"`. This is the approach that the OpenFaaS gateway takes, and the OpenFaaS Pro edition comes with an OIDC integration.
+
+Learn more: [Basic auth](https://en.wikipedia.org/wiki/Basic_access_authentication)
