@@ -1,6 +1,6 @@
 # Featured tutorials
 
-See also: [Official Training resources](/tutorial/training)
+See also: [Official Training resources](/tutorials/training)
 
 ## OpenFaaS deployment guides for Kubernetes
 

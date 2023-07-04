@@ -2,7 +2,7 @@
 
 > Note: Only the Kubernetes provider currently supports Profiles!
 
-The OpenFaaS design allows it to provide a standard API across several different container ochestration tools: Kubernetes, containerd, and others. These [faas-providers](/docs/architecture/faas-provider.md) generally implement the same core features and allow your to functions to remain portable and be deployed on _any_ certified OpenFaaS installation regardless of the orchestration layer. However, there are certain workloads or deployments that require more advanced features or fine tuning of configuration. To allow maximum flexibility without overloading the OpenFaaS function configuration, we have introduced the concept of Profiles. This is simply a reserved function annotation that the `faas-provider` can detect and use to apply the advanced configuration.
+The OpenFaaS design allows it to provide a standard API across several different container orchestration tools: Kubernetes, containerd, and others. These [faas-providers](/architecture/faas-provider) generally implement the same core features and allow your to functions to remain portable and be deployed on _any_ certified OpenFaaS installation regardless of the orchestration layer. However, there are certain workloads or deployments that require more advanced features or fine tuning of configuration. To allow maximum flexibility without overloading the OpenFaaS function configuration, we have introduced the concept of Profiles. This is simply a reserved function annotation that the `faas-provider` can detect and use to apply the advanced configuration.
 
 In some cases, there may be a 1:1 mapping between Profiles and Functions, this is to be expected for TopologySpreadConstraints, Affinity rules. We see no issue with performance or scalability.
 
@@ -271,7 +271,7 @@ The constraint of `whenUnsatisfiable: DoNotSchedule` will mean pods are not sche
 
 #### Use Tolerations and Affinity to Separate Workloads
 
-Tolerations are available in the Community Edition, and could be used with NodeSelectors. The OpenFaaS API exposes the Kubernetes `NodeSelector` via [`constraints`](/docs/reference/yaml#function-constraints). This provides a very simple selection based on labels on Nodes.
+Tolerations are available in the Community Edition, and could be used with NodeSelectors. The OpenFaaS API exposes the Kubernetes `NodeSelector` via [`constraints`](/reference/yaml#function-constraints). This provides a very simple selection based on labels on Nodes.
 
 This example is for OpenFaaS Pro because it uses Affinity.
 

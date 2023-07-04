@@ -177,7 +177,7 @@ Guidelines are also provided for [preparing for production](/architecture/produc
 
 ### Private registries for your functions
 
-See notes here: [Private container registries with OpenFaaS](/reference/private-registries.md)
+See notes here: [Private container registries with OpenFaaS](/reference/private-registries)
 
 ### Community tutorials and blog posts
 
