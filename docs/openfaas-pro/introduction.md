@@ -1,6 +1,10 @@
 ## OpenFaaS Pro
 
-OpenFaaS Pro is a commercially licensed distribution of OpenFaaS with additional features, configurations and commercial support from the founders. 
+OpenFaaS Pro is a commercially licensed distribution of OpenFaaS with additional features, configurations and commercial support from the founders.
+
+There are two editions of OpenFaaS Pro - Standard and for Enterprises.
+
+Standard is meant for any team making use of OpenFaaS at work, whether external, or internal-facing. OpenFaaS for Enterprises is meant for multi-tenancy, and regulated companies who have additional requirements around security, compliance and support.
 
 !!! info "Do we need the Community Edition or Pro?"
 
@@ -50,18 +54,28 @@ Read more: [OpenFaaS workloads](https://docs.openfaas.com/reference/workloads/) 
 
 ### Enterprise security
 
-* [Single Sign-On using OpenID Connect (OIDC)](/openfaas-pro/sso) means each user authenticates with their own identity, instead of sharing one set of credentials, which is insecure. Use your existing OIDC-compatible Identity Provider (IdP).
+* Identity and Access Management (IAM)
+* Single Sign On with OpenID Connect (OIDC)
+
+[Learn more about IAM for OpenFaaS](https://docs.openfaas.com/openfaas-pro/iam/overview/)
 
 ### Platform building features
+
+Run a secure, multi-tenant functions platform - for internal or external users:
+
+* [Build a Multi-Tenant Functions Platform with OpenFaaS](https://www.openfaas.com/blog/build-a-multi-tenant-functions-platform/)
 
 Build functions at scale - for services providers and large teams:
 
 * [Build functions via REST API](/openfaas-pro/builder) using source code without the need to create and manage dozens or hundreds of independent CI jobs.
 
+Integrate securely using short-lived tokens from your Identity Provider (IdP) or from Kubernetes:
+
+* [How to authenticate to the OpenFaaS API using Kubernetes JWT tokens](https://www.openfaas.com/blog/kubernetes-tokens-openfaas-api/)
+
 ### Grafana dashboards
 
 OpenFaaS comes with [built-in Prometheus metrics](/architecture/metrics). We provide [a collection of Grafana dashboards](/openfaas-pro/grafana-dashboards) to customers to help with monitoring OpenFaaS and individual functions.
-
 
 ### Private code from functions
 
@@ -86,15 +100,16 @@ Recently released:
 * Postgres event connector using either WAL or LISTEN/NOTIFY (released Dec 2022)
 * Access to private artifact registries from `faas-cli build` for npm, Pip, Go modules, etc (released Dec 2022)
 * AWS SNS event-connector (released Jan 2023)
+* IAM & RBAC for the OpenFaaS REST API (Released June 2023)
+* Enhanced multi-tenant isolation for large organisations and service providers (Released June 2023)
 
 Upcoming:
 
-* Ongoing conversion to structured/JSON logging of OpenFaaS Pro components
-* IAM & RBAC for the OpenFaaS REST API
-* Webhook-based auditing of the OpenFaaS REST API
-* Additional event triggers i.e. AMQP event trigger for RabbitMQ and Azure Service Bus
+* Invocation via the OpenFaaS Pro Dashboard (in progress)
+* Webhook-based auditing of the OpenFaaS REST API (arriving shortly)
+* Conversion to structured/JSON logging of OpenFaaS Pro components (ongoing)
+* Additional event triggers i.e. AMQP event trigger for RabbitMQ and Azure Service Bus and Google PubSub
 * Proactive remote monitoring for support customers
-* Enhanced multi-tenant isolation for large organisations and service providers
 
 Is there something else you need for your team or organisation? [Get in touch with us here](https://openfaas.com/support/).
 
@@ -114,7 +129,7 @@ We see it as the start of a two-way relationship and an opportunity to collabora
 
 **Support**
 
-| Description                 | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS for Enterprise             |
+| Description                 | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
 | ----------------------------| ------------------|------------------------|---------------------------------|
 | Suitability                 | Open Source developers and initial exploration  | Production, business critical, or PoC | Regulated companies which may have additional legal and compliance requirements |
 | SLA                         | N/a               | N/a                    | Response within 1 business day for P1 |
@@ -132,7 +147,7 @@ We see it as the start of a two-way relationship and an opportunity to collabora
 
 OpenFaaS For Enterprise comes with an SLA, defined separately. It is suitable for companies which have a separate legal and procurement department, who are regulated and have additional legal or compliance requirements. The annual architecture review is to reduce risk by reviewing the configuration and informing the team of any recommended changes to the installation and configuration of OpenFaaS.
 
-Support for OpenFaaS Pro is on a self-service basis, with no formal SLA offered.
+Support for OpenFaaS Pro is on a self-service basis, with no formal SLA offered. That said, our our customers say good things about the help and insights we've given them.
 
 The [Customer Community](https://github.com/openfaas/customers) is a private GitHub repository for giving feedback to the OpenFaaS team, for early access to new features and collaboration with other customers.
 
@@ -144,7 +159,7 @@ The OpenFaaS community holds a weekly [Office Hours call](/community) on Zoom wh
 
 Did you know? OpenFaaS Pro's autoscaling engine can scale many different types of functions and closely match the load with the right amount of replicas.
 
-| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS for Enterprise             |
+| Description           | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Scale to Zero | Not supported | [Global default, or custom time per function](/openfaas-pro/scale-to-zero) | As per Pro |
 | Maximum replicas per function | 5 Pods | No limit applied | As per Pro |
@@ -158,7 +173,7 @@ Scaling to zero is also a Pro feature, which can be opted into on a per function
 
 **Core features**
 
-| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS for Enterprise             |
+| Description           | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | UI Dashboard         | Legacy UI (in code-freeze)  | [New UI dashboard](/openfaas-pro/dashboard) with metrics, logs & CI integration | As per Pro, but with support for multiple namespaces |
 | Consume secrets in `faas-cli build` for npm, Go and Pypy | Not available | Via build-time secrets | As Per Pro |
@@ -175,7 +190,7 @@ Scaling to zero is also a Pro feature, which can be opted into on a per function
 
 **Event-connectors**
 
-| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS for Enterprise             |
+| Description           | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Number of topics per function   | One topic per function | Multiple topics per function | As per Pro |
 | [Kafka event trigger](/openfaas-pro/kafka-events) | Not supported | Supports SASL or TLS auth, Aiven, Confluent and self-hosted | Support with SLA |
@@ -185,7 +200,7 @@ Scaling to zero is also a Pro feature, which can be opted into on a per function
 
 **Durability and reliability**
 
-| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS for Enterprise             |
+| Description           | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Readiness probes | Not supported | [Readiness probes](/reference/workloads) supported with custom HTTP path and intervals per function | As per Pro |
 | Retries for failed function invocations | Not supported | [Retry invocations](/openfaas-pro/retries) for configured HTTP codes with an exponential back-off | As per Pro |
@@ -195,9 +210,10 @@ Scaling to zero is also a Pro feature, which can be opted into on a per function
 
 **Security**
 
-| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS for Enterprise             |
+| Description           | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
-| Authentication for OpenFaaS API, CLI and UI | Shared admin password between everyone who uses OpenFaaS | N/a | [Single Sign-On with OIDC](/openfaas-pro/sso) |
+| Authentication for OpenFaaS API, CLI and UI | Shared admin password between everyone who uses OpenFaaS | as per CE | [Single Sign-On with OIDC](https://docs.openfaas.com/openfaas-pro/iam/overview/) |
+| Identity and Policy | N/a | N/a | Least Privilege with [Identity and Access Management](https://docs.openfaas.com/openfaas-pro/iam/overview/) |
 | Compatibility with Istio for mTLS | N/a | Supported | As per Pro |
 | PCI/GDPR compliance       | Sensitive information such as the request body/response body, headers may be printed into the logs for each asynchronous invocation | Sensitive information is not printed to the logs for asynchronous requests | As per Pro |
 | Secure isolation with Kata containers or gVisor      | N/a             | N/a | Supported using an [OpenFaaS Pro Profile and runtimeClass](/reference/profiles) |
@@ -211,11 +227,13 @@ Isolation using Kata containers or gVisor is advisable when running untrusted co
 
 We have several customers of varying size who host code on behalf of their customers. OpenFaaS can provide a complete workflow from building the code securely, to deploying it within an isolated namespace. It's easy to integrate with existing systems using the REST APIs we make available.
 
-| Description           | OpenFaaS CE       | OpenFaaS Pro           | OpenFaaS for Enterprise             |
+| Description           | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Deploy functions via REST API | Yes | As per CE | As per CE | 
+} Manage namespaces via REST API | N/a | N/a | Full CRUD API available |
 | Build containers and functions via REST API | N/a | N/a | [Yes via Function Builder API](/openfaas-pro/builder) |
 | Multiple namespace support | No support | N/a | Supported with Kubernetes namespaces |
+| Multi-tenancy | Not supported | N/a | [Supported](https://www.openfaas.com/blog/build-a-multi-tenant-functions-platform/) |
 
 Some customers extend their own platform using OpenFaaS functions, because it's quicker and easier to deploy a function than change the core platform.
 
@@ -240,8 +258,9 @@ OpenFaaS Pro is trusted by:
 * Kubiya
 * Corva
 * Mnemonic
+* E2E Networks Ltd
 
-Tell us about your use-case for OpenFaaS Pro, CE or faasd and see what other companies are doing in the: [ADOPTERS file](https://github.com/openfaas/faas/blob/master/ADOPTERS) 
+Tell us about your use-case for OpenFaaS Pro, OpenFaaS Community Edition (CE) or faasd and see what other companies are doing in the: [ADOPTERS file](https://github.com/openfaas/faas/blob/master/ADOPTERS) 
 
 ### Support
 
