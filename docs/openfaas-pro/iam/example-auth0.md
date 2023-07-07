@@ -76,9 +76,17 @@ spec:
   statement:
   - sid: 1-rw-dev
     action:
-    - Function:Read
+    - Function:List
+    - Function:Get
+    - Function:Create
+    - Function:Update
+    - Function:Delete
+    - Function:Logs
     - Function:Admin
-    - Secret:Read
+    - Secret:List
+    - Secret:Create
+    - Secret:Update
+    - Secret:Delete
     effect: Allow
     resource: ["dev:*"]
 ```
