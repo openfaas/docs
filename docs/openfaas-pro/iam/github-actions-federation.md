@@ -39,9 +39,9 @@ spec:
   statement:
   - sid: 1-rw-dev
     action:
-    - Function:Read
-    - Function:Admin
-    - Secret:Read
+    - Function:List
+    - Function:Create
+    - Namespace:List
     effect: Allow
     resource: ["dev:*"]
 ```

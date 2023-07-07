@@ -47,15 +47,39 @@ There must be at least one registered OIDC provider for human users to authentic
 
 Functions:
 
-* `Function:Read` - List functions, get the status for a function and stream the logs
-* `Function:Admin` - Create, update, delete functions
+* `Function:List` - List functions
+* `Function:Get` - Get the status of functions
+* `Function:Create` - Create functions
+* `Function:Update` - Update functions
+* `Function:Delete` - Delete functions
+* `Function:Logs` - Get logs for functions
+* `Function:Scale` - Set the replica count for functions
 
 Secrets:
 
-* `Secret:Read` - List secrets
-* `Secret:Admin` - Create, update, delete secrets
+* `Secret:List` - List secrets
+* `Secret:Create` - Create secrets
+* `Secret:Update` - Update secrets
+* `Secret:Delete` - Delete secrets
 
 > Note: (it's not possible to unable to fetch the contents of a secret via API)
+
+Namespaces:
+
+* `Namespace:List` - List namespaces
+* `Namespace:Get` - Get details of namespaces
+* `Namespace:Create` - Create namespaces
+* `Namespace:Update` - Update namespaces
+* `Namespace:Delete` - Delete namespaces
+
+System:
+
+* `System:Info` - Get system provider information
+
+Wildcards can be used to get multiple actions:
+
+* `Function:*` - gives all function permission 
+* `*` - gives all permissions for namespaces, functions, secrets etc
 
 Scope of access:
 
