@@ -185,6 +185,7 @@ Scaling to zero is also a Pro feature, which can be opted into on a per function
 | GitOps & CRD support | Not available | ArgoCD, FluxCD and Helm compatibility using the Function CRD | As per Pro |
 | Deployment options | faas-cli or REST API | As per CE, plus: Function CRD with kubectl, Helm or GitOps | As per Pro |
 | Custom Resource Definition | Not available | Function and Profile CRDs | As per Pro |
+| Image Pull Policy (for air-gap) | Always | `Always`, `IfNotPresent` or `Never` | As per Pro |
 
 > Did you know? Synadia, the vendor of NATS Streaming announced the product is now deprecated, and it will receive no updates from June 2023 onwards. OpenFaaS Ltd developed an alternative based upon their newest product JetStream. [Learn more about JetStream for OpenFaaS](https://docs.openfaas.com/openfaas-pro/jetstream/)
 
