@@ -160,7 +160,7 @@ If you have enabled [Identity and Access Management (IAM) for OpenFaaS](/openfaa
       - Authorization Code Flow
       - Authorization Code Flow with Proof Key fo Code Exchange (PKCE)
 
-    Once your provider is configured it needs to be registered as a JWT Issuer with OpenFaaS. See: [register a provider](/openfaas-pro/iam/example-auth0/)
+    Once your provider is configured it needs to be registered as a JWT Issuer with OpenFaaS. See: [register a provider](/openfaas-pro/iam/oidc-configuration/overview/)
 
 2. Generate AES encryption key
 
