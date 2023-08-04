@@ -145,7 +145,7 @@ Web Identity Federation allows you to build a trust relationship with an externa
 
     In staging, you could grant broader permissions to your team, and then restrict permissions in production.
 
-* How to I build a multi-tenant system with OpenFaaS IAM?
+* How do I build a multi-tenant system with OpenFaaS IAM?
 
     There are many considerations, and we'd encourage you to contact the support team to discuss your requirements.
 
