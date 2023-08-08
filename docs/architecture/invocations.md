@@ -96,10 +96,10 @@ Some users may manage their functions using the "Function" Custom Resource Defin
 
 See also: [Learn how to manage your functions with kubectl](https://www.openfaas.com/blog/manage-functions-with-kubectl/)
 
-OpenFaaS Pro offers authentication using JWT tokens obtained through an Open ID Connect (OIDC) flow and an Identity Provider (IdP).
+OpenFaaS For Enterprise offers authentication using JWT tokens obtained through an Open ID Connect (OIDC) flow and an Identity Provider (IdP).
 
 * [TLS with OpenFaaS](/reference/ssl/kubernetes-with-cert-manager)
-* [Authentication with OIDC](/openfaas-pro/sso)
+* [Identity and Access Management (IAM)](/openfaas-pro/iam/overview/)
 
 For functions, you should provide your own authentication mechanism, such as a shared token, OIDC, HMAC or basic authentication.
 

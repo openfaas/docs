@@ -8,13 +8,6 @@ OpenFaaS for Enterprises includes a built-in Identity and Access Management (IAM
 * Deploy from CI/CD systems without long-lived shared secrets
 * Audit all operations performed through the OpenFaaS REST API
 
-!!! note
-    Classic Single-Sign On (SSO) with OpenID Connect is a stable feature for OpenFaaS for Enterprises.
-    
-    OpenFaaS IAM is under active development and adds role-based authorization, policies and Web Identity Federation.
-
-See also: [Classic Single Sign On with OpenID Connect](/openfaas-pro/sso)
-
 ## Walkthrough
 
 We recommend you to follow this comprehensive walkthrough blog post to get started with OpenFaaS IAM: [Walkthrough of Identity and Access Management (IAM) for OpenFaaS](https://www.openfaas.com/blog/walkthrough-iam-for-openfaas/).
