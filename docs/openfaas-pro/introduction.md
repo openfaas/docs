@@ -231,7 +231,7 @@ We have several customers of varying size who host code on behalf of their custo
 | Description           | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Deploy functions via REST API | Yes | As per CE | As per CE | 
-} Manage namespaces via REST API | N/a | N/a | Full CRUD API available |
+| Manage namespaces via REST API | N/a | N/a | Full CRUD API available |
 | Build containers and functions via REST API | N/a | N/a | [Yes via Function Builder API](/openfaas-pro/builder) |
 | Multiple namespace support | No support | N/a | Supported with Kubernetes namespaces |
 | Multi-tenancy | Not supported | N/a | [Supported](https://www.openfaas.com/blog/build-a-multi-tenant-functions-platform/) |
