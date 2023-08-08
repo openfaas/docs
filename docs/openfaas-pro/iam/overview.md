@@ -15,6 +15,10 @@ OpenFaaS for Enterprises includes a built-in Identity and Access Management (IAM
 
 See also: [Classic Single Sign On with OpenID Connect](/openfaas-pro/sso)
 
+## Walkthrough
+
+We recommend you to follow this comprehensive walkthrough blog post to get started with OpenFaaS IAM: [Walkthrough of Identity and Access Management (IAM) for OpenFaaS](https://www.openfaas.com/blog/walkthrough-iam-for-openfaas/).
+
 ## Workflows
 
 As a user, you can authenticate to OpenFaaS using Open ID Connect with the registered OIDC provider.
