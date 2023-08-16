@@ -49,9 +49,12 @@ See also: [code samples with Node.js, Python, Go and PHP](https://github.com/ope
 
 We provide the following examples to help you explore and get started:
 
-* Remote builds via faas-cli
-* Step by step commands with curl and bash
-* HTTP client examples in various languages
+* Remote builds via `faas-cli` for testing purposes
+* Step by step commands with `curl` and bash to show you how the workflow works
+* Code examples in various languages to show you how to integrate for production
+
+!!! "Note"
+    Authentication is required to publish images to remote registries. You must make sure that you do not include a configuration file from your machine directly, if the credentials keystore is enabled in Docker Desktop. See the [helm chart for more details](https://github.com/openfaas/faas-netes/tree/master/chart/pro-builder).
 
 ### Remote builds with `faas-cli`
 
@@ -66,14 +69,28 @@ export PAYLOAD=$(kubectl get secret -n openfaas payload-secret -o jsonpath='{.da
 echo $PAYLOAD > $HOME/.openfaas/payload.txt
 ```
 
-To publish an image using the remote builder:
+Create a test function using the `python3` template, and set it to publish to `ttl.sh`, an ephemeral registry that doesn't require authentication:
+
+```bash
+faas-cli new --prefix ttl.sh/test-images \
+    --lang python3 py-fn
+mv py-fn.yml stack.yml
+```
+
+Now, publish an image using the remote builder:
 
 ```bash
 faas-cli publish --remote-builder http://127.0.0.1:8081/build \
   --payload-secret $HOME/.openfaas/payload.txt
 ```
 
-To publish, then deploy that image to the cluster:
+To deploy the image that you've just built:
+
+```bash
+faas-cli deploy
+```
+
+Or to publish _and_ then deploy that image to the cluster in one go:
 
 ```
 faas-cli up --remote-builder http://127.0.0.1:8081/build \
