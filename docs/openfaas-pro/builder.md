@@ -53,7 +53,7 @@ We provide the following examples to help you explore and get started:
 * Step by step commands with `curl` and bash to show you how the workflow works
 * Code examples in various languages to show you how to integrate for production
 
-!!! "Note"
+!!! note
     Authentication is required to publish images to remote registries. You must make sure that you do not include a configuration file from your machine directly, if the credentials keystore is enabled in Docker Desktop. See the [helm chart for more details](https://github.com/openfaas/faas-netes/tree/master/chart/pro-builder).
 
 ### Remote builds with `faas-cli`
