@@ -263,11 +263,19 @@ For production use, serving machine learning models, and high-traffic functions,
 
 See the [python-flask-template repo](https://github.com/openfaas/python-flask-template) for the following templates:
 
-* python27-flask
+* python27-flask (deprecated)
 * python3-flask
 * python3-flask-debian
 * python3-http
 * python3-http-debian
+
+We recommend using python3-http in production, if your code is pure Python. If you import pip modules which compile to C during the build, where there are no precompiled wheels available, then use `python3-http-debian` because it has all the required build tools preinstalled.
+
+The classic templates for Python called `python3` or `python3-debian` are not recommended for production usage because it creates a new process to serve each request.
+
+#### Python 3 (HTTP templates)
+
+See: [python-flask-template repo](https://github.com/openfaas/python-flask-template)
 
 #### Python 3 (classic template)
 
