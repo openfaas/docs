@@ -8,43 +8,26 @@ The Core platform is installed by switching the `openfaasPro` flag to `true` in 
 
 ## Core platform
 
-The Core platform features of OpenFaaS Pro consists of:
+The Core platform features of OpenFaaS Standard and OpenFaaS for Enterprises consists of:
 
 * OpenFaaS Pro Gateway
 * OpenFaaS Pro Kubernetes Operator with Custom Resource Definitions (CRDs) i.e. `Function` and `Profile`
 * OpenFaaS Pro UI Dashboard
-* OpenFaaS Pro Autoscaler
+* OpenFaaS Pro Autoscaler (including Scale to Zero)
 * OpenFaaS Pro Queue Worker for JetStream
 * OpenFaaS Pro CLI `faas-cli pro`
 
 The Core platform is installed using the same Helm chart as OpenFaaS CE, only with some additional values set, to deploy the additional Pro components and versions.
 
+For OpenFaaS for Enterprises:
+
+* Multiple namespaces are automatically detected and enabled, when you set `clusterRole: true` in the chart.
+* The Function Builder has its own chart, which is installed separately.
+* IAM and SSO can be configured up front, or later down the line when you have the base installation complete
+
 You'll also want to install our Grafana dashboards, which give you access to additional metrics:
 
 * [Grafana Dashboards](https://github.com/openfaas/customers/tree/master/dashboards)
-
-## Pro CLI
-
-The OpenFaaS Pro CLI provides additional functionality on top of faas-cli, such as build-time secrets, and a `local-run` command to try out functions without deploying them.
-
-```bash
-faas-cli plugin get pro
-faas-cli pro --help
-```
-
-See also: [faas-cli installation](/cli/install)
-
-## Event connectors
-
-There are a number of event connectors for OpenFaaS, all of which are installed separately as required using their respective Helm charts.
-
-[View helm charts for event connectors](https://github.com/openfaas/faas-netes/tree/master/chart)
-
-## Function Builder API
-
-The OpenFaaS Pro Function Builder API can be deployed through a separate Helm chart.
-
-[View chart](https://github.com/openfaas/faas-netes/tree/master/chart/pro-builder)
 
 ## Installation
 
@@ -120,3 +103,36 @@ helm upgrade openfaas \
 We recommend running the OpenFaaS config checker after installation is complete. This will help verify that your installation is correct.
 
 See also: [OpenFaaS config checker](https://github.com/openfaas/config-checker)
+
+## Additional components
+
+### Event connectors
+
+There are a number of event connectors for OpenFaaS, all of which are installed separately as required using their respective Helm charts.
+
+[View helm charts for event connectors](https://github.com/openfaas/faas-netes/tree/master/chart)
+
+### OpenFaaS Pro CLI
+
+The OpenFaaS Pro CLI provides additional functionality on top of faas-cli, such as build-time secrets, and a `local-run` command to try out functions without deploying them.
+
+```bash
+faas-cli plugin get pro
+faas-cli pro enable
+```
+
+You'll need a GitHub account in your company's GitHub organisation to use this feature. If you cannot get one for some reason, or use GitLab, please let us know and we'll provide an alternative mechanism to activate the CLI.
+
+See also: [faas-cli installation](/cli/install)
+
+### Function Builder API
+
+The OpenFaaS Pro Function Builder API can be deployed through a separate Helm chart.
+
+[View chart](https://github.com/openfaas/faas-netes/tree/master/chart/pro-builder)
+
+### SSO & IAM
+
+Single-Sign On and IAM are closely related and are often configured at the same time.
+
+See our walkthrough for an overview of how this works: [Walkthrough of Identity and Access Management (IAM) for OpenFaaS](https://www.openfaas.com/blog/walkthrough-iam-for-openfaas/).

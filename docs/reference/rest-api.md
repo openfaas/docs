@@ -45,7 +45,9 @@ For any code you deploy within the cluster you should always use `http://gateway
 
 OpenFaaS CE and Standard support Basic Authentication, and OpenFaaS for Enterprises supports IAM using OIDC and JSON Web Tokens (JWT).
 
-Here's an example of how to list functions using the root user account:
+### OpenFaaS CE and Standard
+
+Here's an example of how to list functions using the root user account's password:
 
 ```bash
 export HOST=127.0.0.1:8080
@@ -55,7 +57,13 @@ curl -s \
     http://admin:$PASSWORD@$HOST/system/functions
 ```
 
-For OpenFaaS for Enterprises, you can use the `faas-cli` to generate a JWT token:
+### OpenFaaS for Enterprises
+
+With OpenFaaS for Enterprises, you can obtain a JWT token for a Kubernetes Service account
+
+[How to authenticate to the OpenFaaS API using Kubernetes JWT tokens](https://www.openfaas.com/blog/walkthrough-iam-for-openfaas/)
+
+Or, you can use the `faas-cli` to generate a JWT token:
 
 ```bash
 faas-cli pro auth --print-token
@@ -67,6 +75,8 @@ curl -s \
     -H "Authorization: Bearer $TOKEN"
     http://$HOST/system/functions
 ```
+
+### Function authentication
 
 For authentication for functions, see [Function Authentication](/reference/authentication/)
 
@@ -293,9 +303,64 @@ Example output when requesting JSON format:
 
 ## Namespace management
 
-There are plans to add CRUD endpoints to manage namespaces for OpenFaaS for Enterprises, however it is not currently available.
+OpenFaaS for Enterprises also includes REST endpoints for listing, creating, deleting and updating namespaces.
 
-See how to create a namespace and annotate it for OpenFaaS: [Docs: Multiple Namespaces](/reference/namespaces/)
+### Create a namespace with kubectl
+
+To create a namespace and annotate it for OpenFaaS with `kubectl`, see: [Docs: Multiple Namespaces](/reference/namespaces/)
+
+### List namespaces
+
+```bash
+export HOST=127.0.0.1:8080
+export TOKEN=""
+
+curl -s \
+  -H "Authorization: Bearer $TOKEN" \
+    http://$HOST/system/namespaces
+```
+
+### Create a namespace
+
+Note that for initial creation, the namespace `n1` isn't included in the URL.
+
+```bash
+export HOST=127.0.0.1:8080
+export TOKEN=""
+
+curl -s \
+  -X POST \
+  --data-binary '{"namespace": "n1", "annotations": {"openfaas":"1"}}'
+  -H "Authorization: Bearer $TOKEN" \
+    http://$HOST/system/namespaces
+```
+
+### Update a namespace
+
+You can update annotations on a namespace, but not the name.
+
+```bash
+export HOST=127.0.0.1:8080
+export TOKEN=""
+
+curl -s \
+  -X PUT \
+  --data-binary '{"namespace": "n1", "annotations": {"openfaas":"1", "customer": "openfaasltd"}}'
+  -H "Authorization: Bearer $TOKEN" \
+    http://$HOST/system/namespaces/n1
+```
+
+### Delete a namespace
+
+```bash
+export HOST=127.0.0.1:8080
+export TOKEN=""
+
+curl -s \
+  -X DELETE
+  -H "Authorization: Bearer $TOKEN" \
+    http://$HOST/system/namespaces/n1
+```
 
 ## Anything else you'd like to know?
 
