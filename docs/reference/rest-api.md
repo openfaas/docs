@@ -50,7 +50,7 @@ OpenFaaS CE and Standard support Basic Authentication, and OpenFaaS for Enterpri
 Here's an example of how to list functions using the root user account's password:
 
 ```bash
-export HOST=127.0.0.1:8080
+export HOST="127.0.0.1:8080"
 export PASSWORD=""
 
 curl -s \
@@ -309,15 +309,17 @@ OpenFaaS for Enterprises also includes REST endpoints for listing, creating, del
 
 To create a namespace and annotate it for OpenFaaS with `kubectl`, see: [Docs: Multiple Namespaces](/reference/namespaces/)
 
+You can: list, create, update and delete namespaces with the REST API.
+
 ### List namespaces
 
 ```bash
-export HOST=127.0.0.1:8080
+export OPENFAAS_URL="http://127.0.0.1:8080"
 export TOKEN=""
 
 curl -s \
   -H "Authorization: Bearer $TOKEN" \
-    http://$HOST/system/namespaces
+    $OPENFAAS_URL/system/namespaces
 ```
 
 ### Create a namespace
@@ -325,14 +327,14 @@ curl -s \
 Note that for initial creation, the namespace `n1` isn't included in the URL.
 
 ```bash
-export HOST=127.0.0.1:8080
+export OPENFAAS_URL="http://127.0.0.1:8080"
 export TOKEN=""
 
 curl -s \
   -X POST \
-  --data-binary '{"namespace": "n1", "annotations": {"openfaas":"1"}}'
+  --data-binary '{"namespace": "n1", "annotations": {"openfaas":"1"}}' \
   -H "Authorization: Bearer $TOKEN" \
-    http://$HOST/system/namespaces
+    $OPENFAAS_URL/system/namespaces
 ```
 
 ### Update a namespace
@@ -340,26 +342,26 @@ curl -s \
 You can update annotations on a namespace, but not the name.
 
 ```bash
-export HOST=127.0.0.1:8080
+export OPENFAAS_URL="http://127.0.0.1:8080"
 export TOKEN=""
 
 curl -s \
   -X PUT \
-  --data-binary '{"namespace": "n1", "annotations": {"openfaas":"1", "customer": "openfaasltd"}}'
+  --data-binary '{"namespace": "n1", "annotations": {"openfaas":"1", "customer": "openfaasltd"}}' \
   -H "Authorization: Bearer $TOKEN" \
-    http://$HOST/system/namespaces/n1
+    $OPENFAAS_URL/system/namespaces/n1
 ```
 
 ### Delete a namespace
 
 ```bash
-export HOST=127.0.0.1:8080
+export OPENFAAS_URL="http://127.0.0.1:8080"
 export TOKEN=""
 
 curl -s \
   -X DELETE
   -H "Authorization: Bearer $TOKEN" \
-    http://$HOST/system/namespaces/n1
+    $OPENFAAS_URL/system/namespaces/n1
 ```
 
 ## Anything else you'd like to know?
