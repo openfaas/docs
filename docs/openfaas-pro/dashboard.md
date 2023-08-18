@@ -258,7 +258,7 @@ metadata:
   labels:
     app: openfaas-dashboard
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt
+    cert-manager.io/issuer: letsencrypt-prod
     kubernetes.io/tls-acme: "true"
     $INGRESS_CLASS.ingress.kubernetes.io/ssl-redirect: "true"
     kubernetes.io/ingress.class: $INGRESS_CLASS
@@ -269,7 +269,7 @@ spec:
       paths:
       - backend:
           service:
-            name: openfaas-dashboard
+            name: dashboard
             port:
               number: 8080
         path: /
@@ -280,6 +280,7 @@ spec:
     secretName: dashboard-cert
 EOF
 ```
+
 TLS is mandatory, and you'll use your OpenFaaS password to log in with your browser.
 
 A much simpler alternative for local testing and development is to set up an inlets VM in HTTPS mode: [inlets automated HTTP server](https://docs.inlets.dev/tutorial/automated-http-server/).
