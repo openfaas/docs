@@ -18,6 +18,7 @@ On our blog we demo and explore some architectural patterns for these uses cases
 - [Exploring the Fan out and Fan in pattern with OpenFaaS](https://www.openfaas.com/blog/fan-out-and-back-in-using-functions/)
 - [Generate PDFs at scale on Kubernetes using OpenFaaS and Puppeteer](https://www.openfaas.com/blog/pdf-generation-at-scale-on-kubernetes/)
 - [How to process your data the resilient way with back pressure](https://www.openfaas.com/blog/limits-and-backpressure/)
+- [The Next Generation of Queuing: JetStream for OpenFaaS](https://www.openfaas.com/blog/jetstream-for-openfaas/)
 
 ## Terminology
 

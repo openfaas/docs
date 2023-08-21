@@ -4,6 +4,8 @@ With our event connector, you can trigger function invocations from messages on 
 
 > Note: This feature is included for [OpenFaaS Pro](https://openfaas.com/support/) customers.
 
+On the blog: [How to integrate OpenFaaS functions with managed AWS services](https://www.openfaas.com/blog/integrate-openfaas-with-managed-aws-services/)
+
 ## Installation
 
 ### Pre-reqs on AWS

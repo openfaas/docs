@@ -4,6 +4,8 @@ Trigger functions from [PostgreSQL](https://www.postgresql.org/) tables efficien
 
 > Note: This feature is included for [OpenFaaS Pro](https://openfaas.com/support/) customers.
 
+From the blog: [Trigger OpenFaaS functions from PostgreSQL with AWS Aurora](https://www.openfaas.com/blog/trigger-functions-from-postgres/)
+
 ## Installation
 
 There are two options for triggering functions from Postgres:

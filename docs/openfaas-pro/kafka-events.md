@@ -4,11 +4,11 @@ Trigger function invocations from messages received on Kafka topics.
 
 > Note: This feature is included for [OpenFaaS Pro](https://openfaas.com/support/) customers.
 
+Read a tutorial on the blog: [Event-driven OpenFaaS with Managed Kafka from Aiven](https://www.openfaas.com/blog/openfaas-kafka-aiven/)
+
 ## Installation
 
 You can install the Kafka connector using its [helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/kafka-connector), or by using arkade.
-
-Are you an Aiven customer? See also: [Event-driven OpenFaaS with Managed Kafka from Aiven](https://www.openfaas.com/blog/openfaas-kafka-aiven/)
 
 ### Installation with arkade
 
