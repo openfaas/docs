@@ -311,6 +311,11 @@ To create a namespace and annotate it for OpenFaaS with `kubectl`, see: [Docs: M
 
 You can: list, create, update and delete namespaces with the REST API.
 
+!!! Note "Note the difference in URL"
+  The path for listing namespaces (read-only) is `/system/namespaces`, whilst mutating a single namespace will be either: `/system/namespace`, or `/system/namespaces/NAME`.
+
+  The field for the body for mutations is `name`, rather than `namespace`.
+
 ### List namespaces
 
 ```bash
@@ -332,9 +337,9 @@ export TOKEN=""
 
 curl -s \
   -X POST \
-  --data-binary '{"namespace": "n1", "annotations": {"openfaas":"1"}}' \
+  --data-binary '{"name": "n1", "annotations": {"openfaas":"1"}}' \
   -H "Authorization: Bearer $TOKEN" \
-    $OPENFAAS_URL/system/namespaces
+    $OPENFAAS_URL/system/namespace
 ```
 
 ### Update a namespace
@@ -347,7 +352,7 @@ export TOKEN=""
 
 curl -s \
   -X PUT \
-  --data-binary '{"namespace": "n1", "annotations": {"openfaas":"1", "customer": "openfaasltd"}}' \
+  --data-binary '{"name": "n1", "annotations": {"openfaas":"1", "customer": "openfaasltd"}}' \
   -H "Authorization: Bearer $TOKEN" \
     $OPENFAAS_URL/system/namespaces/n1
 ```
