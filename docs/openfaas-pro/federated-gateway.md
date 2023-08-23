@@ -67,17 +67,19 @@ We recommend accessing the federated gateway over [inlets uplink](https://docs.i
 Here's how to obtain a token via HTTP, you'll need to write similar API calls into your own software, using a HTTP client in your chosen language.
 
 ```bash
-export IDP_URL=https://keycloak.example.com/realms/openfaas/protocol
+export IDP_TOKEN_URL=https://keycloak.example.com/realms/openfaas/protocol/openid-connect/token
 export CLIENT_ID="fed-gw.example.com"
 export CLIENT_SECRET="SUPER_SECURE"
 
-curl -S -L -X POST "${IDP_URL}/openid-connect/token" \
+curl -S -L -X POST "${IDP_TOKEN_URL}" \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --data-urlencode "client_id=${CLIENT_ID}" \
 --data-urlencode "client_secret=${CLIENT_SECRET}" \
 --data-urlencode 'scope=email' \
 --data-urlencode 'grant_type=client_credentials'
 ```
+
+Each IdP will have its own way of obtaining tokens, but in general, the path you're looking for will be the "token" URL and is usually found in the "OpenID Endpoint Configuration" page, or via the OpenID Connect Discovery URL. The Discovery URL is often found at `/.well-known/openid-configuration` on the IdP's main URL. In the example of Keycloak, you must also add the `/realms/REALM_NAME` to the path.
 
 Next, whenever you want to communicate with that customer's cluster:
 
@@ -88,6 +90,7 @@ Next, whenever you want to communicate with that customer's cluster:
 
 For testing, you can also use the same token with the OpenFaaS CLI from your laptop, with: `faas-cli list -g https://fed-gw.example.com --token <access_token>`
 
+By default, the federated gateway will only allow the `/system/` endpoints to be accessed, if you'd like to invoke functions over the proxy, set `allowInvoke` to `true` in the Helm chart values.
 
 ## FAQ
 
