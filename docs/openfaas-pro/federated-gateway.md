@@ -63,14 +63,31 @@ docker run \
 
 We recommend accessing the federated gateway over [inlets uplink](https://docs.inlets.dev/uplink/overview/), or a VPN, but you can also expose it on the Internet, if the cluster can obtain a public Load Balancer.
 
+
+Here's how to obtain a token via HTTP, you'll need to write similar API calls into your own software, using a HTTP client in your chosen language.
+
+```bash
+export IDP_URL=https://keycloak.example.com/realms/openfaas/protocol
+export CLIENT_ID="fed-gw.example.com"
+export CLIENT_SECRET="SUPER_SECURE"
+
+curl -S -L -X POST "${IDP_URL}/openid-connect/token" \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode "client_id=${CLIENT_ID}" \
+--data-urlencode "client_secret=${CLIENT_SECRET}" \
+--data-urlencode 'scope=email' \
+--data-urlencode 'grant_type=client_credentials'
+```
+
 Next, whenever you want to communicate with that customer's cluster:
 
 1. Fetch the client ID and Client Secret for that customer.
 2. Make a HTTP call to Keycloak's `/token` endpoint along with the client ID and Client Secret
-3. Extract the `access_token` from the JSON response
+3. Extract the `access_token` variable from the JSON response
 4. Make a HTTP call to the federated gateway's REST API with the `access_token` in the `Authorization` header, i.e. `Authorization: Bearer <access_token>`
 
 For testing, you can also use the same token with the OpenFaaS CLI from your laptop, with: `faas-cli list -g https://fed-gw.example.com --token <access_token>`
+
 
 ## FAQ
 
