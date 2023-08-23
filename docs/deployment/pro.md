@@ -43,8 +43,14 @@ operator:
 
 clusterRole: true
 
+autoscaler:
+  enabled: true
+
 gateway:
   replicas: 3
+
+dashboard:
+  enabled: true
 
 queueWorker:
   replicas: 3
