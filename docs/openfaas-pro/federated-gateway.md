@@ -40,9 +40,9 @@ Alex shows you how to create a new Client within Keycloak, and how to obtain its
 
 Onboard the customer, do this only once.
 
-1) [Setup Keycloak](https://www.keycloak.org/) within your Kubernetes cluster and expose it on the Internet with Ingress, Istio or Inlets.
-2) Obtain a client ID and Client Secret for the customer, save these in your Key Management System or encrypt them into your database 
-3) Install the federated gateway to the customer's cluster using the helm chart, setting the `issuer` and `audience` in the Helm chart values. The issuer field corresponds to the URL of your Keycloak instance, and the audience is the client ID you created.
+1. [Setup Keycloak](https://www.keycloak.org/) within your Kubernetes cluster and expose it on the Internet with Ingress, Istio or Inlets.
+2. Obtain a client ID and Client Secret for the customer, save these in your Key Management System or encrypt them into your database 
+3. Install the federated gateway to the customer's cluster using the [federated-gateway Helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/federated-gateway), setting the `issuer` and `audience` in the Helm chart values. The issuer field corresponds to the URL of your Keycloak instance, and the audience is the client ID you created.
 
 For testing and development, we run Keycloak on a workstation using Docker, and [expose it to the Internet over an inlets HTTPS tunnel](https://docs.inlets.dev/tutorial/automated-http-server/).
 
@@ -65,11 +65,29 @@ We recommend accessing the federated gateway over [inlets uplink](https://docs.i
 
 Next, whenever you want to communicate with that customer's cluster:
 
-1) Fetch the client ID and Client Secret for that customer.
-2) Make a HTTP call to Keycloak's `/token` endpoint along with the client ID and Client Secret
-3) Extract the `access_token` from the JSON response
-4) Make a HTTP call to the federated gateway's REST API with the `access_token` in the `Authorization` header, i.e. `Authorization: Bearer <access_token>`
+1. Fetch the client ID and Client Secret for that customer.
+2. Make a HTTP call to Keycloak's `/token` endpoint along with the client ID and Client Secret
+3. Extract the `access_token` from the JSON response
+4. Make a HTTP call to the federated gateway's REST API with the `access_token` in the `Authorization` header, i.e. `Authorization: Bearer <access_token>`
 
 For testing, you can also use the same token with the OpenFaaS CLI from your laptop, with: `faas-cli list -g https://fed-gw.example.com --token <access_token>`
 
+## FAQ
+
 If you have any questions or comments, please get in touch with us through your usual support channels.
+
+* Where is the Helm chart? It's a separate chart within the [faas-netes repository](https://github.com/openfaas/faas-netes/tree/master/chart/federated-gateway)
+
+* How do you setup Keycloak on Kubernetes? The documentation is rudimentary, but we would advise: applying the main Kubernetes manifest for the Deployment, making sure you've changed the admin password from the default, creating an Ingress record and making sure it gets a TLS certificate
+
+* What is inlets uplink? Inlets Uplink was created by our team to the question: "How do you access customer services from within your own product?" [Read the docs](https://docs.inlets.dev/uplink/overview/)
+
+* How long do tokens last? The default seems to be about 5 minutes, which is configurable in Keycloak.
+
+* Could we use Auth0 or Okta instead? Yes absolutely. Just configure the Client Credentials flow, which is the option that's often used for server to server interaction.
+
+* Why isn't this linked to my Gmail or GitHub Account? The federated gateway was built for server to server communication, the tokens you obtain are not going to be tied to a human identity, which requires a person to be present to login for every API request. This is impractical for server to server communication.
+
+* Can we use this to deploy to our own cluster from GitHub Actions or GitLab CI? No, it does not validate any claims other than the issuer and the audience. This is valid for the use-case of the federated gateway, but if used with a public issuer, where anyone can obtain a token, would mean anyone could access your gateway. See also: [IAM for OpenFaaS](/openfaas-pro/iam/overview)
+
+* Does OpenFaaS support SSO or IAM for the UI and CLI, for human access? Yes absolutely, see: [IAM for OpenFaaS](/openfaas-pro/iam/overview)
