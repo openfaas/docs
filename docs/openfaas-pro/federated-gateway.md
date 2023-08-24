@@ -79,6 +79,49 @@ curl -S -L -X POST "${IDP_TOKEN_URL}" \
 --data-urlencode 'grant_type=client_credentials'
 ```
 
+The [go-sdk for OpenFaaS](https://github.com/openfaas/go-sdk) has a code example that you can use to obtain a token from Keycloak, and then make a request to the federated gateway.
+
+```go
+func Test_ClientCredentials(t *testing.T) {
+    fedGWURL, _ := url.Parse("https://fed-gw.exit.welteki.dev")
+	clientID := "fed-gw.exit.welteki.dev"
+	clientSecret := "D7lpZQHeplblBo4jKv3SXljTz3pYMhDA"
+	tokenURL := "https://keycloak.exit.o6s.io/realms/openfaas/protocol/openid-connect/token"
+	scope := "email"
+	grantType := "client_credentials"
+
+	auth := NewClientCredentialsTokenSource(clientID, clientSecret, tokenURL, scope, grantType)
+
+	token, err := auth.Token()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if token == "" {
+		t.Fatal("token is empty")
+	}
+
+	client := NewClient(fedGWURL, &ClientCredentialsAuth{tokenSource: auth}, http.DefaultClient)
+
+	fns, err := client.GetFunctions(context.Background(), "openfaas-fn")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(fns) == 0 {
+		t.Fatal("no functions found")
+	}
+
+	for _, fn := range fns {
+		fnn, err := client.GetFunction(context.Background(), fn.Name, "openfaas-fn")
+		if err != nil {
+			t.Fatal(err)
+		}
+		t.Logf("%s - %s - %d/%d", fnn.Name, fnn.Image, fnn.AvailableReplicas, fnn.Replicas)
+	}
+}
+```
+
 Each IdP will have its own way of obtaining tokens, but in general, the path you're looking for will be the "token" URL and is usually found in the "OpenID Endpoint Configuration" page, or via the OpenID Connect Discovery URL. The Discovery URL is often found at `/.well-known/openid-configuration` on the IdP's main URL. In the example of Keycloak, you must also add the `/realms/REALM_NAME` to the path.
 
 Next, whenever you want to communicate with that customer's cluster:
