@@ -94,6 +94,39 @@ For testing, you can also use the same token with the OpenFaaS CLI from your lap
 
 By default, the federated gateway will only allow the `/system/` endpoints to be accessed, if you'd like to invoke functions over the proxy, set `allowInvoke` to `true` in the Helm chart values.
 
+### Setup with Auth0
+
+For Auth0, we recommend creating a single Application, then one API for each Federated Gateway.
+
+Whenever you add a new customer, create a new API with, then authorize the Application to access the new API.
+
+Unlike with Keycloak, the `client_id` and `client_secret` will remain the same for every customer, but the audience parameter will vary. You can find the `client_id` and `client_secret` in the Application's settings.
+
+1. Create a new API for each of the federated gateway endpoints that you're going to connect to. If those are public URLs, use the hostname i.e. `fed-gw.example.com`, if they're inlets tunnels, use the unique inlets tunnel name instead: `fed-gw.tenant1`.
+2. Create a new Application, and authorize it to access the API you just created.
+3. Navigate to the Application's settings and click Credentials, then click "Basic (Post)" and save.
+
+```bash
+export IDP_TOKEN_URL=https://example.eu.auth0.com/oauth/token
+export CLIENT_ID=""
+export CLIENT_SECRET=""
+
+curl -S -L -X POST "${IDP_TOKEN_URL}" \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode "client_id=${CLIENT_ID}" \
+--data-urlencode "client_secret=${CLIENT_SECRET}" \
+--data-urlencode 'grant_type=client_credentials'
+--data-urlencode 'audience=fed-gw.example.com'
+```
+
+Notes:
+
+* scope is not required
+* audience is required and is the name of the API for this tenant
+* client_id is not the same as the audience, it is the Application's client ID
+
+You can also use the [OpenFaaS go-sdk](https://github.com/openfaas/go-sdk) (mentioned above) which will automate the above steps.
+
 ## FAQ
 
 If you have any questions or comments, please get in touch with us through your usual support channels.
