@@ -28,7 +28,7 @@ The logs for a function will look
 <RFC8601 Timestamp> <function name> (<container instance>) <msg>
 ```
 
-where `msg` is the container logs, this typically contains stdout and stderr of the _contianer_.
+where `msg` is the container logs, this typically contains stdout and stderr of the _container_.
 
 An example log output for `nodeinfo` from the function store is
 
