@@ -25,4 +25,4 @@ The `gateway` will proxy log requests to the function provider, by default. To u
 
 ## Create a new log provider
 
-The [`github.com/openfaas/faas-provider/logs`](https://github.com/openfaas/faas-provider/tree/master/logs) package provides a Go interface and utilities to simplify the creation of a new log provider.  Once you hae implemented the `Requester` interface the other package utilities can be used to create the required http server. A very simple ["static" logs example can be found in the `faas-provider` repo](https://github.com/openfaas/faas-provider/tree/master/logs/example).
+The [`github.com/openfaas/faas-provider/logs`](https://github.com/openfaas/faas-provider/tree/master/logs) package provides a Go interface and utilities to simplify the creation of a new log provider.  Once you have implemented the `Requester` interface the other package utilities can be used to create the required http server. A very simple ["static" logs example can be found in the `faas-provider` repo](https://github.com/openfaas/faas-provider/tree/master/logs/example).
