@@ -56,7 +56,7 @@ image: my-other-fn:latest-cf59cfc
 
 ### 2.2 Use the SHA plus the branch (`--tag=branch`)
 
-In this example you will get an output which includes the SHA and the branch name. This is useful for promotion code through enviroments with a continuous delivery tool. If you use one branch per environment in Git then the tool can parse the tag and match it to an environment.
+In this example you will get an output which includes the SHA and the branch name. This is useful for promotion code through environments with a continuous delivery tool. If you use one branch per environment in Git then the tool can parse the tag and match it to an environment.
 
 
 Example:
