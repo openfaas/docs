@@ -339,12 +339,14 @@ curl -s \
   -X POST \
   --data-binary '{"name": "n1", "annotations": {"openfaas":"1"}}' \
   -H "Authorization: Bearer $TOKEN" \
-    $OPENFAAS_URL/system/namespace
+    $OPENFAAS_URL/system/namespace/
 ```
+
+Note that the trailing `/` slash in `/system/namespace/` is required for this endpoint, and that the name of the namespace must be passed within the body.
 
 ### Update a namespace
 
-You can update annotations on a namespace, but not the name.
+This endpoint can be used to update the annotations for an existing namespace, however the name cannot be changed.
 
 ```bash
 export OPENFAAS_URL="http://127.0.0.1:8080"
@@ -366,8 +368,11 @@ export TOKEN=""
 curl -s \
   -X DELETE
   -H "Authorization: Bearer $TOKEN" \
+  --data-binary '{"name": "n1", "annotations": {"openfaas":"1"}}' \
     $OPENFAAS_URL/system/namespaces/n1
 ```
+
+A body is required for this endpoint.
 
 ## Anything else you'd like to know?
 
