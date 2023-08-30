@@ -41,7 +41,7 @@ If you cannot use a `ClusterRole` for any reason, then feel free to ask us about
 
 A namespace is only considered a function namespace if it has been annotated with `openfaas="1"`. The `kube-system` namespace is considered reserved and cannot be used for functions.
 
-You can create namespaces for OpenFaaS via [its REST API](https://docs.openfaas.com/reference/rest-api/), with `kubectl`, or your own Kubernetes operator.
+You can create namespaces for OpenFaaS via [its REST API](/reference/rest-api/), with `kubectl`, or your own Kubernetes operator.
 
 ### Create a namespace with `kubectl`
 
