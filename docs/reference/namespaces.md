@@ -3,16 +3,16 @@
 !!! info "OpenFaaS For Enterprises"
     This feature is part of [OpenFaaS For Enterprises](/openfaas-pro/introduction).
 
-OpenFaaS For Enterprises has support for multiple-namespaces, which is part of the configuration required to build a multi-tenant product or service.
-
 Multiple namespaces can be used for the following use-cases:
 
-* multi-tenancy (must be combined with other OpenFaaS Pro security features)
+* multi-tenancy (must be combined with other OpenFaaS for Enterprises security features)
 * multiple stages or environments within a single cluster with all of dev/staging/prod (to save money)
 * logical segregation of groups of functions within a single company or team (ingestion, inference, cron)
 
 !!! warning "Additional configuration required"
     You must configure OpenFaaS to have sufficient permissions to administrate multiple namespaces, this feature will not work in a default installation.
+
+Multiple namespaces are only one part of the configuration required to build a multi-tenant product or service.
 
 Read our guidelines on [How to Build a Multi-tenant Platform with OpenFaaS](https://www.openfaas.com/blog/build-a-multi-tenant-functions-platform/).
 
@@ -39,7 +39,11 @@ If you cannot use a `ClusterRole` for any reason, then feel free to ask us about
 
 ## Create one or more additional namespaces
 
-Each additional function namespace must be annotated, `kube-system` is black-listed and not available at this time.
+A namespace is only considered a function namespace if it has been annotated with `openfaas="1"`. The `kube-system` namespace is considered reserved and cannot be used for functions.
+
+You can create namespaces for OpenFaaS via [its REST API](https://docs.openfaas.com/reference/rest-api/), with `kubectl`, or your own Kubernetes operator.
+
+### Create a namespace with `kubectl`
 
 ```sh
 kubectl create namespace staging-fn
