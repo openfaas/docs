@@ -368,11 +368,11 @@ export TOKEN=""
 curl -s \
   -X DELETE
   -H "Authorization: Bearer $TOKEN" \
-  --data-binary '{"name": "n1", "annotations": {"openfaas":"1"}}' \
+  --data-binary '{"name": "n1"}' \
     $OPENFAAS_URL/system/namespaces/n1
 ```
 
-A body is required for this endpoint.
+Only the name of the namespace needs to be included in the body for this endpoint.
 
 ## Anything else you'd like to know?
 
