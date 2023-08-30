@@ -30,7 +30,7 @@ Each provider implements the following behaviours:
 
 ### faas-memory (example)
 
-The [`faas-memory`](https://github.com/openfaas-incubator/faas-memory) provider uses an in-memory store for state and is provided for for testing purposes and and as an example.
+The [`faas-memory`](https://github.com/openfaas-incubator/faas-memory) provider uses an in-memory store for state and is provided for testing purposes and as an example.
 
 ## Community Providers
 
