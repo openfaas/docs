@@ -32,6 +32,36 @@ Timings are specified in Golang durations such as `10s` or `1m`.
 * `maxRetryAttempts` is the amount of times to try sending a message to a function before discarding it.
 * `httpRetryCodes` is a comma-separated list of HTTP status codes which the queue worker will retry when received from a function.
 
+## Configure retries per function
+
+The retry configuration can be overridden on a per function basis using annotations on the function:
+
+=== "stack.yml"
+
+    ```yaml
+    functions:
+      chaos:
+        image: alexellis2/chaos-fn:0.1.1
+        skip_build: true
+        annotations:
+          com.openfaas.retry.attempts: "30"
+          com.openfaas.retry.codes: "429"
+          com.openfaas.retry.min_wait: "5s"
+          com.openfaas.retry.max_wait: "1m"
+    ```
+
+=== "CLI"
+
+    ```bash
+    faas-cli store deploy chaos \
+      --annotation com.openfaas.retry.attempts=30 \
+      --annotation com.openfaas.retry.codes=429 \
+      --annotation com.openfaas.retry.min_wait=5s \
+      --annotation com.openfaas.retry.max_wait=1m
+    ```
+
+The default value configured on the queue worker is used if an annotation is not specified or if it's value is invalid.
+
 ## Usage
 
 To test the retry functionality, you can use our chaos function, which allows a function to be configured to return a canned response, or to timeout with a given duration.
@@ -41,13 +71,7 @@ We will configure a testing function to output a 429 HTTP response, which indica
 You can also add a long timeout or a different HTTP code, see the testing function's notes on GitHub: [alexellis/chaos-fn](https://github.com/alexellis/chaos-fn)
 
 ```bash
-git clone https://github.com/alexellis/chaos-fn --depth=1
-cd chaos-fn
-
-faas-cli template pull stack -f chaos-fn.yml
-
-# Deploy the function
-faas-cli deploy -f chaos-fn.yml
+faas-cli store deploy chaos
 ```
 
 Open a separate terminal to observe the retrying mechanism with the logs of the queue-worker.
@@ -60,7 +84,7 @@ Configure the chaos-fn to start failing with a `429` error code:
 
 ```bash
 export CODE=429
-curl -i http://127.0.0.1:8080/function/chaos-fn/set --data-binary '
+curl -i http://127.0.0.1:8080/function/chaos/set --data-binary '
 {	"status": '$CODE',
 	"delay": "1s",
     "body": "1 second delay, then '$CODE'"}
@@ -72,7 +96,7 @@ You will always see a `202 Accepted` from the `/set` path, if you see an error t
 Invoke the function synchronously, to see that it's returning the expected error code:
 
 ```bash
-curl -i http://127.0.0.1:8080/function/chaos-fn
+curl -i http://127.0.0.1:8080/function/chaos
 
 HTTP/1.1 429 Conflict
 Content-Length: 24
@@ -88,7 +112,7 @@ X-Start-Time: 1646739420463153513
 Now invoke the function asynchronously.
 
 ```bash
-curl -i http://127.0.0.1:8080/async-function/chaos-fn -d "input"
+curl -i http://127.0.0.1:8080/async-function/chaos -d "input"
 ```
 
 The invocation will fail, returning a 429 message. This will be received by the queue-worker which will then retry the request. Check the logs of the queue-worker in the other terminal to see this happening.
@@ -100,7 +124,7 @@ Allow it to fail several times, seeing the retry time back off exponentially.
 Then, whenever you like, fix the error by changing the canned HTTP response to "200 OK". This will allow the next retry to complete:
 
 ```bash
-curl -i http://127.0.0.1:8080/function/chaos-fn/set --data-binary '
+curl -i http://127.0.0.1:8080/function/chaos/set --data-binary '
 {"status": 200,
 	"delay": "1ms",
     "body": "1ms second delay, then 200"}
