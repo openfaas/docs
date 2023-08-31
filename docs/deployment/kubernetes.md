@@ -157,7 +157,7 @@ See also:
 * [OpenFaaS and Flux v2](https://www.openfaas.com/blog/upgrade-to-fluxv2-openfaas/)
 * [OpenFaaS and Flux v1](https://www.openfaas.com/blog/openfaas-flux/)
 
-OpenFaaS also ships with a Function Custom Resource Definition which is required for use with GitOps tooling or to package functions with Helm.
+With an OpenFaaS Pro License, it also ships with a Function Custom Resource Definition which is required for use with GitOps tooling or to package functions with Helm.
 
 See also: [Learn how to manage your functions with kubectl](https://www.openfaas.com/blog/manage-functions-with-kubectl/)
 
