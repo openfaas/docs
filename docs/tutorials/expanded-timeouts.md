@@ -28,7 +28,7 @@ arkade install openfaas \
   --set gateway.readTimeout=$HARD_TIMEOUT
 ```
 
-One installed with these settings, you can invoke functions for up to `5m` synchronously and asynchronously.
+Once installed with these settings, you can invoke functions for up to `5m` synchronously and asynchronously.
 
 If using Helm or Argo CD, then add the following to your values.yaml file instead:
 

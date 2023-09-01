@@ -271,7 +271,7 @@ RUN apk --no-cache add curl ${ADDITIONAL_PACKAGE} \
 ```
 ## 2.0 Pass ADDITIONAL_PACKAGE through `--build-arg`
 
-There may be scenarios where a single native module need to be added to a build.  A single-package build option could be added as described above.  Alternatively a package could be specified through a `--build-arg`.
+There may be scenarios where a single native module needs to be added to a build.  A single-package build option could be added as described above.  Alternatively a package could be specified through a `--build-arg`.
 
 ```bash
 faas-cli build --lang python3 --build-arg ADDITIONAL_PACKAGE=jq
@@ -293,7 +293,7 @@ You can pass `ARG` values to Docker via the CLI.
 faas-cli build --build-arg ARGNAME1=argvalue1 --build-arg ARGNAME2=argvalue2
 ``` 
 
-Remeber to add any `ARG` values to the template's Dockerfile:
+Remember to add any `ARG` values to the template's Dockerfile:
 
  ```dockerfile
  ARG ARGNAME1

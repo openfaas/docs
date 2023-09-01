@@ -63,7 +63,7 @@ See also: [Official OpenFaaS Training](/tutorials/training)
 
 ## Resources created by the community
 
-We keep track of blog posts, events and projects from the community, indexed by year. You can send a us a Pull Request to add yours or browse past submissions.
+We keep track of blog posts, events and projects from the community, indexed by year. You can send us a Pull Request to add yours or browse past submissions.
 
 See also: [OpenFaaS Community Page](https://github.com/openfaas/faas/blob/master/community.md)
 
@@ -73,7 +73,7 @@ See also: [OpenFaaS Community Page](https://github.com/openfaas/faas/blob/master
 
     If you're considering making a contribution, then we have a [contribution guide](https://github.com/openfaas/faas/blob/master/CONTRIBUTING.md) which will help you understand how the process works.
 
-    You may also like the [contributing page](/contributing/get-started) to orient yourself and learn the various repositories.
+    You may also like the [contributing page](/contributing/get-started) to orient yourself and learn about the various repositories.
 
 Key points:
 

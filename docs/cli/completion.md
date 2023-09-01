@@ -6,7 +6,8 @@ Bash for Linux requires [bash-completion](https://github.com/scop/bash-completio
 
 Verify if it was installed correctly by executing the following command `type _init_completion`.
 
-You can enabled OpenFaaS completion with two different commands:
+You can enable OpenFaaS completion with two different commands:
+
 ```bash
 $ echo 'source <(faas-cli completion --shell bash)' >>~/.bashrc
 ```
@@ -25,12 +26,13 @@ $ brew install bash-completion@2
 ```
 
 And add the following to your `~/.bashrc` file:
-```bash 
+
+```bash
 export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 ```
 
-You can enabled OpenFaaS completion with two different commands:
+You can enable OpenFaaS completion with two different commands:
 ```bash
 $ echo 'source <(faas-cli completion --shell bash)' >>~/.bashrc
 ```

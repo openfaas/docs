@@ -52,7 +52,7 @@ of-watchdog templates:
 
 * Not communicating intent
 
-Communicate your intent to the project so that we can ensure you haven't missed anything and can share results we have obtained during our own testing. Asking arbitary questions out of context will result in a poor interaction with the community and project.
+Communicate your intent to the project so that we can ensure you haven't missed anything and can share results we have obtained during our own testing. Asking arbitrary questions out of context will result in a poor interaction with the community and project.
 
 * Not documenting method and environment
 
