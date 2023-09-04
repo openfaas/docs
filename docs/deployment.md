@@ -5,6 +5,16 @@ OpenFaaS can be deployed to a variety of container orchestrators such as Kuberne
 !!! info "Kubernetes or faasd?"
     We recommend using Kubernetes or OpenShift when using OpenFaaS for work because it can scale well, and OpenFaaS Ltd can provide commercial support, should you need it. faasd is already being used in production by some companies, but you should make yourself aware of the tradeoffs. Users can move between either deployment option at a later date.
 
+
+## OpenFaaS Pro - Standard or for Enterprises (production, commercial use)
+
+* [Deploy OpenFaaS Pro - Standard or for Enterprises](/deployment/pro)
+
+See also:
+
+* [High level overview and contact form](https://openfaas.com/pricing)
+* [Detailed comparison CE vs. Pro](https://docs.openfaas.com/openfaas-pro/introduction/)
+
 ## OpenFaaS Community Edition (CE) for Kubernetes (Internal use, development and Proof of concept)
 
 !!! warning "A foreword on security"
@@ -19,15 +29,6 @@ There are three recommended ways to install OpenFaaS to a Kubernetes cluster:
 Find out more about each option and how to deploy OpenFaaS to Kubernetes:
 
 [Deploy to Kubernetes](/deployment/kubernetes/)
-
-## OpenFaaS Pro/OpenFaaS for Enterprises (production, commercial use)
-
-* [Deploy OpenFaaS Pro/for Enterprises](/deployment/pro)
-
-See also:
-
-* [Detailed comparison CE vs. Pro](https://docs.openfaas.com/openfaas-pro/introduction/)
-* [View pricing](https://openfaas.com/pricing)
 
 ## faasd - Serverless for everyone else
 

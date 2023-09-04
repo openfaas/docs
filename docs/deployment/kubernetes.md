@@ -72,7 +72,7 @@ There are three recommended ways to install OpenFaaS and you can pick whatever m
 
 The `arkade install` command installs OpenFaaS using its official helm chart. arkade can also install other important software for OpenFaaS users such as `cert-manager` and `nginx-ingress`. It's the easiest and quickest way to get up and running.
 
-You can use [arkade](https://arkade.dev/) to install OpenFaaS to a regular cloud cluster, your laptop, a VM, a Raspberry Pi, or a 64-bit ARM machine.
+You can use [arkade](https://arkade.dev/) to install OpenFaaS to a regular cloud cluster, your laptop, a VM, a Raspberry Pi, or a 64-bit Arm machine.
 
 * Get arkade
 
@@ -157,7 +157,7 @@ See also:
 * [OpenFaaS and Flux v2](https://www.openfaas.com/blog/upgrade-to-fluxv2-openfaas/)
 * [OpenFaaS and Flux v1](https://www.openfaas.com/blog/openfaas-flux/)
 
-OpenFaaS also ships with a Function Custom Resource Definition which is required for use with GitOps tooling or to package functions with Helm.
+[OpenFaaS Standard](https://openfaas.com/pricing) also ships with a Function Custom Resource Definition (CRD) which is required for use with GitOps tooling or to package functions with Helm.
 
 See also: [Learn how to manage your functions with kubectl](https://www.openfaas.com/blog/manage-functions-with-kubectl/)
 
@@ -210,11 +210,11 @@ When set to `IfNotPresent`, function deployments may not be updated when using s
 
 When set to `Never`, only local (or pulled) images will work. This is useful if you want to tightly control which images are available and run in your Kubernetes cluster.
 
-### Using Raspberry Pi and ARM
+### Using Raspberry Pi and Arm
 
 Use `arkade` to install OpenFaaS, it will determine the correct files and container images to install OpenFaaS on an ARM device.
 
-To build and deploy images for Raspberry Pi and ARM, see the notes here: [Building multi-arch images for ARM and Raspberry Pi](/cli/build/)
+To build and deploy images for Raspberry Pi and Arm, see the notes here: [Building multi-arch images for Arm and Raspberry Pi](/cli/build/)
 
 For a complete tutorial (including OpenFaaS) see:
 
@@ -230,4 +230,4 @@ faas-cli store list --platform armhf
 faas-cli store deploy NAME --platform armhf
 ```
 
-For 64-bit ARM OSes use `--platform arm64` instead.
+For 64-bit Arm OSes use `--platform arm64` instead.
