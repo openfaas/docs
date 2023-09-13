@@ -312,9 +312,9 @@ To create a namespace and annotate it for OpenFaaS with `kubectl`, see: [Docs: M
 You can: list, create, update and delete namespaces with the REST API.
 
 !!! Note "Note the difference in URL"
-  The path for listing namespaces (read-only) is `/system/namespaces`, whilst mutating a single namespace will be either: `/system/namespace`, or `/system/namespaces/NAME`.
+    The path for listing namespaces (read-only) is `/system/namespaces`, whilst mutating a single namespace will be either: `/system/namespace`, or `/system/namespaces/NAME`.
 
-  The field for the body for mutations is `name`, rather than `namespace`.
+    The field for the body for mutations is `name`, rather than `namespace`.
 
 ### List namespaces
 
