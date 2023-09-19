@@ -4,25 +4,28 @@ Trigger function invocations from messages received on Kafka topics.
 
 > Note: This feature is included for [OpenFaaS Pro](https://openfaas.com/support/) customers.
 
-Read a tutorial on the blog: [Event-driven OpenFaaS with Managed Kafka from Aiven](https://www.openfaas.com/blog/openfaas-kafka-aiven/)
+Read a tutorial on the blog:
+
+* [Trigger your functions from Kafka with Confluent Cloud](https://www.openfaas.com/blog/confluent-kafka/)
+* [Event-driven OpenFaaS with Managed Kafka from Aiven](https://www.openfaas.com/blog/openfaas-kafka-aiven/)
 
 ## Installation
 
 You can install the Kafka connector using its [helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/kafka-connector), or by using arkade.
+
+### Installation with Helm
+
+See [helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/kafka-connector)
 
 ### Installation with arkade
 
 ```bash
 export TOPICS="payment.created"
 arkade install kafka-connector \
- --broker-host kafka-broker \
+ --broker-hosts kafka-broker:9092 \
  --topics $TOPICS \
  --license-file $HOME/.openfaas/LICENSE
 ```
-
-### Installation with Helm
-
-See [helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/kafka-connector)
 
 ## Usage
 
