@@ -62,6 +62,25 @@ The retry configuration can be overridden on a per function basis using annotati
 
 The default value configured on the queue worker is used if an annotation is not specified or if it's value is invalid.
 
+## Random jitter for retries
+
+The queue-worker supports adding random jitter into the exponential backoff delay. The aim of random jitter is to reduce competing requests to busy functions. In testing this produced better results for fast running functions, for very slow running functions it is less advantageous.
+
+The jitter mode can be configured by setting `queueWorkerPro.backoff` in the values.yaml file for the OpenFaaS deployment.
+
+```yaml
+queueWorkerPro:
+  backoff: full
+```
+
+Supported backoff values:
+
+* `exponential` - no jitter is added to the random backoff delay (default).
+* `full` - wait between 0-100% of the exponential backoff delay.
+* `equal` - wait between 50-100% of the exponential backoff delay.
+
+The feature was influenced by the following [AWS blog post](https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/).
+
 ## Usage
 
 To test the retry functionality, you can use our chaos function, which allows a function to be configured to return a canned response, or to timeout with a given duration.
