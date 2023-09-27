@@ -12,8 +12,12 @@ OpenFaaS&reg; makes it easy for developers to deploy event-driven functions and 
 * Write functions in any language and package them in Docker/OCI-format containers
 * Easy to use - built-in UI, powerful CLI and one-click installation
 * Scale as you go - handle spikes in traffic, and scale down when idle
-* [OpenFaaS Pro](/openfaas-pro/introduction/) for commercial use and production
-* Community Edition - explore functions, or build a PoC without any cost
+* Ecosystem - community marketplace for functions and language templates
+
+Pick your version:
+
+* [OpenFaaS Standard/For Enterprises](/openfaas-pro/introduction/) for commercial use and production
+* faasd or Community Edition - explore functions, or build a Proof of Concept (PoC) without any costs
 
 ![OpenFaaS Stack](https://github.com/openfaas/faas/raw/master/docs/of-layer-overview.png)
 > Conceptual layers of the OpenFaaS stack
