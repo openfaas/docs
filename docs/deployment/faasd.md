@@ -24,10 +24,11 @@ faasd is a static binary which requires a Linux system configured with systemd.
 
 Minimal system resources are required such as:
 
-* 512MB-1GB RAM
-* 1-4 vCPU cores
+* 512MB-1GB RAM (1GB recommended)
+* 2-4 vCPU cores minimum
 * 10-25GB of disk space
-* The Raspberry Pi 3 and 4 are also supported
+* *x86_64* or *64-bit Arm* CPU architecture
+* The Raspberry Pi 3, 4 & 5 are *also supported*
 
 Local development/testing:
 
