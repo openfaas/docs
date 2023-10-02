@@ -1,135 +1,131 @@
 # Using secrets
 
-This page shows how to use secrets within your functions for API tokens, passwords and similar.
+This page shows how to use secrets within your functions for API tokens, connection strings, passwords, and other confidential configuration.
 
-Using secrets is a two step process. First you need to define a new secret in your cluster and then you need to 'use' the secret to your function by adding it the deployment request or stack YAML file.
+There is a two-step process to using a secret. First you need to create the secret via API, then you need to bind that secret to a function and consume it within your code.
 
 ## Design
 
-* Secrets can be specified via API, CLI or YAML file
-* You can use one to many secrets in a function
+* Secrets can be created using the OpenFaaS REST API or [faas-cli](/cli/secrets/)
+* Each function can consume zero to many secrets
+* The same secret can be consumed by more than one function
 * Secrets must exist in the cluster at deployment time
-* You can create, list, delete and update secrets via the [faas-cli](/cli/secrets/).
 
-### A note on environmental variables
+**Environment variables vs. files**
 
-All secrets are made available in the container file-system and should be read from the following location: `/var/openfaas/secrets/<secret-name>`. In the sample below we show how to create and consume a secret in a function. 
+Secrets should never be set in environment variables, no matter how tempting it is. These are always visible within the OpenFaaS REST API and from within the Pod spec in Kubernetes.
 
-> Note: The OpenFaaS philosophy is that environment variables should be used for non-confidential configuration values only, and not used to inject secrets.
+Instead, all secrets are made available in the container file-system and should be read from the following location: `/var/openfaas/secrets/<secret-name>`. In the sample below we show how to create and consume a secret in a function. 
 
-The faas-cli can be used to manage secrets on Kubernetes and faasd.
+The faas-cli can be used to manage secrets on Kubernetes and for faasd.
 
 > See also: [YAML reference: environmental variables](yaml.md).
 
-## Sample
+**Kubernetes vs faasd**
 
-We have built a sample function that can be deployed alongside a secret (an API key) to validate incoming requests. It is available in the [openfaas/faas](https://github.com/openfaas/faas/) repo: [ApiKeyProtected](https://github.com/openfaas/faas/tree/master/sample-functions/ApiKeyProtected-Secrets). Only requests presenting a valid API key value will be validated.
+For Kubernetes, secrets are stored [within the built-in secrets store](https://kubernetes.io/docs/concepts/configuration/secret/) within the cluster. Some managed Kubernetes services will also encrypt the data at rest, but you must check with your provider.
 
-### Creating a file for the secret
+For faasd, secrets are created as plaintext files under `/var/lib/faasd-provider/secrets`. When you deploy a function, these secrets are bind-mounted into your container.
 
-Create a text file named `secret-api-key.txt` and add the following value:
+## Example of using a secret
 
-```txt
-R^YqzKzSJw51K9zPpQ3R3N
+Create a new function with the `python3-http` template:
+
+```bash
+faas-cli template store pull python3-http
+
+export OPENFAAS_PREFIX=ttl.sh/alexellis
+
+faas-cli new --lang python3-http protected-api
+mv protected-api.yml stack.yml
 ```
 
-Now we can import the secret into the cluster.
+Create a secret called `protected-api-token`, it will be used to authenticate all requests made to the new `protected-api` function.
 
-#### Define the secret with `faas-cli`
-
-```sh
-faas-cli secret create secret-api-key \
-  --from-file=secret-api-key.txt
+```bash
+openssl rand -hex 16 > protected-api-token.txt
 ```
 
-> Note: only one key or file is supported when creating a Kubernetes secret with `faas-cli`, to use multiple keys or files in a single secret, see the next section.
+You can use `faas-cli` or `kubectl` to create your secrets.
 
-You can create the secret with `faas-cli secret create`, or by using the Docker / Kubernetes CLI.
+```bash
+faas-cli secret create protected-api-token \
+  --from-file=protected-api-token.txt
+```
 
-#### Define a secret in Kubernetes (advanced)
+Or use `kubectl`:
 
-In Kubernetes we can leverage the [built-in secret store](https://kubernetes.io/docs/concepts/configuration/secret/) to securely store secrets for functions.
-
-Type in:
-
-```sh
-kubectl create secret generic secret-api-key \
-  --from-file=secret-api-key=secret-api-key.txt \
+```bash
+kubectl create secret generic protected-api-token \
+  --from-file=protected-api-token.txt \
   --namespace openfaas-fn
 ```
 
-Here we have explicitly named the key of the secret value so that when it is mounted into the function container, it will be named exactly `secret-api-key` instead of `secret_api_key.txt`.
+> Note: secrets created with `faas-cli` can only contain one file, but secrets created with `kubectl` can contain multiple elements.
 
-You can skip creating a file and use input directly from the command-line like this:
-
-```sh
-kubectl create secret generic secret-api-key \
-  --from-literal secret-api-key="R^YqzKzSJw51K9zPpQ3R3N" \
-  --namespace openfaas-fn
-```
-
-#### Define a secret in faasd (advanced)
-
-For faasd, the secrets created for functions are held as files at `/var/lib/faasd-provider/secrets`. When you deploy a function, these secrets are bind-mounted into your container.
-
-Use the `faas-cli secret` commands to create and manage your secrets.
-
-### Use the secret in your function
-
-OpenFaaS secrets are mounted as files to `/var/openfaas/secrets` inside your function's filesystem. To use a secret, just read the file from the secrets location using the name of the secret for the filename such as: `/var/openfaas/secrets/secret-api-key`.
-
-A simple `go` implementation could look like this
-
-```go
-func getAPISecret(secretName string) (secretBytes []byte, err error) {
-	// read from the openfaas secrets folder
-	secretBytes, err = ioutil.ReadFile("/var/openfaas/secrets/" + secretName)
-  
-	return secretBytes, err
-}
-```
-
-This example comes from the [`ApiKeyProtected`](https://github.com/openfaas/faas/tree/master/sample-functions/ApiKeyProtected-Secrets) sample function.
-
-### Deploy a function with secrets
-
-Create a `stack.yaml` file in the current directory:
+Next, edit the `stack.yml` file and add the following `secrets` section:
 
 ```yaml
-  provider:
-    name: openfaas
-
-  functions:
-    protectedapi:
-      lang: dockerfile
-      skip_build: true
-      image: functions/api-key-protected:latest
-      secrets:
-      - secret-api-key
+functions:
+  protected-api:
+...
+    secrets:
+      - protected-api-token
 ```
 
-Now deploy the function with: `faas-cli deploy`
+Edit `protected-api/handler.py` and enter the following code:
 
-Once the deploy is done you can test the function using the `faas-cli` or `curl`. The function reads the secret value that was mounted into the container by OpenFaaS and then returns a success or failure message based on if your header matches that secret value. The same code runs exactly the same without modifications on both Kubernetes and faasd.
+```python
+def get_secret(key):
+    with open("/var/openfaas/secrets/{}".format(key)) as f:
+        return f.read().strip()
 
-Let's see how that works:
+def valid_bearer(token, headers):
+    if not "Authorization" in headers:
+        return False
+    authz = headers["Authorization"]
+    if not authz.startswith("Bearer "):
+        return False
 
-```sh
-echo | faas-cli invoke protectedapi -H "X-Api-Key=R^YqzKzSJw51K9zPpQ3R3N"
-Unlocked the function!
+    bearer = authz.split(" ", 1)
+
+    return bearer[1] == token
+
+def handle(event, context):
+    token = get_secret("protected-api-token")
+
+    if not valid_bearer(token, event.headers):
+        return {
+           "statusCode": 401,
+           "body": "Invalid authentication"
+        }
+
+    return {
+        "statusCode": 200,
+        "body": "Hello from OpenFaaS!"
+    }
 ```
 
-Now let's use an incorrect value for the api-key:
+Test the function:
 
-```sh
-echo | faas-cli invoke protectedapi -H "X-Api-Key=thisiswrong"
-Access denied!
+```bash
+faas-cli up
+
+curl -i http://127.0.0.1:8080/function/protected-api \
+  -H "Authorization: Bearer invalid"
+
+HTTP/2 401
+Invalid authentication
+
+curl -i http://127.0.0.1:8080/function/protected-api \
+  -H "Authorization: Bearer $(cat ./protected-api-token.txt)"
+
+HTTP/2 200
+Hello from OpenFaaS
 ```
 
-You can also use multiple secrets for the same function or across multiple functions.
+## Secrets and Infrastructure as Code (IaaC)
 
-## Secrets in git
+You can manage secrets through Git repositories using the [SealedSecrets project from Bitnami](https://github.com/bitnami-labs/sealed-secrets). This approach enables GitOps or Infrastructure as Code (IaaC) - a public key is used to encrypt your secret files and literal values, which is then decrypted by a controller in the cluster using a separate private key.
 
-You can also manage secrets through Git repositories using the [SealedSecrets project from Bitnami](https://github.com/bitnami-labs/sealed-secrets).
-
-This approach enables GitOps or Infrastructure as Code (IaaC) - a public key is used to encrypt your secret files and literal values, which is then decrypted by a controller in the cluster using a separate private key.
+Another popular option is to use AWS Secrets Manager, without Git with the open source [External Secrets Operator](https://external-secrets.io/latest/).
