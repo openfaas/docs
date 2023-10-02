@@ -47,8 +47,7 @@ curl https://gw.example.com/function/function1 \
     -H "Authorization: Bearer $TOKEN"
 ```
 
-See an example using a HTTP header: [secrets](./secrets.md).
-
+See an example written in Python using a HTTP Authorization header: [secrets](/reference/secrets).
 
 ### Basic authentication
 
