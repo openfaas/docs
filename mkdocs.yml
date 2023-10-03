@@ -128,6 +128,10 @@ nav:
       - Logs: ./cli/logs.md
       - Working with image tags: ./cli/tags.md
       - Shell auto completion: ./cli/completion.md
+  - Languages:
+    - Go: ./languages/go.md
+    - Dockerfile: ./languages/dockerfile.md
+    - Custom: ./languages/custom.md
   - OpenFaaS Pro:
       - Overview: ./openfaas-pro/introduction.md
       - Scale to Zero: ./openfaas-pro/scale-to-zero.md
