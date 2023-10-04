@@ -131,17 +131,39 @@ You can also run the following to create a function using Vert.x
 $ faas-cli new --lang java11-vertx java-vertx-function
 ```
 
-#### CSharp / .NET Core 2.1
+#### Bash
 
-You can create functions in .NET Core 2.1 using C# / CSharp.
+Alex Ellis maintains a template for writing functions with Bash:
+
+* [alexellis/openfaas-streaming-templates](https://github.com/alexellis/openfaas-streaming-templates)
+
+#### CSharp / .NET Core
+
+See also: [Build ASP.NET Core APIs with Kubernetes and OpenFaaS](https://www.openfaas.com/blog/asp-net-core/)
+
+You can create functions in .NET Core using C# / CSharp.
 
 * Write a function named csharp-function
 
-```
-faas-cli new --lang csharp csharp-function
-```
+    ```bash
+    faas-cli new --lang csharp csharp-function
+    ```
 
 Now you can open your current folder in a tool such as Visual Studio Code and add dependencies using the project (csproj) file.
+
+A community template called [csharp-httprequest](https://github.com/distantcam/csharp-httprequest-template/) is recommended for high throughput functions, where access to the HTTP request and response are also required.
+
+#### Puppeteer
+
+Alex Ellis maintains a Node.js and Puppeteer template for generating screenshots of web-pages and for UI testing.
+
+See: [puppeteer template](https://github.com/alexellis/openfaas-puppeteer-template)
+
+#### Rust
+
+Two community-maintained templates are available for Rust users, one which is forking and another which is more high performance, using a HTTP server.
+
+See also: [Rust templates](https://github.com/openfaas-incubator/rust-http-template)
 
 #### Ruby
 
