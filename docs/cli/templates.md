@@ -262,42 +262,17 @@ gem "kubeclient"
 faas-cli build -f k8s-get-pods.yml
 ```
 
-#### PHP7
+#### PHP
 
-To create a PHP7 function named `my-function` type in:
+See also: [PHP 8.2](/languages/php)
 
-    $ faas-cli new my-function --lang php7
-
-You'll see:
-
-    my-function.yml
-    my-function/src/Handler.php
-    my-function/composer.json
-    my-function/php-extension.sh
-
-Add any dependencies/extensions as described below and implement your functions business logic in `Handler.php`.
-
-#### PHP7 - Composer Dependencies
-
-You should edit `composer.json` and add any required package dependencies, referring to the [Composer Documentation](https://getcomposer.org/doc/) for instructions on using `composer.json`.
-
-##### PHP7 - Private Composer Repositories
-
-Refer to the [PHP7 Template Documentation](https://github.com/openfaas/templates/tree/master/template/php7) for instructions on how to use [Composers](https://getcomposer.org/doc/) `COMPOSER_AUTH` environment variable to configure access to dependencies in private repositories.
-
-##### PHP7 - PHP Extensions
-
-The PHP7 template is based upon the [Docker Library PHP image](https://hub.docker.com/_/php/) and provides the `php-extension.sh` script which exposes the ability to customise extensions installed in a function image.
-
-Refer to the [PHP7 Template Documentation](https://github.com/openfaas/templates/tree/master/template/php7) for instructions on customising installed extensions.
-
-#### Customise a template
+### How to Customise a template
 
 It is recommended that you use the official templates as they are provided and if there is a short-coming that you raise a GitHub issue so we can improve the templates for everyone.
 
 All templates are driven by a Dockerfile and can be customised by editing the files found in the ./template folder.
 
-##### Update the Dockerfile
+#### Update the Dockerfile
 
 There are several reasons why you may want to update your Dockerfile, just edit `./template/<language_name>/Dockerfile`.
 
@@ -307,7 +282,7 @@ There are several reasons why you may want to update your Dockerfile, just edit 
 
 * Try a new version of a base-image - it may be that the project is showing support for Node.js LTS, but you want the cutting-edge version, you can do that too
 
-##### Update a template's configuration
+#### Update a template's configuration
 
 The name of a template is read from a "template.yml" file kept within the template folder: `./template/<language_name>/template.yml`
 
@@ -321,7 +296,7 @@ fprocess: dotnet ./root.dll
 * `language` is the display name used for `faas-cli new --list`.
 * `fprocess` provides the process to run for each invocation - i.e. your function
 
-##### Use your own templates
+#### Use your own templates
 
 You can use your own Git repository for a custom or forked set of templates. This can be public or private.
 
@@ -333,7 +308,7 @@ If you want to set up your own default template location, specify the `OPENFAAS_
 export OPENFAAS_TEMPLATE_URL=https://raw.githubusercontent.com/user/mytemplate/customtemplates
 ```
 
-##### Download templates from the template store
+#### Download templates from the template store
 
 > Note: In order to access the template store you need `0.8.1` version of the CLI or higher
 
