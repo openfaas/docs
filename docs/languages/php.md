@@ -1,6 +1,6 @@
 ## PHP
 
-The `php8` template currently uses PHP 8.2 along with Alpine Linux.
+The `php8` template currently uses [PHP 8.2](https://www.php.net/) along with [Alpine Linux](https://www.alpinelinux.org/).
 
 It is a forking template which uses the [Classic Watchdog](https://github.com/openfaas/classic-watchdog) to fork a PHP process for each and every HTTP request.
 

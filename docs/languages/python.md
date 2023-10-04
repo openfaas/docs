@@ -1,8 +1,6 @@
 ## Python
 
-For more on Python, see the *python-http* and *python3-http-debian* templates under the [*Create new functions* page](/cli/templates).
-
-There are two recommended templates for Python 3 users.
+There are two recommended templates for [Python 3](https://www.python.org/) users.
 
 * python3-http - based upon Alpine Linux, small image size, for pure Python only.
 * python3-http-debian - based upon Debian Linux, larger image size, required for native C modules as as SQL, Kafka, Pandas, and image manipulation.
