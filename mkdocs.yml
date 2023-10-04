@@ -130,6 +130,9 @@ nav:
       - Shell auto completion: ./cli/completion.md
   - Languages:
     - Go: ./languages/go.md
+    - Node: ./languages/node.md
+    - Python: ./languages/python.md
+    - PHP: ./languages/php.md
     - Dockerfile: ./languages/dockerfile.md
     - Custom: ./languages/custom.md
   - OpenFaaS Pro:

@@ -55,7 +55,7 @@ welcome_message: |
 
 Next, create a Dockerfile which should download and make available the OpenFaaS watchdog.
 
-For processes that have their own HTTP server, you'll need to use the [of-watchdog in HTTP mode](https://github.com/openfaas/of-watchdog):
+There are two watchdogs available, the [Classic Watchdog](https://github.com/openfaas/classic-watchdog), meant for processes which do not have their own HTTP server, the process will be forked for each request, and the [of-watchdog](https://github.com/openfaas/of-watchdog) for when a HTTP server is available. Since Bun used with Express.js provides a HTTP server, we'll be using the of-watchdog. 
 
 The following Dockerfile is based upon the node18 template, adapted for Bun.
 

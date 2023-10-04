@@ -8,6 +8,8 @@ Async/await is supported by the handler by default.
 
 The most thorough and complete examples for JavaScript/Node for OpenFaaS are in Alex Ellis' eBook: [Serverless for Everyone Else](https://openfaas.gumroad.com/l/serverless-for-everyone-else)
 
+> This is an official template maintained by OpenFaaS Ltd.
+
 ### Create a new function
 
 Create a new function using the template:
@@ -110,6 +112,96 @@ curl -i http://127.0.0.1:8080 \
 
 As you can see from the example, when a valid JSON input is used in the request, along with an appropriate "Content-type" header, the event.body will transform into an object, which can be indexed as a dictionary.
 
+### Authenticate a function
+
+By using the standard Authorization header, a function can be authenticated with a pre-shared secret.
+
+Create a new pre-shared secret:
+
+```bash
+openssl rand -base64 32 > node-fn-token.txt
+```
+
+Then create a new secret in OpenFaaS:
+
+```bash
+faas-cli secret create node-fn-token --from-file node-fn-token.txt
+```
+
+Create a new function using the *node18* template:
+
+```bash
+export OPENFAAS_PREFIX=ttl.sh/fns
+
+faas-cli new --lang node18 node-fn
+```
+
+Then edit the `node-fn/handler.js`:
+
+```js
+'use strict'
+
+const fs = require('fs').promises;
+const tokenSecretName = "node-fn-token"
+
+module.exports = async (event, context) => {
+
+  let token = await fs.readFile(`/var/openfaas/secrets/${tokenSecretName}`, 'utf8')
+  token = token.trim()
+
+  if(!event.headers.authorization) {
+    return context
+      .status(401)
+      .fail('Unauthorized')
+  }
+
+  if(event.headers.authorization !== "Bearer " + token) {
+    return context
+      .status(403)
+      .fail('Forbidden')
+  }
+
+  return context
+    .status(200)
+    .succeed('Authenticated')
+}
+```
+
+Edit `node-fn.yml` and add the `secrets` section:
+
+```diff
+functions:
+  node-fn:
+    lang: node18
+    handler: ./node-fn
+    image: ttl.sh/fns/node-fn:latest
++    secrets:
++    - node-fn-token
+```
+
+Now test out the function with `local-run` or `faas-cli up`.
+
+With local-run:
+
+```bash
+mkdir -p .secrets
+cp node-fn-token.txt .secrets/node-fn-token
+
+faas-cli local-run -f node-fn.yml
+```
+
+Try it out:
+
+```bash
+curl -i http://127.0.0.1:8080 \
+  -H "Authorization: Bearer $(cat node-fn-token.txt)"
+
+HTTP/1.1 200 OK
+Authenticated
+```
+
+When you test the function with `faas-cli up`, make sure you use the function's full URL.
+
 ### Unit tests
 
 Unit tests provide a quick and efficient way to exercise your code on your local computer, without needing to run `faas-cli build` or to deploy the function to a remote cluster.
@@ -154,3 +246,4 @@ describe('MyFunction', function() {
 If the tests fail, this will also fail the build of your function and prevent it from passing.
 
 For a more detailed example, see: [Serverless for Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)
+
