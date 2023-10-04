@@ -1,5 +1,7 @@
 ## Dockerfile language
 
+Build a function from a Dockerfile using [Docker](https://www.docker.com/).
+
 The Dockerfile language is treated as a special case for `faas-cli`, instead of building with a pre-defined entrypoint abstracted from the user, the whole contents of a given folder are used to build an image.
 
 The default Dockerfile shows how to fork a CLI process once per request, however you can put whatever you like in the Dockerfile.
