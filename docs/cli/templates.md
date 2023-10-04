@@ -10,9 +10,13 @@ Once you've installed the `faas-cli` you can start creating and deploying functi
 
 The `faas-cli up` command automates all of the above in a single command.
 
-For Raspberry Pi and ARM, you must use the `publish` command instead of `build` and `push`, or `up`.
+For Raspberry Pi and Arm, you must use the `publish` command instead of `build` and `push`, or `up`.
 
-See the notes here: [Building multi-arch images for ARM and Raspberry Pi](/cli/build/)
+See the notes here: [Building multi-arch images for Arm and Raspberry Pi](/cli/build/)
+
+!!! info "Information about OpenFaaS templates is moving"
+
+    The guide for OpenFaaS templates is moving to the ["Languages" section"](/languages/overview.md) in its own section.
 
 ## Templates
 
@@ -59,7 +63,7 @@ csharp-httprequest      distantcam         C# HTTP template
 Choose a template and retrieve it locally with the command:
 
 ```sh
-$ faas-cli template store pull node10-express
+$ faas-cli template store pull csharp
 ```
 
 Once downloaded, your chosen template and any others stored in the same repository will be available to use:
@@ -67,7 +71,7 @@ Once downloaded, your chosen template and any others stored in the same reposito
 ```sh
 $ faas-cli new --list
 Languages available as templates:
-- node10-express
+- csharp
 ```
 
 You can add your own store just by specifying the `--url` flag for both commands to pull and list your custom templates store.
@@ -767,8 +771,8 @@ export OPENFAAS_TEMPLATE_STORE_URL=https://raw.githubusercontent.com/user/openfa
 
 Now the source of the store is changed to the URL you have specified above.
 
-## ARM / Raspberry Pi
+## Arm / Raspberry Pi
 
 It is possible to migrate to use multi-arch templates with OpenFaaS, feel free to ask the community for direction here.
 
-Otherwise, for ARM and Raspberry Pi you will need to build on the device, and not on your PC or CI server.
+Otherwise, for Arm and Raspberry Pi you will need to build on the device, and not on your PC or CI server.
