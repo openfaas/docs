@@ -17,6 +17,8 @@ There are a number of official templates maintained and recommended by OpenFaaS 
 * [Python](/languages/go)
 * [Dockerfile](/languages/dockerfile)
 
+See also: [other templates information - C#, Java, Ruby](/reference/templates)
+
 Community support:
 
 * [PHP](/languages/php)
