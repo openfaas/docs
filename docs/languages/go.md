@@ -18,6 +18,8 @@ The source for the template is: [https://github.com/openfaas/golang-http-templat
 
 The most comprehensive guide and set of examples for this template are in the Premium and Team Edition of Alex Ellis' book: [Everyday Golang](https://store.openfaas.com/l/everyday-golang).
 
+> This is an official template maintained by OpenFaaS Ltd.
+
 ## Create a new function
 
 Create a new function using the template:
