@@ -205,6 +205,8 @@ functions:
 +      - libpq
 ```
 
+The current list of *build_options* for the Debian-based template is available in the templates repository in the [template.yml file](https://github.com/openfaas/python-flask-template/blob/master/template/python3-http-debian/template.yml). Pull requests and contributions are welcome, however packages can be specified even when they are not present as a build option.
+
 Alternatively, individual packages within apt can be specified through build_args:
 
 ```diff
@@ -289,4 +291,80 @@ def handle(event, context):
 ```
 
 Always read the secret from an OpenFaaS secret at `/var/openfaas/secrets/secret-name`. The use of environment variables is an anti-pattern and will be visible via the OpenFaaS API.
+
+### Authenticate a function
+
+To authenticate a function with a pre-shared secret, or API token, first create a secret, bind that secret to the function, then read it at runtime and validate it.
+
+Create a new pre-shared secret:
+
+```bash
+openssl rand -base64 32 > python-auth-token.txt
+```
+
+Then create a new secret in OpenFaaS:
+
+```bash
+faas-cli secret create python-auth-token \
+    --from-file python-auth-token.txt
+```
+
+Create a new function called `python-auth`:
+
+```bash
+faas-cli new --lang python3-http \
+    python-auth
+```
+
+Bind the secret to the function:
+
+```diff
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  python-auth:
+    lang: python3-http-debian
++    secrets:
++    - python-auth-token
+```
+
+Now edit the function's `handler.py` file to read the secret and validate it:
+
+```python
+def read_secret(name):
+    with open("/var/openfaas/secrets/" + name) as f:
+        return f.read().strip()
+
+def handle(event, context):
+    token = read_secret("python-auth-token")
+
+    if not "Authorization" in event.headers:
+        return {
+            "statusCode": 401,
+            "body": "Unauthorized"
+        }
+
+    if event.headers["Authorization"] != "Bearer {}".format(token):
+        return {
+            "statusCode": 401,
+            "body": "Unauthorized"
+        }
+
+    return {
+        "statusCode": 200,
+        "body": "Access granted"
+    }
+```
+
+Deploy the function with `faas-cli up`, then invoke it:
+
+```bash
+curl -i https://127.0.0.1:8080/function/python-auth \
+    -H "Authorization: Bearer $(cat ./python-auth-token.txt)"
+
+HTTP/2 200
+Access granted
+```
 
