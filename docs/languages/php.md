@@ -1,4 +1,4 @@
-## PHP 8.2
+## PHP
 
 The `php8` template currently uses PHP 8.2 along with Alpine Linux.
 

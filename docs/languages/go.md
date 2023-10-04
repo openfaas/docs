@@ -1,6 +1,6 @@
 ## Go (Golang)
 
-Go, also called Golang is a popular open-source programming language created and maintained by a team at Google.
+[Go, aka Golang](https://go.dev/) is a popular open-source programming language created and maintained by a team at Google.
 
 ### Official Go template
 
