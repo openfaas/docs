@@ -4,11 +4,11 @@
 
     There are over 40 projects and components which make up the OpenFaaS codebase, so no one repository can be used to track or gauge activity or the total effort of the community.
     
-    You can find out aggregate GitHub Stars, commits, forks and contributors and statistics on our [project leaderboard](https://kenfdev.o6s.io/github-stats-page).
+    You can find out aggregate GitHub Stars, commits, forks and contributors and statistics on our project leaderboard (available on request).
 
-[![Community contributors](https://www.openfaas.com/images/spring-easter/contributors.jpg)](https://kenfdev.o6s.io/github-stats-page)
+![Community contributors](https://www.openfaas.com/images/spring-easter/contributors.jpg)
 
-> OpenFaaS was started in 2016 by Alex Ellis, and now has hundreds of contributors.
+> OpenFaaS was started in 2016 by Alex Ellis, and now has hundreds of contributors across dozens of repositories.
 
 ## Weekly Office Hours
 
