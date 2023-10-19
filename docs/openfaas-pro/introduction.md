@@ -175,6 +175,8 @@ Scaling to zero is also a Pro feature, which can be opted into on a per function
 
 | Description           | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
+| Maximum functions     | 30                | 500                    | 5000 per namespace              |
+| Maximum namespaces    | 1                 | 1                      | Unlimited                       |
 | UI Dashboard         | Legacy UI (in code-freeze)  | [New UI dashboard](/openfaas-pro/dashboard) with metrics, logs & CI integration | As per Pro, but with support for multiple namespaces |
 | Consume secrets in `faas-cli build` for npm, Go and Pypy | Not available | Via build-time secrets | As Per Pro |
 | Kubernetes service accounts for functions      | N/a             | [Supported per function](/reference/workloads) | As per Pro |
@@ -182,12 +184,24 @@ Scaling to zero is also a Pro feature, which can be opted into on a per function
 | Metrics         | Basic function metrics  | Function, HTTP, CPU/RAM usage, and async/queue metrics      | As per Pro |
 | CPU & RAM utilization | Not available | Integrated with Prometheus metrics, OpenFaaS REST API & CLI | As per Pro |
 | Grafana Dashboards      | N/a             | 4x dashboards supplied in [Customer Community](https://github.com/openfaas/customers) - overview, spotlight for debugging a function, queue-worker and Function Builder API | As per Pro |
-| GitOps & CRD support | Not available | ArgoCD, FluxCD and Helm compatibility using the Function CRD | As per Pro |
+| GitOps & CRD support | Not available | ArgoCD, FluxCD, Helm and Kustomize compatibility using the Function CRD | As per Pro |
 | Deployment options | faas-cli or REST API | As per CE, plus: Function CRD with kubectl, Helm or GitOps | As per Pro |
 | Custom Resource Definition | Not available | Function and Profile CRDs | As per Pro |
 | Image Pull Policy (for air-gap) | Always | `Always`, `IfNotPresent` or `Never` | As per Pro |
 
 > Did you know? Synadia, the vendor of NATS Streaming announced the product is now deprecated, and it will receive no updates from June 2023 onwards. OpenFaaS Ltd developed an alternative based upon their newest product JetStream. [Learn more about JetStream for OpenFaaS](https://docs.openfaas.com/openfaas-pro/jetstream/)
+
+**IAM and Policy**
+
+Identity Access Management (IAM) and Policy-based authorization is available for OpenFaaS for Enterprises customers. It enables fine-grained policy, along with federation to external identity providers and Single Sign-On (SSO) with OpenID Connect (OIDC). 
+
+| Description           | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
+| ----------------------| ------------------|------------------------|---------------------------------|
+| Authentication        | Basic auth.       | As per CE              | [SSO with OIDC](https://docs.openfaas.com/openfaas-pro/sso/overview/)           |
+| Authorization         | N/a               | N/a                    | [Policy-based identity and access management](https://docs.openfaas.com/openfaas-pro/iam/overview/) |
+| OIDC Federation       | N/a               | N/a                    | Federate external OIDC providers for authorization |
+| Authorization with Kubernetes Service Account | N/a | N/a | [Supported via projected JWT tokens](https://www.openfaas.com/blog/kubernetes-tokens-openfaas-api/) |
+| Keyless deployment from CI/CD | N/a | N/a | GitLab CI, GitHub Actions, and any OIDC compatible source |
 
 **Event-connectors**
 
@@ -257,7 +271,7 @@ OpenFaaS Pro is trusted by:
 * Live Time Value (LTV) Co.
 * BCubed Engineering
 * Kubiya
-* Corva
+* Corva.ai
 * Mnemonic
 * E2E Networks Ltd
 
