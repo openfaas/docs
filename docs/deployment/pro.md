@@ -37,17 +37,18 @@ We recommend using the following configuration for the `values-custom.yaml` file
 
 ```yaml
 openfaasPro: true
+clusterRole: true
 
 operator:
   create: true
-
-clusterRole: true
-
-autoscaler:
-  enabled: true
+  leaderElection:
+    enabled: true
 
 gateway:
   replicas: 3
+
+autoscaler:
+  enabled: true
 
 dashboard:
   enabled: true
