@@ -132,7 +132,7 @@ Common issues:
 
 If the queue-worker keeps retrying your function check if `ack_wait` is set to a high enough timeout. It should be set to a value higher than your functions timeout.
 
-See [Expanded timeouts](https://docs.openfaas.com/tutorials/expanded-timeouts/)
+See [Expanded timeouts](/tutorials/expanded-timeouts)
 
 ### My function gets a nil or empty body
 
