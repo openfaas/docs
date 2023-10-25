@@ -63,7 +63,7 @@ If you're using a load-balancer, ingress controller or service mesh, then you ma
 
 To rule-out errors introduced by intermediate components, you should port-forward the OpenFaaS gateway service and invoke the function via its `http://127.0.0.1:8080` URL.
 
-AWS EKS is configured to use an [Elastic Load Balancer (ELB)](https://aws.amazon.com/blogs/aws/elb-idle-timeout-control/) as its default, which has an "idle timeout" of 60 seconds. You can override this up to 60 minutes or switch to a different type of AWS load-balancer.
+AWS EKS is configured to use an [Elastic Load Balancer (ELB)](https://aws.amazon.com/blogs/aws/elb-idle-timeout-control/) as its default, which has an "idle timeout" of 60 seconds. You can override this up to 60 minutes. As an alternative, the [AWS Load Balancer Controller for Kubernetes](https://kubernetes-sigs.github.io/aws-load-balancer-controller) can be used to provision an Application Load Balancer (ALB) or Network Load Balancer (NLB) instead.
 
 Google Cloud's various Load Balancer options have their [own configuration options too](https://cloud.google.com/load-balancing/docs/https).
 
