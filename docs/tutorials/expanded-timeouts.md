@@ -67,7 +67,7 @@ AWS EKS is configured to use an [Elastic Load Balancer (ELB)](https://aws.amazon
 
 Google Cloud's various Load Balancer options have their [own configuration options too](https://cloud.google.com/load-balancing/docs/https).
 
-Finally, if you need to invoke a function for longer than one of your infrastructure components allows, then you should use an [asynchronous invocation](/reference/async)
+Finally, if you need to invoke a function for longer than one of your infrastructure components allows, then you should use an [asynchronous invocation](/reference/async), which in OpenFaaS Standard can also be retried if it fails, and scaled out to massive concurrency.
 
 ## Further support
 
