@@ -8,15 +8,17 @@ The troubleshooting instructions for [faasd](https://github.com/openfaas/faasd) 
 
 ## OpenFaaS on Kubernetes
 
-Kubernetes is a complex distributed system, and there are many things that can cause friction for new users. This guide is devoted to helping you help yourself.
+Kubernetes is a complex distributed system, and there are many things that can cause friction for new OpenFaaS users. This guide is devoted to helping you help yourself.
 
 If you want to ask for help, make sure that you have run all of the commands below before doing so.
 
-### OpenFaaS and Function Checker
+### The Config Checker
 
-We recommend that all users run our automated config-checker tool which will help you to identify common problems with timeouts and function configuration.
+We recommend that all users run our automated config-checker tool which will help you to identify common problems with timeouts, function configuration and the core components. The tool is designed for OpenFaaS Standard and OpenFaaS for Enterprises, but should still give some useful output for OpenFaaS CE users.
 
 * [openfaas/config-checker](https://github.com/openfaas/config-checker)
+
+If we've asked you to run the config-checker via email or Slack, then please also collect the logs and output from kubectl by running our [openfaas-diagnostics.sh](https://github.com/openfaas/config-checker/blob/master/openfaas-diagnostics.sh) bash script. Send over the resulting openfaas.tgz file to our team.
 
 ### OpenFaaS didn't start
 
