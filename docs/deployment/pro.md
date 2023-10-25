@@ -1,6 +1,6 @@
 # Install OpenFaaS Pro
 
-There are a number of components that make up OpenFaaS Pro and OpenFaaS for Enterprises.
+There are a number of components that make up the two editions of OpenFaaS Pro: OpenFaaS Standard and OpenFaaS for Enterprises.
 
 The reference documentation for each feature is available here: [Docs: OpenFaaS Pro](https://docs.openfaas.com/openfaas-pro/introduction/)
 
