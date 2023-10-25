@@ -47,6 +47,11 @@ operator:
 gateway:
   replicas: 3
 
+  # 10 minute timeout
+  upstreamTimeout: 10m
+  writeTimeout: 10m2s
+  readTimeout: 10m2s
+
 autoscaler:
   enabled: true
 
@@ -112,6 +117,18 @@ We recommend running the OpenFaaS config checker after installation is complete.
 See also: [OpenFaaS config checker](https://github.com/openfaas/config-checker)
 
 ## Additional components
+
+### Grafana dashboards
+
+You should install the various [Grafana Dashboards](https://github.com/openfaas/customers/tree/master/dashboards) offered to OpenFaaS customers for comprehensive monitoring of your OpenFaaS installation.
+
+### External NATS cluster (optional)
+
+The version of NATS installed by the OpenFaaS chart is suitable for light use in production, and for development and staging. For critical use, we recommend installing the NATS helm chart, with multiple replicas, and/or a Persistent Volume (PV).
+
+If you leave NATS as it is, and the NATS container crashes, or the Kubernetes node where it is running is removed, you will lose all asynchronous function invocations in the queue which have not yet been processed.
+
+See full instructions in the [Customer Community](https://github.com/openfaas/customers/)
 
 ### Event connectors
 
