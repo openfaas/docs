@@ -4,10 +4,10 @@ The OpenFaaS REST API along with the Kubernetes CRDs (Function, Profile, JwtIssu
 
 !!! Info "Learning with the `faas-cli`"
 
-        The `faas-cli` is the original client for the REST API. The source code is available on GitHub at: [openfaas/faas-cli](https://github.com/openfaas/faas-cli).
-        One of the easiest ways to develop programs for OpenFaaS is to try out the `faas-cli` commands that you already know, with the `FAAS_DEBUG=1` environment variable set.
+      The `faas-cli` is the original client for the REST API. The source code is available on GitHub at: [openfaas/faas-cli](https://github.com/openfaas/faas-cli).
+      One of the easiest ways to develop programs for OpenFaaS is to try out the `faas-cli` commands that you already know, with the `FAAS_DEBUG=1` environment variable set.
 
-        It'll show the HTTP Path, Method and Query String, Body and any additional headers used so that you can build your own integration.
+      It'll show the HTTP Path, Method and Query String, Body and any additional headers used so that you can build your own integration.
 
 A quick note on TLS: when you expose OpenFaaS over the Internet, you should enable HTTPS to prevent snooping and tampering.
 
@@ -117,6 +117,14 @@ curl -s -i http://127.0.0.1:8080/function/env.openfaas.fn
 If no namespace is specified, then the default namespace is used for the installation, this is usually going to be `openfaas-fn`.
 
 Functions can also be invoked asynchronously by adding the `/async-function/NAME.NAMESPACE` path to the gateway URL. In this case, a HTTP POST is required with the payload in the body.
+
+If a function is being invoked from within Kubernetes, then the following URL should be used:
+
+```
+http://gateway.openfaas.svc.cluster.local.:8080
+```
+
+Note that in some clusters, the default DNS lookup of "svc.cluster.local" may be different, adapt this as required. The final "." at the end of the line helps to prevent unnecessary DNS lookups.
 
 * [Learn more about async invocations](/reference/async/)
 
