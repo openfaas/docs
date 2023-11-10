@@ -42,7 +42,7 @@ Self-service can be a quick and easy way to get started with [OpenFaaS CE or Ope
 
     If you become an individual sponsor for OpenFaaS on GitHub, you'll get discounts on our eBooks and show up as a Sponsor on Issues and Pull Requests, which means you are more likely to get our attention.
 
-To find out about Enterprise Support and Proof of Concepts projects, reach out to us for more information: [Contact us](https://openfaas.com/support/).
+To find out about Enterprise Support and Proof of Concepts projects, reach out to us for more information: [Contact us](https://openfaas.com/pricing/).
 ## Training resources and eBooks
 
 Learn everything you need to know to build and run functions with OpenFaaS in our handbook:

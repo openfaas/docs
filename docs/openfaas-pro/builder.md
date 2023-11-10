@@ -299,4 +299,4 @@ If you do not have code to retry invocations in your own product/system, OpenFaa
 
 Feel free to reach out to us for a demo or to ask any questions you may have.
 
-* [Let's talk](https://openfaas.com/support/)
+* [Talk to us](https://openfaas.com/pricing/)

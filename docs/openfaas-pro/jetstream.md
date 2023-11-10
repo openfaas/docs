@@ -2,7 +2,8 @@
 
 The OpenFaaS async system used to be powered by NATS Streaming. The new generation of the [OpenFaaS async system](/reference/async) is backed by NATS JetStream.
 
-> Note: This feature is included for [OpenFaaS Pro](https://openfaas.com/support/) customers.
+> Note: This feature is included for [OpenFaaS Standard & For Enterprises](https://openfaas.com/pricing/) customers.
+
 
 ## Async use cases
 

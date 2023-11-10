@@ -1,13 +1,23 @@
 # Retries for functions
 
-OpenFaaS Pro offers an upgraded queue-worker which allows for messages to be retried a number of times using an exponential back-off algorithm to mitigate the impact associated with retrying messages.
+OpenFaaS Pro offers an enterprise-ready queue-worker which retries failed invocations using an exponential back-off algorithm, supports multiple named queues, and provides detailed monitoring.
 
-> Note: This feature is included for [OpenFaaS Pro](https://openfaas.com/support/) customers.
+> Note: This feature is included for [OpenFaaS Standard & For Enterprises](https://openfaas.com/pricing/) customers.
 
 There are two primary use-cases for retrying asynchronous messages:
 
 * When a downstream API is likely to fail some of the time, and cannot be fixed easily, retrying can work around this problem
 * When `max_inflight` has been set on a function such as a web scraper, or memory-intensive function and you do not want to overload the function. When a function cannot accept any more connections due to the inflight setting, it will return a 429 error, which indicates the message can be retried at a later time.
+
+## Two types of retries
+
+1. Retries for errors from Core Components
+  Whenever a *Core Component* of OpenFaaS emits a HTTP error status code along with a `X-OpenFaaS-Internal` header, then the queue worker will retry the request automatically.
+
+2. Retries for statuses from functions
+  When a function emits a HTTP error status code, the queue-worker may retry that request, if the code is specified in the queue-worker's configuration, or via an annotation on the function.
+
+In both cases, the initial retry delay, maximum retry attempts, and maximum wait between attempts are controlled through a priority order. If there is an annotation set on the function, then this will take precedence. If there is no annotation set on the function, then the default values set on the queue worker will be used.
 
 ## Installation
 
@@ -60,7 +70,7 @@ The retry configuration can be overridden on a per function basis using annotati
       --annotation com.openfaas.retry.max_wait=1m
     ```
 
-The default value configured on the queue worker is used if an annotation is not specified or if it's value is invalid.
+If no annotation is specified, or if the value is invalid, then the default for the queue-worker will be used.
 
 ## Random jitter for retries
 
@@ -79,7 +89,7 @@ Supported backoff values:
 * `full` - wait between 0-100% of the exponential backoff delay.
 * `equal` - wait between 50-100% of the exponential backoff delay.
 
-The feature was influenced by the following [AWS blog post](https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/).
+The feature was influenced by [Marc Brooker's article on Exponential Backoff And Jitter](https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/).
 
 ## Usage
 
@@ -154,4 +164,4 @@ curl -i http://127.0.0.1:8080/function/chaos/set --data-binary '
 
 Feel free to reach out to us for a demo or to ask any questions you may have.
 
-* [Let's talk](https://openfaas.com/support/)
+* [Talk to us](https://openfaas.com/pricing/)

@@ -7,7 +7,7 @@ This page contains recommendations for tuning OpenFaaS Pro for production usage.
 !!! info "Did you know?"
     We offer an initial onboarding call for OpenFaaS Pro users, or a more detailed review as part of our Enterprise Support package.
     
-    [Talk to us](https://openfaas.com/support/)
+    [Talk to us](https://openfaas.com/pricing/)
 
 ## Decide on your Kubernetes flavour
 
@@ -238,4 +238,4 @@ Find out more here: [Configure your OpenFaaS functions for staging and productio
 !!! info "Did you know?"
     We offer an initial onboarding call for OpenFaaS Pro users, or a more detailed review as part of our Enterprise Support package.
     
-    [Talk to us](https://openfaas.com/support/)
+    [Talk to us](https://openfaas.com/pricing/)

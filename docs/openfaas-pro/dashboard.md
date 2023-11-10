@@ -2,7 +2,8 @@
 
 The OpenFaaS Dashboard is a new UI, rebuilt to make operating and understanding OpenFaaS easier.
 
-> Note: This feature is included for [OpenFaaS Pro](https://openfaas.com/support/) customers.
+> Note: This feature is included for [OpenFaaS Standard & For Enterprises](https://openfaas.com/pricing/) customers.
+
 
 ## Using the dashboard
 
@@ -322,4 +323,4 @@ You can use the same tunnel and exit server for multiple domains, to expose both
 
 Feel free to reach out to us for a demo or to ask any questions you may have.
 
-* [Let's talk](https://openfaas.com/support/)
+* [Talk to us](https://openfaas.com/pricing/)

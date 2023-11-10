@@ -2,7 +2,8 @@
 
 With our event connector, you can trigger function invocations from messages on AWS SQS queues. This is useful for processing events from AWS services such as S3, CloudWatch and DynamoDB.
 
-> Note: This feature is included for [OpenFaaS Pro](https://openfaas.com/support/) customers.
+> Note: This feature is included for [OpenFaaS Standard & For Enterprises](https://openfaas.com/pricing/) customers.
+
 
 On the blog: [How to integrate OpenFaaS functions with managed AWS services](https://www.openfaas.com/blog/integrate-openfaas-with-managed-aws-services/)
 
@@ -78,4 +79,4 @@ Test it out:
 
 Feel free to reach out to us for a demo or to ask any questions you may have.
 
-* [Let's talk](https://openfaas.com/support/)
+* [Talk to us](https://openfaas.com/pricing/)

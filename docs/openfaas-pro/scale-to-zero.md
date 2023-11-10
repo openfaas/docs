@@ -138,4 +138,4 @@ Cold-starts can be tuned through the OpenFaaS Helm chart: [Tuning function cold-
 
 Feel free to reach out to us for a demo or to ask any questions you may have.
 
-* [Let's talk](https://openfaas.com/support/)
+* [Talk to us](https://openfaas.com/pricing/)

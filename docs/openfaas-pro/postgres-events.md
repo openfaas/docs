@@ -2,7 +2,8 @@
 
 Trigger functions from [PostgreSQL](https://www.postgresql.org/) tables efficiently without the overhead of database triggers.
 
-> Note: This feature is included for [OpenFaaS Pro](https://openfaas.com/support/) customers.
+> Note: This feature is included for [OpenFaaS Standard & For Enterprises](https://openfaas.com/pricing/) customers.
+
 
 From the blog: [Trigger OpenFaaS functions from PostgreSQL with AWS Aurora](https://www.openfaas.com/blog/trigger-functions-from-postgres/)
 
@@ -257,4 +258,4 @@ Additional headers are also made available, which mean you can efficiently filte
 
 Feel free to reach out to us for a demo or to ask any questions you may have.
 
-* [Let's talk](https://openfaas.com/support/)
+* [Talk to us](https://openfaas.com/pricing/)

@@ -2,7 +2,8 @@
 
 Trigger function invocations from messages received on Kafka topics.
 
-> Note: This feature is included for [OpenFaaS Pro](https://openfaas.com/support/) customers.
+> Note: This feature is included for [OpenFaaS Standard & For Enterprises](https://openfaas.com/pricing/) customers.
+
 
 Read a tutorial on the blog:
 
@@ -99,4 +100,4 @@ For detailed examples with Go, see: [Everyday Golang (Premium Edition)](https://
 
 Feel free to reach out to us for a demo or to ask any questions you may have.
 
-* [Let's talk](https://openfaas.com/support/)
+* [Talk to us](https://openfaas.com/pricing/)
