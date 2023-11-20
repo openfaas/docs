@@ -110,6 +110,27 @@ helm upgrade openfaas \
   -f ./values-custom.yaml
 ```
 
+It is essential that you keep hold of any custom values.yaml files that you create or use during installation. These are needed in order to receive support from OpenFaaS Ltd and to upgrade your installation.
+
+## How to upgrade OpenFaaS
+
+!!! Warning "Do not uninstall the Helm chart"
+
+  Beware that the Helm chart should never be uninstalled, and if you do run "helm uninstall" the Function Custom Resource Definition (CRD), and all Functions will be removed from the cluster. This is the correct behaviour when requesting an "uninstallation".
+
+OpenFaaS Standard and For Enterprises are both installed and upgraded in the same way, so you use the same `helm upgrade --install` command from the second above.
+
+The only time that `helm upgrade --install` may not work is when you are changing from `clusterRole: false` to `clusterRole: true`. In this instance, you will need to delete the conflicting Kubernetes objects one by one as directed by the output from helm, before running `helm upgrade --install` again.
+
+### Automatic upgrades with ArgoCD or FluxCD
+
+You can use ArgoCD or FluxCD to manage the installation of OpenFaaS by providing a custom values.yaml file. In this way, newer versions of the OpenFaaS components and Helm chart will be applied automatically, as they become available.
+
+See also:
+
+* [Bring GitOps to your OpenFaaS functions with ArgoCD](https://www.openfaas.com/blog/bring-gitops-to-your-openfaas-functions-with-argocd/)
+* [Upgrade to Flux v2 to keep OpenFaaS up to date](https://www.openfaas.com/blog/upgrade-to-fluxv2-openfaas/)
+
 ## How to check your installation
 
 We recommend running the OpenFaaS config checker after installation is complete. This will help verify that your installation is correct.
