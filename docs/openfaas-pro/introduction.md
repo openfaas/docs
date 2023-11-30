@@ -249,6 +249,7 @@ We have several customers of varying size who host code on behalf of their custo
 | Build containers and functions via REST API | N/a | N/a | [Yes via Function Builder API](/openfaas-pro/builder) |
 | Multiple namespace support | No support | N/a | Supported with Kubernetes namespaces |
 | Multi-tenancy | Not supported | N/a | [Supported](https://www.openfaas.com/blog/build-a-multi-tenant-functions-platform/) |
+| Billing metrics | N/a | N/a | [Supported](/openfaas-pro/billing-metrics/) |
 
 Some customers extend their own platform using OpenFaaS functions, because it's quicker and easier to deploy a function than change the core platform.
 

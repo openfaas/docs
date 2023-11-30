@@ -149,6 +149,7 @@ nav:
       - Single Sign-On:
           - Overview: ./openfaas-pro/sso/overview.md
           - Keycloak: ./openfaas-pro/sso/keycloak.md
+      - Billing metrics: ./openfaas-pro/billing-metrics.md
       - JetStream: ./openfaas-pro/jetstream.md
       - Kafka events: ./openfaas-pro/kafka-events.md
       - Postgres events: ./openfaas-pro/postgres-events.md
