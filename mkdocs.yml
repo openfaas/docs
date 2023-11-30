@@ -149,7 +149,6 @@ nav:
       - Single Sign-On:
           - Overview: ./openfaas-pro/sso/overview.md
           - Keycloak: ./openfaas-pro/sso/keycloak.md
-      - Billing metrics: ./openfaas-pro/billing-metrics.md
       - JetStream: ./openfaas-pro/jetstream.md
       - Kafka events: ./openfaas-pro/kafka-events.md
       - Postgres events: ./openfaas-pro/postgres-events.md
@@ -157,6 +156,7 @@ nav:
       - AWS SNS events: ./openfaas-pro/sns-events.md
       - Federated Gateway: ./openfaas-pro/federated-gateway.md
       - Function Builder API: ./openfaas-pro/builder.md
+      - Billing metrics: ./openfaas-pro/billing-metrics.md
       - Grafana dashboards: ./openfaas-pro/grafana-dashboards.md
   - Reference:
     - OpenFaaS YAML: ./reference/yaml.md

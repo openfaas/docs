@@ -1,54 +1,62 @@
 # Billing metrics
 
-Collect detailed function usage metrics for billing customers or chargeback for internal teams via webhook events.
+With the *metering* feature, detailed metrics are made available for function invocations. These can be used to implement your own billing system.
+
+Use-cases:
+
+* Billing SaaS customers - when you are hosting functions, bill customers based upon usage
+* Chargeback for internal teams - charge internal teams for a proportion of their use of an internal functions service
+
+After each function has completed an invocation, a summary is published to NATS JetStream, this is then collected by a resilient and scalable event-worker. The event-worker will collect the events and send them in groups to a webhook endpoint for efficiency.
+
+Events are batched within each HTTP call to your webhook endpoint, and will also contain a HMAC header that can be used to verify the origin of the event.
+
+!!! info "OpenFaaS Enterprise feature"
+    This feature is included for [OpenFaaS Enterprise](/openfaas-pro/introduction) customers.
 
 ## Installation
 
 To start receiving events with detailed usage metrics you need to enable metering and configure a webhook endpoint OpenFaaS can deliver events to. This can be done by editing the values.yaml file of the [OpenFaaS chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas).
 
-```yaml
-eventSubscription:
-  endpoint: "https://example.com/openfaas-events"
-  metering:
-    enabled: true
-    # The default memory value that is included in usage events if
-    # no memory limit is set for a function.
-    defaultRAM: 40Mi
-```
-
-## Validating webhook deliveries
-
-If an endpoint secret is provided, OpenFaaS will use the secret token to create a hash signature of the webhook payload. The hash signature will be in the `X-Openfaas-Signature-256` header for each webhook delivery. Your code that handles the webhook deliveries should verify the signature to ensure the delivery in coming from OpenFaaS.
-
-To configure the webhook secret you will need to generate a token and add it to your OpenFaaS cluster as a Kubernetes secret:
+You will need to create an `endpointSecret` which will be shared with the HTTP receiver, and used to sign the webhook payload.
 
 ```bash
-head -c 32 /dev/urandom | base64 | cut -d "-" -f1 > webhook-secret
+head -c 32 /dev/urandom | base64 | cut -d "-" -f1 > billing-endpoint-secret.txt
 
 kubectl create secret generic \
     -n openfaas \
     webhook-secret \
-    --from-file webhook-secret=./webhook-secret
+    --from-file webhook-secret=./billing-endpoint-secret.txt
 ```
 
-Reference the Kubernetes secret in the `eventSubscription` section in the `values.yaml` file.
+Next, update your copy of the `values.yaml` file for the main OpenFaaS chart:
 
 ```yaml
 eventSubscription:
+  endpoint: "https://example.com/openfaas-events"
   endpointSecret: webhook-secret
+
+  metering:
+    enabled: true
+    defaultRAM: 40Mi
 ```
 
-## Receive metering events
+* The `eventSubscription` section is also used to configure auditing.
+* Set the `endpoint` to your HTTP endpoint that will receive the events, including any Path you want to include.
+* The `endpointSecret` is used to sign the webhook payload with a symmetric secret using HMAC and a 256-bit digest.
+* The defaultRAM under the metering secret is expressed in the same notation as Kubernetes Pods, i.e. `128Mi` or `1Gi`. This value is used when there is no memory limit configured on a function.
 
-OpenFaaS collects events from the OpenFaaS components in NATS JetStream. A separate components, the event-worker will process those events and post them to the configured webhook endpoint. The webhook can be used to process the events and store them in an SQL database or any other type of persistent storage.
+When you're ready, apply the changes to your cluster using `helm upgrade --install` and your values.YAML file.
 
-!!! warning
+## The webhook receiver endpoint
 
-    It is possible to use an OpenFaaS function to receive metering events. Take note that this function can not be deployed in the same OpenFaaS cluster that is sending the events as each invocation will in turn trigger a new event which will cause an infinite loop.
+You can modify an existing part of your platform to expose a new HTTP path, or deploy a new HTTP microservice to collect the webhooks. A function is not suitable for this purpose because it would also trigger billing metrics, and cause an infinite loop.
 
-Events are send in batches of grouped events to reduce the number of webhook calls. The request payload is always a list of events.
+### How to validate the webhook is genuine
 
-### Delivery headers
+The event-worker will use the `endpointSecret` to create a hash signature of the webhook's payload. The hash signature will be in the `X-Openfaas-Signature-256` header for each webhook delivery. Your handler will need to verify the signature matches the payload before processing any events.
+
+### Webhook delivery headers
 
 - `X-Openfaas-Event`: The name of the event that triggered the delivery.
 - `X-Openfaas-Signature-256`: This header is sent if the endpointSecret is configured in the Helm chart. This is the HMAC hex digest of the request body, and is generated using the SHA-256 hash function and the webhook secret as the HMAC key. It can be used to verify the origin of the webhook payload.
@@ -87,11 +95,35 @@ The request body contains a list of function usage events:
   If no memory limit is configured for a function a default value will be used. This default values can be configured in the
   Helm chart by setting the parameter `eventSubscription.metering.defaultRAM`.
 
-## Use metering data
+## Example: Persisting event data to PostgreSQL
 
-Once the event data is saved to a persistent data store it can be used to calculate billing metrics e.g the total number of invocations, total invocation duration and GB/s used by a function over a certain time period.
+Once the event data is saved to a persistent data store it can be used to calculate billing metrics e.g the total number of invocations, total invocation duration and Gigabyte seconds (GB/s) used by a function over a certain time period.
 
 This example uses a PostgreSQL database to persist event data. In this case the data was inserted into a table `openfaas_metering.function_usage`.
+
+Assuming the following table schema:
+
+```sql
+CREATE TABLE IF NOT EXISTS
+	openfaas_metering.function_usage (
+		id SERIAL PRIMARY KEY,
+		namespace TEXT NOT NULL,
+		function_name TEXT NOT NULL,
+		duration interval NOT NULL,
+		started_at TIMESTAMP NOT NULL,
+		ram_bytes BIGINT NOT NULL,
+		created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+	);
+```
+
+Example insert statement:
+
+```golang
+	insert, err := tx.Prepare(`INSERT INTO
+	openfaas_metering.function_usage (namespace, function_name, duration, started_at, ram_bytes)
+	VALUES
+	($1, $2, make_interval(secs => $3::NUMERIC / 1000000000), $4, $5)`)
+```
 
 It is possible to get detailed usage information per function over a certain time period. For example:
 
@@ -117,3 +149,29 @@ from openfaas_metering.function_usage u
 where u.started > now() - interval '30 days'
 group by namespace,function_name;
 ```
+
+## Q&A
+
+* Where is the metering data collected from?
+
+    The OpenFaaS gateway is responsible for collecting the metering data, then when a buffer fills up or a timer goes off, the data will be flushed from memory to NATS JetStream.
+
+* Will metering add overhead to my function invocations?
+
+    Events are published asynchronously to NATS JetStream, so should not add any overhead to the function invocation itself.
+
+* How many events will be sent within a webhook?
+
+    The amount of events are 1 to many, depending on how many were available when they were published to NATS JetStream from the OpenFaaS gateway.
+
+* How much load will the event-worker generate on the cluster?
+
+    This depends on the rate of invocations on your cluster, it's unlikely to be noticeable with moderate traffic.
+
+* Can the events be written to our database?
+
+    You can write a webhook receiver and use it to perform inserts into the database. If your chosen datastore supports batch inserts, we would recommend using that instead of inserting each event individually. We have provided an example schema and query for calculating billing metrics from PostgreSQL.
+
+## Do you have questions, comments, or suggestions?
+
+Feel free to reach out to the team [for a call](https://openfaas.com/pricing).
