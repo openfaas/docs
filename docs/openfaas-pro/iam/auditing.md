@@ -44,11 +44,13 @@ eventSubscription:
 
   auditing:
     enabled: true
+    httpVerbs: "PUT,POST,DELETE"
 ```
 
 * The `eventSubscription` section is also used to configure metering.
 * Set the `endpoint` to your HTTP endpoint that will receive the events, including any Path you want to include.
 * The `endpointSecret` is used to sign the webhook payload with a symmetric secret using HMAC and a 256-bit digest.
+* The `httpVerbs` parameter can be used to configure a list of HTTP methods to audit. By default we do not audit `GET` requests to reduce the amount of auditing events sent to your webhook.
 
 
 ## Example auditing webhook delivery
