@@ -24,7 +24,7 @@ You will need to create an `endpointSecret` which will be shared with the HTTP r
 # If openssl is not available on your system, use the following:
 head -c 32 /dev/urandom | base64 | cut -d "-" -f1 > billing-endpoint-secret.txt
 
-# openssl is better:
+# openssl is preferred to generate a random secret:
 openssl rand -base64 32 > billing-endpoint-secret.txt
 
 kubectl create secret generic \
@@ -54,7 +54,20 @@ When you're ready, apply the changes to your cluster using `helm upgrade --insta
 
 ## The webhook receiver endpoint
 
-You can modify an existing part of your platform to expose a new HTTP path, or deploy a new HTTP microservice to collect the webhooks. A function is not suitable for this purpose because it would also trigger billing metrics, and cause an infinite loop.
+You can modify an existing part of your platform to expose a new HTTP path, or deploy a new HTTP microservice to collect the webhooks.
+
+### How to use a function to receive webhooks
+
+We recommend recording billing information by a service outside of the OpenFaaS cluster.
+
+However, with additional configuration, a function can be used so long as it is in a separate namespace, and is configured in the Helm chart to be excluded from metering.
+
+```yaml
+metering:
+  excludeNamespaces: "openfaas-system"
+```
+
+Without this configuration, an infinite loop would occur, as the function receiving the metering events, would itself also be metered, and therefore trigger itself.
 
 ### How to validate the webhook is genuine
 

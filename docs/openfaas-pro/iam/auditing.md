@@ -23,7 +23,11 @@ To start receiving auditing events you need to enable auditing and configure a w
 You will need to create an `endpointSecret` which will be shared with the HTTP receiver, and used to sign the webhook payload.
 
 ```bash
-head -c 32 /dev/urandom | base64 | cut -d "-" -f1 > event-webhook-secret.txt
+# If openssl is not available on your system, use the following:
+head -c 32 /dev/urandom | base64 | cut -d "-" -f1 > ./event-webhook-secret.txt
+
+# openssl is preferred to generate a random secret:
+openssl rand -base64 32 > ./event-webhook-secret.txt
 
 kubectl create secret generic \
     -n openfaas \
