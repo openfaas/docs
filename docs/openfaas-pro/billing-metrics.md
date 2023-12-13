@@ -21,7 +21,11 @@ To start receiving events with detailed usage metrics you need to enable meterin
 You will need to create an `endpointSecret` which will be shared with the HTTP receiver, and used to sign the webhook payload.
 
 ```bash
+# If openssl is not available on your system, use the following:
 head -c 32 /dev/urandom | base64 | cut -d "-" -f1 > billing-endpoint-secret.txt
+
+# openssl is better:
+openssl rand -base64 32 > billing-endpoint-secret.txt
 
 kubectl create secret generic \
     -n openfaas \
@@ -38,7 +42,7 @@ eventSubscription:
 
   metering:
     enabled: true
-    defaultRAM: 40Mi
+    defaultRAM: 512Mi
 ```
 
 * The `eventSubscription` section is also used to configure auditing.
