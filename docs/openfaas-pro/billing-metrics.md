@@ -94,7 +94,7 @@ The event-worker will use the `endpointSecret` to create a hash signature of the
 >     "event": "function_usage",
 >     "namespace": "openfaas-fn",
 >     "function_name": "env",
->     "stated": "2023-11-14T15:01:20.349527036Z",
+>     "started": "2023-11-14T15:01:20.349527036Z",
 >     "duration": 3798742,
 >     "memory_bytes": 20971520
 >   }
