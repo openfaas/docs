@@ -102,14 +102,15 @@ Recently released:
 * AWS SNS event-connector (released Jan 2023)
 * IAM & RBAC for the OpenFaaS REST API (Released June 2023)
 * Enhanced multi-tenant isolation for large organisations and service providers (Released June 2023)
+* Invocation via the OpenFaaS Pro Dashboard (Oct 2023)
+* Webhook-based auditing of the OpenFaaS REST API (Dec 2023)
+* Webhook-based billing metrics per invocation for billing your users  (Dec 2023)
 
 Upcoming:
 
-* Invocation via the OpenFaaS Pro Dashboard (in progress)
-* Webhook-based auditing of the OpenFaaS REST API (arriving shortly)
-* Conversion to structured/JSON logging of OpenFaaS Pro components (ongoing)
+* Proactive remote monitoring for support customers (available via opt-in)
+* Conversion to structured/JSON logging of OpenFaaS Pro components (ongoing - 75% complete)
 * Additional event triggers i.e. AMQP event trigger for RabbitMQ and Azure Service Bus and Google PubSub
-* Proactive remote monitoring for support customers
 
 Is there something else you need for your team or organisation? [Get in touch with us here](https://openfaas.com/support/).
 
@@ -140,7 +141,7 @@ We see it as the start of a two-way relationship and an opportunity to collabora
 | Support via email           | N/a               | Pro features only      | All certified Open Source and commercial components |
 | Support via GitHub          | N/a               | Pro features only using the Customer Community      | N/a |
 | Support via Slack           | N/a               | N/a                    | Up to 5 developers              |
-| License                     | [MIT](https://github.com/openfaas/faas/blob/master/LICENSE)             | [Commercial license EULA](https://github.com/openfaas/faas/blob/master/pro/EULA)     | As per Pro |
+| License                     | [MIT](https://github.com/openfaas/faas/blob/master/LICENSE)             | [Commercial license EULA](https://github.com/openfaas/faas/blob/master/pro/EULA)     | as per Standard |
 | Architecture review  | N/a            | N/a                    | With our team via Zoom |
 | Onboarding call | N/a            | N/a                    | With our team via Zoom |
 | [Customer Community](https://github.com/openfaas/customers)   | N/a      | Private access to [Customer Community](https://github.com/openfaas/customers) - one user per licensed cluster | Custom amount of users |
@@ -161,11 +162,11 @@ Did you know? OpenFaaS Pro's autoscaling engine can scale many different types o
 
 | Description           | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
-| Scale to Zero | Not supported | [Global default, or custom time per function](/openfaas-pro/scale-to-zero) | As per Pro |
-| Maximum replicas per function | 5 Pods | No limit applied | As per Pro |
-| Scale from Zero | Not supported | Supported, with additional checks for Istio | As per Pro |
-| Autoscaling strategy   | RPS-only | [CPU utilization, Capacity (inflight requests) or RPS](/architecture/autoscaling)      | As per Pro |
-| Autoscaling granularity   | Single rule for all functions | Configurable per function | As per Pro |
+| Scale to Zero | Not supported | [Global default, or custom time per function](/openfaas-pro/scale-to-zero) | as per Standard |
+| Maximum replicas per function | 5 Pods | No limit applied | as per Standard |
+| Scale from Zero | Not supported | Supported, with additional checks for Istio | as per Standard |
+| Autoscaling strategy   | RPS-only | [CPU utilization, Capacity (inflight requests) or RPS](/architecture/autoscaling)      | as per Standard |
+| Autoscaling granularity   | Single rule for all functions | Configurable per function | as per Standard |
 
 Data-driven, intensive, or long running functions are best suited to capacity-based autoscaling, which is only available in OpenFaaS Pro.
 
@@ -177,17 +178,17 @@ Scaling to zero is also a Pro feature, which can be opted into on a per function
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Maximum functions     | 30                | 500                    | 5000 per namespace              |
 | Maximum namespaces    | 1                 | 1                      | Unlimited                       |
-| UI Dashboard         | Legacy UI (in code-freeze)  | [New UI dashboard](/openfaas-pro/dashboard) with metrics, logs & CI integration | As per Pro, but with support for multiple namespaces |
-| Consume secrets in `faas-cli build` for npm, Go and Pypy | Not available | Via build-time secrets | As Per Pro |
-| Kubernetes service accounts for functions      | N/a             | [Supported per function](/reference/workloads) | As per Pro |
+| UI Dashboard         | Legacy UI (in code-freeze)  | [New UI dashboard](/openfaas-pro/dashboard) with metrics, logs & CI integration | as per Standard, but with support for multiple namespaces |
+| Consume secrets in `faas-cli build` for npm, Go and Pypy | Not available | Via build-time secrets | as per Standard |
+| Kubernetes service accounts for functions      | N/a             | [Supported per function](/reference/workloads) | as per Standard |
 | Async / queueing | In-memory only, max 10 items in queue, 256KB message size | JetStream with shared queue | JetStream with dedicated queues |
-| Metrics         | Basic function metrics  | Function, HTTP, CPU/RAM usage, and async/queue metrics      | As per Pro |
-| CPU & RAM utilization | Not available | Integrated with Prometheus metrics, OpenFaaS REST API & CLI | As per Pro |
-| Grafana Dashboards      | N/a             | 4x dashboards supplied in [Customer Community](https://github.com/openfaas/customers) - overview, spotlight for debugging a function, queue-worker and Function Builder API | As per Pro |
-| GitOps & CRD support | Not available | ArgoCD, FluxCD, Helm and Kustomize compatibility using the Function CRD | As per Pro |
-| Deployment options | faas-cli or REST API | As per CE, plus: Function CRD with kubectl, Helm or GitOps | As per Pro |
-| Custom Resource Definition | Not available | Function and Profile CRDs | As per Pro |
-| Image Pull Policy (for air-gap) | Always | `Always`, `IfNotPresent` or `Never` | As per Pro |
+| Metrics         | Basic function metrics  | Function, HTTP, CPU/RAM usage, and async/queue metrics      | as per Standard |
+| CPU & RAM utilization | Not available | Integrated with Prometheus metrics, OpenFaaS REST API & CLI | as per Standard |
+| Grafana Dashboards      | N/a             | 4x dashboards supplied in [Customer Community](https://github.com/openfaas/customers) - overview, spotlight for debugging a function, queue-worker and Function Builder API | as per Standard |
+| GitOps & CRD support | Not available | ArgoCD, FluxCD, Helm and Kustomize compatibility using the Function CRD | as per Standard |
+| Deployment options | faas-cli or REST API | As per CE, plus: Function CRD with kubectl, Helm or GitOps | as per Standard |
+| Custom Resource Definition | Not available | Function and Profile CRDs | as per Standard |
+| Image Pull Policy (for air-gap) | Always | `Always`, `IfNotPresent` or `Never` | as per Standard |
 
 > Did you know? Synadia, the vendor of NATS Streaming announced the product is now deprecated, and it will receive no updates from June 2023 onwards. OpenFaaS Ltd developed an alternative based upon their newest product JetStream. [Learn more about JetStream for OpenFaaS](https://docs.openfaas.com/openfaas-pro/jetstream/)
 
@@ -207,7 +208,7 @@ Identity Access Management (IAM) and Policy-based authorization is available for
 
 | Description           | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
-| Number of topics per function   | One topic per function | Multiple topics per function | As per Pro |
+| Number of topics per function   | One topic per function | Multiple topics per function | as per Standard |
 | [Kafka event trigger](/openfaas-pro/kafka-events) | Not supported | Supports SASL or TLS auth, Aiven, Confluent and self-hosted | Support with SLA |
 | [Postgres trigger](/openfaas-pro/postgres-events) | Not supported | Supports insert, update and delete, with table-level filters using WAL or LISTEN/NOTIFY. | Support with SLA |
 | [AWS SQS trigger](/openfaas-pro/sqs-events) | Not supported | Standard support | Support with SLA |
@@ -217,24 +218,25 @@ Identity Access Management (IAM) and Policy-based authorization is available for
 
 | Description           | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
-| Readiness probes | Not supported | [Readiness probes](/reference/workloads) supported with custom HTTP path and intervals per function | As per Pro |
-| Retries for failed function invocations | Not supported | [Retry invocations](/openfaas-pro/retries) for configured HTTP codes with an exponential back-off | As per Pro |
-| Highly Available messaging | Not available, in-memory only | Available for NATS JetStream, with 3x servers. | As per Pro |
-| Long executions of async functions | Limited to 5 minutes | Configurable duration | As per Pro |
+| Readiness probes | Not supported | [Readiness probes](/reference/workloads) supported with custom HTTP path and intervals per function | as per Standard |
+| Retries for failed function invocations | Not supported | [Retry invocations](/openfaas-pro/retries) for configured HTTP codes with an exponential back-off | as per Standard |
+| Highly Available messaging | Not available, in-memory only | Available for NATS JetStream, with 3x servers. | as per Standard |
+| Long executions of async functions | Limited to 5 minutes | Configurable duration | as per Standard |
 | Callback to custom URL for async functions | Supported | As per CE | As per CE |
 
 **Security**
 
 | Description           | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
+| Air-gap and offline support | No, Internet connection required | Supported | As per Standard |
 | Authentication for OpenFaaS API, CLI and UI | Shared admin password between everyone who uses OpenFaaS | as per CE | [Single Sign-On with OIDC](https://docs.openfaas.com/openfaas-pro/iam/overview/) |
 | Identity and Policy | N/a | N/a | Least Privilege with [Identity and Access Management](https://docs.openfaas.com/openfaas-pro/iam/overview/) |
-| Compatibility with Istio for mTLS | N/a | Supported | As per Pro |
-| PCI/GDPR compliance       | Sensitive information such as the request body/response body, headers may be printed into the logs for each asynchronous invocation | Sensitive information is not printed to the logs for asynchronous requests | As per Pro |
+| Compatibility with Istio for mTLS | N/a | Supported | as per Standard |
+| PCI/GDPR compliance       | Sensitive information such as the request body/response body, headers may be printed into the logs for each asynchronous invocation | Sensitive information is not printed to the logs for asynchronous requests | as per Standard |
 | Secure isolation with Kata containers or gVisor      | N/a             | N/a | Supported using an [OpenFaaS Pro Profile and runtimeClass](/reference/profiles) |
-| [Service links](https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#accessing-the-service) injected as environment variables | Yes, cannot be disabled | Disabled as a default | As per Pro |
-| [Pod privilege escalation](https://kubernetes.io/docs/concepts/security/pod-security-standards/#restricted) | Default for Kubernetes | Explicitly disabled | As per Pro |
-| Split installation without ClusterAdmin role | N/a | Provided in [Customer Community](https://github.com/openfaas/customers) | As per Pro | 
+| [Service links](https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#accessing-the-service) injected as environment variables | Yes, cannot be disabled | Disabled as a default | as per Standard |
+| [Pod privilege escalation](https://kubernetes.io/docs/concepts/security/pod-security-standards/#restricted) | Default for Kubernetes | Explicitly disabled | as per Standard |
+| Split installation without ClusterAdmin role | N/a | Provided in [Customer Community](https://github.com/openfaas/customers) | as per Standard | 
 
 Isolation using Kata containers or gVisor is advisable when running untrusted code, or when you want to ensure that your functions are not vulnerable to container escape attacks.
 
@@ -276,13 +278,13 @@ OpenFaaS Pro is trusted by:
 * Mnemonic
 * E2E Networks Ltd
 
-Tell us about your use-case for OpenFaaS Pro, OpenFaaS Community Edition (CE) or faasd and see what other companies are doing in the: [ADOPTERS file](https://github.com/openfaas/faas/blob/master/ADOPTERS) 
+Tell us about your use-case for OpenFaaS Standard, OpenFaaS Community Edition (CE) or faasd and see what other companies are doing in the: [ADOPTERS file](https://github.com/openfaas/faas/blob/master/ADOPTERS) 
 
 ### Support
 
-OpenFaaS for Enterprise comes with support for the Certified Open Source Components and OpenFaaS Pro, with support via email within a Service Level Agreement (SLA). Along with email support, each team gets their own dedicated Slack channel for questions, collaboration and assistance.
+OpenFaaS for Enterprises comes with support for the Certified Open Source Components and OpenFaaS Standard, with support via email within a Service Level Agreement (SLA). Along with email support, each team gets their own dedicated Slack channel for questions, collaboration and assistance.
 
-OpenFaaS Pro operates on a self-service model with support for OpenFaaS Pro features only via email.
+OpenFaaS Standard operates on a self-service model with support for OpenFaaS Standard features only via email.
 
 Both tiers come with access to the [Customer Community](https://github.com/openfaas/customers), for feedback & collaboration with the OpenFaaS developers and other customers. 
 
@@ -290,6 +292,6 @@ No support is offered to commercial users of OpenFaaS CE, which is primarily mea
 
 ### Getting started
 
-OpenFaaS Pro is developed primarily for team deploying to Kubernetes, however most of the features are also compatible with faasd. Learn about faasd and OpenFaaS Pro here: [The Event-Driven Edge with OpenFaaS](https://www.openfaas.com/blog/eventdriven-edge/)
+OpenFaaS Standard is developed primarily for teams deploying to Kubernetes, however most of the features are also compatible with faasd. Learn about faasd and OpenFaaS Standard here: [The Event-Driven Edge with OpenFaaS](https://www.openfaas.com/blog/eventdriven-edge/)
 
 Are you interested in OpenFaaS for your organisation? [Contact us](https://openfaas.com/support/) to find out more.
