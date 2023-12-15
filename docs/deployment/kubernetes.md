@@ -1,6 +1,6 @@
 # Deploy OpenFaaS Community Edition (CE) to Kubernetes
 
-Before deploying OpenFaaS Community Edition (CE), you will need to create a Kubernetes cluster.
+Before deploying OpenFaaS Community Edition (CE), you will need to create a Kubernetes cluster. The cluster will need to have full access to the Internet at all times. If you need airgap support, or to run on an offline or restricted enterprise network, then [OpenFaaS Standard](/openfaas-pro/introduction) would be a better fit for your needs.
 
 In our experience, OpenFaaS CE and Pro will run on any Kubernetes cluster, whether that's a local version, self-managed on-premises, or a managed cloud offering.
 
@@ -16,7 +16,7 @@ From there, you should consider: adding a [TLS certificate](/reference/ssl/kuber
 
 See also: [Training materials and eBooks](/tutorials/training)
 
-Once you're familiar with how the Community Edition works, you may want to explore going to production with: [OpenFaaS Pro](/openfaas-pro/introduction).
+Once you're familiar with how the Community Edition works, you may want to explore going to production with either [OpenFaaS Standard or OpenFaaS for Enterprises](/openfaas-pro/introduction).
 
 ### Options for local cluster clusters
 
