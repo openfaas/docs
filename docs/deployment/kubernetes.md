@@ -139,7 +139,7 @@ We recommend that you set up OpenFaaS using arkade, however the helm chart is al
 
 You'll find [additional charts](https://github.com/openfaas/faas-netes/tree/master/chart) and arkade apps for components like the cron-connector and certain OpenFaaS Pro event sources for Kafka and AWS SQS.
 
-### 3) GitOps Tooling
+#### 3) GitOps Tooling
 
 There are two popular options for installing the OpenFaaS helm chart with a GitOps approach.
 
