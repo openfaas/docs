@@ -122,6 +122,30 @@ OpenFaaS Standard and For Enterprises are both installed and upgraded in the sam
 
 The only time that `helm upgrade --install` may not work is when you are changing from `clusterRole: false` to `clusterRole: true`. In this instance, you will need to delete the conflicting Kubernetes objects one by one as directed by the output from helm, before running `helm upgrade --install` again.
 
+### Installing new Custom Resource Definitions (CRDs)
+
+CRDs are only installed with the initial installation of OpenFaaS, therefore, if new ones have been added, or updated, you'll need to extract them from the helm chart and apply them manually.
+
+If you're upgrading to OpenFaaS IAM for instance, you can generate the CRDs, and then apply the files in the `/tmp/openfaas/crds` folder:
+
+```sh
+helm template openfaas/openfaas \
+  --include-crds=true \
+  --output-dir=/tmp
+
+...
+
+wrote /tmp/openfaas/crds/iam.openfaas.com_jwtissuers.yaml
+wrote /tmp/openfaas/crds/iam.openfaas.com_policies.yaml
+wrote /tmp/openfaas/crds/iam.openfaas.com_roles.yaml
+```
+
+Then:
+
+```sh
+kubectl apply -f /tmp/openfaas/crds
+```
+
 ### Automatic upgrades with ArgoCD or FluxCD
 
 You can use ArgoCD or FluxCD to manage the installation of OpenFaaS by providing a custom values.yaml file. In this way, newer versions of the OpenFaaS components and Helm chart will be applied automatically, as they become available.
