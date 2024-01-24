@@ -117,14 +117,11 @@ The JwtIssuer, Role and Policy resources are Kubernetes Custom Resources, and mu
 
 The `faas-cli` needs to be used to obtain a token from Auth0, and then exchange it for an OpenFaaS Access token.
 
-Note the `--audience` flag which must be set to the URL of the OpenFaaS gateway.
-
 ```bash
 faas-cli pro auth \
   --grant code \
   --authority https://example.eu.auth0/ \
-  --client-id 17F3M3rS8ORQUPDHsgkq0YVHheZVH8dpaGHRTjAx5x0 \
-  --audience https://gw.example.com
+  --client-id 17F3M3rS8ORQUPDHsgkq0YVHheZVH8dpaGHRTjAx5x0
 ```
 
 The faas-cli will save the OpenFaaS Access token and use it when you run commands that require authentication to the gateway.
