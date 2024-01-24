@@ -110,6 +110,68 @@ Web Identity Federation allows you to build a trust relationship with an externa
 * [Deployment from GitHub Actions](/openfaas-pro/iam/github-federation)
 * [Deployment from GitLab.com](/openfaas-pro/iam/gitlab-federation)
 
+## OpenFaaS JWT token
+
+During authentication an OIDC access token from a trusted IdP is exchanged for an OpenFaaS access token
+
+The faas-cli can be used to get an access token from your IdP and print it out for inspection. This can be useful to see what fields are available when creating Roles.
+
+To print out the decoded OpenFaaS JWT token run:
+
+```sh
+faas-cli pro auth \
+  --authority https://keycloak.example.com/realms/openfaas \
+  --client-id openfaas \
+  --pretty
+```
+
+Adding the `--no-exchange` flag stops the CLI from exchanging the access token for an OpenFaaS token. It can be used to print out the original JWT token issued by your IdP for inspection.
+
+Example of a decoded OpenFaaS JWT token:
+
+```json
+{
+  "header": {
+    "alg": "ES256",
+    "kid": "ARyHBtoRuXRzCEqR_9NRr_HPP_s36vHKf9_X_Mjpad4x",
+    "typ": "JWT"
+  },
+  "payload": {
+    "at_hash": "F53gv7injmJ9hUGCOtDgBw",
+    "aud": "https://gateway.example.com",
+    "auth_time": 1706088607,
+    "azp": "openfaas",
+    "email_verified": true,
+    "exp": 1706131945,
+    "family_name": "Verstraete",
+    "fed:iss": "https://keycloak.example.com/realms/openfaas",
+    "given_name": "Han",
+    "groups": [
+      "openfaas-dev"
+    ],
+    "iat": 1706088745,
+    "iss": "https://gateway.example.com",
+    "jti": "81d42f43-8ebe-4d62-84f8-e1ecab5eb4b1",
+    "name": "Han Verstraete",
+    "nonce": "1706088744941521000",
+    "policy": [
+      "fn-rw"
+    ],
+    "preferred_username": "welteki",
+    "session_state": "65c3df72-dad8-4b2f-95aa-f1556b40ab80",
+    "sid": "65c3df72-dad8-4b2f-95aa-f1556b40ab80",
+    "sub": "fed:a81bcb85-72a8-446a-9263-004944a4e9f4",
+    "typ": "ID"
+  }
+}
+```
+
+The OpenFaaS JWT contains all claims from the original access token and some additional fields.
+
+* `fed:iss` - The federated issuer that issued the original JWT token.
+* `policy` - The list of policies that are mapped to the access token.
+
+
 ## FAQ
 
 * What Identity Providers are supported?
