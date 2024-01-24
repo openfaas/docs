@@ -169,12 +169,12 @@ If you have enabled [Identity and Access Management (IAM) for OpenFaaS](/openfaa
 
     ```bash
     # Generate a key
-    openssl rand -hex 16 > aes-key
+    openssl rand -hex 16 > aes_key
 
     # Store the key in a secret in the openfaas namespace
     kubectl -n openfaas \
       create secret generic aes-key \
-      --from-file=aes-key=./aes-key
+      --from-file=aes_key=./aes_key
     ```
 
 3. Create a Kubernetes secret for the OAuth client secret
