@@ -120,6 +120,7 @@ To print out the decoded OpenFaaS JWT token run:
 
 ```sh
 faas-cli pro auth \
+  --gateway https://gateway.example.com \
   --authority https://keycloak.example.com/realms/openfaas \
   --client-id openfaas \
   --pretty

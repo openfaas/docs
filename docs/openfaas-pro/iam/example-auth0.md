@@ -119,6 +119,7 @@ The `faas-cli` needs to be used to obtain a token from Auth0, and then exchange 
 
 ```bash
 faas-cli pro auth \
+  --gateway https://gateway.example.com \
   --grant code \
   --authority https://example.eu.auth0/ \
   --client-id 17F3M3rS8ORQUPDHsgkq0YVHheZVH8dpaGHRTjAx5x0
