@@ -213,3 +213,7 @@ The OpenFaaS JWT contains all claims from the original access token and some add
     There are further restrictions that can be applied such as forcing a non-root user for functions, and Kubernetes limit ranges, and a runtimeClass to sandbox the Pod and its containers from accessing the host.
 
     If you're using Google Compute Engine, you can create a node pool with gVisor enabled with a runtimeClass. For Amazon Elastic Kubernetes Service, Fargate can be used for isolation using a runtimeClass and node pool.
+
+* Can we use self-signed certificates or our own private Certificate Authority?
+
+    Yes, you can use your own private CA, or self-signed certificates. Create a secret called `ca-bundle` in the `openfaas` namespace following the [exact instructions in the Helm chart README file](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/values.yaml), then set the `caBundleSecretName:` field in the `values.yaml` file to `ca-bundle`.

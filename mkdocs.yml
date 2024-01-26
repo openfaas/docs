@@ -150,6 +150,7 @@ nav:
       - Single Sign-On:
           - Overview: ./openfaas-pro/sso/overview.md
           - Keycloak: ./openfaas-pro/sso/keycloak.md
+          - SSO with the CLI: ./openfaas-pro/sso/cli.md
       - JetStream: ./openfaas-pro/jetstream.md
       - Kafka events: ./openfaas-pro/kafka-events.md
       - Postgres events: ./openfaas-pro/postgres-events.md
