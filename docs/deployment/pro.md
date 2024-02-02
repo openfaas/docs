@@ -29,6 +29,22 @@ You'll also want to install our Grafana dashboards, which give you access to add
 
 * [Grafana Dashboards](https://github.com/openfaas/customers/tree/master/dashboards)
 
+## Need to update your license?
+
+The easiest way to do this is to delete the existing secret, create a new one, then restart all the deployments in the `openfaas` namespace.
+
+```sh
+kubectl delete secret -n openfaas \
+  openfaas-license
+
+kubectl create secret generic \
+  -n openfaas \
+  openfaas-license \
+  --from-file license=$HOME/.openfaas/LICENSE
+
+kubectl rollout restart deployment -n openfaas
+```
+
 ## Installation
 
 Detailed installation instructions including the various options for values.yaml are available in the [`openfaas` helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas).
