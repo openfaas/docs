@@ -40,3 +40,5 @@ This guide will cover how to configure [Keycloak](https://www.keycloak.org/) as 
 
     The `aud` field needs to contain a set of accepted audiences. For Keycloak this is the client id that was selected in the first step.
 
+    The `tokenExpiry` field can be used to set the expiry time of the OpenFaaS access token.
+
