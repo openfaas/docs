@@ -5,6 +5,7 @@ For customers who have enabled IAM for OpenFaaS, OIDC can be used to authenticat
 You'll need to start off by installing the faas-cli, if you don't have it yet, [it's available on GitHub](https://github.com/openfaas/faas-cli/releases).
 
 !!! note "Do you want to run faas-cli from a server instead of as a human user?"
+
     SSO and OIDC are primarily designed for interactive use by a human user in front of a keyboard, with a webbrowser available. If you need to use an OAuth token to authenticate server-to-server, then you you'll need to create a new OAuth client in your IdP, and then use the `--client-secret` flag with the `faas-cli pro auth` command. 
 
 ### Download the pro plugin
@@ -28,6 +29,7 @@ faas-cli pro enable
 A browser will open with a device challenge, once completed, the CLI will be enabled.
 
 !!! note "Does your team not have a GitHub organisation available?"
+
     If your organisation does not use GitHub, or you are not a member of its GitHub organisation, there is an alternative approach to enabling the plugin. Email the OpenFaaS team for the details.
 
 ### Log into the gateway using SSO
