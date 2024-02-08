@@ -132,7 +132,7 @@ We see it as the start of a two-way relationship and an opportunity to collabora
 
 | Description                 | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
 | ----------------------------| ------------------|------------------------|---------------------------------|
-| Suitability                 | Open Source developers and initial exploration  | Production, business critical, or PoC | Regulated companies which may have additional legal and compliance requirements |
+| Suitability                 | PoCs, non-production, experimentation & non-commercial use only  | Production, business critical, or PoC | Regulated companies which may have additional legal and compliance requirements |
 | SLA                         | N/a               | N/a                    | Response within 1 business day for P1 |
 | Buying process              | N/a           | Invoice paid by bank transfer           | Supplier portals, custom paperwork, negotiation with procurement. |
 | Legal review of contract    | N/a           | N/a                     | Yes |
@@ -141,7 +141,7 @@ We see it as the start of a two-way relationship and an opportunity to collabora
 | Support via email           | N/a               | Pro features only      | All certified Open Source and commercial components |
 | Support via GitHub          | N/a               | Pro features only using the Customer Community      | N/a |
 | Support via Slack           | N/a               | N/a                    | Up to 5 developers              |
-| License                     | [MIT](https://github.com/openfaas/faas/blob/master/LICENSE)             | [Commercial license EULA](https://github.com/openfaas/faas/blob/master/pro/EULA)     | as per Standard |
+| License                     | Source code: [MIT](https://github.com/openfaas/faas/blob/master/LICENSE), container images/binaries: 90 day limit for commercial use | [Commercial license EULA](https://github.com/openfaas/faas/blob/master/pro/EULA)     | as per Standard |
 | Architecture review  | N/a            | N/a                    | With our team via Zoom |
 | Onboarding call | N/a            | N/a                    | With our team via Zoom |
 | [Customer Community](https://github.com/openfaas/customers)   | N/a      | Private access to [Customer Community](https://github.com/openfaas/customers) - one user per licensed cluster | Custom amount of users |
