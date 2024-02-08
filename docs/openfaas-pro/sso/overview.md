@@ -56,8 +56,11 @@ To configure your identity provider:
 
     The `aud` field needs to contain a set of accepted audiences. The set is used to validate the audience field in an OIDC access token and verify OpenFaaS is the intended audience. The audience is usually the gateway’s public URL although for some providers it can also be the client id.
 
-For precise information about how to perform these configurations, follow one of our guides or see the documentation for your provider:
+    The `tokenExpiry` field can be used to set the expiry time of the OpenFaaS access token.
 
-- [Keycloak](/openfaas-pro/iam/oidc-configuration/overview/) - Configure Keycloak for OpenFaaS.
+For more details on how to configure Single Sign-On for OpenFaaS, follow one of our guides or see the documentation for your provider:
+
+- [Keycloak](/openfaas-pro/sso/keycloak/) - Configure Keycloak for OpenFaaS IAM.
+- [Google](/openfaas-pro/sso/google/) - Configure Google for OpenFaaS IAM.
 
 Some providers may need an additional patch or configuration. Feel free to reach out to us.
