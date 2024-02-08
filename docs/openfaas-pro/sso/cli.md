@@ -64,7 +64,9 @@ faas-cli pro auth \
 
 In order to launch a web browser from WSL, you'll need to install the `wslu` package, which is preinstalled with Ubuntu 22.04 and later.
 
-Next, set the following environment variable `export BROWSER=wslview` in your `~/.bashrc` file.
+```bash
+sudo apt update -qy && sudo apt install -qy wslu --no-install-recommends
+```
 
 Then, whenever a browser is launched, it will open on your Windows host, and the result will come back to the WSL environment.
 
