@@ -149,8 +149,9 @@ nav:
         - Auditing Events: ./openfaas-pro/iam/auditing.md
       - Single Sign-On:
           - Overview: ./openfaas-pro/sso/overview.md
-          - Keycloak: ./openfaas-pro/sso/keycloak.md
           - Google: ./openfaas-pro/sso/google.md
+          - Keycloak: ./openfaas-pro/sso/keycloak.md
+          - Okta: ./openfaas-pro/sso/okta.md
           - SSO with the CLI: ./openfaas-pro/sso/cli.md
       - JetStream: ./openfaas-pro/jetstream.md
       - Kafka events: ./openfaas-pro/kafka-events.md
