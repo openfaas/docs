@@ -132,7 +132,7 @@ It is essential that you keep hold of any custom values.yaml files that you crea
 
 !!! Warning "Do not uninstall the Helm chart"
 
-  Beware that the Helm chart should never be uninstalled, and if you do run "helm uninstall" the Function Custom Resource Definition (CRD), and all Functions will be removed from the cluster. This is the correct behaviour when requesting an "uninstallation".
+    Beware that the Helm chart should never be uninstalled, and if you do run "helm uninstall" the Function Custom Resource Definition (CRD), and all Functions will be removed from the cluster. This is standard behaviour for Kubernetes when requesting an "uninstallation".
 
 OpenFaaS Standard and For Enterprises are both installed and upgraded in the same way, so you use the same `helm upgrade --install` command from the second above.
 
