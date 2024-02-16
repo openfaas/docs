@@ -1,5 +1,27 @@
 # Monitoring Functions
 
+## Introduction
+
+All OpenFaaS metrics are exposed in Prometheus format, and collected by a built-in Prometheus server which is deployed via the OpenFaaS Helm chart.
+
+There are two main uses for the built-in Prometheus server:
+
+1. To power scale to zero, and the horizontal Pod autoscaler.
+2. To provide basic metrics to end-users, and to power the Grafana dashboards offered to OpenFaaS Standard customers.
+
+### Long term retention of metrics
+
+* There is no persistence by default, so restarting the Prometheus Pod will reset all metrics. This is as designed, since the metrics are collected for autoscaling primarily.
+* The default retention period is 15 days, so anything older than that will no longer be visible. This is as designed, and will allow for SRE/DevOps work and active monitoring.
+
+What if you would like to enable long-term retention?
+
+Our recommendation is *not to* try to re-configure or alter the built-in Prometheus server, but to deploy your own, and to scrape the internal one via [Prometheus Federation](https://prometheus.io/docs/prometheus/latest/federation/).
+
+With Prometheus Federation, you can also specify which series to collect, rather than collecting everything, which is more efficient for storage and works out cheaper in the long run.
+
+Long-term retention can be achieved via the upstream Prometheus project using its Helm chart/operator, a SaaS version hosted by a cloud provider, [Grafana Cloud's agent](https://grafana.com/grafana/), or a solution built on top of Prometheus like [Thanos](https://github.com/thanos-io/thanos) or [Cortex](https://github.com/cortexproject/cortex).
+
 ## Gateway
 
 The Gateway component exposes several metrics to help you monitor the health and behavior of your functions.
