@@ -152,16 +152,7 @@ If you have enabled [Identity and Access Management (IAM) for OpenFaaS](/openfaa
 
 1. Configure an OIDC provider.
     
-    If you have already configured your OIDC provider and registered it with OpenFaaS this step can be skipped. If you did not configure any providers or want to register a separate provider for the dashboard continue.
-    
-    You must configure your provider and create a new client app for OpenFaaS. For precise information see the documentation of your OIDC provider.
-    
-    The dashboard has support for the following authentication flows:
-
-      - Authorization Code Flow
-      - Authorization Code Flow with Proof Key fo Code Exchange (PKCE)
-
-    Once your provider is configured it needs to be registered as a JWT Issuer with OpenFaaS. See: [register a provider](/openfaas-pro/iam/oidc-configuration/overview/)
+    If you have already configured your OIDC provider and registered it with OpenFaaS this step can be skipped. If you did not configure any providers see: [Single Sign-On (SSO) for the OpenFaaS CLI and dashboard](/openfaas-pro/sso/overview/)
 
 2. Generate AES encryption key
 
