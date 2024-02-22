@@ -1,6 +1,7 @@
 # Profiles: Advanced Provider Configuration
 
-> Note: Only the Kubernetes provider currently supports Profiles
+!!! info "OpenFaaS Standard/for Enterprises"
+    Private registry support is part of [OpenFaaS Standard/for Enterprises](/openfaas-pro/introduction).
 
 The OpenFaaS design allows it to provide a standard API across several different container orchestration tools: Kubernetes, containerd, and others. These [faas-providers](/architecture/faas-provider) generally implement the same core features and allow your to functions to remain portable and be deployed on _any_ certified OpenFaaS installation regardless of the orchestration layer. However, there are certain workloads or deployments that require more advanced features or fine tuning of configuration. To allow maximum flexibility without overloading the OpenFaaS function configuration, we have introduced the concept of Profiles. This is simply a reserved function annotation that the `faas-provider` can detect and use to apply the advanced configuration.
 
@@ -10,7 +11,7 @@ In other cases, one Profile may serve more than one function, such as when using
 
 Multiple Profiles can be composed together for functions, if required.
 
-> Note: The general design is inspired by [StorageClasses](https://kubernetes.io/docs/concepts/storage/storage-classes/)  and [IngressClasses](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class) in Kubernetes. If you are familiar with Kubernetes, these comparisons may be helpful, but they are not required to understand Profiles in OpenFaaS.
+> Note: The general design is inspired by [StorageClasses](https://kubernetes.io/docs/concepts/storage/storage-classes/) and [IngressClasses](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class) in Kubernetes. If you are familiar with Kubernetes, these comparisons may be helpful, but they are not required to understand Profiles in OpenFaaS.
 
 ## Using Profiles When You Deploy a Function
 
