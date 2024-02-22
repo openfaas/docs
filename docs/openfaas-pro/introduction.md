@@ -134,7 +134,7 @@ We see it as the start of a two-way relationship and an opportunity to collabora
 | ----------------------------| ------------------|------------------------|---------------------------------|
 | Suitability                 | PoCs, non-production, experimentation & non-commercial use only  | Production, business critical, or PoC | Regulated companies which may have additional legal and compliance requirements |
 | SLA                         | n/a               | n/a                    | Response within 1 business day for P1 |
-| Buying process              | n/a           | Invoice paid by bank transfer           | Supplier portals, custom paperwork, negotiation with procurement. |
+| Buying process              | n/a           | Monthly via credit card, or discounted via annual invoice (SWIFT/ACH)    | Supplier portals, custom paperwork, negotiation with procurement. |
 | Legal review of contract    | n/a           | n/a                     | Yes |
 | Signing of Mutual NDA       | n/a               | n/a                    | Subject to agreement |
 | Additional compliance needs | n/a         | n/a                    | Subject to agreement |
@@ -178,6 +178,7 @@ Scaling to zero is also a commercial feature, which can be opted into on a per f
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Maximum functions     | 15                | 500                    | 5000 per namespace              |
 | Maximum namespaces    | 1                 | 1                      | Unlimited                       |
+| Public/private registries   | Public images only, without authentication. | Public or private with authentication | As per Standard |
 | UI Dashboard         | Legacy UI (in code-freeze)  | [New UI dashboard](/openfaas-pro/dashboard) with metrics, logs & CI integration | as per Standard, but with support for multiple namespaces |
 | Consume secrets in `faas-cli build` for npm, Go and Pypy | Not available | Via build-time secrets | as per Standard |
 | Kubernetes service accounts for functions      | n/a             | [Supported per function](/reference/workloads) | as per Standard |
