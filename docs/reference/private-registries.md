@@ -2,11 +2,10 @@
 
 You can configure a private container registry to store your OpenFaaS functions.
 
-## faasd
-
-For faasd, configuration see the official handbook: [Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)
-
 ## Use a private registry with Kubernetes
+
+!!! info "OpenFaaS Standard/for Enterprises"
+    Private registry support is part of [OpenFaaS Standard/for Enterprises](/openfaas-pro/introduction).
 
 If you are using a hosted private Docker registry ([Docker Hub](https://hub.docker.com/), or other),
 in order to check how to configure it, please visit the Kubernetes [documentation](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry).
@@ -120,3 +119,7 @@ secrets:
 ```
 
 Now deploy the function using `faas-cli up`.
+
+## faasd
+
+For faasd, configuration see the official handbook: [Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)

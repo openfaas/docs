@@ -193,7 +193,6 @@ Scaling to zero is also a commercial feature, which can be opted into on a per f
 
 > Did you know? Synadia, the vendor of NATS Streaming announced the product is now deprecated, and it will receive no updates from June 2023 onwards. OpenFaaS Ltd developed an alternative based upon their newest product JetStream. [Learn more about JetStream for OpenFaaS](https://docs.openfaas.com/openfaas-pro/jetstream/)
 
-
 **Advanced scheduling**
 
 | Description           | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
