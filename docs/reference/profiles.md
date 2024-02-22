@@ -1,6 +1,6 @@
 # Profiles: Advanced Provider Configuration
 
-> Note: Only the Kubernetes provider currently supports Profiles!
+> Note: Only the Kubernetes provider currently supports Profiles
 
 The OpenFaaS design allows it to provide a standard API across several different container orchestration tools: Kubernetes, containerd, and others. These [faas-providers](/architecture/faas-provider) generally implement the same core features and allow your to functions to remain portable and be deployed on _any_ certified OpenFaaS installation regardless of the orchestration layer. However, there are certain workloads or deployments that require more advanced features or fine tuning of configuration. To allow maximum flexibility without overloading the OpenFaaS function configuration, we have introduced the concept of Profiles. This is simply a reserved function annotation that the `faas-provider` can detect and use to apply the advanced configuration.
 
@@ -56,12 +56,12 @@ When installing OpenFaaS on Kubernetes, Profiles use a CRD. This must be install
 
 Profiles in Kubernetes work by injecting the supplied configuration directly into the correct locations of the Function's Deployment. This allows us to directly expose the underlying API without any additional modifications. Currently, it exposes the following Pod and Container options from the Kubernetes API.
 
-- `podSecurityContext` : (OpenFaaS CE & Pro) https://kubernetes.io/docs/tasks/configure-pod-container/security-context/ for a description and links to any additional documentation about the Pod Security Context.
-- `nodeSelectors` : (OpenFaaS CE & Pro)
-- `tolerations` : (OpenFaaS CE & Pro) https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/ for a description and links to any additional documentation about Tolerations.
-- `runtimeClassName` : (OpenFaaS Pro) https://kubernetes.io/docs/concepts/containers/runtime-class/ for a description and links to any additional documentation about Pod Runtime Class
-- `topologySpreadConstraints` : (OpenFaaS Pro) (https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) for a description and links to any additional documentation about the Pod Security Context.
-- `affinity` : (OpenFaaS Pro) https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity for a description and links to any additional documentation about Node Affinity.
+- `podSecurityContext` : (Standard & Enterprise) https://kubernetes.io/docs/tasks/configure-pod-container/security-context/ for a description and links to any additional documentation about the Pod Security Context.
+- `nodeSelectors` : (CE, Standard & Enterprise)
+- `tolerations` : (Standard & Enterprise) https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/ for a description and links to any additional documentation about Tolerations.
+- `runtimeClassName` : (OpenFaaS Enterprise) https://kubernetes.io/docs/concepts/containers/runtime-class/ for a description and links to any additional documentation about Pod Runtime Class
+- `topologySpreadConstraints` : (Standard & Enterprise) (https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) for a description and links to any additional documentation about the Pod Security Context.
+- `affinity` : (Standard & Enterprise) https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity for a description and links to any additional documentation about Node Affinity.
 
 The configuration use the exact options that you find in the Kubernetes documentation.
 

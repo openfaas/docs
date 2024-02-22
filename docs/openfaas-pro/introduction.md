@@ -133,18 +133,18 @@ We see it as the start of a two-way relationship and an opportunity to collabora
 | Description                 | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
 | ----------------------------| ------------------|------------------------|---------------------------------|
 | Suitability                 | PoCs, non-production, experimentation & non-commercial use only  | Production, business critical, or PoC | Regulated companies which may have additional legal and compliance requirements |
-| SLA                         | N/a               | N/a                    | Response within 1 business day for P1 |
-| Buying process              | N/a           | Invoice paid by bank transfer           | Supplier portals, custom paperwork, negotiation with procurement. |
-| Legal review of contract    | N/a           | N/a                     | Yes |
-| Signing of Mutual NDA       | N/a               | N/a                    | Subject to agreement |
-| Additional compliance needs | N/a         | N/a                    | Subject to agreement |
-| Support via email           | N/a               | Pro features only      | All certified Open Source and commercial components |
-| Support via GitHub          | N/a               | Pro features only using the Customer Community      | N/a |
-| Support via Slack           | N/a               | N/a                    | Up to 5 developers              |
+| SLA                         | n/a               | n/a                    | Response within 1 business day for P1 |
+| Buying process              | n/a           | Invoice paid by bank transfer           | Supplier portals, custom paperwork, negotiation with procurement. |
+| Legal review of contract    | n/a           | n/a                     | Yes |
+| Signing of Mutual NDA       | n/a               | n/a                    | Subject to agreement |
+| Additional compliance needs | n/a         | n/a                    | Subject to agreement |
+| Support via email           | n/a               | Pro features only      | All certified Open Source and commercial components |
+| Support via GitHub          | n/a               | Pro features only using the Customer Community      | n/a |
+| Support via Slack           | n/a               | n/a                    | Up to 5 developers              |
 | License                     | Container images/binaries: 60 day limit for commercial use, source code: [MIT](https://github.com/openfaas/faas/blob/master/LICENSE) | [Commercial license EULA](https://github.com/openfaas/faas/blob/master/pro/EULA)     | as per Standard |
-| Architecture review  | N/a            | N/a                    | With our team via Zoom |
-| Onboarding call | N/a            | N/a                    | With our team via Zoom |
-| [Customer Community](https://github.com/openfaas/customers)   | N/a      | Private access to [Customer Community](https://github.com/openfaas/customers) - one user per licensed cluster | Custom amount of users |
+| Architecture review  | n/a            | n/a                    | With our team via Zoom |
+| Onboarding call | n/a            | n/a                    | With our team via Zoom |
+| [Customer Community](https://github.com/openfaas/customers)   | n/a      | Private access to [Customer Community](https://github.com/openfaas/customers) - one user per licensed cluster | Custom amount of users |
 
 OpenFaaS For Enterprise comes with an SLA, defined separately. It is suitable for companies which have a separate legal and procurement department, who are regulated and have additional legal or compliance requirements. The annual architecture review is to reduce risk by reviewing the configuration and informing the team of any recommended changes to the installation and configuration of OpenFaaS.
 
@@ -170,27 +170,40 @@ Did you know? OpenFaaS Pro's autoscaling engine can scale many different types o
 
 Data-driven, intensive, or long running functions are best suited to capacity-based autoscaling, which is only available in OpenFaaS Pro.
 
-Scaling to zero is also a Pro feature, which can be opted into on a per function basis, with a custom idle threshold.
+Scaling to zero is also a commercial feature, which can be opted into on a per function basis, with a custom idle threshold.
 
 **Core features**
 
 | Description           | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
-| Maximum functions     | 30                | 500                    | 5000 per namespace              |
+| Maximum functions     | 15                | 500                    | 5000 per namespace              |
 | Maximum namespaces    | 1                 | 1                      | Unlimited                       |
 | UI Dashboard         | Legacy UI (in code-freeze)  | [New UI dashboard](/openfaas-pro/dashboard) with metrics, logs & CI integration | as per Standard, but with support for multiple namespaces |
 | Consume secrets in `faas-cli build` for npm, Go and Pypy | Not available | Via build-time secrets | as per Standard |
-| Kubernetes service accounts for functions      | N/a             | [Supported per function](/reference/workloads) | as per Standard |
+| Kubernetes service accounts for functions      | n/a             | [Supported per function](/reference/workloads) | as per Standard |
 | Async / queueing | In-memory only, max 10 items in queue, 256KB message size | JetStream with shared queue | JetStream with dedicated queues |
 | Metrics         | Basic function metrics  | Function, HTTP, CPU/RAM usage, and async/queue metrics      | as per Standard |
 | CPU & RAM utilization | Not available | Integrated with Prometheus metrics, OpenFaaS REST API & CLI | as per Standard |
-| Grafana Dashboards      | N/a             | 4x dashboards supplied in [Customer Community](https://github.com/openfaas/customers) - overview, spotlight for debugging a function, queue-worker and Function Builder API | as per Standard |
+| Grafana Dashboards      | n/a             | 4x dashboards supplied in [Customer Community](https://github.com/openfaas/customers) - overview, spotlight for debugging a function, queue-worker and Function Builder API | as per Standard |
 | GitOps & CRD support | Not available | ArgoCD, FluxCD, Helm and Kustomize compatibility using the Function CRD | as per Standard |
 | Deployment options | faas-cli or REST API | As per CE, plus: Function CRD with kubectl, Helm or GitOps | as per Standard |
 | Custom Resource Definition | Not available | Function and Profile CRDs | as per Standard |
 | Image Pull Policy (for air-gap) | Always | `Always`, `IfNotPresent` or `Never` | as per Standard |
 
 > Did you know? Synadia, the vendor of NATS Streaming announced the product is now deprecated, and it will receive no updates from June 2023 onwards. OpenFaaS Ltd developed an alternative based upon their newest product JetStream. [Learn more about JetStream for OpenFaaS](https://docs.openfaas.com/openfaas-pro/jetstream/)
+
+
+**Advanced scheduling**
+
+| Description           | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
+| ----------------------| ------------------|------------------------|---------------------------------|
+| Toleration support    | n/a               | Supported via Profiles | As per Standard |
+| Taints support        | n/a               | Supported via Profiles | As per Standard |
+| Custom podSecurityContext    | n/a        | Supported via Profiles | As per Standard |
+| Custom runtimeClassName    | n/a        | n/a | As per Standard |
+| Custom topologySpreadConstraints    | n/a        | Supported via Profiles | As per Standard |
+| Custom affinity/anti-affinity    | n/a        | Supported via Profiles | As per Standard |
+| nodeSelectors | Available via `constraints` in Function spec | As per CE | As per CE |
 
 **IAM and Policy**
 
@@ -199,10 +212,10 @@ Identity Access Management (IAM) and Policy-based authorization is available for
 | Description           | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Authentication        | Basic auth.       | As per CE              | [SSO with OIDC](https://docs.openfaas.com/openfaas-pro/sso/overview/)           |
-| Authorization         | N/a               | N/a                    | [Policy-based identity and access management](https://docs.openfaas.com/openfaas-pro/iam/overview/) |
-| OIDC Federation       | N/a               | N/a                    | Federate external OIDC providers for authorization |
-| Authorization with Kubernetes Service Account | N/a | N/a | [Supported via projected JWT tokens](https://www.openfaas.com/blog/kubernetes-tokens-openfaas-api/) |
-| Keyless deployment from CI/CD | N/a | N/a | GitLab CI, GitHub Actions, and any OIDC compatible source |
+| Authorization         | n/a               | n/a                    | [Policy-based identity and access management](https://docs.openfaas.com/openfaas-pro/iam/overview/) |
+| OIDC Federation       | n/a               | n/a                    | Federate external OIDC providers for authorization |
+| Authorization with Kubernetes Service Account | n/a | n/a | [Supported via projected JWT tokens](https://www.openfaas.com/blog/kubernetes-tokens-openfaas-api/) |
+| Keyless deployment from CI/CD | n/a | n/a | GitLab CI, GitHub Actions, and any OIDC compatible source |
 
 **Event-connectors**
 
@@ -230,13 +243,13 @@ Identity Access Management (IAM) and Policy-based authorization is available for
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Air-gap and offline support | No, Internet connection required | Supported | As per Standard |
 | Authentication for OpenFaaS API, CLI and UI | Shared admin password between everyone who uses OpenFaaS | as per CE | [Single Sign-On with OIDC](https://docs.openfaas.com/openfaas-pro/iam/overview/) |
-| Identity and Policy | N/a | N/a | Least Privilege with [Identity and Access Management](https://docs.openfaas.com/openfaas-pro/iam/overview/) |
-| Compatibility with Istio for mTLS | N/a | Supported | as per Standard |
+| Identity and Policy | n/a | n/a | Least Privilege with [Identity and Access Management](https://docs.openfaas.com/openfaas-pro/iam/overview/) |
+| Compatibility with Istio for mTLS | n/a | Supported | as per Standard |
 | PCI/GDPR compliance       | Sensitive information such as the request body/response body, headers may be printed into the logs for each asynchronous invocation | Sensitive information is not printed to the logs for asynchronous requests | as per Standard |
-| Secure isolation with Kata containers or gVisor      | N/a             | N/a | Supported using an [OpenFaaS Pro Profile and runtimeClass](/reference/profiles) |
+| Secure isolation with Kata containers or gVisor      | n/a             | n/a | Supported using an [OpenFaaS Pro Profile and runtimeClass](/reference/profiles) |
 | [Service links](https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#accessing-the-service) injected as environment variables | Yes, cannot be disabled | Disabled as a default | as per Standard |
 | [Pod privilege escalation](https://kubernetes.io/docs/concepts/security/pod-security-standards/#restricted) | Default for Kubernetes | Explicitly disabled | as per Standard |
-| Split installation without ClusterAdmin role | N/a | Provided in [Customer Community](https://github.com/openfaas/customers) | as per Standard | 
+| Split installation without ClusterAdmin role | n/a | Provided in [Customer Community](https://github.com/openfaas/customers) | as per Standard | 
 
 Isolation using Kata containers or gVisor is advisable when running untrusted code, or when you want to ensure that your functions are not vulnerable to container escape attacks.
 
@@ -247,11 +260,11 @@ We have several customers of varying size who host code on behalf of their custo
 | Description           | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Deploy functions via REST API | Yes | As per CE | As per CE | 
-| Manage namespaces via REST API | N/a | N/a | Full CRUD API available |
-| Build containers and functions via REST API | N/a | N/a | [Yes via Function Builder API](/openfaas-pro/builder) |
-| Multiple namespace support | No support | N/a | Supported with Kubernetes namespaces |
-| Multi-tenancy | Not supported | N/a | [Supported](https://www.openfaas.com/blog/build-a-multi-tenant-functions-platform/) |
-| Billing metrics/chargeback | N/a | N/a | [Via webhooks](/openfaas-pro/billing-metrics/) |
+| Manage namespaces via REST API | n/a | n/a | Full CRUD API available |
+| Build containers and functions via REST API | n/a | n/a | [Yes via Function Builder API](/openfaas-pro/builder) |
+| Multiple namespace support | No support | n/a | Supported with Kubernetes namespaces |
+| Multi-tenancy | Not supported | n/a | [Supported](https://www.openfaas.com/blog/build-a-multi-tenant-functions-platform/) |
+| Billing metrics/chargeback | n/a | n/a | [Via webhooks](/openfaas-pro/billing-metrics/) |
 
 Some customers extend their own platform using OpenFaaS functions, because it's quicker and easier to deploy a function than change the core platform.
 
