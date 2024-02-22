@@ -1,5 +1,9 @@
 # Deploy OpenFaaS Community Edition (CE) to Kubernetes
 
+!!! Note "For personal use only, commercial usage is limited"
+
+    Before installing OpenFaaS CE within a commercial environment, make sure you understand the 60-day limit on usage per commercial organisation, along with the [limits of this version of OpenFaaS vs the Standard and Enterprise edition](https://openfaas.com/pricing/). 
+
 Before deploying OpenFaaS Community Edition (CE), you will need to create a Kubernetes cluster. The cluster will need to have full access to the Internet at all times. If you need airgap support, or to run on an offline or restricted enterprise network, then [OpenFaaS Standard](/openfaas-pro/introduction) would be a better fit for your needs.
 
 In our experience, OpenFaaS CE and Pro will run on any Kubernetes cluster, whether that's a local version, self-managed on-premises, or a managed cloud offering.
