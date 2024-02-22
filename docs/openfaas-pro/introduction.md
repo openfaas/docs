@@ -8,7 +8,7 @@ Standard is meant for any team making use of OpenFaaS at work, whether external,
 
 !!! info "Do we need the Community Edition or Pro?"
 
-    OpenFaaS Community Edition (CE) is meant for open-source developers and basic exploration, OpenFaaS Pro is meant for production.
+    OpenFaaS Community Edition (CE) is meant for open-source developers and basic exploration, it is not licensed for commercial usage. OpenFaaS Pro is meant for production.
 
 ### Core platform
 
