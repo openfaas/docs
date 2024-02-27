@@ -147,6 +147,7 @@ nav:
         - GitHub Actions Federation: ./openfaas-pro/iam/github-actions-federation.md
         - GitLab Federation: ./openfaas-pro/iam/gitlab-federation.md
         - Auditing Events: ./openfaas-pro/iam/auditing.md
+        - Troubleshooting: ./openfaas-pro/iam/troubleshooting.md
       - Single Sign-On:
           - Overview: ./openfaas-pro/sso/overview.md
           - Google: ./openfaas-pro/sso/google.md
