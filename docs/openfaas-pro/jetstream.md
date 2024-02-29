@@ -102,12 +102,9 @@ jetstreamQueueWorker:
 
 ## Configure JetStream
 
-Every OpenFaaS async queue requires a Stream and Consumer to be created on the JetStream server. The queue-worker creates these on first startup if they do not exist. The default Stream and Consumer have some limits:
+Every OpenFaaS async queue requires a Stream and Consumer to be created on the JetStream server. By default the queue-worker manages these for you and ensures they are created on startup if they do not exist.
 
-- The maximum concurrency of each queue is limited to 512.
-- There is a limit on the amount of messages that can be queued for retries. NATS will suspend the delivery of messages when this limit is reached. The work will resume once requests or completed or dropped.
-
-To extend these limits Streams and Consumers can be created manually.
+Stream and Consumers can be managed manually although it is not recommended.
 
 ### Configure Streams and Consumers manually
 
@@ -126,26 +123,28 @@ kubectl port-forward -n openfaas svc/nats 4222:4222
 ```
 #### Create a Stream
 
-The Stream will need to be created first. In this example we will create the Stream for the shared queue, `faas-request`.
+The Stream will need to be created first. In this example we will create the Stream for the shared queue, `faas-request`. We recommend giving the stream the same name as the queue.
 
 ```bash
-nats stream create faas-request \
-  --subjects=faas-request \
+export QUEUE_NAME=faas-request
+
+nats stream create $QUEUE_NAME \
+  --subjects=$QUEUE_NAME \
   --replicas=1 \
-  --retention=limits \
-  --discard=old
+  --retention=work \
+  --discard=old \
+  --max-msgs-per-subject=-1
 ```
 
-Messages intended for a queue are published to a NATS subject, `faas-request` by default and the queue name for a [dedicated queue](/reference/async/#multiple-queues). A Stream should only consume the subject for the queue that it will be associated with. This can be configured with the `--subjects` flag.
+Messages intended for a queue are published to a NATS subject, `faas-request` by default and the queue name for a [dedicated queue](/reference/async/#multiple-queues). A Stream should only bind the subject for the queue that it will be associated with. This can be configured with the `--subjects` flag.
 
 The `--replicas` flag is used to configure the stream replication factor. This should be at least 3 for production environments.
 
-The command above includes the required settings for using the Stream with a queue-worker. We want to retain messages based on limits and discard old messages if these limits are reached. You will get prompted interactively for the remaining stream information. Use the defaults or configure your own limits for the stream.
+The command above includes the required settings for using the Stream with a queue-worker. The queue-worker requires a retention policy of type `work (WorkQueuePolicy)` . You will get prompted interactively for the remaining stream information. Use the defaults or configure your own storage and limits for the stream.
 
 ```
 ? Storage file
 ? Stream Messages Limit -1
-? Per Subject Messages Limit -1
 ? Total Stream Size -1
 ? Message TTL -1
 ? Max Message Size -1
@@ -157,22 +156,24 @@ The command above includes the required settings for using the Stream with a que
 
 #### Create a Consumer
 
-Once the Stream has been created the Consumer can be added. We will create a consumer `faas-workers` for the `faas-request` stream.
+Once the Stream has been created the Consumer can be added. We recommend naming giving the consumer the same name as the queue with the suffix `-workers` added to it. The consumer for the shared `faas-request` queue would be named `faas-request-workers`.
 
 ```bash
+export QUEUE_NAME=faas-request
+
 nats consumer \
-  create faas-request faas-workers \
+  create $QUEUE_NAME $QUEUE_NAME-workers \
   --pull \
   --deliver=all \
-  --filter="" \
   --ack=explicit \
   --replay=instant \
-  --no-headers-only \
-  --backoff=none
   --max-deliver=-1 \
+  --max-pending=-1 \
+  --no-headers-only \
+  --backoff=none \
   --wait=3m \
-  --max-waiting=900 \
-  --max-pending=4000 \
+  --max-waiting=512 \
+  --defaults
 ```
 
 This command creates a pull consumer that makes available all messages for every subject on the stream. We require that each message is acknowledged explicitly.
@@ -182,22 +183,20 @@ Important configuration flags:
 
   - The queue-worker automatically extends the ack window for functions that require more time to complete. In order to prevent us from having to extend the ack window to often we recommend configuring a default acknowledgement waiting time of 3 minutes. This can be configured with the `--wait` flag.
 
-  - The `--max-waiting` flag limits the number of subscribers a queue-worker can create. The value should be at least `max_inflight * queue-worker-replicas`.
-
-    If you are running 3 replicas of the queue-worker with a max_inflight setting of 300 this value should be 900.
-
-  - The `--max-pending` flag limits the number of messages that can have a pending status. Messages that are queued for retries are also considered pending. The value of this flag should be at least `max_inflight * queue-worker-replicas + buffer`. The size of the buffer depends on the number of retries your queue needs to be able to handle. Set this to `-1` to allow any number of pending messages.
+  - The `--max-pending` flag limits the number of messages that can have a pending status. Messages that are queued for retries are also considered pending. It is set to `-1` to allow an unlimited number of pending messages by default. The consumer is paused and no new messages are delivered when this limit is reached. If you select a customer value it should be at least `max_inflight * queue-worker-replicas + buffer`. The size of the buffer depends on the number of retries your queue needs to be able to handle.
 
     This value can always be update later:
 
     ```bash
     nats consumer edit --max-pending 6000
     ```
+  
+  - The `--max-waiting` flag limits the number of subscribers a queue-worker can create. We recommend using the default value of 512 but the value should be at least equal to the number of queue worker replicas.
 
 #### Configure the queue-worker
 As a final step the queue-worker needs to be configured to use the externally created Stream and Consumer.
 
-For the shared OpenFaaS queue edit the values.yaml file of the OpennFaaS chart. The name of the Consumer used by the queue-worker is set with `jetstreamQueueWorker.durableName`. The name of the Stream needs to be set with `nats.channel`.
+For the shared OpenFaaS queue edit the values.yaml file of the OpenFaaS chart. The name of the Consumer used by the queue-worker is set with `jetstreamQueueWorker.durableName`. The name of the Stream needs to be set with `nats.channel`.
 
 ```yaml
 jetstreamQueueWorker:
@@ -205,10 +204,38 @@ jetstreamQueueWorker:
 
 nats:
   streamReplication: 1
-  channel: faas-request
+  channel: faas-request-workers
 ```
 
 A dedicated queue using the [queue-worker Helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/queue-worker) can be configured by setting the `nats.stream.name` and `nats.consumer.durableName` parameters.
+
+## Upgrade the stream retention policy
+
+OpenFaaS has changed the default retention policy used for JetStream streams from a `LimitsPolicy` to a `WorkQueuePolicy`. Existing streams can not be upgraded automatically by the queue-worker. Follow the following steps to switch to the new retention policy.
+
+1. Upgrade your OpenFaaS deployment to ensure you are running the latest version of the queue-worker.
+
+2. Port forward the NATS service.
+
+  ```bash
+  kubectl port-forward -n openfaas svc/nats 4222:4222
+  ```
+
+3. Delete the queue-worker stream.
+    
+  Keep in mind that deleting the stream removes any queued async invocations.
+
+  ```bash
+  export QUEUE_NAME=faas-request
+
+  nats stream delete $QUEUE_NAME
+  ```
+
+4. Restart the queue-worker deployment.
+
+  ```bash
+  kubectl rollout restart -n openfaas deploy/queue-worker
+  ```
 
 ## See also
 
