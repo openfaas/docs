@@ -85,3 +85,13 @@ If you would like to contribute to the documentation site or find out more check
 The core of OpenFaaS is an independent open-source project originally created by [Alex Ellis](https://www.alexellis.io) in 2016. It is now being built and shaped by a [growing community of contributors and end-users](https://www.openfaas.com/team/).
 
 OpenFaaS is hosted by OpenFaaS Ltd (registration: 11076587), a company which also offers commercial services, homepage sponsorships, and support. OpenFaaS &reg; is a registered trademark in England and Wales.
+
+### Sponsored credits
+
+Thank you to the following vendors for providing free, sponsored credits for testing and enablement, listed in order of resources contributed:
+
+* [Equinix Metal](https://equinixmetal.com)
+* [Linode](https://linode.com)
+* [DigitalOcean](https://digitalocean.com)
+
+If you'd like to sponsor OpenFaaS, [you can do so via GitHub](https://github.com/sponsors/openfaas).
