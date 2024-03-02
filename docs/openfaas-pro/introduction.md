@@ -141,7 +141,7 @@ We see it as the start of a two-way relationship and an opportunity to collabora
 | Support via email           | n/a               | Pro features only      | All certified Open Source and commercial components |
 | Support via GitHub          | n/a               | Pro features only using the Customer Community      | n/a |
 | Support via Slack           | n/a               | n/a                    | Up to 5 developers              |
-| License                     | Container images/binaries: 60 day limit for commercial use, source code: [MIT](https://github.com/openfaas/faas/blob/master/LICENSE) | [Commercial license EULA](https://github.com/openfaas/faas/blob/master/pro/EULA)     | as per Standard |
+| License                     | [Container images/binaries: 60 day limit for commercial use with CE EULA](https://github.com/openfaas/faas/blob/master/EULA.md) [source code MIT](https://github.com/openfaas/faas/blob/master/LICENSE) | [Commercial license EULA](https://github.com/openfaas/faas/blob/master/pro/EULA)     | as per Standard |
 | Architecture review  | n/a            | n/a                    | With our team via Zoom |
 | Onboarding call | n/a            | n/a                    | With our team via Zoom |
 | [Customer Community](https://github.com/openfaas/customers)   | n/a      | Private access to [Customer Community](https://github.com/openfaas/customers) - one user per licensed cluster | Custom amount of users |
