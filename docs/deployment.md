@@ -2,20 +2,23 @@
 
 OpenFaaS can be deployed to a variety of container orchestrators such as Kubernetes, K3s, OpenShift, or to a single host with faasd.
 
-!!! info "Kubernetes or faasd?"
-    We recommend using Kubernetes or OpenShift when using OpenFaaS for work because it can scale well, and OpenFaaS Ltd can provide commercial support, should you need it. faasd is already being used in production by some companies, but you should make yourself aware of the tradeoffs. Users can move between either deployment option at a later date.
-
-
 ## OpenFaaS Pro - Standard or for Enterprises (production, commercial use)
+
+OpenFaaS Pro is a commercially supported version of OpenFaaS which is designed and licensed for production use. The two variants are:
+
+* OpenFaaS Standard - intended for single teams, single-tenanted environments
+* OpenFaaS for Enterprises - intended for larger organisations or SaaS vendors wanting to integrate functions into their product
 
 * [Deploy OpenFaaS Pro - Standard or for Enterprises](/deployment/pro)
 
 See also:
 
-* [High level overview and contact form](https://openfaas.com/pricing)
-* [Detailed comparison CE vs. Pro](https://docs.openfaas.com/openfaas-pro/introduction/)
+* [High level comparison and contact form](https://openfaas.com/pricing)
+* [Detailed comparison of editions](https://docs.openfaas.com/openfaas-pro/introduction/)
 
-## OpenFaaS Community Edition (CE) for Kubernetes (Internal use, development and Proof of concept)
+## OpenFaaS Community Edition (CE) for Kubernetes
+
+The Community Edition of OpenFaaS is intended for personal use only, and has a [60-day limit for commercial use](https://github.com/openfaas/faas/blob/master/EULA.md).
 
 !!! warning "A foreword on security"
     Authentication is enabled by default with OpenFaaS, however you will also need to obtain a TLS certificate for your cluster if you are using OpenFaaS on the public Internet. Free certificates are available from LetsEncrypt.org.
@@ -49,11 +52,11 @@ You may also be interested in:
 
 [Deploy faasd](https://github.com/openfaas/faasd/)
 
-## OpenShift
+## OpenShift - 3.x / 4.x
 
-OpenShift is a variant of Kubernetes produced by RedHat.
+[OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) is a variant of Kubernetes produced by Red Hat.
 
-You can deploy to OpenShift using our CLI installer <a href="https://arkade.dev/">arkade</a> or with the standard helm chart.
+You can deploy to OpenShift using the standard Helm chart as per the Kubernetes instructions, or with <a href="https://arkade.dev/">arkade</a>.
 
 [Deploy to OpenShift](/deployment/openshift/)
 

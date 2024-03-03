@@ -16,9 +16,9 @@ OpenFaaS&reg; makes it easy for developers to deploy event-driven functions and 
 
 ### Pick your version
 
-* [OpenFaaS Standard/For Enterprises](/openfaas-pro/introduction/) for commercial use & production
-* Community Edition - free for personal use only, 60-day limit for commercial use
-* faasd - free to use on any cloud or on-premises, no Kubernetes required
+* [OpenFaaS Standard/For Enterprises](/openfaas-pro/introduction/) for commercial use & production, deployed to Kubernetes
+* Community Edition - free for personal use only, 60-day limit for commercial use, deployed to Kubernetes
+* faasd - Free to use on any cloud or on-premises, works on a single VM (no clustering or Kubernetes)
 
 ![OpenFaaS Stack](https://github.com/openfaas/faas/raw/master/docs/of-layer-overview.png)
 > Conceptual layers of the OpenFaaS stack
