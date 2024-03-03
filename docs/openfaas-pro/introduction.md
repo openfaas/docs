@@ -8,7 +8,7 @@ Standard is meant for any team making use of OpenFaaS at work, whether external,
 
 !!! info "Do we need the Community Edition or Pro?"
 
-    OpenFaaS Community Edition (CE) is meant for open-source developers and basic exploration, it is not licensed for commercial usage. OpenFaaS Pro is meant for production.
+    OpenFaaS Community Edition (CE) is meant for open-source developers and basic exploration, it is not licensed for commercial usage beyond a one-off 60-day trial. OpenFaaS Pro is battle-tested and run in production by companies of various sizes.
 
 ### Core platform
 
@@ -134,8 +134,8 @@ We see it as the start of a two-way relationship and an opportunity to collabora
 | ----------------------------| ------------------|------------------------|---------------------------------|
 | Suitability                 | PoCs, non-production, experimentation & non-commercial use only  | Production, business critical, or PoC | Regulated companies which may have additional legal and compliance requirements |
 | SLA                         | n/a               | n/a                    | Response within 1 business day for P1 |
-| Buying process              | n/a           | Monthly via credit card, or discounted via annual invoice (SWIFT/ACH)    | Supplier portals, custom paperwork, negotiation with procurement. |
-| Legal review of contract    | n/a           | n/a                     | Yes |
+| Buying process              | n/a           | Monthly via credit card, or via annual invoice (SWIFT/ACH)    | Annual invoice/purchase order (SWIFT/ACH). |
+| Legal review of contract/red-lining    | n/a           | n/a                     | Subject to agreement |
 | Signing of Mutual NDA       | n/a               | n/a                    | Subject to agreement |
 | Additional compliance needs | n/a         | n/a                    | Subject to agreement |
 | Support via email           | n/a               | Pro features only      | All certified Open Source and commercial components |
