@@ -112,11 +112,11 @@ helm install \
   --namespace cert-manager \
   --create-namespace \
   --set installCRDs=true \
-  --version v1.3.1 \
+  --version v1.13.4 \
   jetstack/cert-manager
 ```
 
-This configuration will work for most deployments, but you can also see https://cert-manager.io/docs/installation/kubernetes/ for additional instructions and options for installing cert-manager.
+This configuration will work for most deployments, but you can also see https://cert-manager.io/docs/installation/helm/ for additional instructions and options for installing cert-manager.
 
 ### Configure cert-manager
 
