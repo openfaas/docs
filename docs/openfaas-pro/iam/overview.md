@@ -173,6 +173,25 @@ The OpenFaaS JWT contains all claims from the original access token and some add
 * `policy` - The list of policies that are mapped to the access token.
 
 
+## Custom TLS Certificate Authority bundle
+
+Add a certificate bundle to OpenFaaS components for use with an internal certificate authority or self signed certificates
+
+Create a secret that contains the CA bundle in the OpenFaaS namespace:
+
+```
+kubectl create secret generic \
+  -n openfaas \
+  ca-bundle \
+  --from-file=ca.crt=ca.crt
+```
+
+Update the OpenFaaS chart and add a reference to the Kubernetes secret with the CA bundle:
+
+```yaml
+caBundleSecretName: ca-bundle
+```
+
 ## FAQ
 
 * What Identity Providers are supported?

@@ -93,3 +93,9 @@ Check if the token issued by your identity provider has the correct audience. En
 The `aud` field needs to contain a set of accepted audiences. The audience is usually the gateway’s public URL although for some providers it can also be the client id.
 
 See step 4 in, [Register your provider with OpenFaaS](/openfaas-pro/sso/overview/#create-an-oidc-app-for-openfaas) for reference.
+
+## Certificate signed by unknown authority
+
+The dashboard or oidc-plugin fails to start with an error `x509: certificate signed by unknown authority`. This can happen when the TLS for the gateway or your identity provider uses an internal certificate authority or self signed certificates.
+
+A custom CA bundle can be added through the helm chart. See: [Custom CA bundle for OpenFaaS IAM](/openfaas-pro/iam/overview/#custom-tls-certificate-authority-bundle)
