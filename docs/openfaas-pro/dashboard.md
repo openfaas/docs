@@ -202,6 +202,13 @@ If you have enabled [Identity and Access Management (IAM) for OpenFaaS](/openfaa
 
     Depending on your provider and setup you might need to request additional scopes. These can be set through the `scopes` parameter.
 
+    !!! note "Custom certificate bundle"
+
+        When using an internal certificate authority or self-signed TLS certificates for the OpenFaaS gateway or your identity provider, the dashboard will needs a custom CA bundle for making HTTP requests to these components.
+
+        See: [Custom CA bundle for OpenFaaS IAM](/openfaas-pro/iam/overview/#custom-tls-certificate-authority-bundle)
+        
+
 ### Access your dashboard via port-forwarding
 
 If you don't want to expose your dashboard to users over the Internet, then you can access it as and when required using port-forwarding. Instead of giving a domain and DNS record, you can set the public url in your values.yaml file to `localhost` or an empty string.
