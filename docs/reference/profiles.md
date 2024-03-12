@@ -51,18 +51,21 @@ Profiles must be pre-created, similar to Secrets, usually by the cluster admin. 
 
 ### Enable Profiles
 
-When installing OpenFaaS on Kubernetes, Profiles use a CRD. This must be installed during or prior to start the OpenFaaS controller. When using the [official Helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas) this will happen automatically. Alternatively, you can apply this [YAML](https://github.com/openfaas/faas-netes/blob/master/yaml/crd.yml) to install the CRD.
+When installing OpenFaaS on Kubernetes, Profiles use a CRD. This must be installed during or prior to start the OpenFaaS controller. When using the [official Helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas) this will happen automatically. Alternatively, you can apply this [YAML](https://raw.githubusercontent.com/openfaas/faas-netes/master/yaml/profile-crd.yml) to install the CRD.
 
 ### Available Options
 
 Profiles in Kubernetes work by injecting the supplied configuration directly into the correct locations of the Function's Deployment. This allows us to directly expose the underlying API without any additional modifications. Currently, it exposes the following Pod and Container options from the Kubernetes API.
 
-- `podSecurityContext` : (Standard & Enterprise) https://kubernetes.io/docs/tasks/configure-pod-container/security-context/ for a description and links to any additional documentation about the Pod Security Context.
-- `nodeSelectors` : (CE, Standard & Enterprise)
-- `tolerations` : (Standard & Enterprise) https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/ for a description and links to any additional documentation about Tolerations.
-- `runtimeClassName` : (OpenFaaS Enterprise) https://kubernetes.io/docs/concepts/containers/runtime-class/ for a description and links to any additional documentation about Pod Runtime Class
-- `topologySpreadConstraints` : (Standard & Enterprise) (https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) for a description and links to any additional documentation about the Pod Security Context.
-- `affinity` : (Standard & Enterprise) https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity for a description and links to any additional documentation about Node Affinity.
+| Field | Description | Availability |
+| ------|-------------|--------------|
+| `podSecurityContext` | https://kubernetes.io/docs/tasks/configure-pod-container/security-context/ | Standard/for Enterprises |
+| `tolerations` | https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration | Standard/for Enterprises |
+| `runtimeClassName` |  https://kubernetes.io/docs/concepts/containers/runtime-class/ | OpenFaaS for Enterprises |
+| `topologySpreadConstraints`| https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/ | Standard/for Enterprises |
+| `affinity` | https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity | Standard/for Enterprises |
+| `dnsPolicy` | https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy | Standard/for Enterprises |
+| `dnsConfig` | https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-dns-config | Standard/for Enterprises |
 
 The configuration use the exact options that you find in the Kubernetes documentation.
 
@@ -269,11 +272,9 @@ The constraint of `whenUnsatisfiable: DoNotSchedule` will mean pods are not sche
 
 #### Use Tolerations and Affinity to Separate Workloads
 
-Tolerations are available in the Community Edition, and could be used with NodeSelectors. The OpenFaaS API exposes the Kubernetes `NodeSelector` via [`constraints`](/reference/yaml#function-constraints). This provides a very simple selection based on labels on Nodes.
-
 This example is for OpenFaaS Pro because it uses Affinity.
 
-The Kubernetes API also exposes two features affinity/anti-affinity and taint/tolerations that further expand the types of constraints you can express. OpenFaaS Profiles allow you to set these options, allowing you to more accurately isolate workloads, keep certain workloads together on the same nodes, or to keep certain workloads separate.
+While the OpenFaaS API exposes the Kubernetes `NodeSelector` via [`constraints`](/reference/yaml#function-constraints), affinity/anti-affinity and taint/tolerations can be used to further expand the types of constraints you can express. OpenFaaS Profiles allow you to set these options. They allow you to more accurately isolate workloads, keep certain workloads together on the same nodes, or to keep certain workloads separate.
 
 For example, a mixture of taints and affinity can put less critical functions on [preemptable vms](https://cloud.google.com/kubernetes-engine/docs/how-to/preemptible-vms) that are cheaper while keeping critical functions on standard nodes with higher availability guarantees.
 
@@ -282,7 +283,8 @@ In this example, we create a Profile using taints and affinity to place function
 1. Install the latest `faas-netes` release and the CRD. The is most easily done with [`arkade`](https://github.com/alexellis/arkade)
 
     ```sh
-    arkade install openfaas
+    arkade install openfaas \
+      --set openfaasPro=true
     ```
 
     This default installation will enable Profiles.
@@ -324,3 +326,52 @@ In this example, we create a Profile using taints and affinity to place function
     ```yaml
     com.openfaas.profile: withgpu
     ```
+
+#### Configure DNS for function pods
+
+There are cases when you might want to set a custom DNS configuration per function instead of using the cluster level DNS settings. For example if you are building a multi tenant functions platform and need different DNS configuration for functions from different tenants. Profiles support setting the `dnsPolicy` and `dnsConfig` for a function pod.
+
+1. Create a profile with a custom DNS configuration.
+    In this example we configure custom nameservers.
+
+
+    ```yaml
+    kubectl apply -f- << EOF
+    kind: Profile
+    apiVersion: openfaas.com/v1
+    metadata:
+        name: function-dns
+        namespace: openfaas
+    spec:
+        dnsPolicy: None
+        dnsConfig:
+          nameservers:
+            - "8.8.8.8"
+            - "1.1.1.1"
+    EOF
+    ```
+
+2. Deploy a function with a profile annotation to apply the dns profile.
+
+    ```bash
+    faas-cli store deploy nslookup --annotation "com.openfaas.profile=function-dns"
+    ```
+
+Invoke to `nslookup` function to see it uses the custom nameservers.
+
+```bash
+echo openfaas.com | faas-cli invoke nslookup
+
+Server:         8.8.8.8
+Address:        8.8.8.8#53
+
+Non-authoritative answer:
+Name:   openfaas.com
+Address: 185.199.108.153
+Name:   openfaas.com
+Address: 185.199.109.153
+Name:   openfaas.com
+Address: 185.199.111.153
+Name:   openfaas.com
+Address: 185.199.110.153
+```
