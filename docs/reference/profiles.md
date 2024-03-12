@@ -1,7 +1,7 @@
 # Profiles: Advanced Provider Configuration
 
 !!! info "OpenFaaS Standard/for Enterprises"
-    Private registry support is part of [OpenFaaS Standard/for Enterprises](/openfaas-pro/introduction).
+    Profiles are part of [OpenFaaS Standard/for Enterprises](/openfaas-pro/introduction).
 
 The OpenFaaS design allows it to provide a standard API across several different container orchestration tools: Kubernetes, containerd, and others. These [faas-providers](/architecture/faas-provider) generally implement the same core features and allow your to functions to remain portable and be deployed on _any_ certified OpenFaaS installation regardless of the orchestration layer. However, there are certain workloads or deployments that require more advanced features or fine tuning of configuration. To allow maximum flexibility without overloading the OpenFaaS function configuration, we have introduced the concept of Profiles. This is simply a reserved function annotation that the `faas-provider` can detect and use to apply the advanced configuration.
 
@@ -70,8 +70,8 @@ The configuration use the exact options that you find in the Kubernetes document
 
 #### Use an Alternative RuntimeClass
 
-!!! info "OpenFaaS Pro feature"
-    This feature is part of the [OpenFaaS Pro](/openfaas-pro/introduction) distribution.
+!!! info "OpenFaaS for Enterprises"
+    This feature is part of the [OpenFaaS for Enterprises](/openfaas-pro/introduction) distribution.
 
 A popular alternative container runtime class is [gVisor](https://gvisor.dev/) that provides additional sandboxing between containers. If you have created a cluster that is using gVisor, you will need to set the `runTimeClass` on the Pods that are created. This is not exposed in the OpenFaaS API, but it can be set via a Profile.
 
@@ -191,9 +191,6 @@ You may also want to consider using a taint and toleration to ensure OpenFaaS wo
 
 
 #### Spreading your functions out across different zones for High Availability
-
-!!! info "OpenFaaS Pro feature"
-    This feature is part of the [OpenFaaS Pro](/openfaas-pro/introduction) distribution.
 
 The [topologySpreadConstraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) feature of Kubernetes provides a more flexible alternative to Pod Affinity / Anti-Affinity rules for scheduling functions.
 
