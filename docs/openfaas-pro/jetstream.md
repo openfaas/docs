@@ -26,9 +26,9 @@ On our blog we demo and explore some architectural patterns for these uses cases
 In JetStream ("js" for short), there are new terms that will help us all in running and debugging the product.
 
 1. A JetStream Server is the original NATS Core project, running in "jetstream mode"
-2. A Stream is a set of messages, and works in a similar way to Kafka
-3. A Consumer is a group that various Subscribers can join to read messages and keep track of where they left off
-5. A Subscriber is what the queue-worker creates, if the max_inflight is set to 25, the queue-worker will create 25 subscribers
+2. A Stream is a message store it is used in OpenFaaS to queue async invocation messages.
+3. A Consumer is a stateful view of a stream when clients consume messages from a stream the consumer keeps track of which messages were delivered and acknowledged.
+5. A Subscriber is what the queue-worker creates to start pulling messages from the stream. If the max_inflight is set to 25, the queue-worker will pull a maximum of 25 messages at a time.
 
 > You can learn more about JetStream here: [Docs for JetStream](https://docs.nats.io/nats-concepts/jetstream)
 
@@ -209,33 +209,44 @@ nats:
 
 A dedicated queue using the [queue-worker Helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/queue-worker) can be configured by setting the `nats.stream.name` and `nats.consumer.durableName` parameters.
 
-## Upgrade the stream retention policy
+## Reset the stream for async messages
 
-OpenFaaS has changed the default retention policy used for JetStream streams from a `LimitsPolicy` to a `WorkQueuePolicy`. Existing streams can not be upgraded automatically by the queue-worker. Follow the following steps to switch to the new retention policy.
+From time to time, you may wish to reset or purge the stream for async messages. Either due to a configuration change in the stream that can not be applied automatically, or because you have generated a large number of unnecessary messages you want to remove from the queue.
 
-1. Upgrade your OpenFaaS deployment to ensure you are running the latest version of the queue-worker.
+The stream is automatically created by the queue-worker of it does not exist. Simply deleting the stream and restarting the queue-worker will reset the stream and consumer.
+
+1. Get the NATS CLI
+
+    [Download the NATS CLI](https://github.com/nats-io/natscli/releases/) or use [arkade](https://github.com/alexellis/arkade) to install it.
+
+    ```
+    arkade get nats
+    ```
 
 2. Port forward the NATS service.
 
-  ```bash
-  kubectl port-forward -n openfaas svc/nats 4222:4222
-  ```
+    ```bash
+    kubectl port-forward -n openfaas svc/nats 4222:4222
+    ```
 
 3. Delete the queue-worker stream.
     
-  Keep in mind that deleting the stream removes any queued async invocations.
+    Keep in mind that deleting the stream removes any queued async invocations.
 
-  ```bash
-  export QUEUE_NAME=faas-request
+    ```bash
+    # This example deletes the default queue-worker stream.
+    # Replace the stream name for dedicated queues
+    # deployed with the queue-worker Helm chart.
+    export STREAM_NAME=faas-request
 
-  nats stream delete $QUEUE_NAME
-  ```
+    nats stream delete $STREAM_NAME
+    ```
 
 4. Restart the queue-worker deployment.
 
-  ```bash
-  kubectl rollout restart -n openfaas deploy/queue-worker
-  ```
+    ```bash
+    kubectl rollout restart -n openfaas deploy/queue-worker
+    ```
 
 ## See also
 
