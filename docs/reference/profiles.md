@@ -278,7 +278,7 @@ While the OpenFaaS API exposes the Kubernetes `NodeSelector` via [`constraints`]
 
 For example, a mixture of taints and affinity can put less critical functions on [preemptable vms](https://cloud.google.com/kubernetes-engine/docs/how-to/preemptible-vms) that are cheaper while keeping critical functions on standard nodes with higher availability guarantees.
 
-In this example, we create a Profile using taints and affinity to place functions on the node with a GPU. We will also ensure that _only_ functions that require the GPU are scheduled on these nodes. This ensures that the functions that need to use the GPU are not blocked by other standard functions taking resources on these special nodes.
+In this example, we create a Profile using taints and affinity to place functions on the node with NVME storage. We will also ensure that _only_ functions that require NVME are scheduled on these nodes. This ensures that the functions that need to faster storage are not blocked by other standard functions taking resources on these special nodes.
 
 1. Install the latest `faas-netes` release and the CRD. The is most easily done with [`arkade`](https://github.com/alexellis/arkade)
 
@@ -289,11 +289,11 @@ In this example, we create a Profile using taints and affinity to place function
 
     This default installation will enable Profiles.
 
-2. Label _and_ Taint the node with the GPU
+2. Label _and_ Taint the node with the NVME
 
     ```sh
-    kubectl label nodes <NODE_NAME> gpu=installed
-    kubectl taint nodes <NODE_NAME> gpu:NoSchedule
+    kubectl label nodes <NODE_NAME> nvme=installed
+    kubectl taint nodes <NODE_NAME> nvme:NoSchedule
     ```
 
 3. Create a Profile to that allows functions to run on this node
@@ -302,11 +302,11 @@ In this example, we create a Profile using taints and affinity to place function
     kind: Profile
     apiVersion: openfaas.com/v1
     metadata:
-      name: withgpu
+      name: withnvme
       namespace: openfaas
     spec:
         tolerations:
-        - key: "gpu"
+        - key: "nvme"
           operator: "Exists"
           effect: "NoSchedule"
         affinity:
@@ -314,7 +314,7 @@ In this example, we create a Profile using taints and affinity to place function
             requiredDuringSchedulingIgnoredDuringExecution:
               nodeSelectorTerms:
               - matchExpressions:
-                - key: gpu
+                - key: nvme
                   operator: In
                   values:
                   - installed
@@ -324,7 +324,7 @@ In this example, we create a Profile using taints and affinity to place function
 3. Then add this annotation to your stack.yml file:
 
     ```yaml
-    com.openfaas.profile: withgpu
+    com.openfaas.profile: withnvme
     ```
 
 #### Configure DNS for function pods
