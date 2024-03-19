@@ -105,11 +105,17 @@ Recently released:
 * Invocation via the OpenFaaS Pro Dashboard (Oct 2023)
 * Webhook-based auditing of the OpenFaaS REST API (Dec 2023)
 * Webhook-based billing metrics per invocation for billing your users  (Dec 2023)
+* Stream Server Sent Events (SSE) from functions i.e. OpenAI (Jan 2024)
+* Proactive remote monitoring for support customers (live in pilot)
 
 Upcoming:
 
-* Proactive remote monitoring for support customers (available via opt-in)
-* Conversion to structured/JSON logging of OpenFaaS Pro components (ongoing - 75% complete)
+* Conversion to structured/JSON logging of OpenFaaS Pro components (ongoing - 80% complete)
+* GPU scheduling support for functions via Profiles i.e. `nvidia.com/gpu: 1` (ongoing)
+* Function authentication with IAM for OpenFaaS
+* Go SDK for the Function Builder API
+* Airfaas - utility for air-gapped installations and upgrades of OpenFaaS Standard/for Enterprises
+* Dynamic, dedicated Async queues for each function, including queued-based scaling
 * Additional event triggers i.e. AMQP event trigger for RabbitMQ and Azure Service Bus and Google PubSub
 
 Is there something else you need for your team or organisation? [Get in touch with us here](https://openfaas.com/support/).
