@@ -209,6 +209,7 @@ Scaling to zero is also a commercial feature, which can be opted into on a per f
 | Custom runtimeClassName    | n/a        | n/a | As per Standard |
 | Custom topologySpreadConstraints    | n/a        | Supported via Profiles | As per Standard |
 | Custom affinity/anti-affinity    | n/a        | Supported via Profiles | As per Standard |
+| Additional resources (e.g device plugin managed resources) | n/a | Supported via Profiles | As per standard |
 | nodeSelectors | Available via `constraints` in Function spec | As per CE | As per CE |
 | Custom DNS configuration | n/a | Supported via Profiles | As per Standard |
 

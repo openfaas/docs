@@ -66,6 +66,7 @@ Profiles in Kubernetes work by injecting the supplied configuration directly int
 | `affinity` | https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity | Standard/for Enterprises |
 | `dnsPolicy` | https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy | Standard/for Enterprises |
 | `dnsConfig` | https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-dns-config | Standard/for Enterprises |
+| `resources` | https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ | Standard/for Enterprises |
 
 The configuration use the exact options that you find in the Kubernetes documentation.
 
@@ -374,4 +375,34 @@ Name:   openfaas.com
 Address: 185.199.111.153
 Name:   openfaas.com
 Address: 185.199.110.153
+```
+
+#### Schedule functions with GPU 
+
+You will have to make sure GPU nodes in your cluster are set up with GPU drivers and run the corresponding device plugin from the GPU vendor.
+See the kubernetes documentation for detailed information on [scheduling GPUs](https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/)
+
+Once you have installed the plugin, your cluster exposes a custom schedulable resource such as `amd.com/gpu` or `nvidia.com/gpu`. These are not exposed through the resources in the OpenFaaS Function spec but can be applied using Profiles.
+
+Here's an example of a Profile that requests one NVIDIA GPU for a function:
+
+```yaml
+kind: Profile
+apiVersion: openfaas.com/v1
+metadata:
+    name: nvidia-gpu
+    namespace: openfaas
+spec:
+  runtimeClass: nvidia
+  resources:
+    limits:
+      nvidia.com/gpu: 1 # requesting 1 GPU
+```
+
+Note: `runtimeClass` also needs to be set to use the relevant container runtime if your cluster has multiple runtimes.
+
+Add this profile to the cluster and use the `com.openfaas.profile` annotation to apply the profile to functions that need access to a GPU:
+
+```
+com.openfaas.profile: nvidia-gpu
 ```
