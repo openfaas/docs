@@ -67,6 +67,7 @@ Profiles in Kubernetes work by injecting the supplied configuration directly int
 | `dnsPolicy` | https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy | Standard/for Enterprises |
 | `dnsConfig` | https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-dns-config | Standard/for Enterprises |
 | `resources` | https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ | Standard/for Enterprises |
+| `strategy` | Currently only changing the strategy type to `Recreate` is supported. https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy  | Standard/for Enterprises| 
 
 The configuration use the exact options that you find in the Kubernetes documentation.
 
@@ -405,4 +406,26 @@ Add this profile to the cluster and use the `com.openfaas.profile` annotation to
 
 ```
 com.openfaas.profile: nvidia-gpu
+```
+
+With the default `RollingUpdate` strategy, updating a function is not possible if all GPUs are in use.
+Kubernetes will try to create a new function pod before shutting down the old one but the newly created pod can not start because no more free GPUs are available.
+
+You may want to consider switching the update strategy for functions using GPU to `Recreate` if you plan on using all available GPUs in your cluster. Keep in mind that this may cause the function to be offline for a moment during updates.
+
+The update strategy type for function deployments can be added to the profile:
+
+```diff
+kind: Profile
+apiVersion: openfaas.com/v1
+metadata:
+    name: nvidia-gpu
+    namespace: openfaas
+spec:
+  runtimeClass: nvidia
++  strategy:
++    type: Recreate
+  resources:
+    limits:
+      nvidia.com/gpu: 1 # requesting 1 GPU
 ```
