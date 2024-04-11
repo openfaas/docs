@@ -25,16 +25,22 @@ Rather than specifying the pull secret for each function that needs it you can b
 Create the image pull secret in the `openfaas-fn` namespace (or equivalent):
 
 ```bash
-$ kubectl create secret docker-registry my-private-repo \
+$ kubectl create secret docker-registry docker-hub-creds \
     --docker-username=$DOCKER_USERNAME \
     --docker-password=$DOCKER_PASSWORD \
     --docker-email=$DOCKER_EMAIL \
     --namespace openfaas-fn
 ```
 
-If needed, pass in the `--docker-server` address.
+If you're not using the Docker Hub, then pass in the `--docker-server` flag, i.e. `--docker-server=registry.example.com`.
 
-Use the following command to edit the default ServiceAccount's configuration:
+Use the following command to edit the default ServiceAccount's configuration, and to add the imagePullSecret:
+
+```bash
+kubectl patch serviceaccount -n openfaas-fn default -p '{"imagePullSecrets": [{"name": "docker-hub-creds"}]}'
+```
+
+Alternatively, you can edit the list of pull secrets manually:
 
 ```sh
 $ kubectl edit serviceaccount default -n openfaas-fn
@@ -44,12 +50,14 @@ At the bottom of the manifest add:
 
 ``` yaml
 imagePullSecrets:
-- name: my-private-repo
+- name: docker-hub-creds
 ```
 
 Save the changes in the editor and this configuration will be applied.
 
 The OpenFaaS controller will now deploy functions with images in private repositories without having to specify the secret in the `stack.yml` file.
+
+If you need to deploy from multiple private container registries, repeat the steps above, then include each secret in the list of `imagePullSecrets`.
 
 #### Set a custom ImagePullPolicy
 
