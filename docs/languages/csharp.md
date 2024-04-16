@@ -55,4 +55,13 @@ public static class Handler
 }
 ```
 
+Add new references to the Function.csproj file:
+
+```xml
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+```
+
 You can then view the swagger UI by visiting `http://127.0.0.1:8080/function/my-function/swagger`, or the swagger JSON by clicking on the link displayed.
