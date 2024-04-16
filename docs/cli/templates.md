@@ -50,20 +50,23 @@ To see what templates are available type `faas-cli template store list` and you 
 ```sh
 $ faas-cli template store list
 
-NAME                    SOURCE             DESCRIPTION
-csharp                  openfaas           Official C# template
-dockerfile              openfaas           Official Dockerfile template
-...
-ruby-http               openfaas-incubator Ruby 2.4 HTTP template
-golang-middleware       openfaas Golang Middleware template
-csharp-httprequest      distantcam         C# HTTP template
-...
+NAME                     RECOMMENDED DESCRIPTION        SOURCE
+bash-streaming           [x]         openfaas-incubator Bash Streaming template
+dockerfile               [x]         openfaas           Classic Dockerfile template
+dotnet8-csharp           [x]         openfaas           C# template using WebApplication
+golang-middleware        [x]         openfaas           HTTP middleware interface in Go
+java11-vert-x            [x]         openfaas           Java 11 Vert.x template
+node18                   [x]         openfaas           HTTP-based Node 18 template
+php8                     [x]         openfaas           Classic PHP 8 template
+python3-http             [x]         openfaas           Python 3 with Flask and HTTP
+python3-http-debian      [x]         openfaas           Python 3 with Flask and HTTP based on Debian
+ruby-http                [x]         openfaas           Ruby 2.4 HTTP template
 ```
 
 Choose a template and retrieve it locally with the command:
 
 ```sh
-$ faas-cli template store pull csharp
+$ faas-cli template store pull python3-http
 ```
 
 Once downloaded, your chosen template and any others stored in the same repository will be available to use:
@@ -71,7 +74,7 @@ Once downloaded, your chosen template and any others stored in the same reposito
 ```sh
 $ faas-cli new --list
 Languages available as templates:
-- csharp
+- python3-http
 ```
 
 You can add your own store just by specifying the `--url` flag for both commands to pull and list your custom templates store.
@@ -139,19 +142,9 @@ Alex Ellis maintains a template for writing functions with Bash:
 
 #### CSharp / .NET Core
 
-See also: [Build ASP.NET Core APIs with Kubernetes and OpenFaaS](https://www.openfaas.com/blog/asp-net-core/)
+See also: [C# template](/languages/csharp)
 
-You can create functions in .NET Core using C# / CSharp.
-
-* Write a function named csharp-function
-
-    ```bash
-    faas-cli new --lang csharp csharp-function
-    ```
-
-Now you can open your current folder in a tool such as Visual Studio Code and add dependencies using the project (csproj) file.
-
-A community template called [csharp-httprequest](https://github.com/distantcam/csharp-httprequest-template/) is recommended for high throughput functions, where access to the HTTP request and response are also required.
+For a function based upon an existing project or Dockerfile, see: [Build ASP.NET Core APIs with Kubernetes and OpenFaaS](https://www.openfaas.com/blog/asp-net-core/)
 
 #### Puppeteer
 

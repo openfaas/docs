@@ -2,6 +2,8 @@
 
 The `dotnet8-csharp` template is a C# template built with WebApplication and the minimal API style. It is multi-arch, and can be deployed to an amd64 or arm64 platform.
 
+For a function based upon an existing project or Dockerfile, see: [Build ASP.NET Core APIs with Kubernetes and OpenFaaS](https://www.openfaas.com/blog/asp-net-core/)
+
 ### Create a new function
 
 ```bash
