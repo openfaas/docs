@@ -18,11 +18,11 @@ faas-cli new \
 
 ### Add a dependency
 
-To manage dependencies, edit the Function.csproj file.
+To manage dependencies, edit the `Function.csproj` file.
 
 ### Swagger
 
-To add Swagger to an endpoint, edit Function.cs and add the following:
+To add Swagger to an endpoint, edit Handler.cs and add the following:
 
 ```csharp
 using Microsoft.AspNetCore.Builder;
@@ -55,13 +55,104 @@ public static class Handler
 }
 ```
 
-Add new references to the Function.csproj file:
+Add the required package references to the Function.csproj file:
 
-```xml
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-  </ItemGroup>
-```
+=== "dotnet CLI"
+
+    ```bash
+    dotnet add my-function \
+        package Microsoft.AspNetCore.OpenApi --version 8.0.3
+    dotnet add my-function \
+        package Swashbuckle.AspNetCore --version 6.4.0
+    ```
+
+=== "xml"
+
+    ```xml
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    </ItemGroup>
+    ```
 
 You can then view the swagger UI by visiting `http://127.0.0.1:8080/function/my-function/swagger`, or the swagger JSON by clicking on the link displayed.
+
+### Query a PostgreSQL database
+
+Add a NuGet reference to the [Npgsql](https://www.nuget.org/packages/Npgsql) package to the `Function.csproj` file.
+
+Either edit the `Function.csproj` file directly or use the dotnet cli.
+
+=== "dotnet CLI"
+
+    ```bash
+    dotnet add my-function package Npgsql --version 8.0.2
+    ```
+
+=== "xml"
+
+    ```xml
+    <ItemGroup>
+        <PackageReference Include="Npgsql" Version="8.0.2" />
+    </ItemGroup>
+    ```
+
+Edit `Handler.cs` to query the postgreSQL database:
+
+```c#
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
+
+namespace function;
+
+public static class Handler
+{
+    // MapEndpoints is used to register WebApplication
+    // HTTP handlers for various paths and HTTP methods.
+    public static void MapEndpoints(WebApplication app)
+    {
+        var connectionString = File.ReadAllText("/var/openfaas/secrets/pg-connection");
+        var dataSource = NpgsqlDataSource.Create(connectionString);
+
+        app.MapGet("/customers", async () =>
+        {   
+            var customers = new List<Customer>();
+            await using (var cmd = dataSource.CreateCommand("SELECT id, name, email FROM customer"))
+            await using (var reader = await cmd.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync())
+                {
+                    customers.Add(new Employee{
+                        Id = (int)reader["id"],
+                        Name = reader.GetString(1),
+                        Email = reader.GetString(2)
+                    });
+                }
+            }
+            return Results.Ok(customers);
+        });
+    }
+
+    // MapServices can be used to configure additional
+    // WebApplication services
+    public static void MapServices(IServiceCollection services)
+    {
+    }
+}
+
+public class Customer {
+    public int Id { get; set; }
+    public string? Name { get; set; }
+    public string? Email { get; set; }
+}
+```
+
+The functions reads the PostgreSQL connection string from an [OpenFaaS secret](/reference/secrets/). Make sure the secret is created and [referenced](/reference/yaml/#function-secure-secrets) in the `stack.yml` file before deploying the function.
+
+The connection string for Postgres should be formatted like this:
+
+```
+Host=postgresql;Username=postgres;Password=mysecretpassword;Database=postgres
+```
