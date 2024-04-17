@@ -18,7 +18,19 @@ faas-cli new \
 
 ### Add a dependency
 
-To manage dependencies, edit the `Function.csproj` file.
+To manage dependencies, edit the `Function.csproj` file and add an `<ItemGroup>` with `<PackageReference>`
+
+```xml
+<ItemGroup>
+    <PackageReference Include="Npgsql" Version="8.0.2" />
+</ItemGroup>
+```
+
+Or, run the `dotnet` command, i.e.
+
+```bash
+dotnet add my-function package Npgsql --version 8.0.2
+```
 
 ### Swagger
 
