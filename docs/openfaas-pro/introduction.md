@@ -292,6 +292,7 @@ OpenFaaS Pro is trusted by:
 
 * Fortune 500 company (semiconductor / global technology)
 * Fortune 500 company (financial services)
+* Fortune 500 company (oil field services companies)
 * Cyber Security Solutions company (North America)
 * Check Point Software Technologies Ltd (Global 2000 company)
 * Yokogawa Electric Corporation (Global 2000 company)
@@ -308,6 +309,9 @@ OpenFaaS Pro is trusted by:
 * Corva.ai
 * Mnemonic
 * E2E Networks Ltd
+* Fullscript
+* Rudderstack
+* Majesco
 
 Tell us about your use-case for OpenFaaS Standard, OpenFaaS Community Edition (CE) or faasd and see what other companies are doing in the: [ADOPTERS file](https://github.com/openfaas/faas/blob/master/ADOPTERS) 
 
