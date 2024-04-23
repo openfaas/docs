@@ -136,25 +136,32 @@ We see it as the start of a two-way relationship and an opportunity to collabora
 
 **Support**
 
+All the items below are included in the standard self-service/license-only package, unless specifically stated as requiring an Enterprise Service Agreement.
+
 | Description                 | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
 | ----------------------------| ------------------|------------------------|---------------------------------|
 | Suitability                 | PoCs, non-production, experimentation & non-commercial use only  | Production, business critical, or PoC | Regulated companies which may have additional legal and compliance requirements |
-| SLA                         | n/a               | n/a                    | Response within 1 business day for P1 |
+| SLA                         | n/a               | n/a                    | Response within 1 business day for P1 (with ESA) |
 | Buying process              | n/a           | Monthly via credit card, or via annual invoice (SWIFT/ACH)    | Annual invoice/purchase order (SWIFT/ACH). |
 | Legal review of contract/red-lining    | n/a           | n/a                     | Subject to agreement |
 | Signing of Mutual NDA       | n/a               | n/a                    | Subject to agreement |
 | Additional compliance needs | n/a         | n/a                    | Subject to agreement |
 | Support via email           | n/a               | Pro features only      | All certified Open Source and commercial components |
 | Support via GitHub          | n/a               | Pro features only using the Customer Community      | n/a |
-| Support via Slack           | n/a               | n/a                    | Up to 5 developers              |
+| Support via Slack           | n/a               | n/a                    | 5x users (with ESA) |
 | License                     | [Community Edition EULA - 60 day limit for commercial use](https://github.com/openfaas/faas/blob/master/EULA.md)| [Commercial license EULA](https://github.com/openfaas/faas/blob/master/pro/EULA)     | as per Standard |
-| Architecture review  | n/a            | n/a                    | With our team via Zoom |
-| Onboarding call | n/a            | n/a                    | With our team via Zoom |
-| [Customer Community](https://github.com/openfaas/customers)   | n/a      | Private access to [Customer Community](https://github.com/openfaas/customers) - one user per licensed cluster | Custom amount of users |
+| Annual architecture review  | n/a            | n/a                    | With our team via Zoom (with ESA) |
+| Onboarding call | n/a            | With our team via Zoom                   | As per Standard |
+| Developer licenses | n/a            | n/a                   | 5x users (for local development) |
+| [Customer Community](https://github.com/openfaas/customers)   | n/a      | One user per licensed cluster | Custom amount of users |
 
-OpenFaaS For Enterprise comes with an SLA, defined separately. It is suitable for companies which have a separate legal and procurement department, who are regulated and have additional legal or compliance requirements. The annual architecture review is to reduce risk by reviewing the configuration and informing the team of any recommended changes to the installation and configuration of OpenFaaS.
+**Self-service / licensing only**
 
-Support for OpenFaaS Standard is on a self-service basis, with no formal SLA offered. That said, our our customers say good things about the help and insights we've given them.
+Both OpenFaaS Standard and OpenFaaS for Enterprises are available on a self-service basis without a defined Service Level Agreement (SLA). This tier includes licenses, basic email support and collaboration through the Customer Community.
+
+**Enterprise Support Agreement (ESA)**
+
+A separate Enterprise Support Agreement (ESA) can be purchased for OpenFaaS for Enterprises which includes an SLA, access to OpenFaaS Ltd engineering via Slack, and an annual architecture review. This package is suitable for companies which have a separate legal and procurement department, who are regulated and have additional legal or compliance requirements. An annual architecture review is included with this package to reduce risk by reviewing the configuration and informing the team of any recommended changes to the installation and configuration of OpenFaaS.
 
 The [Customer Community](https://github.com/openfaas/customers) is a private GitHub repository for giving feedback to the OpenFaaS team, for early access to new features and collaboration with other customers.
 
