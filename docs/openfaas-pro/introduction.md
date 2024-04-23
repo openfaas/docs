@@ -109,11 +109,11 @@ Recently released:
 * Proactive remote monitoring for support customers (live in pilot)
 * Official C# .NET 8 template (Apr 2024)
 * `airfaas` CLI plugin for airgapped installations and mirroring images to private registries (Apr 2024)
+* GPU scheduling support for functions via Profiles i.e. `nvidia.com/gpu: 1` (Mar 2024)
 
 Upcoming:
 
 * Conversion to structured/JSON logging of OpenFaaS Pro components (ongoing - 80% complete)
-* GPU scheduling support for functions via Profiles i.e. `nvidia.com/gpu: 1` (ongoing)
 * Dynamic, dedicated Async queues for each function, including queued-based scaling (R&D phase)
 * Function authentication with IAM for OpenFaaS
 * Go SDK for the Function Builder API
