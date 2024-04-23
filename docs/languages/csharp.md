@@ -32,6 +32,20 @@ Or, run the `dotnet` command, i.e.
 dotnet add my-function package Npgsql --version 8.0.2
 ```
 
+## Add static files
+
+You may want to copy static files into the final image such as a SQLite database, JSON data, HTML files or text templates for emails.
+
+If a folder named static is found in the root of your function's source code, **it will be copied** into the final image published for your function.
+
+To serve the contents of the static folder you can setup the file server in `Handler.cs`.
+
+```c#
+    public static void MapEndpoints(WebApplication app) {
+        app.UseStaticFiles();
+    }
+```
+
 ### Swagger
 
 To add Swagger to an endpoint, edit Handler.cs and add the following:

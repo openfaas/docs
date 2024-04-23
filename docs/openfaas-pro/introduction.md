@@ -154,7 +154,7 @@ We see it as the start of a two-way relationship and an opportunity to collabora
 
 OpenFaaS For Enterprise comes with an SLA, defined separately. It is suitable for companies which have a separate legal and procurement department, who are regulated and have additional legal or compliance requirements. The annual architecture review is to reduce risk by reviewing the configuration and informing the team of any recommended changes to the installation and configuration of OpenFaaS.
 
-Support for OpenFaaS Pro is on a self-service basis, with no formal SLA offered. That said, our our customers say good things about the help and insights we've given them.
+Support for OpenFaaS Standard is on a self-service basis, with no formal SLA offered. That said, our our customers say good things about the help and insights we've given them.
 
 The [Customer Community](https://github.com/openfaas/customers) is a private GitHub repository for giving feedback to the OpenFaaS team, for early access to new features and collaboration with other customers.
 
