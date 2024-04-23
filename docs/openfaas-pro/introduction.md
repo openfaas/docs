@@ -107,16 +107,17 @@ Recently released:
 * Webhook-based billing metrics per invocation for billing your users  (Dec 2023)
 * Stream Server Sent Events (SSE) from functions i.e. OpenAI (Jan 2024)
 * Proactive remote monitoring for support customers (live in pilot)
+* Official C# .NET 8 template (Apr 2024)
+* `airfaas` CLI plugin for airgapped installations and mirroring images to private registries (Apr 2024)
 
 Upcoming:
 
 * Conversion to structured/JSON logging of OpenFaaS Pro components (ongoing - 80% complete)
 * GPU scheduling support for functions via Profiles i.e. `nvidia.com/gpu: 1` (ongoing)
+* Dynamic, dedicated Async queues for each function, including queued-based scaling (R&D phase)
 * Function authentication with IAM for OpenFaaS
 * Go SDK for the Function Builder API
-* Airfaas - utility for air-gapped installations and upgrades of OpenFaaS Standard/for Enterprises
-* Dynamic, dedicated Async queues for each function, including queued-based scaling
-* Additional event triggers i.e. AMQP event trigger for RabbitMQ and Azure Service Bus and Google PubSub
+* Additional event triggers i.e. AMQP event trigger for RabbitMQ and Azure Service Bus and Google PubSub (added upon request)
 
 Is there something else you need for your team or organisation? [Get in touch with us here](https://openfaas.com/support/).
 
@@ -258,6 +259,7 @@ Identity Access Management (IAM) and Policy-based authorization is available for
 | Description           | OpenFaaS CE       | OpenFaaS Standard           | OpenFaaS for Enterprise             |
 | ----------------------| ------------------|------------------------|---------------------------------|
 | Air-gap and offline support | No, Internet connection required | Supported | As per Standard |
+| [faas-cli airfaas](https://www.openfaas.com/blog/airgap-serverless-functions/)               | n/a              | Mirror images and install in offline environments | As per Standard | 
 | Authentication for OpenFaaS API, CLI and UI | Shared admin password between everyone who uses OpenFaaS | as per CE | [Single Sign-On with OIDC](https://docs.openfaas.com/openfaas-pro/iam/overview/) |
 | Identity and Policy | n/a | n/a | Least Privilege with [Identity and Access Management](https://docs.openfaas.com/openfaas-pro/iam/overview/) |
 | Compatibility with Istio for mTLS | n/a | Supported | as per Standard |
