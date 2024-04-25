@@ -286,35 +286,6 @@ We have several customers of varying size who host code on behalf of their custo
 
 Some customers extend their own platform using OpenFaaS functions, because it's quicker and easier to deploy a function than change the core platform.
 
-### Trusted by
-
-OpenFaaS Pro is trusted by:
-
-* Fortune 500 company (semiconductor / global technology)
-* Fortune 500 company (financial services)
-* Fortune 500 company (oil field services companies)
-* Cyber Security Solutions company (North America)
-* Check Point Software Technologies Ltd (Global 2000 company)
-* Yokogawa Electric Corporation (Global 2000 company)
-* Waylay.io
-* RateHub.ca
-* Surge "workwithsurge"
-* Edge Delta
-* Patchworks Integration Limited
-* Klar MX
-* Black.ai
-* Live Time Value (LTV) Co.
-* BCubed Engineering
-* Kubiya
-* Corva.ai
-* Mnemonic
-* E2E Networks Ltd
-* Fullscript
-* Rudderstack
-* Majesco
-
-Tell us about your use-case for OpenFaaS Standard, OpenFaaS Community Edition (CE) or faasd and see what other companies are doing in the: [ADOPTERS file](https://github.com/openfaas/faas/blob/master/ADOPTERS) 
-
 ### Support
 
 OpenFaaS for Enterprises comes with support for the Certified Open Source Components and OpenFaaS Standard, with support via email within a Service Level Agreement (SLA). Along with email support, each team gets their own dedicated Slack channel for questions, collaboration and assistance.
