@@ -27,6 +27,54 @@ For Kubernetes, secrets are stored [within the built-in secrets store](https://k
 
 For faasd, secrets are created as plaintext files under `/var/lib/faasd-provider/secrets`. When you deploy a function, these secrets are bind-mounted into your container.
 
+## Secrets with multiple keys or files
+
+Let's explore an example where you have a function which needs to connect to two different databases. You will have two different connection strings, one for MongoDB and one for Postgresql as separate files under `/var/openfaas/secrets`:
+
+* `/var/openfaas/secrets/mongo-connection.txt`
+* `/var/openfaas/secrets/postgres-connection.txt`
+
+When using `faas-cli` to create and manage secrets, you can only have one file or literal within each Kubernetes secret, so you'll create two secrets with different names:
+
+```bash
+faas-cli secret create mongo-connection \
+  --from-file=mongo-connection.txt=./mongo-connection.txt
+
+faas-cli secret create postgres-connection \
+  --from-file=postgres-connection.txt=./postgres-connection.txt
+```
+
+> Note that `openfaas-fn` is a default value for the `--namespace` flag, you don't need to specify it with `faas-cli`.
+
+Then in stack.yml, you'll need to add both `mongo-connection` and `postgres-connection` to the `secrets` section.
+
+```yaml
+functions:
+  my-function:
+    ...
+    secrets:
+      - mongo-connection
+      - postgres-connection
+```
+
+With `kubectl`, you can have multiple files or literals within a single secret.
+
+```bash
+kubectl create secret generic -n openfaas-fn database-connections \
+  --from-file=mongo-connection.txt=./mongo-connection.txt \
+  --from-file=postgres-connection.txt=./postgres-connection.txt
+```
+
+You'll only need to add one secret to the `secrets` section in stack.yml.
+
+```yaml
+functions:
+  my-function:
+    ...
+    secrets:
+      - database-connections
+```
+
 ## Example of using a secret
 
 Create a new function with the `python3-http` template:
