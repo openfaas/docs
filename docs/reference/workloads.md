@@ -221,11 +221,20 @@ functions:
       com.openfaas.ready.http.periodSeconds: 5
 ```
 
-### Function information
+### How to find the function's name at runtime
 
 !!! info "OpenFaaS Pro feature"
     This feature is part of the [OpenFaaS Pro](/openfaas-pro/introduction) distribution.
 
 OpenFaaS exposes some information to functions through environment variables.
 
-The function name is made available in every function as an environment variable `OPENFAAS_NAME`.
+The function name is made available in every function as an environment variable `OPENFAAS_NAME`. You can test this by deploying the `env` function the store and invoking it, i.e.
+
+```bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOSTNAME=env-648d57f457-xtvwg
+OPENFAAS_NAME=env
+fprocess=env
+HOME=/home/app
+Http_X_Forwarded_Proto=https
+```
