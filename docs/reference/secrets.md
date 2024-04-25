@@ -13,11 +13,9 @@ There is a two-step process to using a secret. First you need to create the secr
 
 **Environment variables vs. files**
 
-Secrets should never be set in environment variables, no matter how tempting it is. These are always visible within the OpenFaaS REST API and from within the Pod spec in Kubernetes.
+Secrets should never be set in environment variables, no matter how tempting it is. These are always visible within the OpenFaaS REST API and from within the Pod spec in Kubernetes. They are also often exposed via debug tools, logs, traces and may leak to unauthorized users.
 
-Instead, all secrets are made available in the container file-system and should be read from the following location: `/var/openfaas/secrets/<secret-name>`. In the sample below we show how to create and consume a secret in a function. 
-
-The faas-cli can be used to manage secrets on Kubernetes and for faasd.
+Instead, all secrets are made available in the container file-system and should be read from the following location: `/var/openfaas/secrets/<secret-name>`. In the sample below we show how to create and consume a secret in a function.
 
 > See also: [YAML reference: environmental variables](yaml.md).
 
