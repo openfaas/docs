@@ -91,6 +91,16 @@ Permissions can be scoped cluster wide, or to a specific namespace:
 * `*` - cluster-wide access
 * `staging:*` - access to the `staging` namespace only
 
+## OpenFaaS IAM language
+
+The OpenFaaS IAM language is a inspired by AWS IAM, however only a subset of the language is implemented at present:
+
+* `StringEquals` - match a string exactly this would be used to match an exact email address or issuer
+* `StringLike` - match a string with a wildcard - this could be used to match an email domain for instance
+* `ForAnyValue:StringEqual` - match a value within an array, this can be used to check group membership
+
+There is currently no support for negation, such as `NotStringEquals` or `NotStringLike`.
+
 ## Concepts
 
 OpenFaaS IAM objects are defined in the `openfaas` namespace, and need to be created by a system administrator using kubectl, Helm or a GitOps tool.
