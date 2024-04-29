@@ -182,6 +182,33 @@ ArgoCD health status:
 * Function is ready and can serve traffic to at least one Pod => Argo status: healthy
 * Function is ready (no changes need to be applied), but has been scaled down to zero replicas => Argo status: suspended
 
+Note: [A pull request was sent to the ArgoCD project](https://github.com/argoproj/argo-cd/pull/18015), so in a future version of ArgoCD, you won't need to create the above ConfigMap manually. However if you do want to override the behaviour of the health status, then you can still create a ConfigMap with the above content.
+
+#### FluxCD health status
+
+When using FluxCD, and the kustomization controller, the built-in Ready condition will be observed to detect whether a rollout was successful.
+
+Just make sure that the `spec.wait` field is set to `true` in the Kustomization resource.
+
+From the FluxCD Kustomization docs:
+
+> `.spec.wait` is an optional boolean field to perform health checks for all reconciled resources as part of the Kustomization.
+
+```diff
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: env
+spec:
+  interval: 10m
+  targetNamespace: openfaas-fn
+...
+  path: ./apps/prod
++ wait: true
+```
+
+See also: [FluxCD Kustomization docs](https://fluxcd.io/flux/components/kustomize/kustomizations/)
+
 ### How to generate a spec from a stack.yml
 
 If you already have functions defined in a stack.yml file, you can generate the Function resources with:
