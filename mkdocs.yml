@@ -155,6 +155,7 @@ nav:
           - Keycloak: ./openfaas-pro/sso/keycloak.md
           - Okta: ./openfaas-pro/sso/okta.md
           - SSO with the CLI: ./openfaas-pro/sso/cli.md
+      - Function CRD: ./openfaas-pro/function-crd.md
       - JetStream: ./openfaas-pro/jetstream.md
       - Kafka events: ./openfaas-pro/kafka-events.md
       - Postgres events: ./openfaas-pro/postgres-events.md
