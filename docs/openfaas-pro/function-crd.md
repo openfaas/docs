@@ -2,16 +2,17 @@
 
 In addition to the REST API of the OpenFaaS gateway, the `Function` Custom Resource Definition can be used to manage functions.
 
-Glossary:
+Q: What's the difference between a Custom Resource Definition (CRD) and a Custom Resource (CR)?
+A: The CRD is the definition of a Function, which is installed to the cluster once via helm when OpenFaaS is installed The CR is an instance of a Function.
 
-* CRD - the definition of a Function, the Custom Resource Definition (CRD) is installed to the cluster via Helm, once.
-* Each instance of a Function is called a Custom Resource (CR).
+Q: Do you still need stack.yml, if we want to adopt the Function CRD?
+A: We recommend using either stack.yml on its own, along with IAM for OpenFaaS. However, if you want to use Helm, ArgoCD or Flux for GitOps-style deployments, then we would recommend using stack.yml for local development and for building images during CI, and the Function CRD for deployment. 
 
-!!! warning "Do not remove the CRD"
+Q: Can GitOps be used with Functions CRs?
+A: You can use Helm, ArgoCD, or FluxCD to template, update and deploy functions. The Function CRD is a native Kubernetes resource, so it can be managed in the same way as Deployments, Services, and other resources.
 
-    Do not remove the Custom Resource Definition from the cluster.
-
-    If you remove the Function CRD, then all instances of the CRD (known as CRs) will be removed from the cluster, meaning all your functions will be deleted immediately.
+Q: Can I still use kubectl if I deploy functions via REST or `faas-cli`?
+A: Yes, the REST API accepts JSON deployment requests and then creates and manages a Function CR behind the scenes for you. That means you can explore, backup and inspect Functions using kubectl, even if you are not deploying via kubectl directly.
 
 See also:
 
@@ -19,6 +20,12 @@ See also:
 * [How to package OpenFaaS functions with Helm](https://www.openfaas.com/blog/howto-package-functions-with-helm/)
 
 ### Function Spec
+
+!!! warning "Do not remove the CRD"
+
+    Do not remove the Custom Resource Definition from the cluster.
+
+    If you remove the Function CRD, then all instances of the CRD (known as CRs) will be removed from the cluster, meaning all your functions will be deleted immediately.
 
 Here is an example of a function, written out in long form:
 
@@ -53,7 +60,64 @@ spec:
     - nodeinfo-secret1
 ```
 
-## How to generate a spec from a stack.yml
+### How to query Functions with kubectl
+
+Create a function using the following YAML:
+
+```yaml
+cat << EOF | kubectl apply -f -
+apiVersion: openfaas.com/v1
+kind: Function
+metadata:
+  name: env
+  namespace: openfaas-fn
+spec:
+  name: env
+  image: ghcr.io/openfaas/alpine:latest
+  environment:
+    fprocess: "env"
+EOF
+```
+
+Then watch the status:
+```bash
+$ kubectl get function --watch --output wide --namespace openfaas-fn
+
+NAME   IMAGE                            READY   HEALTHY   REPLICAS   AVAILABLE
+env    ghcr.io/openfaas/alpine:latest                                
+env    ghcr.io/openfaas/alpine:latest                                
+env    ghcr.io/openfaas/alpine:latest   True    False                
+env    ghcr.io/openfaas/alpine:latest   True    False     1          
+env    ghcr.io/openfaas/alpine:latest   True    False     1          
+env    ghcr.io/openfaas/alpine:latest   True    True      1          1
+```
+
+* Replicas represents the desired state, this starts as either 1 or the value of the `com.openfaas.min.scale` label. This value may also be changed by the autoscaler.
+* Available represents the actual number of Pods that are ready to serve traffic, that have passed their readiness check.
+
+### Readiness and health
+
+The OpenFaaS REST API contains readiness information in the form of available replicas being > 0. The `faas-cli` also has a `describe` command which queries the amount of available replicas and will report Ready or Not Ready.
+
+That said, the Custom Resource now has a `.status` field with a number of conditions.
+
+* `Reconciling` is `True` - the operator has discovered the Function CR and is working on creating child resources in Kubernetes
+* `Stalled` is `True` - the operator cannot create the function, check the reason, perhaps some secrets are missing?
+* `Ready` condition is `True` - the operator was able to create the required Deployment, all required secrets exist, and it has no more work to do. The `Reconciling` condition is removed
+* `Healthy` condition is `True` - there is at least one ready Pod available to serve traffic
+
+What about scaling to zero? When a Function is scaled to zero, the Ready state will be `True` and the Healthy state will be `False`. Invoke the function via its URL on the gateway to have it scale up from zero, you'll see it progress and gain a `Healthy` condition of `True`.
+
+If you change a Function once it has passed into the Ready=true state, then the Ready condition will change to Unknown, and the Reconciling condition will be added again.
+
+If you're an ArgoCD user, then you can define a custom health check at deployment time to integrate with the Custom Resource: [ArgoCD: Custom Health Checks](https://argo-cd.readthedocs.io/en/stable/operator-manual/health/#custom-health-checks)
+
+To check that all secrets existed, and that the function could be applied correctly, then look for a `Ready` condition with a status of `True` for the current generation of the object. If you want to know if the function's code was valid, and was able to start, and that its image could be pulled, look for the `Healthy` condition instead. Bear in mind that any functions scaled to zero may have the Healthy condition removed, or set to False.
+
+What happens when auto-scaling? When a Function is scaling from at least one replica to some higher number, the Healthy condition will continue to be set to `True`. The same applies when scaling down, so long as the target number of replicas is greater than zero.
+
+
+### How to generate a spec from a stack.yml
 
 If you already have functions defined in a stack.yml file, you can generate the Function resources with:
 
@@ -115,27 +179,6 @@ Therefore, in CI, you may run something like:
 ```bash
 TAG=$CI_TAG OWNER=$CI_OWNER faas-cli generate | kubectl apply -f -
 ```
-
-### Readiness and health
-
-The OpenFaaS REST API contains readiness information in the form of available replicas being > 0. The `faas-cli` also has a `describe` command which queries the amount of available replicas and will report Ready or Not Ready.
-
-That said, the Custom Resource now has a `.status` field with a number of conditions.
-
-* `Reconciling` is `True` - the operator has discovered the Function CR and is working on creating child resources in Kubernetes
-* `Stalled` is `True` - the operator cannot create the function, check the reason, perhaps some secrets are missing?
-* `Ready` condition is `True` - the operator was able to create the required Deployment, all required secrets exist, and it has no more work to do. The `Reconciling` condition is removed
-* `Healthy` condition is `True` - there is at least one ready Pod available to serve traffic
-
-What about scaling to zero? When a Function is scaled to zero, the Ready state will be `True` and the Healthy state will be `False`. Invoke the function via its URL on the gateway to have it scale up from zero, you'll see it progress and gain a `Healthy` condition of `True`.
-
-If you change a Function once it has passed into the Ready=true state, then the Ready condition will change to Unknown, and the Reconciling condition will be added again.
-
-If you're an ArgoCD user, then you can define a custom health check at deployment time to integrate with the Custom Resource: [ArgoCD: Custom Health Checks](https://argo-cd.readthedocs.io/en/stable/operator-manual/health/#custom-health-checks)
-
-To check that all secrets existed, and that the function could be applied correctly, then look for a `Ready` condition with a status of `True` for the current generation of the object. If you want to know if the function's code was valid, and was able to start, and that its image could be pulled, look for the `Healthy` condition instead. Bear in mind that any functions scaled to zero may have the Healthy condition removed, or set to False.
-
-What happens when auto-scaling? When a Function is scaling from at least one replica to some higher number, the Healthy condition will continue to be set to `True`. The same applies when scaling down, so long as the target number of replicas is greater than zero.
 
 ### Deploy functions via Helm
 
