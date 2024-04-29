@@ -120,6 +120,15 @@ To check that all secrets existed, and that the function could be applied correc
 
 What happens when auto-scaling? When a Function is scaling from at least one replica to some higher number, the Healthy condition will continue to be set to `True`. The same applies when scaling down, so long as the target number of replicas is greater than zero.
 
+Helm does not currently support readiness or waiting for Custom Resources, however, you can do this via kubectl if you wish:
+
+```bash
+# Wait until "env" is reconciled:
+$ kubectl get function/env -n openfaas-fn -o jsonpath="{.status.conditions[?(@.type == 'Ready')].status}"
+
+# Wait until "env" has at least one ready Pod:
+$ kubectl get function/env -n openfaas-fn -o jsonpath="{.status.conditions[?(@.type == 'Healthy')].status}"
+```
 
 ### How to generate a spec from a stack.yml
 
