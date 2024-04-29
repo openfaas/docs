@@ -3,15 +3,19 @@
 In addition to the REST API of the OpenFaaS gateway, the `Function` Custom Resource Definition can be used to manage functions.
 
 Q: What's the difference between a Custom Resource Definition (CRD) and a Custom Resource (CR)?
+
 A: The CRD is the definition of a Function, which is installed to the cluster once via helm when OpenFaaS is installed The CR is an instance of a Function.
 
 Q: Do you still need stack.yml, if we want to adopt the Function CRD?
+
 A: We recommend using either stack.yml on its own, along with IAM for OpenFaaS. However, if you want to use Helm, ArgoCD or Flux for GitOps-style deployments, then we would recommend using stack.yml for local development and for building images during CI, and the Function CRD for deployment. 
 
 Q: Can GitOps be used with Functions CRs?
+
 A: You can use Helm, ArgoCD, or FluxCD to template, update and deploy functions. The Function CRD is a native Kubernetes resource, so it can be managed in the same way as Deployments, Services, and other resources.
 
 Q: Can I still use kubectl if I deploy functions via REST or `faas-cli`?
+
 A: Yes, the REST API accepts JSON deployment requests and then creates and manages a Function CR behind the scenes for you. That means you can explore, backup and inspect Functions using kubectl, even if you are not deploying via kubectl directly.
 
 See also:
