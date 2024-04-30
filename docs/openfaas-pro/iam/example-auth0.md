@@ -54,6 +54,28 @@ Every condition must return true for the Role to be considered as a match.
 
 The principal field is optional, however if it is given, both the principal and the condition must match. If there are multiple items given, then only one must match the token.
 
+### Match on Subject
+
+To match a role for a specific user you can use a `condition` or the `principal` field to match the subject in the JWT.
+
+Using the principal field:
+
+```yaml
+  principal:
+    jwt:sub:
+      - github|1234567
+      - github|7654321
+```
+
+Using a condition:
+
+```yaml
+  condition:
+    StringEqual:
+      jwt:iss: ["github|1234567", "github|7654321"]
+```
+
+Both examples will match the role for any staff subject included in the list.
 
 ### Match on group membership
 
