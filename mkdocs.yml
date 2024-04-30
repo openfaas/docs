@@ -144,7 +144,7 @@ nav:
       - Retries: ./openfaas-pro/retries.md
       - IAM & Policy:
         - Overview: ./openfaas-pro/iam/overview.md
-        - Auth0 Example: ./openfaas-pro/iam/example-auth0.md 
+        - IAM Example: ./openfaas-pro/iam/example-auth0.md 
         - GitHub Actions Federation: ./openfaas-pro/iam/github-actions-federation.md
         - GitLab Federation: ./openfaas-pro/iam/gitlab-federation.md
         - Auditing Events: ./openfaas-pro/iam/auditing.md

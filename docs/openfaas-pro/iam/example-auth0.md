@@ -1,10 +1,12 @@
-# Auth0 Example for OpenFaaS IAM
+# Example for OpenFaaS IAM
 
-In order to access the OpenFaaS API, a JWT Issuer must first be registered with the system.
+In order to access the OpenFaaS API, a JWT Issuer must first be registered with the system. In this example we will be using Auth0 as the identity provider for OpenFaaS.
 
 Create an application on Auth0 for the OpenFaaS gateway, you'll need to obtain the corresponding "client_id".
 
-## Register the Issuer for Auth0
+> For more details on how to register different providers see: [Single Sign-On (SSO) for the OpenFaaS](/openfaas-pro/sso/overview/)
+
+## Register the Issuer
 
 An Issuer for `https://alexellis.eu.auth0.com/` might look like this:
 
@@ -55,7 +57,7 @@ The principal field is optional, however if it is given, both the principal and 
 
 ### Match on group membership
 
-If you configure Auth0 to emit a "group" claim such as "openfaas-dev", you could match this with a condition, instead of specifying individual "sub" fields.
+If you configure your identity provider to emit a "group" claim such as "openfaas-dev", you could match this with a condition, instead of specifying individual "sub" fields.
 
 Groups are often represented as a list in the JWT so the `ForAnyValue` set operator can be used for this:
 
@@ -128,6 +130,8 @@ spec:
 > Allow only read access to functions within the `staging-fn` namespace:
 
 The JwtIssuer, Role and Policy resources are Kubernetes Custom Resources, and must be created within the `openfaas` namespace.
+
+See [Permissions](/openfaas-pro/iam/overview/#permissions) for an overview of all supported actions.
 
 ## Authenticate as the user
 
