@@ -111,7 +111,7 @@ OpenFaaS IAM objects are defined in the `openfaas` namespace, and need to be cre
 
 ## Examples
 
-* [User authentication and IAM with Auth0](/openfaas-pro/iam/example-auth0)
+* [Create Roles and Policies](/openfaas-pro/iam/example-auth0)
 
 ### Web Identity Federation
 
