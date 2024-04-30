@@ -52,7 +52,21 @@ Every condition must return true for the Role to be considered as a match.
 
 The principal field is optional, however if it is given, both the principal and the condition must match. If there are multiple items given, then only one must match the token.
 
-If you configure Auth0 to emit a "group" claim such as "example.com/group", you could match this with a condition, instead of specifying individual "sub" fields.
+
+### Match on group membership
+
+If you configure Auth0 to emit a "group" claim such as "openfaas-dev", you could match this with a condition, instead of specifying individual "sub" fields.
+
+Groups are often represented as a list in the JWT so the `ForAnyValue` set operator can be used for this:
+
+```yaml
+  condition:
+    ForAnyValue:StringEqual:
+      jwt:groups: [ "openfaas-dev" ]
+  
+```
+
+### Match on email
 
 A user's email could also be fuzzy matched with a condition, for example:
 
@@ -61,6 +75,8 @@ A user's email could also be fuzzy matched with a condition, for example:
     StringLike:
       jwt:email: ["*@example.com"]
 ```
+
+For an overview of all supported condition operators see: [OpenFaaS IAM language](/openfaas-pro/iam/overview/#openfaas-iam-language).
 
 ## Bind a Policy to a Role
 
