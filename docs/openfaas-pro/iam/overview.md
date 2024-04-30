@@ -130,6 +130,12 @@ OpenFaaS IAM objects are defined in the `openfaas` namespace, and need to be cre
 
 * [Create Roles and Policies](/openfaas-pro/iam/example-auth0)
 
+### Authenticate using Kubernetes JWT tokens
+
+You can use Kubernetes Service Account Token Projection to authenticate with the OpenFaaS API. The benefit of these tokens is that they do not need a human to be involved for authorization, so you can use them to automate OpenFaaS without needing to store a password or API key.
+
+* [Authenticate to the OpenFaaS API using Kubernetes JWT tokens](https://www.openfaas.com/blog/kubernetes-tokens-openfaas-api/)
+
 ### Web Identity Federation
 
 Web Identity Federation allows you to build a trust relationship with an external identity provider, without sharing long-lived secrets.
