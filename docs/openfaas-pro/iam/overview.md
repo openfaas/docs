@@ -93,7 +93,7 @@ Permissions can be scoped cluster wide, or to a specific namespace:
 
 ## OpenFaaS IAM language
 
-The OpenFaaS IAM language is a inspired by AWS IAM, however only a subset of the language is implemented at present:
+The OpenFaaS IAM language is inspired by AWS IAM, however only a subset of the language is implemented at present:
 
 * `StringEquals` - match a string exactly this would be used to match an exact email address or issuer
 * `StringLike` - match a string with a wildcard - this could be used to match an email domain for instance
