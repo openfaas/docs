@@ -8,9 +8,26 @@ OpenFaaS for Enterprises includes a built-in Identity and Access Management (IAM
 * Deploy from CI/CD systems without long-lived shared secrets
 * Audit all operations performed through the OpenFaaS REST API
 
-## Walkthrough
+## Installation
 
 We recommend you to follow this comprehensive walkthrough blog post to get started with OpenFaaS IAM: [Walkthrough of Identity and Access Management (IAM) for OpenFaaS](https://www.openfaas.com/blog/walkthrough-iam-for-openfaas/).
+
+IAM can be enabled through the OpenFaaS Helm chart:
+
+```yaml
+iam:
+  enabled: true
+
+  systemIssuer:
+    url: https://gateway.openfaas.example.com
+```
+
+The parameter `iam.systemIssuer.url` is the public url the gateway is accessible at. See [Configure Ingress](/architecture/production/#configure-ingress) to setup ingress for the OpenFaaS gateway.
+
+Next steps:
+
+- [Configure your identity provider and register it with OpenFaaS](/openfaas-pro/sso/overview/)
+- [Configure SSO for the OpenFaaS dashboard](/openfaas-pro/dashboard/#configure-the-dashboard-with-iam)
 
 ## Workflows
 
