@@ -4,6 +4,8 @@ Whilst a remote registry is the easiest way to get started when developing funct
 
 Using a local registry is an optimisation, which requires some additional tooling and configuration.
 
+> Note: This feature is included for [OpenFaaS Standard & For Enterprises](https://openfaas.com/pricing/) customers.
+
 ## Prerequisite:
 
 You need to have **Docker** installed on your machine, arkade is also recommended for installing the necessary tools, however you can install them manually if you prefer.
