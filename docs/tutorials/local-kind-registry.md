@@ -1,12 +1,12 @@
 # Use a local registry with KinD
 
-A local registry can save on bandwidth costs and means your OpenFaaS functions don't leave your local computer when running `faas-cli up`
+Whilst a remote registry is the easiest way to get started when developing functions, a local registry can be faster for development and testing.
 
-Not only is it much quicker, but it's also simple to configure if you're using KinD.
+Using a local registry is an optimisation, which requires some additional tooling and configuration.
 
 ## Prerequisite:
 
-You need to have **Docker** installed on your machine.
+You need to have **Docker** installed on your machine, arkade is also recommended for installing the necessary tools, however you can install them manually if you prefer.
 
 ### Install arkade
 
@@ -48,31 +48,55 @@ The example below was copied from the [KinD documentation](https://kind.sigs.k8s
 #!/bin/sh
 set -o errexit
 
-# create registry container unless it already exists
+# 1. Create registry container unless it already exists
 reg_name='kind-registry'
 reg_port='5001'
 if [ "$(docker inspect -f '{{.State.Running}}' "${reg_name}" 2>/dev/null || true)" != 'true' ]; then
   docker run \
-    -d --restart=always -p "127.0.0.1:${reg_port}:5000" --name "${reg_name}" \
+    -d --restart=always -p "127.0.0.1:${reg_port}:5000" --network bridge --name "${reg_name}" \
     registry:2
 fi
 
-# create a cluster with the local registry enabled in containerd
+# 2. Create kind cluster with containerd registry config dir enabled
+# TODO: kind will eventually enable this by default and this patch will
+# be unnecessary.
+#
+# See:
+# https://github.com/kubernetes-sigs/kind/issues/2875
+# https://github.com/containerd/containerd/blob/main/docs/cri/config.md#registry-configuration
+# See: https://github.com/containerd/containerd/blob/main/docs/hosts.md
 cat <<EOF | kind create cluster --config=-
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 containerdConfigPatches:
 - |-
-  [plugins."io.containerd.grpc.v1.cri".registry.mirrors."localhost:${reg_port}"]
-    endpoint = ["http://${reg_name}:5000"]
+  [plugins."io.containerd.grpc.v1.cri".registry]
+    config_path = "/etc/containerd/certs.d"
 EOF
 
-# connect the registry to the cluster network if not already connected
+# 3. Add the registry config to the nodes
+#
+# This is necessary because localhost resolves to loopback addresses that are
+# network-namespace local.
+# In other words: localhost in the container is not localhost on the host.
+#
+# We want a consistent name that works from both ends, so we tell containerd to
+# alias localhost:${reg_port} to the registry container when pulling images
+REGISTRY_DIR="/etc/containerd/certs.d/localhost:${reg_port}"
+for node in $(kind get nodes); do
+  docker exec "${node}" mkdir -p "${REGISTRY_DIR}"
+  cat <<EOF | docker exec -i "${node}" cp /dev/stdin "${REGISTRY_DIR}/hosts.toml"
+[host."http://${reg_name}:5000"]
+EOF
+done
+
+# 4. Connect the registry to the cluster network if not already connected
+# This allows kind to bootstrap the network but ensures they're on the same network
 if [ "$(docker inspect -f='{{json .NetworkSettings.Networks.kind}}' "${reg_name}")" = 'null' ]; then
   docker network connect "kind" "${reg_name}"
 fi
 
-# Document the local registry
+# 5. Document the local registry
 # https://github.com/kubernetes/enhancements/tree/master/keps/sig-cluster-lifecycle/generic/1755-communicating-a-local-registry
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -136,14 +160,19 @@ Make sure Docker registry is running.
 $ docker logs -f kind-registry
 ```
 
-### Deploy OpenFaaS
+### Deploy OpenFaaS Standard or OpenFaaS For Enterprises
 
-Deploy OpenFaaS and its CLI:
+Deploy one of the OpenFaaS Pro editions along with faas-cli:
 
 ```bash
-$ arkade install openfaas
 $ arkade get faas-cli
 ```
+
+```bash
+$ arkade install openfaas --license-file ~/.openfaas/LICENSE
+```
+
+Alternatively, install [OpenFaaS Pro](https://docs.openfaas.com/deployment/pro/) with helm, creating the required `openfaas-license` secret, and setting `openfaasPro: true`.
 
 Then log in and port-forward OpenFaaS using the instructions given, or run `arkade info openfaas` to get them a second time.
 

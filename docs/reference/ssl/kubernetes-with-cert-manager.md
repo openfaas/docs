@@ -60,9 +60,6 @@ Caveats:
     --set controller.kind=DaemonSet
   ```
 
-  Taken from tutorial: [Setup a private Docker registry with TLS on Kubernetes](https://github.com/alexellis/k8s-tls-registry)
-
-
 If you do not have a public IP for your Kubernetes cluster, then you can use the [inlets-operator](https://github.com/inlets/inlets-operator) to get a LoadBalancer for your local or private cluster, even behind NAT or a firewall.
 
 ### Install OpenFaaS
