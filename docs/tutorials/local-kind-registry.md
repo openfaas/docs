@@ -1,12 +1,21 @@
 # Use a local registry with KinD
 
+> Note: This feature is included for [OpenFaaS Standard & For Enterprises](https://openfaas.com/pricing/) customers.
+
 Whilst a remote registry is the easiest way to get started when developing functions, a local registry can be faster for development and testing.
 
 Using a local registry is an optimisation, which requires some additional tooling and configuration.
 
-> Note: This feature is included for [OpenFaaS Standard & For Enterprises](https://openfaas.com/pricing/) customers.
+You can also test your functions using Docker without deploying them to OpenFaaS via the `local-run` command, learn more: [The faster way to iterate on your OpenFaaS functions](https://www.openfaas.com/blog/develop-functions-locally).
 
-## Prerequisite:
+
+You can find similar solutions for other local Kubernetes distributions:
+
+* [k3d](https://k3d.io/v5.6.3/usage/registries/#using-a-local-registry) - local registries
+* [minikube](https://minikube.sigs.k8s.io/docs/handbook/registry/) - registry add-on
+* [microk8s](https://microk8s.io/docs/registry-built-in) - built-in registry
+
+## Prerequisites:
 
 You need to have **Docker** installed on your machine, arkade is also recommended for installing the necessary tools, however you can install them manually if you prefer.
 
@@ -45,6 +54,8 @@ We will set up our local Kubernetes cluster using [**KinD**](https://github.com/
 These instructions are adapted from the KinD documentation. Our goal is to run Kubernetes using Docker, along with a built-in registry.
 
 The example below was copied from the [KinD documentation](https://kind.sigs.k8s.io/docs/user/local-registry/).
+
+Save as `kind-with-registry.sh`:
 
 ```bash
 #!/bin/sh
@@ -117,34 +128,14 @@ EOF
 
 ---
 
-### Note:
-
-You can find similar solutions for other local Kubernetes distributions:
-
-* [k3d](https://k3d.io/v5.4.4/usage/registries/#using-a-local-registry) - local registries
-* [minikube](https://minikube.sigs.k8s.io/docs/handbook/registry/) - registry add-on
-* [microk8s](https://microk8s.io/docs/registry-built-in) - built-in registry
----
-
-Make the script executable:
+The below will create a cluster named `kind` using the script from above, with a registry pre-installed:
 
 ```bash
-$ chmod +x kind-with-registry.sh
-```
-
-Run it to create your local cluster with registry:
-
-```bash
+$ chmod +x ./kind-with-registry.sh
 $ ./kind-with-registry.sh
 ```
 
 Make sure the `kubectl` context is set to the newly created cluster:
-
-```bash
-$ kubectl config current-context
-```
-
-If the result is not `kind-kind` then execute:
 
 ```bash
 $ kubectl config use kind-kind
@@ -170,11 +161,13 @@ Deploy one of the OpenFaaS Pro editions along with faas-cli:
 $ arkade get faas-cli
 ```
 
+Follow the documentation to install [OpenFaaS Pro](https://docs.openfaas.com/deployment/pro/) with helm.
+
+Or you can use arkade:
+
 ```bash
 $ arkade install openfaas --license-file ~/.openfaas/LICENSE
 ```
-
-Alternatively, install [OpenFaaS Pro](https://docs.openfaas.com/deployment/pro/) with helm, creating the required `openfaas-license` secret, and setting `openfaasPro: true`.
 
 Then log in and port-forward OpenFaaS using the instructions given, or run `arkade info openfaas` to get them a second time.
 
@@ -193,7 +186,7 @@ We will be using the [python3-flask-debian](https://github.com/openfaas-incubato
 Setup your `OPENFAAS_PREFIX` variable to configure the address of your registry:
 
 ```bash
-export OPENFAAS_PREFIX=localhost:5000
+export OPENFAAS_PREFIX=localhost:5001
 ```
 
 > Note: Docker for Mac users may need to change "localhost" to the IP address of their LAN or WiFi adapter as shown on `ifconfig` such as `192.168.0.14`
@@ -212,8 +205,10 @@ This will create a directory for your function and a YAML config file with the f
 
 Add dependency to the `pydict/requirements.txt` file: 
 
-```txt
+```bash
+cat <<EOF > pydict/requirements.txt
 PyDictionary
+EOF
 ```
 
 Update `handler.py` with the following code.
@@ -231,7 +226,7 @@ Our minimal function is complete.
 
 ### Stack file
 
-You will see that the OpenFaaS stack YAML file `pydict.yml` has `localhost:5000` in its image destination.
+You will see that the OpenFaaS stack YAML file `pydict.yml` has `localhost:5001` in its image destination.
 
 ```yaml
 version: 1.0
@@ -242,7 +237,7 @@ functions:
   pydict:
     lang: python3-flask-debian
     handler: ./pydict
-    image: localhost:5000/pydict:latest
+    image: localhost:5001/pydict:latest
 ```
 
 ## Build Push Deploy 
@@ -262,6 +257,16 @@ $ echo "advocate" | faas-cli invoke pydict
 
 {"Noun":["a person who pleads for a cause or propounds an idea","a lawyer who pleads cases in court"],"Verb":["push for something","speak, plead, or argue in favor of"]}
 ```
+
+## Watch for changes
+
+You can also watch for changes in the function's source-code and automatically rebuild and deploy the function.
+
+```bash
+faas-cli up -f pydict.yml --watch --tag=digest
+```
+
+Now edit the source code for the function, and watch it get rebuilt and deployed automatically.
 
 ### Wrapping Up
 
