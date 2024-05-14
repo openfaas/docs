@@ -78,9 +78,9 @@ ingress:
       servicePort: 8080
       path: /
   ingressClassName: nginx
-  annotations:
-    annotations.kubernetes.io/ingress.class: nginx
 ```
+
+> Note: if you're migrating from an older version of Kubernetes, the `annotations.kubernetes.io/ingress.class` [annotation is deprecated](https://kubernetes.io/docs/concepts/services-networking/ingress/#deprecated-annotation), use `ingressClassName` instead.
 
 On Linux, MacOS or WSL2, edit your `/etc/hosts` file and add an entry:
 
