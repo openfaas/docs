@@ -31,13 +31,15 @@ On the blog: [How to integrate OpenFaaS functions with managed AWS services](htt
 
     `queueURL` - the URL for your SQS queue - you can specify a comma-separated list of queues to consume from or a single URL of a queue. When you specify multiple queues, the connector will consume from each of them and invoke functions in parallel. The access key and secret key must be the same for all queues given in `queueURL`.
 
-    `visibilityTimeout` - Maximum time to keep message hidden from other processors whilst executing function
+    `visibilityTimeout` - Maximum time to keep message hidden from other processors whilst executing function.
 
     `waitTime` - Time to wait between polling SQS queue for messages.
 
-    `maxMessages` - Maximum messages to fetch at once - between 1-10
+    `maxMessages` - Maximum messages to fetch at once - between 1-10. This limit is part of the AWS SQS service.
 
     `asyncInvocation` - when set to true, every message will be dequeued and transferred to the built-in queueing system in OpenFaaS. The queue system in OpenFaaS is ideal for long-running functions, or functions that need to be retried if a non-200 status code is returned. This means the SQS connector can move onto the next message without holding up the processing of pending messages.
+
+    `contentType` - By default, the content type header sent to functions by the connector is `text/plain`. If you need to change this, you can set it to something like such as `application/json` or `application/octet-stream`.
 
 Each time a function is invoked by the connector it will receive the message from the queue as the HTTP body.
 
