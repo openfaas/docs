@@ -37,16 +37,30 @@ On the blog: [How to integrate OpenFaaS functions with managed AWS services](htt
 
     `maxMessages` - Maximum messages to fetch at once - between 1-10
 
+Each time a function is invoked by the connector it will receive the message from the queue as the HTTP body.
+
+It'll also receive two HTTP headers:
+
+* `X-SQS-Message-ID`- the ID of the message in the SQS queue for when a function needs to do something with the message
+* `X-SQS-Queue-URL` - the URL of the SQS queue - required when a function receives messages from multiple queues
+
+Once the message has been delivered to the function, it will be deleted from the queue.
 
 ## Usage
 
 Once you have configured a number of topics, you can then annotate your functions so that they get triggered by any incoming messages on those topics.
 
-Create a new function:
+Download a template such as the `golang-middleware` template:
+
+```bash
+faas-cli template store pull golang-middleware
+```
+
+Then scaffold a new function using your registry in the `OPENFAAS_PREFIX` environment variable:
 
 ```bash
 export OPENFAAS_PREFIX=ghcr.io/openfaas
-faas-cli new --lang go resize-image
+faas-cli new --lang golang-middleware resize-image
 ```
 
 Now add an annotation for the `s3-put-image` queue, so that the `resize-image` function is invoked for any message received:
@@ -61,10 +75,14 @@ functions:
   resize-image:
     annotations:
       topic: s3-put-image
-    lang: go
+    lang: golang-middleware
     handler: ./resize-image
-    image: ghcr.io/openfaas:resize-image
+    image: ghcr.io/openfaas/resize-image:latest
 ```
+
+Edit the HTTP handler at `./s3-put-image/handler.go` so it prints out the HTTP body and headers to its logs.
+
+You can find a complete example here: [printer function written in Go](https://github.com/openfaas/store-functions/tree/master/printer).
 
 Test it out:
 
@@ -72,7 +90,8 @@ Test it out:
 * Upload an image to your SQS queue
 * You'll receive a JSON payload with the details of which file was uploaded
 * Fetch the file with the AWS SDK and resize it with a library of your choice
-* Finally upload it to a different S3 Bucket.
+* Upload it to a different S3 Bucket.
+* Now view the logs for your function to see the output
 
 ## Would you like a demo?
 
