@@ -4,7 +4,6 @@ With our event connector, you can trigger function invocations from messages on 
 
 > Note: This feature is included for [OpenFaaS Standard & For Enterprises](https://openfaas.com/pricing/) customers.
 
-
 On the blog: [How to integrate OpenFaaS functions with managed AWS services](https://www.openfaas.com/blog/integrate-openfaas-with-managed-aws-services/)
 
 ## Installation
@@ -30,7 +29,7 @@ On the blog: [How to integrate OpenFaaS functions with managed AWS services](htt
 
 * Tuning the connector for your needs
 
-    `queueURL` - the URL for your SQS queue
+    `queueURL` - the URL for your SQS queue - you can specify a comma-separated list of queues to consume from or a single URL of a queue. When you specify multiple queues, the connector will consume from each of them and invoke functions in parallel. The access key and secret key must be the same for all queues given in `queueURL`.
 
     `visibilityTimeout` - Maximum time to keep message hidden from other processors whilst executing function
 
