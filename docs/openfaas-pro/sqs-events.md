@@ -37,6 +37,8 @@ On the blog: [How to integrate OpenFaaS functions with managed AWS services](htt
 
     `maxMessages` - Maximum messages to fetch at once - between 1-10
 
+    `asyncInvocation` - when set to true, every message will be dequeued and transferred to the built-in queueing system in OpenFaaS. The queue system in OpenFaaS is ideal for long-running functions, or functions that need to be retried if a non-200 status code is returned. This means the SQS connector can move onto the next message without holding up the processing of pending messages.
+
 Each time a function is invoked by the connector it will receive the message from the queue as the HTTP body.
 
 It'll also receive two HTTP headers:
@@ -65,7 +67,7 @@ faas-cli new --lang golang-middleware resize-image
 
 Now add an annotation for the `s3-put-image` queue, so that the `resize-image` function is invoked for any message received:
 
-```yaml
+```diff
 version: 1.0
 provider:
   name: openfaas
@@ -73,16 +75,16 @@ provider:
 
 functions:
   resize-image:
-    annotations:
-      topic: s3-put-image
     lang: golang-middleware
     handler: ./resize-image
     image: ghcr.io/openfaas/resize-image:latest
++    annotations:
++      topic: s3-put-image
 ```
 
-Edit the HTTP handler at `./s3-put-image/handler.go` so it prints out the HTTP body and headers to its logs.
+Edit the HTTP handler at `./s3-put-image/handler.go` and do something with the message you received.
 
-You can find a complete example here: [printer function written in Go](https://github.com/openfaas/store-functions/tree/master/printer).
+The [Printer function written in Go](https://github.com/openfaas/store-functions/tree/master/printer) is part of the OpenFaaS function store, and can be used as a reference for printing out the incoming HTTP request.
 
 Test it out:
 
