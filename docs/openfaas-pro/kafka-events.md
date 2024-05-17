@@ -86,7 +86,7 @@ Most templates make these variables available through their request or context o
 * [python3-http](https://github.com/openfaas/python-flask-template)
 * [node17](https://docs.openfaas.com/cli/templates/#nodejs-templates-of-watchdog-template)
 
-For detailed examples with Node.js, see: [Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)
+For detailed examples with Node.js, see: [Serverless For Everyone Else](http://store.openfaas.com/l/serverless-for-everyone-else)
 
 For detailed examples with Go, see: [Everyday Golang (Premium Edition)](https://openfaas.gumroad.com/l/everyday-golang)
 

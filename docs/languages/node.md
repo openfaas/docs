@@ -245,7 +245,7 @@ describe('MyFunction', function() {
 
 If the tests fail, this will also fail the build of your function and prevent it from passing.
 
-For a more detailed example, see: [Serverless for Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)
+For a more detailed example, see: [Serverless for Everyone Else](http://store.openfaas.com/l/serverless-for-everyone-else)
 
 ### Access the raw body
 

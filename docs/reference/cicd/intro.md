@@ -43,7 +43,7 @@ Learn more: [Pro Builder API](/openfaas-pro/builder/)
 
 GitHub Actions coupled with GitHub Container Registry is a fast and efficient way to build functions from public or private without hosting additional infrastructure.
 
-We provide a complete multi-arch example in [Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else).
+We provide a complete multi-arch example in [Serverless For Everyone Else](http://store.openfaas.com/l/serverless-for-everyone-else).
 
 ### GitLab
 

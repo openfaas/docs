@@ -43,5 +43,5 @@ Production use:
 
 ### Get started
 
-* Checkout the [faasd course & handbook](https://gumroad.com/l/serverless-for-everyone-else)
+* Checkout the [faasd course & handbook](http://store.openfaas.com/l/serverless-for-everyone-else)
 * Browse the [faasd code](https://github.com/openfaas/faasd/) on GitHubs

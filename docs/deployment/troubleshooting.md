@@ -4,7 +4,7 @@ There are two target platforms for OpenFaaS, and depending on which you are usin
 
 ## faasd
 
-The troubleshooting instructions for [faasd](https://github.com/openfaas/faasd) are only available in the [eBook and manual](https://gumroad.com/l/serverless-for-everyone-else).
+The troubleshooting instructions for [faasd](https://github.com/openfaas/faasd) are only available in the [eBook and manual](http://store.openfaas.com/l/serverless-for-everyone-else).
 
 ## OpenFaaS on Kubernetes
 

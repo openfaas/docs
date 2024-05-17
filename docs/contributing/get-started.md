@@ -8,7 +8,7 @@ Examples may be: writing some Go code, reviewing a PR, helping with the website 
 
 ## Five practical ideas to get started
 
-* Try the samples in [Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)
+* Try the samples in [Serverless For Everyone Else](http://store.openfaas.com/l/serverless-for-everyone-else)
 
 * Write a blog post and add it to the [community file](https://github.com/openfaas/faas/blob/master/community.md)
 

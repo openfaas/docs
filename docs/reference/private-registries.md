@@ -130,4 +130,4 @@ Now deploy the function using `faas-cli up`.
 
 ## faasd
 
-For faasd, configuration see the official handbook: [Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)
+For faasd, configuration see the official handbook: [Serverless For Everyone Else](http://store.openfaas.com/l/serverless-for-everyone-else)

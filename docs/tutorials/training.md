@@ -2,7 +2,7 @@
 
 ### Serverless For Everyone Else
 
-[Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else) is available in eBook and video course format and teaches you the fundamentals of:
+[Serverless For Everyone Else](http://store.openfaas.com/l/serverless-for-everyone-else) is available in eBook and video course format and teaches you the fundamentals of:
 
 * Managing secrets
 * Template development
@@ -13,7 +13,7 @@
 
 No Kubernetes knowledge is required. Also available in a team edition.
 
-Link: [Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)
+Link: [Serverless For Everyone Else](http://store.openfaas.com/l/serverless-for-everyone-else)
 
 ### OpenFaaS and Golang
 

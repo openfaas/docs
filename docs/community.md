@@ -47,7 +47,7 @@ To find out about Enterprise Support and Proof of Concepts projects, reach out t
 
 Learn everything you need to know to build and run functions with OpenFaaS in our handbook:
 
-* [Serverless For Everyone Else](https://gumroad.com/l/serverless-for-everyone-else)
+* [Serverless For Everyone Else](http://store.openfaas.com/l/serverless-for-everyone-else)
 
 Start your journey with Go or go deeper into unit-testing, Goroutines, GitHub Actions and Prometheus metrics:
 
