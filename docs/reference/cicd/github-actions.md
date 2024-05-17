@@ -72,6 +72,13 @@ jobs:
           --filter bcrypt
 ```
 
+The Publish functions step uses [environment substitution](/reference/yaml/#yaml-environment-variable-substitution) to set the owner and tag for the image.
+The tag for the image is published as "latest", along with an extra tag of the SHA from the commit from GitHub. The Owner portion of the image is set via a dynamic variable too, so that the repository can be forked and run under a different user account.
+
+`ghcr.io/${OWNER:-alexellis}/bcrypt:${TAG:-latest}`
+
+Any other text or variables can also be substituted in this way, making it easy to re-use the same workflow across multiple repositories, user accounts, or branches.
+
 ### Deploy functions from CI
 
 To deploy functions, you can use the `faas-cli` in a `run` step.
