@@ -130,37 +130,19 @@ It is essential that you keep hold of any custom values.yaml files that you crea
 
 ## How to upgrade OpenFaaS
 
-!!! Warning "Do not uninstall the Helm chart"
-
-    Beware that the Helm chart should never be uninstalled, and if you do run "helm uninstall" the Function Custom Resource Definition (CRD), and all Functions will be removed from the cluster. This is standard behaviour for Kubernetes when requesting an "uninstallation".
-
-OpenFaaS Standard and For Enterprises are both installed and upgraded in the same way, so you use the same `helm upgrade --install` command from the second above.
+OpenFaaS Standard and For Enterprises are both installed and upgraded in the same way, so you use the same `helm upgrade --install` command from the second above. There is no reason to "uninstall" the helm chart to perform an upgrade.
 
 The only time that `helm upgrade --install` may not work is when you are changing from `clusterRole: false` to `clusterRole: true`. In this instance, you will need to delete the conflicting Kubernetes objects one by one as directed by the output from helm, before running `helm upgrade --install` again.
 
 ### Installing new Custom Resource Definitions (CRDs)
 
-CRDs are only installed with the initial installation of OpenFaaS, therefore, if new ones have been added, or updated, you'll need to extract them from the helm chart and apply them manually.
+CRDs are split into two categories:
 
-If you're upgrading to OpenFaaS IAM for instance, you can generate the CRDs, and then apply the files in the `/tmp/openfaas/crds` folder:
+1. Those that are bundled via the chart and updated on each installation/update - including Function, Profile and FunctionIngress.
+2. Those which are required before the chart is installed for IAM policies.
 
-```sh
-helm template openfaas/openfaas \
-  --include-crds=true \
-  --output-dir=/tmp
-
-...
-
-wrote /tmp/openfaas/crds/iam.openfaas.com_jwtissuers.yaml
-wrote /tmp/openfaas/crds/iam.openfaas.com_policies.yaml
-wrote /tmp/openfaas/crds/iam.openfaas.com_roles.yaml
-```
-
-Then:
-
-```sh
-kubectl apply -f /tmp/openfaas/crds
-```
+To update the type 2 CRDs, you'll need to run the [steps under "2.1 CRDs in the ./crds folder
+"](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/crds/README.md).
 
 ### Automatic upgrades with ArgoCD or FluxCD
 
@@ -212,9 +194,9 @@ See also: [faas-cli installation](/cli/install)
 
 ### Function Builder API
 
-The OpenFaaS Pro Function Builder API can be deployed through a separate Helm chart.
+The OpenFaaS Pro Function Builder API can be deployed through a [separate Helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/pro-builder).
 
-[View chart](https://github.com/openfaas/faas-netes/tree/master/chart/pro-builder)
+[View chart](/openfaas-pro/builder)
 
 ### SSO & IAM
 
