@@ -120,7 +120,7 @@ Then add the Helm chart repo, update it and deploy the chart, running `helm repo
 ```sh
 helm repo update
 
-helm upgrade openfaas \
+helm upgrade --install openfaas \
   --install openfaas/openfaas \
   --namespace openfaas \
   -f ./values-custom.yaml

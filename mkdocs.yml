@@ -161,7 +161,8 @@ nav:
       - Postgres events: ./openfaas-pro/postgres-events.md
       - AWS SQS events: ./openfaas-pro/sqs-events.md
       - AWS SNS events: ./openfaas-pro/sns-events.md
-      - Federated Gateway: ./openfaas-pro/federated-gateway.md
+      # - Federated Gateway: ./openfaas-pro/federated-gateway.md
+      - Airgapped installation: ./openfaas-pro/airgap.md
       - Function Builder API: ./openfaas-pro/builder.md
       - Billing metrics: ./openfaas-pro/billing-metrics.md
       - Grafana dashboards: ./openfaas-pro/grafana-dashboards.md

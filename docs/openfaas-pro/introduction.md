@@ -18,7 +18,7 @@ Efficiency and redundancy:
 * [Scale idle functions to zero](/openfaas-pro/scale-to-zero) to save on compute costs, increase efficiency and lower your threat profile
 * [Retry failed invocations for functions](/openfaas-pro/retries) to handle issues with downstream APIs and back-pressure on concurrency-limited functions
 * CPU and RAM usage metrics for every function to measure usage and fine-tune limits
-* GitOps compatibility with the Function CustomResource, with Helm, ArgoCD and FluxCD.
+* [GitOps compatibility with the Function CustomResource, with Helm, ArgoCD and FluxCD](/openfaas-pro/function-crd)
 
 [![Scaling that works for various types of functions](https://pbs.twimg.com/media/FJ9EBVdWQAM9DeW?format=jpg&name=medium)](/architecture/autoscaling/)
 > Scaling that works for various types of functions
@@ -38,7 +38,8 @@ The OpenFaaS dashboard integrates with CPU & RAM usage metrics, and container lo
 Event-driven programming and triggers:
 
 * [Trigger functions via Kafka](/openfaas-pro/kafka-events) for event-driven functions and to integrate with your existing systems
-* [Trigger functions from AWS SQS](/openfaas-pro/sqs-events) to integrate with events from AWS.
+* [Trigger functions from AWS SQS](/openfaas-pro/sqs-events) to integrate with events from AWS services via a managed queue.
+* [Trigger functions from AWS SNS](/openfaas-pro/sns-events) to integrate with events from AWS managed services via pub/sub.
 
 ### Workload tuning
 
@@ -50,14 +51,15 @@ To avoid errors when scaling up or down, you may need to tune your function's co
 * Custom TerminationGracePeriod for draining work for long running functions
 * Custom support for probing Istio endpoints during scale from zero
 
-Read more: [OpenFaaS workloads](https://docs.openfaas.com/reference/workloads/) and [Custom Profiles](https://docs.openfaas.com/reference/profiles/#use-an-alternative-runtimeclass)
+Read more: [OpenFaaS workloads](/reference/workloads/) and [OpenFaaS Profiles](/reference/profiles/#use-an-alternative-runtimeclass)
 
 ### Enterprise security
 
-* Identity and Access Management (IAM)
-* Single Sign On with OpenID Connect (OIDC)
+* [Airgapped/offline installations and image mirroring](/openfaas-pro/airgap)
+* [Identity and Access Management (IAM)](/openfaas-pro/iam/overview)
+* [Single Sign On with OpenID Connect (OIDC)](/openfaas-pro/sso/overview)
 
-[Learn more about IAM for OpenFaaS](https://docs.openfaas.com/openfaas-pro/iam/overview/)
+[Learn more about IAM for OpenFaaS](/openfaas-pro/iam/overview)
 
 ### Platform building features
 
@@ -112,10 +114,9 @@ Recently released:
 * GPU scheduling support for functions via Profiles i.e. `nvidia.com/gpu: 1` (Mar 2024)
 
 Upcoming:
-
+* Built-in function authentication with IAM for OpenFaaS (in preview)
 * Conversion to structured/JSON logging of OpenFaaS Pro components (ongoing - 80% complete)
 * Dynamic, dedicated Async queues for each function, including queued-based scaling (R&D phase)
-* Function authentication with IAM for OpenFaaS
 * Go SDK for the Function Builder API
 * Additional event triggers i.e. AMQP event trigger for RabbitMQ and Azure Service Bus and Google PubSub (added upon request)
 
@@ -127,13 +128,11 @@ If you're already a customer, we welcome suggestions for the roadmap in [the Cus
 
 !!! info "Do we need the Community Edition or Pro?"
 
-    OpenFaaS Community Edition (CE) is meant for open-source developers and initial exploration of functions, OpenFaaS Pro is meant for production.
+    OpenFaaS Community Edition (CE) is licensed for open-source developers and initial exploration of functions, OpenFaaS Pro is licensed for production.
 
 OpenFaaS Pro is a distribution of OpenFaaS with additional features and configurations that we believe customers need to operate a product or service in production.
 
 As we tune OpenFaaS Pro for our existing customers, we improve it for everyone else at the same time - writing articles, tuning configuration and adding key features.
-
-We see it as the start of a two-way relationship and an opportunity to collaborate directly with our team.
 
 **Support**
 
