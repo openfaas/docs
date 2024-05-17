@@ -124,8 +124,8 @@ You can find out more about [watchdog configuration options on GitHub](https://g
 The function's index.js code should be placed in the `./my-templates/template/bun-express/` folder.
 
 ```js
-// Copyright (c) Alex Ellis 2021. All rights reserved.
-// Copyright (c) OpenFaaS Author(s) 2021. All rights reserved.
+// Copyright (c) Alex Ellis 2024. All rights reserved.
+// Copyright (c) OpenFaaS Author(s) 2024. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 "use strict"
