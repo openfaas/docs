@@ -224,7 +224,7 @@ To access the dashboard run the following, whenever you need it:
 ```bash
 kubectl port-forward \
   -n openfaas \
-  svc/dashboard 8081:8080
+  service/dashboard 8081:8080
 ```
 
 The username is `admin` and the password is the same one used for `faas-cli login`.
@@ -233,56 +233,18 @@ Then access the URL via `http://127.0.0.1:8081`
 
 ### Expose your dashboard on the Internet
 
-Once deployed, you can leave your dashboard private, and access it via port-forwarding, or create a Public Ingress record to access it over the Internet.
+The Helm chart has instructions for exposing both the gateway and the dashboard over the Internet using Let's Encrypt and cert-manager. You can also create your your custom Ingress record or Istio Gateway, the dashboard is available at `http://dashboard.openfaas:8080` within the cluster.
 
-There two three options for Public Ingress:
+See also: [TLS for OpenFaaS](/reference/tls/)
 
-* Kubernetes Ingress Controller
-* Istio Gateway/VirtualService.
+### Access OpenFaaS over TLS from your local machine
 
-If your cluster does not have a public IP, but you still want to access the dashboard over the Internet, we have included notes on how [inlets.dev](https://inlets.dev) can help.
+When working locally, you will not have a public IP address available. You can use an inlets tunnel to access your OpenFaaS gateway and dashboard over TLS.
 
-Assuming you already have a Let's Encrypt Issuer and are using ingress-nginx, you could use the following example:
+Set up the tunnel using these steps: [inlets automated HTTP server](https://docs.inlets.dev/tutorial/automated-http-server/), then apply the below YAML for the tunnel client, to expose both the gateway and the dashboard.
 
-```bash
-export DOMAIN="openfaas.example.com"
-export INGRESS_CLASS=nginx
-
-cat > ingress.yaml <<EOF
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: openfaas-dashboard
-  namespace: openfaas
-  labels:
-    app: openfaas-dashboard
-  annotations:
-    cert-manager.io/issuer: letsencrypt-prod
-    kubernetes.io/tls-acme: "true"
-    $INGRESS_CLASS.ingress.kubernetes.io/ssl-redirect: "true"
-    kubernetes.io/ingress.class: $INGRESS_CLASS
-spec:
-  rules:
-  - host: $DOMAIN
-    http:
-      paths:
-      - backend:
-          service:
-            name: dashboard
-            port:
-              number: 8080
-        path: /
-        pathType: Prefix
-  tls:
-  - hosts:
-    - $DOMAIN
-    secretName: dashboard-cert
-EOF
-```
-
-TLS is mandatory, and you'll use your OpenFaaS password to log in with your browser.
-
-A much simpler alternative for local testing and development is to set up an inlets VM in HTTPS mode: [inlets automated HTTP server](https://docs.inlets.dev/tutorial/automated-http-server/).
+* Edit the `token`, `license`, and `url` fields as per the output from link above.
+* Then update the values for `upstream`to match the domain names you're using for the gateway and dashboard, make sure you've created DNS A or CNAME records to point to the tunnel server.
 
 ```yaml
 apiVersion: apps/v1
