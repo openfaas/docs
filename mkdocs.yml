@@ -169,14 +169,14 @@ nav:
   - Reference:
     - OpenFaaS YAML: ./reference/yaml.md
     - REST API: ./reference/rest-api.md
-    - Secrets: ./reference/secrets.md
+    - TLS for OpenFaaS: ./reference/tls-openfaas.md
+    - TLS for Functions: ./reference/tls-functions.md
     - Async: ./reference/async.md
+    - Private Registries: ./reference/private-registries.md
+    - Secrets: ./reference/secrets.md
     - Triggers: ./reference/triggers.md
     - Workloads: ./reference/workloads.md
     - Cron: ./reference/cron.md
-    - Private Registries: ./reference/private-registries.md
-    - TLS:
-      - Kubernetes: ./reference/ssl/kubernetes-with-cert-manager.md
     - CI/CD:
       - Intro: ./reference/cicd/intro.md
       - GitHub Actions: ./reference/cicd/github-actions.md

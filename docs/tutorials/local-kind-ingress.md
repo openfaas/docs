@@ -13,7 +13,7 @@ When you use an Ingress Controller:
 Is this tutorial for you?
 
 * If you want to access the local OpenFaaS gateway over the Internet with a TLS certificate, see: [Expose your local OpenFaaS functions to the Internet](https://inlets.dev/blog/2020/10/15/openfaas-public-endpoints.html)
-* If you are deploying to a cluster on the public Internet, see: [TLS on Kubernetes](/reference/ssl/kubernetes-with-cert-manager/)
+* If you are deploying to a cluster on the public Internet, see: [TLS on Kubernetes](/reference/tls-openfaas/)
 
 ## Prerequisites
 

@@ -16,7 +16,7 @@ The OpenFaaS helm chart ships with its own stack that includes NATS, Prometheus 
 
 The chart can be installed with helm and kubectl or arkade, we recommend arkade which also prints out everything you need to know to access the UI and deploy your first function.
 
-From there, you should consider: adding a [TLS certificate](/reference/ssl/kubernetes-with-cert-manager) and trying out one of our training courses commissioned by the CNCF/LinuxFoundation, or an eBook.
+From there, you should consider: adding a [TLS certificate](/reference/tls-openfaas) and trying out one of our training courses commissioned by the CNCF/LinuxFoundation, or an eBook.
 
 See also: [Training materials and eBooks](/tutorials/training)
 
@@ -204,7 +204,7 @@ Also, ensure any [default load-balancer timeouts within GKE](https://cloud.googl
 To enable TLS while using Helm, try one of the following references:
 
 * [Get TLS for OpenFaaS the easy way with arkade](https://blog.alexellis.io/tls-the-easy-way-with-openfaas-and-k3sup/)
-* [Configure TLS with nginx-ingress and cert-manager](/reference/ssl/kubernetes-with-cert-manager/)
+* [Configure TLS with nginx-ingress and cert-manager](/reference/tls-openfaas)
 
 ### Setting an Image Pull Policy for your functions
 
