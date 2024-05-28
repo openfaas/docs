@@ -130,7 +130,7 @@ Note that in some clusters, the default DNS lookup of "svc.cluster.local" may be
 
 You can expose Functions with a REST-like mapping or on custom subdomains with the `FunctionIngress` Custom Resource:
 
-* See also: [Custom domains and REST-like mappings for functions](https://blog.exit.o6s.io/reference/ssl/kubernetes-with-cert-manager/)
+* See also: [Custom domains and REST-like mappings for functions](/reference/tls-functions)
 
 ### Deploy a function
 

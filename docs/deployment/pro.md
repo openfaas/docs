@@ -118,9 +118,8 @@ If this is your first time installing the dashboard, we recommend using "localho
 Then add the Helm chart repo, update it and deploy the chart, running `helm repo update` before each upgrade, to make sure you have the latest versions.
 
 ```sh
-helm repo update
-
-helm upgrade --install openfaas \
+helm repo update && \
+  helm upgrade --install openfaas \
   --install openfaas/openfaas \
   --namespace openfaas \
   -f ./values-custom.yaml

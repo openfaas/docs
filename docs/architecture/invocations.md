@@ -70,7 +70,7 @@ The connection between the caller and the function remains connected until the i
 
 See the below for TLS termination, custom domains and mapping various functions to traditional REST paths:
 
-* [TLS with OpenFaaS](/reference/ssl/kubernetes-with-cert-manager)
+* [TLS with OpenFaaS](/reference/tls-openfaas)
 
 ## How do asynchronous invocations work?
 
@@ -98,7 +98,7 @@ See also: [Learn how to manage your functions with kubectl](https://www.openfaas
 
 OpenFaaS For Enterprise offers authentication using JWT tokens obtained through an Open ID Connect (OIDC) flow and an Identity Provider (IdP).
 
-* [TLS with OpenFaaS](/reference/ssl/kubernetes-with-cert-manager)
+* [TLS with OpenFaaS](/reference/tls-openfaas)
 * [Identity and Access Management (IAM)](/openfaas-pro/iam/overview/)
 
 For functions, you should provide your own authentication mechanism, such as a shared token, OIDC, HMAC or basic authentication.
