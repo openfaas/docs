@@ -19,20 +19,7 @@ You can install the Kafka connector using its [helm chart](https://github.com/op
 
 ### Installation with Helm
 
-See [helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/kafka-connector)
-
-### Installation with arkade
-
-Helm is recommended for production, but you can use arkade for local development and for quick testing.
-
-```bash
-export TOPICS="payment.created"
-
-arkade install kafka-connector \
- --broker-hosts kafka-broker:9092 \
- --topics $TOPICS \
- --license-file $HOME/.openfaas/LICENSE
-```
+See the [kafka-connector helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/kafka-connector)
 
 ## Usage
 
