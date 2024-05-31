@@ -4,11 +4,14 @@ Trigger function invocations from messages received on Kafka topics.
 
 > Note: This feature is included for [OpenFaaS Standard & For Enterprises](https://openfaas.com/pricing/) customers.
 
-
-Read a tutorial on the blog:
+## Feature blog posts
 
 * [Trigger your functions from Kafka with Confluent Cloud](https://www.openfaas.com/blog/confluent-kafka/)
 * [Event-driven OpenFaaS with Managed Kafka from Aiven](https://www.openfaas.com/blog/openfaas-kafka-aiven/)
+
+## Walkthrough video
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jUFizTM3iKw?si=JMxPXOywXocaP4-m" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## Installation
 
@@ -20,8 +23,11 @@ See [helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/kafka-
 
 ### Installation with arkade
 
+Helm is recommended for production, but you can use arkade for local development and for quick testing.
+
 ```bash
 export TOPICS="payment.created"
+
 arkade install kafka-connector \
  --broker-hosts kafka-broker:9092 \
  --topics $TOPICS \
@@ -82,9 +88,9 @@ The default content-type is configured as `text/plain`, but can be changed to an
 
 Most templates make these variables available through their request or context object, for example:
 
-* [golang-middleware](https://github.com/openfaas/golang-http-template)
-* [python3-http](https://github.com/openfaas/python-flask-template)
-* [node17](https://docs.openfaas.com/cli/templates/#nodejs-templates-of-watchdog-template)
+* [golang-middleware](/languages/go/)
+* [python3-http](/languages/python/)
+* [node17](/languages/node/)
 
 For detailed examples with Node.js, see: [Serverless For Everyone Else](http://store.openfaas.com/l/serverless-for-everyone-else)
 
@@ -94,7 +100,7 @@ For detailed examples with Go, see: [Everyday Golang (Premium Edition)](https://
 
 * [Event-driven OpenFaaS with Managed Kafka from Aiven](https://www.openfaas.com/blog/openfaas-kafka-aiven/)
 * [Quick start with the Helm chart - self-hosted, SASL and TLS Client Certificates](https://github.com/openfaas/faas-netes/blob/master/chart/kafka-connector/quickstart.md)
-* Launch blog post: [Staying on topic: trigger your OpenFaaS functions with Apache Kafka](https://www.openfaas.com/blog/kafka-connector/)
+* Original launch blog post: [Staying on topic: trigger your OpenFaaS functions with Apache Kafka](https://www.openfaas.com/blog/kafka-connector/)
 
 ## Would you like a demo?
 
