@@ -65,48 +65,60 @@ There must be at least one registered OIDC provider for human users to authentic
 
 ## Permissions
 
-Functions:
+**Functions**
 
-* `Function:List` - List functions
-* `Function:Get` - Get the status of functions
-* `Function:Create` - Create functions
-* `Function:Update` - Update functions
-* `Function:Delete` - Delete functions
-* `Function:Logs` - Get logs for functions
-* `Function:Scale` - Set the replica count for functions
+| Action            | Description                         | Resource scope                     | Access level |
+| ----------------- | ----------------------------------- | ---------------------------------- | ------------ |
+| `Function:Get`    | Get the status of functions         | `cluster`, `namespace`             | Read         |
+| `Function:Create` | Create functions                    | `cluster`, `namespace`             | Write        |
+| `Function:Update` | Update functions                    | `cluster`, `namespace`             | Write        |
+| `Function:Delete` | Delete functions                    | `cluster`, `namespace`             | Write        |
+| `Function:List`   | List functions                      | `cluster`, `namespace`             | List         |
+| `Function:Logs`   | Get logs for functions              | `cluster`, `namespace`             | Read         |
+| `Function:Scale`  | Set the replica count for functions | `cluster`, `namespace`             | Write        |
+| `Function:Invoke` | Invoke a function | `cluster`, `namespace`, `function` | Write |
 
-Secrets:
+!!! note "Invoke permissions"
 
-* `Secret:List` - List secrets
-* `Secret:Create` - Create secrets
-* `Secret:Update` - Update secrets
-* `Secret:Delete` - Delete secrets
+    All functions can be invoked by default, however if they have [Function Authentication enabled](/openfaas-pro/iam/function-authentication/) the `Function:Invoke` action is required to invoke a function.
 
-> Note: (it's not possible to unable to fetch the contents of a secret via API)
+**Secrets**
 
-Namespaces:
+| Action          | Description    | Resource scope         | Access level |
+| --------------- | -------------- | ---------------------- | ------------ |
+| `Secret:List`   | List secrets   | `cluster`, `namespace` | List         |
+| `Secret:Create` | Create secrets | `cluster`, `namespace` | Write        |
+| `Secret:Update` | Update secrets | `cluster`, `namespace` | Write        |
+| `Secret:Delete` | Delete secrets | `cluster`, `namespace` | Writer       |
 
-* `Namespace:List` - List namespaces
-* `Namespace:Get` - Get details of namespaces
-* `Namespace:Create` - Create namespaces
-* `Namespace:Update` - Update namespaces
-* `Namespace:Delete` - Delete namespaces
+**Namespaces**
 
-System:
+| Action             | Description                       | Resource scope         | Access level |
+| ------------------ | --------------------------------- | ---------------------- | ------------ |
+| `Namespace:List`   | List function namespaces          | `cluster`, `namespace` | List         |
+| `Namespace:Get`    | Get details of function namespace | `cluster`, `namespace` | Read         |
+| `Namespace:Create` | Create function namespaces        | `cluster`, `namespace` | Write        |
+| `Namespace:Update` | Update function namespaces        | `cluster`, `namespace` | Write        |
+| `Namespace:Delete` | Delete function namespaces        | `cluster`, `namespace` | Write        |
 
-* `System:Info` - Get system provider information
+**System**
+
+| Action        | Description                     | Resource scope | Access level |
+| ------------- | ------------------------------- | -------------- | ------------ |
+| `System:Info` | Get system provider information | `cluster`      | Read         |
 
 Wildcards can be used to get multiple actions:
 
 * `Function:*` - gives all function permission 
 * `*` - gives all permissions for namespaces, functions, secrets etc
 
-Scope of access:
+Resource scope:
 
-Permissions can be scoped cluster wide, or to a specific namespace:
+Actions can be scoped cluster wide, or to a specific namespace or function. The supported scope depends on the action to which it is applied.
 
-* `*` - cluster-wide access
-* `staging:*` - access to the `staging` namespace only
+* `*` - apply actions cluster wide
+* `staging:*` - apply actions to the `staging` namespace
+* `dev:env` -  apply actions to the `env` function in the `dev` namespace
 
 ## OpenFaaS IAM language
 
