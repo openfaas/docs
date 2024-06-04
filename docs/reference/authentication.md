@@ -13,6 +13,10 @@ Whether your functions require authentication will depend upon the consumers of 
 
 In most cases, whatever you would use with a HTTP server or microservice can be applied with OpenFaaS.
 
+### Built-in authentication
+
+With OpenFaaS Identity and Access Management (IAM) you can secure function endpoints without having to write any additional code. See: [IAM Function Authentication](/openfaas-pro/iam/function-authentication/)
+
 ### Webhooks
 
 When functions receive webhooks, most publishers of events will not support any form of authentication. Messages are verified using symmetric keys, where the client (your function) and the server (GitHub, Stripe, YouTube, etc) share the same secret. When a webhook is received, then your function must create a hash of the payload and compare it with a digest sent by the server. If they match, then the message is genuine. This technique is called [HMAC (hash-based message authentication code)](https://en.wikipedia.org/wiki/HMAC).
