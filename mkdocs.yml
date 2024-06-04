@@ -145,6 +145,7 @@ nav:
       - IAM & Policy:
         - Overview: ./openfaas-pro/iam/overview.md
         - IAM Example: ./openfaas-pro/iam/example-auth0.md 
+        - Function Authentication: ./openfaas-pro/iam/function-authentication.md
         - GitHub Actions Federation: ./openfaas-pro/iam/github-actions-federation.md
         - GitLab Federation: ./openfaas-pro/iam/gitlab-federation.md
         - Auditing Events: ./openfaas-pro/iam/auditing.md
