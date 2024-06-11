@@ -59,6 +59,8 @@ Try using the `faas-cli describe` command to check whether the function has been
 
 You can usually view the YAML from Kubernetes for a function with the `kubectl get -n openfaas deploy/NAME` command, then check the logs for the two pods in the gateway and for events in the openfaas-fn namespace.
 
+If you are still encountering problems, try publishing to a different image tag for each version of your function. For instance, if you are working on version `0.1.0`, try changing the tag to `0.1.1` or `0.1.0-a` and so forth.
+
 ### My function didn't start
 
 Look for `0/1`, restarts or errors showing up here:
@@ -91,6 +93,10 @@ Common issues:
 * You are using a private registry, but haven't configured any image pull secrets. See: [Kubernetes deployment instructions](https://docs.openfaas.com/deployment/kubernetes/)
 * You haven't created a secret which is required for your function to start. Check your function request or stack.yml, and create any missing secrets.
 * Your function is crashing due to an error in your code, check the logs.
+
+### I think my function's name is too long
+
+When using Kubernetes, a function's name should be no longer than 45 characters if it also mounts a secret. This is due to how the projected volume for the Pod's secrets is named.
 
 ### My function is timing out
 
