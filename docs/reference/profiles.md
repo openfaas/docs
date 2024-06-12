@@ -71,6 +71,9 @@ Profiles in Kubernetes work by injecting the supplied configuration directly int
 
 The configuration use the exact options that you find in the Kubernetes documentation.
 
+!!! note "Configuration priority"
+    Resources set in the function spec take precedence over resources set through Profiles.
+
 ### Examples
 
 #### Use an Alternative RuntimeClass
@@ -429,3 +432,33 @@ spec:
     limits:
       nvidia.com/gpu: 1 # requesting 1 GPU
 ```
+
+#### Set default RAM/CPU for all functions
+
+You might want to set default memory and CPU resources for all your functions. This can be done by creating a Profile and applying it to all your functions by default.
+
+Example of a profile that sets Memory/CPU limits and requests:
+
+```yaml
+kind: Profile
+apiVersion: openfaas.com/v1
+metadata:
+    name: default-resources
+    namespace: openfaas
+spec:
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "250m"
+    limits:
+      memory: "128Mi"
+      cpu: "500m"
+```
+
+Add the profiles annotation to all functions to apply this profile.
+
+```yaml
+com.openfaas.profile: default-resources
+```
+
+It is still possible to override the default settings on a per function basis by setting different values in the function `stack.yaml`: see [Memory/CPU limits](/reference/yaml/#function-memorycpu-limits). Resources set in the function spec take precedence over resources set through Profiles.
