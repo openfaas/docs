@@ -96,7 +96,7 @@ Common issues:
 
 ### Is my function's name too long?
 
-When using Kubernetes along with the Function CRD, a function's name can be no longer than 63 characters. This is due to a limitation on the length of label selectors within Kubernetes.
+When using OpenFaaS Standard or OpenFaaS for Enterprises along with the Function CRD, a function's name can be no longer than 63 characters. This is due to a limitation on the length of label selectors within Kubernetes.
 
 If you need longer names for the sake of organisation, then consider [using namespaces](/reference/namespaces) to partition your functions.
 
