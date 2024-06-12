@@ -19,9 +19,9 @@ Authentication can be enabled on a per function basis by setting the `jwt_auth` 
 functions:
   figlet:
     skip_build: true
-      image: ghcr.io/openfaas/figlet:latest
-      environment:
-        jwt_auth: true
+    image: ghcr.io/openfaas/figlet:latest
+    environment:
+      jwt_auth: true
 ```
 
 !!! note
