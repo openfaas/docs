@@ -9,13 +9,14 @@ All workloads must:
 * serve HTTP traffic on TCP port 8080
 * assume ephemeral storage
 * be stateless
+* have a name of no more than 63 characters
 
 And integrate with a health-check mechanism with Kubernetes:
 
-* or enable httpProbe in the `helm` chart and implement `/_/health` as a HTTP endpoint
-* create a lock file in `/tmp/.lock` - removing this file signals service degradation
+* implement `/_/health` as a HTTP endpoint
+* implement `/_/ready` as a HTTP endpoint
 
-> Note: You can specify a custom HTTP Path for the health-check using the `com.openfaas.health.http.path` annotation
+The path for the HTTP ready and health endpoints can be overridden with annotations (see below)
 
 If running in read-only mode, then you can write files to the `/tmp/` mount only. These files may be accessible upon subsequent requests but it is not guaranteed. For instance - if you have two replicas of a function then both may have different contents in their `/tmp/` mount. When running without read-only mode you can write files to the user's home directory subject to the same rules.
 
@@ -39,9 +40,11 @@ Custom binaries can also be used as a function. Just use the `dockerfile` langua
 
 ### Running an existing Docker image on OpenFaaS
 
-Let's take a Node.js app which listens on traffic using port 3000, and assume that we can't make any changes to it.
+If you can change the code in your application, you'll need to add a health and readiness endpoint, along with changing its HTTP port to listen on 8080, then you can deploy it directly to OpenFaaS.
 
-You can view its Dockerfile and code at: [alexellis/expressjs-k8s](https://github.com/alexellis/expressjs-k8s/) and the image is published to the Docker Hub at: `alexellis2/service:0.3.6`
+Let's assume you cannot change any code, and have a Node.js application that listens to traffic on port 3000. We can use the OpenFaaS of-watchdog in HTTP mode to proxy traffic to the process and to provide health checks. 
+
+You can view its Dockerfile and code at: [alexellis/expressjs-k8s](https://github.com/alexellis/expressjs-k8s) and the image is published to the Docker Hub at: `alexellis2/service:0.3.6`
 
 Start by creating a new folder:
 
@@ -53,10 +56,10 @@ Write a custom Dockerfile `./node-service/Dockerfile`:
 
 ```Dockerfile
 # Import the OpenFaaS of-watchdog
-FROM openfaas/of-watchdog:0.7.2 as watchdog
+FROM ghcr.io/openfaas/of-watchdog:0.9.16 as watchdog
 
 # Add a FROM line from your existing image
-FROM alexellis2/service:0.3.6
+FROM alexellis2/service:0.4.1
 
 # Let's say that the image listens on port 3000 and 
 # that we can't change that easily
@@ -91,7 +94,7 @@ functions:
 
 Now run `faas-cli up`
 
-Your code will now listen on port 8080 and fulfil the serverless definition including automatic health-checks and a graceful shutdown.
+Your code will now listen on port 8080 and implement the workload definition for OpenFaaS including automatic health-checks and a graceful shutdown.
 
 You can then access the service at: `http://127.0.0.1:8080/function/node-service`
 
@@ -206,7 +209,6 @@ Readiness probes use the same HTTP path as the health check by default. The path
 * `com.openfaas.ready.http.timeoutSeconds`
 * `com.openfaas.ready.http.successThreshold`
 * `com.openfaas.ready.http.failureThreshold`
-
 
 For example, you may have a function that takes 30s to initialise, but then only needs to be checked every 5s after that.
 
