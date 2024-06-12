@@ -97,7 +97,7 @@ Deploy the stack.yml and invoke the function:
 ```sh
 faas-cli deploy
 
-head -c 16 /dev/urandom | faas-cli invoke --namespace dev stronghash
+openssl rand -base64 32 | faas-cli invoke --namespace dev stronghash
 ```
 
 Override the namespace configured in the stack.yml when deploying the function and test:
@@ -105,7 +105,7 @@ Override the namespace configured in the stack.yml when deploying the function a
 ```sh
 faas-cli deploy --namespace staging-fn
 
-head -c 16 /dev/urandom | faas-cli invoke --namespace staging-fn stronghash
+openssl rand -base64 32 | faas-cli invoke --namespace staging-fn stronghash
 ```
 
 ## Controlling network access

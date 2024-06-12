@@ -94,9 +94,17 @@ Common issues:
 * You haven't created a secret which is required for your function to start. Check your function request or stack.yml, and create any missing secrets.
 * Your function is crashing due to an error in your code, check the logs.
 
-### I think my function's name is too long
+### Is my function's name too long?
 
-When using Kubernetes, a function's name should be no longer than 45 characters if it also mounts a secret. This is due to how the projected volume for the Pod's secrets is named.
+When using Kubernetes along with the Function CRD, a function's name can be no longer than 63 characters. This is due to a limitation on the length of label selectors within Kubernetes.
+
+If you need longer names for the sake of organisation, then consider [using namespaces](/reference/namespaces) to partition your functions.
+
+For example:
+
+`project-skunkworks-long-function-name` could be shortened to `long-function-name`, and then placed in the `project-skunkworks` namespace, effectively going longer than the 63 character limit for organisation.
+
+OpenFaaS namespaces are available in faasd and OpenFaaS for Enterprises.
 
 ### My function is timing out
 

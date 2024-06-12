@@ -21,9 +21,6 @@ To start receiving events with detailed usage metrics you need to enable meterin
 You will need to create an `endpointSecret` which will be shared with the HTTP receiver, and used to sign the webhook payload.
 
 ```bash
-# If openssl is not available on your system, use the following:
-head -c 32 /dev/urandom | base64 | cut -d "-" -f1 > billing-endpoint-secret.txt
-
 # openssl is preferred to generate a random secret:
 openssl rand -base64 32 > billing-endpoint-secret.txt
 
