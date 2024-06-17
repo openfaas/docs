@@ -224,7 +224,7 @@ Add a certificate bundle to OpenFaaS components for use with an internal certifi
 
 Create a secret that contains the CA bundle in the OpenFaaS namespace:
 
-```
+```bash
 kubectl create secret generic \
   -n openfaas \
   ca-bundle \
@@ -236,6 +236,34 @@ Update the OpenFaaS chart and add a reference to the Kubernetes secret with the 
 ```yaml
 caBundleSecretName: ca-bundle
 ```
+
+## Rotate the IAM issuer key
+
+The OpenFaaS IAM issuer has a single key that is used to sign JWT access tokens. It is recommended to regularly rotate this key. To rotate the signing key simply generate a new key and update the `issuer-key` secret in the `openfaas` namespace.
+
+```bash
+# Generate a key
+openssl ecparam -genkey -name prime256v1 -noout -out issuer.key
+
+# Delete the old signing key secret
+kubectl delete secret issuer-key
+
+# Recreate the secret with the new key
+kubectl -n openfaas \
+  create secret generic issuer-key \
+  --from-file=issuer.key=./issuer.key
+```
+
+Restart the OpenFaaS gataway and OIDC plugin:
+
+```bash
+kubectl rollout restart deploy/oidc-plugin -n openfaas
+kubectl rollout restart deploy/gateway -n openfaas
+```
+
+!!! warning
+
+    All existing OpenFaaS API and function access tokens will immediately become invalid after rotating the signing key.
 
 ## FAQ
 
