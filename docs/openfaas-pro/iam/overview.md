@@ -237,9 +237,9 @@ Update the OpenFaaS chart and add a reference to the Kubernetes secret with the 
 caBundleSecretName: ca-bundle
 ```
 
-## Rotate the IAM issuer key
+## Rotate the signing key
 
-The OpenFaaS IAM issuer has a single key that is used to sign JWT access tokens. It is recommended to regularly rotate this key. To rotate the signing key simply generate a new key and update the `issuer-key` secret in the `openfaas` namespace.
+The OpenFaaS IAM issuer uses a key to sign OpenFaaS API and Function Invocation JWTs. It is a best practice to rotate signing keys periodically. To rotate the signing key, generate a new key and update the `issuer-key` secret in the `openfaas` namespace.
 
 ```bash
 # Generate a key
@@ -254,16 +254,16 @@ kubectl -n openfaas \
   --from-file=issuer.key=./issuer.key
 ```
 
-Restart the OpenFaaS gataway and OIDC plugin:
+Restart the OpenFaaS gateway and OIDC plugin:
 
 ```bash
 kubectl rollout restart deploy/oidc-plugin -n openfaas
 kubectl rollout restart deploy/gateway -n openfaas
 ```
 
-!!! warning
+!!! note
 
-    All existing OpenFaaS API and function access tokens will immediately become invalid after rotating the signing key.
+    When the signing key is rotated, any OpenFaaS API and Function Invocation JWTs issued with the previous key will be invalidated. Users of the Dashboard and CLI should log out, and re-authenticate.
 
 ## FAQ
 
