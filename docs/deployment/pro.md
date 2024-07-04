@@ -27,7 +27,7 @@ For OpenFaaS for Enterprises:
 
 You'll also want to install our Grafana dashboards, which give you access to additional metrics:
 
-* [Grafana Dashboards](https://github.com/openfaas/customers/tree/master/dashboards)
+* [Grafana Dashboard JSON files in the Customer Community](https://github.com/openfaas/customers/tree/master/dashboards)
 
 ## Need to update your license?
 

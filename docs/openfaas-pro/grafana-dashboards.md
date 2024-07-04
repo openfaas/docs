@@ -9,6 +9,10 @@ Available dashboards:
 - Queue worker dashboard - Monitor the work queue for your async function invocations.
 - Builder dashboard - Dashboard for monitoring the OpenFaaS [Function Builder API](/openfaas-pro/builder).
 
+See also:
+
+* [Grafana Dashboard JSON files in the Customer Community](https://github.com/openfaas/customers/tree/master/dashboards)
+
 ## Autoscaling and usage metrics dashboard
 
 The usage metrics dashboard gives you an overview of all the function that you have deployed. It gives you insights into:
