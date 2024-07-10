@@ -70,7 +70,7 @@ Build and deploy the function:
 ```bash
 faas-cli local-run -f curl.yml
 
-curl -s http://127.0.0.1 -d "https://www.openfaas.com"
+curl -s http://127.0.0.1:8080 -d "https://www.openfaas.com"
 ```
 
 ### Explore HTTP request headers
