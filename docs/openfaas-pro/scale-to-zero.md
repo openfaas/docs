@@ -21,9 +21,7 @@ Read more on the blog:
 
 Scale to Zero is enabled automatically when you install OpenFaaS Pro with helm and set `autoscaler.enabled: true`. You can see a sample configuration for [OpenFaaS Pro](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/values-pro.yaml) here.
 
-!!! info "Remember faas-idler?"
-
-    If you worked with an older version of OpenFaaS Pro, then you'll remember faas-idler. It has now been replaced by the [OpenFaaS Pro autoscaler](/architecture/autoscaling) which performs both Horizontal Scaling of functions between their minimum and maximum replica count, and down to zero.
+Scale to zero is controlled by the [OpenFaaS Pro autoscaler](/architecture/autoscaling) which also performs Horizontal Scaling of functions between the default or configured minimum and maximum replica counts.
 
 ## Usage
 

@@ -10,7 +10,7 @@ On this page:
 !!! info "OpenFaaS Pro feature"
     This feature is included for [OpenFaaS Pro](/openfaas-pro/introduction) customers, and is designed for commercial use and production systems.
 
-The [OpenFaaS Pro](/openfaas-pro/introduction/) Scaler scales functions horizontally between a minimum and maximum number of replicas, or to zero.
+The [OpenFaaS Pro](/openfaas-pro/introduction/) Autoscaler scales functions horizontally between a minimum and maximum number of replicas, or to zero.
 
 Watch Alex's overview of auto-scaling in OpenFaaS at KubeCon:
 
@@ -32,8 +32,16 @@ Configuration is via a label on the function.
 
 All calls made through the gateway whether to a synchronous function `/function/` route or via the asynchronous `/async-function` route count towards this method of auto-scaling.
 
-![OpenFaaS Pro auto-scaling dashboard with Grafana](https://pbs.twimg.com/media/FJ9EBVdWQAM9DeW?format=jpg&name=medium)
+**Monitor what the autoscaler is doing**
+
+The best way to monitor the load on functions, and the decisions of the autoscaler is through the Grafana dashboard which is included with OpenFaaS Pro. The overview dashboard shows everything you need to know at a glance across all functions, and the spotlight dashboard shows just the one function you select.
+
+[![OpenFaaS Pro auto-scaling dashboard with Grafana](/images/grafana/overview-dashboard.png)](/openfaas-pro/grafana-dashboards)
 > OpenFaaS Pro auto-scaling dashboard with Grafana
+
+In addition to the dashboards, you can monitor the calculations and decisions of the autoscaler.
+
+By default, only API calls to the scale endpoint will be logged, to reduce the load and the amount of logs that may need to be stored. Set `verbose` flag to `true` in the Helm chart under the `autoscaler` section to view each turn or iteration of the `[Scaler]` and `[Idler]` Goroutines as they make decisions.
 
 ## How auto-scaling works
 

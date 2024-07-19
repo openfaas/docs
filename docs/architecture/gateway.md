@@ -6,7 +6,7 @@ Click below to view the image full-size:
 
 [![OpenFaaS Conceptual architecture](../images/of-conceptual-operator.png)](../images/of-conceptual-operator.png)
 
-When deployed each function creates 1 to many Pods/containers depending on the minimum and maximum scaling parameters requested by the user. Functions can also scale to zero and back again through use of the faas-idler or the REST API.
+When deployed each function creates 1 to many Pods/containers depending on the minimum and maximum scaling parameters requested by the user. Functions can also scale to zero and back again through use of the idler in the OpenFaaS Pro Autoscaler or the OpenFaaS Pro REST API.
 
 See also: [auto-scaling](autoscaling.md).
 

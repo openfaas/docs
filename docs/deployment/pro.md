@@ -19,6 +19,8 @@ The Core platform features of OpenFaaS Standard and OpenFaaS for Enterprises con
 
 The Core platform is installed using the same Helm chart as OpenFaaS CE, only with some additional values set, to deploy the additional Pro components and versions.
 
+Optional components include event connectors, such as: the Kafka connector, SQS, SNS, and PostgreSQL connector. You can find details for each in the OpenFaaS Pro docs referenced above.
+
 For OpenFaaS for Enterprises:
 
 * Multiple namespaces are automatically detected and enabled, when you set `clusterRole: true` in the chart.
@@ -127,23 +129,26 @@ helm repo update && \
 
 It is essential that you keep hold of any custom values.yaml files that you create or use during installation. These are needed in order to receive support from OpenFaaS Ltd and to upgrade your installation.
 
+### Leader election
+
+Each OpenFaaS gateway deployment contains both the gateway and the operator. The operator is responsible for managing the Function CRD, and creating Kubernetes resources such as Services and Deployments in response to changes in the Function CRD. If you are running more than one replica of the gateway deployment, then you must enable leaderElection to avoid conflicts and warnings between the operator instances.
+
+### What happens if you disable the ClusterRole?
+
+The ClusterRole is required for
+
+* OpenFaaS Standard and for Enterprises for Prometheus in order to discover and scrape node-level metrics for monitoring, API metrics and CPU-based autoscaling
+* OpenFaaS for Enterprises to manage functions in various namespaces
+
 ## How to upgrade OpenFaaS
 
 OpenFaaS Standard and For Enterprises are both installed and upgraded in the same way, so you use the same `helm upgrade --install` command from the second above. There is no reason to "uninstall" the helm chart to perform an upgrade.
 
 The only time that `helm upgrade --install` may not work is when you are changing from `clusterRole: false` to `clusterRole: true`. In this instance, you will need to delete the conflicting Kubernetes objects one by one as directed by the output from helm, before running `helm upgrade --install` again.
 
-### Installing new Custom Resource Definitions (CRDs)
+We recommend upgrading OpenFaaS every 1-2 weeks to ensure you have the latest fixes, security patches and features. Breaking changes are rare, and are published in the [Customer Community](https://github.com/openfaas/customers).
 
-CRDs are split into two categories:
-
-1. Those that are bundled via the chart and updated on each installation/update - including Function, Profile and FunctionIngress.
-2. Those which are required before the chart is installed for IAM policies.
-
-To update the type 2 CRDs, you'll need to run the [steps under "2.1 CRDs in the ./crds folder
-"](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/crds/README.md).
-
-### Automatic upgrades with ArgoCD or FluxCD
+### Automatic updates with ArgoCD or FluxCD
 
 You can use ArgoCD or FluxCD to manage the installation of OpenFaaS by providing a custom values.yaml file. In this way, newer versions of the OpenFaaS components and Helm chart will be applied automatically, as they become available.
 
@@ -151,6 +156,16 @@ See also:
 
 * [Bring GitOps to your OpenFaaS functions with ArgoCD](https://www.openfaas.com/blog/bring-gitops-to-your-openfaas-functions-with-argocd/)
 * [Upgrade to Flux v2 to keep OpenFaaS up to date](https://www.openfaas.com/blog/upgrade-to-fluxv2-openfaas/)
+
+### Installing new Custom Resource Definitions (CRDs)
+
+CRDs are split into two categories:
+
+1. Those that are bundled via the chart and updated on each installation/update - including Function, Profile and FunctionIngress. These are kept as templates so that they are updated whenever the chart is updated.
+2. Those which are required before the chart is installed for IAM policies. The second category is required at installation time due to installing instances of these Custom Resources at installation time.
+
+To update the type 2 CRDs, you'll need to run the [steps under "2.1 CRDs in the ./crds folder
+"](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/crds/README.md).
 
 ## How to check your installation
 
@@ -178,6 +193,17 @@ There are a number of event connectors for OpenFaaS, all of which are installed 
 
 [View helm charts for event connectors](https://github.com/openfaas/faas-netes/tree/master/chart)
 
+### Dedicated queues and queue-workers
+
+There is a separate Helm chart that you can install to provision and manage queue-workers for dedicated queues.
+
+Dedicated queues are useful tenant-level isolation, or to provide a higher Quality of Service (QoS) for certain functions.
+
+Learn more:
+
+* [JetStream queue-worker](/openfaas-pro/jetstream/#multiple-queues)
+* [Dedicated JetStream queue-worker helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/queue-worker)
+
 ### OpenFaaS Pro CLI
 
 The OpenFaaS Pro CLI provides additional functionality on top of faas-cli, such as build-time secrets, and a `local-run` command to try out functions without deploying them.
@@ -197,8 +223,9 @@ The OpenFaaS Pro Function Builder API can be deployed through a [separate Helm c
 
 [View chart](/openfaas-pro/builder)
 
-### SSO & IAM
+### Identity and Access Management (IAM) and Single-Sign On (SSO)
 
-Single-Sign On and IAM are closely related and are often configured at the same time.
+Identity and Access Management (IAM) and Single-Sign On (SSO) are closely related and are often configured at the same time. IAM is how Identity Providers (IdPs) are configured and how users are authenticated and authorised. Single-Sign On is how users leverage an IdP to authenticate and authorise themselves to the OpenFaaS dashboard, API and CLI.
 
-See our walkthrough for an overview of how this works: [Walkthrough of Identity and Access Management (IAM) for OpenFaaS](https://www.openfaas.com/blog/walkthrough-iam-for-openfaas/).
+* [Identity and Access Management (IAM)](/openfaas-pro/iam/overview)
+* [Single-Sign On (SSO)](/openfaas-pro/sso/overview)
