@@ -99,6 +99,10 @@ faas-cli up --remote-builder http://127.0.0.1:8081/build \
 
 ### Remote builds via `curl`
 
+As an alternative to a private or authenticated registry, you can use [ttl.sh by Replicated](https://ttl.sh) as a temporary registry for testing (only). It allows you to publish containers that are removed after a certain time-limit, try `ttl.sh/test-image-hello:1h` for an image that is removed after 1 hour.
+
+You can use any registry that is configured in your `config.json` file by changing the `image` field in the configuration file.
+
 Create a build context using the `faas-cli build --shrinkwrap` command:
 
 ```bash
@@ -108,7 +112,7 @@ mkdir -p /tmp/functions
 cd /tmp/functions
 
 # Create a new function
-faas-cli new --lang node16 hello-world
+faas-cli new --lang node20 hello-world
 
 # The shrinkwrap command performs the templating 
 # stage, then stops before running "docker build"
@@ -126,11 +130,10 @@ mv hello-world context
 # Create a config file with the registry and the 
 # image name that you want to use for publishing the 
 # function.
-export DOCKER_USER=alexellis2
-echo -n '{"image": "docker.io/'$DOCKER_USER'/test-image-hello:0.1.0"}' > com.openfaas.docker.config
+export REGISTRY=ttl.sh
+export OWNER=alexellis2
+echo -n '{"image": "'$REGISTRY'/'$OWNER'/test-image-hello:0.1.0", "platforms": ["linux/amd64","linux/arm64"]}' > com.openfaas.docker.config
 ```
-
-> As an alternative to a private or authenticated registry, you can use [ttl.sh by Replicated](https://ttl.sh) as a temporary registry for testing (only). It allows you to publish containers that are removed after a certain time-limit, try `ttl.sh/test-image-hello:1h` for an image that is removed after 1 hour.
 
 If you wish, you can also construct this filesystem using your own application, but it is easier to execute the `faas-cli` command from your own code.
 
@@ -176,10 +179,12 @@ curl -H "X-Build-Signature: sha256=$HMAC" -s http://127.0.0.1:8081/build -X POST
 ....
     "v: 2021-10-20T16:48:34Z exporting to image 8.01s"
   ],
-  "image": "docker.io/alexellis2/test-image-hello:0.1.0",
+  "image": "ttl.sh/alexellis2/test-image-hello:0.1.0",
   "status": "success"
 }
 ```
+
+The initial build is likely to take some time, however, if you run the build again or only change some text within a file the subsequent build could complete with single-digit seconds.
 
 ### Remote builds with a HTTP client
 
@@ -229,7 +234,7 @@ There are several examples available of how to call the Function Builder's API v
 
 You should be able to translate the example given with curl into any programming language, but if you need additional support, feel free to [reach out to us](https://openfaas.com/support).
 
-## Monitor the builder
+## How to monitor the builder
 
 The builder has additional metrics which will be scraped by the Prometheus instance installed by the OpenFaaS helm chart.
 
@@ -239,28 +244,57 @@ The builder has additional metrics which will be scraped by the Prometheus insta
 
 * [Download the Grafana JSON file from the Customer Community](https://github.com/openfaas/customers/tree/master/dashboards)
 
-## In-cluster access
+## How to gain in-cluster access
 
-You can access the Function Builder via your code, or an OpenFaaS function by specifying its URL and its in-cluster service name. You do not need to expose the builder's API publicly.
+You can access the Function Builder via your code, or an OpenFaaS function by specifying its URL and its in-cluster service name.
 
 ```
 http://pro-builder.openfaas:8080/build
 ```
 
-## Build arguments
+Even though the endpoint is authenticated, we recommend you do not expose the builder's API to the Internet.
+
+## How to specify build arguments
 
 You may need to enable build arguments for the Dockerfile, these can be passed through the configuration file.
 
 ```json
 {
-  "image": "docker.io/alexellis2/test-image:0.1.0",
+  "image": "ttl.sh/alexellis/test-image:0.1.0",
   "buildArgs": {
     "BASE_IMAGE": "gcr.io/quiet-mechanic-140114/openfaas-base/node16"
   }
 }
 ```
 
-## Scaling the builder
+## How to perform multi-arch builds
+
+You may wish to cross-compile a function to run on an arm64 host, if so, you can provide a `platform` key in the configuration file.
+
+The below will build an image for arm64 only and must be deployed only to an arm64 host using OpenFaaS Profiles to ensure it is scheduled correctly to an arm64 host.
+
+```json
+{
+  "image": "ttl.sh/alexellis/test-image:0.1.0",
+  "platforms": ["linux/arm64"]
+}
+```
+
+Multiple platforms can be specified, the below will build an image for arm64 and amd64, and can be deployed to either type of host.
+
+```json
+{
+  "image": "ttl.sh/alexellis/test-image:0.1.0",
+  "platforms": ["linux/arm64", "linux/amd64"]
+}
+```
+
+Bear in mind:
+
+* multi-arch images will usually take longer to publish than single-arch images due to emulation with QEMU
+* any steps performed under a TARGETARCH which differs from BUILDARCH will be emulated with QEMU which will add overhead to the build process - you can mitigate this by running a dedicated arm64 and amd64 pro-builder Helm chart installation
+
+## How to scale the builder
 
 The Function Builder can be scaled out, which also deploys additional replicas of the Function Builder:
 
@@ -269,7 +303,7 @@ kubectl scale -n openfaas deploy/pro-builder \
   --replicas=3
 ```
 
-## Limiting the amount of concurrent requests
+## How to limiting the amount of concurrent builds
 
 You can limit the amount of concurrent requests that a builder will accept by setting `proBuilder.maxInflight: N` within the helm chart or the `max_inflight` environment variable on the Deployment.
 
