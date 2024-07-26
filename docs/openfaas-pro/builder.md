@@ -84,6 +84,14 @@ faas-cli publish --remote-builder http://127.0.0.1:8081/build \
   --payload-secret $HOME/.openfaas/payload.txt
 ```
 
+The `--platforms` flag also works for cross-compilation, or multi-arch builds:
+
+```bash
+faas-cli publish --remote-builder http://
+    --platforms "linux/amd64,linux/arm64" \
+    --payload-secret $HOME/.openfaas/payload.txt
+```
+
 To deploy the image that you've just built:
 
 ```bash
@@ -270,6 +278,8 @@ You may need to enable build arguments for the Dockerfile, these can be passed t
 ## How to perform multi-arch builds
 
 You may wish to cross-compile a function to run on an arm64 host, if so, you can provide a `platform` key in the configuration file.
+
+You will need to make sure your Dockerfile uses the proper syntax, the official templates are a good reference if you need guidance, otherwise reach out to our team if you get stuck.
 
 The below will build an image for arm64 only and must be deployed only to an arm64 host using OpenFaaS Profiles to ensure it is scheduled correctly to an arm64 host.
 
