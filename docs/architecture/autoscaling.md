@@ -282,6 +282,22 @@ The latency between accepting a request for an unavailable function and serving 
 
     That shouldn't happen, providing that you've set an adequate value for the idle detection for your function. But if it does, the OpenFaaS watchdog and our official function templates will allow a graceful termination of the function. See also: [Improving long-running jobs for OpenFaaS users](https://www.openfaas.com/blog/long-running-jobs/)
 
+## Smoothing out scaling down with a stable window
+
+The `com.openfaas.scale.down.window` label can be set with a Go duration up to a maximum of `5m` or `300s`. When set, the autoscaler will record recommendations on each cycle, and only scale down a function to the highest recorded recommendation of replicas.
+
+For example, a function receives a peak in traffic and scales to 10 replicas. The recommendations built up may include 8, 8, 7, 6, 5, 4, 5, 5 replicas, in this case, even if the autoscaler would pick something as low as 2 replicas, based upon the current load, it will only be allowed to scale down to 8 replicas. Once scale down window moves along, and the maximum recommendation decreases, then the value will eventually land on something that matches the current load being received.
+
+In the above scenario, if you were to turn on verbose autoscaling, you'd have seen the following log message, showing the traffic demands 2x replicas, however the stable window is smoothing the decrease out.
+
+```
+2024/08/05 15:16:25 [Scaler] cows.openfaas-fn 10 => 2 (want: 8)
+```
+
+The purpose of this option is to slow down the rate of scaling down, when a function receives variable traffic over a relatively long period of time.
+
+Scaling up, and scale to zero are unaffected, by default this setting is turned off.
+
 ## Legacy scaling for the Community Edition (CE)
 
 !!! warning "Legacy scaling for the Community Edition (CE)"
