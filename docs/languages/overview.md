@@ -12,23 +12,23 @@ There are many community templates, of varying levels of support and maintenance
 
 There are a number of official templates maintained and recommended by OpenFaaS Ltd, the following are currently documented:
 
-* [Go](/languages/go)
-* [Node](/languages/go)
-* [Python](/languages/go)
-* [Dockerfile](/languages/dockerfile)
-* [CSharp](/languages/csharp)
+* [Go](./go.md)
+* [Node](./node.md)
+* [Python](./python.md)
+* [Dockerfile](./dockerfile.md)
+* [CSharp](./csharp.md)
 
 See also: [other templates information - C#, Java, Ruby, Rust and Bash](/cli/templates)
 
 Community support:
 
-* [PHP](/languages/php)
+* [PHP](./php.md)
 
 Additional templates are available from the community via `faas-cli template store list`
 
 ### Custom templates
 
-You can also [create your own custom templates](/languages/custom), or fork an existing template and adapt it for your own needs.
+You can also [create your own custom templates](./custom.md), or fork an existing template and adapt it for your own needs.
 
 ### Existing Dockerfiles / images
 
