@@ -27,7 +27,7 @@ If the whole process takes less than a few seconds, this may be the ideal approa
 
     ![Asynchronous](/images/async.png)
 
-    This is beneficial if there are for instance 100 requests that all take 2 minutes to execute. It means the client / caller needs to wait only for a new milliseconds.
+    This is beneficial if there are for instance 100 requests that all take 2 minutes to execute. It means the client / caller needs to wait only for a few milliseconds.
 
 ### How it works
 
