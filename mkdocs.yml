@@ -190,12 +190,12 @@ nav:
     - Profiles: ./reference/profiles.md
   - Design & Architecture:
       - Invocations: ./architecture/invocations.md
-      - Production: ./architecture/production.md
-      - Stack: ./architecture/stack.md
+      - Autoscaling: ./architecture/autoscaling.md
       - Gateway: ./architecture/gateway.md
       - Watchdog: ./architecture/watchdog.md
-      - Autoscaling: ./architecture/autoscaling.md
       - Metrics: ./architecture/metrics.md
+      - Stack: ./architecture/stack.md
+      - Production: ./architecture/production.md
       - Performance: ./architecture/performance.md
       - FaaS Provider: ./architecture/faas-provider.md
       - Logs Provider: ./architecture/logs-provider.md
