@@ -9,12 +9,16 @@ There are two main uses for the built-in Prometheus server:
 1. To power scale to zero, and the horizontal Pod autoscaler.
 2. To provide basic metrics to end-users, and to power the Grafana dashboards offered to OpenFaaS Standard customers.
 
+### Viewing metrics
+
+See the various [Grafana dashboards](/openfaas-pro/grafana-dashboards) curated by our team.
+
 ### Long term retention of metrics
 
-* There is no persistence by default, so restarting the Prometheus Pod will reset all metrics. This is as designed, since the metrics are collected for autoscaling primarily.
-* The default retention period is 15 days, so anything older than that will no longer be visible. This is as designed, and will allow for SRE/DevOps work and active monitoring.
+* There is no persistence in the Prometheus Pod, so restarting the Prometheus will remove all historic metrics. This is as designed, since the metrics are collected for autoscaling and short-term monitoring.
+* The default retention period is 15 days, so anything older than that will no longer be visible. This is as designed, however the Helm chart does offer a way to modify this if disk space is becoming an issue, or you need to retain metrics for slightly longer.
 
-What if you would like to enable long-term retention?
+What if you would like to enable long-term retention of Prometheus metrics?
 
 Our recommendation is *not to* try to re-configure or alter the built-in Prometheus server, but to deploy your own, and to scrape the internal one via [Prometheus Federation](https://prometheus.io/docs/prometheus/latest/federation/).
 
@@ -48,6 +52,16 @@ Advanced metrics for OpenFaaS Pro users:
 | `http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `status` | Pro Edition  |
 
 The `http_request*` metrics record the latency and statistics of `/system/*` routes to monitor the OpenFaaS gateway and its provider. The `/async-function` route is also recorded in these metrics to observe asynchronous ingestion rate and latency.
+
+Additional metrics from the Operator:
+
+| Metric                              | Type       | Description                         | Labels                     | Edition            |
+| ----------------------------------- | ---------- | ----------------------------------- | -------------------------- |--------------------|
+| `faasnetes_scale_total`                  | counter    | Number of times a function has been scaled (ignoring requests where current and desired replicas are equal) | `function_name`, `status` | Pro Edition  |
+| `faasnetes_sync_handler_gauge`             | gauge      | Number of reconciliation functions running at given time | `status` | Pro Edition  |
+| `faasnetes_sync_handler_histogram`        | histogram  | Time taken to reconcile function Custom Resources into Kubernetes objects | `status` | Pro Edition  |
+
+The `faasnetes_scale_total` metric is useful for tracking the number of times a function has been scaled up or down. The `faasnetes_sync_handler_gauge` and `faasnetes_sync_handler_histogram` metrics are useful for tracking the amount of time spent reconciling function Custom Resources into Kubernetes objects in large deployments of OpenFaaS.
 
 ## CPU & RAM usage/consumption
 
