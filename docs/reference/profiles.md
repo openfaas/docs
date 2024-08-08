@@ -68,6 +68,7 @@ Profiles in Kubernetes work by injecting the supplied configuration directly int
 | `dnsConfig` | https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-dns-config | Standard/for Enterprises |
 | `resources` | https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ | Standard/for Enterprises |
 | `strategy` | Currently only changing the strategy type to `Recreate` is supported. https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy  | Standard/for Enterprises| 
+| `priorityClassName` | https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass | Standard/for Enterprises |
 
 The configuration use the exact options that you find in the Kubernetes documentation.
 
@@ -125,6 +126,35 @@ functions:
       com.openfaas.profile: gvisor
 ```
 
+#### Set an elevated Pod priority with priorityClassName
+
+In some cases, you may want to set a higher priority for certain functions to ensure they are scheduled first, or evicted last by the scheduler. This can be done by setting the `priorityClassName` in a Profile.
+
+Example:
+
+```yaml
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: high-priority
+value: 1000000
+globalDefault: false
+description: "This priority class should be used for XYZ service pods only."
+---
+apiVersion: openfaas.com/v1
+kind: Profile
+metadata:
+    name: high-priority-functions
+    namespace: openfaas
+spec:
+    priorityClassName: "high-priority-functions"
+```
+
+Then add an annotation to the function:
+
+```yaml
+com.openfaas.profile: high-priority-functions
+```
 
 #### Specify a nodeSelector to schedule functions to specific nodes
 
