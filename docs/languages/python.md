@@ -366,3 +366,22 @@ HTTP/2 200
 Access granted
 ```
 
+### How to perform package upgrades at build time
+
+The base images for the official OpenFaaS templates come from the Docker Hub, these images are built with automation and should always have the latest apk or apt packages installed.
+
+That said, if you need to upgrade the images sooner, or are using an older image that was mirrored from the Docker Hub, you can add a `--build-arg` flag or `build_args:` entry in stack.yaml to force an upgrade on each build.
+
+```yaml
+functions:
+  fn1:
+    lang: python3-http
+    build_args:
+      - UPGRADE_PACKAGES: "true"
+```
+
+```bash
+faas-cli publish --filter fn1\
+    --build-arg UPGRADE_PACKAGES=true
+```
+
