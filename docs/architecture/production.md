@@ -17,6 +17,8 @@ You can either use a managed Kubernetes service from a public cloud provider suc
 
 These instructions apply for both Kubernetes, however OpenShift 3.x and 4.x are compatible with some additional tuning, which you can request via support.
 
+OpenFaaS Standard and For Enterprises can also be installed into an airgapped Kubernetes cluster using tooling of your choice, or our own internal tooling [airfaas]()
+
 ### Advanced Kubernetes configuration
 
 * [Encrypting Secret Data at Rest](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) (optional)
