@@ -320,7 +320,7 @@ prometheus:
         scaling_type: latency
 ```
 
-To check the configuration of current recording rules use the Prometheus UI or run `kubectl edit -n openfaas configmap/prometheus-config`.
+To check the configuration of current recording rules use the Prometheus UI or run `kubectl edit -n openfaas configmap/prometheus-config` followed by `kubectl rollout restart -n openfaas deploy/prometheus`.
 
 ## Legacy scaling for the Community Edition (CE)
 
