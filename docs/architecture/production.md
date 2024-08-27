@@ -1,6 +1,6 @@
 # Deploy OpenFaaS Pro in Production
 
-OpenFaaS is meant for open-source developers, but OpenFaaS Pro is meant for production.
+OpenFaaS Pro is meant for production.
 
 This page contains recommendations for tuning OpenFaaS Pro for production usage.
 
@@ -13,7 +13,7 @@ This page contains recommendations for tuning OpenFaaS Pro for production usage.
 
 OpenFaaS Pro requires [Kubernetes](https://kubernetes.io/).
 
-It's recommended that you use a managed service from a public cloud provider such as GKE, AWS EKS or Digital Ocean Kubernetes. You can also deploy to your own infrastructure in the cloud or privately, on-premises.
+You can either use a managed Kubernetes service from a public cloud provider such as GKE, AWS EKS or Digital Ocean Kubernetes, or deploy to your own infrastructure in the cloud or privately, on-premises using something like K3s, Rancher, or OpenShift.
 
 These instructions apply for both Kubernetes, however OpenShift 3.x and 4.x are compatible with some additional tuning, which you can request via support.
 
@@ -27,9 +27,9 @@ These instructions apply for both Kubernetes, however OpenShift 3.x and 4.x are 
 
 The `helm` chart is the most flexible way to deploy OpenFaaS and allows you to customize many different options such as whether scale-to-zero is enabled, how many replicas to have of each component and what kind of healthchecks or probes to use.
 
-You will find each helm chart option documented in the OpenFaaS chart:
+You will find each helm chart option documented in the [OpenFaaS Chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#configuration).
 
-> See also: [OpenFaaS Chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#configuration)
+* [Setup instructions are available here for OpenFaaS Pro - Standard and For Enterprises](https://docs.openfaas.com/deployment/pro/), including suggested values for the Helm chart.
 
 The chart is compatible with [GitOps-style](https://www.weave.works/technologies/gitops/) tooling such as [Flux](https://fluxcd.io/) and [ArgoCD](https://argo-cd.readthedocs.io/en/stable/). We recommend using one of these tools to manage your deployment of OpenFaaS declaratively.
 
@@ -49,11 +49,27 @@ It is recommended that you have high-availability for the OpenFaaS components in
 
     For a production environment, we recommend a minimum of three replicas of the gateway. You can set an additional auto-scaling rule with HPAv2 if you have purchased additional licenses for that environment.
 
+    By default, the OpenFaaS gateway includes a Topology Spread Constraints to ensure that replicas are spread across different nodes. This means that if a node were to be reclaimed or any reason, the gateway would still be available, since at least one replica would be running on another node.
+
 * OpenFaaS queue-worker
 
     The queue worker is responsible for processing asynchronous invocations. It's recommended to run at least two replicas of this service. Each queue worker can potentially run hundreds of invocations concurrently, and can be configured with different queues per function if required.
 
-See the faas-netes chart for more options on the above.
+* NATS JetStream
+
+    The default configuration for NATS JetStream uses in-memory storage which means if the NATS Pod crashes or is relocated to another node, you will lose messages. It is recommended to turn off NATS in the OpenFaaS chart and to install it separately using the NATS Operator or helm chart using a Persistent Volume, high-availability, or both. Details are available in the [customer community](https://github.com/openfaas/customers)
+
+* Prometheus
+
+    The Prometheus instance is used to scrape metrics from the OpenFaaS components and functions. It is designed to be ephemeral and uses storage within the Pod, which means if the Pod is restarted, you will lose metrics. In practice this is not a problem, since the metrics required to operate only need to be short-lived.
+
+    It is not supported for OpenFaaS itself to use an external Prometheus instance, so if you need long-term retention of metrics, you need to run a second Prometheus instance which scrapes the internal one. This is known as "federation"
+
+* AlertManager
+
+    AlertManager is not used in OpenFaaS Pro
+
+See the [getting started page for OpenFaaS Pro](https://docs.openfaas.com/deployment/pro/) for more options on the above.
 
 #### Endpoint load-balancing
 
@@ -85,13 +101,13 @@ There are both liveness and readiness checks for functions. If you are using the
 
 Set the non-root user flag so that every function is forced to run in a restricted security context.
 
-#### Choose the operator or faas-netes
+#### Use only the operator and CRD
 
-The faas-netes controller for OpenFaaS is the most mature, well tested and supported.
+Previously, a "controller" mode was available for OpenFaaS which had an imperative REST API and no CRD.
 
-You may also use the OpenFaaS Operator if you would like to use a Function CRD, which is required for GitOps-style tooling like Flux and ArgoCD.
+This was replaced by the "operator" mode, which should always be used in production. The operator mode uses a Custom Resource Definition (CRD) to manage functions and other resources.
 
-If you are not sure which to use, then faas-netes is a good choice.
+The setting needs to be: `operator.create: true`
 
 See the [helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas) for more.
 
@@ -191,7 +207,7 @@ This is dependent on using a network driver which supports NetworkPolicy such as
 
 See also: [an example from OpenFaaS Cloud](https://github.com/openfaas/openfaas-cloud/tree/master/yaml/network-policy)
 
-## NATS Streaming (asynchronous invocations)
+## NATS JetStream (asynchronous invocations)
 
 If you are using the asynchronous invocations available in OpenFaaS then you may want to ensure high-availability or persistence for NATS Streaming. The default configuration uses in-memory storage which means if the NATS Pod crashes or is relocated to another node, you may lose messages.
 
