@@ -301,6 +301,27 @@ The purpose of this option is to slow down the rate of scaling down, when a func
 
 Scaling up, and scale to zero are unaffected, by default this setting is turned off.
 
+## Custom autoscaling rules
+
+In addition to the built-in scaling types, custom Prometheus expressions can be used to scale functions. For instance you may want to scale based upon queue-depth, Kafka consumer lag, latency, RAM used by a function, or a custom business metric exposed by your function's handler.
+
+You can learn more in the blog post: [How to scale OpenFaaS Functions with Custom Metrics](https://www.openfaas.com/blog/custom-metrics-scaling/).
+
+For example, to add latency-based scaling using the gateway's gateway_functions_seconds histogram, you could add the following to the openfaas chart in values-pro.yaml:
+
+```yaml
+prometheus:
+  recordingRules:
+    - record: job:function_current_load:sum
+      expr: |
+        sum by (function_name) (rate(gateway_functions_seconds_sum{}[30s])) / sum by (function_name)  (rate( gateway_functions_seconds_count{}[30s]))
+        and on (function_name) avg by(function_name) (gateway_service_target_load{scaling_type="latency"}) > bool 1
+      labels:
+        scaling_type: latency
+```
+
+To check the configuration of current recording rules use the Prometheus UI or run `kubectl edit -n openfaas configmap/prometheus-config`.
+
 ## Legacy scaling for the Community Edition (CE)
 
 !!! warning "Legacy scaling for the Community Edition (CE)"
