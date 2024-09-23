@@ -50,7 +50,27 @@ You may also be interested in:
 * Deploying to constrained IoT or edge devices
 * Shrink-wrapping functions into a VM image to deploy for customers or clients.
 
-[Deploy faasd](https://github.com/openfaas/faasd/)
+faasd CE is available for personal use, and limited commercial use in a "Small Business Environment", [read the EULA to find out if you quality](https://github.com/openfaas/faasd/blob/master/EULA.md).
+
+The CE version is limited to a single namespace, with a limit of 15 functions, which should be sufficient for most personal projects and for internal use within a Small Business Environment. OpenFaaS Edge is a commercial distribution of faasd with additional features and higher limits.
+
+[Deploy faasd CE](https://github.com/openfaas/faasd/)
+
+### OpenFaaS Edge
+
+OpenFaaS Edge is a commercial distribution of faasd, with enhancements and additional features from [OpenFaaS Pro](/openfaas-pro/introduction). The [OpenFaaS Pro EULA applies](https://github.com/openfaas/faas/blob/master/pro/EULA.md).
+
+* Upgraded Cron Connector, JetStream Queue Worker and Classic Scale to Zero from OpenFaaS Pro
+* Deploy up to 250 functions
+* Configure private DNS servers
+* Airgap-friendly with installation bundled in an OCI image
+* Multiple namespace support
+
+This version is intended for resale as part of a wider solution, and to be deployed both into industrial and on-premises environments.
+
+Individual [GitHub Sponsors of OpenFaaS](https://github.com/sponsors/openfaas) (25 USD / mo and higher) can use OpenFaaS Edge for personal use.
+
+[Deploy OpenFaaS Edge](https://github.com/openfaas/faasd?tab=readme-ov-file#deploy-openfaas-edge-commercial-distribution-of-faasd)
 
 ## OpenShift - 3.x / 4.x
 
