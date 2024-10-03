@@ -73,7 +73,7 @@ functions:
       - database-connections
 ```
 
-## Example of using a secret
+## How to consume a secret
 
 Create a new function with the `python3-http` template:
 
@@ -170,8 +170,29 @@ HTTP/2 200
 Hello from OpenFaaS
 ```
 
-## Secrets and Infrastructure as Code (IaaC)
+## How to update a secret
 
-You can manage secrets through Git repositories using the [SealedSecrets project from Bitnami](https://github.com/bitnami-labs/sealed-secrets). This approach enables GitOps or Infrastructure as Code (IaaC) - a public key is used to encrypt your secret files and literal values, which is then decrypted by a controller in the cluster using a separate private key.
+If you need to update a secret for a function, you can use the `faas-cli secret update` command:
 
-Another popular option is to use AWS Secrets Manager, without Git with the open source [External Secrets Operator](https://external-secrets.io/latest/).
+```bash
+faas-cli secret update protected-api-token \
+  --from-file=protected-api-token.txt
+```
+
+The kubelet component of Kubernetes monitors changes in secrets and updates the contents of the files mounted into any Function Pods. It can take anywhere between a few seconds and minutes for new secrets to be rolled out by the kubelet, there is no way to speed this up this process, other than restarting the Deployment or Pod for the Function, which is not recommended.
+
+For faasd users, the file will be updated immediately.
+
+In order to take advantage of update secrets, you should either:
+
+* Read the secret from disk every time you require it
+* Use an fsnotify library to watch for changes, and re-read the secret at that time.
+
+## Automated secrets
+
+There are various options for managing secrets in a more automated way, such as:
+
+You can manage secrets through Git repositories using the [SealedSecrets project from Bitnami](https://github.com/bitnami-labs/sealed-secrets). This approach enables GitOps or Infrastructure as Code (IaaC) - a public key is used to encrypt your secret files and literal values, which is then decrypted by a controller in the cluster using a separate private key. The [SOPS project](https://github.com/getsops/sops) originally created by Mozilla provides an alterantive to SealedSecrets and can also be used to encrypt secrets for storage in Git.
+
+Another popular option is to use AWS Secrets Manager, Hashicorp Vault directly, or a cloud-based keystore using the Open Source [External Secrets Operator](https://external-secrets.io/latest/). The External Secrets Operator will read secrets from cloud-based key stores and inject them into Kubernetes secrets, which can then be used as normal by functions.
+
