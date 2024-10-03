@@ -94,6 +94,26 @@ Common issues:
 * You haven't created a secret which is required for your function to start. Check your function request or stack.yml, and create any missing secrets.
 * Your function is crashing due to an error in your code, check the logs.
 
+### My Function Custom Resource had an error, now it's taking too long to recover
+
+If you create a Function Custom Resource that is in an invalid state due to a missing Secret, invalid requests/limits, or some other parsing or validation error, then the .Status will will go into a "stalled" condition.
+
+You can view conditions by running `kubectl describe -n openfaas-fn function/nodeinfo` for instance.
+
+Every time the Operator tries to reconcile the Function, it will fail, and then wait for a back-off period before trying again. This is standard behaviour for Kubernetes controllers, in order to prevent a misconfigured resource from blocking or crashing the system.
+
+If you have fixed the error condition by changing the Function's .Spec, then the operator will immediately try to reconcile the Function again, resetting the back-off period at the same time.
+
+However, if the .Spec has not changed, and instead some other condition like a missing Secret is now satisfied, you can either wait until the next back-off period, or you can annotate the Function to force the Operator to try again:
+
+```bash
+kubectl annotate -n openfaas-fn function/nodeinfo \
+  --overwrite \
+  com.openfaas.uid=1
+```
+
+The value of the `uid` field can be any value, if you want to force the Operator to try and you already have a value here, then you can just change it to a different value, i.e. `2` or a random string like a UUID.
+
 ### Is my function's name too long?
 
 When using OpenFaaS Standard or OpenFaaS for Enterprises along with the Function CRD, a function's name can be no longer than 63 characters. This is due to a limitation on the length of label selectors within Kubernetes.
