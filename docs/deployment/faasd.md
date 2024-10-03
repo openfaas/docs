@@ -41,10 +41,10 @@ faasd CE is a static binary which requires a Linux system configured with system
 
 OpenFaaS Edge is a commercial distribution of faasd, with enhancements and additional features from [OpenFaaS Pro](/openfaas-pro/introduction). The [OpenFaaS Pro EULA applies](https://github.com/openfaas/faas/blob/master/pro/EULA.md).
 
-* Upgraded Cron Connector, JetStream Queue Worker and Classic Scale to Zero from OpenFaaS Pro
-* Deploy up to 250 functions
+* Upgraded Pro components from OpenFaaS Standard: Gateway, Cron Connector, JetStream Queue Worker and Classic Scale to Zero
+* Deploy up to 250 functions per installation
 * Configure private DNS servers
-* Airgap-friendly with installation bundled in an OCI image
+* Airgap-friendly with installation bundled in an OCI image and rpm package
 * Multiple namespace support
 
 This version is intended for resale as part of a wider solution, and to be deployed both into industrial and on-premises environments.
