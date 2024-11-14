@@ -149,7 +149,7 @@ All the items below are included in the standard self-service/license-only packa
 | Support via email           | n/a               | Pro features only      | All certified Open Source and commercial components |
 | Support via GitHub          | n/a               | Pro features only using the Customer Community      | n/a |
 | Support via Slack           | n/a               | n/a                    | 5x users (with ESA) |
-| License                     | [Community Edition EULA - 60 day limit for commercial use](https://github.com/openfaas/faas/blob/master/EULA.md)| [Commercial license EULA](https://github.com/openfaas/faas/blob/master/pro/EULA)     | as per Standard |
+| License                     | [Community Edition EULA - 60 day limit for commercial use](https://github.com/openfaas/faas/blob/master/EULA.md)| [Commercial license EULA](https://github.com/openfaas/faas/blob/master/pro/EULA.md)     | as per Standard |
 | Annual architecture review  | n/a            | n/a                    | With our team via Zoom (with ESA) |
 | Onboarding call | n/a            | With our team via Zoom                   | As per Standard |
 | Developer licenses | n/a            | n/a                   | 5x users (for local development) |
