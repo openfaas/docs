@@ -112,13 +112,14 @@ Recently released:
 * Official C# .NET 8 template (Apr 2024)
 * `airfaas` CLI plugin for airgapped installations and mirroring images to private registries (Apr 2024)
 * GPU scheduling support for functions via Profiles i.e. `nvidia.com/gpu: 1` (Mar 2024)
+* Built-in function authentication with IAM for OpenFaaS (Q2 2024)
 
 Upcoming:
-* Built-in function authentication with IAM for OpenFaaS (in preview)
+* Event connector for - RabbitMQ/AMQP (in-progress)
+* Event connector for - Azure Service Bus and Google PubSub (added upon request)
 * Conversion to structured/JSON logging of OpenFaaS Pro components (ongoing - 80% complete)
 * Dynamic, dedicated Async queues for each function, including queued-based scaling (R&D phase)
 * Go SDK for the Function Builder API
-* Additional event triggers i.e. AMQP event trigger for RabbitMQ and Azure Service Bus and Google PubSub (added upon request)
 
 Is there something else you need for your team or organisation? [Get in touch with us here](https://openfaas.com/support/).
 
