@@ -85,6 +85,12 @@ If you are unable to expose a public endpoint for any reason, and still need eve
 
 [Read the documentation](/openfaas-pro/sns-events)
 
+### RabbitMQ
+
+Trigger your functions from messages published to RabbitMQ queues.
+
+[Read the documentation](/openfaas-pro/rabbitmq-events)
+
 ### Cron Connector
 
 The [cron-connector](https://github.com/openfaas/cron-connector) can be used to trigger functions on a timed schedule. It uses traditional cron expressions.
@@ -124,11 +130,6 @@ No connector is required to trigger OpenFaaS functions using CloudEvents.
 
 Follow this example to learn how to trigger functions using the Azure EventGrid and CloudEvents: [johnmccabe/cloudevents-slack-demo](https://github.com/johnmccabe/cloudevents-slack-demo)
 
-### RabbitMQ (third-party project)
-
-Invoke functions from RabbitMQ topics. This is a third party project.
-
-More information in the repository: [templum/rabbitmq-connector](https://github.com/Templum/rabbitmq-connector)
 
 ### VMware vCenter
 
