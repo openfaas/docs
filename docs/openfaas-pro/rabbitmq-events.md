@@ -1,4 +1,4 @@
-# Trigger function from RabbitMQ
+# Trigger functions from RabbitMQ
 
 Trigger OpenFaaS functions from RabbitMQ messages.
 
@@ -58,26 +58,28 @@ Take a look at the logs of the printer function to inspect the invocations made 
 ```bash
 faas-cli logs printer
 
-2024-12-02T16:58:49Z X-Forwarded-For=[10.42.0.4:58102]
-2024-12-02T16:58:49Z X-Msg-Id=[1]
-2024-12-02T16:58:49Z X-Start-Time=[1733158729048068067]
-2024-12-02T16:58:49Z X-Call-Id=[ea459d66-e1af-4846-9f73-18561f69074f]
-2024-12-02T16:58:49Z X-Connector=[connector-sdk]
-2024-12-02T16:58:49Z X-Topic=[queue1]
-2024-12-02T16:58:49Z User-Agent=[openfaas-gateway/0.4.34]
-2024-12-02T16:58:49Z Accept-Encoding=[gzip]
-2024-12-02T16:58:49Z Content-Type=[text/plain]
-2024-12-02T16:58:49Z X-Forwarded-Host=[gateway.openfaas:8080]
-2024-12-02T16:58:49Z 
-2024-12-02T16:58:49Z Hello, Task Queue!
-2024-12-02T16:58:49Z 
-2024-12-02T16:58:49Z 2024/12/02 16:58:49 POST / - 202 Accepted - ContentLength: 0B (0.0003s)
+2024-12-03T14:36:03Z X-Connector=[connector-sdk openfaasltd/rabbitmq-connector]
+2024-12-03T14:36:03Z X-Topic=[queue1]
+2024-12-03T14:36:03Z Accept-Encoding=[gzip]
+2024-12-03T14:36:03Z Content-Type=[text/plain]
+2024-12-03T14:36:03Z X-Call-Id=[d0ab9f9e-0c93-46b1-a4dd-695a037acb38]
+2024-12-03T14:36:03Z 2024/12/03 14:36:03 POST / - 202 Accepted - ContentLength: 0B (0.0003s)
+2024-12-03T14:36:03Z X-Forwarded-Host=[gateway.openfaas:8080]
+2024-12-03T14:36:03Z X-Rabbitmq-Msg-Id=[1]
+2024-12-03T14:36:03Z X-Start-Time=[1733236563468386644]
+2024-12-03T14:36:03Z X-Forwarded-For=[10.42.0.13:55796]
+2024-12-03T14:36:03Z X-Rabbitmq-Routing-Key=[queue1]
+2024-12-03T14:36:03Z User-Agent=[openfaas-gateway/0.4.34]
+2024-12-03T14:36:03Z 
+2024-12-03T14:36:03Z Hello, Task Queue!
+2024-12-03T14:36:03Z 
 ```
 
 Additional headers are made available to the request. These headers contain RabbitMQ message metadata.
 
 * `X-Topic` - topic that triggered the function.
-* `X-Msg-Id` - the message identifier.
+* `X-Rabbitmq-Msg-Id` - the message identifier.
+* `X-Rabbitmq-Routing-Key` - the routing key of the message.
 
 The default content-type is configured as `text/plain`, but can be changed to another content-type such as `application/json` or `application/octet-stream` by the [values.yaml file](https://github.com/openfaas/faas-netes/blob/master/chart/kafka-connector/values.yaml) for the connector.
 
