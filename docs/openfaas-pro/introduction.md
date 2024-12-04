@@ -113,12 +113,16 @@ Recently released:
 * `airfaas` CLI plugin for airgapped installations and mirroring images to private registries (Apr 2024)
 * GPU scheduling support for functions via Profiles i.e. `nvidia.com/gpu: 1` (Mar 2024)
 * Built-in function authentication with IAM for OpenFaaS (Q2 2024)
+* Custom Autoscaling strategies for RAM, and any other Prometheus metrics (Q3 2024)
+* Go SDK for Function Builder API (Q3 2024)
+* OpenFaaS Edge - commercial faasd distribution with support, and reselling agreement (Q4 2024)
+* RabbitMQ Connector (Q4 2024)
 
 Upcoming:
-* Event connector for - RabbitMQ/AMQP (in-progress)
+* Asynchronous function cancellation through X-Call-ID identifier
 * Event connector for - Azure Service Bus and Google PubSub (added upon request)
 * Conversion to structured/JSON logging of OpenFaaS Pro components (ongoing - 80% complete)
-* Dynamic, dedicated Async queues for each function, including queued-based scaling (R&D phase)
+* Switching to queue per function, including queued-based scaling (R&D phase)
 * Go SDK for the Function Builder API
 
 Is there something else you need for your team or organisation? [Get in touch with us here](https://openfaas.com/support/).
