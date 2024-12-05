@@ -71,6 +71,25 @@ X-Start-Time: 1543915495384346700
 
 Alternatively you can specify another asynchronous or synchronous function to run instead.
 
+### Cancel async invocations
+
+Sometimes you might need to cancel an ongoing or queued invocation. Asynchronous invocations can be cancelled by making an HTTP `DELETE` request to `/async-function/<name>/<call-id>`. The call id is the X-Call-Id header that was returned when submitting the async invocation.
+
+```bash
+$ curl -i \
+  -X DELETE \
+  http://127.0.0.1:8080/async-function/sleep/ee7fcaeb-82b7-4834-b677-45005c5f0b1b
+```
+
+A `202 Accepted` message will be issued if the request is successful.
+
+Reasons why you might need to cancel an async request:
+
+- Cancel long running tasks. 
+- Cancel failing invocations, e.g due to an invalid payload, that would otherwise be retried by the queue-worker until the max retry limit is reached.
+- Cancel all invocations that are part of a batch if one fails.
+
+
 ### Making an asynchronous call from another function
 
 You cannot use the address `127.0.0.1` when calling the gateway from within a function, because this refers to the function's container and local network, not the gateway's.
