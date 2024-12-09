@@ -73,12 +73,12 @@ Alternatively you can specify another asynchronous or synchronous function to ru
 
 ### Cancel async invocations
 
-Sometimes you might need to cancel an ongoing or queued invocation. Asynchronous invocations can be cancelled by making an HTTP `DELETE` request to `/async-function/<name>/<call-id>`. The call id is the X-Call-Id header that was returned when submitting the async invocation.
+Sometimes you might need to cancel an ongoing or queued invocation. Asynchronous invocations can be cancelled by making an HTTP `DELETE` request to `/async-function/<call-id>`. The call id is the X-Call-Id header that was returned when submitting the async invocation.
 
 ```bash
 $ curl -i \
   -X DELETE \
-  http://127.0.0.1:8080/async-function/sleep/ee7fcaeb-82b7-4834-b677-45005c5f0b1b
+  http://127.0.0.1:8080/async-function/ee7fcaeb-82b7-4834-b677-45005c5f0b1b
 ```
 
 A `202 Accepted` message will be issued if the request is successful.
