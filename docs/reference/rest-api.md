@@ -134,12 +134,12 @@ You can expose Functions with a REST-like mapping or on custom subdomains with t
 
 ### Cancel an async invocation
 
-To cancel an asynchronous function invocation an HTTP `DELETE` request can be made to the async function endpoint with the call id of the invocation that needs to be cancelled as a path parameter: `/async-function/<name>.<namespace>/<call-id>`
+To cancel an asynchronous function invocation an HTTP `DELETE` request can be made to the async function endpoint with the call id of the invocation that needs to be cancelled as a path parameter: `/async-function/<call-id>`
 
 ```bash
 curl -i \
   -X DELETE \
-  http://127.0.0.1:8080/async-function/sleep/ee7fcaeb-82b7-4834-b677-45005c5f0b1b
+  http://127.0.0.1:8080/async-function/ee7fcaeb-82b7-4834-b677-45005c5f0b1b
 ```
 
 A `202 Accepted` message will be issued if the request is successful.
