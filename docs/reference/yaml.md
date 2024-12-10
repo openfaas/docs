@@ -223,22 +223,14 @@ This an optional boolean field, set to `false` by default.
 
 Constraints are passed directly to the underlying container orchestrator. They allow you to pin a function to certain host or type of host.
 
-Here is an example of picking only hosts with a Linux OS in Docker Swarm:
+Here is an example of picking only hosts with an example constraint for FIPS compliance:
 
 ```yaml
    constraints:
-     - "node.platform.os == linux"
+     - "example.com.node-restriction.kubernetes.io/fips=true"
 ```
 
-Or only using nodes running with Windows:
-
-```yaml
-   constraints:
-     - "node.platform.os == windows"
-```
-
-To assign a function to a given NodePool or Node:
-
+The format is that of a Kubernetes  [nodeSelector](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector).
 
 First, update stack.yml:
 
