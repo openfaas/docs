@@ -103,6 +103,21 @@ The [FaaS Provider](/architecture/faas-provider) is the back-end API used by oth
 
 The `http_request*` metrics record the latency and statistics of `/system/*` routes. Part of this information is also recorded in the metrics for the Gateway component. The purpose of exposing separate metrics on the provider component is to show the count of calls, to show efficiency, and to show the duration for performance testing, along with errors to flag unseen issues.
 
+## Kafka connector
+
+| Metric                              | Type       | Description                         | Labels                     | Edition            |
+| ----------------------------------- | ---------- | ----------------------------------- | ---------------------------|--------------------|
+| `kafka_connector_consumer_group_connect"`     | counter  | Total times the consumer group has attempted to connect to the broker | `group` | Pro Edition  |
+| `kafka_connector_messages_consumed`               | counter    | Total messages received from the broker   | `group`, `topic`, `partition`, `member_id`  | Pro Edition  |
+| `kafka_connector_messages_offset`               | gauge    | Offset committed  | `group`, `topic`, `partition`, `member_id`    | Pro Edition  |
+
+## RabbitMQ connector
+
+| Metric                              | Type       | Description                         | Labels                     | Edition            |
+| ----------------------------------- | ---------- | ----------------------------------- | ---------------------------|--------------------|
+| `rabbitmq_connector_messages_processed_total`     | counter | Total number of messages processed | `queue` | Pro Edition  |
+| `rabbitmq_connector_queue_depth`               | gauge    | The total number of HTTP requests   | `queue` | Pro Edition  |
+
 ## Example queries for dashboarding
 
 OpenFaaS Pro customers have access to 4 different dashboards which we've co-designed with our users, you can find out more in the [comparison page of OpenFaaS CE vs Pro](/openfaas-pro/introduction)
