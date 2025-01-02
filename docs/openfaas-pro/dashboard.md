@@ -279,6 +279,44 @@ spec:
 
 You can use the same tunnel and exit server for multiple domains, to expose both the gateway and the dashboard with TLS and authentication.
 
+## Graphs
+
+!!! note
+
+    Available in [ghcr.io/openfaasltd/openfaas-dashboard:0.5.26](https://github.com/openfaasltd/openfaas-dashboard/pkgs/container/openfaas-dashboard) or later.
+
+The OpenFaaS dashboard comes with built-in graphs to give you better visibility into function behavior and resource utilization, making it easier to debug and optimize your workloads.
+
+It provides detailed metrics for individual functions, including:
+
+**Invocation metrics**
+
+Rate, Error, Duration (RED) metrics.
+
+- `Invocation rate by status code` - Function invocation rate over the last 30s broken down by status code.
+- `Latency by status code` - Average function invocation latency over the last 30s broken down by status code.
+
+![Invocation graphs](/images/dashboard/invocation-graphs.png)
+
+**Load metrics**
+
+View function replica count and current load.
+
+- `Load` - Load as measured by the autoscaler.
+- `Replicas` - Function replica count.
+
+![Load graphs](/images/dashboard/load-graphs.png)
+
+**Resource usage**
+
+CPU/RAM usage of functions.
+
+- `CPU usage` - CPU usage of the function across all replicas, measured in milli-CPU.
+- `Memory usage` - Memory usage of the function across all replicas.
+
+![Resource usage graphs](/images/dashboard/resource-graphs.png)
+
+
 ## Would you like a demo?
 
 Feel free to reach out to us for a demo or to ask any questions you may have.
