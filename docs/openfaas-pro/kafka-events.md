@@ -103,6 +103,14 @@ The queue-worker has a set of default retry values set via the Helm chart. They 
 * [Quick start with the Helm chart - self-hosted, SASL and TLS Client Certificates](https://github.com/openfaas/faas-netes/blob/master/chart/kafka-connector/quickstart.md)
 * Original launch blog post: [Staying on topic: trigger your OpenFaaS functions with Apache Kafka](https://www.openfaas.com/blog/kafka-connector/)
 
+## Async invocations
+
+The connector can be configured to invoke function asynchronously. This lets you use [OpenFaaS async](https://docs.openfaas.com/reference/async/) features like retries.
+
+To prevent the connector from consuming all Kafka messages at once and submitting them to the OpenFaaS async queue a limit on the number of inflight async invocations can be configured.
+
+See the [Kafka connector README](https://github.com/openfaas/faas-netes/blob/master/chart/kafka-connector/README.md#async-invocations) to configure the connector for async invocations.
+
 ## Would you like a demo?
 
 Feel free to reach out to us for a demo or to ask any questions you may have.
