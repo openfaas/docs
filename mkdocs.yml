@@ -203,7 +203,7 @@ nav:
   - Training:
       - Overview: ./tutorials/training.md
   - Tutorials:
-      - Expanded timeouts: ./tutorials/expanded-timeouts.md
+      - Extended timeouts: ./tutorials/expanded-timeouts.md
       - CLI with Node.js: ./tutorials/CLI-with-node.md
       - First Python Function: ./tutorials/first-python-function.md
       - Local Ingress with KinD: ./tutorials/local-kind-ingress.md

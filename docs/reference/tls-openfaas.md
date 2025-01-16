@@ -36,6 +36,13 @@ $ arkade install ingress-nginx
 
 See also: [ingress-nginx installation](https://kubernetes.github.io/ingress-nginx/deploy/)
 
+
+#### Timeouts for synchronous invocations
+
+Despite configuring OpenFaaS and your functions for [extended timeouts](/tutorials/expanded-timeouts.md), you may find that your Ingress Controller, Istio Gateway, or Cloud Load Balancer implements its own timeouts on connections. If you think you have everything configured correctly for OpenFaaS, but see a timeout at a very specific number such as 30s or 60s, then check the timeouts on your Ingress Controller or Load Balancer.
+
+For Ingress Nginx, to extend a synchronous invocation beyond one minute, add the `nginx.ingress.kubernetes.io/proxy-read-timeout` annotation to your Ingress resource. This annotation is specified in seconds - for example, to extend the timeout to 30 minutes, use `nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"`. 
+
 ### Install cert-manager
 
 cert-manager is a Kubernetes operator maintained by the Cloud Native Computing Foundation (CNCF) which automates TLS certificate management.
@@ -125,6 +132,7 @@ You can now configure the OpenFaaS gateway to use TLS by setting the following H
 
 ```sh
 export DOMAIN="gw.example.com"
+export NGINX_TIMEOUT_SECS="1800" # 30 minutes
 
 cat > tls.yaml <<EOF
 ingress:
@@ -132,6 +140,7 @@ ingress:
   ingressClassName: nginx
   annotations:
     cert-manager.io/issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "$NGINX_TIMEOUT_SECS"
   tls:
     - hosts:
         - $DOMAIN
@@ -173,6 +182,7 @@ Edit the previous example:
 ```sh
 export DOMAIN="gw.example.com"
 export DOMAIN_DASHBOARD="dashboard.example.com"
+export NGINX_TIMEOUT_SECS="1800" # 30 minutes
 
 cat > tls.yaml <<EOF
 ingress:
@@ -180,6 +190,7 @@ ingress:
   ingressClassName: nginx
   annotations:
     cert-manager.io/issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "$NGINX_TIMEOUT_SECS"
   tls:
     - hosts:
         - $DOMAIN

@@ -120,7 +120,7 @@ The queue-worker uses a single timeout for how long it will spend processing a m
 
 By default there is one queue-worker replica deployed which is set up to run a single task of up to 30 seconds in duration.
 
-You can increase the parallelism by setting the queue worker's "max_inflight" option to a value greater than one. This will cause the queue-worker to concurrently receive up to max_inflight many messages and simultaneously invoke their corresponding functions. Should you wish to restrict concurrency for certain functions, please make use of [multiple queues](#Multiple-queues) and separate these functions accordingly.
+You can increase the parallelism by setting the queue worker's "max_inflight" option to a value greater than one. This will cause the queue-worker to concurrently receive up to max_inflight many messages and simultaneously invoke their corresponding functions. Should you wish to restrict concurrency for certain functions, please make use of [dedicated queues](#dedicated-queues) and separate these functions accordingly.
 
 Additional replicas of the queue-worker can also be added, such that the total async concurrency for a cluster will be: max_inflight * (number of queue-worker replicas).
 

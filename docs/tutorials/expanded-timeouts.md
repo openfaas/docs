@@ -1,22 +1,37 @@
-# Expanded timeouts
+# Extended timeouts
 
-In this tutorial you'll learn how to expand the default timeouts of OpenFaaS to run your functions for longer.
+In this tutorial you'll learn how to extend the default timeout so that your functions can run for longer.
+
+One of the most common support questions we get is about timeouts. Users often ask why their function is timing out after 30s or 60s.
 
 !!! note "It's not us, it's you."
 
-    We would know if there was a regression in OpenFaaS that meant timeouts stopped working as expected.
+    We know it's frustrating, but we would know if there was a regression in OpenFaaS that meant timeouts stopped working as expected.
 
-    Typically, every time users reach out to us for help with timeouts it's due to a misconfiguration between one of the components in their stack, or a problem with the function itself.
+## Why do functions timeout?
 
-    You will need to use our sample functions, which we know work, before reaching out for support.
+OpenFaaS functions can run for as long as necessary, some users have reported running executions for 48 hours or longer. The longest executions should be [run asynchronously](), so that the HTTP caller is not blocked waiting for a result.
+
+Functions timeout due to one of the following:
+
+* Using the default timeout set in the Helm chart in values.yaml for the gateway
+* Using the default timeout in the Function's stack.yaml, or not setting all of the timeout environment variables
+* An error in the function's code - a blocking I/O operation, a deadlock, or a crash/premature exit of the process
+* Using an Ingress Controller or Load Balancer which has a low default timeout
+
+Once you've followed all the instructions in this guide, make sure you've ruled out your Ingress Controller or Load Balancer before reaching out for help. For instance, [Ingress Nginx has a timeout set of 60 seconds](#load-balancers-ingress-and-service-meshes).
+
+You can use the [following GitHub repository](https://github.com/alexellis/go-long) with three sample functions made with Go, Python and Node to confirm the issue isn't in your own function or code.
 
 ## Part 1 - the core components
 
-When running OpenFaaS on Kubernetes, you need to set various timeout values for the distributed components of the OpenFaaS control plane. These options are explained in the [helm chart README](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas). The easiest option for new users is to set them all to the same value.
+When running OpenFaaS on Kubernetes, it is possible to override the timeout on various components of the OpenFaaS gateway, however it is only usually necessary to set the timeout on the gateway itself.
 
- > For faasd users, you'll need to edit the equivalent fields in your `docker-compose.yaml` file, see the eBook [Serverless For Everyone Else](https://store.openfaas.com/l/serverless-for-everyone-else).
+You can find the various options in the [helm chart README](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas).
 
-We will set:
+For faasd users, you'll need to edit the equivalent fields in your `docker-compose.yaml` file, see the eBook [Serverless For Everyone Else](https://store.openfaas.com/l/serverless-for-everyone-else).
+
+We need to set the following in the Helm chart's values.yaml file for the OpenFaaS chart:
 
 * `gateway.upstreamTimeout`
 * `gateway.writeTimeout`
@@ -24,21 +39,7 @@ We will set:
 
 All timeouts are to be specified in Golang duration format i.e. `1m` or `60s`, or `1m30s`.
 
-The `HARD_TIMEOUT` is set 1-2s higher than the `TIMEOUT` value since one needs to happen before the other.
-
-```bash
-export TIMEOUT=5m
-export HARD_TIMEOUT=5m2s
-
-arkade install openfaas \
-  --set gateway.upstreamTimeout=$TIMEOUT \
-  --set gateway.writeTimeout=$HARD_TIMEOUT \
-  --set gateway.readTimeout=$HARD_TIMEOUT
-```
-
-Once installed with these settings, you can invoke functions for up to `5m` synchronously and asynchronously.
-
-If using Helm or Argo CD, then add the following to your values.yaml file instead:
+If using Helm or Argo CD, then add the following to your values.yaml file:
 
 ```yaml
 gateway:
@@ -47,15 +48,33 @@ gateway:
   upstreamTimeout: 5m
 ```
 
+Note that `upstreamTimeout` must always be lower than `writeTimeout` and `readTimeout`, to allow the gateway to handle the request before the HTTP server cancels the request.
+
+If using arkade, you can run the following:
+
+```bash
+export TIMEOUT=5m
+export SERVER_TIMEOUT=5m2s
+
+arkade install openfaas \
+  --set gateway.upstreamTimeout=$TIMEOUT \
+  --set gateway.writeTimeout=$SERVER_TIMEOUT \
+  --set gateway.readTimeout=$SERVER_TIMEOUT
+```
+
+Once installed with these settings, you can invoke functions for up to `5m` synchronously and asynchronously.
+
 ## Part 2 - Your function's timeout
 
 Now that OpenFaaS will allow a longer timeout, configure your function.
+
+OpenFaaS functions usually embed a component called the watchdog, which is responsible for implementing timeouts in a consistent way across different languages. Most templates use the newer of-watchdog, but a few may still be using the classic watchdog for compatibility reasons.
 
 For the newer templates based upon HTTP which use the of-watchdog, adapt the following sample: [go-long: Golang function that runs for a long time](https://github.com/alexellis/go-long)
 
 For classic templates using the classic watchdog, you can follow the workshop: [Lab 8 - Advanced feature - Timeouts](https://github.com/openfaas/workshop/blob/master/lab8.md)
 
-If you're unsure which template you're using, check the source code of the Dockerfile in the `templates` folder when you build your functions.
+If you're unsure which template you're using, check the source code of the Dockerfile in the `templates` folder when you build your functions, you should see a `FROM` line at the top of the file that will specify one or the other.
 
 ## Load Balancers, Ingress, and service meshes
 
@@ -67,7 +86,9 @@ AWS EKS is configured to use an [Elastic Load Balancer (ELB)](https://aws.amazon
 
 Google Cloud's various Load Balancer options have their [own configuration options too](https://cloud.google.com/load-balancing/docs/https).
 
-Finally, if you need to invoke a function for longer than one of your infrastructure components allows, then you should use an [asynchronous invocation](/reference/async), which in OpenFaaS Standard can also be retried if it fails, and scaled out to massive concurrency.
+For Ingress Nginx, set the `nginx.ingress.kubernetes.io/proxy-read-timeout` annotation to extend the timeout. This annotation is specified in seconds - for example, to extend the timeout to 30 minutes, use `nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"`.
+
+Finally, if you need to invoke a function for longer than one of your infrastructure components allows, then you should use an [asynchronous invocation](/reference/async). Asynchronous function invocations bypass these components because they are eventually invoked from the queue-worker, not the Internet. The queue-worker for OpenFaaS Standard will also retry invocations if required.
 
 ## Further support
 
