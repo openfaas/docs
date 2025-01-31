@@ -86,6 +86,8 @@ queueMode: jetstream
 
 nats:
   streamReplication: 1
+  authorization:
+    enabled: true
 ```
 
 You can find explanations for each configuration item in the [values-pro.yaml](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/values-pro.yaml) file on GitHub.
@@ -103,6 +105,22 @@ kubectl create secret generic \
   -n openfaas \
   openfaas-license \
   --from-file license=$HOME/.openfaas/LICENSE
+```
+
+The recommended values.yaml file enables NATS authentication. If you are upgrading from OpenFaaS CE or enabling NATS authentication for the first time on an existing installation an authorization token secret should be created.
+
+If this is your first time installing OpenFaaS Pro you can ignore this step. The Helm Chart will generate the secret automatically.
+
+Create a secret for the NATS authorization token:
+
+```sh
+# openssl is preferred to generate a random secret:
+openssl rand -base64 32 > ./nats-token
+
+kubectl create secret generic \
+    -n openfaas \
+    nats-token \
+    --from-file token=./nats-token
 ```
 
 Add the OpenFaaS helm chart repo:
