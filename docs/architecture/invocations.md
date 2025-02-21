@@ -4,7 +4,7 @@ This page aims to explain function invocations and lifecycle.
 
 In an OpenFaaS installation, functions can be invoked through HTTP requests to the OpenFaaS gateway, specifying the path as part of the URL.
 
-There are some differences between OpenFaaS with [Kubernetes](/deployment/kubernetes) and [faasd](/deployment/faasd), so this page focuses on users of Kubernetes.
+There are some differences between OpenFaaS with [Kubernetes](/deployment/kubernetes) and [faasd](/deployment/edge), so this page focuses on users of Kubernetes.
 
 ![Conceptual diagram: a synchronous invocation](/images/invoke.png)
 > Conceptual diagram: a synchronous invocation.

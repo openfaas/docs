@@ -36,7 +36,7 @@ These applications can be installed via Helm charts, or by using a GitOps operat
 
 * The unit of execution for a function is a Pod, managed by containerd or Docker.
 * A container registry holds each function as an immutable artifact that can be deployed to the OpenFaaS gateway using its REST API, UI or CLI.
-* Kubernetes is the platform that allows functions to scale across multiple hosts, [faasd](/deployment/faasd/) is a simpler alternative for smaller installations.
+* Kubernetes is the platform that allows functions to scale across multiple hosts, [faasd](/deployment/edge/) is a simpler alternative for smaller installations.
 
 This layer is usually built manually during exploration and development, and using a tool like Terraform for production.
 

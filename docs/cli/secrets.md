@@ -2,7 +2,7 @@
 
 The OpenFaaS CLI allows you to create, update, list and delete secrets using `faas-cli` instead of Docker or Kubernetes command line tools.
 
-The reason behind this is to give you simplicity when you need to use secrets for your functions as well as to provide a layer of abstraction, as it will work for both Kubernetes and [faasd](/deployment/faasd/).
+The reason behind this is to give you simplicity when you need to use secrets for your functions as well as to provide a layer of abstraction, as it will work for both Kubernetes and [faasd](/deployment/edge/).
 
 See also: `faas-cli secret --help`
 
