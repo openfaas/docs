@@ -102,7 +102,7 @@ If your system is unable to install apt, yum, or pacman packages, due to limited
 
 ## faasd CE (non-commercial use only)
 
-faasd CE supports 15 functions and needs a computer with a stable Internet connection to run. There are restrictions on commercial use, but [individuals](EULA.md) can use it for free for personal, non-commercial use.
+faasd CE supports 15 functions and needs a computer with a stable Internet connection to run. There are restrictions on commercial use, but [individuals](https://github.com/openfaas/faasd/blob/master/EULA.md) can use it for free for personal, non-commercial use.
 
 ```bash
 git clone https://github.com/openfaas/faasd --depth=1
