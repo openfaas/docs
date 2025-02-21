@@ -33,28 +33,36 @@ Find out more about each option and how to deploy OpenFaaS to Kubernetes:
 
 [Deploy to Kubernetes](/deployment/kubernetes/)
 
-## faasd - Serverless for everyone else
+## OpenFaaS Edge (faasd-pro) / faasd CE - Serverless for everyone else
 
-faasd is OpenFaaS, reimagined without the complexity and cost of Kubernetes. It runs well on a single host with very modest requirements, and is largely API-compatible with OpenFaaS on Kubernetes. Under the hood it uses [containerd](https://containerd.io/) and [Container Networking Interface (CNI)](https://github.com/containernetworking/cni) along with the same core components from OpenFaaS CE.
+The term faas`d` is short for FaaS Daemon, a single binary that runs on a host to manage both stateful services, and functions.
 
-When should you use faasd over OpenFaaS CE on Kubernetes?
+faasd is OpenFaaS, reimagined without the complexity and cost of Kubernetes. It runs well on a single host with very modest requirements, and is API-compatible with OpenFaaS on Kubernetes. Under the hood it uses [containerd](https://containerd.io/) and [Container Networking Interface (CNI)](https://github.com/containernetworking/cni), along with the same core components from OpenFaaS.
+
+If you ever outgrow faasd, you can upgrade to OpenFaaS on Kubernetes and bring your existing functions with you.
+
+When should you use faasd over OpenFaaS on Kubernetes?
+
+For internal business use:
 
 * You're building automation/glue-code, web portals, cron jobs, bots, or webhook receivers.
-* You want to be able to run your code locally, using containers.
-* You want a way to do remote deployments over a REST API.
-* You either don't have the bandwidth to manage or learn Kubernetes.
-* You don't need planet scale.
+* You need a reliable, durable system for asynchronous tasks and ETL jobs.
+* You want a way to do remote deployments over a REST API / CLI.
+* You don't have the bandwidth to learn and/or manage Kubernetes.
+* You don't need to handle large spikes in traffic, or can tolerate some queueing.
 
-You may also be interested in:
+For resale to end-clients; or for edge locations, or IoT devices:
 
-* Deploying to constrained IoT or edge devices
-* Shrink-wrapping functions into a VM image to deploy for customers or clients.
+* You are deploying to edge locations or IoT devices, where physical access is limited.
+* You want a stable, low-maintenance system that is easy to deploy and manage.
+* You have to deploy to an airgapped environment, or where the network is unstable.
+* You need to deploy to a resource constrained device, such as a Dell Edge Gateway or Raspberry Pi.
 
-faasd CE is available for personal use, and limited commercial use in a "Small Business Environment", [read the EULA to find out if you quality](https://github.com/openfaas/faasd/blob/master/EULA.md).
+faasd CE is available for personal (non-commercial) use: [read the EULA here](https://github.com/openfaas/faasd/blob/master/EULA.md).
 
-The CE version is limited to a single namespace, with a limit of 15 functions, which should be sufficient for most personal projects and for internal use within a Small Business Environment. OpenFaaS Edge is a commercial distribution of faasd with additional features and higher limits.
+The CE version is limited to a single namespace, with a limit of 15 functions, which should be sufficient for most personal projects. OpenFaaS Edge is a commercial distribution of faasd with additional features and higher limits.
 
-[Deploy faasd CE](https://github.com/openfaas/faasd/)
+[Deploy faasd CE](/deployment/edge.md)
 
 ### OpenFaaS Edge
 
@@ -70,13 +78,13 @@ This version is intended for resale as part of a wider solution, and to be deplo
 
 Individual [GitHub Sponsors of OpenFaaS](https://github.com/sponsors/openfaas) (25 USD / mo and higher) can use OpenFaaS Edge for personal use.
 
-[Deploy OpenFaaS Edge](https://github.com/openfaas/faasd?tab=readme-ov-file#deploy-openfaas-edge-commercial-distribution-of-faasd)
+[Deploy OpenFaaS Edge](/deployment/edge.md)
 
 ## OpenShift - 3.x / 4.x
 
 [OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) is a variant of Kubernetes produced by Red Hat.
 
-You can deploy to OpenShift using the standard Helm chart as per the Kubernetes instructions, or with <a href="https://arkade.dev/">arkade</a>.
+You can deploy to OpenShift using the standard Helm chart as per the Kubernetes instructions. Typically OpenShift assigns random user IDs to each namespace, you can set these in the values.yaml file for the Helm chart once you have created the `openfaas` and `openfaas-fn` namespaces.
 
 [Deploy to OpenShift](/deployment/openshift/)
 

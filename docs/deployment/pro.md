@@ -229,3 +229,56 @@ Identity and Access Management (IAM) and Single-Sign On (SSO) are closely relate
 
 * [Identity and Access Management (IAM)](/openfaas-pro/iam/overview)
 * [Single-Sign On (SSO)](/openfaas-pro/sso/overview)
+
+## A note on upgrading from established OpenFaaS CE installations
+
+For a smooth upgrade experience, we recommend that you test the initial upgrade in a temporary or pre-production environment before rolling out to production.
+
+During the installation of OpenFaaS Standard/Enterprise, the operator and Function Custom Resource Definitions (CRDs) will be enabled. On start-up, the operator will create `Function` Custom Resources for each existing function, and then delete the original Deployments and Services.
+
+Migrated functions contain an OwnerReference that allows the original Deployment and Service to tied to its Function CR. This is a abbreviated example of a migrated Deployment for the `env` function:
+
+```diff
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: env
+  namespace: openfaas-fn
++  ownerReferences:
++  - apiVersion: openfaas.com/v1
++    controller: true
++    kind: Function
++    name: env
+```
+
+Whilst the original non-CRD mode used in OpenFaaS CE is still available in OpenFaaS Standard/Enterprise, it should be considered deprecated and will be removed in a future version of OpenFaaS.
+
+The only reason to use the old controller mode, without the operator and CRDs, is if you need to bypass the migration of existing functions, or have some other code set up that modifies the Deployments and Services created by OpenFaaS.
+
+To bypass the migration, you can create a ConfigMap in the openfaas namespace with the following content:
+
+```bash
+kubectl create configmap -n openfaas \
+  openfaas-operator-migrated \
+  --from-literal migrated-functions=0 \
+  --from-literal migrated-at=2025-02-21
+```
+
+Then in your values.yaml file for the openfaas chart, set the following:
+
+```yaml
+operator:
+  create: false
+```
+
+When you upgrade to OpenFaaS Standard/Enterprise, the controller mode will be used.
+
+At a later date, you can trigger a migration to the Operator and CRDs by deleting the ConfigMap and restarting the gateway:
+
+```bash
+kubectl delete configmap -n openfaas openfaas-operator-migrated
+
+kubectl rollout restart deployment -n openfaas
+```
+
+If you run into any issues, or have questions, you can email the team via the support inbox.

@@ -117,7 +117,7 @@ nav:
       - Deployment overview: deployment.md
       - OpenFaaS CE: ./deployment/kubernetes.md
       - OpenFaaS Pro: ./deployment/pro.md
-      - faasd: ./deployment/faasd.md
+      - OpenFaaS Edge: ./deployment/edge.md
       - OpenShift: ./deployment/openshift.md
       - Troubleshooting: ./deployment/troubleshooting.md
   - CLI:
