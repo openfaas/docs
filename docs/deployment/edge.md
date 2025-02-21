@@ -22,9 +22,12 @@ Minimum system requirements:
 
 ## Getting started (faasd CE or faasd-pro)
 
-If you want to use faasd for non-commercial, personal use, faasd CE is available for you for free. If you need to use faasd at work, on work time, for a commercial product or service, or for an end-client, then you will need to purchase a license for OpenFaaS Edge (faasd-pro). Up to 15 functions are supported, including private registries and a single namespace.
+If you want to use faasd for non-commercial, personal use, faasd CE is available for you for free. Up to 15 functions are supported, including private registries and a single namespace. If you need to use faasd for commercial use, you can evaluate a single installation of faasd CE for a period of 60 days.
 
-If you need to use faasd for commercial use, you can evaluate a single installation of faasd CE for a period of 60 days. After that time, you will need to purchase a license for OpenFaaS Edge (faasd-pro).
+After that time, you will need to purchase a license for OpenFaaS Edge (faasd-pro).
+
+If you need to use faasd at work, on work time, for a commercial product or service, or for an end-client, then you will need to purchase a license for OpenFaaS Edge (faasd-pro).
+
 
 * Upgraded Pro components from OpenFaaS Standard: Gateway, Cron Connector, JetStream Queue Worker and Classic Scale to Zero
 * Deploy up to 250 functions per installation*
