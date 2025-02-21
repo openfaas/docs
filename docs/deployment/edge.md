@@ -28,7 +28,6 @@ After that time, you will need to purchase a license for OpenFaaS Edge (faasd-pr
 
 If you need to use faasd at work, on work time, for a commercial product or service, or for an end-client, then you will need to purchase a license for OpenFaaS Edge (faasd-pro).
 
-
 * Upgraded Pro components from OpenFaaS Standard: Gateway, Cron Connector, JetStream Queue Worker and Classic Scale to Zero
 * Deploy up to 250 functions per installation*
 * Configure private DNS servers
@@ -40,36 +39,6 @@ If you need to use faasd at work, on work time, for a commercial product or serv
 `*` The number of functions is tied to your license, with a maximum of 250 functions per installation.
 
 This version is intended for resale as part of a wider solution, and to be deployed both into industrial and on-premises environments.
-
-## Documentation and handbook
-
-For either edition, the complete handbook for faasd "Serverless For Everyone Else" is available [in the OpenFaaS Store](https://store.openfaas.com/l/serverless-for-everyone-else?layout=profile). It contains complete examples for deploying faasd, building functions in Node.js, setting up TLS and custom domains, monitoring, background jobs, and cron schedules.
-
-<a href="https://openfaas.gumroad.com/l/serverless-for-everyone-else">
-<img src="https://www.alexellis.io/serverless.png" width="40%"></a>
-
-
-Any examples of functions on the blog or in the documentation for OpenFaaS on Kubernetes, will generally work with faasd without modification.
-
-Additional topics covered by the handbook:
-
-* Should you deploy to a VPS or Raspberry Pi?
-* Deploying your server with bash, cloud-init or terraform
-* Using a private container registry
-* Finding functions in the store
-* Building your first function with Node.js
-* Using environment variables for configuration
-* Using secrets from functions, and enabling authentication tokens
-* Customising templates
-* Monitoring your functions with Grafana and Prometheus
-* Scheduling invocations and background jobs
-* Tuning timeouts, parallelism, running tasks in the background
-* Adding TLS to faasd and custom domains for functions
-* Self-hosting on your Raspberry Pi
-* Adding a database for storage with InfluxDB and Postgresql
-* Troubleshooting and logs
-* CI/CD with GitHub Actions and multi-arch
-* Taking things further, community and case-studies
 
 ## Prerequisites
 
@@ -114,7 +83,40 @@ cd faasd
 ./hack/install.sh
 ```
 
-## Video overview
+
+## Documentation and handbook
+
+For either edition, the complete handbook for faasd ["Serverless For Everyone Else"](https://store.openfaas.com/l/serverless-for-everyone-else?layout=profile) is available in the OpenFaaS Store. It contains complete examples for deploying faasd, building functions in Node.js, setting up TLS and custom domains, monitoring, background jobs, and cron schedules.
+
+<a href="https://openfaas.gumroad.com/l/serverless-for-everyone-else">
+<img src="https://www.alexellis.io/serverless.png" width="40%"></a>
+
+
+Any examples of functions on the blog or in the documentation for OpenFaaS on Kubernetes, will generally work with faasd without modification.
+
+Additional topics covered by the handbook:
+
+* Should you deploy to a VPS or Raspberry Pi?
+* Deploying your server with bash, cloud-init or terraform
+* Using a private container registry
+* Finding functions in the store
+* Building your first function with Node.js
+* Using environment variables for configuration
+* Using secrets from functions, and enabling authentication tokens
+* Customising templates
+* Monitoring your functions with Grafana and Prometheus
+* Scheduling invocations and background jobs
+* Tuning timeouts, parallelism, running tasks in the background
+* Adding TLS to faasd and custom domains for functions
+* Self-hosting on your Raspberry Pi
+* Adding a database for storage with InfluxDB and Postgresql
+* Troubleshooting and logs
+* CI/CD with GitHub Actions and multi-arch
+* Taking things further, community and case-studies
+
+See also: [Serverless For Everyone Else eBook](https://store.openfaas.com/l/serverless-for-everyone-else?layout=profile)
+
+### Video overview
 
 Watch the presentation from KubeCon, where faasd was first announced:
 
@@ -123,3 +125,4 @@ Watch the presentation from KubeCon, where faasd was first announced:
 [Meet faasd. Look Ma’ No Kubernetes! - Serverless Summit](https://www.youtube.com/watch?v=ZnZJXI377ak)
 
 An additional training video and walkthrough is available via the [Serverless For Everyone Else](https://store.openfaas.com/l/serverless-for-everyone-else?layout=profile) handbook package.
+
