@@ -62,7 +62,7 @@ faasd CE is available for personal (non-commercial) use: [read the EULA here](ht
 
 The CE version is limited to a single namespace, with a limit of 15 functions, which should be sufficient for most personal projects. OpenFaaS Edge is a commercial distribution of faasd with additional features and higher limits.
 
-[Deploy faasd CE](/deployment/edge.md)
+[Deploy faasd CE](/deployment/edge)
 
 ### OpenFaaS Edge
 
@@ -76,9 +76,9 @@ OpenFaaS Edge is a commercial distribution of faasd, with enhancements and addit
 
 This version is intended for resale as part of a wider solution, and to be deployed both into industrial and on-premises environments.
 
-Individual [GitHub Sponsors of OpenFaaS](https://github.com/sponsors/openfaas) (25 USD / mo and higher) can use OpenFaaS Edge for personal use.
+Individual [GitHub Sponsors of OpenFaaS](https://github.com/sponsors/openfaas) (25 USD / mo and higher) can use OpenFaaS Edge for personal, non-commercial use.
 
-[Deploy OpenFaaS Edge](/deployment/edge.md)
+[Deploy OpenFaaS Edge](/deployment/edge)
 
 ## OpenShift - 3.x / 4.x
 
