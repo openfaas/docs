@@ -114,6 +114,42 @@ kubectl annotate -n openfaas-fn function/nodeinfo \
 
 The value of the `uid` field can be any value, if you want to force the Operator to try and you already have a value here, then you can just change it to a different value, i.e. `2` or a random string like a UUID.
 
+### I'm not sure that any functions are getting reconciled
+
+Reconciliation problems occur when you deploy a Function Custom Resource, but you do not see the operator creating a Deployment for it in the same namespace.
+
+First check any Kubernetes Quotas or LimitRanges that you may have in place for the namespace.
+
+Check the logs of all of the gateway Pods to see if it is displaying an error such as RBAC, or whether it is detecting the event for the Function CR.
+
+```bash
+kubectl logs -n openfaas -l app=gateway -c operator --follow
+```
+
+Next, check the status of the Leader Election:
+
+```bash
+kubectl get lease/openfaas-operator-leader -n openfaas -o yaml
+```
+
+Check the following fields: `acquireTime`, `renewTime`, `holderIdentity` and `leaseDurationSeconds`.
+
+Do they match the Pods that you have running for the gateway?
+
+```bash
+kubectl get pods -n openfaas -l app=gateway
+```
+
+Check the .Status of the Function Custom Resource, i.e. for the `nodeinfo` function:
+
+```bash
+kubectl describe -n openfaas-fn function/nodeinfo
+```
+
+Look for warnings or errors in the .Status field.
+
+If in doubt, and this is a critical issue, then you can try restarting the gateway Deployment, to restart the operator: `kubectl rollout restart -n openfaas deploy/gateway`
+
 ### Is my function's name too long?
 
 When using OpenFaaS Standard or OpenFaaS for Enterprises along with the Function CRD, a function's name can be no longer than 63 characters. This is due to a limitation on the length of label selectors within Kubernetes.
