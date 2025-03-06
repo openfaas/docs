@@ -65,7 +65,6 @@ export OPENFAAS_PREFIX=docker.io/alexellis2
 
 faas-cli new --lang python@3.8-debian \
   withprivate
-mv withprivate.yml stack.yml
 ```
 
 Next, set up a build secret, for instance to fetch Pip modules from a private PyPi repository:
@@ -153,9 +152,8 @@ Create a function:
 
 ```bash
 export OPENFAAS_PREFIX=openfaasltd
-faas-cli template store pull node17
-faas-cli new --lang node17 withprivatenpm
-mv withprivatenpm.yml stack.yml
+faas-cli template store pull node20
+faas-cli new --lang node20 withprivatenpm
 ```
 
 You will need to create an authentication token to install private npm modules. These instructions will differ depending on the registry you want to use:
@@ -188,7 +186,7 @@ provider:
   gateway: http://127.0.0.1:8080
 functions:
   withprivatenpm:
-    lang: node17
+    lang: node20
     handler: ./withprivatenpm
     image: openfaasltd/withprivatenpm:latest
     build_secrets:
@@ -201,7 +199,7 @@ Run a build with:
 faas-cli pro build -f stack.yml
 ```
 
-You'll also need an updated version of the node template to mount the secret passed in from the OpenFaaS Pro plugin. Update `template/node17/Dockerfile` and replace the second `npm i` command with:
+You'll also need an updated version of the node template to mount the secret passed in from the OpenFaaS Pro plugin. Update `template/node20/Dockerfile` and replace the second `npm i` command with:
 
 ```Dockerfile
 RUN --mount=type=secret,id=npmrc,mode=0666,dst=/home/app/.npmrc npm i

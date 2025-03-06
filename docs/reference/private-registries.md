@@ -116,7 +116,6 @@ Create a sample function with a `--prefix` variable:
 
 ```sh
 faas-cli new --lang go private-fn --prefix=registry:port/repo
-mv private-fn.yml stack.yml
 ```
 
 Update the `stack.yml` file and add a reference to the new secret:

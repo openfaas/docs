@@ -83,7 +83,6 @@ faas-cli template store pull python3-http
 export OPENFAAS_PREFIX=ttl.sh/alexellis
 
 faas-cli new --lang python3-http protected-api
-mv protected-api.yml stack.yml
 ```
 
 Create a secret called `protected-api-token`, it will be used to authenticate all requests made to the new `protected-api` function.

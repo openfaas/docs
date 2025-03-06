@@ -16,7 +16,7 @@ Create a new function using the template:
 
 ```bash
 faas-cli template pull
-faas-cli new --lang node18 echo
+faas-cli new --lang node20 echo
 ```
 
 You'll find a new folder called `echo` with a `handler.js` and `package.json` file inside.
@@ -64,7 +64,7 @@ Or to combine the `context.status()` method with the `context.succeed()` method 
 To install packages, `cd` into the function folder and run `npm install --save`:
 
 ```bash
-faas-cli new --lang node18 http-req
+faas-cli new --lang node20 http-req
 cd http-req
 
 npm install --save axios
@@ -128,12 +128,12 @@ Then create a new secret in OpenFaaS:
 faas-cli secret create node-fn-token --from-file node-fn-token.txt
 ```
 
-Create a new function using the *node18* template:
+Create a new function using the *node20* template:
 
 ```bash
 export OPENFAAS_PREFIX=ttl.sh/fns
 
-faas-cli new --lang node18 node-fn
+faas-cli new --lang node20 node-fn
 ```
 
 Then edit the `node-fn/handler.js`:
@@ -172,7 +172,7 @@ Edit `node-fn.yml` and add the `secrets` section:
 ```diff
 functions:
   node-fn:
-    lang: node18
+    lang: node20
     handler: ./node-fn
     image: ttl.sh/fns/node-fn:latest
 +    secrets:
@@ -206,7 +206,7 @@ When you test the function with `faas-cli up`, make sure you use the function's 
 
 Unit tests provide a quick and efficient way to exercise your code on your local computer, without needing to run `faas-cli build` or to deploy the function to a remote cluster.
 
-With the node18 template, any unit tests that you provide will be run automatically upon each invocation of `faas-cli build`.
+With the node20 template, any unit tests that you provide will be run automatically upon each invocation of `faas-cli build`.
 
 
 By default, an empty test step is written to package.json inside your function's handler folder, you can override this with your own command or test runner.

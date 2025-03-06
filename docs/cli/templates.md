@@ -56,7 +56,7 @@ dockerfile               [x]         openfaas           Classic Dockerfile templ
 dotnet8-csharp           [x]         openfaas           C# template using WebApplication
 golang-middleware        [x]         openfaas           HTTP middleware interface in Go
 java11-vert-x            [x]         openfaas           Java 11 Vert.x template
-node18                   [x]         openfaas           HTTP-based Node 18 template
+node20                   [x]         openfaas           HTTP-based Node 18 template
 php8                     [x]         openfaas           Classic PHP 8 template
 python3-http             [x]         openfaas           Python 3 with Flask and HTTP
 python3-http-debian      [x]         openfaas           Python 3 with Flask and HTTP based on Debian

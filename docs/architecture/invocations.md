@@ -22,11 +22,11 @@ Whenever you run `faas-cli build` or `faas-cli publish` using one of the OpenFaa
 Templates tend to abstract away the Dockerfile and entry-point HTTP server from you, so that you can focus on writing a HTTP or function handler, they are still there however and you can look into the "template" folder to find them after running `faas-cli template store pull`
 
 ```bash
-$ faas-cli template store pull node14
-$ ls template/node14
+$ faas-cli template store pull node20
+$ ls template/node20
 Dockerfile      function        index.js        package.json    template.yml
 
-$ ls template/node14/
+$ ls template/node20/
 handler.js      package.json
 ```
 

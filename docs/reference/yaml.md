@@ -43,12 +43,6 @@ functions:
     image: fn2:latest
 ```
 
-Then rename your file to stack.yml, so you don't need to specify the `-f` flag when using the CLI.
-
-```bash
-mv fn1.yml stack.yml
-```
-
 ## Provider
 
 The only valid value for provider `name` is `openfaas`.

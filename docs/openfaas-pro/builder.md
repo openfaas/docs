@@ -74,7 +74,6 @@ Create a test function using the `python3` template, and set it to publish to `t
 ```bash
 faas-cli new --prefix ttl.sh/test-images \
     --lang python3 py-fn
-mv py-fn.yml stack.yml
 ```
 
 Now, publish an image using the remote builder:
@@ -270,7 +269,7 @@ You may need to enable build arguments for the Dockerfile, these can be passed t
 {
   "image": "ttl.sh/alexellis/test-image:0.1.0",
   "buildArgs": {
-    "BASE_IMAGE": "gcr.io/quiet-mechanic-140114/openfaas-base/node16"
+    "BASE_IMAGE": "gcr.io/quiet-mechanic-140114/openfaas-base/node20"
   }
 }
 ```
