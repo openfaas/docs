@@ -49,7 +49,7 @@ The only valid value for provider `name` is `openfaas`.
 
 ### Gateway
 
-The gateway URL can be hard-coded into the YAML file or overriden at deployment time with the --gateway flag or OPENFAAS_URL env-var.
+The gateway URL can be hard-coded into the YAML file or overridden at deployment time with the --gateway flag or OPENFAAS_URL env-var.
 
 ## Functions
 
