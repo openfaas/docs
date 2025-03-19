@@ -62,6 +62,7 @@ For more details on how to configure Single Sign-On for OpenFaaS, follow one of 
 
 - [Keycloak](/openfaas-pro/sso/keycloak/) - Configure Keycloak for OpenFaaS IAM.
 - [Google](/openfaas-pro/sso/google/) - Configure Google for OpenFaaS IAM.
+- [Microsoft Entra](/openfaas-pro/sso/microsoft-entra) - Configure Microsoft Entra for OpenFaaS IAM.
 - [Okta](/openfaas-pro/sso/okta) - Configure Okta for OpenFaaS IAM.
 
 Some providers may need an additional patch or configuration. Feel free to reach out to us.
