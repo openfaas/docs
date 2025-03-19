@@ -154,6 +154,7 @@ nav:
           - Overview: ./openfaas-pro/sso/overview.md
           - Google: ./openfaas-pro/sso/google.md
           - Keycloak: ./openfaas-pro/sso/keycloak.md
+          - Microsoft Entra: ./openfaas-pro/sso/microsoft-entra.md
           - Okta: ./openfaas-pro/sso/okta.md
           - SSO with the CLI: ./openfaas-pro/sso/cli.md
       - Function CRD: ./openfaas-pro/function-crd.md
