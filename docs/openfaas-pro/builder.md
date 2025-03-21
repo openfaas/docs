@@ -181,9 +181,16 @@ PAYLOAD=$(kubectl get secret -n openfaas payload-secret -o jsonpath='{.data.payl
 
 HMAC=$(cat req.tar | openssl dgst -sha256 -hmac $PAYLOAD | sed -e 's/^.* //')
 
-curl -H "X-Build-Signature: sha256=$HMAC" -s http://127.0.0.1:8081/build -X POST --data-binary @req.tar | jq
+curl -H "X-Build-Signature: sha256=$HMAC" --silent \
+  http://127.0.0.1:8081/build -X POST --data-binary @req.tar | jq
+```
 
-....
+You'll see output like this:
+
+```json
+{
+  "log": [
+    "v: 2021-10-20T16:48:34Z [ship 1/16] WORKDIR /home/app/",
     "v: 2021-10-20T16:48:34Z exporting to image 8.01s"
   ],
   "image": "ttl.sh/alexellis2/test-image-hello:0.1.0",
@@ -192,6 +199,8 @@ curl -H "X-Build-Signature: sha256=$HMAC" -s http://127.0.0.1:8081/build -X POST
 ```
 
 The initial build is likely to take some time, however, if you run the build again or only change some text within a file the subsequent build could complete with single-digit seconds.
+
+If you receive an error, try removing `|jq` and add -v to the `curl` command.
 
 ### Remote builds with a HTTP client
 
