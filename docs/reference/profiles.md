@@ -80,7 +80,7 @@ The configuration use the exact options that you find in the Kubernetes document
 
 #### Implement the restricted Pod Security Standard
 
-This example requires OpenFaaS for Enterprises and is aimed at securing enterprise and multi-tenant workloads.
+This example requires OpenFaaS for Enterprises with (`faas-netes:0.5.65` or higher) and is aimed at securing enterprise and multi-tenant workloads.
 
 [Pod Security Standards](https://kubernetes.io/docs/concepts/security/pod-security-standards/) were introduced in K8s v1.25 and are a set of best practices for securing your Pods. The `restricted` profile is the most secure option.
 
@@ -89,7 +89,7 @@ The below example deploys a function which will pass the `restricted` Pod Securi
 It defines:
 
 * A new namespace for functions called `restricted-fn`, which has been labeled with `pod-security.kubernetes.io/enforce: restricted`
-* A new Profile called `restricted` which sets the Pod Security Context to use `RuntimeDefault` and `runAsNonRoot: true`
+* A new Profile called `restricted` which sets the Pod Security Context to use `RuntimeDefault` and `runAsNonRoot: true` - any name can be used, or you could update an existing Profile that you're already using
 * A function called `env` which uses the `restricted` Profile
 
 ```yaml
@@ -160,6 +160,46 @@ securityContext:
   runAsUser: 12000
   runAsNonRoot: true
 ```
+
+To upgrade existing functions, upgrade OpenFaaS via Helm, then run:
+
+```bash
+kubectl label namespace openfaas-fn pod-security.kubernetes.io/enforce=restricted
+```
+
+Then edit or redeploy each affected function to add the `com.openfaas.profile: restricted` annotation.
+
+```diff
+apiVersion: openfaas.com/v1
+kind: Function
+metadata:
+  name: env
+  namespace: restricted-fn
+spec:
+  name: env
+  image: ghcr.io/openfaas/alpine:latest
+  environment:
+    fprocess: "env"
++  annotations:
++    com.openfaas.profile: restricted
+```
+
+If you are deploying functions via the REST API, update the deployment request as follows:
+
+```diff
+{
+  "name": "env",
+  "image": "ghcr.io/openfaas/alpine:latest",
+  "fprocess": "env",
+  "annotations": {
++    "com.openfaas.profile": "restricted"
+  }
+}
+```
+
+The name `restricted` can be changed to any name you like, but you should include the `podSecurityContext` values as shown above.
+
+If you're already using Profiles for your functions, then you can update the `podSecurityContext` values in the existing Profile.
 
 #### Use an Alternative RuntimeClass
 
