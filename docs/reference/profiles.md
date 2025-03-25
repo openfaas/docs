@@ -17,7 +17,7 @@ Multiple Profiles can be composed together for functions, if required.
 
 If you are a function author, using a Profile is a simple as adding an annotation to your function:
 
-```
+```yaml
 com.openfaas.profile: <profile_name>
 ```
 
@@ -28,6 +28,7 @@ faas-cli deploy --annotation com.openfaas.profile=<profile_name>
 ```
 
 Or in the stack YAML:
+
 ```yaml
 functions:
   foo:
@@ -76,6 +77,89 @@ The configuration use the exact options that you find in the Kubernetes document
     Resources set in the function spec take precedence over resources set through Profiles.
 
 ### Examples
+
+#### Implement the restricted Pod Security Standard
+
+This example requires OpenFaaS for Enterprises and is aimed at securing enterprise and multi-tenant workloads.
+
+[Pod Security Standards](https://kubernetes.io/docs/concepts/security/pod-security-standards/) were introduced in K8s v1.25 and are a set of best practices for securing your Pods. The `restricted` profile is the most secure option.
+
+The below example deploys a function which will pass the `restricted` Pod Security Standard.
+
+It defines:
+
+* A new namespace for functions called `restricted-fn`, which has been labeled with `pod-security.kubernetes.io/enforce: restricted`
+* A new Profile called `restricted` which sets the Pod Security Context to use `RuntimeDefault` and `runAsNonRoot: true`
+* A function called `env` which uses the `restricted` Profile
+
+```yaml
+---
+# Namespace "restricted-fn"
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: restricted-fn
+  labels:
+    kubernetes.io/metadata.name: dev
+    pod-security.kubernetes.io/enforce: restricted
+  annotations:
+    openfaas: "1"
+---
+# Profile "restricted"
+apiVersion: openfaas.com/v1
+kind: Profile
+metadata:
+  name: restricted
+  namespace: openfaas
+spec:
+  podSecurityContext:
+    seccompProfile:
+      type: RuntimeDefault
+    runAsNonRoot: true
+---
+# Function "restricted-fn"
+apiVersion: openfaas.com/v1
+kind: Function
+metadata:
+  name: env
+  namespace: restricted-fn
+spec:
+  name: env
+  image: ghcr.io/openfaas/alpine:latest
+  environment:
+    fprocess: "env"
+  annotations:
+    com.openfaas.profile: restricted
+```
+
+The `securityContext` for the container is not exposed as a separate configuration item since all required values (apart from `capabilities` are set at the Pod level instead.
+
+By default, OpenFaaS for Enterprises will drop all Linux capabilities from the container. This is a requirement of the `restricted` Pod Security Standard.
+
+The following will be added to the container's securityContext:
+
+```yaml
+securityContext:
+  capabilities:
+    drop:
+      - ALL
+  allowPrivilegeEscalation: false
+```
+
+When the Helm chart has the following value set:
+
+```yaml
+functions:
+  setNonRootUser: true
+```
+
+Then the following additional fields will be set in the container's securityContext:
+
+```yaml
+securityContext:
+  runAsUser: 12000
+  runAsNonRoot: true
+```
 
 #### Use an Alternative RuntimeClass
 
