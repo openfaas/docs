@@ -248,6 +248,9 @@ Identity Access Management (IAM) and Policy-based authorization is available for
 | [Kafka event trigger](/openfaas-pro/kafka-events) | Not supported | Supports SASL or TLS auth, Aiven, Confluent and self-hosted | Support with SLA |
 | [Postgres trigger](/openfaas-pro/postgres-events) | Not supported | Supports insert, update and delete, with table-level filters using WAL or LISTEN/NOTIFY. | Support with SLA |
 | [AWS SQS trigger](/openfaas-pro/sqs-events) | Not supported | Standard support | Support with SLA |
+| [AWS SNS trigger](/openfaas-pro/sns-events) | Not supported | Standard support | Support with SLA |
+| [RabbitMQ trigger](/openfaas-pro/rabbitmq-events) | Not supported | Standard support | Support with SLA |
+| [Google Cloud Pub/Sub trigger](/openfaas-pro/pubsub-events) | Not supported | Standard support | Support with SLA |
 | [Cron and scheduled invocations](/reference/cron) | Community support | Standard support | Support with SLA |
 
 **Durability and reliability**

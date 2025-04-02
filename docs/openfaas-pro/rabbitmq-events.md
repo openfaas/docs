@@ -81,7 +81,7 @@ Additional headers are made available to the request. These headers contain Rabb
 * `X-Rabbitmq-Msg-Id` - the message identifier.
 * `X-Rabbitmq-Routing-Key` - the routing key of the message.
 
-The default content-type is configured as `text/plain`, but can be changed to another content-type such as `application/json` or `application/octet-stream` by the [values.yaml file](https://github.com/openfaas/faas-netes/blob/master/chart/kafka-connector/values.yaml) for the connector.
+The default content-type is configured as `text/plain`, but can be changed to another content-type such as `application/json` or `application/octet-stream` by the [values.yaml file](https://github.com/openfaas/faas-netes/blob/master/chart/rabbitmq-connector/values.yaml) for the connector.
 
 ## Would you like a demo?
 
