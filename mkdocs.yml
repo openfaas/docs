@@ -51,6 +51,8 @@ theme:
   language: en
   feature:
     tabs: false
+  features:
+    - content.code.copy
   palette:
     primary: blue
     accent: indigo
