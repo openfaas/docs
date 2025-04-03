@@ -83,6 +83,17 @@ cd faasd
 ./hack/install.sh
 ```
 
+## Fix for DigitalOcean Droplets (VMs)
+
+Droplets on DigitalOcean have journalctl disabled, and use the legacy syslog service instead, this prevents log from being fetched for specific services and functions.
+
+```bash
+curl -SsLfL https://raw.githubusercontent.com/openfaas/faasd/refs/heads/master/hack/enable-journal.sh -o enable-journal.sh
+
+# Feel free to read/browse the script before running it
+chmod +x enable-journal.sh
+sudo ./enable-journal.sh
+```
 
 ## Documentation and handbook
 
