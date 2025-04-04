@@ -85,6 +85,12 @@ If you are unable to expose a public endpoint for any reason, and still need eve
 
 [Read the documentation](/openfaas-pro/sns-events)
 
+### Google Cloud Pub/Sub
+
+Trigger OpenFaaS functions from Google Cloud Pub/Sub messages.
+
+[Read the documentation](/openfaas-pro/pubsub-events)
+
 ### RabbitMQ
 
 Trigger your functions from messages published to RabbitMQ queues.

@@ -166,6 +166,7 @@ nav:
       - AWS SQS events: ./openfaas-pro/sqs-events.md
       - AWS SNS events: ./openfaas-pro/sns-events.md
       - RabbitMQ events: ./openfaas-pro/rabbitmq-events.md
+      - Google Cloud PubSub events: ./openfaas-pro/pubsub-events.md
       # - Federated Gateway: ./openfaas-pro/federated-gateway.md
       - Airgapped installation: ./openfaas-pro/airgap.md
       - Function Builder API: ./openfaas-pro/builder.md
