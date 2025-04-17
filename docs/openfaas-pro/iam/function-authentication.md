@@ -2,9 +2,6 @@
 
 With OpenFaaS Identity and Access Management (IAM) you can secure function endpoints without having to write any additional code. Access permissions for functions can be configured using IAM Roles and Policies.
 
-!!! note Technical preview
-    Function authentication is currently under technical preview
-
 You can follow this comprehensive tutorial form our blog to get started with built-in function authentication: [Introducing built-in authentication for OpenFaaS Functions](https://www.openfaas.com/blog/built-in-function-authentication/)
 
 ## Enable built-in authentication
