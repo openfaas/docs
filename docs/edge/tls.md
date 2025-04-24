@@ -50,6 +50,21 @@ sudo journalctl -u caddy --follow
 
 If your license contains the OpenFaaS Dashboard, you can also add TLS for the dashboard.
 
+There are three steps required:
+
+1. Set the `public_url` environment variable in the `docker-compose.yml` file.
+2. Add a DNS record for the dashboard.
+3. Restart Caddy and faasd
+
+First, edit `/var/lib/faasd/docker-compose.yml` and add the following to the `services` section:
+
+```diff
+services:
+  dashboard:
+    environment:
++   - "public_url=https://dashboard.example.com"
+```
+
 Create another DNS record, this time for `dashboard.example.com`, and add the following to the Caddyfile:
 
 ```caddyfile
@@ -59,6 +74,10 @@ dashboard.example.com {
 ```
 
 Then restart Caddy as before.
+
+Then restart faasd with `sudo systemctl restart faasd`.
+
+The dashboard will now be accessible via TLS at teh given URL i.e. `https://dashboard.example.com`.
 
 ## Expose a service
 
