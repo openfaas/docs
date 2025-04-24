@@ -1,6 +1,6 @@
 # OpenFaaS Edge Overview
 
-OpenFaaS Edge is a commercial distribution of both [OpenFaaS Standard](/docs/openfaas-pro/) and [faasd](https://github.com/openfaas/faasd) designed for redistribution of bespoke solutions to end customers.
+[OpenFaaS Edge](/deployment/edge) is a commercial distribution of both [OpenFaaS Standard](/docs/openfaas-pro/) and [faasd](https://github.com/openfaas/faasd) designed for redistribution of bespoke solutions to end customers.
 
 The handbook and reference documentation for OpenFaaS Edge are available in the [Serverless for Everyone Else eBook](https://store.openfaas.com/l/serverless-for-everyone-else?layout=profile). As a customer, you will receive a 100% discount code for the eBook.
 

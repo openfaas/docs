@@ -174,12 +174,13 @@ nav:
       - Grafana dashboards: ./openfaas-pro/grafana-dashboards.md
   - OpenFaaS Edge:
       - Overview: ./edge/overview.md
-      - Services: ./edge/services.md
-      - TLS: ./edge/tls.md
+      - Manage services: ./edge/services.md
+      - Configure TLS: ./edge/tls.md
+      - Enable the dashboard: ./edge/dashboard.md
       - Custom DNS: ./edge/custom-dns.md
       - Scale to Zero: ./edge/scale-to-zero.md
       - Kafka connector: ./edge/kafka-deployment.md
-      - GPU for Services: ./edge/gpus.md
+      - GPU for services: ./edge/gpus.md
   - Reference:
     - OpenFaaS YAML: ./reference/yaml.md
     - REST API: ./reference/rest-api.md
