@@ -4,7 +4,6 @@ The OpenFaaS Dashboard is a new UI, rebuilt to make operating and understanding 
 
 > Note: This feature is included for [OpenFaaS Standard & For Enterprises](https://openfaas.com/pricing/) customers.
 
-
 ## Using the dashboard
 
 Your browser can save the password for your various OpenFaaS environments, so that the credentials can follow you between machines, or be saved in password manager like 1Password.

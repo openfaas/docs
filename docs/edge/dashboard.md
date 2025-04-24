@@ -36,6 +36,12 @@ sudo mv ./jwt_key /var/lib/faasd/secrets/key
 sudo mv ./jwt_key.pub /var/lib/faasd/secrets/key.pub
 ```
 
+Then update the permissions for the user the dashboard runs as:
+
+```bash
+sudo chown 65534 /var/lib/faasd/secrets/key*
+```
+
 Then restart faasd:
 
 ```bash
