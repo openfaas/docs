@@ -13,6 +13,7 @@ Most of the [OpenFaaS Pro documentation](/docs/openfaas-pro/) and [Helm charts](
 * [Custom DNS servers](/edge/custom-dns)
 * [Kafka Connector for OpenFaaS Edge](/edge/kafka-deployment)
 * [GPU support for services](/edge/gpus)
+* [Improve container security with gVisor](/edge/gvisor)
 
 ## Looking for something else?
 
