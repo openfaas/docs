@@ -21,3 +21,28 @@ The global idle period can be adjusted by editing the `faas-idler` section of `/
       - "write_debug=false"
 ```
 
+## Scaling up from zero
+
+Functions are automatically scaled up from zero when there is a request. By default the OpenFaaS gateway probes the function ready endpoint to know if a function is ready to start accepting requests before forwarding the request.
+
+The watchdog implements the default ready endpoint `/_/ready`. You can override the endpoint by setting the annotation `com.openfaas.ready.http.path` on the function. A custom ready endpoint can be used if you have a function that is slow to start. 
+
+!!! note "Scale from zero with gVisor"
+
+    Some languages, like NodeJS, take longer to initialize when using the gVisor runsc runtime. The watchdog reports ready while the function process is still initializing. It is recommended to implement and configure a custom readiness endpoint on the function. 
+
+To extend the probing duration adjust the global probing configuration by editing the `gateway` section of `/var/lib/faasd/docker-compose.yaml`
+
+```yaml
+services:
+  gateway:
+    environment:
+      # The interval between probes
+      - probe_interval=100ms
+      # Max number of probes
+      - probe_count=20
+
+```
+
+To turn of function probing set `probe_functions=false`.
+
