@@ -43,7 +43,7 @@ metadata:
 spec:
   name: nodeinfo
   handler: node main.js
-  image: functions/nodeinfo:latest
+  image: ghcr.io/openfaas/nodeinfo:latest
   labels:
     com.openfaas.scale.min: "2"
     com.openfaas.scale.max: "15"

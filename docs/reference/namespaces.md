@@ -88,7 +88,7 @@ functions:
   stronghash:
     namespace: dev
     skip_build: true
-    image: functions/alpine:latest
+    image: ghcr.io/openfaas/alpine:latest
     fprocess: "sha512sum"
 ```
 

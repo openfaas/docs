@@ -30,7 +30,7 @@ OpenFaaS Pro adds the ability to have a function invoked by Cron and any other n
 
   functions:
     nodeinfo:
-      image: functions/nodeinfo
+      image: ghcr.io/openfaas/nodeinfo
       skip_build: true
       annotations:
         topic: cron-function
