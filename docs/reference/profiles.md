@@ -208,14 +208,7 @@ If you're already using Profiles for your functions, then you can update the `po
 
 A popular alternative container runtime class is [gVisor](https://gvisor.dev/) that provides additional sandboxing between containers. If you have created a cluster that is using gVisor, you will need to set the `runTimeClass` on the Pods that are created. This is not exposed in the OpenFaaS API, but it can be set via a Profile.
 
-1. Install the latest `faas-netes` release and the CRD. The is most easily done with [`arkade`](https://github.com/alexellis/arkade)
-    ```sh
-    arkade install openfaas \
-      --set openfaasPro=true
-    ```
-    This default installation will enable Profiles.
-
-2. Create a Profile to apply the runtime class
+1. Create a Profile to apply the runtime class
     ```yaml
     kubectl apply -f- << EOF
     kind: Profile
@@ -228,7 +221,7 @@ A popular alternative container runtime class is [gVisor](https://gvisor.dev/) t
     EOF
     ```
 
-3. Let your developers know that they need to use this annotation
+2. Let your developers know that they need to use this annotation
 
     ```
     com.openfaas.profile: gvisor
