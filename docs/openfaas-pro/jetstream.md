@@ -41,7 +41,7 @@ To enable JetSteam for OpenFaaS set `jetstream` as the queue mode in the values.
 ```yaml
 queueMode: jetstream
 nats:
-    streamReplication: 1
+  streamReplication: 1
 ```
 
 If the NATS pod restarts, you will lose all messages that it contains. In your development or staging environment, this shouldn't happen very often.
@@ -57,6 +57,38 @@ nats:
     host: "nats.nats"
     port: "4222"
 ```
+
+## NATS Authentication
+
+We recommend enabling authentication for NATS to limit the access to the NATS server.
+
+To enable authorization for NATS add the following to `nats` section in your values.yaml file.
+
+```yaml
+nats:
+  authorization:
+    enabled: true
+    # Generate the NATS authorization token on first installation.
+    generateToken: true
+```
+
+A Helm Chart `pre-install` hook is used to generate an access token on first installation. If you are upgrading an existing OpenFaaS installation or using an external NATS cluster you will need to create the token secret manually.
+
+```sh
+# openssl is preferred to generate a random secret:
+openssl rand -base64 32 > ./nats-token
+
+kubectl create secret generic \
+    -n openfaas \
+    nats-token \
+    --from-file token=./nats-token
+```
+
+Installations using an external NATS cluster should also set `nats.authorization.generateToken` to `false`. This prevents the Chart from overriding the secret on installation.
+
+Use the `nats-token` value to configure the access token through the NATS helm chart if you are running an external NATS cluster.
+
+Full instructions for external NATS are available in the [Customer Community](https://github.com/openfaas/customers/).
 
 ## Features
 
