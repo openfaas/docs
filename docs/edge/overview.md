@@ -14,6 +14,7 @@ Most of the [OpenFaaS Pro documentation](/docs/openfaas-pro/) and [Helm charts](
 * [Kafka Connector for OpenFaaS Edge](/edge/kafka-deployment)
 * [GPU support for services](/edge/gpus)
 * [Improve container security with gVisor](/edge/gvisor)
+* [OpenTelemetry](/edge/open-telemetry)
 
 ## Looking for something else?
 
