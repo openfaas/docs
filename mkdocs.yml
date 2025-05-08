@@ -182,6 +182,7 @@ nav:
       - Kafka connector: ./edge/kafka-deployment.md
       - GPU for services: ./edge/gpus.md
       - gVisor: ./edge/gvisor.md
+      - OpenTelemetry: ./edge/open-telemetry.md
   - Reference:
     - OpenFaaS YAML: ./reference/yaml.md
     - REST API: ./reference/rest-api.md
