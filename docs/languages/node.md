@@ -278,3 +278,45 @@ This is useful when the function is expected to receive large amounts of JSON da
     MAX_JSON_SIZE: '5mb'
 ```
 
+## OpenTelemetry zero-code instrumentation
+
+Using [OpenTelemetry zero-code instrumentation](https://opentelemetry.io/docs/zero-code/js/) for Node.js functions requires some minor modifications to the existing Node.js templates.
+
+There are two ways to [customise a template](/cli/templates/#how-to-customise-a-template):
+
+- Fork the template repository and modify the template. Recommended method that allows for distribution and reuse of the template.
+- Pull the template and apply patches directly in the `./template/<language_name>` directory. Good for quick iteration and experimentation with template modifications. The modified template can not be shared and reused. Changes may get overwritten when pulling templates again.
+
+Add the required packages for zero code instrumentation to the template `package.json`:
+
+```sh
+npm install --save @opentelemetry/api
+npm install --save @opentelemetry/auto-instrumentations-node
+```
+
+Use your modified template to create a new function.
+
+The OpenTelemetry agent can be configured using environment variables on the function:
+
+```diff
+functions:
+  echo:
+    lang: node20
+    handler: ./node
+    image: echo:latest
++    environment:
++      OTEL_SERVICE_NAME: echo.${NAMESPACE:-openfaas-fn}
++      OTEL_TRACES_EXPORTER: console,otlp
++      OTEL_METRICS_EXPORTER: none
++      OTEL_LOGS_EXPORTER: none
++      OTEL_EXPORTER_OTLP_ENDPOINT:${OTEL_EXPORTER_OTLP_ENDPOINT:-collector:4317}
++      NODE_OPTIONS: "--require @opentelemetry/auto-instrumentations-node/register"
+```
+
+- `OTEL_SERVICE_NAME` sets the name of the service associated with the telemetry and is used to identify telemetry for a specific function. It can be set to any value you want be we recommend using the clear function identifier `<fn-name>.<fn-namespace>`.
+- `OTEL_TRACES_EXPORTER` specifies which tracer exporter to use. In this example traces are exported to `console` (stdout) and with `otlp`. The `otlp` option tells the instrumentation module to send the traces to an endpoint that accepts OTLP via gRPC.
+- setting `OTEL_METRICS_EXPORTER` and `OTEL_LOGS_EXPORTER` to `none` we disable the metrics and logs exporters. You can enable them if desired.
+- `OTEL_EXPORTER_OTLP_ENDPOINT` sets the endpoint where telemetry is exported to.
+- The `NODE_OPTIONS` environment variable needs to have the value `--require @opentelemetry/auto-instrumentations-node/register` to register and initialize the auto instrumentation module.
+
+To see the full range of configuration options, see [Module Configuration](https://opentelemetry.io/docs/zero-code/js/configuration/).
