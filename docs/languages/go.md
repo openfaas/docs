@@ -406,3 +406,123 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
+## OpenTelemetry instrumentation
+
+We have a separate golang template `golang-otel` that has built-in support OpenTelemetry traces. The template is based on the `golang-middleware` template and allows you to get traces for Golang functions with minimal code changes.
+
+Some of the key benefits of using the `golang-otel` template are:
+
+- **No boilerplate** - Avoid boilerplate code to configure providers and traces in Go functions. No need to fork and maintain your own version of the golang templates.
+- **Configuration using environment variables** - Simplify configuration with environment-based settings, reducing the need for code changes.
+- **HTTP instrumentation** - Incoming HTTP requests to the function handler are automatically instrumented.
+- **Extensibility with custom traces** - Easily add custom spans using the [OpenTelemetry Go Trace API](https://pkg.go.dev/go.opentelemetry.io/otel) without much boilerplate code.
+
+Create a new function with the `golang-otel` template:
+
+```sh
+faas-cli new echo --lang golang-otel
+```
+
+Use environment variables to configure the traces exporter for the function.
+
+```diff
+functions:
+  echo:
+    lang: golang-otel
+    handler: ./echo
+    image: echo:latest
++    environment:
++      OTEL_TRACES_EXPORTER: console,otlp
++      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-collector:4317}
+```
+
+The `golang-otel` template supports a subset of [OTEL SDK environment variables](https://opentelemetry.io/docs/languages/sdk-configuration/) to configure the exporter.
+
+- `OTEL_TRACES_EXPORTER` specifies which tracer exporter to use. In this example traces are exported to `console` (stdout) and with `otlp` to send traces to an endpoint that accepts OTLP via gRPC. 
+- `OTEL_EXPORTER_OTLP_ENDPOINT` sets the endpoint where telemetry is exported to.
+- `OTEL_SERVICE_NAME` sets the name of the service associated with the telemetry and is used to identify telemetry for a specific function. By default `<fn-name>.<fn-namespace>` is used as the service name on Kubernetes or `<fn-name>` when running the function with OpenFaaS Edge, or locally with `faas-cli local-run`.
+- `OTEL_EXPORTER_OTLP_TRACES_INSECURE` can be set to true to disable TLS if that is not supported by the OpenTelemetry collector.
+
+The template can be used as a drop-in replacement for functions that already use the `golang-middleware` template to get HTTP invocation traces for your existing functions without any code changes. All that is required is to change the `lang` field in the `stack.yaml` configuration.
+
+```diff
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  echo:
+-   lang: golang-middleware
++   lang: golang-otel
+    handler: ./echo
+    image: echo:latest
+```
+
+### Creating custom traces in the function handler
+
+here may be cases where an instrumentation library is not available or you may want to add custom tracing data for some of your own functions and methods.
+
+When using the `golang-otel` template the registered global trace provider can be retrieved to add custom spans in the function handler. A span represents a unit of work or operation. Spans are the building blocks of traces.
+
+> Check out the [OpenTelemetry docs](https://opentelemetry.io/docs/languages/go/instrumentation/#creating-spans) for more information on how to work with spans.
+
+On your code you can call the [otel.Tracer](https://pkg.go.dev/go.opentelemetry.io/otel#Tracer) function to get a named tracer and start a new span.
+
+Make sure to add the required packages to the function handler:
+
+```sh
+go get "go.opentelemetry.io/otel"
+```
+
+Add custom spans in the function handler:
+
+```go
+package function
+
+import (
+	"fmt"
+	"io"
+	"net/http"
+	"sync"
+
+	"go.opentelemetry.io/otel"
+)
+
+func callOpenAI(ctx context.Context, input []byte) {
+	// Get a tracer and create a new span
+	ctx,  span := otel.Tracer("function").Start(ctx, "call-openAI")
+	defer span.End()
+
+	// Sleep for 2 seconds to simulate some work.
+	time.Sleep(time.Second * 2)
+}
+
+
+func Handle(w http.ResponseWriter, r *http.Request) {
+	var input []byte
+
+	if r.Body != nil {
+		defer r.Body.Close()
+
+		body, _ := io.ReadAll(r.Body)
+
+		input = body
+	}
+
+	// Call function with the request context to pass on any parent spans.
+	callOpenAI(r.Context(), input)
+
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, "Done processing.")
+}
+```
+
+To create a new span with a tracer, you’ll need a handle on a `context.Context` instance. These will typically come from the request object and may already contain a parent span from an [instrumentation library](https://opentelemetry.io/docs/languages/go/libraries/).
+
+You can now add [attributes](https://opentelemetry.io/docs/languages/go/instrumentation/#span-attributes) and [events](https://opentelemetry.io/docs/languages/go/instrumentation/#events), [set the status](https://opentelemetry.io/docs/languages/go/instrumentation/#set-span-status) and [record errors](https://opentelemetry.io/docs/languages/go/instrumentation/#record-errors) on the span as required.
+
+## OpenTelemetry zero-code instrumentation
+
+The beta Release for [zero-code instrumentation](https://opentelemetry.io/docs/concepts/instrumentation/zero-code/) of Go applications [has recently been announced](https://opentelemetry.io/blog/2025/go-auto-instrumentation-beta/).
+
+Go auto-instrumentation has not been tested with OpenFaaS functions yet. The easiest way to try it out on Kubernetes is probably by using the [Opentelemetry Operator for Kubernetes](https://opentelemetry.io/docs/platforms/kubernetes/operator/automatic/).

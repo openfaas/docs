@@ -446,7 +446,7 @@ functions:
 +      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-collector:4317}
 ```
 
-- `OTEL_SERVICE_NAME` sets the name of the service associated with the telemetry and is used to identify telemetry for a specific function. It can be set to any value you want be we recommend using the clear function identifier `<fn-name>.<fn-namespace>`.
+- `OTEL_SERVICE_NAME` sets the name of the service associated with the telemetry and is used to identify telemetry for a specific function. It can be set to any value you want but we recommend using the clear function identifier `<fn-name>.<fn-namespace>`.
 - `OTEL_TRACES_EXPORTER` specifies which tracer exporter to use. In this example traces are exported to `console` (stdout) and with `otlp`. The `otlp` option tells `opentelemetry-instrument` to send the traces to an endpoint that accepts OTLP via gRPC.
 - setting `OTEL_METRICS_EXPORTER` and `OTEL_LOGS_EXPORTER` to `none` we disable the metrics and logs exporters. You can enable them if desired.
 - `OTEL_EXPORTER_OTLP_ENDPOINT` sets the endpoint where telemetry is exported to.
