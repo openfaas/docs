@@ -421,17 +421,13 @@ RUN pip install --no-cache-dir --user -r requirements.txt
 
 The `opentelemetry-bootstrap -a install` command reads through the list of packages installed in your active site-packages folder, and installs the corresponding instrumentation libraries for these packages, if applicable. The OpenTelemetry Python agent uses [monkey patching](https://stackoverflow.com/questions/5626193/what-is-monkey-patching) to modify functions in these libraries at runtime.
 
-
-Update the fprocess ENV in the Dockerfile to start the OpenTelemetry agent:
+Update the function process in `template.yaml`to start the OpenTelemetry agent:
 
 ```diff
-# configure WSGI server and healthcheck
-USER app
-
-- ENV fprocess="python index.py"
-+ ENV fprocess="opentelemetry-instrument python index.py"
+language: python3-http
+- fprocess: python index.py
++ fprocess: opentelemetry-instrument python index.py
 ```
-
 Use your modified template to create a new function.
 
 The OpenTelemetry agent can be configured using environment variables on the function:
