@@ -64,13 +64,9 @@ chmod +x install-edge.sh
 sudo -E ./install-edge.sh
 ```
 
-*For an offline installation*
+!!! Note "Offline installation"
 
-Copy the OCI bundle and the install-edge.sh script to the remote server.
-
-Then mirror the various images from docker-compose.yaml into your private registry, and update the references from i.e. `image: ghcr.io/openfaasltd/gateway` to the equivalents in your registry.
-
-If your system is unable to install apt, yum, or pacman packages, due to limited network access, then set the `SKIP_OS` environment to 1. The list of packages is available in the `install_required_packages` section of the script.
+    For an offline installation see: [Air-gapped OpenFaaS Edge](/edge/airgap/)
 
 ### OpenFaaS Edge on RHEL-like systems
 

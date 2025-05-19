@@ -23,7 +23,13 @@ faas-cli airfaas download images \
   openfaas-edge
 ```
 
-If you do not have a docker-compose.yaml file, you can install OpenFaaS Edge on a Linux host and then extract it from `/var/lib/faasd/docker-compose.yaml`.
+If you do not have a `docker-compose.yaml` file, you can export the installation bundle locally to get it.
+
+```sh
+mkdir -p ./faasd-pro
+arkade oci install --path ./faasd-pro ghcr.io/openfaasltd/faasd-pro:latest
+```
+The docker-compose.yaml file can be found at `./faasd-pro/var/lib/faasd/docker-compose.yaml`
 
 ### Download your functions
 
@@ -47,6 +53,8 @@ When running OpenFaaS Edge in an air-gap, you can restore the images to either a
 ### Restore images to the containerd library
 
 The easiest way to test an air-gapped installation, is to bypass the need for a local registry, and to restore the images directly to the containerd library.
+
+OpenFaaS Edge binaries and dependencies need to be installed before you can run the `restore` command. Follow the [air-gapped installation instructions](#perform-the-installation) and restore the images right before running `faasd install`.
 
 Restore the OpenFaaS Edge images:
 
@@ -87,6 +95,12 @@ Further examples are available via the `--help` flag.
 
 If you're using an Operating System such as Ubuntu, you can export the installation bundle and copy it to the air-gapped machine, then perform the installation as normal.
 
+Ensure required packages are installed on the air-gapped system:
+
+```sh
+sudo apt-get install runc bridge-utils iptables iptables-persistent
+```
+
 Download the installation package:
 
 ```bash
@@ -96,20 +110,32 @@ arkade oci install --path ./faasd-pro ghcr.io/openfaasltd/faasd-pro:latest
 
 Then copy the `faasd-pro` directory to the air-gapped machine.
 
-Finally, download the installation script, copy it over:
+Run the install script on the remote server:
 
 ```bash
-curl -sLSf \
-    https://raw.githubusercontent.com/openfaas/faasd/refs/heads/master/hack/install-edge.sh \
-    -o install-edge.sh
+sudo -E ./faasd-pro/install.sh
 ```
 
-Then run the install-edge.sh script on the remote server:
+After the installation script completes add you OpenFaaS Edge license:
 
-```bash
-chmod +x install-edge.sh
-sudo -E ./install-edge.sh
+```sh
+sudo mkdir -p /var/lib/faasd/secrets
+sudo nano /var/lib/faasd/secrets/openfaas_license
 ```
+
+Perform the final installation step:
+
+```sh
+sudo -E sh -c "cd ./faasd-pro/var/lib/faasd && faasd install"
+```
+
+By default OpenFaaS uses Google's public DNS servers you need to specify custom DNS servers during the installation phase by setting the `--dns-server` flag:
+
+```sh
+sudo faasd install --dns-server 127.0.0.53
+```
+
+Make sure to also add `--pull-policy=IfNotPresent` when images were restored directly to the containerd library. This is not required when using a local image registry.
 
 ### RHEL-like systems
 
@@ -121,13 +147,38 @@ Download it on a machine with Internet access, transfer it to the air-gapped mac
 arkade oci install --path . ghcr.io/openfaasltd/faasd-pro-rpm:latest
 ```
 
+Before installing OpenFaaS Edge ensure all other required packages are installed on the air-gapped system:
+
+```sh
+sudo dnf install runc iptables-services
+```
+
 Then copy all .rpm files to the air-gapped machine, and run:
 
 ```bash
 dnf install openfaas-edge-*.rpm
 ```
 
-Follow any additional prompts and instructions.
+After the installation completes add you OpenFaaS Edge license:
+
+```sh
+sudo mkdir -p /var/lib/faasd/secrets
+sudo nano /var/lib/faasd/secrets/openfaas_license
+```
+
+Perform the final installation step:
+
+```sh
+sudo /usr/local/bin/faasd install
+```
+
+By default OpenFaaS uses Google's public DNS servers you need to specify custom DNS servers during the installation phase by setting the `--dns-server` flag:
+
+```sh
+sudo /usr/local/bin/faasd install --dns-server 127.0.0.53
+```
+
+Make sure to also add `--pull-policy=IfNotPresent` when images were restored directly to the containerd library. This is not required when using a local image registry.
 
 It is possible to specify a different version of the package by changing the `latest` tag to a specific version, e.g. `v0.2.16`.
 
