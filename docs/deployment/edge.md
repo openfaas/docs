@@ -72,6 +72,24 @@ Then mirror the various images from docker-compose.yaml into your private regist
 
 If your system is unable to install apt, yum, or pacman packages, due to limited network access, then set the `SKIP_OS` environment to 1. The list of packages is available in the `install_required_packages` section of the script.
 
+### OpenFaaS Edge on RHEL-like systems
+
+For Operating Systems such as Oracle Linux, Alma Linux, and Rocky Linux you can use our official rpm package to install OpenFaaS Edge.
+
+The rpm package is published to a container registry:
+
+```bash
+arkade oci install --path . ghcr.io/openfaasltd/faasd-pro-rpm:latest
+```
+
+To download a specific version of the rpm, update the tag from `:latest` to i.e. `:0.2.18`. Browse available versions via `crane ls ghcr.io/openfaasltd/faasd-pro-rpm`.
+
+Then install using the rpm package:
+
+```bash
+dnf install openfaas-edge-*.rpm
+```
+
 ## faasd CE (non-commercial use only)
 
 faasd CE supports 15 functions and needs a computer with a stable Internet connection to run. There are restrictions on commercial use, but [individuals](https://github.com/openfaas/faasd/blob/master/EULA.md) can use it for free for personal, non-commercial use.
