@@ -183,6 +183,7 @@ nav:
       - GPU for services: ./edge/gpus.md
       - gVisor: ./edge/gvisor.md
       - OpenTelemetry: ./edge/open-telemetry.md
+      - Air gap installation: ./edge/airgap.md
   - Reference:
     - OpenFaaS YAML: ./reference/yaml.md
     - REST API: ./reference/rest-api.md
