@@ -15,6 +15,7 @@ Most of the [OpenFaaS Pro documentation](/docs/openfaas-pro/) and [Helm charts](
 * [GPU support for services](/edge/gpus)
 * [Improve container security with gVisor](/edge/gvisor)
 * [OpenTelemetry](/edge/open-telemetry)
+* [Air Gap](/edge/airgap)
 
 ## Looking for something else?
 
