@@ -2,6 +2,16 @@
 
 OpenFaaS Edge can be installed within an air-gapped environment using images copied from a machine with Internet access, to one without it.
 
+* Download the various images for OpenFaaS Edge, its installer, and any functions you want to a machine with Internet access.
+* Transfer the artifacts to the air-gapped machine.
+* Decide whether to restore the images to a self-hosted registry on the machine, to the containerd library, or a remote registry available to the air gap.
+* Copy across the license file and run the `faasd install` command along with any pull policy and DNS settings you require.
+
+Note:
+
+* If your registry requires authentication, you'll have to create a config file for the credentials. Follow the chapter entitled "Private registries" in Serverless For Everyone Else.
+* It is possible to run a self-hosted registry with a self-signed certificate directly on the host with systemd, follow the chapter entitled "Adding a self-hosted container registry" in Serverless For Everyone Else.
+
 ## Download images for offline usage
 
 You can download, transfer and restore the images whichever way you prefer, however we maintain a dedicated, supported tool to do this for you called airfaas.
@@ -29,6 +39,7 @@ If you do not have a `docker-compose.yaml` file, you can export the installation
 mkdir -p ./faasd-pro
 arkade oci install --path ./faasd-pro ghcr.io/openfaasltd/faasd-pro:latest
 ```
+
 The docker-compose.yaml file can be found at `./faasd-pro/var/lib/faasd/docker-compose.yaml`
 
 ### Download your functions
@@ -147,17 +158,23 @@ Download it on a machine with Internet access, transfer it to the air-gapped mac
 arkade oci install --path . ghcr.io/openfaasltd/faasd-pro-rpm:latest
 ```
 
+If you wish to obtain a specific version of the RPM, update the tag from `:latest` to i.e. `:0.2.18`. Browse available versions via `crane ls ghcr.io/openfaasltd/faasd-pro-rpm`.
+
+Then copy all `openfaas-edge-*.rpm` files to the air-gapped machine, and run:
+
 Before installing OpenFaaS Edge ensure all other required packages are installed on the air-gapped system:
 
 ```sh
 sudo dnf install runc iptables-services
 ```
 
-Then copy all .rpm files to the air-gapped machine, and run:
+Then install the OpenFaaS Edge RPM package:
 
 ```bash
-dnf install openfaas-edge-*.rpm
+sudo dnf install openfaas-edge-*.rpm
 ```
+
+The command will let you know whether any other required system package are missing such as `selinux-policy`, `libselinux-utils`, `protobuf-c`, and `container-selinux`.
 
 After the installation completes add you OpenFaaS Edge license:
 
@@ -166,21 +183,39 @@ sudo mkdir -p /var/lib/faasd/secrets
 sudo nano /var/lib/faasd/secrets/openfaas_license
 ```
 
-Perform the final installation step:
+The final installation step sets up and starts the faasd and faasd-provider services.
+
+If you have a custom DNS server available, specify it using the `--dns-server` flag:
 
 ```sh
-sudo /usr/local/bin/faasd install
+--dns-server 10.0.0.1
 ```
 
-By default OpenFaaS uses Google's public DNS servers you need to specify custom DNS servers during the installation phase by setting the `--dns-server` flag:
+If there is no DNS available, you can point faasd at the local host to use systemd-resolved:
 
 ```sh
-sudo /usr/local/bin/faasd install --dns-server 127.0.0.53
+--dns-server 127.0.0.53
 ```
 
-Make sure to also add `--pull-policy=IfNotPresent` when images were restored directly to the containerd library. This is not required when using a local image registry.
+If your images are restored to the containerd library, you will have to use the `--pull-policy=IfNotPresent` flag to prevent faasd from trying to pull the images from the Internet.
 
-It is possible to specify a different version of the package by changing the `latest` tag to a specific version, e.g. `v0.2.16`.
+```sh
+--pull-policy=IfNotPresent
+```
 
-Versions can be inspected using the crane tool and `crane ls ghcr.io/openfaasltd/faasd-pro-rpm`.
+Finally, construct the command to install OpenFaaS Edge:
 
+Example with no DNS server, and images restored to the containerd library:
+
+```sh
+sudo /usr/local/bin/faasd install \
+  --dns-server 127.0.0.53 \
+  --pull-policy=IfNotPresent
+```
+
+Example with custom DNS server, and a remote registry:
+
+```sh
+sudo /usr/local/bin/faasd install \
+  --dns-server 10.0.0.1
+```

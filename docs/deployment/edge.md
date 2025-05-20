@@ -83,8 +83,10 @@ To download a specific version of the rpm, update the tag from `:latest` to i.e.
 Then install using the rpm package:
 
 ```bash
-dnf install openfaas-edge-*.rpm
+sudo dnf install openfaas-edge-*.rpm
 ```
+
+Note: additional packages may be required such as runc, iptables-services, selinux-policy, libselinux-utils, protobuf-c, and container-selinux.
 
 ## faasd CE (non-commercial use only)
 
