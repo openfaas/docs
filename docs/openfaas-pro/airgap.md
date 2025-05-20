@@ -1,4 +1,4 @@
-## Airgapped OpenFaaS
+## Air Gap with Kubernetes
 
 OpenFaaS Standard and OpenFaaS for Enterprises are licensed for use within an airgap when purchased on an annual basis via invoice.
 

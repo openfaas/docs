@@ -1,4 +1,4 @@
-# Air-gapped OpenFaaS Edge
+# Air Gap with OpenFaaS Edge
 
 OpenFaaS Edge can be installed within an air-gapped environment using images copied from a machine with Internet access, to one without it.
 
