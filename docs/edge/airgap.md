@@ -53,6 +53,26 @@ faas-cli airfaas download images \
   functions
 ```
 
+For example, if you wanted the env and nodeinfo functions from the OpenFaaS Store, create a file and run:
+
+```bash
+cat > stack.yaml << EOF
+provider:
+  name: openfaas
+
+functions:
+  env:
+    image: ghcr.io/openfaas/alpine:latest
+    fprocess: env
+    skip_build: true
+  nodeinfo:
+    image: ghcr.io/openfaas/nodeinfo:latest
+    skip_build: true
+EOF
+```
+
+Then run the command to download the images as per above.
+
 ## Transfer the images
 
 Transfer the `./images` directory to the air-gapped machine using your preferred method. This could be a USB drive, SCP, rsync, or any other method you prefer.
@@ -160,12 +180,30 @@ arkade oci install --path . ghcr.io/openfaasltd/faasd-pro-rpm:latest
 
 If you wish to obtain a specific version of the RPM, update the tag from `:latest` to i.e. `:0.2.18`. Browse available versions via `crane ls ghcr.io/openfaasltd/faasd-pro-rpm`.
 
-Then copy all `openfaas-edge-*.rpm` files to the air-gapped machine, and run:
+Then copy all `openfaas-edge-*.rpm` files to the air-gapped machine.
 
 Before installing OpenFaaS Edge ensure all other required packages are installed on the air-gapped system:
 
 ```sh
 sudo dnf install runc iptables-services
+```
+
+If you have no way to source the required packages in the offline environment, you can download them on the online machine with:
+
+```bash
+mkdir -p ~/rpm
+cd ~/rpm
+
+sudo dnf install dnf-plugins-core
+sudo dnf download --resolve --alldeps ./openfaas-edge*.rpm
+```
+
+> Note: If your online machine is not running a RHEL-like OS, you could use Docker and mount a folder in for persistence.
+
+Then copy the folder to the remote machine, and install those packages first with:
+
+```bash
+sudo dnf install --disablerepo="*" ./rpm/*.rpm
 ```
 
 Then install the OpenFaaS Edge RPM package:
