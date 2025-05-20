@@ -61,8 +61,8 @@ Restore the OpenFaaS Edge images:
 ```bash
 faas-cli airfaas restore \
   --containerd \
-  --path ./images/openfaas-edge/images.json \
-  --namespace openfaas
+  --namespace openfaas \
+  ./images/openfaas-edge/images.json
 ```
 
 If you need to restore any of your own functions, make sure you pass the `--namespace` flag, i.e.
@@ -70,8 +70,8 @@ If you need to restore any of your own functions, make sure you pass the `--name
 ```bash
 faas-cli airfaas restore \
   --containerd \
-  --path ./images/functions/images.json \
-  --namespace openfaas-fn
+  --namespace openfaas-fn \
+  ./images/functions/images.json
 ```
 
 ### Restore images to a local registry
@@ -113,7 +113,7 @@ Then copy the `faasd-pro` directory to the air-gapped machine.
 Run the install script on the remote server:
 
 ```bash
-sudo -E ./faasd-pro/install.sh
+sudo -E ./faasd-pro/install.sh ./faasd-pro/
 ```
 
 After the installation script completes add you OpenFaaS Edge license:
