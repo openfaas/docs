@@ -132,9 +132,9 @@ nav:
       - Shell auto completion: ./cli/completion.md
   - Languages:
     - Overview: ./languages/overview.md
-    - Go: ./languages/go.md
     - Node: ./languages/node.md
     - Python: ./languages/python.md
+    - Go: ./languages/go.md
     - C#: ./languages/csharp.md
     - PHP: ./languages/php.md
     - Dockerfile: ./languages/dockerfile.md
