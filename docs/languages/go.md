@@ -2,6 +2,10 @@
 
 [Go, aka Golang](https://go.dev/) is a popular open-source programming language created and maintained by a team at Google.
 
+!!! info "Do you need to customise this template?"
+
+    You can customise the official templates, or provide your own. The code for this templates is available on GitHub: [openfaas/golang-http-template](https://github.com/openfaas/golang-http-template/tree/master/template/golang-middleware).
+
 ### Official Go template
 
 The official and recommended template for Go for OpenFaaS is `golang-middleware`.

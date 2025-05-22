@@ -2,6 +2,10 @@
 
 There are two recommended templates for [Python 3](https://www.python.org/) users.
 
+!!! info "Do you need to customise this template?"
+
+    You can customise the official templates, or provide your own. The code for this templates is available on GitHub: [openfaas/python-flask-template](https://github.com/openfaas/python-flask-template/tree/master/template).
+
 * python3-http - based upon Alpine Linux, small image size, for pure Python only.
 * python3-http-debian - based upon Debian Linux, larger image size, required for native C modules as as SQL, Kafka, Pandas, and image manipulation.
 
