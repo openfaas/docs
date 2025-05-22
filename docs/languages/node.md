@@ -2,6 +2,10 @@
 
 The [Node.js](https://nodejs.org/en) template for OpenFaaS uses [Express.js](https://expressjs.com/) under the hood and the LTS version of Node, but provides an abstraction where you just work with an event and context object.
 
+!!! info "Where is the code for "openfaas"?"
+
+    You can customise the official templates, or provide your own. The code for this templates is available on GitHub: [openfaas/templates](https://github.com/openfaas/templates/tree/master/template/node20).
+
 The event is used to obtain the original HTTP request, and the context is used to set the HTTP response. The underlying Express.js object is an implementation detail, and so is not available to the function author.
 
 Async/await is supported by the handler by default.
