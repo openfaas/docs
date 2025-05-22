@@ -122,15 +122,14 @@ Further examples are available via the `--help` flag.
 
 ## Perform the installation
 
-### Debian-based systems
+If your are installing OpenFaaS Edge on a RHEL of Dabian based system it is recommended to follow the dedicated instructions for the specific distribution:
 
-If you're using an Operating System such as Ubuntu, you can export the installation bundle and copy it to the air-gapped machine, then perform the installation as normal.
+- [Debian based systems](#debian-based-systems) (e.g. Ubuntu, Debian)
+- [RHEL base systems](#rhel-like-systems) (e.g. Oracle Linux, Alma Linux, Rocky Linux)
 
-Ensure required packages are installed on the air-gapped system:
+Alternatively we also have [generic installation instructions](#generic-install-script) available.
 
-```sh
-sudo apt-get install runc bridge-utils iptables iptables-persistent
-```
+### Generic install script
 
 Download the installation package:
 
@@ -140,6 +139,8 @@ arkade oci install --path ./faasd-pro ghcr.io/openfaasltd/faasd-pro:latest
 ```
 
 Then copy the `faasd-pro` directory to the air-gapped machine.
+
+Make sure required packages are installed. The list of required packages is available in the `install_required_packages` section if the [install script](https://raw.githubusercontent.com/openfaas/faasd/refs/heads/master/hack/install-edge.sh)
 
 Run the install script on the remote server:
 
@@ -160,13 +161,77 @@ Perform the final installation step:
 sudo -E sh -c "cd ./faasd-pro/var/lib/faasd && faasd install"
 ```
 
-By default OpenFaaS uses Google's public DNS servers you need to specify custom DNS servers during the installation phase by setting the `--dns-server` flag:
+### Debian-based systems
 
-```sh
-sudo faasd install --dns-server 127.0.0.53
+If you're using an Operating System such as Ubuntu or Debian , you can use our official Debian package to install OpenFaaS Edge.
+
+Download it on a machine with Internet access, transfer it to the air-gapped machine, and install it using:
+
+```bash
+arkade oci install --path . ghcr.io/openfaasltd/faasd-pro-debian:latest
 ```
 
-Make sure to also add `--pull-policy=IfNotPresent` when images were restored directly to the containerd library. This is not required when using a local image registry.
+If you wish to obtain a specific version of the package, update the tag from `:latest` to i.e. `:0.2.18`. Browse available versions via `crane ls ghcr.io/openfaasltd/faasd-pro-debian`.
+
+Then copy all `openfaas-edge-*.deb` files to the air-gapped machine.
+
+Before installing OpenFaaS Edge ensure all other required packages are installed on the air-gapped system:
+
+```sh
+sudo apt-get install runc bridge-utils iptables iptables-persistent
+```
+
+If you have no way to source the required packages in the offline environment, you can download them on an online machine with tools like e.g [apt-offline](https://github.com/rickysarraf/apt-offline/wiki) and copy them to the air-gapped machine.
+
+Install the OpenFaaS Edge package:
+
+```sh
+sudo apt-get install ./openfaas-edge-*.deb
+```
+
+After the installation completes add you OpenFaaS Edge license:
+
+```sh
+sudo mkdir -p /var/lib/faasd/secrets
+sudo nano /var/lib/faasd/secrets/openfaas_license
+```
+
+The final installation step sets up and starts the faasd and faasd-provider services.
+
+If you have a custom DNS server available, specify it using the `--dns-server` flag:
+
+```sh
+--dns-server 10.0.0.1
+```
+
+If there is no DNS available, you can point faasd at the local host to use systemd-resolved:
+
+```sh
+--dns-server 127.0.0.53
+```
+
+If your images are restored to the containerd library, you will have to use the `--pull-policy=IfNotPresent` flag to prevent faasd from trying to pull the images from the Internet.
+
+```sh
+--pull-policy=IfNotPresent
+```
+
+Finally, construct the command to install OpenFaaS Edge:
+
+Example with no DNS server, and images restored to the containerd library:
+
+```sh
+sudo faasd install \
+  --dns-server 127.0.0.53 \
+  --pull-policy=IfNotPresent
+```
+
+Example with custom DNS server, and a remote registry:
+
+```sh
+sudo faasd install \
+  --dns-server 10.0.0.1
+```
 
 ### RHEL-like systems
 
