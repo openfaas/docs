@@ -219,7 +219,7 @@ The OpenFaaS CLI provides a `--build-option` flag which enables named sets of na
 There are two ways to achieve this:
 
 ```bash
-faas-cli build --lang python3 --build-option dev [--build-option debug]
+faas-cli build --lang python3-http --build-option dev [--build-option debug]
 ```
 
 or in YAML:
@@ -272,13 +272,13 @@ RUN apk --no-cache add curl ${ADDITIONAL_PACKAGE} \
 There may be scenarios where a single native module needs to be added to a build.  A single-package build option could be added as described above.  Alternatively a package could be specified through a `--build-arg`.
 
 ```bash
-faas-cli build --lang python3 --build-arg ADDITIONAL_PACKAGE=jq
+faas-cli build --lang python3-http --build-arg ADDITIONAL_PACKAGE=jq
 ```
 
 In the event a `build-option` is set the effect will be cumulative:
 
 ```bash
-faas-cli build --lang python3 --build-option dev --build-arg ADDITIONAL_PACKAGE=jq
+faas-cli build --lang python3-http --build-option dev --build-arg ADDITIONAL_PACKAGE=jq
 ```
 
 The entries in the template's Dockerfile described in 1.0 above need to be present for this mode of operation.
