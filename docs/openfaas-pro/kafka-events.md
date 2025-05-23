@@ -37,7 +37,7 @@ Create a new function:
 
 ```bash
 export OPENFAAS_PREFIX=ghcr.io/openfaas
-faas-cli new --lang go provision-customer
+faas-cli new --lang golang-middleware provision-customer
 ```
 
 Now add an annotation for the `payment.created` topic, so that the `provision-customer` function is invoked for any message received:
@@ -52,7 +52,7 @@ functions:
   provision-customer:
     annotations:
       topic: payment.created
-    lang: go
+    lang: golang-middleware
     handler: ./provision-customer
     image: ghcr.io/openfaas:provision-customer
 ```

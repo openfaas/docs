@@ -69,7 +69,7 @@ Example snippet from stack.yml:
 ```yaml
 functions:
   cows:
-    lang: go
+    lang: golang-middleware
     handler: ./cows
     image: alexellis2/cows:0.1
     labels:

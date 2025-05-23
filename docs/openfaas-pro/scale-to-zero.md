@@ -55,7 +55,7 @@ Create a new function using the `go` template:
 
 ```bash
 export OPENFAAS_PREFIX=ttl.sh/daily-job:1h
-faas-cli new --lang go daily-job
+faas-cli new --lang golang-middleware daily-job
 ```
 
 Now add the labels from above, we'll use a 15 minute timeout.
@@ -70,7 +70,7 @@ provider:
 
 functions:
   daily-job:
-    lang: go
+    lang: golang-middleware
     handler: ./daily-job
     image: ttl.sh/daily-job:1h
     labels:
