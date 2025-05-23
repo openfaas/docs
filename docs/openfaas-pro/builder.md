@@ -69,11 +69,11 @@ export PAYLOAD=$(kubectl get secret -n openfaas payload-secret -o jsonpath='{.da
 echo $PAYLOAD > $HOME/.openfaas/payload.txt
 ```
 
-Create a test function using the `python3` template, and set it to publish to `ttl.sh`, an ephemeral registry that doesn't require authentication:
+Create a test function using the `python3-http` template, and set it to publish to `ttl.sh`, an ephemeral registry that doesn't require authentication:
 
 ```bash
 faas-cli new --prefix ttl.sh/test-images \
-    --lang python3 py-fn
+    --lang python3-http py-fn
 ```
 
 Now, publish an image using the remote builder:
