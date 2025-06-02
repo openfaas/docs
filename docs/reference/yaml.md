@@ -319,9 +319,19 @@ Example of setting a custom HTTP health check path and initial check delay:
 
 Applying memory and CPU limits can be done through the `limits` and `requests` [fields](https://godoc.org/github.com/openfaas/faas-cli/stack#FunctionResources). It is advisable to always set a limit for your functions to prevent them consuming too many resources in your system.
 
-> Important note: The value for memory for Kubernetes needs to be in the format "Mi".
+When using OpenFaaS on Kubernetes:
+  
+  - Requests ensure the stated host resource is available for the container to use.
+  - Limits specify the maximum amount of host resources that a container can consume.
+
+On OpenFaaS Edge:
+ 
+  - Limits specify the maximum amount of host resources that a container can consume.
+  - Setting requests is not supported. Any requests set on functions will be ignored.
 
 Here we constrain the url-ping function to only use 40Mb of RAM at a maximum.
+
+> Important note: The value for memory for Kubernetes needs to be in the format "Mi".
 
 ```YAML
   url-ping:
@@ -346,11 +356,6 @@ Here we constrain a function to use only `100m` which is equivalent to 1/10 of [
     requests:
       cpu: 100m
 ```
-
-The meanings and formats of `limits` and `requests` may vary depending on whether you are using Kubernetes or Docker Swarm. In general:
-
- - Requests ensures the stated host resource is available for the container to use
- - Limits specify the maximum amount of host resources that a container can consume
 
 Read more for: [Kubernetes](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#how-pods-with-resource-limits-are-run).
 
