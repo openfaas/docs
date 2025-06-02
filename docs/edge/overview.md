@@ -16,6 +16,7 @@ Most of the [OpenFaaS Pro documentation](/docs/openfaas-pro/) and [Helm charts](
 * [Improve container security with gVisor](/edge/gvisor)
 * [OpenTelemetry](/edge/open-telemetry)
 * [Air Gap](/edge/airgap)
+* [Resource constraints](/reference/yaml/#function-memorycpu-limits)
 
 ## Looking for something else?
 
