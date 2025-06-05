@@ -30,7 +30,7 @@ This will include code submitted by a third party. It may or may not be kept up 
 
 ### Make your own template
 
-The easiest way to write a template for OpenFaaS it to copy an official template, and to modify it. This example creates a template using Bun and Express.js which is based upon the official node20 template.
+The easiest way to write a template for OpenFaaS it to copy an official template, and to modify it. This example creates a template using Bun and Express.js which is based upon the official 22 template.
 
 Create a new folder called my-templates, it should have a sub-directory within it called `template`.
 
@@ -57,12 +57,12 @@ Next, create a Dockerfile which should download and make available the OpenFaaS 
 
 There are two watchdogs available, the [Classic Watchdog](https://github.com/openfaas/classic-watchdog), meant for processes which do not have their own HTTP server, the process will be forked for each request, and the [of-watchdog](https://github.com/openfaas/of-watchdog) for when a HTTP server is available. Since Bun used with Express.js provides a HTTP server, we'll be using the of-watchdog. 
 
-The following Dockerfile is based upon the node20 template, adapted for Bun.
+The following Dockerfile is based upon the node22 template, adapted for Bun.
 
 The `--platform=${TARGETPLATFORM:-linux/amd64}` directive is required for multi-arch support, to make the template work for 64-bit Arm as well as regular *x86_64* machines. Most images that you find on the Docker Hub will already have multi-arch support, and it's strongly recommended to keep it in place.
 
 ```Dockerfile
-FROM --platform=${TARGETPLATFORM:-linux/amd64} ghcr.io/openfaas/of-watchdog:0.9.11 as watchdog
+FROM --platform=${TARGETPLATFORM:-linux/amd64} ghcr.io/openfaas/of-watchdog:0.10.9 as watchdog
 FROM --platform=${TARGETPLATFORM:-linux/amd64} oven/bun:alpine as ship
 
 ARG TARGETPLATFORM
@@ -254,12 +254,7 @@ const middleware = async (req, res) => {
     });
 };
 
-app.post('/*', middleware);
-app.get('/*', middleware);
-app.patch('/*', middleware);
-app.put('/*', middleware);
-app.delete('/*', middleware);
-app.options('/*', middleware);
+app.use(middleware)
 
 const port = process.env.http_port || 3000;
 

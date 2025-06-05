@@ -119,7 +119,7 @@ mkdir -p /tmp/functions
 cd /tmp/functions
 
 # Create a new function
-faas-cli new --lang node20 hello-world
+faas-cli new --lang node22 hello-world
 
 # The shrinkwrap command performs the templating 
 # stage, then stops before running "docker build"
@@ -278,7 +278,7 @@ You may need to enable build arguments for the Dockerfile, these can be passed t
 {
   "image": "ttl.sh/alexellis/test-image:0.1.0",
   "buildArgs": {
-    "BASE_IMAGE": "gcr.io/quiet-mechanic-140114/openfaas-base/node20"
+    "BASE_IMAGE": "gcr.io/quiet-mechanic-140114/openfaas-base/node22"
   }
 }
 ```
