@@ -77,7 +77,7 @@ Most templates make these variables available through their request or context o
 
 * [golang-middleware](/languages/go/)
 * [python3-http](/languages/python/)
-* [node20](/languages/node/)
+* [node22](/languages/node/)
 
 For detailed examples with Node.js, see: [Serverless For Everyone Else](http://store.openfaas.com/l/serverless-for-everyone-else)
 
