@@ -62,9 +62,14 @@ The `faas-cli` `publish` and `up` commands can use the `--remote-builder` flag t
 
 First, port-forward the builder, and obtain the payload secret:
 
-```
+```bash
 kubectl port-forward -n openfaas \
-    deploy/pro-builder 8081:8080
+    deploy/pro-builder 8081:8080 &
+```
+
+Then:
+
+```bash
 export PAYLOAD=$(kubectl get secret -n openfaas payload-secret -o jsonpath='{.data.payload-secret}' | base64 --decode)
 echo $PAYLOAD > $HOME/.openfaas/payload.txt
 ```
@@ -169,7 +174,7 @@ Now port-forward the service and invoke it:
 
 ```bash
 kubectl port-forward -n openfaas \
-    deploy/pro-builder 8081:8080
+    deploy/pro-builder 8081:8080 &
 ```
 
 Generate a SHA256 HMAC signature and invoke the function passing in the `X-Build-Signature` header.
