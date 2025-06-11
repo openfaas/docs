@@ -290,6 +290,58 @@ You may need to enable build arguments for the Dockerfile, these can be passed t
 }
 ```
 
+## How to stream the logs and status output from a build
+
+> Note: this feature requires a version later than `0.4.3`.
+
+By default, the builder will prepare all logs and statuses in memory, and to send them after the build is completed.
+
+If you would like to display live feedback to your users, you can set a HTTP Accept header of `application/x-ndjson` and the builder will stream the logs and status output as they are generated.
+
+```bash
+curl -H "Accept: application/x-ndjson" \
+  -H "X-Build-Signature: sha256=$HMAC" \
+  --silent \
+  http://127.0.0.1:8081/build -X POST --data-binary @req.tar | jq
+```
+
+The intermediate output is identified by the `status` field containing `in_progress`:
+
+```json
+{
+  "log": [
+    "v: 2021-10-20T16:48:34Z [ship 1/16] WORKDIR /home/app/",
+    "v: 2021-10-20T16:48:34Z exporting to image 8.01s"
+  ],
+  "image": "ttl.sh/alexellis2/test-image-hello:0.1.0",
+  "status": "in_progress",
+  "duration": 0.201
+}
+```
+
+Upon completion, the `status` field will contain `success` or `failure`.
+
+```json
+{
+
+  "image": "ttl.sh/alexellis2/test-image-hello:0.1.0",
+  "status": "success",
+  "duration": 0.843
+}
+```
+
+When the build fails, further details may be included in the `error` field.
+
+```json
+{
+
+  "image": "ttl.sh/alexellis2/test-image-hello:0.1.0",
+  "status": "failure",
+  "error": "failed to solve: process \"/bin/sh -c npm i\" did not complete successfully: exit code: 1",
+  "duration": 0.843
+}
+```
+
 ## How to perform multi-arch builds
 
 You may wish to cross-compile a function to run on an arm64 host, if so, you can provide a `platform` key in the configuration file.
