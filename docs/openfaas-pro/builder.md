@@ -126,7 +126,7 @@ faas-cli new --lang node22 hello-world
 
 # Look in ./build/hello-world to see the contents 
 # that is normally passed to "docker build"
-faas-cli build --shrinkwrap -f hello-world.yml
+faas-cli build --shrinkwrap -f stack.yaml
 
 # Now rename "hello-world" to "context"
 # since that's the folder name expected by the builder
