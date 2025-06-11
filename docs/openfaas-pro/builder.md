@@ -249,9 +249,12 @@ A HTTP client has three tasks to perform:
             "v: 2022-06-23T09:10:13Z exporting to image 5.18s"
         ],
         "image": "ttl.sh/openfaas-image:1h",
-        "status": "success"
+        "status": "success",
+        "duration": 0.843
     }
     ```
+
+The `duration` field is given in seconds and is the total time taken to build the image including pulling base layers, exporting the image, and pushing it to the registry.
 
 There are several examples available of how to call the Function Builder's API via different programming languages: [openfaas-function-builder-api-examples](https://github.com/openfaas/function-builder-examples)
 
