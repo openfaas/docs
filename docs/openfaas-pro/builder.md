@@ -144,8 +144,10 @@ mv hello-world context
 # function.
 export REGISTRY=ttl.sh
 export OWNER=alexellis2
-echo -n '{"image": "'$REGISTRY'/'$OWNER'/test-image-hello:0.1.0", "platforms": ["linux/amd64","linux/arm64"]}' > com.openfaas.docker.config
+echo -n '{"image": "'$REGISTRY'/'$OWNER'/test-image-hello:0.1.0", "platforms": ["linux/amd64"]}' > com.openfaas.docker.config
 ```
+
+Note: The `platforms` key is optional and is only used to specify the platform of the image to build. If not specified, the builder will build an image for the host platform, for multi-arch builds you could set the value to i.e. `["linux/amd64","linux/arm64"]`.
 
 If you wish, you can also construct this filesystem using your own application, but it is easier to execute the `faas-cli` command from your own code.
 
@@ -292,6 +294,8 @@ You may need to enable build arguments for the Dockerfile, these can be passed t
 
 You may wish to cross-compile a function to run on an arm64 host, if so, you can provide a `platform` key in the configuration file.
 
+When no `platforms` key is specified, the builder will build an image for the host platform.
+
 You will need to make sure your Dockerfile uses the proper syntax, the official templates are a good reference if you need guidance, otherwise reach out to our team if you get stuck.
 
 The below will build an image for arm64 only and must be deployed only to an arm64 host using OpenFaaS Profiles to ensure it is scheduled correctly to an arm64 host.
@@ -316,6 +320,18 @@ Bear in mind:
 
 * multi-arch images will usually take longer to publish than single-arch images due to emulation with QEMU
 * any steps performed under a TARGETARCH which differs from BUILDARCH will be emulated with QEMU which will add overhead to the build process - you can mitigate this by running a dedicated arm64 and amd64 pro-builder Helm chart installation
+
+## Skip pushing the image to the registry
+
+You can skip pushing the image to the registry by setting the `skipPush` key to `true` in the configuration file.
+
+```json
+{
+  "skipPush": true
+}
+```
+
+In this mode, the builder can be configured through additional parameters to build directly into the containerd library for instant deployment to OpenFaaS Edge. Contact us for more information if this use-case is of interest to you.
 
 ## How to scale the builder
 
