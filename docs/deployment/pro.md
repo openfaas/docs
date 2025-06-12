@@ -230,6 +230,42 @@ Identity and Access Management (IAM) and Single-Sign On (SSO) are closely relate
 * [Identity and Access Management (IAM)](/openfaas-pro/iam/overview)
 * [Single-Sign On (SSO)](/openfaas-pro/sso/overview)
 
+### A note on telemetry
+
+Non-confidential telemetry is sent on an automated basis, this summarises the version of Kubernetes being used, the version of the OpenFaaS operator, and the number of functions along with their invocation counts.
+
+Telemetry is required as part of the OpenFaaS Pro license agreement, and is used to help us support customers, improve the product, and to provide you with a better experience.
+
+To view the telemetry data, you can run the following command:
+
+```bash
+kubectl port-forward -n openfaas svc/gateway 8080:8080 &
+
+PASSWORD=$(kubectl get secret -n openfaas basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode; echo)
+curl -s http://admin:$PASSWORD@127.0.0.1:8080/system/telemetry|jq
+```
+
+Example output from a test cluster:
+
+```json
+{
+  "s": "0.0.2",
+  "v": "0.5.61-8-gc2c68d17",
+  "data": {
+    "uptime": 5717804906149224,
+    "license_email": "admin@example.com",
+    "namespace": "openfaas",
+    "operator_version": "0.5.61-8-gc2c68d17",
+    "k8s_version": "v1.29.3+k3s1",
+    "total_fns": 24,
+    "total_namespaces": 4,
+    "total_replicas": 20,
+    "invocations_daily": 3.000266226477385,
+    "seconds_daily": 0.014143783188987933
+  }
+}
+```
+
 ## A note on upgrading from established OpenFaaS CE installations
 
 For a smooth upgrade experience, we recommend that you test the initial upgrade in a temporary or pre-production environment before rolling out to production.
