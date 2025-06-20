@@ -240,3 +240,37 @@ fprocess=env
 HOME=/home/app
 Http_X_Forwarded_Proto=https
 ```
+
+### Supported content types
+
+OpenFaaS supports workloads over HTTP, and most standard content types are supported.
+
+Since OpenFaaS has no hard limit on function execution duration, it allows for maintaining long-lived connections for streaming over HTTP.
+
+> **Important**: Always ensure OpenFaaS system and function timeouts are configured appropriately for your streaming workloads. See [Extended timeouts](https://docs.openfaas.com/tutorials/expanded-timeouts/) for details.
+
+Supported streaming options:
+
+**Server-Sent Events (SSE)**
+
+Server-Sent Events enable a function to push one-way event streams to a client.
+
+- Clients should include an `Accept: text/event-stream` header in their request when starting tht SSE request.
+- The function's response `Content-Type` header must be set to `text/event-stream`. Each event data chunk should be prefixed with data: and terminated by two newline characters (\n\n).
+
+For more details on SSE, refer to [Using Server Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events)
+
+**WebSockets**
+
+WebSockets provide bidirectional, full-duplex communication between a client and an OpenFaaS function.
+
+To create a WebSocket-enabled function, you can modify an existing OpenFaaS template or use the `Dockerfile` template as a starting point.
+
+For a comprehensive guide, check out: [How to Integrate WebSockets with Serverless Functions and OpenFaaS](https://www.openfaas.com/blog/serverless-websockets/)
+
+**Newline Delimited JSON (NDJSON)**
+
+NDJSON (or JSON Lines) is a format for streaming multiple independent JSON objects, each on a new line.
+
+- Clients should include an `Accept: application/x-ndjson` header in their request.
+- The function's response `Content-Type` header should be set to `application/x-ndjson`. Each line in the response should be a complete JSON object followed by a newline character (\n).
