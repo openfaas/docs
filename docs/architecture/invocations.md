@@ -101,7 +101,8 @@ OpenFaaS For Enterprise offers authentication using JWT tokens obtained through 
 * [TLS with OpenFaaS](/reference/tls-openfaas)
 * [Identity and Access Management (IAM)](/openfaas-pro/iam/overview/)
 
-For functions, you should provide your own authentication mechanism, such as a shared token, OIDC, HMAC or basic authentication.
+For functions, you can provide your own authentication mechanism, such as a shared token, OIDC, HMAC or basic authentication.
+With [OpenFaaS Identity and Access Management (IAM)](https://docs.openfaas.com/openfaas-pro/iam/overview/) you can use the built in [function authentication](https://docs.openfaas.com/openfaas-pro/iam/function-authentication/) to protect your function endpoints.
 
 ## FAQ
 
