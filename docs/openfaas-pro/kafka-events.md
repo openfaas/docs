@@ -27,7 +27,7 @@ The topics you need to connect to functions are set on a connector.
 
 A single connector can have either a single topic, or a comma-separated list of topics.
 
-Customers tend to prefer to deploy a single copy of the connector for each topic, so that they can be scaled to match the number of consumers set on the partition.
+It is recommended to deploy one connector per topic, so that it can be scaled to match the number of consumers set on the partition. I.e. a topic named `payment.created` which has a partition size of 3, should have three replicas of the configured connector deployed.
 
 But it's also possible to use a single connector and pass in multiple topics i.e. `payment.created,customer.onboarded,invoice.generate`.
 
@@ -36,8 +36,8 @@ Your function(s) can then subscribe to one or more topics by setting the topic a
 Create a new function:
 
 ```bash
-export OPENFAAS_PREFIX=ghcr.io/openfaas
-faas-cli new --lang go provision-customer
+export OPENFAAS_PREFIX=docker.io/alexellis2
+faas-cli new --lang golang-middleware provision-customer
 ```
 
 Now add an annotation for the `payment.created` topic, so that the `provision-customer` function is invoked for any message received:
@@ -52,9 +52,9 @@ functions:
   provision-customer:
     annotations:
       topic: payment.created
-    lang: go
+    lang: golang-middleware
     handler: ./provision-customer
-    image: ghcr.io/openfaas:provision-customer
+    image: docker.io/alexellis2/provision-customer:latest
 ```
 
 Now deploy your function, and publish an event to your Kafka broker on the `payment.created` topic.
@@ -71,9 +71,11 @@ For headers and metadata:
 * `X-Kafka-Offset` - the offset in Kafka that the message was received on
 * `X-Kafka-Key` - if set on the message, the key of the message in Kafka
 
-The default content-type is configured as `text/plain`, but can be changed to another content-type such as `application/json` or `application/octet-stream` by the [values.yaml file](https://github.com/openfaas/faas-netes/blob/master/chart/kafka-connector/values.yaml) for the connector.
+If a binary message key is submitted to a Kafka topic, then the value will be base64-encoded and passed to the function as the `X-Kafka-Key` header, along with an additional header `X-Kafka-Key-Enc` with a value of `b64` to indicate that the value is base64-encoded.
 
-Most templates make these variables available through their request or context object, for example:
+The connector will invoke functions using the default content type of `text/plain`, however [this can be overridden in the Helm chart](https://github.com/openfaas/faas-netes/blob/master/chart/kafka-connector/values.yaml) to i.e. `application/json or whatever is required.
+
+Most templates make HTTP headers sent by the connector available through their request or context object, for example:
 
 * [golang-middleware](/languages/go/)
 * [python3-http](/languages/python/)
@@ -81,7 +83,19 @@ Most templates make these variables available through their request or context o
 
 For detailed examples with Node.js, see: [Serverless For Everyone Else](http://store.openfaas.com/l/serverless-for-everyone-else)
 
-For detailed examples with Go, see: [Everyday Golang (Premium Edition)](https://openfaas.gumroad.com/l/everyday-golang)
+For detailed examples with Go, see: [Everyday Golang (Premium Edition only)](https://openfaas.gumroad.com/l/everyday-golang)
+
+### Message lifecycle and retries
+
+**Default synchronous invocation**
+
+By default, the Kafka connector will invoke functions using the Gateway's synchronous invocation endpoint. If a response is returned by a function, then the message will be considered as processed and will be acknowledged on the topic.
+
+**Automatic retries via the queue-worker**
+
+If you would like to retry messages then you can switch the connector to use asynchronous invocations. Asynchronous invocations are executed using the queue-worker.
+
+The queue-worker has a set of default retry values set via the Helm chart. They can also be overridden for each function using the documentation on the [Retries page](/openfaas-pro/retries).
 
 ## See also
 

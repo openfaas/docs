@@ -115,7 +115,7 @@ The secret *must* be created in the `openfaas-fn` namespace or the equivalent if
 Create a sample function with a `--prefix` variable:
 
 ```sh
-faas-cli new --lang go private-fn --prefix=registry:port/repo
+faas-cli new --lang golang-middleware private-fn --prefix=registry:port/repo
 ```
 
 Update the `stack.yml` file and add a reference to the new secret:

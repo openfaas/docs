@@ -51,11 +51,11 @@ This is achieved through adding a label to the stack.yml file:
 
 The ttl.sh registry is a free service that can be used to publish a container image without needing to log into a registry.
 
-Create a new function using the `go` template:
+Create a new function using the `golang-middleware` template:
 
 ```bash
 export OPENFAAS_PREFIX=ttl.sh/daily-job:1h
-faas-cli new --lang go daily-job
+faas-cli new --lang golang-middleware daily-job
 ```
 
 Now add the labels from above, we'll use a 15 minute timeout.
@@ -70,7 +70,7 @@ provider:
 
 functions:
   daily-job:
-    lang: go
+    lang: golang-middleware
     handler: ./daily-job
     image: ttl.sh/daily-job:1h
     labels:

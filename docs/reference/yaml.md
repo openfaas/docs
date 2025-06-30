@@ -21,8 +21,8 @@ The YAML file can hold one to many functions separated by separate entries.
 Example:
 
 ```bash
-$ faas-cli new --lang go fn1
-$ faas-cli new --lang go fn2 --append=fn1.yml
+$ faas-cli new --lang golang-middleware fn1
+$ faas-cli new --lang golang-middleware fn2 --append=fn1.yml
 ```
 
 Produces:
@@ -34,11 +34,11 @@ provider:
 
 functions:
   fn1:
-    lang: go
+    lang: golang-middleware
     handler: ./fn1
     image: fn1:latest
   fn2:
-    lang: go
+    lang: golang-middleware
     handler: ./fn2
     image: fn2:latest
 ```
@@ -144,7 +144,7 @@ An example of a build argument may be for enabling Go modules, or a HTTP_PROXY a
 functions:
   with_go_modules:
     handler: ./with_go_modules
-    lang: go
+    lang: golang-middleware
     build_args:
       HTTP_PROXY: http://squid.corp.ad.example.com
       GO111MODULE: on
@@ -235,7 +235,7 @@ provider:
   gateway: http://127.0.0.1:8080
 functions:
   low:
-    lang: go
+    lang: golang-middleware
     handler: ./low
     image: alexellis2/low:latest
     constraints:

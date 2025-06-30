@@ -238,7 +238,7 @@ You can usually do one of the following:
 Example:
 
 ```bash
-faas-cli new --lang go test-this
+faas-cli new --lang golang-middleware test-this
 
 faas-cli build -f test-this.yml
 
