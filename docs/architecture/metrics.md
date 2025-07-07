@@ -78,9 +78,10 @@ The queue-worker for NATS JetStream exposes metrics to help you get insight in t
 
 | Metric                                  | Type       | Description                                     | Labels       | Edition     |
 | ----------------------------------------| ---------- | ------------------------------------------------| -------------|-------------|
-| `queue_worker_pending_messages`         | gauge      | Amount of messages waiting to be processed on given `queue_name`, `kubernetes_pod_name` | `queue_name` | Pro Edition |
+| `queue_worker_pending_messages`         | gauge      | Amount of messages waiting to be processed. | `queue_name`, `function_name` | Pro Edition |
 | `queue_worker_messages_processed_total` | counter    | Total number of messages processed              | `queue_name`, `kubernetes_pod_name` | Pro Edition |
 | `queue_worker_messages_submitted_total` | gauge      | Total number of messages submitted to the queue by the gateway | `queue_name`, `kubernetes_pod_name` | Pro Edition |
+| `queue_worker_function_invocation_inflight` | gauge |  Total number of inflight function requests made by the queue-worker | `queue_name`, `function_name` | Pro Edition |
 
 ## Watchdog
 
