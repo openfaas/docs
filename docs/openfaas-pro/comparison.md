@@ -54,10 +54,10 @@ Did you know? OpenFaaS Pro's autoscaling engine can scale many different types o
 | Maximum replicas per function | 5                 | 1                         | No limit applied | as per Standard |
 | Scale from Zero               | Not available     | Supported                 | Supported, with additional checks for Istio | as per Standard |
 | Zero downtime updates         | Not available     | Not available             | Supported with readiness probes and rolling updates | as per Standard |
-| Autoscaling strategy          | RPS               | Not applicable            | [CPU utilization, Capacity (inflight requests), RPS and Custom](/architecture/autoscaling)      | as per Standard |
+| Autoscaling strategy          | RPS               | Not applicable            | [CPU utilization, Capacity (inflight requests), RPS, async queue-depth and Custom (e.g. Memory)](/architecture/autoscaling)      | as per Standard |
 | Autoscaling granularity       | One global rule   | Not applicable            | Configurable per function | as per Standard |
 
-Data-driven, intensive, or long running functions are best suited to capacity-based autoscaling, which is only available in OpenFaaS Pro.
+Data-driven, intensive, or long running functions are best suited to capacity-based or queue-based autoscaling, which is only available in OpenFaaS Pro.
 
 Scaling to zero is also a commercial feature, which can be opted into on a per function basis, with a custom idle threshold.
 

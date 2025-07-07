@@ -121,7 +121,7 @@ mean per pod = 90 / 1 = 90
 * Capacity `capacity`
 
   Based upon inflight requests (or connections), ideal for: long-running functions or functions which can only handle a limited number of requests at once.
-  
+
   A hard limit can be enforced through the `max_inflight` environment variable on the function, so the caller will need to retry the request some of the time. The OpenFaaS Pro queue-worker does this automatically, see also: [Retries](/openfaas-pro/retries).
 
 * RPS `rps`
@@ -133,6 +133,10 @@ mean per pod = 90 / 1 = 90
 * CPU `cpu`
 
   Based upon CPU usage of the function, this strategy is idea for CPU-bound workloads, or where Capacity and RPS are not giving the optimal scaling profile. The value configured here is in milli-CPU, so 1000 accounts for *1 CPU core*.
+
+* Queue-depth `queue`
+
+  Based upon the number of async invocations that are queued for a function. This allows you to scale functions rapidly and proactively to the desired number of replicas to process the queue as quickly as possible. Ideal for functions that are only invoked asynchronously.
 
 * Scaling to zero
 
@@ -175,7 +179,7 @@ hey -t 10 -z 3m -c 5 -q 5 \
   http://127.0.0.1:8080/function/sleep
 ```
 
-To apply a hard limit, add `--env max_inflight=5` to the `faas-cli store deploy` command. 
+To apply a hard limit, add `--env max_inflight=5` to the `faas-cli store deploy` command.
 
 What if you need to limit a function to processing only one request at a time?
 
@@ -260,6 +264,26 @@ hey -m POST -d data -z 3m -c 5 -q 10 \
 
 Note that `com.openfaas.scale.zero=false` is a default, so this is not strictly required.
 
+**4) Queue-depth based scaling**
+
+When the number of incoming async invocation increases, the queue depth grows. By scaling functions based on this metric, you can proactively add more replicas to process messages faster.
+
+```bash
+faas-cli store deploy sleep \
+--label com.openfaas.scale.max=10 \
+--label com.openfaas.scale.target=10 \
+--label com.openfaas.scale.type=queue \
+--label com.openfaas.scale.target-proportion=1 \
+--env max_inflight=1
+
+hey -m POST -n 30 -c 30 \
+  http://127.0.0.1:8080/async-function/sleep
+```
+
+This sleep function takes 2 seconds to complete, and has a *hard limit* on the number of invocations of 1 concurrent request.
+
+With the above scaling configuration, if 30 messages are submitted to the queue via async invocations, the sleep function will scale to 3 replicas immediately.
+
 ## Smoothing out scaling down with a stable window
 
 The `com.openfaas.scale.down.window` label can be set with a Go duration up to a maximum of `5m` or `300s`. When set, the autoscaler will record recommendations on each cycle, and only scale down a function to the highest recorded recommendation of replicas.
@@ -306,7 +330,7 @@ Scaling functions to zero replicas can improve efficiency and reduce costs in yo
 
 1. **Cost Savings**: By scaling down to zero when idle, you can reduce the number of nodes required in your cluster, leading to lower infrastructure costs with fewer, or smaller nodes required.
 2. **Resource Efficiency**: Scaling down to zero helps to free up resources in your cluster, this also helps with on-premises clusters where the amount of nodes may be fixed.
-3. **Security**: By scaling functions down, the attack surface is also reduced to only active functions. 
+3. **Security**: By scaling functions down, the attack surface is also reduced to only active functions.
 
 ### Scaling down to zero replicas
 
@@ -364,10 +388,9 @@ The minimum (initial) and maximum replica count can be set at deployment time by
 * `com.openfaas.scale.factor` by default this is set to `20%` and has to be a value between 0-100 (including borders)
 
 > Note:
-> Setting `com.openfaas.scale.min` and `com.openfaas.scale.max` to the same value, allows to disable the auto-scaling functionality of openfaas. 
+> Setting `com.openfaas.scale.min` and `com.openfaas.scale.max` to the same value, allows to disable the auto-scaling functionality of openfaas.
 > Setting `com.openfaas.scale.factor=0` also allows to disable the auto-scaling functionality of openfaas.
 
 For each alert fired the auto-scaler will add a number of replicas, which is a defined percentage of the max replicas. This percentage can be set using `com.openfaas.scale.factor`. For example setting `com.openfaas.scale.factor=100` will instantly scale to max replicas. This label enables to define the overall scaling behavior of the function.
 
 > Note: Active alerts can be viewed in the "Alerts" tab of Prometheus which is deployed with OpenFaaS.
-
