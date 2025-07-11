@@ -6,7 +6,7 @@ You'll need to start off by installing the faas-cli, if you don't have it yet, [
 
 !!! note "Do you want to run faas-cli from a server instead of as a human user?"
 
-    SSO and OIDC are primarily designed for interactive use by a human user in front of a keyboard, with a webbrowser available. If you need to use an OAuth token to authenticate server-to-server, then you you'll need to create a new OAuth client in your IdP, and then use the `--client-secret` flag with the `faas-cli pro auth` command. 
+    SSO and OIDC are primarily designed for interactive use by a human user in front of a keyboard, with a web-browser available. If you need to use an OAuth token to authenticate server-to-server, then you you'll need to create a new OAuth client in your IdP, and then use the `--client-secret` flag with the `faas-cli pro auth` command. 
 
 ### Download the pro plugin
 
