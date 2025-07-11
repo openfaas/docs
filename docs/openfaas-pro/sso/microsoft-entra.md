@@ -20,7 +20,9 @@ This guide covers how to configure [Microsoft Entra]() as an identity provider f
 
 3. Configure allowed callback URL for the OpenFaaS dashboard and CLI.
 
-    Browse to *Identity -> Applications -> App registrations*. In the All application tab select your OpenFaaS application. Next, under Authentication click *Add platform* and select Web.
+    Browse to *Identity -> Applications -> App registrations*. In the All application tab select your OpenFaaS application and navigate to *Authentication*. 
+
+    Under Platform configurations click *Add platform* and select Web.
 
     Enter a redirect URI:
 
@@ -28,6 +30,8 @@ This guide covers how to configure [Microsoft Entra]() as an identity provider f
     - If you are deploying the OpenFaaS dashboard, you can add the redirect URI for your dashboard e.g `https://dashboard.openfaas.example.com/auth/callback`.
 
     You can add more URIs later once the first one has been registered.
+
+    Next, under Implicit grant and hybrid flows, select the `ID tokens (used for implicit and hybrid flows)` checkbox. 
 
     ![App registration platform configuration](/images/oidc-configuration/microsoft-entra/app-registration-platform-config.png)
 
@@ -61,3 +65,17 @@ This guide covers how to configure [Microsoft Entra]() as an identity provider f
     ```
 
     The `tokenExpiry` field can be used to set the expiry time of the OpenFaaS access token.
+
+!!! Note "SSO with the faas-cli"
+
+    By default the faas-cli pro auth listens for OAuth callbacks on the address `http://127.0.0.1`. Entra does not support using the loopback address for redirect URIs. You need to explicitly set the flag `--redirect-host=http://localhost` to override the default value.
+    
+    To login with the faas-cli when using Azure Entra as the identity provider we recommend using the Implicit Id flow.
+
+    ```sh
+    faas-cli pro auth \
+      --grant=implicit-id \
+      --authority=https://login.microsoftonline.com/1fe3798478-5987-2564-b4aa-99e587365024/v2.0 \
+      --client-id=068cb5cb-8cc3-4d57-8263-d6c6ce52ddff \
+      --redirect-host=http://localhost
+    ```
