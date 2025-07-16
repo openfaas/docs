@@ -20,15 +20,15 @@ Watch now: [How and Why We Rebuilt Auto-scaling in OpenFaaS with Prometheus](htt
 
 Configuration is via a label on the function.
 
-| Label                                  | Description                                                   | Default |
-| :------------------------------------- | :------------------------------------------------------------ | :------ |
-| `com.openfaas.scale.max`               | The maximum number of replicas to scale to.                   | `20`    |
-| `com.openfaas.scale.min`               | The minimum number of replicas to scale to.                   | `1`     |
-| `com.openfaas.scale.zero`              | Whether to scale to zero.                                     | `false` |
-| `com.openfaas.scale.zero-duration`     | Idle duration before scaling to zero                          | `15m`   |
-| `com.openfaas.scale.target`            | Target load per replica for scaling                           | `50`    |
-| `com.openfaas.scale.target-proportion` | Proportion as a float of the target i.e. 1.0 = 100% of target | `0.90`  |
-| `com.openfaas.scale.type`              | Scaling mode of `rps`, `capacity`, `cpu`                      | `rps`   |
+| Label                                  | Description                                                                                                            | Default |
+| :------------------------------------- | :--------------------------------------------------------------------------------------------------------------------- | :------ |
+| `com.openfaas.scale.type`              | Scaling mode of `rps`, `capacity`, `cpu`, or the name of a custom rule added via the Helm chart.                       | `rps`   |
+| `com.openfaas.scale.target`            | Target load per replica for scaling. This can also be set through the openfaas chart using `autoscaler.defaultTarget`. | `50`    |
+| `com.openfaas.scale.target-proportion` | Proportion as a float of the target i.e. 0.9 = 90% of target.                                                          | `0.90`  |
+| `com.openfaas.scale.min`               | The lower boundary for the number of Pods whilst under load.                                                           | `1`     |
+| `com.openfaas.scale.max`               | The upper boundary for the number of Pods under maximum load. Or set to same as lower boundary to disable scaling.     | `20`    |
+| `com.openfaas.scale.zero`              | Whether this function can be scaled to zero.                                                                           | `false` |
+| `com.openfaas.scale.zero-duration`     | Idle duration before scaling to zero.                                                                                  | `15m`   |
 
 All calls made through the gateway whether to a synchronous function `/function/` route or via the asynchronous `/async-function` route count towards this method of auto-scaling.
 
@@ -112,6 +112,12 @@ mean per pod = 90 / 1 = 90
 
 ## Scaling modes
 
+* Static - disable scaling for a given function
+
+  If the minimum and maximum scaling labels are set to the same value, then the function will be ignored by the autoscaler.
+
+  This can be useful for advanced use-cases where a function may need to be stateful, act as a background worker, or where you are certain that scaling is not required.
+
 * Capacity `capacity`
 
   Based upon inflight requests (or connections), ideal for: long-running functions or functions which can only handle a limited number of requests at once.
@@ -130,18 +136,20 @@ mean per pod = 90 / 1 = 90
 
 * Scaling to zero
 
-  Scaling to zero is an opt-in feature on a per function basis. It can be used in combination with any of the three scaling modes listed above.
+  [Scaling to zero](/openfaas-pro/scale-to-zero) is an opt-in feature on a per function basis. It can be used in combination with any scaling mode, including *Static scaling*
 
 ## Testing out the various modes
 
 A quick primer on [hey](https://github.com/rakyll/hey) a load testing tool written in Go.
+
+We maintain a forked version of hey with recent binaries at: [https://github.com/alexellis/hey/](https://github.com/alexellis/hey/).
 
 * `-c` - concurrent connections
 * `-z` - duration of the test as a Go duration
 * `-t` timeout in seconds
 * `q` - limit queries per second
 
-You can install hey with [arkade](https://arkade.dev) using: `arkade get hey`.
+You can install the forked version of `hey` via [arkade](https://arkade.dev) using: `arkade get hey`.
 
 **1) Capacity-based scaling:**
 
@@ -252,36 +260,6 @@ hey -m POST -d data -z 3m -c 5 -q 10 \
 
 Note that `com.openfaas.scale.zero=false` is a default, so this is not strictly required.
 
-## Scaling to Zero aka "Zero-scale"
-
-Scaling functions to zero replicas when idle can save on costs by reducing the amount of nodes required in your cluster. You can also reduce the consumption of nodes on statically-sized or on-premises clusters.
-
-In OpenFaaS, scaling to zero is turned off by default, and is part of the OpenFaaS Pro bundle and configured in the helm chart. Once installed, idle functions can be configured to scale down when they haven't received any requests for a period of time. We suggest that you set this figure to 2x the maximum timeout, or use the default timeout value if that makes sense for most of your functions.
-
-### Scaling up from zero replicas
-
-Scaling up from zero replicas or 0/0 can be toggled through the `scale_from_zero` environment variable for the OpenFaaS Gateway. This is turned on by default on Kubernetes and faasd.
-
-The latency between accepting a request for an unavailable function and serving the request is sometimes called a "Cold Start".
-
-* What if I don't want a "cold start"?
-
-    The cold start in OpenFaaS is strictly optional and it is recommended that for time-sensitive operations you avoid one by having a minimum scale of 1 or more replicas. This can be achieved by not scaling critical functions down to zero replicas, or by invoking them through the asynchronous route which decouples the request time from the caller.
-
-* What exactly happens in a "cold start"?
-
-    The "Cold Start" consists of the following: creating a request to schedule a container on a node, finding a suitable node, pulling the Docker image and running the initial checks once the container is up and running. This "running" or "ready" state also has to be synchronised between all nodes in the cluster. The total value can be reduced by pre-pulling images on each node and by setting the Kubernetes Liveness and Readiness Probes to run at a faster cadence.
-
-    Instructions for optimizing for a low cold-start are provided in [the helm chart for Kubernetes](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas).
-
-    When `scale_from_zero` is enabled a cache is maintained in memory indicating the readiness of each function. If when a request is received a function is not ready, then the HTTP connection is blocked, the function is scaled to min replicas, and as soon as a replica is available the request is proxied through as per normal. You will see this process taking place in the logs of the *gateway* component.
-
-    For an overview of cold-starts in OpenFaaS see: [Dude where's my coldstart?](https://www.openfaas.com/blog/what-serverless-coldstart/)
-
-* What if my function is still running when it gets scaled down?
-
-    That shouldn't happen, providing that you've set an adequate value for the idle detection for your function. But if it does, the OpenFaaS watchdog and our official function templates will allow a graceful termination of the function. See also: [Improving long-running jobs for OpenFaaS users](https://www.openfaas.com/blog/long-running-jobs/)
-
 ## Smoothing out scaling down with a stable window
 
 The `com.openfaas.scale.down.window` label can be set with a Go duration up to a maximum of `5m` or `300s`. When set, the autoscaler will record recommendations on each cycle, and only scale down a function to the highest recorded recommendation of replicas.
@@ -321,6 +299,44 @@ prometheus:
 ```
 
 To check the configuration of current recording rules use the Prometheus UI or run `kubectl edit -n openfaas configmap/prometheus-config` followed by `kubectl rollout restart -n openfaas deploy/prometheus`.
+
+## Scaling to Zero
+
+Scaling functions to zero replicas can improve efficiency and reduce costs in your Kubernetes clusters:
+
+1. **Cost Savings**: By scaling down to zero when idle, you can reduce the number of nodes required in your cluster, leading to lower infrastructure costs with fewer, or smaller nodes required.
+2. **Resource Efficiency**: Scaling down to zero helps to free up resources in your cluster, this also helps with on-premises clusters where the amount of nodes may be fixed.
+3. **Security**: By scaling functions down, the attack surface is also reduced to only active functions. 
+
+### Scaling down to zero replicas
+
+By default, no function will scale to zero unless you add the label `com.openfaas.scale.zero=true` to the function. This is a per-function setting, so you can choose which functions should scale down to zero.
+
+Learn more: [Scale to Zero](/openfaas-pro/scale-to-zero)
+
+### Scaling up from zero replicas
+
+Scaling up from zero replicas or 0/0 can be toggled through the `scale_from_zero` environment variable for the OpenFaaS Gateway. This is turned on by default on Kubernetes and faasd.
+
+The latency between accepting a request for an unavailable function and serving the request is sometimes called a "Cold Start".
+
+* What if I don't want a "cold start"?
+
+    The cold start in OpenFaaS is strictly optional and it is recommended that for time-sensitive operations you avoid one by having a minimum scale of 1 or more replicas. This can be achieved by not scaling critical functions down to zero replicas, or by invoking them through the asynchronous route which decouples the request time from the caller.
+
+* What exactly happens in a "cold start"?
+
+    The "Cold Start" consists of the following: creating a request to schedule a container on a node, finding a suitable node, pulling the Docker image and running the initial checks once the container is up and running. This "running" or "ready" state also has to be synchronised between all nodes in the cluster. The total value can be reduced by pre-pulling images on each node and by setting the Kubernetes Liveness and Readiness Probes to run at a faster cadence.
+
+    Instructions for optimizing for a low cold-start are provided in [the helm chart for Kubernetes](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas).
+
+    When `scale_from_zero` is enabled a cache is maintained in memory indicating the readiness of each function. If when a request is received a function is not ready, then the HTTP connection is blocked, the function is scaled to min replicas, and as soon as a replica is available the request is proxied through as per normal. You will see this process taking place in the logs of the *gateway* component.
+
+    For an overview of cold-starts in OpenFaaS see: [Dude where's my coldstart?](https://www.openfaas.com/blog/what-serverless-coldstart/)
+
+* What if my function is still running when it gets scaled down?
+
+    That shouldn't happen, providing that you've set an adequate value for the idle detection for your function. But if it does, the OpenFaaS watchdog and our official function templates will allow a graceful termination of the function. See also: [Improving long-running jobs for OpenFaaS users](https://www.openfaas.com/blog/long-running-jobs/)
 
 ## Legacy scaling for the Community Edition (CE)
 
