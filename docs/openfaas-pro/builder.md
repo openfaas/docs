@@ -197,8 +197,8 @@ You'll see output like this:
 ```json
 {
   "log": [
-    "v: 2021-10-20T16:48:34Z [ship 1/16] WORKDIR /home/app/",
-    "v: 2021-10-20T16:48:34Z exporting to image 8.01s"
+    "2021-10-20T16:48:34Z [ship 1/16] WORKDIR /home/app/",
+    "2021-10-20T16:48:34Z exporting to image 8.01s"
   ],
   "image": "ttl.sh/alexellis2/test-image-hello:0.1.0",
   "status": "success"
@@ -240,13 +240,13 @@ A HTTP client has three tasks to perform:
     ```json
     {
         "log": [
-            "v: 2022-06-23T09:10:12Z [ship 15/16] RUN npm test 0.35s",
-            "v: 2022-06-23T09:10:13Z [ship 16/16] WORKDIR /home/app/",
-            "v: 2022-06-23T09:10:13Z [ship 16/16] WORKDIR /home/app/ 0.09s",
-            "v: 2022-06-23T09:10:13Z exporting to image",
-            "s: 2022-06-23T09:11:06Z pushing manifest for ttl.sh/openfaas-image:1h@sha256:b077f553245c09d789980d081d33d46b93a23c24a5ec0a9c3c26be2c768db93e 0",
-            "s: 2022-06-23T09:11:09Z pushing manifest for ttl.sh/openfaas-image:1h@sha256:b077f553245c09d789980d081d33d46b93a23c24a5ec0a9c3c26be2c768db93e 0",
-            "v: 2022-06-23T09:10:13Z exporting to image 5.18s"
+            "2022-06-23T09:10:12Z [ship 15/16] RUN npm test 0.35s",
+            "2022-06-23T09:10:13Z [ship 16/16] WORKDIR /home/app/",
+            "2022-06-23T09:10:13Z [ship 16/16] WORKDIR /home/app/ 0.09s",
+            "2022-06-23T09:10:13Z exporting to image",
+            "2022-06-23T09:11:06Z pushing manifest for ttl.sh/openfaas-image:1h@sha256:b077f553245c09d789980d081d33d46b93a23c24a5ec0a9c3c26be2c768db93e 0",
+            "2022-06-23T09:11:09Z pushing manifest for ttl.sh/openfaas-image:1h@sha256:b077f553245c09d789980d081d33d46b93a23c24a5ec0a9c3c26be2c768db93e 0",
+            "2022-06-23T09:10:13Z exporting to image 5.18s"
         ],
         "image": "ttl.sh/openfaas-image:1h",
         "status": "success",
@@ -256,7 +256,7 @@ A HTTP client has three tasks to perform:
 
 The `duration` field is given in seconds and is the total time taken to build the image including pulling base layers, exporting the image, and pushing it to the registry.
 
-There are several examples available of how to call the Function Builder's API via different programming languages: [openfaas-function-builder-api-examples](https://github.com/openfaas/function-builder-examples)
+There are several examples available of how to call the Function Builder's API via different programming language[openfaas-function-builder-api-examples](https://github.com/openfaas/function-builder-examples)
 
 You should be able to translate the example given with curl into any programming language, but if you need additional support, feel free to [reach out to us](https://openfaas.com/support).
 
@@ -313,8 +313,8 @@ The intermediate output is identified by the `status` field containing `in_progr
 ```json
 {
   "log": [
-    "v: 2021-10-20T16:48:34Z [ship 1/16] WORKDIR /home/app/",
-    "v: 2021-10-20T16:48:34Z exporting to image 8.01s"
+    "2021-10-20T16:48:34Z [ship 1/16] WORKDIR /home/app/",
+    "2021-10-20T16:48:34Z exporting to image 8.01s"
   ],
   "image": "ttl.sh/alexellis2/test-image-hello:0.1.0",
   "status": "in_progress",
@@ -414,7 +414,7 @@ Content-Length: 62
 Content-Type: text/plain; charset=utf-8
 Connection: close
 
-Concurrent request limit exceeded. Max concurrent requests: 1
+Concurrent request limit exceeded. Max concurrent request1
 ```
 
 The pro-builder will be marked as unready by Kubernetes, and if you have other replicas (see above section), then when you retry the request, it should hit a ready worker instead.
