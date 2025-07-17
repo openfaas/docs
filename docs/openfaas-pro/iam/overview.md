@@ -109,8 +109,8 @@ There must be at least one registered OIDC provider for human users to authentic
 
 Wildcards can be used to get multiple actions:
 
-* `Function:*` - gives all function permission 
-* `*` - gives all permissions for namespaces, functions, secrets etc
+* `Function:*` - gives all available function permissions including `Function:Invoke`
+* `*` - gives all permissions for namespaces, functions, function invocations, secrets etc
 
 Resource scope:
 
@@ -122,11 +122,69 @@ Actions can be scoped cluster wide, or to a specific namespace or function. The 
 
 ## OpenFaaS IAM language
 
-The OpenFaaS IAM language is inspired by AWS IAM, however only a subset of the language is implemented at present:
+The OpenFaaS IAM language is inspired by [AWS IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements.html), however *only a subset* of the language is implemented at present.
 
-* `StringEquals` - match a string exactly this would be used to match an exact email address or issuer
+> Note: you can use `faas-cli pro auth --pretty --print --no-exchange` to print out the JWT token obtained from your IdP in order to design your policies.
+
+* `Principal` - this field is optional and can only be used to match the subject of the JWT token i.e. `jwt:sub` exactly. An array can be passed with multiple subjects.
+
+Conditions:
+
+* `StringEquals` - match a string exactly this can be used to match an exact email address of a user or an issuer
 * `StringLike` - match a string with a wildcard - this could be used to match an email domain for instance
 * `ForAnyValue:StringEqual` - match a value within an array, this can be used to check group membership
+
+**Example principal combined with a condition**
+
+The principal is used to match the identifier of the user - which could be anything from a string to a number to a UUID, to an email address.
+
+```yaml
+spec:
+  policy:
+  - policy1
+  principal:
+    jwt:sub:
+      - 1234567
+      - 7654321
+  condition:
+    StringEqual:
+      jwt:iss: ["https://keycloak.example.com/"]
+```
+
+**Multiple conditions**
+
+When multiple conditions are given they are combined with a logical AND operation.
+
+For example, if you want to match a specific user and anyone with a company email address, you can use:
+
+```yaml
+spec:
+  policy:
+  - policy1
+  condition:
+    StringEquals:
+      jwt:iss: "https://keycloak.example.com/realms/openfaas"
+    StringLike:
+      jwt:email: "*@example.com"
+```
+
+**Multiple context keys within a condition**
+
+When multiple context keys are given, they are combined with a logical AND operation. For reference, see the [AWS documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-logic-multiple-context-keys-or-values.html).
+
+For example, if you want to match a specific user and a specific group, you can use:
+
+```yaml
+spec:
+  policy:
+  - policy1
+  condition:
+    StringEquals:
+      jwt:iss: "https://keycloak.example.com/realms/openfaas"
+      jwt:email:
+      - "webmaster@example.com"
+      - "devops@example.com"
+```
 
 There is currently no support for negation, such as `NotStringEquals` or `NotStringLike`.
 
