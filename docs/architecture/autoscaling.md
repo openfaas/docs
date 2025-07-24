@@ -3,7 +3,7 @@
 On this page:
 
 * OpenFaaS Pro Autoscaler (below)
-* [Alert-manager based auto-scaling for Community Edition](#legacy-scaling-for-the-community-edition-ce)
+* [Legacy scaling for the Community Edition (CE)](#legacy-scaling-for-the-community-edition-ce)
 
 ## OpenFaaS Pro Autoscaler
 
