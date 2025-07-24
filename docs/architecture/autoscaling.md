@@ -136,7 +136,13 @@ mean per pod = 90 / 1 = 90
 
 * Queue-depth `queue`
 
-  Based upon the number of async invocations that are queued for a function. This allows you to scale functions rapidly and proactively to the desired number of replicas to process the queue as quickly as possible. Ideal for functions that are only invoked asynchronously.
+  Based upon the number of async invocations that are queued for a function. This allows you to scale functions rapidly and proactively to the desired number of replicas to process the queue as quickly as possible. Ideal for functions that are only invoked asynchronously. To use this mode, your [queue-worker](/openfaas-pro/jetstream) must be configured to scale consumers dynamically through the `function` mode.
+
+* Custom metrics i.e. RAM, latency, application metrics, etc
+
+  Functions can be scaled upon any custom metrics that are available in Prometheus, and which expose a "function_name label in the format of "name.namespace".
+
+  This could include RAM usage, latency, business/application metrics, etc. Learn more: [Custom autoscaling rules](#custom-autoscaling-rules)
 
 * Scaling to zero
 
@@ -266,25 +272,34 @@ Note that `com.openfaas.scale.zero=false` is a default, so this is not strictly 
 
 **4) Queue-depth based scaling**
 
-When the number of incoming async invocation increases, the queue depth grows. By scaling functions based on this metric, you can proactively add more replicas to process messages faster.
+Scaling based upon the queue depth for a function is a perfect match for asynchronous invocations.
+
+Rather than measuring load upon the function as the other strategies do, the queue depth can be measured, and the number of target replicas can be set immediately.
+
+This example limits concurrent requests to 1 for a long running sleep function.
 
 ```bash
 faas-cli store deploy sleep \
 --label com.openfaas.scale.max=10 \
---label com.openfaas.scale.target=10 \
+--label com.openfaas.scale.target=1 \
 --label com.openfaas.scale.type=queue \
 --label com.openfaas.scale.target-proportion=1 \
+--label com.openfaas.scale.zero=true \
 --env max_inflight=1
 
 hey -m POST -n 30 -c 30 \
   http://127.0.0.1:8080/async-function/sleep
 ```
 
-This sleep function takes 2 seconds to complete, and has a *hard limit* on the number of invocations of 1 concurrent request.
+The sleep function we've deployed has a hard limit that means it will only process 1 concurrent request at a time because of the `max_inflight` environment variable.
 
-With the above scaling configuration, if 30 messages are submitted to the queue via async invocations, the sleep function will scale to 3 replicas immediately.
+When 30 invocations are queued, the scaling parameters will mean that 30 replicas will be required to process the backlog, however the upper limit is 10 replicas. So it will scale to 10 replicas, and process up to queued requests in parallel.
+
+The `com.openfaas.scale.zero=true` label is set to ensure that the function scales to zero when the queue is empty.
 
 ## Smoothing out scaling down with a stable window
+
+If traffic to a function oscillates, the autoscaler will attempt to match that load and the number of replicas will also oscillate and mirror the load. This can be smoothed out through a stable window.
 
 The `com.openfaas.scale.down.window` label can be set with a Go duration up to a maximum of `5m` or `300s`. When set, the autoscaler will record recommendations on each cycle, and only scale down a function to the highest recorded recommendation of replicas.
 
@@ -305,9 +320,9 @@ Scaling up, and scale to zero are unaffected, by default this setting is turned 
 
 ## Custom autoscaling rules
 
-In addition to the built-in scaling types, custom Prometheus expressions can be used to scale functions. For instance you may want to scale based upon queue-depth, Kafka consumer lag, latency, RAM used by a function, or a custom business metric exposed by your function's handler.
+In addition to the built-in scaling types, custom Prometheus expressions can be used to scale functions. For instance you may want to scale based upon queue-depth, Kafka consumer lag, latency, RAM used by a function (example in linked blog post), or a custom business metric exposed by your function's handler.
 
-You can learn more in the blog post: [How to scale OpenFaaS Functions with Custom Metrics](https://www.openfaas.com/blog/custom-metrics-scaling/).
+Blog post / walk-through: [How to scale OpenFaaS Functions with Custom Metrics](https://www.openfaas.com/blog/custom-metrics-scaling/).
 
 For example, to add latency-based scaling using the gateway's gateway_functions_seconds histogram, you could add the following to the openfaas chart in values-pro.yaml:
 
