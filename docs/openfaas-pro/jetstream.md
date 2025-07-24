@@ -1,10 +1,16 @@
 # Queue Worker
 
-The Queue Worker is a batteries-included, scale-out queue for invoking functions asynchronously.
-
-This page is primarily concerned with how to configure the Queue Worker, you can learn about [asynchronous invocations here](/reference/async).
-
 > Note: This feature is included for [OpenFaaS Standard & For Enterprises](https://openfaas.com/pricing/) customers.
+
+The Queue Worker is part of the built-in queue system for OpenFaaS built upon NATS JetStream.
+
+It's a batteries-included solution, that's used at scale by many OpenFaaS customers in production every day.
+
+Async invocations can be submitted over HTTP by your own code or through an event-connector.
+
+This page is primarily concerned with how to configure the Queue Worker.
+
+You can learn about [asynchronous invocations here](/reference/async).
 
 ## Async use cases
 
@@ -26,14 +32,12 @@ On the blog we show reference examples built upon these architectural patterns:
 
 ## Terminology
 
-* NATS - an open source messaging system hosted by the [CNCF](https://www.cncf.io/)
-* NATS JetStream - a messaging system built on top of NATS for durable queues and message streams
+* [NATS](https://nats.io/) - an open source messaging system hosted by the [CNCF](https://www.cncf.io/)
+* [NATS JetStream](https://docs.nats.io/nats-concepts/jetstream) - a messaging system built on top of NATS for durable queues and message streams
 
 1. A JetStream Server is the original NATS Core project, running in "jetstream mode"
 2. A Stream is a message store it is used in OpenFaaS to queue async invocation messages.
 3. A Consumer is a stateful view of a stream when clients consume messages from a stream the consumer keeps track of which messages were delivered and acknowledged.
-
-Learn more about [NATS JetStream](https://docs.nats.io/nats-concepts/jetstream)
 
 ## Installation
 
@@ -67,9 +71,11 @@ Instructions for a recommended NATS production deployment are available for cust
 
 ### Queue-based scaling for functions
 
-The queue-worker uses a shared NATS Stream and NATS Consumer by default, which works well with many of the existing [autoscaling strategies](/reference/async/#autoscaling).
+The queue-worker uses a shared NATS Stream and NATS Consumer by default, which works well with many of the existing [autoscaling strategies](/reference/async/#autoscaling). Requests are processed in a FIFO order, and it is possible for certain functions to dominate or starve the queue.
 
-However, if you wish to scales functions based upon the queue depth for each, you can set up the queue-worker to scale its NATS Consumers dynamically for each function.
+A fairer approach is to scale functions based upon their respective queue depth, with a consumer created for each function as and when it is needed.
+
+The `mode` parameter can be set to `static` (default) or `function`.
 
 ```yaml
 jetstreamQueueWorker:
@@ -78,13 +84,11 @@ jetstreamQueueWorker:
     inactiveThreshold: 30s
 ```
 
-The `mode` parameter can be set to `static` or `function`.
+* If set to `static`, the queue-worker will scale its NATS Consumers based upon the number of replicas of the queue-worker. This is the default mode, and ideal for development, or constrained environments.
 
-If set to `static`, the queue-worker will scale its NATS Consumers based upon the number of replicas of the queue-worker. This is the default mode, and ideal for development, or constrained environments.
+* If set to `function`, the queue-worker will scale its NATS Consumers based upon the number of functions that are active in the queue. This is ideal for production environments where you want to [scale your functions based upon the queue depth](/reference/autoscaling/). It also gives messages queued at different times a fairer chance of being processed earlier.
 
-If set to `function`, the queue-worker will scale its NATS Consumers based upon the number of functions that are active in the queue. This is ideal for production environments where you want to [scale your functions based upon the queue depth](/reference/autoscaling/). It also gives messages queued at different times a fairer chance of being processed earlier.
-
-The `inactiveThreshold` parameter can be used to set the threshold for when a function is considered inactive. If a function is inactive for longer than the threshold, the queue-worker will delete the NATS Consumer for that function.
+* The `inactiveThreshold` parameter can be used to set the threshold for when a function is considered inactive. If a function is inactive for longer than the threshold, the queue-worker will delete the NATS Consumer for that function.
 
 ### Metrics and monitoring
 

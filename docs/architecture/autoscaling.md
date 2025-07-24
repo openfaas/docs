@@ -148,7 +148,7 @@ mean per pod = 90 / 1 = 90
 
   [Scaling to zero](/openfaas-pro/scale-to-zero) is an opt-in feature on a per function basis. It can be used in combination with any scaling mode, including *Static scaling*
 
-## Testing out the various modes
+## Examples of scaling modes
 
 A quick primer on [hey](https://github.com/rakyll/hey) a load testing tool written in Go.
 

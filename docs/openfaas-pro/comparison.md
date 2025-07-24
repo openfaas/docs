@@ -54,7 +54,7 @@ Did you know? OpenFaaS Pro's autoscaling engine can scale many different types o
 | Maximum replicas per function | 5                 | 1                         | No limit applied | as per Standard |
 | Scale from Zero               | Not available     | Supported                 | Supported, with additional checks for Istio | as per Standard |
 | Zero downtime updates         | Not available     | Not available             | Supported with readiness probes and rolling updates | as per Standard |
-| Autoscaling strategy          | RPS               | Not applicable            | [CPU utilization, Capacity (inflight requests), RPS, async queue-depth and Custom (e.g. Memory)](/architecture/autoscaling)      | as per Standard |
+| Autoscaling strategy          | RPS               | Not applicable            | [CPU utilization, Capacity (inflight requests), RPS, async queue-depth and Custom (e.g. Memory)](/architecture/autoscaling)      | as per Standard, plus queue-based autoscaling |
 | Autoscaling granularity       | One global rule   | Not applicable            | Configurable per function | as per Standard |
 
 Data-driven, intensive, or long running functions are best suited to capacity-based or queue-based autoscaling, which is only available in OpenFaaS Pro.
@@ -73,7 +73,7 @@ Scaling to zero is also a commercial feature, which can be opted into on a per f
 | UI Dashboard         | Legacy UI (in code-freeze)  | Dashboard is an optional add-on | [New UI dashboard](/openfaas-pro/dashboard) with metrics, logs & CI integration | as per Standard, but with support for multiple namespaces |
 | Consume secrets in `faas-cli build` for npm, Go and Pypy | Not available | Via build-time secrets | Via build-time secrets | as per Standard |
 | Kubernetes service accounts for functions      | n/a             | n/a | [Supported per function](/reference/workloads) | as per Standard |
-| Async / queueing | In-memory only, max 10 items in queue, 256KB message size | JetStream (shared queue) | JetStream (shared queue)  | JetStream (dedicated queues) |
+| Async / queueing | In-memory only, max 10 items in queue, 256KB message size | JetStream (shared queue) | JetStream (shared queue)  | JetStream (dedicated queues) and queue-based scaling |
 | Metrics         | Basic function metrics  | As per Standard  | Function, HTTP, CPU/RAM usage, and async/queue metrics      | as per Standard |
 | CPU & RAM utilization | Not available  | As per Standard | Integrated with Prometheus metrics, OpenFaaS REST API & CLI | as per Standard |
 | Grafana Dashboards      | n/a             | As per Standard | 4x dashboards supplied in [Customer Community](https://github.com/openfaas/customers) - overview, spotlight for debugging a function, queue-worker and Function Builder API | as per Standard |
@@ -83,9 +83,6 @@ Scaling to zero is also a commercial feature, which can be opted into on a per f
 | Image Pull Policy (for air-gap) | Always | As per Standard | `Always`, `IfNotPresent` or `Never` | as per Standard |
 | GPU support | Not available | Available for core services | Available for functions via Profiles | as per Standard |
 
-> Did you know? Synadia, the vendor of NATS Streaming announced the product is now deprecated, and it will receive no updates from June 2023 onwards. OpenFaaS Ltd developed an alternative based upon their newest product JetStream. [Learn more about JetStream for OpenFaaS](https://docs.openfaas.com/openfaas-pro/jetstream/)
-
-Learn how to deploy functions via kubectl: [Function CRD](/openfaas-pro/function-crd)
 
 **Advanced function configuration**
 
