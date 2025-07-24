@@ -1,20 +1,23 @@
-# JetStream for OpenFaaS
+# Queue Worker
 
-The OpenFaaS async system used to be powered by NATS Streaming. The new generation of the [OpenFaaS async system](/reference/async) is backed by NATS JetStream.
+The Queue Worker is a batteries-included, scale-out queue for invoking functions asynchronously.
+
+This page is primarily concerned with how to configure the Queue Worker, you can learn about [asynchronous invocations here](/reference/async).
 
 > Note: This feature is included for [OpenFaaS Standard & For Enterprises](https://openfaas.com/pricing/) customers.
 
-
 ## Async use cases
 
-Async can be used for any OpenFaaS function invocation, where the response is not required immediately, but is either discarded or made available at a later time. Some use-cases include:
+Every function in OpenFaaS can be invoked either synchronously or asynchronously. Asynchronous invocations are retried automatically, and can return their response to a given endpoint via a webhook.
+
+Popular use-cases include:
 
 - Batch processing and machine learning
 - Resilient data pipelines
 - Receiving webhooks
 - Long running jobs
 
-On our blog we demo and explore some architectural patterns for these uses cases:
+On the blog we show reference examples built upon these architectural patterns:
 
 - [Exploring the Fan out and Fan in pattern with OpenFaaS](https://www.openfaas.com/blog/fan-out-and-back-in-using-functions/)
 - [Generate PDFs at scale on Kubernetes using OpenFaaS and Puppeteer](https://www.openfaas.com/blog/pdf-generation-at-scale-on-kubernetes/)
@@ -23,14 +26,15 @@ On our blog we demo and explore some architectural patterns for these uses cases
 
 ## Terminology
 
-In JetStream ("js" for short), there are new terms that will help us all in running and debugging the product.
+* NATS - an open source messaging system hosted by the [CNCF](https://www.cncf.io/)
+* NATS JetStream - a messaging system built on top of NATS for durable queues and message streams
 
-1. A JetStream Server is the original NATS Core project, running in "jetstream mode"
-2. A Stream is a message store it is used in OpenFaaS to queue async invocation messages.
-3. A Consumer is a stateful view of a stream when clients consume messages from a stream the consumer keeps track of which messages were delivered and acknowledged.
-5. A Subscriber is what the queue-worker creates to start pulling messages from the stream. If the max_inflight is set to 25, the queue-worker will pull a maximum of 25 messages at a time.
+  1. A JetStream Server is the NATS server, running in *jetstream* mode
+  2. A Stream is a message store it is used in OpenFaaS to queue async invocation messages.
+  3. A Consumer is a stateful view of a stream when clients consume messages from a stream the consumer keeps track of which messages were delivered and acknowledged.
+  5. A Subscriber is what the queue-worker creates to start pulling messages from the stream.
 
-> You can learn more about JetStream here: [Docs for JetStream](https://docs.nats.io/nats-concepts/jetstream)
+Learn more about [NATS JetStream](https://docs.nats.io/nats-concepts/jetstream)
 
 ## Installation
 
@@ -44,9 +48,13 @@ nats:
     streamReplication: 1
 ```
 
-If the NATS pod restarts, you will lose all messages that it contains. In your development or staging environment, this shouldn't happen very often.
+If the NATS Pod restarts, you will lose all messages that it contains. In your development or staging environment. This could happen if you update the chart and the version of the NATS server has changed, or if a node is removed from the cluster.
 
-For production environments you will need to install NATS separately using its Helm chart with at least 3 server replicas, so that if a pod crashes, the data can be recovered automatically.
+For production environments you should install NATS separately using its Helm chart.
+
+NATS can be configured with a quorum of at least 3 replicas so it can recover data if one of the replicas should crash. You can also enable a persistent volume in the NATS chart for additional durability. 
+
+If you are running with 3 replicas of the NATS server, then update the OpenFaaS chart to reflect that in the `nats.streamReplication` parameter. With this in place, the stream for queued messages will be replicated across the 3 NATS servers.
 
 ```yaml
 queueMode: jetstream
@@ -58,7 +66,30 @@ nats:
     port: "4222"
 ```
 
+By default the NATS helm chart will be installed into the nats namespace with the name of `nats`, but you can customise this if you wish by setting the `nats.external.host` parameter.
+
 ## Features
+
+### Queue-based scaling for functions
+
+The queue-worker uses a shared NATS Stream and NATS Consumer by default, which works well with many of the existing [autoscaling strategies](/reference/async/#autoscaling).
+
+However, if you wish to scales functions based upon the queue depth for each, you can set up the queue-worker to scale its NATS Consumers dynamically for each function.
+
+```yaml
+jetstreamQueueWorker:
+  mode: static | function
+  consumer:
+    inactiveThreshold: 30s
+```
+
+The `mode` parameter can be set to `static` or `function`.
+
+If set to `static`, the queue-worker will scale its NATS Consumers based upon the number of replicas of the queue-worker. This is the default mode, and ideal for development, or constrained environments.
+
+If set to `function`, the queue-worker will scale its NATS Consumers based upon the number of functions that are active in the queue. This is ideal for production environments where you want to scale your functions based upon the queue depth. It also gives messages queued at different times a fairer chance of being processed earlier.
+
+The `inactiveThreshold` parameter can be used to set the threshold for when a function is considered inactive. If a function is inactive for longer than the threshold, the queue-worker will delete the NATS Consumer for that function.
 
 ### Metrics and monitoring
 
