@@ -419,6 +419,39 @@ faas-cli publish --filter fn1\
     --build-arg UPGRADE_PACKAGES=true
 ```
 
+### Add static files to your function
+
+A common use-case for static files is when you want to serve HTML, lookup information from a JSON manifest or render some kind of templates.
+
+With the python templates, static files and folders can just be added to the handler directory and will be copied into the function image.
+
+To read a file e.g `data.json` back at runtime you can do the following:
+
+```python
+def handle(event, context):
+    if event.path=="/static":
+        # Get the directory where this handler.py file is located
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        data_file_path = os.path.join(current_dir, 'data.json')
+
+        # Read the data.json file
+        with open(data_file_path, 'r') as file:
+            data = json.load(file)
+
+        return {
+            "statusCode": 200,
+            "body": json.dumps(data),
+            "headers": {
+                "Content-Type": "application/json"
+            }
+        }
+    else:
+        return {
+            "statusCode": 200,
+            "body": "Hello from OpenFaaS!"
+        }
+```
+
 ## OpenTelemetry zero-code instrumentation
 
 Using [OpenTelemetry zero-code instrumentation](https://opentelemetry.io/docs/zero-code/python/) for python functions requires some minor modifications to the existing Python templates.

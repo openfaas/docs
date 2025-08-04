@@ -282,6 +282,35 @@ This is useful when the function is expected to receive large amounts of JSON da
     MAX_JSON_SIZE: '5mb'
 ```
 
+### Add static files to your function
+
+A common use-case for static files is when you want to serve HTML, lookup information from a JSON manifest or render some kind of templates.
+
+With the Node templates, static files and folders can just be added to the handler directory and will be copied into the function image.
+
+To read a file e.g `data.json` back at runtime you can do the following:
+
+```js
+const fs = require("fs").promises;
+const path = require("path");
+
+module.exports = async (event, context) => {
+  if (event.path === "/static") {
+    // Get the path to data.json in the same directory as this handler
+    const dataFilePath = path.join(__dirname, "data.json");
+
+    // Read the data.json file
+    const fileContent = await fs.readFile(dataFilePath, "utf8");
+
+    return context.status(200).succeed(fileContent);
+  } else {
+    return context
+      .status(200)
+      .succeed("Hello from OpenFaaS!");
+  }
+};
+```
+
 ## OpenTelemetry zero-code instrumentation
 
 Using [OpenTelemetry zero-code instrumentation](https://opentelemetry.io/docs/zero-code/js/) for Node.js functions requires some minor modifications to the existing Node.js templates.
