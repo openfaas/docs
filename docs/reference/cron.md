@@ -10,57 +10,66 @@ OpenFaaS Pro adds the ability to have a function invoked by Cron and any other n
 
 * Deploy the connector with arkade or Helm
 
-  ```sh
-  arkade install cron-connector
-  ```
+    ```sh
+    arkade install cron-connector
+    ```
 
-  Or deploy for OpenFaaS Pro:
+    Or deploy for OpenFaaS Pro:
 
-  ```bash
-  arkade install cron-connector \
-    --set openfaasPro=true
-  ```
+    ```bash
+    arkade install cron-connector \
+      --set openfaasPro=true
+    ```
 
-  Alternatively, install with the [Helm chart](https://github.com/openfaas/cron-connector)
+    Alternatively, install with the [Helm chart](https://github.com/openfaas/cron-connector)
 
 * Now annotate a function with a `topic` of `cron-function` and a `schedule` using a valid CRON expression:
 
-  ```yaml
-  # (Abridged YAML)
+    ```yaml
+    # (Abridged YAML)
 
-  functions:
-    nodeinfo:
-      image: ghcr.io/openfaas/nodeinfo
-      skip_build: true
-      annotations:
-        topic: cron-function
-        schedule: "*/5 * * * *"
-  ```
-  *nodeinfo.yaml*
+    functions:
+      nodeinfo:
+        image: ghcr.io/openfaas/nodeinfo
+        skip_build: true
+        annotations:
+          topic: cron-function
+          schedule: "*/5 * * * *"
+    ```
+    *nodeinfo.yaml*
 
-  ```sh
-  faas-cli deploy -f nodeinfo.yaml
-  ```
+    ```sh
+    faas-cli deploy -f nodeinfo.yaml
+    ```
 
-  * Or deploy directly from the store
+* Or deploy directly from the store
 
-  ```sh
-  faas-cli store deploy nodeinfo \
-    --annotation topic="cron-function" \
-    --annotation schedule="*/5 * * * *"
-  ```
+    ```sh
+    faas-cli store deploy nodeinfo \
+      --annotation topic="cron-function" \
+      --annotation schedule="*/5 * * * *"
+    ```
 
 * Check the logs for invocations:
 
-  ```sh
-  kubectl logs -n openfaas-fn deploy/nodeinfo -f
-  ```
+    ```sh
+    kubectl logs -n openfaas-fn deploy/nodeinfo -f
+    ```
 
-  You'll see the function invoked every 5 minutes as per the schedule.
+    You'll see the function invoked every 5 minutes as per the schedule.
+
+* Multiple expressions can be added to the `schedule` annotation separated by a semicolon. The connector will schedule invocations for each cron expression.
+
+    ```sh
+    faas-cli store deploy nodeinfo \
+      --annotation topic="cron-function" \
+      --annotation schedule="*/5 * * * *; * * * * 1,5"
+    ```
 
 * Disable a schedule
 
-  To stop the invocations, remove the two annotations or remove the cron-connector deployment.
+    To disable a schedule, remove the schedule from the `schedule` annotation.
+    To stop all invocations, remove the `schedule` and `topic` annotations from the function entirely or remove the cron-connector deployment.
 
 
 If you would like to explore how to write CRON expressions, then see [https://crontab.guru/](https://crontab.guru/)
@@ -244,4 +253,3 @@ spec:
 [k8sjob]: https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/ "Kuberenetes Jobs"
 [faasdeploy]: https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#deploy-openfaas
 [nodeinfo]: https://github.com/openfaas/faas/tree/master/sample-functions/NodeInfo
-
