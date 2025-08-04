@@ -47,7 +47,8 @@ For staging and development environments OpenFaaS can be deployed with an embedd
 
 If the NATS Pod restarts, you will lose all messages that it contains. This could happen if you update the chart and the version of the NATS server has changed, or if a node is removed from the cluster.
 
-** External NATS server**
+**External NATS server**
+
 For production environments you should install NATS separately using its Helm chart.
 
 NATS can be configured with a quorum of at least 3 replicas so it can recover data if one of the replicas should crash. You can also enable a persistent volume in the NATS chart for additional durability.
