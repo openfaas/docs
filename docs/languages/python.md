@@ -63,15 +63,23 @@ faas-cli build --build-arg PYTHON_VERSION=3.11
 
 The function handler is passed two arguments, *event* and *context*.
 
-*event* contains data about the request, including:
-- body
-- headers
-- method
-- query
-- path
+The *event* contains data about the request, including:
 
-*context* contains basic information about the function, including:
-- hostname
+- `body`
+- `headers`
+- `method`
+- `query`
+- `path`
+
+The *context* contains basic information about the function, including:
+
+- `hostname`
+
+Responses must be returned as a dictionary with the following keys:
+
+* `statusCode` - the HTTP status code to return as a number
+* `body` - the response body, which can be a string, dict, or list
+* `headers` - (optional) a dictionary of response headers to return
 
 ## Response Bodies
 
@@ -82,6 +90,7 @@ For example, returning a dict object type will automatically attach the header `
 ### Accessing Event Data
 
 Accessing request body:
+
 ```python
 def handle(event, context):
     return {
@@ -89,6 +98,25 @@ def handle(event, context):
         "body": "You said: " + str(event.body)
     }
 ```
+
+Consuming the request path:
+
+```python
+def handle(event, context):
+    if event.path == '/hello':
+        return {
+            "statusCode": 200,
+            "body": "Hello, World!"
+        }
+
+    return {
+        "statusCode": 404,
+        "body": "Not Found"
+    }
+```
+
+This could be useful if you needed to serve up a static file or metadata to an external tool or service that is integrated with your functions. An example would be a HTTP readiness probe that checks the `/healthz` endpoint to see if a database is connected.
+
 Accessing request method:
 
 ```python
@@ -104,6 +132,7 @@ def handle(event, context):
             "body": "Method not allowed"
         }
 ```
+
 Accessing request query string arguments:
 
 ```python
@@ -115,6 +144,7 @@ def handle(event, context):
         }
     }
 ```
+
 Accessing request headers:
 
 ```python
