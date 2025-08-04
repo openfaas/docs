@@ -19,7 +19,7 @@ faas-cli new --lang php8 \
 
 This will create several new files:
 
-* my-php.yml - the function's YAML file
+* stack.yaml - the function's YAML file
 * my-php/src/Handler.php - the function's handler for reading the input and writing the output
 * my-php/composer.json - for managing dependencies
 * my-php/php-extension.sh - for installing PHP extensions
@@ -109,3 +109,69 @@ set -xe && \
 ```
 
 You can also refer to the PHP Docker image [documentation](https://github.com/docker-library/docs/blob/master/php/README.md#how-to-install-more-php-extensions) for additional instructions on the installation and configuration of extensions
+
+### Add static files to your function
+
+A common use-case for static files is when you want to serve HTML, lookup information from a JSON manifest or render some kind of templates.
+
+With the php8 template, static files and folders can just be added to the handler src directory and will be copied into the function image.
+
+To read a file e.g `data.json` back at runtime you can do the following:
+
+```php
+<?php
+
+namespace App;
+
+/**
+ * Class Handler
+ * @package App
+ */
+class Handler
+{
+    /**
+     * @param string $data
+     * @return string
+     */
+    public function handle(string $data): string
+    {
+        // Check if Http_Path environment variable equals '/static'
+        $httpPath = $_ENV['Http_Path'] ?? '';
+        if ($httpPath =='/static') {
+             try {
+            // Get the directory where this file is located and go up one level
+            $dataFilePath = dirname(__DIR__) . '/data.json';
+
+            // Check if the file exists
+            if (!file_exists($dataFilePath)) {
+                return json_encode([
+                    'error' => 'data.json file not found',
+                    'statusCode' => 404
+                ]);
+            }
+
+            // Read the data.json file
+            $fileContent = file_get_contents($dataFilePath);
+
+            if ($fileContent === false) {
+                return json_encode([
+                    'error' => 'Failed to read data.json file',
+                    'statusCode' => 500
+                ]);
+            }
+
+            // Return the JSON data
+            return $fileContent;
+
+          } catch (Exception $e) {
+              return json_encode([
+                  'error' => 'An error occurred: ' . $e->getMessage(),
+                  'statusCode' => 500
+              ]);
+          }
+        } else {
+            return $data;
+        }
+    }
+}
+```
