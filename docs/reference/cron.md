@@ -8,7 +8,11 @@ OpenFaaS Pro adds the ability to have a function invoked by Cron and any other n
 
 ### Kubernetes
 
-* Deploy the connector with arkade or Helm
+* Deploy the connector via Helm
+
+  [cron-connector Helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/cron-connector)
+
+* Alternatively, use [arkade](https://arkade.dev) for a quick installation during development/testing:
 
     ```sh
     arkade install cron-connector
@@ -21,8 +25,7 @@ OpenFaaS Pro adds the ability to have a function invoked by Cron and any other n
       --set openfaasPro=true
     ```
 
-    Alternatively, install with the [Helm chart](https://github.com/openfaas/cron-connector)
-
+    
 * Now annotate a function with a `topic` of `cron-function` and a `schedule` using a valid CRON expression:
 
     ```yaml
