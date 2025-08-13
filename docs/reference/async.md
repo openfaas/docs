@@ -143,32 +143,20 @@ To use multiple queues you need to do two things:
 Imagine that your new queue is called `slow-queue`, you would run the following:
 
 ```bash
-faas-cli store deploy figlet --annotation com.openfaas.queue=slow-queue
+faas-cli store deploy figlet \
+  --annotation com.openfaas.queue=slow-queue
 ```
 
 2) Create a queue-worker for the new queue name
 
 You now need to deploy a new queue-worker for the queue name, so that it can subscribe to messages and invoke functions without affecting the default queue.
 
-If you are using JetStream (you have set `queueMode: jetstream` in your `values.yaml` file) then you can use the [queue-worker helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/queue-worker) to deploy the additional queue.
+Follow the instructions in the dedicated [Helm chart for additional queue-workers](https://github.com/openfaas/faas-netes/tree/master/chart/queue-worker).
+
+Then, you can invoke the function asynchronously and the queue's name will be looked up by the gateway automatically.
 
 ```bash
-helm upgrade slow-queue openfaas/queue-worker \
-  --install \
-  --namespace openfaas \
-  --set maxInflight=5 \
-  --set nats.stream.name=slow-queue \
-  --set nats.consumer.durableName=slow-queue-workers \
-  --set upstreamTimeout=15m
-```
-
-
-After deploying your queue-worker using one of these methods you can invoke your function as per normal and watch the logs of the new queue worker:
-
-```bash
-kubectl logs deploy/slow-queue-worker -n openfaas
-
-curl http://127.0.0.1:8080/async-function/figlet -d "Ran on the slow-queue"
+faas-cli invoke --async figlet <<< "OpenFaaS"
 ```
 
 #### Verbose Output
@@ -177,7 +165,7 @@ The Queue Worker component enables asynchronous processing of function requests.
 
 #### Callback request headers
 
-The following additional request headers will be set when invoking the call back URL:
+The following additional request headers will be set when invoking the callback URL:
 
 | Header             | Description |
 |--------------------|-------------|
@@ -185,3 +173,9 @@ The following additional request headers will be set when invoking the call back
 | X-Duration-Seconds | Time taken in seconds to execute the original function call |
 | X-Function-Status  | [HTTP status code](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) returned by the original function call |
 | X-Function-Name    | The name of the original function that was executed |
+| User-Agent         | The queue-worker's user-agent string including the version i.e. `queue-worker/0.10.0` |
+| X-Retry            | The number of times the original function was retried on the queue, if applicable |
+| X-Retry-Max        | The maximum number of retries allowed for the original function or queue-worker (whichever is set) |
+
+If the X-Retry value is the same as the X-Retry-Max value, then the function has been retried the maximum number of times and will not be retried again.
+
