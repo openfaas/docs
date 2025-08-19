@@ -76,4 +76,4 @@ Checkout the docs for more details on [how to configure Grafana Alloy to collect
 
 Functions and services deployed on OpenFaaS Edge can use the service name when configuring the telemetry collection endpoint e,g. `alloy:4317` or `alloy:4318`. 
 
-For more info on how to instrument and configure telemetry for functions checkout our language guides for: [Python](/languages/python/#opentelemetry-zero-code-instrumentation) or [Node.js](/languages/node/#opentelemetry-zero-code-instrumentation).
+For more info on how to instrument and configure telemetry for functions checkout our language guides for: [Python](/languages/python/#opentelemetry-zero-code-instrumentation), [Node.js](/languages/node/#opentelemetry-zero-code-instrumentation) or [Go](/languages/go/#opentelemetry-instrumentation)
