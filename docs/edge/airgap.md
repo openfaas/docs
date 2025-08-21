@@ -129,35 +129,37 @@ If you're using an Operating System such as Ubuntu, you can export the installat
 Ensure required packages are installed on the air-gapped system:
 
 ```sh
-sudo apt-get install runc bridge-utils iptables iptables-persistent
+sudo apt update && \
+  sudo apt install runc bridge-utils iptables iptables-persistent
 ```
 
-Download the installation package:
+Download the Debian package:
 
 ```bash
-mkdir -p ./faasd-pro
-arkade oci install --path ./faasd-pro ghcr.io/openfaasltd/faasd-pro:latest
+arkade oci install --path . ghcr.io/openfaasltd/faasd-pro-debian:latest
 ```
 
-Then copy the `faasd-pro` directory to the air-gapped machine.
+Then copy the `openfaas-edge-*-amd64.deb` file to the air-gapped machine.
 
-Run the install script on the remote server:
+Install the package using dpkg:
 
 ```bash
-sudo -E ./faasd-pro/install.sh ./faasd-pro/
+sudo dpkg -i ./openfaas-edge-*-amd64.deb
 ```
 
-After the installation script completes add you OpenFaaS Edge license:
+After the installation script completes, it will print out the following:
 
 ```sh
 sudo mkdir -p /var/lib/faasd/secrets
 sudo nano /var/lib/faasd/secrets/openfaas_license
 ```
 
+To save the file in nano hit Control + X.
+
 Perform the final installation step:
 
 ```sh
-sudo -E sh -c "cd ./faasd-pro/var/lib/faasd && faasd install"
+sudo -E faasd install
 ```
 
 By default OpenFaaS uses Google's public DNS servers you need to specify custom DNS servers during the installation phase by setting the `--dns-server` flag:
