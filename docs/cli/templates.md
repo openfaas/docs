@@ -28,6 +28,27 @@ Before creating a new function make sure you pull in the official OpenFaaS langu
 $ faas-cli template pull
 ```
 
+Templates can also be pulled from custom repositories, for instance:
+
+```bash
+$ faas-cli template pull https://github.com/openfaas/go-http-template
+```
+
+For official templates, you will usually be able to pull them from the store, instead of having to remember various URLs. You'll find out more about the store on this page.
+
+The `template pull` command uses your local Git client, so if you have proper authentication set up with a Git credential helper, then you'll also be able to run it against private repositories.
+
+For GitHub specifically, we recommend:
+
+```ini
+[url "ssh://git@github.com/"]
+        insteadOf = https://github.com/
+
+[credential "https://github.com"]
+        helper = 
+        helper = !/usr/local/bin/gh auth git-credential
+```
+
 This page shows how to generate functions in the most popular languages and explains how you can manage their dependencies too.
 
 ### Classic vs. of-watchdog templates
@@ -77,7 +98,22 @@ Languages available as templates:
 - python3-http
 ```
 
-You can add your own store just by specifying the `--url` flag for both commands to pull and list your custom templates store.
+You can create your own template store by following the convention found in the official templates store repository, then provide the `--url` flag when pulling or listing templates. If you're using GitHub, you'll need to reference the *raw* file rather than the view in a webbrowser.
+
+```json
+[
+    {
+        "template": "golang-middleware",
+        "platform": "x86_64",
+        "language": "Go",
+        "source": "openfaas",
+        "description": "HTTP middleware interface in Go",
+        "repo": "https://github.com/openfaas/golang-http-template"
+    }
+]
+```
+
+For the official templates, this would be: `https://raw.githubusercontent.com/openfaas/store/refs/heads/master/templates.json`
 
 The classic templates are held in the [openfaas/templates](https://github.com/openfaas/templates) repository.
 
