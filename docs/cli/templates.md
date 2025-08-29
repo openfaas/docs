@@ -100,6 +100,14 @@ Languages available as templates:
 
 You can create your own template store by following the convention found in the official templates store repository, then provide the `--url` flag when pulling or listing templates. If you're using GitHub, you'll need to reference the *raw* file rather than the view in a webbrowser.
 
+For instance:
+
+```bash
+faas-cli template store pull --url https://raw.githubusercontent.com/openfaas/store/refs/heads/master/templates.json
+```
+
+This is the format for the file:
+
 ```json
 [
     {
@@ -113,7 +121,13 @@ You can create your own template store by following the convention found in the 
 ]
 ```
 
-For the official templates, this would be: `https://raw.githubusercontent.com/openfaas/store/refs/heads/master/templates.json`
+As an alternative to repeating the `--url` flag on each command, you can also set the `OPENFAAS_TEMPLATE_STORE_URL` environment variable in your .zshrc or .bashrc file.
+
+For instance, you could add these lines to override installations to use your company or team repository:
+
+```bash
+export OPENFAAS_TEMPLATE_STORE_URL=https://raw.githubusercontent.com/openfaas/store/refs/heads/master/functions.json
+```
 
 The classic templates are held in the [openfaas/templates](https://github.com/openfaas/templates) repository.
 
