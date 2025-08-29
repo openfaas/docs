@@ -116,7 +116,7 @@ sudo ./enable-journal.sh
 For either edition, the complete handbook for faasd ["Serverless For Everyone Else"](https://store.openfaas.com/l/serverless-for-everyone-else?layout=profile) is available in the OpenFaaS Store. It contains complete examples for deploying faasd, building functions in Node.js, setting up TLS and custom domains, monitoring, background jobs, and cron schedules.
 
 <a href="https://openfaas.gumroad.com/l/serverless-for-everyone-else">
-<img src="https://www.alexellis.io/serverless.png" width="40%"></a>
+<img src="https://blog.alexellis.io/content/images/2025/08/serverless.png" width="40%"></a>
 
 
 Any examples of functions on the blog or in the documentation for OpenFaaS on Kubernetes, will generally work with faasd without modification.
