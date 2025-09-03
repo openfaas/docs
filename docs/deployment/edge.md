@@ -88,6 +88,66 @@ sudo dnf install openfaas-edge-*.rpm
 
 Note: additional packages may be required such as runc, iptables-services, selinux-policy, libselinux-utils, protobuf-c, and container-selinux.
 
+### Upgrading OpenFaaS Edge
+
+#### Upgrade the OpenFaaS Edge binary
+
+The following will download the latest OpenFaaS Edge binary, and overwrite the one on the system:
+
+```bash
+mkdir -p ./staging-area/
+arkade oci install --path ./staging-area/ ghcr.io/openfaasltd/faasd-pro:latest
+sudo systemctl stop faasd
+sudo systemctl stop faasd-provider
+
+sudo cp ./staging-area/usr/local/bin/faasd /usr/local/bin/
+```
+
+Then restart both services:
+
+```bash
+sudo systemctl restart faasd
+sudo systemctl restart faasd-provider
+```
+
+You can also perform a re-installation using your preferred method - bash script, RPM/Debian package. In this case, make sure you take a backup of your `docker-compose.yaml` file at `/var/lib/faasd/` in case it gets overwritten by the one shipping in the installation.
+
+#### Upgrade container images
+
+To upgrade the container images for the various data-plane components such as the gateway, queue-worker, cron-connector, nats and so forth run the following:
+
+```bash
+$ sudo -i
+
+# cd /var/lib/faasd/
+# cp ./docker-compose.yaml{,old} 
+```
+
+View upgrades without changing the file:
+
+```bash
+$ arkade chart upgrade --verbose -f ./docker-compose.yaml
+
+2025/09/03 09:48:17 Verifying images in: ./docker-compose.yaml
+2025/09/03 09:48:17 Found 7 images
+2025/09/03 09:48:18 [ghcr.io/openfaasltd/gateway] 0.5.0 => 0.5.1
+2025/09/03 09:48:18 [ghcr.io/openfaasltd/jetstream-queue-worker] 0.4.0 => 0.4.2
+2025/09/03 09:48:18 [ghcr.io/openfaasltd/openfaas-dashboard] 0.5.36 => 0.5.37
+2025/09/03 09:48:18 [docker.io/library/nats] 2.11.7 => 2.11.8
+```
+
+Write changes to the file:
+
+```bash
+$ arkade chart upgrade --verbose --write -f ./docker-compose.yaml
+```
+
+Then restart the faasd service:
+
+```bash
+sudo systemctl restart faasd
+```
+
 ## faasd CE (non-commercial use only)
 
 faasd CE supports 15 functions and needs a computer with a stable Internet connection to run. There are restrictions on commercial use, but [individuals](https://github.com/openfaas/faasd/blob/master/EULA.md) can use it for free for personal, non-commercial use.
