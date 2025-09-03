@@ -184,6 +184,7 @@ nav:
       - gVisor: ./edge/gvisor.md
       - OpenTelemetry: ./edge/open-telemetry.md
       - Air Gap: ./edge/airgap.md
+      - Preloading functions: ./edge/preloading.md
   - Reference:
     - OpenFaaS YAML: ./reference/yaml.md
     - REST API: ./reference/rest-api.md

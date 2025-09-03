@@ -10,7 +10,7 @@ Most of the [OpenFaaS Pro documentation](/docs/openfaas-pro/) and [Helm charts](
 
 * [OpenFaaS Edge Deployment](/deployment/edge)
 * [Upgrading OpenFaaS Edge - itself and its containers](/deployment/edge/#upgrading-openfaas-edge)
-* [Preloading functions for distribution](/edge/preloading.md)
+* [Preloading functions for distribution](/edge/preloading)
 * [Air Gap](/edge/airgap)
 * [Custom DNS servers](/edge/custom-dns)
 * [Improve container security with gVisor](/edge/gvisor)
