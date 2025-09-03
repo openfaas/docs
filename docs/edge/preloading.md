@@ -10,6 +10,17 @@ On the first boot of the `faasd-provider` service, any YAML files found will be 
 
 So before you install OpenFaaS Edge, create the: `/var/lib/faasd-provider/functions` folder, and place any number of OpenFaaS function YAML files within it.
 
+## Secrets for preloaded functions
+
+If any of your functions require secrets, make sure you pre-create the secrets folder: `/var/lib/faasd-provider/secrets`.
+
+Then create functions in a folder that matches the destination namespace, so for a secret named `api-key` in `openfaas-fn`:
+
+```bash
+mkdir -p /var/lib/faasd-provider/secrets/openfaas-fn
+echo "secret" | sudo tee /var/lib/faasd-provider/secrets/openfaas-fn/api-key
+```
+
 ## A single stack.yaml
 
 You can ship a single stack.yaml file with all your functions defined separately within it.
