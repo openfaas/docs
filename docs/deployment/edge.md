@@ -114,7 +114,7 @@ You can also perform a re-installation using your preferred method - bash script
 
 #### Upgrade container images
 
-To upgrade the container images for the various data-plane components such as the gateway, queue-worker, cron-connector, nats and so forth run the following:
+You can use [arkade](https://github.com/alexellis/arkade) to upgrade the container images for the various data-plane components such as the gateway, queue-worker, cron-connector, nats and so forth run the following:
 
 ```bash
 $ sudo -i
