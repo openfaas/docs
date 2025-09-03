@@ -148,6 +148,14 @@ Then restart the faasd service:
 sudo systemctl restart faasd
 ```
 
+If there are images that you don't want to change i.e. for Postgresql/Grafana, create an ignore file named `arkade.yaml` in the same directory:
+
+```yaml
+ignore:
+- services.postgresql.image
+- services.grafana.image
+```
+
 ## faasd CE (non-commercial use only)
 
 faasd CE supports 15 functions and needs a computer with a stable Internet connection to run. There are restrictions on commercial use, but [individuals](https://github.com/openfaas/faasd/blob/master/EULA.md) can use it for free for personal, non-commercial use.
