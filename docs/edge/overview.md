@@ -6,17 +6,24 @@ The handbook and reference documentation for OpenFaaS Edge are available in the 
 
 Most of the [OpenFaaS Pro documentation](/docs/openfaas-pro/) and [Helm charts](https://github.com/openfaas/faas-netes/tree/master/chart) can be used or adapted, however you'll find some specifics here:
 
+## Packaging/deployment
+
 * [OpenFaaS Edge Deployment](/deployment/edge)
-* [Services](/edge/services)
-* [TLS](/edge/tls)
-* [Scale to Zero for OpenFaaS Edge](/edge/scale-to-zero)
-* [Custom DNS servers](/edge/custom-dns)
-* [Kafka Connector for OpenFaaS Edge](/edge/kafka-deployment)
-* [GPU support for services](/edge/gpus)
-* [Improve container security with gVisor](/edge/gvisor)
-* [OpenTelemetry](/edge/open-telemetry)
+* [Upgrading OpenFaaS Edge - itself and its containers](/deployment/edge/#upgrading-openfaas-edge)
+* [Preloading functions for distribution](/edge/preloading.md)
 * [Air Gap](/edge/airgap)
-* [Resource constraints](/reference/yaml/#function-memorycpu-limits)
+* [Custom DNS servers](/edge/custom-dns)
+* [Improve container security with gVisor](/edge/gvisor)
+
+## OpenFaaS Edge guides 
+
+* [Services](/edge/services) - stateful containers defined in `docker-compose.yaml`
+* [TLS](/edge/tls) - secure the gateway for requests from the Internet
+* [Scale to Zero for OpenFaaS Edge](/edge/scale-to-zero)
+* [Kafka Connector for OpenFaaS Edge](/edge/kafka-deployment)
+* [GPU support for services](/edge/gpus) - package i.e. Ollama and an LLM for use by functions
+* [OpenTelemetry](/edge/open-telemetry)
+* [Resource constraints](/reference/yaml/#function-memorycpu-limits) - limit RAM/CPU consumption by functions
 
 ## Looking for something else?
 
