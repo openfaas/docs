@@ -14,6 +14,7 @@ Most of the [OpenFaaS Pro documentation](/docs/openfaas-pro/) and [Helm charts](
 * [Air Gap](/edge/airgap)
 * [Custom DNS servers](/edge/custom-dns)
 * [Improve container security with gVisor](/edge/gvisor)
+* [Troubleshooting an installation](/edge/troubleshooting)
 
 ## OpenFaaS Edge guides 
 
