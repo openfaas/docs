@@ -43,30 +43,16 @@ On the blog we show reference examples built upon these architectural patterns:
 
 **Embedded NATS server**
 
-For staging and development environments OpenFaaS can be deployed with an embedded version of the NATS server which uses an in-memory store. This is the default when you install OpenFaaS using the [OpenFaaS Helm chart](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md).
+For staging and development environments OpenFaaS can be deployed with an embedded version of the NATS server without persitance. This is the default when you install OpenFaaS using the [OpenFaaS Helm chart](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md).
 
 If the NATS Pod restarts, you will lose all messages that it contains. This could happen if you update the chart and the version of the NATS server has changed, or if a node is removed from the cluster.
 
 **External NATS server**
 
 For production environments you should install NATS separately using its Helm chart.
-
 NATS can be configured with a quorum of at least 3 replicas so it can recover data if one of the replicas should crash. You can also enable a persistent volume in the NATS chart for additional durability.
 
-If you are running with 3 replicas of the NATS server, then update the OpenFaaS chart to reflect that in the `nats.streamReplication` parameter. With this in place, the stream for queued messages will be replicated across the 3 NATS servers.
-
-```yaml
-nats:
-  streamReplication: 3
-  external:
-    enabled: true
-    host: "nats.nats"
-    port: "4222"
-```
-
-By default the NATS helm chart will be installed into the nats namespace with the name of `nats`, but you can customise this if you wish by setting the `nats.external.host` parameter.
-
-Instructions for a recommended NATS production deployment are available for customers though the [customer community repo](https://github.com/openfaas/customers/blob/master/jetstream.md)
+See [Deploy NATS for OpenFaaS](#deploy-nats-for-openfaas) for instruction on how to configure OpenFaaS and deploy NATS.
 
 ## Features
 
@@ -171,6 +157,122 @@ The stream is automatically created by the queue-worker of it does not exist. Si
     ```bash
     kubectl rollout restart -n openfaas deploy/queue-worker
     ```
+
+## Deploy NATS for OpenFaaS
+
+[NATS JetStream](https://docs.nats.io/nats-concepts/jetstream) is a highly available, scale-out messaging system. It is used in OpenFaaS Pro for queueing asynchronous invocations.
+
+The OpenFaaS Helm chart installs NATS by default, but the included configuration is designed only for development or non-critical internal use.
+
+By default, NATS runs with a single replica and no persistent storage. This means:
+
+- If the NATS Pod goes down, all asynchronous OpenFaaS requests will fail until it comes back online.
+- Pending messages are not stored persistently, so they are lost if the Pod or node crashes.
+- All queued messages are lost during redeployments or when the NATS service restarts.
+
+The default setup is often sufficient for development or staging, but it is not suitable for production. For reliable operation, production systems need additional configuration to provide high availability and data durability.
+
+The next section describes our recommended configuration for a production-grade installation of OpenFaaS with an external NATS deployment.
+
+### Configure a NATS Cluster
+
+Deploy NATS in your cluster using the official [NATS Helm chart](https://docs.nats.io/running-a-nats-service/nats-kubernetes).
+
+A minimum of three NATS servers is required for production. This ensures that message processing can continue even if one Pod or node fails.
+
+The Helm chart deploys NATS as a StatefulSet. To avoid a single point of failure it is recommended to schedule each Pod on a different Kubernetes node.
+
+At the networking level, the clustering in NATS uses Gossip to announce basic cluster membership, and Raft to store and track messages. If you experience issues, check your network policies and security groups allow for these protocols.
+
+Add the following to the values.yaml configuration for your NATS deployment:
+
+```yaml
+config:
+  cluster:
+    enabled: true
+    replicas: 3
+  jetstream:
+    enabled: true
+```
+
+It is recommended to add a topology spread constraint to ensure Pods are distributed across different nodes:
+
+```yaml
+podTemplate:
+  topologySpreadConstraints:
+    kubernetes.io/hostname:
+      maxSkew: 1
+      whenUnsatisfiable: DoNotSchedule
+```
+
+### Enable persistent volumes
+
+[Persistent Volumes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) (PV) is how Kubernetes adds stateful storage to containers. Applications define a Persistent Volume Claim (PVC), which is fulfilled by a storage engine, resulting in storage being provisioned, and then attached to the container as a PV.
+
+The NATS Helm chart enables file storage for JetStream by default. The PV can be configured through a template in the NATS Helm chart.
+
+In your values.yaml file for the NATS Helm chart:
+
+```yaml
+config:
+  jetstream:
+    fileStore:
+      enabled: true
+      dir: /data
+      pvc:
+        enabled: true
+        size: 10Gi
+```
+
+The `size` value will depend on your own usage. We suggest you start with a generous estimate, then monitor actual usage.
+If not specified the default storage class will be used. You can use a different storage class by setting the `config.jetstream.fileStore.pvc.storageClassName` parameter.
+
+When running on-premises, if you do not have a storage driver, you can try [Longhorn from the CNCF](https://github.com/longhorn/longhorn).
+
+On AWS, EBS volumes are recommended.
+
+### Deploy NATS
+
+Deploy NATS with your custom configuration values:
+
+```bash
+helm repo add nats https://nats-io.github.io/k8s/helm/charts/
+
+kubectl create namespace nats
+helm upgrade --install nats nats/nats --values nats-values.yaml
+```
+
+### Connect OpenFaaS to an external NATS server
+
+Update the values.yaml configuration for your OpenFaaS deployment to point to your external NATS installation:
+
+```yaml
+nats:
+  external:
+    enabled: true
+    clusterName: "openfaas"
+    host: "nats.nats"
+    port: "4222"
+```
+
+#### Stream replication settings
+
+Each OpenFaaS queue is backed by a dedicated JetStream stream. To protect messages against node or Pod failures, streams should use replication.
+
+The replication factor determines how many servers store a copy of the data:
+
+- Replicas = 1 – Default in OpenFaaS: fastest, but not resilient. A crash or outage can result in message loss.
+- Replicas = 3 – Recommended for production: balances performance with resilience. Can tolerate the loss of one NATS server.
+- Replicas = 5 – Maximum: tolerates two server failures but with reduced performance and higher resource usage.
+
+For production environments, set the replication factor to at least 3 in the OpenFaaS Helm configuration:
+
+```yaml
+nats:
+  streamReplication: 3
+```
+
+See the [NATS documentation on stream replication](https://docs.nats.io/nats-concepts/jetstream#persistent-and-consistent-distributed-storage) for more details.
 
 ## See also
 
