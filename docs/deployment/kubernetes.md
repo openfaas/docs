@@ -91,17 +91,17 @@ You can use [arkade](https://arkade.dev/) to install OpenFaaS to a regular cloud
 * Install the OpenFaaS `app`
 
   ```sh
-  arkade install openfaas
+  arkade install openfaas-ce
   ```
 
-Other options for installation are available with `arkade install openfaas --help`
+Other options for installation are available with `arkade install openfaas-ce --help`
 
 After the installation you'll receive a command to retrieve your OpenFaaS URL and password.
 
 ```bash
-  Info for app: openfaas
+  Info for app: openfaas-ce
   # Get the faas-cli
-  curl -SLsf https://cli.openfaas.com | sudo sh
+  arkade get faas-cli
 
   # Forward the gateway to your machine
   kubectl rollout status -n openfaas deploy/gateway
@@ -111,15 +111,8 @@ After the installation you'll receive a command to retrieve your OpenFaaS URL an
   PASSWORD=$(kubectl get secret -n openfaas basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode; echo)
   echo -n $PASSWORD | faas-cli login --username admin --password-stdin
 
-  faas-cli store deploy figlet
+  faas-cli store deploy nodeinfo
   faas-cli list
-
-  # For Raspberry Pi
-  faas-cli store list \
-  --platform armhf
-
-  faas-cli store deploy figlet \
-  --platform armhf
 
   # Find out more at:
   # https://github.com/openfaas/faas
