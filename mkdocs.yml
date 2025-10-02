@@ -180,6 +180,7 @@ nav:
       - Custom DNS: ./edge/custom-dns.md
       - Scale to Zero: ./edge/scale-to-zero.md
       - Kafka connector: ./edge/kafka-deployment.md
+      - Function Builder: ./edge/builder.md
       - GPU for services: ./edge/gpus.md
       - gVisor: ./edge/gvisor.md
       - OpenTelemetry: ./edge/open-telemetry.md
