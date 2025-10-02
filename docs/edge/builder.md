@@ -21,6 +21,7 @@ Bear in mind that this ephemeral cluster is public, and have much more latency t
 sudo tee /var/lib/faasd/secrets/docker-config <<EOF
 {
 }
+EOF
 ```
 
 For production use, create a secret with a proper authenticated registry, see the notes on the [Function Builder API for Kubernetes](/openfaas-pro/builder).
