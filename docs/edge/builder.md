@@ -121,8 +121,34 @@ sudo cp /var/lib/faasd/secrets/payload-secret ./payload-secret
 
 faas-cli up \
     --remote-builder http://127.0.0.1:8088 \
-    --payload-secret ./payload-secret
+    --payload-secret ./payload-secret \
+    --tag=digest
 ```
+
+The `--remote-builder` flag points to the Function Builder API exposed on the local host only. This should be removed in production, and only accessed via the internal network.
+
+The `--payload-secret` flag points to the secret you created earlier, this must be a file, not a literal string.
+
+The `--tag=digest` flag creates a dynamic tag every time you publish a new function based upon a hash of the contents.
+
+Test the new function:
+
+```bash
+curl -s http://127.0.0.1:8080/function/pytest
+```
+
+Then edit the message returned by the `pytest/handler.py` file, and the build again, followed by another curl.
+
+```bash
+faas-cli up \
+    --remote-builder http://127.0.0.1:8088 \
+    --payload-secret ./payload-secret \
+    --tag=digest
+
+curl -s http://127.0.0.1:8080/function/pytest
+```
+
+The second run will be quicker due to caching, however the temporary ttl.sh registry will still slow things down more than you'll see in production.
 
 ## Turn off access to the Function Builder API via the host
 
