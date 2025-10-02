@@ -16,6 +16,10 @@ Most of the [OpenFaaS Pro documentation](/docs/openfaas-pro/) and [Helm charts](
 * [Improve container security with gVisor](/edge/gvisor)
 * [Troubleshooting an installation](/edge/troubleshooting)
 
+## Build Functions From Source
+
+* [Function Builder API for OpenFaaS Edge](/edge/builder) - build functions as non-root, from source code using a variety of templates
+
 ## OpenFaaS Edge guides 
 
 * [Services](/edge/services) - stateful containers defined in `docker-compose.yaml`
