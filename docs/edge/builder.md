@@ -11,20 +11,83 @@ The builder runs as a non-root user making use of user namespaces in Linux.
 * Docker must not be installed on the host system.
 * faasd-pro version 0.2.23 or later is required.
 
-## Create a registry secret
+## Configure a registry
 
-For testing purposes, you can use an ephemeral registry which requires no authentication such as [ttl.sh](https://ttl.sh).
+We will be deploying a local container registry as an additional service with faasd and configure the function builder to push images to it.
 
-Bear in mind that this ephemeral cluster is public, and have much more latency than your final production setup.
+Create the credentials that will be used to login to the registry. The following commands create credentials for a user named faasd.
+The credentials are saved to the file `/var/lib/faasd/registry/auth/htpasswd` in a hashed format, you’ll also need to take a copy of the plaintext version of the password, so that you can authenticate
+to the registry.
 
-```bash
-sudo tee /var/lib/faasd/secrets/docker-config <<EOF
-{
-}
+Ensure `htpasswd`is installed on your system:
+
+```sh
+# On Debian run:
+sudo apt install apache2-utils
+
+# On RHEL run:
+sudo dnf install httpd-tools
+```
+
+```sh
+export PASSWORD=$(openssl rand -base64 16)
+echo $PASSWORD > ~/registry-password.txt
+
+htpasswd -Bbc ./htpasswd faasd $PASSWORD
+sudo mv ~/htpasswd /var/lib/faasd/registry/auth/htpasswd
+```
+
+Create a configuration file for the registry:
+
+```sh
+sudo cat >> /var/lib/faasd/registry/config.yml <<EOF
+version: 0.1
+log:
+  accesslog:
+    disabled: true
+  level: warn
+  formatter: text
+
+storage:
+  filesystem:
+    rootdirectory: /var/lib/registry
+auth:
+  htpasswd:
+    realm: basic-realm
+    path: /etc/registry/htpasswd
+http:
+  addr: 0.0.0.0:5000
+  relativeurls: false
+  draintimeout: 60s
 EOF
 ```
 
-For production use, create a secret with a proper authenticated registry, see the notes on the [Function Builder API for Kubernetes](/openfaas-pro/builder).
+Create a crednetials file that can be use by faasd and the pro-builder to push and pull images from the registry. The faas-cli has a utility command that can be used to create the credentials file:
+
+```sh
+cat ~/registry-password.txt | faas-cli registry-login \
+  --server http://registry:5000 \
+  --username faasd \
+  --password-stdin
+```
+
+We are using the `--server` flag to point to the local registry using its internal service name and port.
+
+The file will be created in the `.credentials` folder. Copy the file so that it can be accessed by faasd and the function builder:
+
+```sh
+# Ensure faasd-provider can pull images from the faasd service".
+sudo cp ./credentials/config.json /var/lib/faasd/.docker/config.json
+# Ensure the pro-builder can mount the credentials file.
+sudo cp ./credentials/config.json /var/lib/faasd/secrets/docker-config
+```
+
+Just like the registry the function builder will be running as a faasd service and is able to reach the registry using the internal service name.
+To be able to access the registry from the host machine, update the `/etc/hosts` file. This ensures the faasd-provider can also access the registry using the same service name.
+
+```sh
+echo "127.0.0.1 registry" | sudo tee -a /etc/hosts
+```
 
 ## Create a payload secret
 
@@ -39,6 +102,24 @@ openssl rand -base64 32 | sudo tee /var/lib/faasd/secrets/payload-secret
 Add the following services to your `docker-compose.yaml` file:
 
 ```yaml
+  registry:
+    image: docker.io/library/registry:3
+    volumes:
+    - type: bind
+      source: ./registry/data
+      target: /var/lib/registry
+    - type: bind
+      source: ./registry/auth
+      target: /etc/registry/
+      read_only: true
+    - type: bind
+      source: ./registry/config.yml
+      target: /etc/docker/registry/config.yml
+      read_only: true
+    deploy:
+      replicas: 1
+    ports:
+      - "127.0.0.1:5000:5000"
   pro-builder:
     depends_on: [buildkit]
     user: "app"
@@ -113,11 +194,19 @@ Add the following services to your `docker-compose.yaml` file:
 
 Now use faas-cli to perform a test build on the faasd host directly.
 
+Scaffold a new function for testing:
+
 ```bash
 faas-cli new --lang python3-http \
-  --prefix ttl.sh/openfaas-tests \
+  --prefix registry:5000/functions \
   pytest
+```
 
+The `--prefix` flag is used to set prefix for the function image to our local registry.
+
+Build the function using the function builder API and deploy it:
+
+```bash
 sudo cp /var/lib/faasd/secrets/payload-secret ./payload-secret
 
 faas-cli up \
@@ -149,7 +238,7 @@ faas-cli up \
 curl -s http://127.0.0.1:8080/function/pytest
 ```
 
-The second run will be quicker due to caching, however the temporary ttl.sh registry will still slow things down more than you'll see in production.
+The second run will be quicker due to caching.
 
 ## Turn off access to the Function Builder API via the host
 
@@ -161,4 +250,3 @@ You should be calling the function builder via its internal service name http://
     ports:
      - "127.0.0.1:8088:8080"
 ```
-
