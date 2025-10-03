@@ -9,7 +9,7 @@ The builder runs as a non-root user making use of user namespaces in Linux.
 * An OpenFaaS for Enterprises license or an additional entitlement for the Function Builder API is required to use this feature.
 * Your operating system must support user namespaces, generally most modern Linux distributions do.
 * Docker must not be installed on the host system.
-* faasd-pro version 0.2.23 or later is required.
+* faasd-pro version 0.2.26 or later is required.
 
 ## Configure a registry
 
@@ -34,13 +34,14 @@ export PASSWORD=$(openssl rand -base64 16)
 echo $PASSWORD > ~/registry-password.txt
 
 htpasswd -Bbc ./htpasswd faasd $PASSWORD
+sudo mkdir -p /var/lib/faasd/registry/auth
 sudo mv ~/htpasswd /var/lib/faasd/registry/auth/htpasswd
 ```
 
 Create a configuration file for the registry:
 
 ```sh
-sudo cat >> /var/lib/faasd/registry/config.yml <<EOF
+sudo tee /var/lib/faasd/registry/config.yml > /dev/null <<EOF
 version: 0.1
 log:
   accesslog:
@@ -77,6 +78,7 @@ The file will be created in the `.credentials` folder. Copy the file so that it 
 
 ```sh
 # Ensure faasd-provider can pull images from the faasd service".
+sudo mkdir -p /var/lib/faasd/.docker
 sudo cp ./credentials/config.json /var/lib/faasd/.docker/config.json
 # Ensure the pro-builder can mount the credentials file.
 sudo cp ./credentials/config.json /var/lib/faasd/secrets/docker-config
@@ -87,6 +89,42 @@ To be able to access the registry from the host machine, update the `/etc/hosts`
 
 ```sh
 echo "127.0.0.1 registry" | sudo tee -a /etc/hosts
+```
+
+Update the faasd-provider service to add the registry as an insecure registry. This is not required if you configure TLS for the registry.
+
+Edit `/lib/systemd/system/faasd-provider.service` and add the flag `--insecure-registry http://registry:5000` to the `ExecStart` command:
+
+```diff
+[Unit]
+Description=faasd-provider
+
+[Service]
+MemoryMax=500M
+Environment="secret_mount_path=/var/lib/faasd/secrets"
+Environment="basic_auth=true"
+Environment="hosts_dir=/var/lib/faasd"
+ExecStart=/usr/local/bin/faasd provider \
+  --insecure-registry http://registry:5000 \
+  --dns-server 8.8.8.8 --dns-server 8.8.4.4 \
+  --pull-policy Always \
+  --license-file /var/lib/faasd/secrets/openfaas_license \
++ --insecure-registry http://registry:5000
+Restart=on-failure
+RestartSec=60s
+# Keep logging child process running when the main process get killed.
+KillMode=process
+WorkingDirectory=/var/lib/faasd-provider
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Make sure to reload the systemd daemon and restart the faasd-provider service:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart faasd-provider
 ```
 
 ## Create a payload secret
@@ -120,6 +158,7 @@ Add the following services to your `docker-compose.yaml` file:
       replicas: 1
     ports:
       - "127.0.0.1:5000:5000"
+
   pro-builder:
     depends_on: [buildkit]
     user: "app"
