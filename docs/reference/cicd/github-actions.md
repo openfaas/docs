@@ -4,6 +4,54 @@ You can use GitHub Actions to build or publish container images for your OpenFaa
 
 If you'd like to deploy the function, check out a more comprehensive example of how to log in and deploy in [Serverless For Everyone Else](https://store.openfaas.com/l/serverless-for-everyone-else).
 
+## A build to validate functions before merge
+
+```yaml
+name: build
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 1
+      - name: Get faas-cli
+        uses: alexellis/arkade-get@master
+        with:
+          faas-cli: latest
+      - name: Pull custom templates from stack.yml
+        run: faas-cli template pull stack
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Get Repo Owner
+        id: get_repo_owner
+        run: >
+          echo "repo_owner=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+      - name: Build functions
+        run: >
+          OWNER="${{ steps.get_repo_owner.outputs.repo_owner }}" 
+          TAG="latest"
+          SERVER="ghcr.io"
+          faas-cli build
+          --build-arg GO111MODULE=on
+          --filter release-promoter
+```
+
+The `--filter release-promoter` line can be removed to build all functions in the stack.yml.
+
+When multiple functions are available in the stack.yaml file you can add `--parallel` to speed up the build by building multiple functions at once.
+
 ## Publish multiple functions
 
 We will deploy alexellis' repository called [alexellis/autoscaling-functions](https://github.com/alexellis/autoscaling-functions). It contains multiple functions which can be deployed as a group.
@@ -20,10 +68,7 @@ name: publish
 
 on:
   push:
-    branches:
-      - '*'
-  pull_request:
-    branches:
+    tags:
       - '*'
 
 permissions:
@@ -40,7 +85,9 @@ jobs:
         with:
           fetch-depth: 1
       - name: Get faas-cli
-        run: curl -sLSf https://cli.openfaas.com | sudo sh
+        uses: alexellis/arkade-get@master
+        with:
+          faas-cli: latest
       - name: Pull custom templates from stack.yml
         run: faas-cli template pull stack
       - name: Set up QEMU
@@ -49,12 +96,11 @@ jobs:
         uses: docker/setup-buildx-action@v3
       - name: Get TAG
         id: get_tag
-        run: echo ::set-output name=TAG::latest-dev
+        run: echo "TAG=latest-dev" >> $GITHUB_OUTPUT
       - name: Get Repo Owner
         id: get_repo_owner
         run: >
-          echo ::set-output name=repo_owner::$(echo ${{ github.repository_owner }} |
-          tr '[:upper:]' '[:lower:]')
+          echo "repo_owner=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
       - name: Docker Login
         run: > 
           echo ${{secrets.GITHUB_TOKEN}} | 
@@ -65,11 +111,13 @@ jobs:
         run: >
           OWNER="${{ steps.get_repo_owner.outputs.repo_owner }}" 
           TAG="latest"
+          SERVER="ghcr.io"
           faas-cli publish
           --extra-tag ${{ github.sha }}
+          --extra-tag ${{ steps.get_tag.outputs.TAG }}
           --build-arg GO111MODULE=on
-          --platforms linux/amd64,linux/arm64,linux/arm/v7
-          --filter bcrypt
+          --platforms linux/amd64,linux/arm64
+          --filter release-promoter
 ```
 
 The Publish functions step uses [environment substitution](/reference/yaml/#yaml-environment-variable-substitution) to set the owner and tag for the image.
