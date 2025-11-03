@@ -37,9 +37,12 @@ You can ship a single stack.yaml file with all your functions defined separately
 *stack.yaml*
 
 ```yaml
+provider:
+  name: openfaas
+
 functions:
   env:
-    image: ghcr.io/openfaas/env:latest
+    image: ghcr.io/openfaas/alpine:latest
     fprocess: env
   nodeinfo:
     image: ghcr.io/openfaas/nodeinfo:latest
@@ -61,15 +64,21 @@ You could also create multiple YAML files - one per function:
 *env.yaml*
 
 ```yaml
+provider:
+  name: openfaas
+
 functions:
   env:
-    image: ghcr.io/openfaas/env:latest
+    image: ghcr.io/openfaas/alpine:latest
     fprocess: env
 ```
 
 *nodeinfo.yaml*
 
 ```yaml
+provider:
+  name: openfaas
+
 functions:
   nodeinfo:
     image: ghcr.io/openfaas/nodeinfo:latest
