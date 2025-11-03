@@ -6,9 +6,18 @@ But when it comes to functions, you generally have to deploy these via `faas-cli
 
 Preloading is a solution to this problem.
 
-On the first boot of the `faasd-provider` service, any YAML files found will be deployed automatically.
+On the first boot of the `faasd-provider` service, any OpenFaaS Stack YAML files found will be deployed automatically.
 
 So before you install OpenFaaS Edge, create the: `/var/lib/faasd-provider/functions` folder, and place any number of OpenFaaS function YAML files within it.
+
+This is designed for an initial deployment of a set of functions when shipping a product to an end customer.
+
+To update existing functions or to deploy new ones after the initial preload, you have two options:
+
+* Use `faas-cli deploy`
+* Remove `/var/lib/faasd-provider/bootstrap.ran` and restart the `faasd-provider` service.
+
+To delete functions which were previously deployed via preloading, use `faas-cli remove`. Removing them from the `/var/lib/faasd-provider/functions` folder will have no effect.
 
 ## Secrets for preloaded functions
 
