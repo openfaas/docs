@@ -20,21 +20,54 @@ See the notes here: [Building multi-arch images for Arm and Raspberry Pi](/cli/b
 
 ## Templates
 
-The OpenFaaS CLI has a template engine built-in which can create new functions in a given programming language. The way this works is by reading a list of templates from the `./template` location in your current working folder.
+The OpenFaaS CLI (`faas-cli`) has a template engine built-in which can create new functions in a given programming language. The way this works is by reading a list of templates from the `./template` location in your current working folder.
 
-Before creating a new function make sure you pull in the official OpenFaaS language templates from GitHub via the [templates repository](https://github.com/openfaas/templates).
+In the past, a default [templates repository](https://github.com/openfaas/templates) contained all templates for OpenFaaS, but now they're distributed across a number of different Git repositories.
 
-```bash
-$ faas-cli template pull
-```
+If the language you want to use is listed in the template store (`faas-cli template store list`), then it will be fetched automatically whenever you run `faas-cli new` or `faas-cli build`.
 
-Templates can also be pulled from custom repositories, for instance:
+To create a Python function called `hello-python` using the `python3-http` template, you would run:
 
 ```bash
-$ faas-cli template pull https://github.com/openfaas/go-http-template
+$ faas-cli new --lang python3-http hello-python
 ```
 
-For official templates, you will usually be able to pull them from the store, instead of having to remember various URLs. You'll find out more about the store on this page.
+Since this function is listed in the *Templates Store*, it will be downloaded automatically for you.
+
+If you need to get a custom, or modified template from a different Git repository, you can use the `faas-cli template pull` command first.
+
+The below is an example of a fictitious Rust Tokio template being pulled from GitHub and then used to create a new function:
+
+```bash
+$ faas-cli template pull https://github.com/alexellis/rust-tokio-template
+
+$ faas-cli new --lang rust-tokio-template
+```
+
+### Version pinning
+
+Version pinning is supported for templates as of `faas-cli` version 0.18.0.
+
+You can specify the version of a template in three ways:
+
+* Latest - no pinning, always get the latest version `golang-middleware` - this always pulls from the default branch, using its latest commit
+* Git tag or branch - specify a tag after an `@` symbol `golang-middleware@0.20.0` or `golang-middleware@debian`
+* Commit SHA - specify a full commit SHA after an `@` symbol `golang-middleware@sha-4d0f102baedd9f4d618dac34ff419292e2f91578` (short SHAs are also supported i.e. `golang-middleware@sha-4d0f102`)
+
+These versions can be specified when running `faas-cli new`, or directly in stack.yaml if the function already exists.
+
+Here's how you'd pin an existing function to a specific version in `stack.yaml`:
+
+```yaml
+functions:
+  my-function:
+-   lang: golang-middleware
++   lang: golang-middleware@0.9.0
+    handler: ./my-function
+    image: my-function:latest
+```
+
+### Authentication for private repositories
 
 The `template pull` command uses your local Git client, so if you have proper authentication set up with a Git credential helper, then you'll also be able to run it against private repositories.
 
