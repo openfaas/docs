@@ -41,8 +41,21 @@ services:
       - probe_interval=100ms
       # Max number of probes
       - probe_count=20
-
 ```
 
+This value gives you around 2s of probing time, which may or may not be enough for your functions. If you start to see failures, simply increase the `probe_count` value to a higher number.
+
 To turn of function probing set `probe_functions=false`.
+
+## Readiness checks for functions
+
+Many times functions need to perform some sort of initialization before they are ready to accept requests.
+
+Set the annotation `com.openfaas.ready.http.path` to point to a custom readiness endpoint on your function.
+
+Then update your handler to return whether the function is ready or not when that custom path i.e. `/ready` is requested.
+
+The following examples show how to implement a readiness endpoint in different languages, each of which has a fake delay built into their start-up process.
+
+See the examples: [https://github.com/alexellis/ready-fns](https://github.com/alexellis/ready-fns)
 
