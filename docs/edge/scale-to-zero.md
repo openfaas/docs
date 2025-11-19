@@ -40,10 +40,10 @@ services:
       # The interval between probes
       - probe_interval=100ms
       # Max number of probes
-      - probe_count=20
+      - probe_count=100
 ```
 
-This value gives you around 2s of probing time, which may or may not be enough for your functions. If you start to see failures, simply increase the `probe_count` value to a higher number.
+This value gives you around 10s of probing time, which may or may not be enough for your functions. If you start to see failures, simply increase the `probe_count` value to a higher number.
 
 To turn of function probing set `probe_functions=false`.
 
