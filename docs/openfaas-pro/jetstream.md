@@ -60,7 +60,14 @@ See [Deploy NATS for OpenFaaS](#deploy-nats-for-openfaas) for instruction on how
 
 The queue-worker uses a shared NATS Stream and NATS Consumer by default, which works well with many of the existing [autoscaling strategies](/reference/async/#autoscaling). Requests are processed in a FIFO order, and it is possible for certain functions to dominate or starve the queue.
 
-A fairer approach is to scale functions based upon their respective queue depth, with a consumer created for each function as and when it is needed.
+It's challenging to scale individual functions based upon their queued requests within a shared queue with a single static consumer.
+
+Two alternatives exist for OpenFaaS for Enterprises customers, both of which enable fairer processing of messages across functions, and better autoscaling behaviour:
+
+1. Setup additional named queue-worker deployments with specific functions allocated to them.
+2. Configure the built-in queue-worker to partition itself by function, creating consumers on demand, and giving much of the effect of 1. with less operational overhead.
+
+With the approach below, functions can be scaled upon the depth of their queued asynchronous requests, with a consumer created for each function as and when it is needed.
 
 The `mode` parameter can be set to `static` (default) or `function`.
 
