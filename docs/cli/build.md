@@ -283,6 +283,73 @@ faas-cli build --lang python3-http --build-option dev --build-arg ADDITIONAL_PAC
 
 The entries in the template's Dockerfile described in 1.0 above need to be present for this mode of operation.
 
+## 2.1 Build options examples
+
+Let's see some practical examples with the `build-option` flag.
+
+* Use [Pillow](https://pillow.readthedocs.io/en/5.2.x/) for image processing in your Python function
+
+Create function with
+
+```
+$ faas-cli new faas-black-and-white --lang python3 --prefix <your-docker-namespace>
+```
+
+Add `pillow`, `requests` and `validators` to `requirements.txt` .
+
+Edit `handler.py`:
+
+```python
+import os, io, requests, validators
+from PIL import Image
+
+def handle(req):
+    defaultUrl = "https://pbs.twimg.com/media/DsXDzALW0AAkz2I.jpg:large"
+    if len(req) > 0 and validators.url(req):
+        url = req
+    else:
+        url = defaultUrl
+
+    errMsg = "Failed to read given URL"
+    try:
+        img = Image.open(requests.get(url, stream=True).raw)
+    except requests.exceptions.SSLError:
+        return errMsg
+    except urllib3.exceptions.MaxRetryError:
+        return errMsg
+
+    blackAndWhite = img.convert('1')
+
+    byteArr = io.BytesIO()
+    blackAndWhite.save(byteArr, format='JPEG')
+    res = byteArr.getvalue()
+    os.write(1, res)
+
+    return res
+```
+
+What the code does is to open an image from url and convert it to black and white.
+
+You can build the function with build options (`--build-option dev --build-option pillow`) or add them to the `faas-black-and-white.yml`:
+```
+    build_options:
+    - dev
+    - pillow
+```
+
+Build push and deploy with:
+```
+faas up -f faas-black-and-white.yml
+```
+
+Test the function with:
+
+```bash
+ echo "" | faas invoke faas-black-and-white > blackAndWhite.jpg
+```
+
+Or in your web browser by opening http://127.0.0.1:8080/function/pillow-func
+
 ## 3.0 Pass custom build arguments
 
 You can pass `ARG` values to Docker via the CLI.
