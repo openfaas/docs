@@ -384,6 +384,15 @@ configuration:
       source: https://github.com/openfaas/python-flask-template
 ```
 
+By default the `master` branch is pulled. Switching to a branch or tag can be achieved by extending the source URL.
+
+```yaml
+configuration:
+  templates:
+    - name: python3-http
+      source: https://github.com/openfaas-incubator/python-flask-template#feature-branch
+```
+
 ### Copy
 
 The `copy` list allows you to define additional project paths that will be copied into your function's handler folder.
