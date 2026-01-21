@@ -484,17 +484,13 @@ RUN pip install --no-cache-dir --user -r requirements.txt
 
 The `opentelemetry-bootstrap -a install` command reads through the list of packages installed in your active site-packages folder, and installs the corresponding instrumentation libraries for these packages, if applicable. The OpenTelemetry Python agent uses [monkey patching](https://stackoverflow.com/questions/5626193/what-is-monkey-patching) to modify functions in these libraries at runtime.
 
-
-Update the fprocess ENV in the Dockerfile to start the OpenTelemetry agent:
+Update the function process in `template.yaml`to start the OpenTelemetry agent:
 
 ```diff
-# configure WSGI server and healthcheck
-USER app
-
-- ENV fprocess="python index.py"
-+ ENV fprocess="opentelemetry-instrument python index.py"
+language: python3-http
+- fprocess: python index.py
++ fprocess: opentelemetry-instrument python index.py
 ```
-
 Use your modified template to create a new function.
 
 The OpenTelemetry agent can be configured using environment variables on the function:
@@ -513,7 +509,7 @@ functions:
 +      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-collector:4317}
 ```
 
-- `OTEL_SERVICE_NAME` sets the name of the service associated with the telemetry and is used to identify telemetry for a specific function. It can be set to any value you want be we recommend using the clear function identifier `<fn-name>.<fn-namespace>`.
+- `OTEL_SERVICE_NAME` sets the name of the service associated with the telemetry and is used to identify telemetry for a specific function. It can be set to any value you want but we recommend using the clear function identifier `<fn-name>.<fn-namespace>`.
 - `OTEL_TRACES_EXPORTER` specifies which tracer exporter to use. In this example traces are exported to `console` (stdout) and with `otlp`. The `otlp` option tells `opentelemetry-instrument` to send the traces to an endpoint that accepts OTLP via gRPC.
 - setting `OTEL_METRICS_EXPORTER` and `OTEL_LOGS_EXPORTER` to `none` we disable the metrics and logs exporters. You can enable them if desired.
 - `OTEL_EXPORTER_OTLP_ENDPOINT` sets the endpoint where telemetry is exported to.
