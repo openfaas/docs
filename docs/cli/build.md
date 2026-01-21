@@ -10,15 +10,23 @@ faas-cli build --help
 
 * Build images with Docker
 
-The `faas-cli build` command builds a Docker image into your local Docker library, which can then be used locally or pushed into a remote Docker registry. Each change of your function requires a new `faas-cli build` command to be issued.
+  The `faas-cli build` command builds a Docker image into your local Docker library, which can then be used locally or pushed into a remote Docker registry. Each change of your function requires a new `faas-cli build` command to be issued.
+
+* Publish multi-arch images
+
+  If you need to target a range of CPU architectures such as 64-bit ARM and Raspberry Pi, then take a look at the new publish command.
+
+  This is not designed to replace the `faas-cli build` or `faas-cli up` workflow for local development, but to be used from CI to publish images for multiple architectures.
+
+  The publish command makes use of the Docker buildx add-on, which will need to be installed. A suitable multi-arch template will also be required such as [golang-middleware](https://github.com/openfaas/golang-http-template).
 
 * How to do CI/CD
 
-When it comes to continuous integration and delivery you can use the `faas-cli` tool on your build server to build and deploy your code using the built-in commands. 
+  When it comes to continuous integration and delivery you can use the `faas-cli` tool on your build server to build and deploy your code using the built-in commands. 
 
-* Generate a Dockerfile with `--shrinkwrap`
+* Generate a Dockerfile and Docker build context with `--shrinkwrap`
 
-If you are using an alternative container image builder or are automating the `faas-cli` then you can use the `--shrinkwrap` flag which will produce a folder named `./build/function-name` with a Dockerfile. This bundle can be used with any container builder.
+  If you are using an alternative container image builder such as [kaniko](https://github.com/GoogleContainerTools/kaniko) or are automating the `faas-cli` then you can use the `--shrinkwrap` flag which will produce a folder named `./build/function-name` with a Dockerfile. This bundle can be used with any container builder.
 
 ## Plugins and build-time secrets
 
