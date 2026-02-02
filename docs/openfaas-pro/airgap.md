@@ -30,6 +30,8 @@ faas-cli airfaas download images \
 
 The `--url` flag can be used to specify a different Helm chart repository. The only requirement is that images are stored in the same format as OpenFaaS: i.e. `image:` or `componentName.image:`.
 
+Note: if you receive an access denied error from ghcr.io, it's most likely because you have an old, expired access token in your local Docker config or keychain. Run `docker logout ghcr.io` to clear the token and try again.
+
 ## Consume the mirrored images from your own registry
 
 After the mirroring is complete, you'll receive output in the format of a values.yaml file, which you can add to your `helm upgrade --install` command.
