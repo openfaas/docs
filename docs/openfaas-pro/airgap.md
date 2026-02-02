@@ -15,7 +15,7 @@ faas-cli plugin get airfaas
 Mirror all images for the given chart/index to a custom registry:
 
 ```bash
-airfaas download images \
+faas-cli airfaas download images \
         openfaas/openfaas \
         --registry-prefix ttl.sh
 ```
@@ -23,12 +23,14 @@ airfaas download images \
 Mirror the Kafka-connector's images:
 
 ```bash
-airfaas download images \
+faas-cli airfaas download images \
         openfaas/kafka-connector \
         --registry-prefix ttl.sh
 ```
 
 The `--url` flag can be used to specify a different Helm chart repository. The only requirement is that images are stored in the same format as OpenFaaS: i.e. `image:` or `componentName.image:`.
+
+## Consume the mirrored images from your own registry
 
 After the mirroring is complete, you'll receive output in the format of a values.yaml file, which you can add to your `helm upgrade --install` command.
 
@@ -36,6 +38,28 @@ After the mirroring is complete, you'll receive output in the format of a values
 $ faas-cli airfaas mirror openfaas/openfaas --to https://aws_account_id.dkr.ecr.us-west-2.amazonaws.com/openfaas
 Mirrored 18 images in 3m7.242s
 ```
+
+There are two options for consuming the mirrored images:
+
+1. Use the `registryPrefix` setting to add a prefixed string i.e. your registry to the image name across all images i.e. `registryPrefix: aws_account_id.dkr.ecr.us-west-2.amazonaws.com/openfaas`
+2. Use the generated text produced by `airfaas` as an overlay to your existing `values.yaml` file.
+
+### Option 1 - Use the `registryPrefix` setting
+
+```yaml
+registryPrefix: aws_account_id.dkr.ecr.us-west-2.amazonaws.com/openfaas
+```
+
+If you need a custom image pull secret for the registry, create it and then add it to the `imagePullSecrets` section of the `values.yaml` file.
+
+```yaml
+imagePullSecrets:
+  - name: ecr-pull-secret
+```
+
+For certain registries such as AWS ECR, it's possible to use the ambient AWS IAM credentials to authenticate the registry without overriding the default `imagePullSecrets` setting.
+
+### Option 2 - Use the generated text produced by `airfaas` as an overlay to your existing `values.yaml` file.
 
 Then copy the below to i.e. `values-mirror.yaml`:
 
