@@ -21,7 +21,7 @@ faas-cli new --lang dockerfile curl
 Inspect the contents of `curl/Dockerfile`:
 
 ```
-FROM ghcr.io/openfaas/classic-watchdog:0.2.1 as watchdog
+FROM ghcr.io/openfaas/classic-watchdog:0.3.6 as watchdog
 
 FROM alpine:3.18
 
