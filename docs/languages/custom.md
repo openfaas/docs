@@ -62,7 +62,7 @@ The following Dockerfile is based upon the node22 template, adapted for Bun.
 The `--platform=${TARGETPLATFORM:-linux/amd64}` directive is required for multi-arch support, to make the template work for 64-bit Arm as well as regular *x86_64* machines. Most images that you find on the Docker Hub will already have multi-arch support, and it's strongly recommended to keep it in place.
 
 ```Dockerfile
-FROM --platform=${TARGETPLATFORM:-linux/amd64} ghcr.io/openfaas/of-watchdog:0.10.9 as watchdog
+FROM --platform=${TARGETPLATFORM:-linux/amd64} ghcr.io/openfaas/of-watchdog:0.11.22 as watchdog
 FROM --platform=${TARGETPLATFORM:-linux/amd64} oven/bun:alpine as ship
 
 ARG TARGETPLATFORM
