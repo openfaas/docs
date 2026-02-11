@@ -49,9 +49,44 @@ It is recommended that you have high-availability for the OpenFaaS components in
 
 * OpenFaaS gateway
 
-    For a production environment, we recommend a minimum of three replicas of the gateway. You can set an additional auto-scaling rule with HPAv2 if you have purchased additional licenses for that environment.
+    For a production environment, we recommend a minimum of three replicas of the gateway. 
 
-    By default, the OpenFaaS gateway includes a Topology Spread Constraints to ensure that replicas are spread across different nodes. This means that if a node were to be reclaimed or any reason, the gateway would still be available, since at least one replica would be running on another node.
+    By default, the OpenFaaS gateway includes a Topology Spread Constraints to ensure that replicas are spread across different nodes. This means that if a node were to be reclaimed or any reason, the gateway would still be available, since at least one replica would be running on another node
+
+    Optionally, you can set an additional auto-scaling rule with HPAv2 to scale the gateway automatically based on CPU and memory usage. The percentage values are based upon the requests and limits set for the gateway pod, and should be tuned to suit your own workload:
+
+    ```yaml
+    # 50% CPU or 50% RAM is only a guide, and you need to 
+    # tune this to suit your own needs
+    
+    # 3 replicas are required for HA
+
+    apiVersion: autoscaling/v2
+    kind: HorizontalPodAutoscaler
+    metadata:
+      name: gateway-hpa
+      namespace: openfaas
+    spec:
+      scaleTargetRef:
+        apiVersion: apps/v1
+        kind: Deployment
+        name: gateway
+      minReplicas: 3
+      maxReplicas: 6
+      metrics:
+      - type: Resource
+        resource:
+          name: cpu
+          target:
+            type: Utilization
+            averageUtilization: 50
+      - type: Resource
+        resource:
+          name: memory
+          target:
+            type: Utilization
+            averageUtilization: 50
+    ```
 
 * OpenFaaS queue-worker
 
