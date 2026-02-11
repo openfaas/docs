@@ -86,7 +86,51 @@ AWS EKS is configured to use an [Elastic Load Balancer (ELB)](https://aws.amazon
 
 Google Cloud's various Load Balancer options have their [own configuration options too](https://cloud.google.com/load-balancing/docs/https).
 
-For Ingress Nginx, set the `nginx.ingress.kubernetes.io/proxy-read-timeout` annotation to extend the timeout. This annotation is specified in seconds - for example, to extend the timeout to 30 minutes, use `nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"`.
+### Configuring Traefik timeouts
+
+For Traefik, timeouts are configured at the EntryPoint level in the static configuration. There are two main timeout values to consider:
+
+* `readTimeout` - Maximum duration for reading the entire request, including the body
+* `writeTimeout` - Maximum duration before timing out writes of the response
+
+These timeouts can be configured when installing Traefik via Helm or arkade. For example, to set 30-minute timeouts:
+
+**Using Helm values:**
+
+```yaml
+# traefik-values.yaml
+ports:
+  websecure:
+    port: 8443
+    expose: true
+    exposedPort: 443
+    protocol: TCP
+    tls:
+      enabled: true
+    transport:
+      respondingTimeouts:
+        readTimeout: 1800s
+        writeTimeout: 1800s
+```
+
+Then install or upgrade Traefik:
+
+```bash
+helm upgrade --install traefik traefik/traefik \
+  --namespace traefik \
+  --create-namespace \
+  -f traefik-values.yaml
+```
+
+**Using arkade with custom values:**
+
+```bash
+arkade install traefik2 \
+  --set "ports.websecure.transport.respondingTimeouts.readTimeout=1800s" \
+  --set "ports.websecure.transport.respondingTimeouts.writeTimeout=1800s"
+```
+
+> Note: Unlike ingress-nginx, Traefik does not support per-Ingress timeout annotations. Timeouts must be configured at the EntryPoint level or via advanced ServersTransport configuration. See the Traefik middleware.
 
 Finally, if you need to invoke a function for longer than one of your infrastructure components allows, then you should use an [asynchronous invocation](/reference/async). Asynchronous function invocations bypass these components because they are eventually invoked from the queue-worker, not the Internet. The queue-worker for OpenFaaS Standard will also retry invocations if required.
 
