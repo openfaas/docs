@@ -41,7 +41,7 @@ Let's deploy a function from the store:
 faas-cli store deploy env
 ```
 
-If you're using ingress-nginx, then check the public IP with `kubectl get svc/nginxingress-nginx-ingress-controller`, note down the `EXTERNAL-IP`.
+If you're using Traefik, then check the public IP with `kubectl get svc/traefik -n kube-system`, note down the `EXTERNAL-IP`.
 
 Create a DNS A record or CNAME `env.example.com` pointing to the `EXTERNAL-IP`
 
@@ -55,13 +55,13 @@ Edit the following fields:
 * `issuerRef.name` - as per the Issuer name created above
 * `issuerRef.kind` - optional: either `Issuer` or `ClusterIssuer`
 
-If you're not using ingress-nginx, then also change the `spec.ingressType` field.
+If you're not using Traefik, then also change the `spec.ingressType` field.
 
 The `FunctionIngress` currently makes use of the `HTTP01` challenge, so a separate TLS certificate will be obtained for each FunctionIngress you create.
 
 ```sh
 export DOMAIN="env.example.com"
-
+ 
 cat << EOF > env-fni.yaml
 apiVersion: openfaas.com/v1
 kind: FunctionIngress
@@ -69,9 +69,9 @@ metadata:
   name: env
   namespace: openfaas
 spec:
-  domain: "env.example.com"
+  domain: "$DOMAIN"
   function: "env"
-  ingressType: "nginx"
+  ingressType: "traefik"
   tls:
     enabled: true
     issuerRef:
@@ -160,7 +160,7 @@ metadata:
 spec:
   domain: "$DOMAIN"
   function: "env"
-  ingressType: "nginx"
+  ingressType: "traefik"
   path: "/v1/env/(.*)"
   tls:
     enabled: true
@@ -176,7 +176,7 @@ metadata:
 spec:
   domain: "$DOMAIN"
   function: "nodeinfo"
-  ingressType: "nginx"
+  ingressType: "traefik"
   path: "/v1/nodeinfo/(.*)"
   tls:
     enabled: true
@@ -193,4 +193,3 @@ kubectl apply -f api-v1-fni.yaml
 ```
 
 You'll now be able to access the above functions via `https://api.example.com/v1/env/` and `https://api.example.com/v1/nodeinfo/`.
-

@@ -26,22 +26,22 @@ If you are running on a local or private network, you can use [inlets-operator](
 
 ### Set up an Ingress Controller
 
-We recommend ingress-nginx for OpenFaaS, however any Ingress controller will work, or you can use Istio with separate instructions.
+We recommend Traefik for OpenFaaS, however any Ingress controller will work, or you can use Istio with separate instructions.
 
-To install ingress-nginx, use either the Helm chart, or arkade:
+To install Traefik, use either the Helm chart, or arkade:
 
 ```sh
-$ arkade install ingress-nginx
+$ arkade install traefik2
 ```
 
-See also: [ingress-nginx installation](https://kubernetes.github.io/ingress-nginx/deploy/)
+See also: [Traefik installation](https://doc.traefik.io/traefik/getting-started/install-traefik/)
 
 
 #### Timeouts for synchronous invocations
 
 Despite configuring OpenFaaS and your functions for [extended timeouts](/tutorials/expanded-timeouts.md), you may find that your Ingress Controller, Istio Gateway, or Cloud Load Balancer implements its own timeouts on connections. If you think you have everything configured correctly for OpenFaaS, but see a timeout at a very specific number such as 30s or 60s, then check the timeouts on your Ingress Controller or Load Balancer.
 
-For Ingress Nginx, to extend a synchronous invocation beyond one minute, add the `nginx.ingress.kubernetes.io/proxy-read-timeout` annotation to your Ingress resource. This annotation is specified in seconds - for example, to extend the timeout to 30 minutes, use `nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"`. 
+For Traefik, timeouts are typically configured at the EntryPoint level in the static configuration. See the [expanded timeouts guide](/tutorials/expanded-timeouts.md#load-balancers-ingress-and-service-meshes) for more details on configuring Traefik timeouts. 
 
 ### Install cert-manager
 
@@ -80,7 +80,7 @@ spec:
     - selector: {}
       http01:
         ingress:
-          class: nginx
+          class: traefik
 ---
 apiVersion: cert-manager.io/v1
 kind: Issuer
@@ -97,7 +97,7 @@ spec:
     - selector: {}
       http01:
         ingress:
-          class: nginx
+          class: traefik
 ---
 
 EOF
@@ -113,13 +113,13 @@ $ kubectl apply -f issuer.yaml
 
 You will need to create an A or CNAME record for your domain, pointing to the public IP address of your Ingress controller.
 
-If you created the Ingress Controller with arkade, you'll see a new service in the default namespace called `ingress-nginx-controller`. You can find the public IP address with:
+If you created the Ingress Controller with arkade, you'll see a new service in the kube-system namespace called `traefik. You can find the public IP address with:
 
 ```sh
-$ kubectl get svc -n default ingress-nginx-controller
+$ kubectl get svc/traefik -n kube-system
 
-NAME                       TYPE           CLUSTER-IP   EXTERNAL-IP     PORT(S)                      AGE
-ingress-nginx-controller   LoadBalancer   10.43.87.4   18.136.136.18   80:31876/TCP,443:30108/TCP   28d
+NAME      TYPE           CLUSTER-IP   EXTERNAL-IP     PORT(S)                      AGE
+traefik   LoadBalancer   10.43.87.4   18.136.136.18   80:31876/TCP,443:31706/TCP   28d
 ```
 
 Take the IP address from the `EXTERNAL-IP` column and create an A record for your domain in your domain management software, or a CNAME record if you're using AWS EKS, and see a domain name in this field.
@@ -129,18 +129,16 @@ All users should create an entry for: `gateway.example.com` and then OpenFaaS da
 ### Configure TLS for the OpenFaaS gateway
 
 You can now configure the OpenFaaS gateway to use TLS by setting the following Helm values, you can save them in a file called `tls.yaml`:
-
+ 
 ```sh
 export DOMAIN="gw.example.com"
-export NGINX_TIMEOUT_SECS="1800" # 30 minutes
 
 cat > tls.yaml <<EOF
 ingress:
   enabled: true
-  ingressClassName: nginx
+  ingressClassName: traefik
   annotations:
     cert-manager.io/issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "$NGINX_TIMEOUT_SECS"
   tls:
     - hosts:
         - $DOMAIN
@@ -159,9 +157,11 @@ ingress:
 EOF
 ```
 
-If you're using something other than ingress-nginx, then change the `ingressClassName` field accordingly. Note that the `kubernetes.io/ingress.class` annotation is deprecated and should not be used.
+If you're using something other than Traefik, then change the `ingressClassName` field accordingly. Note that the `kubernetes.io/ingress.class` annotation is deprecated and should not be used.
 
 The `cert-manager.io/issuer` annotation is used to pick between the staging and production Issuers for Let's Encrypt. If this is your first time working with cert-manager, you may want to use the staging issuer first to avoid running into rate limits if you have something misconfigured.
+
+> Note: For extended timeouts beyond Traefik's defaults, see the [expanded timeouts guide](/tutorials/expanded-timeouts.md#load-balancers-ingress-and-service-meshes) for information on configuring Traefik's EntryPoint timeouts.
 
 Now upgrade OpenFaaS via helm, use any custom values.yaml files that you have saved from a previous installation:
 
@@ -182,15 +182,13 @@ Edit the previous example:
 ```sh
 export DOMAIN="gw.example.com"
 export DOMAIN_DASHBOARD="dashboard.example.com"
-export NGINX_TIMEOUT_SECS="1800" # 30 minutes
 
 cat > tls.yaml <<EOF
 ingress:
   enabled: true
-  ingressClassName: nginx
+  ingressClassName: traefik
   annotations:
     cert-manager.io/issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "$NGINX_TIMEOUT_SECS"
   tls:
     - hosts:
         - $DOMAIN
