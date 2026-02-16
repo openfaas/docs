@@ -6,7 +6,7 @@ This guide explains how to obtain TLS certificates for the OpenFaaS Gateway runn
 
 * Setup an Ingress Controller
 * Configure cert-manager to obtain a certificate from Let's Encrypt
-* Configure the an Ingress record for the OpenFaaS Gateway
+* Configure an Ingress record for the OpenFaaS Gateway
 
 ## Pre-requisites
 
@@ -26,7 +26,7 @@ If you are running on a local or private network, you can use [inlets-operator](
 
 ## Set up an Ingress Controller
 
-We recommend Traefik for OpenFaaS, however any Ingress controller will work, or you can use Istio with separate instructions.
+This section covers setting up TLS for OpenFaaS using Traefik as the Ingress Controller, however any Ingress controller will work, or you can use Istio with separate instructions.
 
 Install Traefik with Helm:
 
@@ -228,6 +228,68 @@ EOF
 ```
 
 As above, run the `helm upgrade` command to apply the changes.
+
+---
+
+## AWS EKS with the AWS Load Balancer Controller
+
+If you're running on AWS EKS, the [AWS Load Balancer Controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/) can be used to provision a Network Load Balancer (NLB) for Traefik's LoadBalancer Service. Traefik still acts as the Ingress Controller and handles TLS termination with cert-manager, but the NLB provides the public endpoint.
+
+### Install the AWS Load Balancer Controller
+
+Follow the [AWS documentation to install the AWS Load Balancer Controller using Helm](https://docs.aws.amazon.com/eks/latest/userguide/lbc-helm.html). The installation guide covers IAM configuration and the controller deployment.
+
+See also: [AWS Load Balancer Controller documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
+
+Once installed, verify the controller is running:
+
+```sh
+$ kubectl get deployment -n kube-system aws-load-balancer-controller
+
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+aws-load-balancer-controller   2/2     2            2           84s
+```
+
+### Install Traefik with the NLB annotation
+
+On EKS with the AWS Load Balancer Controller, Traefik's LoadBalancer Service needs the correct annotation so that the controller provisions an internet-facing NLB.
+
+Install Traefik using Helm with the required annotation:
+
+```sh
+helm repo add traefik https://traefik.github.io/charts
+helm repo update
+
+helm install --namespace=traefik traefik traefik/traefik \
+  --create-namespace \
+  --set "service.annotations.service\.beta\.kubernetes\.io/aws-load-balancer-scheme=internet-facing"
+```
+
+The `service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing` annotation ensures the NLB is publicly accessible. Without it, the AWS Load Balancer Controller defaults to an `internal` scheme, which would prevent Let's Encrypt HTTP01 challenges from reaching your cluster.
+
+Verify that Traefik is running and has an external address:
+
+```sh
+$ kubectl get svc -n traefik
+
+NAME      TYPE           CLUSTER-IP      EXTERNAL-IP                  PORT(S)                      AGE
+traefik   LoadBalancer   10.100.45.123   xxx.elb.amazonaws.com        80:31876/TCP,443:31706/TCP   60s
+```
+
+The `EXTERNAL-IP` field will show an NLB hostname (e.g. `xxx.elb.amazonaws.com`).
+
+### Configure cert-manager, Issuers, and OpenFaaS TLS
+
+The remaining steps are the same as the in the [general Ingress setup](#general-setup-with-traefik):
+
+1. [Install cert-manager](#install-cert-manager)
+2. [Configure cert-manager](#configure-cert-manager)
+3. [Configure TLS for the OpenFaaS gateway](#configure-tls-for-the-openfaas-gateway)
+4. Optionally, [Configure TLS for the OpenFaaS dashboard](#configure-tls-for-the-openfaas-dashboard)
+
+### Create DNS records
+
+On EKS the `EXTERNAL-IP` field shows a hostname rather than an IP address. Create a **CNAME record** pointing your domain to the NLB hostname instead of an A record.
 
 ## Verifying the installation
 
