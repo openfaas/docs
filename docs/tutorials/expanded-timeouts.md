@@ -86,7 +86,17 @@ AWS EKS is configured to use an [Elastic Load Balancer (ELB)](https://aws.amazon
 
 Google Cloud's various Load Balancer options have their [own configuration options too](https://cloud.google.com/load-balancing/docs/https).
 
-For Ingress Nginx, set the `nginx.ingress.kubernetes.io/proxy-read-timeout` annotation to extend the timeout. This annotation is specified in seconds - for example, to extend the timeout to 30 minutes, use `nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"`.
+For Traefik, see [Configuring Traefik timeouts](#configuring-traefik-timeouts) below.
+
+Ingress Nginx is now a retired project and should not be used for new installations. If you are still using it, set the `nginx.ingress.kubernetes.io/proxy-read-timeout` annotation to extend the timeout. This annotation is specified in seconds - for example, to extend the timeout to 30 minutes, use `nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"`.
+
+### Configuring Traefik timeouts
+
+Traefik has two separate sets of timeouts to be aware of:
+
+**Client-to-Traefik (EntryPoints)** - configured in the static configuration (CLI flags or Helm values). Controls how long Traefik waits for the client to send a request or receive a response. The key fields are `readTimeout` (default 60s), `writeTimeout` (default 0s) and `idleTimeout` (default 180s). See [EntryPoints - RespondingTimeouts](https://doc.traefik.io/traefik/routing/entrypoints/#respondingtimeouts).
+
+**Traefik-to-App (ServersTransport)** - configured in the dynamic configuration using a [ServersTransport CRD](https://doc.traefik.io/traefik/reference/routing-configuration/kubernetes/crd/http/serverstransport/), and referenced via the `traefik.ingress.kubernetes.io/service.serverstransport` annotation on the Ingress. By default there is no timeout on how long Traefik waits for a backend to respond (`responseHeaderTimeout` is 0s). Consider setting `responseHeaderTimeout` to match the gateway's `upstreamTimeout` so that Traefik returns a 504 quickly when a function hangs, rather than waiting indefinitely.
 
 Finally, if you need to invoke a function for longer than one of your infrastructure components allows, then you should use an [asynchronous invocation](/reference/async). Asynchronous function invocations bypass these components because they are eventually invoked from the queue-worker, not the Internet. The queue-worker for OpenFaaS Standard will also retry invocations if required.
 
