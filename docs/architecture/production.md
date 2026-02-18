@@ -193,9 +193,7 @@ Whether you need to configure new networking for your OpenFaaS deployments, or i
 
 It is recommended that you use an IngressController and TLS so that traffic between your clients and your OpenFaaS Gateway is encrypted.
 
-You may already have opinions about what IngressController you want to use, the maintainers like to use Nginx given its broad adoption and relative ubiquity.
-
-> See also: [Nginx IngressController](https://github.com/kubernetes/ingress-nginx) 
+> See also: [Traefik Proxy](https://doc.traefik.io/traefik/) 
 
 Heptio Contour also includes automatic retries and additional Ingress extensions which you may find useful:
 
