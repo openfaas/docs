@@ -395,7 +395,7 @@ provider:
   gateway: http://127.0.0.1:8080
 functions:
   hello:
-    lang: python3
+    lang: python3-http
     handler: ./hello
     image: openfaas/hello:0.1.0
 
