@@ -50,49 +50,33 @@ Or go ahead and deploy OpenFaaS straight to Kubernetes/OpenShift or to a VM usin
 
 ## Community
 
-OpenFaaS has a thriving community of Open Source contributors and users.
+OpenFaaS has a large community of users, and a growing ecosystem of partners and integrations.
 
 ### Weekly Office Hours
 
-Find out more about our weekly office hours call on the [Community Page](/community)
+We run a [weekly Office Hours call](/community/) for any user to join to ask questions, get help, and to share feedback.
 
-### Going to production
+### OpenFaaS for commercial and internal use
 
 !!! info "Do we need the Community Edition (CE) or Pro?"
-    The OpenFaaS (CE) is suitable for exploration or a PoC. OpenFaaS Pro was specifically built for use in production.
+    The OpenFaaS (CE) is licensed for exploration or an initial PoC. OpenFaaS Standard/for Enterprises was specifically built for use in production.
 
-    You can find out more about [OpenFaaS Pro here](/openfaas-pro/introduction) or [contact us to book a meeting](https://openfaas.com/support/).
-
-### Have you written a blog post or given a talk?
-
-Have you written a blog about OpenFaaS? Send a Pull Request to the community page below.
-
-* [Read blogs/articles and find events about OpenFaaS](https://github.com/openfaas/faas/blob/master/community.md)
+    You can find out more about [OpenFaaS options here](/openfaas-pro/introduction) or [contact us to book a meeting](https://forms.gle/g6oKLTG29mDTSk5k9).
 
 ### OpenFaaS Adopters
 
-If you're using OpenFaaS within your team, send a pull request to [ADOPTERS.md](https://github.com/openfaas/faas/blob/master/ADOPTERS.md) to let us know, or email us at: [contact@openfaas.com](mailto:contact@openfaas.com)
-
-### Contributing
-
-OpenFaaS is written in Go and contributions are welcomed from end-users and the community. It could mean providing feedback through testing features, proposing enhancements, or getting involved with the maintenance of almost 50 projects.
-
-* View the [contributing page](/community/#contribute)
-
-If you would like to contribute to the documentation site or find out more check out the [docs repo](https://github.com/openfaas/docs).
+If you're using OpenFaaS within your team, send a pull request to [ADOPTERS.md](https://github.com/openfaas/faas/blob/master/ADOPTERS.md) to let us know, or email us at: [contact@openfaas.com](mailto:contact@openfaas.com). You can also view customer logos on the [homepage](https://openfaas.com/).
 
 ## Governance
 
-The core of OpenFaaS is an independent open-source project originally created by [Alex Ellis](https://www.alexellis.io) in 2016. It is now being built and shaped by a [growing community of contributors and end-users](https://www.openfaas.com/team/).
+OpenFaaS was originally created in 2019 by [Alex Ellis](https://www.alexellis.io) as an open source project. It transitioned to a commercial model in 2019 and is worked on full time by employees of OpenFaaS Ltd. A free version is available for personal, non-commercial and hobbyist use in OpenFaaS CE and faasd CE.
 
 OpenFaaS is hosted by OpenFaaS Ltd (registration: 11076587), a company which also offers commercial services, homepage sponsorships, and support. OpenFaaS &reg; is a registered trademark in England and Wales.
 
 ### Sponsored credits
 
-Thank you to the following vendors for providing free, sponsored credits for testing and enablement, listed in order of resources contributed:
+Thank you to the following vendors for providing sponsored cloud credit for testing and enablement on their platform. Listed in order of contribution:
 
-* [Equinix Metal](https://equinixmetal.com)
-* [Linode](https://linode.com)
-* [DigitalOcean](https://digitalocean.com)
+* [DigitalOcean](https://m.do.co/c/8d4e75e9886f)
 
-If you'd like to sponsor OpenFaaS, [you can do so via GitHub](https://github.com/sponsors/openfaas).
+If you'd like to sponsor the OpenFaaS homepage, or contribute cloud resources, [you can do so via GitHub](https://github.com/sponsors/openfaas) or by [contacting the team via email](mailto:contact@openfaas.com).
