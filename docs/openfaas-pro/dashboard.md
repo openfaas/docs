@@ -6,7 +6,9 @@ The OpenFaaS Dashboard is a new UI, rebuilt to make operating and understanding 
 
 ## Using the dashboard
 
-Your browser can save the password for your various OpenFaaS environments, so that the credentials can follow you between machines, or be saved in password manager like 1Password.
+For shared clusters, we recommend using [IAM for OpenFaaS with Single Sign-On (SSO)](/openfaas-pro/sso/overview/) to authenticate to the dashboard.
+
+For single-user clusters, you can use your browser or a product such as 1Password to save your credentials for each installation.
 
 ![Login to the dashboard](/images/dashboard/login-dashboard.png)
 > Login to the dashboard

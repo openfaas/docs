@@ -33,14 +33,17 @@ Start out with one of the options from our self-service training range:
 
 Or go ahead and deploy OpenFaaS straight to Kubernetes/OpenShift or to a VM using faasd:
 
-![Original portal UI](https://github.com/openfaas/faas/raw/master/docs/inception.png)
+![OpenFaaS Dashboard - overview page](https://docs.openfaas.com/images/dashboard/fn-overview.png)
 
-*Pictured: Original portal UI, replaced by the [OpenFaaS Pro Dashboard](/openfaas-pro/dashboard)*
+![OpenFaaS Dashboard - invocation graphs](https://docs.openfaas.com/images/dashboard/invocation-graphs.png)
+
+*Pictured: OpenFaaS Dashboard for [OpenFaaS Standard/For Enterprises](/openfaas-pro/dashboard)*
 
 * [Deployment guides](./deployment/)
 
-## Video presentations
+## Video presentations/demos
 
+* [Build and scale a Python function with OpenFaaS (2023)](https://www.youtube.com/watch?v=igv9LRPzZbE)
 * [Meet faasd. Look Ma’ No Kubernetes! 2020](https://www.youtube.com/watch?v=ZnZJXI377ak&feature=youtu.be)
 * [Getting Beyond FaaS: The PLONK Stack for Kubernetes Developers 2019](https://www.youtube.com/watch?v=NckMekZXRt8&feature=emb_title)
 * [Serverless Beyond the Hype - Alex Ellis - GOTO 2018](https://www.youtube.com/watch?v=yOpYYYRuDQ0)
