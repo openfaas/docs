@@ -131,6 +131,7 @@ The OpenFaaS IAM language is inspired by [AWS IAM](https://docs.aws.amazon.com/I
 Conditions:
 
 * `StringEquals` - match a string exactly this can be used to match an exact email address of a user or an issuer
+* `StringEqualIgnoreCase` - match a string exactly, ignoring case - this can be used when the casing of a claim value may vary, such as an email address
 * `StringLike` - match a string with a wildcard - this could be used to match an email domain for instance
 * `ForAnyValue:StringEqual` - match a value within an array, this can be used to check group membership
 
@@ -170,9 +171,9 @@ spec:
 
 **Multiple context keys within a condition**
 
-When multiple context keys are given, they are combined with a logical AND operation. For reference, see the [AWS documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-logic-multiple-context-keys-or-values.html).
+When multiple context keys are given, they are combined with a logical AND operation. When multiple values are given for the same key, they are combined with a logical OR operation. For reference, see the [AWS documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-logic-multiple-context-keys-or-values.html).
 
-For example, if you want to match a specific user and a specific group, you can use:
+For example, the following condition matches when the issuer is `https://keycloak.example.com/realms/openfaas` AND the email is either `webmaster@example.com` OR `devops@example.com`:
 
 ```yaml
 spec:
@@ -185,6 +186,42 @@ spec:
       - "webmaster@example.com"
       - "devops@example.com"
 ```
+
+**Multiple statements in a Policy**
+
+When a Policy contains multiple statements, they are combined with a logical OR operation. If any statement matches, the Policy is considered a match.
+
+For example, the following Policy allows users with the `admin` role to invoke functions in any namespace, OR users with the `developer` role to invoke functions in the `development` namespace only:
+
+```yaml
+apiVersion: iam.openfaas.com/v1
+kind: Policy
+metadata:
+  name: invoke-functions
+  namespace: openfaas
+spec:
+  statement:
+  - sid: invoke-admin
+    action:
+      - "Function:Invoke"
+    effect: Allow
+    resource:
+      - "*"
+    condition:
+      StringEqualIgnoreCase:
+        jwt:role: ["admin"]
+  - sid: invoke-developer
+    action:
+      - "Function:Invoke"
+    effect: Allow
+    resource:
+      - "development:*"
+    condition:
+      StringEqualIgnoreCase:
+        jwt:role: ["developer"]
+```
+
+A user with the `admin` role would be able to invoke functions in any namespace, whilst a user with the `developer` role would only be able to invoke functions in the `development` namespace.
 
 There is currently no support for negation, such as `NotStringEquals` or `NotStringLike`.
 
