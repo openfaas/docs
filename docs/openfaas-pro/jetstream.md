@@ -12,23 +12,12 @@ This page is primarily concerned with how to configure the Queue Worker.
 
 You can learn about [asynchronous invocations here](/reference/async).
 
-## Async use cases
-
-Every function in OpenFaaS can be invoked either synchronously or asynchronously. Asynchronous invocations are retried automatically, and can return their response to a given endpoint via a webhook.
-
 Popular use-cases include:
 
 - Batch processing and machine learning
 - Resilient data pipelines
 - Receiving webhooks
 - Long running jobs
-
-On the blog we show reference examples built upon these architectural patterns:
-
-- [Exploring the Fan out and Fan in pattern with OpenFaaS](https://www.openfaas.com/blog/fan-out-and-back-in-using-functions/)
-- [Generate PDFs at scale on Kubernetes using OpenFaaS and Puppeteer](https://www.openfaas.com/blog/pdf-generation-at-scale-on-kubernetes/)
-- [How to process your data the resilient way with back pressure](https://www.openfaas.com/blog/limits-and-backpressure/)
-- [The Next Generation of Queuing: JetStream for OpenFaaS](https://www.openfaas.com/blog/jetstream-for-openfaas/)
 
 ## Terminology
 
