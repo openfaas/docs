@@ -54,35 +54,88 @@ NATS can be configured with a quorum of at least 3 replicas so it can recover da
 
 See [Deploy NATS for OpenFaaS](#deploy-nats-for-openfaas) for instruction on how to configure OpenFaaS and deploy NATS.
 
-## Features
+## Queue mode
 
-### Queue-based scaling for functions
-
-The queue-worker uses a shared NATS Stream and NATS Consumer by default, which works well with many of the existing [autoscaling strategies](/reference/async/#autoscaling). Requests are processed in a FIFO order, and it is possible for certain functions to dominate or starve the queue.
-
-It's challenging to scale individual functions based upon their queued requests within a shared queue with a single static consumer.
-
-Two alternatives exist for OpenFaaS for Enterprises customers, both of which enable fairer processing of messages across functions, and better autoscaling behaviour:
-
-1. Setup additional named queue-worker deployments with specific functions allocated to them.
-2. Configure the built-in queue-worker to partition itself by function, creating consumers on demand, and giving much of the effect of 1. with less operational overhead.
-
-With the approach below, functions can be scaled upon the depth of their queued asynchronous requests, with a consumer created for each function as and when it is needed.
-
-The `mode` parameter can be set to `static` (default) or `function`.
+The queue-worker can operate in two modes, configured via the `mode` parameter:
 
 ```yaml
 jetstreamQueueWorker:
   mode: static | function
+```
+
+* **`static`** (default) - the queue-worker uses a shared NATS Consumer scaled based upon the number of replicas of the queue-worker. Requests are processed in FIFO order. With a shared consumer, a single function that receives a large burst of invocations can dominate the queue, starving invocations for other functions until the backlog clears. This is the default mode, and ideal for development, or constrained environments.
+
+* **`function`** - the queue-worker creates a dedicated NATS Consumer per function on demand. This gives each function its own view of the queue, so a burst of invocations for one function does not block or delay processing for other functions. It also enables [queue-based scaling](#queue-based-scaling-for-functions) and [adaptive concurrency](#adaptive-concurrency).
+
+    !!! info "OpenFaaS for Enterprises feature"
+        Function mode requires [OpenFaaS for Enterprises](https://openfaas.com/pricing/).
+
+When using `function` mode, the `inactiveThreshold` parameter can be used to set the threshold for when a function is considered inactive. If a function is inactive for longer than the threshold, the queue-worker will delete the NATS Consumer for that function.
+
+```yaml
+jetstreamQueueWorker:
+  mode: function
   consumer:
     inactiveThreshold: 30s
 ```
 
-* If set to `static`, the queue-worker will scale its NATS Consumers based upon the number of replicas of the queue-worker. This is the default mode, and ideal for development, or constrained environments.
+## Features
 
-* If set to `function`, the queue-worker will scale its NATS Consumers based upon the number of functions that are active in the queue. This is ideal for production environments where you want to [scale your functions based upon the queue depth](/reference/autoscaling/). It also gives messages queued at different times a fairer chance of being processed earlier.
+### Queue-based scaling for functions
 
-* The `inactiveThreshold` parameter can be used to set the threshold for when a function is considered inactive. If a function is inactive for longer than the threshold, the queue-worker will delete the NATS Consumer for that function.
+!!! info "OpenFaaS for Enterprises feature"
+    This feature requires [OpenFaaS for Enterprises](https://openfaas.com/pricing/) and [function mode](#queue-mode).
+
+In [function mode](#queue-mode), each function gets a dedicated NATS Consumer, making it possible to scale individual functions based upon the depth of their queued asynchronous requests.
+
+See: [autoscaling based on queue depth](/reference/autoscaling/)
+
+### Adaptive concurrency
+
+!!! info "OpenFaaS for Enterprises feature"
+    This feature requires [OpenFaaS for Enterprises](https://openfaas.com/pricing/) and [function mode](#queue-mode).
+
+Without adaptive concurrency, the queue-worker sends invocations as fast as it can pull them from the queue. If a function cannot keep up, this can lead to:
+
+- Excessive error responses and wasted retries
+- The need to fine-tune retry parameters for each function individually
+
+Adaptive concurrency automatically learns how many concurrent invocations each function can handle:
+
+- Increases the limit after successful responses (2xx)
+- Backs off after rejections (429)
+- Adjusts in real-time as replicas scale up or down
+
+It is enabled by default in [function mode](#queue-mode) but can be disabled to get the legacy behaviour:
+
+```yaml
+jetstreamQueueWorker:
+  adaptiveConcurrency: false
+```
+
+**Example**
+
+Deploy the sleep function with [capacity-based autoscaling](/architecture/autoscaling/#scaling-modes), a `max_inflight` hard limit of 5, and a maximum of 10 replicas:
+
+```bash
+faas-cli store deploy sleep \
+  --label com.openfaas.scale.max=10 \
+  --label com.openfaas.scale.target=5 \
+  --label com.openfaas.scale.type=capacity \
+  --label com.openfaas.scale.target-proportion=0.9 \
+  --env max_inflight=5
+```
+
+Submit 500 asynchronous invocations:
+
+```bash
+hey -m POST -n 500 -c 4 \
+  http://127.0.0.1:8080/async-function/sleep
+```
+
+Without adaptive concurrency, the queue-worker pushes invocations as fast as it can. The single replica accepts the first 5 but rejects the rest with 429 status codes. Those rejected requests are retried with exponential back-off, wasting time and resources.
+
+With adaptive concurrency enabled, the queue-worker backs off as soon as it receives 429 responses, holding the remaining requests in the queue. It periodically probes the function, and as the autoscaler adds replicas to handle the load, the queue-worker detects successful responses and increases the concurrency limit, draining the queue without unnecessary retries.
 
 ### Metrics and monitoring
 
@@ -121,6 +174,7 @@ jetstreamQueueWorker:
 
 ![Structured logs formatted for the console](https://www.openfaas.com/images/2022-07-jetstream-for-openfaas/structured-logs.png)
 > Structured logs formatted for the console
+
 
 ## Clear or reset a queue
 
