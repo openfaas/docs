@@ -12,13 +12,36 @@ Kubernetes is a complex distributed system, and there are many things that can c
 
 If you want to ask for help, make sure that you have run all of the commands below before doing so.
 
-### The Config Checker
+### Diagnostics with faas-cli diag
 
-We recommend that all users run our automated config-checker tool which will help you to identify common problems with timeouts, function configuration and the core components. The tool is designed for OpenFaaS Standard and OpenFaaS for Enterprises, but should still give some useful output for OpenFaaS CE users.
+The `faas-cli diag` tool collects diagnostic information from OpenFaaS clusters for troubleshooting and sharing with the OpenFaaS support team. It gathers:
 
-* [openfaas/config-checker](https://github.com/openfaas/config-checker)
+- Deployment and Function CR YAMLs
+- Kubernetes events
+- Pod status information
+- Container logs (via stern)
+- Prometheus metrics with visualizations
 
-If we've asked you to run the config-checker via email or Slack, then please also collect the logs and output from kubectl by running our [openfaas-diagnostics.sh](https://github.com/openfaas/config-checker/blob/master/openfaas-diagnostics.sh) bash script. Send over the resulting openfaas.tgz file to our team.
+The collected data is automatically archived into a tar.gz file that can be shared with OpenFaaS support.
+
+<script src="https://asciinema.org/a/tsVGRdQhWh7p32hp.js" id="asciicast-tsVGRdQhWh7p32hp" async="true" data-autoplay="true" data-loop="true"></script>
+
+Install the diag plugin for faas-cli and run diagnostics:
+
+```bash
+# Get or update the diag plugin
+faas-cli plugin get diag
+
+# Generate a `diag.yaml` config file
+faas-cli diag config simple
+
+# Run diagnostics for 5 minutes
+faas-cli diag -d 5m diag.yaml
+```
+
+The tool will start collecting data from your cluster and stop automatically after 5 minutes. If you need to run the tool for longer you can leave off the `-d` flag and hit Control + C to stop the tool when ready.
+
+Output will be saved to the `./run` directory. You can open the generated `index.html` file found at `./run/<date>/index.html` (for example `./run/2026-03-09_19-27-00/index.html`) in a browser to explore the report and graphs.
 
 ### OpenFaaS didn't start
 
