@@ -11,6 +11,19 @@ Why might you want to use an asynchronous invocation?
 
 You're working with a partner's webhook. They send you data, but if you don't send a HTTP 200 OK within 1 second, they assume failure and retry the message. This works well if your function can complete in less than a second on every invocation, but if there's any risk that it can't, you need another solution. So you will give your partner a URL to the asynchronous function URL instead and it will reply within several milliseconds whilst still processing the data.
 
+Other popular use-cases include:
+
+- Batch processing and machine learning
+- Resilient data pipelines
+- Long running jobs
+
+See these blog posts for examples of asynchronous patterns in practice:
+
+- [Exploring the Fan out and Fan in pattern with OpenFaaS](https://www.openfaas.com/blog/fan-out-and-back-in-using-functions/)
+- [Generate PDFs at scale on Kubernetes using OpenFaaS and Puppeteer](https://www.openfaas.com/blog/pdf-generation-at-scale-on-kubernetes/)
+- [How to process your data the resilient way with back pressure](https://www.openfaas.com/blog/limits-and-backpressure/)
+- [The Next Generation of Queuing: JetStream for OpenFaaS](https://www.openfaas.com/blog/jetstream-for-openfaas/)
+
 ### Synchronous vs asynchronous invocation
 
 * Sync
@@ -110,7 +123,7 @@ There are limits for asynchronous functions, which you should understand before 
 * Concurrency / parallelism - the amount of function invocations processed at any one time.
 * Named queues - by default there is one queue, but additional queues can be added. Each named queue can have its own timeout and concurrency.
 * Payload size - the maximum size is configured to be 1MB. The limit is defined by NATS, but can be changed. Use a database, or S3 bucket for storing large payloads, and pass an identifier to function calls.
-* Retries - retries are available in [OpenFaaS Pro](https://openfaas.com/support/) with an exponential back-off.
+* Retries - asynchronous invocations can be retried automatically when a function returns an error. Retries use an exponential back-off algorithm. See: [retries](/openfaas-pro/retries).
 
 The queue-worker uses a single timeout for how long it will spend processing a message, that is called `ack_wait`. If your longest function can run for *25 minutes*, then the `ack_wait` should be set to at least `25m`.
 
