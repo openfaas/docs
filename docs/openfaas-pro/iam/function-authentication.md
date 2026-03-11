@@ -64,11 +64,11 @@ metadata:
   namespace: openfaas
 spec:
   policy:
-  - invoke-policy
+    - invoke-policy
+  principal:
+    jwt:sub:
+      - a9e0e67a-5758-4373-a4ba-23957fa66e6b
   condition:
-    principal:
-      jwt:sub:
-        - a9e0e67a-5758-4373-a4ba-23957fa66e6b
     StringEqual:
       jwt:iss: ["https://keycloak.example.com/realms/openfaas"]
 ```
