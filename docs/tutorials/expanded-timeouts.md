@@ -8,9 +8,11 @@ One of the most common support questions we get is about timeouts. Users often a
 
     We know it's frustrating, but we would know if there was a regression in OpenFaaS that meant timeouts stopped working as expected.
 
+> For OpenFaaS Edge users should consult the eBook [Serverless For Everyone Else](https://store.openfaas.com/l/serverless-for-everyone-else) and update `docker-compose.yaml`.
+
 ## Why do functions timeout?
 
-OpenFaaS functions can run for as long as necessary, some users have reported running executions for 48 hours or longer. The longest executions should be [run asynchronously](), so that the HTTP caller is not blocked waiting for a result.
+OpenFaaS functions can run for as long as necessary, some users have reported running executions for 48 hours or longer. The longest executions should be [run asynchronously](/reference/async/), so that the HTTP caller is not blocked waiting for a result.
 
 Functions timeout due to one of the following:
 
@@ -23,58 +25,68 @@ Once you've followed all the instructions in this guide, make sure you've ruled 
 
 You can use the [following GitHub repository](https://github.com/alexellis/go-long) with three sample functions made with Go, Python and Node to confirm the issue isn't in your own function or code.
 
-## Part 1 - the core components
+The [openfaas helm chart](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas) contains a detailed explanation of values for each OpenFaaS component including timeouts.
 
-When running OpenFaaS on Kubernetes, it is possible to override the timeout on various components of the OpenFaaS gateway, however it is only usually necessary to set the timeout on the gateway itself.
+The most recent versions of OpenFaasS Standard and OpenFaaS For Enterprises, only need timeout values to be applied to the Gateway itself, they are then applied to the operator and built-in queue-worker by default.
 
-You can find the various options in the [helm chart README](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas).
+For dedicated [queue-worker](https://github.com/openfaas/faas-netes/tree/master/chart/queue-worker) installations, you will need to configure their `upstreamTimeout` value separately in values.yaml
 
-For faasd users, you'll need to edit the equivalent fields in your `docker-compose.yaml` file, see the eBook [Serverless For Everyone Else](https://store.openfaas.com/l/serverless-for-everyone-else).
 
-We need to set the following in the Helm chart's values.yaml file for the OpenFaaS chart:
+## Timeout reference
 
-* `gateway.upstreamTimeout`
-* `gateway.writeTimeout`
-* `gateway.readTimeout`
+The function's `exec_timeout` must always be less than or equal to the gateway's `upstream_timeout`. If the function's timeout is larger than the gateway's, the gateway will cancel the request before the function finishes, resulting in a 502 or timeout error.
 
-All timeouts are to be specified in Golang duration format i.e. `1m` or `60s`, or `1m30s`.
+| Component | Variable | Set via |
+|-----------|----------|---------|
+| Gateway | `upstream_timeout` | Helm `gateway.upstreamTimeout` |
+| Gateway | `read_timeout` | Helm `gateway.readTimeout` |
+| Gateway | `write_timeout` | Helm `gateway.writeTimeout` |
+| Function | `exec_timeout` | `stack.yaml` environment |
+| Function | `read_timeout` | `stack.yaml` environment |
+| Function | `write_timeout` | `stack.yaml` environment |
 
-If using Helm or Argo CD, then add the following to your values.yaml file:
+The function's `exec_timeout` must be equal to or shorter than the gateway's `upstream_timeout`. The gateway's `read_timeout` and `write_timeout` must be slightly longer than `upstream_timeout` to give the gateway time to handle the request cleanly.
+
+Here is a valid configuration for a function that can run for up to 30 minutes - either synchronously or asynchronously.
+
+Gateway (Helm values.yaml):
 
 ```yaml
 gateway:
-  writeTimeout: 5m1s
-  readTimeout: 5m1s
-  upstreamTimeout: 5m
+  upstreamTimeout: 30m
+  readTimeout: 30m1s
+  writeTimeout: 30m1s
 ```
 
-Note that `upstreamTimeout` must always be lower than `writeTimeout` and `readTimeout`, to allow the gateway to handle the request before the HTTP server cancels the request.
+Function (stack.yaml):
 
-If using arkade, you can run the following:
-
-```bash
-export TIMEOUT=5m
-export SERVER_TIMEOUT=5m2s
-
-arkade install openfaas \
-  --set gateway.upstreamTimeout=$TIMEOUT \
-  --set gateway.writeTimeout=$SERVER_TIMEOUT \
-  --set gateway.readTimeout=$SERVER_TIMEOUT
+```yaml
+functions:
+  my-function:
+    environment:
+      exec_timeout: 30m
+      read_timeout: 30m1s
+      write_timeout: 30m1s
 ```
 
-Once installed with these settings, you can invoke functions for up to `5m` synchronously and asynchronously.
+Note: setting `exec_timeout: 10m` on a function when the gateway's `upstream_timeout` is only `5m` will **not** give the function 10 minutes. The gateway will timeout and return an error after 5 minutes.
 
-## Part 2 - Your function's timeout
+## Configure your function's timeout
 
-Now that OpenFaaS will allow a longer timeout, configure your function.
+OpenFaaS functions usually embed a component called the watchdog, which is responsible for implementing timeouts in a consistent way across different languages.
 
-OpenFaaS functions usually embed a component called the watchdog, which is responsible for implementing timeouts in a consistent way across different languages. Most templates use the newer of-watchdog, but a few may still be using the classic watchdog for compatibility reasons.
+Partial example showing the timeouts:
 
-For the newer templates based upon HTTP which use the of-watchdog, adapt the following sample: [go-long: Golang function that runs for a long time](https://github.com/alexellis/go-long)
+```yaml
+functions:
+  job:
+    environment:
+      write_timeout: 5m1s
+      read_timeout: 5m1s
+      exec_timeout: 5m
+```
 
-For classic templates using the classic watchdog, you can follow the workshop: [Lab 8 - Advanced feature - Timeouts](https://github.com/openfaas/workshop/blob/master/lab8.md)
-
-If you're unsure which template you're using, check the source code of the Dockerfile in the `templates` folder when you build your functions, you should see a `FROM` line at the top of the file that will specify one or the other.
+For an example of Node, Python and Golang, see the: [go-long samples](https://github.com/alexellis/go-long).
 
 ## Load Balancers, Ingress, and service meshes
 

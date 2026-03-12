@@ -2,7 +2,13 @@
 
 This is the source repository for the OpenFaaS documentation site.
 
-For local development:
+For local development
+
+```shell
+mkdocs serve
+```
+
+Or:
 
 ```shell
 docker run --rm -it -p 8000:8000 -v `pwd`:/docs squidfunk/mkdocs-material:latest
