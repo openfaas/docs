@@ -109,6 +109,123 @@ faas-cli up --remote-builder http://127.0.0.1:8081/build \
   --payload-secret $HOME/.openfaas/payload.txt
 ```
 
+### Build secrets
+
+Build secrets let you pass private registry tokens, CA certificates, or other sensitive values into a `RUN --mount=type=secret` instruction during a remote build. Secrets are sealed (encrypted) client-side so they are protected in transit, even without TLS.
+
+#### Setup
+
+Generate a keypair and create a Kubernetes secret with the private key:
+
+```bash
+faas-cli secret keygen
+
+kubectl create secret generic -n openfaas \
+  pro-builder-build-secrets-key \
+  --from-file key=./key
+```
+
+Then set `buildSecrets.privateKeySecret` and `buildSecrets.keyID` in the [helm chart values](https://github.com/openfaas/faas-netes/tree/master/chart/pro-builder) and upgrade the release.
+
+Distribute the `key.pub` file to anyone who needs to build with secrets.
+
+#### Using build secrets with `faas-cli`
+
+Add `build_secrets` to your `stack.yaml`:
+
+```yaml
+functions:
+  my-function:
+    lang: dockerfile
+    handler: ./my-function
+    image: registry.example.com/my-function:latest
+    build_secrets:
+      pip_token: my-secret-token
+      registry_url: https://token:secret@registry.example.com/simple
+```
+
+Use `--mount=type=secret` in your Dockerfile to access them:
+
+```Dockerfile
+RUN --mount=type=secret,id=pip_token \
+    pip install --index-url "https://$(cat /run/secrets/pip_token)@registry.example.com/simple" mypackage
+```
+
+Then publish using the remote builder:
+
+```bash
+faas-cli publish \
+  --remote-builder http://127.0.0.1:8081 \
+  --payload-secret $HOME/.openfaas/payload.txt \
+  --builder-public-key ./key.pub \
+  --builder-key-id builder-key-1
+```
+
+The secrets are sealed automatically by `faas-cli` before sending to the builder.
+
+#### Using build secrets with `curl`
+
+You can also seal secrets ahead of time using `faas-cli secret seal` and include the sealed file in the build tar:
+
+```bash
+faas-cli secret seal key.pub \
+  --key-id builder-key-1 \
+  --from-literal pip_token=my-secret-token \
+  --from-file ca.crt=./certs/ca.crt
+```
+
+This writes `com.openfaas.secrets` in the current directory. Include it in the tar alongside the build config:
+
+```bash
+ls -1
+# com.openfaas.docker.config
+# com.openfaas.secrets
+# context/
+#   Dockerfile
+
+tar cvf req.tar --exclude=req.tar .
+```
+
+Then send the build request as normal — the HMAC covers the entire tar including the sealed file:
+
+```bash
+PAYLOAD=$(kubectl get secret -n openfaas payload-secret \
+  -o jsonpath='{.data.payload-secret}' | base64 --decode)
+
+HMAC=$(cat req.tar | openssl dgst -sha256 -hmac $PAYLOAD | sed -e 's/^.* //')
+
+curl -H "X-Build-Signature: sha256=$HMAC" \
+  -H "Accept: application/x-ndjson" \
+  http://127.0.0.1:8081/build -X POST --data-binary @req.tar
+```
+
+#### Inspecting sealed secrets
+
+To verify the contents of a sealed file without sending it to the builder:
+
+```bash
+faas-cli secret unseal key
+
+# Or inspect a single key:
+faas-cli secret unseal key --key pip_token
+```
+
+#### Retrieving the builder's public key
+
+If you don't have the `key.pub` file, you can fetch it from a running builder:
+
+```bash
+curl -s http://127.0.0.1:8081/publickey | jq
+```
+
+```json
+{
+  "key_id": "builder-key-1",
+  "algorithm": "nacl/box",
+  "public_key": "3kS3sOxOE4nHPn7+RqFRzWZ8hG5cJ4FPTm6JlQKJHlg="
+}
+```
+
 ### Remote builds via `curl`
 
 As an alternative to a private or authenticated registry, you can use [ttl.sh by Replicated](https://ttl.sh) as a temporary registry for testing (only). It allows you to publish containers that are removed after a certain time-limit, try `ttl.sh/test-image-hello:1h` for an image that is removed after 1 hour.
