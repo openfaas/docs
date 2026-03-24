@@ -113,7 +113,7 @@ faas-cli up --remote-builder http://127.0.0.1:8081/build \
 
 Build secrets let you pass private registry tokens, CA certificates, or other sensitive values into a `RUN --mount=type=secret` instruction during a remote build. Secrets are sealed (encrypted) client-side so they are protected in transit, even without TLS.
 
-> Note: `faas-cli` version 0.18.5+ is required for the `secret keygen`, `secret seal`, and `secret unseal` commands.
+> Note: `faas-cli` version 0.18.6+ is required for the `secret keygen`, `secret seal`, and `secret unseal` commands.
 
 #### Setup
 
@@ -127,7 +127,7 @@ kubectl create secret generic -n openfaas \
   --from-file key=./key
 ```
 
-Then set `buildSecrets.privateKeySecret` and `buildSecrets.keyID` in the [helm chart values](https://github.com/openfaas/faas-netes/tree/master/chart/pro-builder) and upgrade the release.
+Then set `buildSecrets.privateKeySecret` in the [helm chart values](https://github.com/openfaas/faas-netes/tree/master/chart/pro-builder) and upgrade the release.
 
 Distribute the `key.pub` file to anyone who needs to build with secrets.
 
@@ -159,8 +159,7 @@ Then publish using the remote builder:
 faas-cli publish \
   --remote-builder http://127.0.0.1:8081 \
   --payload-secret $HOME/.openfaas/payload.txt \
-  --builder-public-key ./key.pub \
-  --builder-key-id builder-key-1
+  --builder-public-key ./key.pub
 ```
 
 The secrets are sealed automatically by `faas-cli` before sending to the builder.
@@ -171,7 +170,6 @@ You can also seal secrets ahead of time using `faas-cli secret seal` and include
 
 ```bash
 faas-cli secret seal key.pub \
-  --key-id builder-key-1 \
   --from-literal pip_token=my-secret-token \
   --from-file ca.crt=./certs/ca.crt
 ```
@@ -222,7 +220,7 @@ curl -s http://127.0.0.1:8081/publickey | jq
 
 ```json
 {
-  "key_id": "builder-key-1",
+  "key_id": "3kS3sOxO",
   "algorithm": "nacl/box",
   "public_key": "3kS3sOxOE4nHPn7+RqFRzWZ8hG5cJ4FPTm6JlQKJHlg="
 }
