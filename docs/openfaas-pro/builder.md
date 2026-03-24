@@ -113,6 +113,8 @@ faas-cli up --remote-builder http://127.0.0.1:8081/build \
 
 Build secrets let you pass private registry tokens, CA certificates, or other sensitive values into a `RUN --mount=type=secret` instruction during a remote build. Secrets are sealed (encrypted) client-side so they are protected in transit, even without TLS.
 
+> Note: `faas-cli` version 0.18.5+ is required for the `secret keygen`, `secret seal`, and `secret unseal` commands.
+
 #### Setup
 
 Generate a keypair and create a Kubernetes secret with the private key:
