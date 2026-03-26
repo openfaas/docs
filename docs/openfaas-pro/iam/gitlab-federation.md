@@ -6,6 +6,16 @@ You'll need to create YAML files for an Issuer, a Policy and a Role. These need 
 
 Your build will need to be adapted in order to receive an id_token from GitLab, which will be exchanged for an OpenFaaS access token.
 
+## Pre-requisites
+
+The `faas-cli pro` plugin requires a valid CLI license. The plugin looks for the license in the `OPENFAAS_CLI_LICENSE` environment variable.
+
+Add `OPENFAAS_CLI_LICENSE` as a CI/CD variable in your GitLab project or group settings under **Settings > CI/CD > Variables**. Set the visibility to **Masked and hidden** to prevent the value from being exposed in job logs or the settings UI. You can also mark the variable as **Protected** to limit it to pipelines running on protected branches or tags only.
+
+See: [GitLab CI/CD variables](https://docs.gitlab.com/ci/variables/)
+
+> If you don't have a CLI license yet, contact your account representative at OpenFaaS to receive one.
+
 ## Define an Issuer for GitLab.com
 
 First define a new JwtIssuer resource, setting the `aud` field to the URL of your OpenFaaS Gateway.
@@ -25,6 +35,8 @@ spec:
 
 > Issuer for https://gitlab.com
 
+The `tokenExpiry` field controls how long the OpenFaaS access token is valid. A short expiry such as `30m` is recommended to reduce the window in which a leaked token could be used, but it can be increased for longer-running CI jobs.
+
 ## Create a Policy
 
 Next, define a Policy with the least privileges required to perform the desired actions.
@@ -41,6 +53,7 @@ spec:
     action:
     - Function:List
     - Function:Create
+    - Function:Update
     - Namespace:List
     effect: Allow
     resource: ["dev:*"]
@@ -105,7 +118,6 @@ build_job:
     - if [ ! -f "/usr/local/bin/faas-cli" ] ; then apk add --no-cache curl git && curl -sSL https://cli.openfaas.com | sh && chmod +x /usr/local/bin/faas-cli && cp /usr/local/bin/faas-cli ./faas-cli ; fi
 
     - faas-cli plugin get pro
-    - faas-cli pro enable
 
     - faas-cli pro auth --token=$ID_TOKEN_1
 
