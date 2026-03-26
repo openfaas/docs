@@ -150,6 +150,7 @@ nav:
         - Function Authentication: ./openfaas-pro/iam/function-authentication.md
         - GitHub Actions Federation: ./openfaas-pro/iam/github-actions-federation.md
         - GitLab Federation: ./openfaas-pro/iam/gitlab-federation.md
+        - Bitbucket Federation: ./openfaas-pro/iam/bitbucket-federation.md
         - Auditing Events: ./openfaas-pro/iam/auditing.md
         - Troubleshooting: ./openfaas-pro/iam/troubleshooting.md
       - Single Sign-On:

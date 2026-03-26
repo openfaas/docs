@@ -6,6 +6,16 @@ You'll need to create YAML files for an Issuer, a Policy and a Role. These need 
 
 Your build will need to be adapted in order to receive an id_token from GitHub, which will be exchanged for an OpenFaaS access token.
 
+## Pre-requisites
+
+The `faas-cli pro` plugin requires a valid CLI license. The plugin looks for the license in the `OPENFAAS_LICENSE` environment variable.
+
+Add `OPENFAAS_LICENSE` as a secret in your GitHub repository or organisation settings under **Settings > Secrets and variables > Actions**. The secret needs to be passed as an environment variable to the workflow step that runs the faas-cli pro plugin.
+
+See: [Using secrets in GitHub Actions](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets)
+
+> If you don't have a CLI license yet, contact your account representative at OpenFaaS to receive one.
+
 ## Define an Issuer for GitHub Actions
 
 First define a new JwtIssuer resource, setting the `aud` field to the URL of your OpenFaaS Gateway.
@@ -25,6 +35,8 @@ spec:
 
 > Issuer for https://token.actions.githubusercontent.com
 
+The `tokenExpiry` field controls how long the OpenFaaS access token is valid. A short expiry such as `30m` is recommended to reduce the window in which a leaked token could be used, but it can be increased for longer-running CI jobs.
+
 ## Create a Policy
 
 Next, define a Policy with the least privileges required to perform the desired actions.
@@ -41,6 +53,7 @@ spec:
     action:
     - Function:List
     - Function:Create
+    - Function:Update
     - Namespace:List
     effect: Allow
     resource: ["dev:*"]
@@ -136,6 +149,8 @@ jobs:
       - name: Install faas-cli
         run: curl -sLS https://cli.openfaas.com | sudo sh          
       - name: Get token and use the CLI
+        env:
+          OPENFAAS_LICENSE: ${{ secrets.OPENFAAS_LICENSE }}
         run: |
           export OPENFAAS_URL="https://gw.example.com"
 
@@ -143,7 +158,6 @@ jobs:
           JWT=$(echo $OIDC_TOKEN | jq -j '.value')
 
           faas-cli plugin get pro
-          faas-cli pro enable
 
           faas-cli pro auth --token=$JWT
 

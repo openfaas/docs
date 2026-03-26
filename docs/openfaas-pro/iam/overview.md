@@ -249,6 +249,7 @@ Web Identity Federation allows you to build a trust relationship with an externa
 
 * [Deployment from GitHub Actions](/openfaas-pro/iam/github-federation)
 * [Deployment from GitLab.com](/openfaas-pro/iam/gitlab-federation)
+* [Deployment from Bitbucket Pipelines](/openfaas-pro/iam/bitbucket-federation)
 
 ## OpenFaaS JWT token
 
