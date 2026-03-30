@@ -203,6 +203,7 @@ nav:
       - GitHub Actions: ./reference/cicd/github-actions.md
       - Function Builder API: ./openfaas-pro/builder.md
       - GitLab: ./reference/cicd/gitlab.md
+      - Bitbucket Pipelines: ./reference/cicd/bitbucket.md
       - Jenkins: ./reference/cicd/jenkins.md
     - Namespaces: ./reference/namespaces.md
     - Authentication: ./reference/authentication.md
