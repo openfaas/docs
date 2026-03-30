@@ -105,6 +105,8 @@ You can set custom audiences at the step level or globally using `options`. See 
 
 In this example, a pipeline deploys or updates functions in the `etl` namespace. The Policy grants deploy, and update permissions for any function within that namespace, and the Role locks it down to a specific repository and branch.
 
+This example covers only the deploy step. Functions must be built and pushed to a registry before they can be deployed. See [CI/CD with Bitbucket Pipelines](/reference/cicd/bitbucket/) for an example on how to set up the build and push steps.
+
 ### Create a Policy
 
 The `etl-deployer` policy grants permission to create or update any function within `etl`:
