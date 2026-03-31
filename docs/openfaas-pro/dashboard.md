@@ -208,7 +208,52 @@ If you have enabled [Identity and Access Management (IAM) for OpenFaaS](/openfaa
         When using an internal certificate authority or self-signed TLS certificates for the OpenFaaS gateway or your identity provider, the dashboard will needs a custom CA bundle for making HTTP requests to these components.
 
         See: [Custom CA bundle for OpenFaaS IAM](/openfaas-pro/iam/overview/#custom-tls-certificate-authority-bundle)
-        
+
+5. Create an IAM policy for dashboard users
+
+    Users that need to access the dashboard require a minimum set of IAM permissions. Without these permissions the user will not be able to list namespaces or view functions through the dashboard.
+
+    The minimal policy for dashboard access requires the following actions:
+
+    - `Namespace:List` - Required to list and select namespaces in the dashboard.
+    - `Function:List` - Required to list functions within a namespace.
+    - `Function:Get` - Required to view function details and metrics.
+    - `Function:Logs` - Required to view function logs.
+
+    Example Policy for read-only dashboard access:
+
+    ```yaml
+    apiVersion: iam.openfaas.com/v1
+    kind: Policy
+    metadata:
+      name: dashboard-readonly
+      namespace: openfaas
+    spec:
+      statement:
+      - sid: dashboard-ro
+        action:
+        - Namespace:List
+        - Function:List
+        - Function:Get
+        - Function:Logs
+        effect: Allow
+        resource: ["*"]
+    ```
+
+    This policy can be scoped to specific namespaces if needed. For example, to restrict a user to only view functions in the `dev` namespace:
+
+    ```yaml
+    resource: ["dev:*"]
+    ```
+
+    For users that need more than read-only access, the following actions can be added to the policy:
+
+    - `Function:Invoke` - Allows users to invoke functions that have [Function Authentication](/openfaas-pro/iam/function-authentication/) enabled.
+    - `Function:Delete` - Allows users to delete functions through the dashboard.
+
+    Since these are write-level permissions, they could also be added to a separate policy and only granted to users who need them.
+
+    Assign the policies to any [Role](/openfaas-pro/iam/example-auth0/#bind-a-policy-to-a-role) that requires access to the dashboard.
 
 ### Access your dashboard via port-forwarding
 
