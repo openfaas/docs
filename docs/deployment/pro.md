@@ -206,16 +206,9 @@ Learn more:
 
 ### OpenFaaS Pro CLI
 
-The OpenFaaS Pro CLI provides additional functionality on top of faas-cli, such as build-time secrets, and a `local-run` command to try out functions without deploying them.
+The OpenFaaS Pro CLI plugin provides additional features for the faas-cli including SSO and OIDC authentication.
 
-```bash
-faas-cli plugin get pro
-faas-cli pro enable
-```
-
-You'll need a GitHub account in your company's GitHub organisation to use this feature. If you cannot get one for some reason, or use GitLab, please let us know and we'll provide an alternative mechanism to activate the CLI.
-
-See also: [faas-cli installation](/cli/install)
+See: [Pro plugin installation](/cli/install/#pro-plugin)
 
 ### Function Builder API
 
