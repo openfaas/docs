@@ -20,33 +20,20 @@ When it comes to continuous integration and delivery you can use the `faas-cli` 
 
 If you are using an alternative container image builder or are automating the `faas-cli` then you can use the `--shrinkwrap` flag which will produce a folder named `./build/function-name` with a Dockerfile. This bundle can be used with any container builder.
 
-## Plugins and build-time secrets
+## Build-time secrets
 
-!!! info "Experimental feature"
-
-    This is an experimental feature which means that it may change in the future.
-
-When using Docker's buildkit project to build your containers, faas-cli can pass in the arguments to mount different secrets into the build process.
-
-Any other mechanism should be considered insecure because it will leak into the final image or the local image in one way or another.
+When using Docker's BuildKit to build your containers, `faas-cli` can mount secrets into the build process using Docker's `--secret` flag. This prevents sensitive values from leaking into the final image, which can happen when using `--build-arg`.
 
 For Go users, make use of vendoring. It's what we use and it means you do not have to resort to insecure practices like sharing Personal Access Tokens (PAT) between users.
 
 Below we have an example for Python using the pip package manager and for node modules with npm. The approach is similar for different package managers.
 
-1. Download and enable the OpenFaaS Pro plugin
-2. Create a local file in the format required
-3. Update a `build_secret` in `stack.yml` so it gets mounted into the container
-4. Run `faas-cli pro build` or `faas-cli pro publish`, `faas-cli pro up` is not available at this time
+1. Create a local file containing the secret value
+2. Add a `build_secrets` entry in `stack.yml` pointing to the file path
+3. Use `RUN --mount=type=secret` in the Dockerfile to access the secret at build time
+4. Run `faas-cli build` or `faas-cli publish`
 
 ### Private access to a Python pip repository
-
-First enable OpenFaaS Pro:
-
-```bash
-faas-cli plugin get pro
-faas-cli pro enable
-```
 
 Download the OpenFaaS Pro template using your customer credentials:
 
@@ -93,29 +80,10 @@ index-url = https://aws:CODEARTIFACT_TOKEN@OWNER-DOMAIN.d.codeartifact.us-east-1
 Then run a build with:
 
 ```bash
-faas-cli pro build
+faas-cli build
 ```
 
-The `faas-cli pro publish` command can also be used instead of `faas-cli pro build`.
-
-Within a GitHub Action, the short-lived token associated to the job is used to verify your license for this feature.
-
-Add to your workflow.yaml:
-
-```yaml
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-```
-
-Then:
-
-```bash
-faas-cli plugin get pro
-faas-cli pro enable
-
-faas-cli pro build / publish
-```
+The `faas-cli publish` command can also be used instead of `faas-cli build`.
 
 If you're cloning from a private Git repository, without using a private PyPi repository, then you can use the `.netrc` approach instead:
 
@@ -140,13 +108,6 @@ functions:
 Bear in mind that at this time, `GITHUB_TOKEN` in a GitHub Action cannot be used to clone other repositories, even within the same organisation.
 
 ### Private npm modules
-
-Get the OpenFaaS Pro plugin and enable it:
-
-```bash
-faas-cli plugin get pro
-faas-cli pro enable
-```
 
 Create a function:
 
@@ -196,10 +157,10 @@ functions:
 Run a build with:
 
 ```bash
-faas-cli pro build -f stack.yml
+faas-cli build -f stack.yml
 ```
 
-You'll also need an updated version of the node template to mount the secret passed in from the OpenFaaS Pro plugin. Update `template/node22/Dockerfile` and replace the second `npm i` command with:
+Update `template/node22/Dockerfile` and replace the second `npm i` command to mount the secret:
 
 ```Dockerfile
 RUN --mount=type=secret,id=npmrc,mode=0666,dst=/home/app/.npmrc npm i

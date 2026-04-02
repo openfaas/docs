@@ -72,7 +72,7 @@ That way you can pass in tokens for Composer, if necessary, GitHub tokens to get
 
 Bear in mind that any tokens used with `--build-arg` will be made available in the final container image.
 
-[OpenFaaS Standard's](https://openfaas.com/pricing) `faas-cli pro build` has a specific way to handle this without leaking secrets into the final image.
+Use [build secrets](/cli/build/#build-time-secrets) with `faas-cli build` to handle this without leaking secrets into the final image.
 
 ### PHP Extensions
 
