@@ -152,6 +152,24 @@ functions:
 
 These can also be passed via the CLI using `faas-cli build --build-arg key=value` or `faas-cli up --build-arg key=value`
 
+### Function: Build Secrets (`build_secrets`)
+
+A map of build secrets can be used to mount sensitive values into the build process using Docker's `RUN --mount=type=secret` instruction. Unlike `build_args`, build secrets are not leaked into the final image.
+
+Each value is a file path. The `faas-cli` reads the file contents and passes them to Docker via `--secret id=<key>,src=<path>`.
+
+```yaml
+functions:
+  my-function:
+    handler: ./my-function
+    lang: python3-http
+    build_secrets:
+      pipconf: ${HOME}/.config/pip/pip.conf
+      netrc: ${HOME}/.netrc
+```
+
+See [Build-time secrets](/cli/build/#build-time-secrets) for detailed examples.
+
 ### Function: Environmental variables
 
 You can set configuration via environmental variables either in-line within the YAML file or in a separate external file. Do not store confidential or private data in environmental variables. See: secrets.

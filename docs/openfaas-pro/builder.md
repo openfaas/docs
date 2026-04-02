@@ -133,7 +133,7 @@ Distribute the `key.pub` file to anyone who needs to build with secrets.
 
 #### Using build secrets with `faas-cli`
 
-Add `build_secrets` to your `stack.yaml`:
+Add `build_secrets` to your `stack.yaml`. The values must be file paths — `faas-cli` reads the file contents before sealing and sending them to the builder:
 
 ```yaml
 functions:
@@ -142,9 +142,12 @@ functions:
     handler: ./my-function
     image: registry.example.com/my-function:latest
     build_secrets:
-      pip_token: my-secret-token
-      registry_url: https://token:secret@registry.example.com/simple
+      pip_token: .secrets/pip_token.txt
+      registry_url: .secrets/registry_url.txt
 ```
+
+!!! warning "Do not store secrets in handler folders"
+    We recommend storing build secret files in a `.secrets/` folder alongside your `stack.yaml`. Never place secret files inside a function's handler folder — the handler contents are copied into the build context and will be included in the resulting container image, leaking your secrets.
 
 Use `--mount=type=secret` in your Dockerfile to access them:
 
