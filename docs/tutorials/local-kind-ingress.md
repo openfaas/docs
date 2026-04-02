@@ -2,7 +2,7 @@
 
 Most users will use port-forwarding to access the OpenFaaS gateway, it's the simplest option and works everywhere.
 
-However, in this tutorial, we will show you how to deploy OpenFaaS with ingress-nginx.
+However, in this tutorial, we will show you how to deploy OpenFaaS with Traefik ingress.
 
 When you use an Ingress Controller:
 
@@ -53,13 +53,18 @@ EOF
 kind create cluster --name openfaas --config kind-config.yaml
 ```
 
-## Install the ingress-nginx IngressController
+## Install the Traefik IngressController
 
-Use arkade, or [install ingress-nginx manually](https://kubernetes.github.io/ingress-nginx/deploy/).
+Install Traefik with Helm:
 
 ```sh
-arkade install ingress-nginx
+helm repo add traefik https://traefik.github.io/charts
+helm repo update
+helm install --namespace=traefik traefik traefik/traefik \
+  --create-namespace
 ```
+
+See also: [Traefik installation](https://doc.traefik.io/traefik/getting-started/install-traefik/)
 
 ## Install OpenFaaS with local Ingress enabled
 
@@ -77,7 +82,7 @@ ingress:
       serviceName: gateway
       servicePort: 8080
       path: /
-  ingressClassName: nginx
+  ingressClassName: traefik
 ```
 
 > Note: if you're migrating from an older version of Kubernetes, the `annotations.kubernetes.io/ingress.class` [annotation is deprecated](https://kubernetes.io/docs/concepts/services-networking/ingress/#deprecated-annotation), use `ingressClassName` instead.
@@ -103,4 +108,3 @@ faas-cli store deploy env
 
 faas-cli list
 ```
-
