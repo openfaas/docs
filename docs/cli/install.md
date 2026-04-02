@@ -56,6 +56,54 @@ $version = (Invoke-WebRequest "https://api.github.com/repos/openfaas/faas-cli/re
 (New-Object System.Net.WebClient).DownloadFile("https://github.com/openfaas/faas-cli/releases/download/$version/faas-cli.exe", "faas-cli.exe")
 ```
 
+## Pro plugin
+
+The OpenFaaS Pro CLI plugin provides additional features for the faas-cli including [SSO and OIDC authentication](/openfaas-pro/sso/cli).
+
+> Note: The pro plugin is available for [OpenFaaS Standard & For Enterprises](https://openfaas.com/pricing/) customers and requires activation.
+
+Download the pro plugin:
+
+```bash
+faas-cli plugin get pro
+```
+
+### Activate with a static license
+
+If you have a static JWT license for the CLI, you can enable the plugin without any interactive steps. This is the recommended approach for CI/CD pipelines and air-gapped environments.
+
+Save the license to the default location. Run the following, then paste in your license, hit enter once, then Control + D to save the file.
+
+```bash
+mkdir -p ~/.openfaas
+cat > ~/.openfaas/LICENSE_CLI
+```
+
+Once the license is in place, the plugin is enabled automatically and no additional flags or environment variables are needed.
+
+The license can also be provided through alternative sources. They are resolved in the following priority order:
+
+1. `--license` flag — literal JWT string
+2. `--license-file` flag — path to a file containing the JWT
+3. `OPENFAAS_LICENSE` environment variable
+4. Default file at `$HOME/.openfaas/LICENSE_CLI`
+
+Contact the OpenFaaS team to obtain a static license for the CLI.
+
+### Activate with GitHub
+
+For customers who have a GitHub organisation, you will need to send the OpenFaaS team an email with the name of the organisation, and make sure you can log into your account.
+
+```bash
+faas-cli pro enable
+```
+
+A browser will open with a device challenge, once completed, the CLI will be enabled.
+
+!!! note "Does your team not have a GitHub organisation available?"
+
+    If your organisation does not use GitHub, or you are not a member of its GitHub organisation, you can use a [static license](#activate-with-a-static-license) instead.
+
 ## Environment variable overrides
 
 Several overrides exist which will be used by default if set and no other command-line flag has been set.
