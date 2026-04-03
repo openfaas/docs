@@ -586,6 +586,129 @@ curl -X POST http://127.0.0.1:8080/function/s3-example?key=hello.txt \
 curl http://127.0.0.1:8080/function/s3-example
 ```
 
+## Example: Publish messages to Kafka
+
+This example shows how to produce messages to a Kafka topic from a Python function using the `confluent-kafka` package with SASL/SSL authentication.
+
+If you'd like to trigger functions from Kafka topics instead, see [Trigger functions from Kafka](/openfaas-pro/kafka-events).
+
+**1. Create the function**
+
+Pull the `python3-http-debian` template and scaffold a new function. The Debian variant is required here because the `confluent-kafka` package depends on `librdkafka`, a native C library that needs a Debian-based build toolchain.
+
+```bash
+faas-cli template store pull python3-http-debian
+faas-cli new --lang python3-http-debian kafka-producer \
+  --prefix ttl.sh/openfaas-examples
+```
+
+The example uses the public [ttl.sh](https://ttl.sh) registry — replace the prefix with your own registry for production use.
+
+**2. Add the confluent-kafka dependency**
+
+Add `confluent-kafka` to the function's `requirements.txt` so it gets installed during the build:
+
+```
+confluent-kafka
+```
+
+**3. Create secrets for Kafka broker credentials**
+
+Store the Kafka broker username and password as OpenFaaS secrets. This keeps credentials out of environment variables and the function's container image.
+
+Save your broker username to `kafka-broker-username.txt` and your broker password to `kafka-broker-password.txt`, then run:
+
+```bash
+faas-cli secret create kafka-broker-username --from-file kafka-broker-username.txt
+faas-cli secret create kafka-broker-password --from-file kafka-broker-password.txt
+```
+
+At runtime, the secrets are mounted as files under `/var/openfaas/secrets/` inside the function container.
+
+**4. Configure the function**
+
+Update `stack.yaml` to set the Kafka broker endpoint as an environment variable and attach the secrets created in the previous step:
+
+```yaml
+functions:
+  kafka-producer:
+    lang: python3-http-debian
+    handler: ./kafka-producer
+    image: ttl.sh/openfaas-examples/kafka-producer:latest
+    environment:
+      kafka_broker: "<your-broker-endpoint>:9092"
+    secrets:
+    - kafka-broker-username
+    - kafka-broker-password
+```
+
+**5. Write the handler**
+
+The handler reads Kafka broker credentials from the mounted secrets, configures a Kafka producer with SASL/SSL authentication, and publishes the request body to a topic.
+
+The `SASL_SSL` security protocol combines SASL authentication with TLS encryption. The `sasl.mechanism` must match your broker's configuration. Common mechanisms are: `PLAIN` (username/password, standard for managed services like Confluent Cloud and Aiven), `SCRAM-SHA-256` / `SCRAM-SHA-512` (salted challenge-response, common for self-hosted brokers), and `GSSAPI` (Kerberos). Update the value to match your broker.
+
+The producer is initialised once on the first request and stored in a global variable. This means subsequent invocations reuse the same producer, avoiding the overhead of creating a new connection on every request.
+
+```python
+import os
+import socket
+from confluent_kafka import Producer
+
+kafkaProducer = None
+
+def initProducer():
+    username = read_secret('kafka-broker-username')
+    password = read_secret('kafka-broker-password')
+    broker = os.getenv("kafka_broker")
+
+    conf = {
+        'bootstrap.servers': broker,
+        'security.protocol': 'SASL_SSL',
+        'sasl.mechanism': 'PLAIN',
+        'sasl.username': username,
+        'sasl.password': password,
+        'client.id': socket.gethostname()
+    }
+
+    return Producer(conf)
+
+def handle(event, context):
+    global kafkaProducer
+
+    # Initialise the producer once and reuse it across invocations
+    if kafkaProducer is None:
+        kafkaProducer = initProducer()
+
+    topic = 'faas-request'
+
+    kafkaProducer.produce(topic, value=event.body)
+    kafkaProducer.flush()
+
+    return {
+        "statusCode": 200,
+        "body": "Message produced to {}".format(topic)
+    }
+
+def read_secret(name):
+    with open("/var/openfaas/secrets/" + name, "r") as f:
+        return f.read().strip()
+```
+
+**6. Deploy and invoke**
+
+Build, push and deploy the function with `faas-cli up`. The `--filter` flag selects a single function from the stack file and `--tag digest` uses the image content hash as the tag instead of `latest`, so that Kubernetes always pulls an updated image:
+
+```bash
+faas-cli up \
+ --filter kafka-producer \
+ --tag digest
+
+# Publish a message to the Kafka topic
+curl http://127.0.0.1:8080/function/kafka-producer \
+  --data "Hello from OpenFaaS"
+```
+
 ## OpenTelemetry zero-code instrumentation
 
 Using [OpenTelemetry zero-code instrumentation](https://opentelemetry.io/docs/zero-code/python/) for python functions requires some minor modifications to the existing Python templates.
