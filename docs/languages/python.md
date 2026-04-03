@@ -452,6 +452,140 @@ def handle(event, context):
         }
 ```
 
+## Example: Access AWS S3 with boto3
+
+This example shows how to use the `boto3` SDK to interact with AWS S3 from a Python function. It covers creating secrets for AWS credentials, configuring the function, and writing a handler that lists and uploads objects to an S3 bucket.
+
+**1. Create the function**
+
+Pull the `python3-http-debian` template and scaffold a new function. The Debian variant is used here because `boto3` may require native dependencies that are easier to install on Debian.
+
+```bash
+faas-cli template store pull python3-http-debian
+faas-cli new --lang python3-http-debian s3-example \
+  --prefix ttl.sh/openfaas-examples
+```
+
+The example uses the public [ttl.sh](https://ttl.sh) registry — replace the prefix with your own registry for production use.
+
+**2. Add the boto3 dependency**
+
+Add `boto3` to the function's `requirements.txt` so it gets installed during the build:
+
+```
+boto3
+```
+
+**3. Create secrets for AWS credentials**
+
+Store the AWS access key and secret key as OpenFaaS secrets. This keeps credentials out of environment variables and the function's container image.
+
+Save your AWS access key ID to `aws_access_key_id.txt` and your secret access key to `aws_secret_access_key.txt`, then run:
+
+```bash
+faas-cli secret create s3-key --from-file aws_access_key_id.txt
+faas-cli secret create s3-secret --from-file aws_secret_access_key.txt
+```
+
+At runtime, the secrets are mounted as files under `/var/openfaas/secrets/` inside the function container.
+
+**4. Configure the function**
+
+Update `stack.yaml` to set the target S3 bucket as an environment variable and attach the secrets created in the previous step:
+
+```yaml
+functions:
+  s3-example:
+    lang: python3-http-debian
+    handler: ./s3-example
+    image: ttl.sh/openfaas-examples/s3-example:latest
+    environment:
+      s3_bucket: my-bucket
+    secrets:
+    - s3-key
+    - s3-secret
+```
+
+**5. Write the handler**
+
+The handler reads AWS credentials from the mounted secrets, creates an S3 client, and uses it to list or upload objects depending on the HTTP method.
+
+The S3 client is initialised once on the first request and stored in a global variable. This means subsequent invocations reuse the same client, avoiding the overhead of creating a new AWS session on every request.
+
+```python
+import os
+import json
+import boto3
+
+s3Client = None
+
+def initS3():
+    # Read AWS credentials from OpenFaaS secrets
+    with open('/var/openfaas/secrets/s3-key', 'r') as s:
+        s3Key = s.read().strip()
+    with open('/var/openfaas/secrets/s3-secret', 'r') as s:
+        s3Secret = s.read().strip()
+
+    # Create a boto3 session with the credentials
+    session = boto3.Session(
+        aws_access_key_id=s3Key,
+        aws_secret_access_key=s3Secret,
+    )
+
+    return session.client('s3')
+
+def handle(event, context):
+    global s3Client
+
+    # Initialise the S3 client once and reuse it across invocations
+    if s3Client is None:
+        s3Client = initS3()
+
+    bucketName = os.getenv('s3_bucket')
+
+    if event.method == 'GET':
+        # List all object keys in the configured bucket
+        response = s3Client.list_objects_v2(Bucket=bucketName)
+        keys = [obj['Key'] for obj in response.get('Contents', [])]
+
+        return {
+            "statusCode": 200,
+            "body": json.dumps(keys)
+        }
+
+    elif event.method == 'POST':
+        # Upload the request body to S3 using the key from the query string
+        key = event.query.get('key', 'upload.txt')
+        s3Client.put_object(Bucket=bucketName, Key=key, Body=event.body)
+
+        return {
+            "statusCode": 201,
+            "body": "Uploaded to {}".format(key)
+        }
+
+    return {
+        "statusCode": 405,
+        "body": "Method not allowed"
+    }
+```
+
+**6. Deploy and invoke**
+
+Build, push and deploy the function with `faas-cli up`. The `--filter` flag selects a single function from the stack file and `--tag digest` uses the image content hash as the tag instead of `latest`, so that Kubernetes always pulls an updated image:
+
+```bash
+faas-cli up \
+ --filter s3-example \
+ --tag digest
+
+# Upload a file to the bucket
+curl -X POST http://127.0.0.1:8080/function/s3-example?key=hello.txt \
+  --data "Hello from OpenFaaS"
+
+# List objects in the bucket
+curl http://127.0.0.1:8080/function/s3-example
+```
+
 ## OpenTelemetry zero-code instrumentation
 
 Using [OpenTelemetry zero-code instrumentation](https://opentelemetry.io/docs/zero-code/python/) for python functions requires some minor modifications to the existing Python templates.
