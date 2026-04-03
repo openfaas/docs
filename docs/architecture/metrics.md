@@ -50,6 +50,7 @@ Advanced metrics for OpenFaaS Pro users:
 | `http_request_duration_seconds`     | histogram  | Seconds spent serving HTTP requests | `method`, `path`, `status` | Pro Edition  |
 | `http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `status` | Pro Edition  |
 | `http_requests_total`               | counter    | The total number of HTTP requests   | `method`, `path`, `status` | Pro Edition  |
+| `gateway_nats_reconnect_total`      | counter    | Total number of times the NATS client has reconnected |                            | Pro Edition  |
 
 The `http_request*` metrics record the latency and statistics of `/system/*` routes to monitor the OpenFaaS gateway and its provider. The `/async-function` route is also recorded in these metrics to observe asynchronous ingestion rate and latency.
 
@@ -60,6 +61,7 @@ Additional metrics from the Operator:
 | `faasnetes_scale_total`                  | counter    | Number of times a function has been scaled (ignoring requests where current and desired replicas are equal) | `function_name`, `status` | Pro Edition  |
 | `faasnetes_sync_handler_gauge`             | gauge      | Number of reconciliation functions running at given time | `status` | Pro Edition  |
 | `faasnetes_sync_handler_histogram`        | histogram  | Time taken to reconcile function Custom Resources into Kubernetes objects | `status` | Pro Edition  |
+| `faasnetes_nats_reconnect_total`          | counter    | Total number of times the NATS client has reconnected |            | Pro Edition  |
 
 The `faasnetes_scale_total` metric is useful for tracking the number of times a function has been scaled up or down. The `faasnetes_sync_handler_gauge` and `faasnetes_sync_handler_histogram` metrics are useful for tracking the amount of time spent reconciling function Custom Resources into Kubernetes objects in large deployments of OpenFaaS.
 
@@ -82,6 +84,7 @@ The queue-worker for NATS JetStream exposes metrics to help you get insight in t
 | `queue_worker_messages_processed_total` | counter    | Total number of messages processed              | `queue_name`, `kubernetes_pod_name` | Pro Edition |
 | `queue_worker_messages_submitted_total` | gauge      | Total number of messages submitted to the queue by the gateway | `queue_name`, `kubernetes_pod_name` | Pro Edition |
 | `queue_worker_function_invocation_inflight` | gauge |  Total number of inflight function requests made by the queue-worker | `queue_name`, `function_name` | Pro Edition |
+| `queue_worker_nats_reconnect_total` | counter | Total number of times the NATS client has reconnected | | Pro Edition |
 
 ## Watchdog
 
