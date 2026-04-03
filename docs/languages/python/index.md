@@ -1,19 +1,12 @@
 ## Python
 
-There are two recommended templates for [Python 3](https://www.python.org/) users.
+These are the official [Python 3](https://www.python.org/) templates maintained by OpenFaaS Ltd.
 
-!!! info "Do you need to customise this template?"
+* [python3-http](https://github.com/openfaas/python-flask-template/tree/master/template/python3-http) - based upon Alpine Linux, small image size, for pure Python only.
+* [python3-http-debian](https://github.com/openfaas/python-flask-template/tree/master/template/python3-http-debian) - based upon Debian Linux, larger image size, required for native C modules such as SQL, Kafka, Pandas, and image manipulation.
+* [python3-flask](https://github.com/openfaas/python-flask-template/tree/master/template/python3-flask) / [python3-flask-debian](https://github.com/openfaas/python-flask-template/tree/master/template/python3-flask-debian) - give direct access to Flask for returning a Flask `Response` object, required for streaming with SSE.
 
-    You can customise the official templates, or provide your own. The code for this templates is available on GitHub: [openfaas/python-flask-template](https://github.com/openfaas/python-flask-template/tree/master/template).
-
-* python3-http - based upon Alpine Linux, small image size, for pure Python only.
-* python3-http-debian - based upon Debian Linux, larger image size, required for native C modules as as SQL, Kafka, Pandas, and image manipulation.
-
-[Flask](https://flask.palletsprojects.com/en/3.0.x/) is used internally for handling HTTP requests and responses, however it is not exposed to the user, so is only an implementation detail.
-
-The HTTP server used is currently [Waitress](https://docs.pylonsproject.org/projects/waitress/en/latest/).
-
-> This is an official template maintained by OpenFaaS Ltd.
+All templates use the [of-watchdog](https://github.com/openfaas/of-watchdog), [Flask](https://flask.palletsprojects.com/en/3.0.x/) for HTTP routing, and [Waitress](https://docs.pylonsproject.org/projects/waitress/en/latest/) as the production WSGI server.
 
 ## Downloading the templates
 
@@ -519,3 +512,13 @@ functions:
 - `OTEL_EXPORTER_OTLP_ENDPOINT` sets the endpoint where telemetry is exported to.
 
 To see the full range of configuration options, see [Agent Configuration](https://opentelemetry.io/docs/zero-code/python/configuration/)
+
+## Examples
+
+* [Deploy a function via the OpenFaaS API](examples/openfaas-api.md)
+* [Access AWS S3 with boto3](examples/s3-boto3.md)
+* [Use AWS IAM Roles for Service Accounts (IRSA)](examples/ecr-irsa.md)
+* [Publish messages to Kafka](examples/kafka.md)
+* [Call the OpenAI Chat API](examples/openai.md)
+* [Stream Server-Sent Events (SSE)](examples/sse.md)
+* [Web testing with Playwright](examples/playwright.md)
