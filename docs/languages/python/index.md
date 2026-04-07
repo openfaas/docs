@@ -242,7 +242,7 @@ functions:
 +      ADDITIONAL_PACKAGE: "libpq-dev gcc python3-dev"
 ```
 
-### Example with Postgresql
+### Example with PostgreSQL
 
 stack.yml
 
@@ -258,13 +258,25 @@ functions:
     image: pgfn:latest
     build_options:
       - libpq
+    environment:
+      db_host: "postgresql.default.svc.cluster.local"
+    secrets:
+      - db-password
 ```
 
-Alternatively you can specify `ADDITIONAL_PACKAGE` in the `build_args` section for the function.
+The `build_options: libpq` shorthand installs the packages needed to compile `psycopg2`. If you need more control over which packages are installed, you can use `build_args` instead:
 
 ```yaml
     build_args:
       ADDITIONAL_PACKAGE: "libpq-dev gcc python3-dev"
+```
+
+The database host is set as an environment variable so it can be changed per deployment without rebuilding the image. The database password is stored as an [OpenFaaS secret](/reference/secrets/) to keep it out of environment variables and the function image.
+
+Create the secret before deploying the function:
+
+```bash
+faas-cli secret create db-password --from-literal='passwd'
 ```
 
 requirements.txt
@@ -273,7 +285,7 @@ requirements.txt
 psycopg2==2.9.3
 ```
 
-Create a database and table:
+Create a database and table to use with the example:
 
 ```sql
 CREATE DATABASE main;
@@ -284,20 +296,33 @@ CREATE TABLE users (
     name TEXT,
 );
 
--- Insert the original Postgresql author's name into the test table:
+-- Insert the original PostgreSQL author's name into the test table:
 
 INSERT INTO users (name) VALUES ('Michael Stonebraker');
 ```
 
 handler.py:
 
+The handler reads the database password from the mounted secret and the host from the `db_host` environment variable set in `stack.yaml`. It opens a connection, queries the `users` table, and returns the results.
+
 ```python
+import os
 import psycopg2
 
 def handle(event, context):
 
     try:
-        conn = psycopg2.connect("dbname='main' user='postgres' port=5432 host='192.168.1.35' password='passwd'")
+        password = read_secret('db-password')
+
+        # Connect using the host from the db_host env var
+        # and the password from the mounted secret.
+        conn = psycopg2.connect(
+            dbname='main',
+            user='postgres',
+            port=5432,
+            host=os.getenv('db_host'),
+            password=password
+        )
     except Exception as e:
         print("DB error {}".format(e))
         return {
@@ -313,9 +338,13 @@ def handle(event, context):
         "statusCode": 200,
         "body": rows
     }
+
+def read_secret(name):
+    with open("/var/openfaas/secrets/" + name, "r") as f:
+        return f.read().strip()
 ```
 
-Always read the secret from an OpenFaaS secret at `/var/openfaas/secrets/secret-name`. The use of environment variables is an anti-pattern and will be visible via the OpenFaaS API.
+Always read secrets from an OpenFaaS secret at `/var/openfaas/secrets/secret-name`. The use of environment variables for sensitive values is an anti-pattern — they are visible via the OpenFaaS API.
 
 ### Authenticate a function
 
