@@ -2,9 +2,17 @@
 
 These are the official [Python 3](https://www.python.org/) templates maintained by OpenFaaS Ltd.
 
-* [python3-http](https://github.com/openfaas/python-flask-template/tree/master/template/python3-http) - based upon Alpine Linux, small image size, for pure Python only.
-* [python3-http-debian](https://github.com/openfaas/python-flask-template/tree/master/template/python3-http-debian) - based upon Debian Linux, larger image size, required for native C modules such as SQL, Kafka, Pandas, and image manipulation.
-* [python3-flask](https://github.com/openfaas/python-flask-template/tree/master/template/python3-flask) / [python3-flask-debian](https://github.com/openfaas/python-flask-template/tree/master/template/python3-flask-debian) - give direct access to Flask for returning a Flask `Response` object, required for streaming with SSE.
+The `python3-http` template is recommended for most Python functions. Use `python3-http-debian` when a dependency requires native compilation — if a package fails to build on Alpine, switch to the Debian variant.
+
+| Template | Base OS | Use when |
+|---|---|---|
+| [python3-http](https://github.com/openfaas/python-flask-template/tree/master/template/python3-http) | Alpine | Default choice. Pure Python packages only. |
+| [python3-http-debian](https://github.com/openfaas/python-flask-template/tree/master/template/python3-http-debian) | Debian | Native C extensions required — SQL drivers, Kafka, Pandas, image manipulation. |
+| [python3-flask](https://github.com/openfaas/python-flask-template/tree/master/template/python3-flask) | Alpine | Direct access to Flask `Response`, e.g. for SSE streaming. |
+| [python3-flask-debian](https://github.com/openfaas/python-flask-template/tree/master/template/python3-flask-debian) | Debian | Flask `Response` with native C extensions. |
+
+!!! note
+    The `python3-http` template is the best option for most users, followed by `python3-http-debian` for when C/C++ based pip modules are required.
 
 All templates use the [of-watchdog](https://github.com/openfaas/of-watchdog), [Flask](https://flask.palletsprojects.com/en/3.0.x/) for HTTP routing, and [Waitress](https://docs.pylonsproject.org/projects/waitress/en/latest/) as the production WSGI server.
 
