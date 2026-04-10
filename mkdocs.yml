@@ -135,14 +135,14 @@ nav:
     - Python:
         - Overview: ./languages/python/index.md
         - Examples:
-            - Working with S3 objects: ./languages/python/examples/s3-boto3.md
-            - AWS IAM Roles (IRSA): ./languages/python/examples/ecr-irsa.md
-            - Publish to Kafka: ./languages/python/examples/kafka.md
-            - OpenAI Chat API: ./languages/python/examples/openai.md
-            - Stream Server-Sent Events (SSE): ./languages/python/examples/sse.md
             - Deploy a function via API: ./languages/python/examples/openfaas-api.md
+            - Working with S3 objects: ./languages/python/examples/s3-boto3.md
+            - OpenAI Chat API: ./languages/python/examples/openai.md
+            - Publish to Kafka: ./languages/python/examples/kafka.md
             - Web testing with Playwright: ./languages/python/examples/playwright.md
             - OpenTelemetry zero-code instrumentation: ./languages/python/examples/opentelemetry.md
+            - AWS IAM Roles (IRSA): ./languages/python/examples/ecr-irsa.md
+            - Stream Server-Sent Events (SSE): ./languages/python/examples/sse.md
     - Node: ./languages/node.md
     - Go: ./languages/go.md
     - C#: ./languages/csharp.md

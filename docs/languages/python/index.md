@@ -486,9 +486,9 @@ def handle(event, context):
 
 * [Deploy a function via the OpenFaaS API](examples/openfaas-api.md)
 * [Access AWS S3 with boto3](examples/s3-boto3.md)
-* [Use AWS IAM Roles for Service Accounts (IRSA)](examples/ecr-irsa.md)
-* [Publish messages to Kafka](examples/kafka.md)
 * [Call the OpenAI Chat API](examples/openai.md)
-* [Stream Server-Sent Events (SSE)](examples/sse.md)
+* [Publish messages to Kafka](examples/kafka.md)
 * [Web testing with Playwright](examples/playwright.md)
 * [OpenTelemetry zero-code instrumentation](examples/opentelemetry.md)
+* [Use AWS IAM Roles for Service Accounts (IRSA)](examples/ecr-irsa.md)
+* [Stream Server-Sent Events (SSE)](examples/sse.md)
