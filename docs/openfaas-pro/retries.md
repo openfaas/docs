@@ -91,6 +91,19 @@ Supported backoff values:
 
 The feature was influenced by [Marc Brooker's article on Exponential Backoff And Jitter](https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/).
 
+## Retry-After header
+
+When a function returns a `429 Too Many Requests` or `503 Service Unavailable` status code, it can include a `Retry-After` header to tell the queue-worker how long to wait before the next retry attempt. This is useful when a function or downstream API knows how long it will be rate-limited or unavailable.
+
+Both delay-seconds and HTTP-date formats are supported:
+
+```
+Retry-After: 30
+Retry-After: Fri, 10 Apr 2026 09:47:00 GMT
+```
+
+When present, the header value is used as the retry delay instead of the calculated exponential backoff. If the value is below the configured minimum retry wait (`initialRetryWait` / `com.openfaas.retry.min_wait`), the minimum is used instead. Invalid or unparseable values fall back to normal backoff.
+
 ## Usage
 
 To test the retry functionality, you can use our chaos function, which allows a function to be configured to return a canned response, or to timeout with a given duration.
