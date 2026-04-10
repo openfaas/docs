@@ -142,6 +142,7 @@ nav:
             - Stream Server-Sent Events (SSE): ./languages/python/examples/sse.md
             - Deploy a function via API: ./languages/python/examples/openfaas-api.md
             - Web testing with Playwright: ./languages/python/examples/playwright.md
+            - OpenTelemetry zero-code instrumentation: ./languages/python/examples/opentelemetry.md
     - Node: ./languages/node.md
     - Go: ./languages/go.md
     - C#: ./languages/csharp.md
