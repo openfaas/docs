@@ -489,6 +489,7 @@ def handle(event, context):
 * [Call the OpenAI Chat API](examples/openai.md)
 * [Publish messages to Kafka](examples/kafka.md)
 * [Web testing with Playwright](examples/playwright.md)
+* [Unit testing with pytest](examples/testing.md)
 * [OpenTelemetry zero-code instrumentation](examples/opentelemetry.md)
 * [Use AWS IAM Roles for Service Accounts (IRSA)](examples/ecr-irsa.md)
 * [Stream Server-Sent Events (SSE)](examples/sse.md)
