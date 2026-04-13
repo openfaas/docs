@@ -140,6 +140,7 @@ nav:
             - OpenAI Chat API: ./languages/python/examples/openai.md
             - Publish to Kafka: ./languages/python/examples/kafka.md
             - Web testing with Playwright: ./languages/python/examples/playwright.md
+            - Unit testing with pytest: ./languages/python/examples/testing.md
             - OpenTelemetry zero-code instrumentation: ./languages/python/examples/opentelemetry.md
             - AWS IAM Roles (IRSA): ./languages/python/examples/ecr-irsa.md
             - Stream Server-Sent Events (SSE): ./languages/python/examples/sse.md
