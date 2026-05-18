@@ -14,7 +14,7 @@ There are a number of official templates maintained and recommended by OpenFaaS 
 
 * [Go](./go.md)
 * [Node](./node.md)
-* [Python](./python.md)
+* [Python](./python/index.md)
 * [Dockerfile](./dockerfile.md)
 * [CSharp](./csharp.md)
 
