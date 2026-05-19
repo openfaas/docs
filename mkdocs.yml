@@ -198,6 +198,12 @@ nav:
       - OpenTelemetry: ./edge/open-telemetry.md
       - Air Gap: ./edge/airgap.md
       - Preloading functions: ./edge/preloading.md
+  - SDKs:
+    - Overview: ./sdks/index.md
+    - Python:
+        - From source to function: ./sdks/python/examples/source-to-function.md
+    - Go:
+        - From source to function: ./sdks/go/examples/source-to-function.md
   - Reference:
     - OpenFaaS YAML: ./reference/yaml.md
     - REST API: ./reference/rest-api.md
