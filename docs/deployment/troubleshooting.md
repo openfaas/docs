@@ -223,9 +223,15 @@ Common issues:
 
 ### The queue-worker keeps retrying my function
 
-If the queue-worker keeps retrying your function check if `ack_wait` is set to a high enough timeout. It should be set to a value higher than your functions timeout.
+If the queue-worker keeps retrying your function, the cause is almost always one of:
 
-See [Expanded timeouts](/tutorials/expanded-timeouts)
+* The function returned a non-2xx HTTP status matched by the retry list.
+* The function's `exec_timeout` is shorter than its actual runtime, so the watchdog kills it before it completes.
+* The gateway's `upstream_timeout` is shorter than the function's runtime, so the gateway cuts the call short.
+
+Check those first. **Do not adjust `ack_wait`**. It defaults to `60s` and is a NATS heartbeat, not an execution timeout. The queue-worker extends the lease automatically for the duration of the invocation.
+
+See [Extended timeouts](/tutorials/expanded-timeouts)
 
 ### My function gets a nil or empty body
 

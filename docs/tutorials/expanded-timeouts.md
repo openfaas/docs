@@ -71,6 +71,10 @@ functions:
 
 Note: setting `exec_timeout: 10m` on a function when the gateway's `upstream_timeout` is only `5m` will **not** give the function 10 minutes. The gateway will timeout and return an error after 5 minutes.
 
+!!! note "`ack_wait` is not a function timeout"
+
+    The NATS `ack_wait` value used by the JetStream queue-worker is a heartbeat for detecting a dead queue-worker, not a maximum function execution time. The queue-worker extends the lease automatically for the duration of the invocation, so async functions can run for as long as `upstream_timeout` / `exec_timeout` allow. **Leave `ack_wait` at its `60s` default.** Increasing it does not extend how long your function may run.
+
 ## Configure your function's timeout
 
 OpenFaaS functions usually embed a component called the watchdog, which is responsible for implementing timeouts in a consistent way across different languages.

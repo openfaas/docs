@@ -125,7 +125,9 @@ There are limits for asynchronous functions, which you should understand before 
 * Payload size - the maximum size is configured to be 1MB. The limit is defined by NATS, but can be changed. Use a database, or S3 bucket for storing large payloads, and pass an identifier to function calls.
 * Retries - asynchronous invocations can be retried automatically when a function returns an error. Retries use an exponential back-off algorithm. See: [retries](/openfaas-pro/retries).
 
-The queue-worker uses a single timeout for how long it will spend processing a message, that is called `ack_wait`. If your longest function can run for *25 minutes*, then the `ack_wait` should be set to at least `25m`.
+The maximum execution time for an asynchronous function is controlled by the gateway's `upstream_timeout` and the function's `exec_timeout`. See [Extended timeouts](/tutorials/expanded-timeouts/). It is **not** set by the NATS `ack_wait` value.
+
+`ack_wait` (default `60s`) is a NATS-level heartbeat that lets the JetStream server detect a dead queue-worker and redeliver the message. While a function is in flight, the queue-worker extends the lease automatically, so the function can run for as long as the gateway and function timeouts allow (effectively indefinitely). **Leave `ack_wait` at its default.** Increasing it does not extend how long your function may run; it only delays redelivery if a queue-worker dies mid-invocation.
 
 #### Parallelism
 
