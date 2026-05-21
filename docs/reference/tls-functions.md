@@ -1,196 +1,281 @@
 ## TLS for OpenFaaS Functions
 
-When you expose the [OpenFaaS Gateway via TLS](/reference/tls-openfaas), each function will already be accessible over TLS by adding `/function/NAME` to the URL.
+When you expose the [OpenFaaS Gateway via TLS](/reference/tls-openfaas), each function is already accessible over TLS by adding `/function/NAME` to the URL.
 
-This page is for users who want to create custom domains for individual functions, or to create a REST-like mapping for a number of functions.
+This page is for users who want to create custom domains for individual functions, for example to access a function called `env` via `https://env.fn.example.com` instead of `https://gw.example.com/function/env`.
 
-It's important that you never expose a function's Pod or Deployment directly, but only via the OpenFaaS gateway. The gateway is required in the invocation path to provide metrics, auto-scaling and asynchronous invocations etc. In order to do this, you will need to create a DNS record and Ingress resource that points to the function's existing path on the gateway service.
+It's important that you never expose a function's Pod or Deployment directly, but only via the OpenFaaS gateway. The gateway is required in the invocation path to provide metrics, auto-scaling and asynchronous invocations. To expose a function on its own domain, you create an HTTPRoute that rewrites the path and forwards traffic to the OpenFaaS gateway service.
 
-In order to automate the process, we built the [ingress-operator](https://github.com/openfaas/ingress-operator) which has its own Custom Resource Definition (CRD) called `FunctionIngress`. The role of `FunctionIngress` is to create an `Ingress` Kubernetes object to map a function to a domain-name, and optionally to also provision a TLS certificate using cert-manager.
+### Pre-requisites
 
-Once set up, you'll be able to access a function such as `env` via `https://env.example.com` along with the longer form of: `https://gateway.example.com/function/env`.
+* The [Kubernetes Gateway API](/reference/tls-openfaas#gateway-api) must already be set up for the OpenFaaS gateway, with a working Gateway, cert-manager Issuer. Follow the [TLS for OpenFaaS](/reference/tls-openfaas#gateway-api) guide first.
+* A DNS record for the function's hostname (e.g. `env.fn.example.com`) pointing to the same external IP or hostname as the Gateway.
 
-### Enable the IngressOperator
+### How it works
 
-You can install the [ingress-operator](https://github.com/openfaas/ingress-operator) by passing `--set ingressOperator.create=true` to the Helm chart at the installation time of OpenFaaS. Or by adding the following to your `values.yaml` file:
+Each function exposed on a custom domain needs two things:
 
-```yaml
-ingressOperator:
-  create: true
+1. **A listener on the Gateway** — for the function's hostname, so TLS can be terminated and a certificate provisioned by cert-manager.
+2. **An HTTPRoute** — to match requests for the hostname and rewrite the path to `/function/NAME/` before forwarding to the OpenFaaS gateway service.
+
+```
+    Internet (HTTPS)
+           │
+           ▼
+     Public IP ─────> DNS: env.fn.example.com
+           │
+           ▼
+  ┌─────────────────┐
+  │    Gateway      │  Listener: env.fn.example.com :443
+  │                 │  TLS terminates here
+  └────────┬────────┘
+           │
+           ▼
+  ┌─────────────────┐
+  │   HTTPRoute     │  Host: env.fn.example.com
+  │                 │  Rewrite: / → /function/env/
+  └────────┬────────┘
+           │
+           ▼
+  ┌─────────────────┐
+  │ gateway Service │  :8080
+  └────────┬────────┘
+           │
+           ▼
+    OpenFaaS Gateway
 ```
 
-Run the `helm upgrade --install` command that you used originally to install OpenFaaS.
+### Add a listener to the Gateway
 
-If you use arkade, add the `--ingress-operator` flag to `arkade install openfaas`.
+Each function domain requires its own HTTPS listener on the Gateway. This is how cert-manager knows to provision a TLS certificate for the hostname.
 
-Check that the operator was deployed and has started:
+Add a new listener to your existing Gateway. For example, to expose a function called `env` on `env.fn.example.com`:
+
+```diff
+ apiVersion: gateway.networking.k8s.io/v1
+ kind: Gateway
+ metadata:
+   name: openfaas-gateway
+   namespace: openfaas
+   annotations:
+     cert-manager.io/issuer: letsencrypt-prod
+ spec:
+   gatewayClassName: eg
+   listeners:
+     - name: http
+       port: 80
+       protocol: HTTP
+       allowedRoutes:
+         namespaces:
+           from: Same
+     - name: gateway
+       hostname: "gw.example.com"
+       port: 443
+       protocol: HTTPS
+       allowedRoutes:
+         namespaces:
+           from: Same
+       tls:
+         mode: Terminate
+         certificateRefs:
+           - name: openfaas-gateway-cert
++    - name: env
++      hostname: "env.fn.example.com"
++      port: 443
++      protocol: HTTPS
++      allowedRoutes:
++        namespaces:
++          from: Same
++      tls:
++        mode: Terminate
++        certificateRefs:
++          - name: env-openfaas-fn-cert
+```
+
+Apply the updated Gateway:
 
 ```bash
-$ kubectl get -n openfaas deploy/ingress-operator -o wide
-
-$ kubectl logs -n openfaas deploy/ingress-operator -f
+kubectl apply -f gateway.yaml
 ```
 
-### Create a custom domain for a function
+cert-manager will detect the new HTTPS listener and automatically create a Certificate for `env.fn.example.com`.
 
-#### Deploy a function for testing
+Create an A or CNAME record for `env.fn.example.com` pointing to the same external IP as the Gateway.
 
-Let's deploy a function from the store:
+!!! note
+    If you are exposing many functions, consider using a wildcard certificate (e.g. `*.fn.example.com`) and a wildcard DNS record to avoid creating individual records for each function.
+
+### Create the HTTPRoute
+
+The HTTPRoute rewrites incoming requests from `/` to `/function/NAME/` before forwarding them to the OpenFaaS gateway service. This ensures the request path matches what the OpenFaaS gateway expects.
+
+!!! warning "Envoy Gateway and Istio require a workaround"
+    The standard Gateway API `URLRewrite` filter with `ReplacePrefixMatch` does not behave consistently across all implementations. Envoy Gateway and Istio produce incorrect rewrites when the matched prefix is `/`. If you are using a different implementation such as Traefik use the **Standard Gateway API** tab. If you are using Envoy Gateway, use the **Envoy Gateway** tab which uses a regex-based rewrite to work around the issue.
+
+=== "Envoy Gateway"
+
+    Envoy Gateway (and Istio) have inconsistent behaviour with the standard `URLRewrite` `ReplacePrefixMatch` filter — when the matched prefix is `/` and the request path is also `/foo`, the rewrite produces an invalid function url (e.g. `/function/envfoo` instead of `/function/env/foo`). 
+
+    To work around this, use an Envoy Gateway `HTTPRouteFilter` with a regex-based path rewrite instead:
+
+    ```bash
+    export FN_NAME="env"
+    export FN_DOMAIN="env.fn.example.com"
+
+    cat > httproute-fn-${FN_NAME}.yaml <<EOF
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: HTTPRoute
+    metadata:
+      name: ${FN_NAME}
+      namespace: openfaas
+    spec:
+      parentRefs:
+        - name: openfaas-gateway
+          sectionName: ${FN_NAME}
+      hostnames:
+        - "$FN_DOMAIN"
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          filters:
+            - type: ExtensionRef
+              extensionRef:
+                group: gateway.envoyproxy.io
+                kind: HTTPRouteFilter
+                name: openfaas-${FN_NAME}-prefix
+          timeouts:
+            request: "21m"
+          backendRefs:
+            - name: gateway
+              port: 8080
+    ---
+    apiVersion: gateway.envoyproxy.io/v1alpha1
+    kind: HTTPRouteFilter
+    metadata:
+      name: openfaas-${FN_NAME}-prefix
+      namespace: openfaas
+    spec:
+      urlRewrite:
+        path:
+          type: ReplaceRegexMatch
+          replaceRegexMatch:
+            pattern: '^/(.*)$'
+            substitution: '/function/${FN_NAME}/\1'
+    EOF
+    ```
+
+    ```bash
+    kubectl apply -f httproute-fn-${FN_NAME}.yaml
+    ```
+
+    The `HTTPRouteFilter` is an Envoy Gateway extension CRD that supports regex-based path rewrites. The regex `^/(.*)$` captures the entire request path, and the substitution prepends `/function/env/` while preserving any sub-path.
+
+=== "Standard Gateway API"
+
+    The standard Gateway API `URLRewrite` filter with `ReplacePrefixMatch` works correctly with most implementations like Traefik:
+
+    ```bash
+    export FN_NAME="env"
+    export FN_DOMAIN="env.fn.example.com"
+
+    cat > httproute-fn-${FN_NAME}.yaml <<EOF
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: HTTPRoute
+    metadata:
+      name: ${FN_NAME}
+      namespace: openfaas
+    spec:
+      parentRefs:
+        - name: openfaas-gateway
+          sectionName: ${FN_NAME}
+      hostnames:
+        - "$FN_DOMAIN"
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          filters:
+            - type: URLRewrite
+              urlRewrite:
+                path:
+                  type: ReplacePrefixMatch
+                  replacePrefixMatch: /function/${FN_NAME}/
+          timeouts:
+            request: "21m"
+          backendRefs:
+            - name: gateway
+              port: 8080
+    EOF
+    ```
+
+    ```bash
+    kubectl apply -f httproute-fn-${FN_NAME}.yaml
+    ```
+
+The `parentRefs.sectionName` must match the name of the listener you added to the Gateway for this function. The `timeouts.request` field sets the maximum duration for a synchronous function invocation — adjust it to match your function's expected execution time.
+
+### Verify the setup
+
+Check that the certificate for the function domain has been issued:
 
 ```sh
-faas-cli store deploy env
+kubectl get certificate -n openfaas
+
+NAME                      READY   SECRET                    AGE
+openfaas-gateway-cert     True    openfaas-gateway-cert     30m
+env-openfaas-fn-cert      True    env-openfaas-fn-cert      2m
 ```
 
-If you're using ingress-nginx, then check the public IP with `kubectl get svc/nginxingress-nginx-ingress-controller`, note down the `EXTERNAL-IP`.
-
-Create a DNS A record or CNAME `env.example.com` pointing to the `EXTERNAL-IP`
-
-#### Create a `FunctionIngress` with TLS certificate
-
-FunctionIngress records are always created in the OpenFaaS namespace, so you should have a pre-existing Let's Encrypt Issuer available.
-
-Edit the following fields:
-
-* `tls.enabled` - whether to create the certificate
-* `issuerRef.name` - as per the Issuer name created above
-* `issuerRef.kind` - optional: either `Issuer` or `ClusterIssuer`
-
-If you're not using ingress-nginx, then also change the `spec.ingressType` field.
-
-The `FunctionIngress` currently makes use of the `HTTP01` challenge, so a separate TLS certificate will be obtained for each FunctionIngress you create.
+Verify the HTTPRoute is accepted:
 
 ```sh
-export DOMAIN="env.example.com"
+kubectl get httproute -n openfaas
 
-cat << EOF > env-fni.yaml
-apiVersion: openfaas.com/v1
-kind: FunctionIngress
-metadata:
-  name: env
-  namespace: openfaas
-spec:
-  domain: "env.example.com"
-  function: "env"
-  ingressType: "nginx"
-  tls:
-    enabled: true
-    issuerRef:
-      name: "letsencrypt-prod"
-      kind: "Issuer"
-EOF
-
-kubectl apply -f env-fni.yaml
+NAME                 HOSTNAMES                  AGE
+openfaas-gateway     ["gw.example.com"]         30m
+env-openfaas-fn      ["env.fn.example.com"]     2m
 ```
 
-Verify that the `Certificate` record was created:
+Invoke the function using its custom domain:
 
 ```sh
-kubectl get cert -n openfaas
+curl -s https://env.fn.example.com
 ```
 
-#### Advanced options for FunctionIngress
-
-* Custom annotations for Ingress
-
-Any annotations that you add to the `FunctionIngress` will be added to the `Ingress` record. This is useful for adding custom annotations that your IngressController supports such as timeouts, rate-limiting or authorization settings.
-
-* FunctionIngress without TLS
-
-The FunctionIngress makes most sense when using TLS, however you can omit TLS for testing by removing the `tls` section of the spec.
-
-* Deleting FunctionIngress records
-
-You can see the `FunctionIngress` records via:
-
-```bash
-kubectl get functioningress -n openfaas
-```
-
-Then delete one if you need to via: `kubectl delete functioningress/name -n openfaas`.
-
-* Short name for FunctionIngress
-
-The short name is `fni` i.e. `kubectl get fni -n openfaas`.
-
-### Create REST mappings for functions
-
-The FunctionIngress discussed above provides a simple way to create a custom URL mapping scheme for your functions. This is a common request from users, and means that you can map your functions into a REST-style API.
-
-You may wish to map different versions of functions to a top-level domain:
-
-```
-https://gateway.example.com/function/env-prod -> https://api.example.com/v1/env/
-https://gateway.example.com/function/env-testing -> https://api.example.com/v2/env/
-```
-
-You can also use a mapping to perform a blue/green test, by starting off with a mapping rather than the function's name:
-
-```
-https://gateway.example.com/function/env-v1 -> https://api.example.com/env/
-```
-
-Then, when you're ready, you can deploy a function with a new name and direct traffic there without changing the URL that your users are calling.
-
-```
-https://gateway.example.com/function/env-v2 -> https://api.example.com/env/
-```
-
-Or you may just prefer your functions to be grouped together under a custom path, rather than at `/function/NAME`.
-    
-```
-https://gateway.example.com/function/create-customer ->   https://api.example.com/v1/customer/
-https://gateway.example.com/function/create-order    ->   https://api.example.com/v1/order/
-```
-
-#### Map two functions to the same custom domain
-
-This example shows how to map the `env` and `nodeinfo` functions to the same domain under a `v1` path:
+The function is still accessible at its original path as well:
 
 ```sh
-export DOMAIN="api.example.com"
-
-cat << EOF > api-v1-fni.yaml
-
----
-apiVersion: openfaas.com/v1
-kind: FunctionIngress
-metadata:
-  name: env
-  namespace: openfaas
-spec:
-  domain: "$DOMAIN"
-  function: "env"
-  ingressType: "nginx"
-  path: "/v1/env/(.*)"
-  tls:
-    enabled: true
-    issuerRef:
-      name: "letsencrypt-prod"
-      kind: "Issuer"
----
-apiVersion: openfaas.com/v1
-kind: FunctionIngress
-metadata:
-  name: nodeinfo
-  namespace: openfaas
-spec:
-  domain: "$DOMAIN"
-  function: "nodeinfo"
-  ingressType: "nginx"
-  path: "/v1/nodeinfo/(.*)"
-  tls:
-    enabled: true
-    issuerRef:
-      name: "letsencrypt-prod"
-      kind: "Issuer"
----
+curl -s https://gw.example.com/function/env
 ```
 
-Apply the FunctionIngress records:
+### Exposing multiple functions
 
-```sh
-kubectl apply -f api-v1-fni.yaml
+Repeat the steps above for each function you want to expose. For each function:
+
+1. Add a new listener to the Gateway with the function's hostname
+2. Create a DNS record for the hostname
+3. Create an HTTPRoute (with the appropriate URL rewrite for your Gateway API implementation)
+
+For example, to expose a second function called `sleep` on `sleep.fn.example.com`, add another listener to the Gateway:
+
+```diff
+   listeners:
+     # ... existing listeners ...
++    - name: sleep
++      hostname: "sleep.fn.example.com"
++      port: 443
++      protocol: HTTPS
++      allowedRoutes:
++        namespaces:
++          from: Same
++      tls:
++        mode: Terminate
++        certificateRefs:
++          - name: sleep-openfaas-fn-cert
 ```
 
-You'll now be able to access the above functions via `https://api.example.com/v1/env/` and `https://api.example.com/v1/nodeinfo/`.
+Then create an HTTPRoute following the same pattern as above, replacing the function name and domain.
 
