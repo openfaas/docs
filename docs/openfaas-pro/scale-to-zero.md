@@ -132,6 +132,14 @@ The time taken to scale up a function and have it ready to serve traffic is call
 
 Cold-starts can be tuned through the OpenFaaS Helm chart: [Tuning function cold-starts](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas#tuning-function-cold-starts)
 
+The OpenFaaS watchdog provides a built-in readiness check by default. Some workloads aren't ready as soon as the process starts, so scale from zero may require a custom readiness endpoint to let the gateway know when a function is ready to receive traffic. This is especially important if your function takes some time to start, for example to:
+
+* Establish a connection pool to a database or message broker
+* Load a large machine-learning model or dataset into memory
+* Warm an in-memory cache before serving requests
+
+Configure a readiness endpoint with the `com.openfaas.ready.http.*` annotations on your function, see: [Workloads: custom HTTP health checks](/reference/workloads#custom-http-health-checks). Read more on the blog: [Custom health and readiness checks for your functions](https://www.openfaas.com/blog/health-and-readiness-for-functions/).
+
 ## Would you like a demo?
 
 Feel free to reach out to us for a demo or to ask any questions you may have.
