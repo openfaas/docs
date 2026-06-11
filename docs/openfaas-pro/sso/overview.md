@@ -16,6 +16,7 @@ To configure your identity provider:
     Authentication flows supported by the OpenFaaS CLI:
 
     - Authorization Code flow with Proof Key of Code Exchange (PKCE) - (recommended)
+    - Device Authorization Grant
     - Implicit flow
     - Client Credentials flow
 
@@ -24,13 +25,13 @@ To configure your identity provider:
     - Authorization Code Flow
     - Authorization Code Flow with Proof Key of Code Exchange (PKCE)
 
-    For the CLI we recommend the Authorization Code flow with PKCE. One of the other flows can be used if your provider does not support PKCE.
+    For the CLI we recommend the Authorization Code flow with PKCE or the Device Authorization Grant if your provider supports it. One of the other flows can be used if your provider does not support PKCE.
 
 3. Configure allowed callback URLs.
 
     The dashboard uses the callback path: `/auth/callback`. If you are deploying the dashboard allow callbacks on your dashboards public URL, e.g. `https://dashboard.openfaas.example.com/auth/callback`
     
-    For the CLI the default callback URL is, `http://127.0.0.1:31111/oauth/callback`
+    For the CLI the default callback URL is, `http://127.0.0.1:31111/oauth/callback`. The CLI callback URL is not required when using the Device Authorization flow.
 
 4. Register your provider with OpenFaaS
 

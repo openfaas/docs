@@ -12,7 +12,47 @@ You'll need to start off by installing the faas-cli and the pro plugin. See: [CL
 
 Now you can log into the gateway using one of the defined JwtIssuers for your installation. If you have not defined a JwtIssuer yet, then see the overview post here: [Walkthrough of Identity and Access Management (IAM) for OpenFaaS](https://www.openfaas.com/blog/walkthrough-iam-for-openfaas/).
 
-If your IDP supports Proof Key for Code Exchange PKCE, then you can use the OAuth code flow:
+The faas-cli supports several OAuth 2.0 authorization flows for obtaining a token from your IdP:
+
+* `device_code` - Device authorization flow. Intended for authenticating a CLI on headless or remote systems.
+* `code` - Authorization code flow with PKCE. Interactive login that opens a browser on the machine running the CLI.
+* `client_credentials` - Non-interactive, server-to-server authentication using a client ID and secret.
+* `implicit` / `implicit-id` - Legacy implicit flows, kept for compatibility with older IdPs.
+
+Select which flow to use by passing its name to the `--grant` flag of the `faas-cli pro auth` command.
+
+#### Device authorization grant
+
+The device authorization flow lets you authenticate without a browser on the machine running the CLI. It prints a verification URL and a one-time code that you open from a browser on any other device to complete the login. This makes it well suited to headless or remote machines, such as a server accessed over SSH.
+
+```bash
+faas-cli pro auth \
+  --grant device_code \
+  --client-id CLIENT_ID \
+  --authority https://oidc.example.com \
+  --gateway https://gateway.example.com
+```
+
+Open the printed verification URL in a browser on any device, enter the code, and complete the login with your IdP. Once you have authorized the request, the JWT is exchanged for an OpenFaaS access token, and the CLI is ready to use.
+
+If the machine running the CLI has a browser available, it will be opened on the verification page for you automatically. To disable this and only print the URL and code, add `--launch-browser=false`:
+
+```bash
+faas-cli pro auth \
+  --grant device_code \
+  --client-id CLIENT_ID \
+  --authority https://oidc.example.com \
+  --gateway https://gateway.example.com \
+  --launch-browser=false
+```
+
+!!! note "Your IdP must support the device authorization flow"
+
+    The device authorization flow can only be used when your Identity Provider supports it. See the [SSO overview](/openfaas-pro/sso/overview/) for the supported providers and flows. If your provider does not support it, use the OAuth code flow described below instead.
+
+#### Authorization code flow with PKCE
+
+With the authorization code flow with Proof Key for Code Exchange (PKCE), the CLI opens a browser to sign in and starts a local server to receive the token on the callback URL `http://127.0.0.1:31111/oauth/callback`. This URL needs to be registered as a valid redirect URI on your IdP client.
 
 ```bash
 faas-cli pro auth \
@@ -21,15 +61,11 @@ faas-cli pro auth \
  --gateway https://gateway.example.com
 ```
 
-A browser will open and you can log in using your IDP.
-
-Following on from that, a JWT will be exchanged for an OpenFaaS access token, and the CLI will be ready to use.
-
-Whenever you want to log in again, you can use the `faas-cli pro auth` command, and you will not need to add the `--client-id` flag or `--authority` flag again, since they will be saved for you.
+After receiving the token from your IdP, the CLI exchanges it for an OpenFaaS access token and is ready to use.
 
 ### Log in to refresh your SSO token
 
-If you have already logged in, then you can refresh your token using the `faas-cli pro auth` command:
+If you have already logged in, then you can refresh your token using the `faas-cli pro auth` command.  Your settings are saved after the first login, so you will not need to provide all of the flags again.
 
 ```bash
 faas-cli pro auth \
