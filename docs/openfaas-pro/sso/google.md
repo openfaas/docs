@@ -67,7 +67,7 @@ This guide will cover how to configure Google as an identity provider for OpenFa
 
 ## Login with the faas-cli
 
-Google does not support the Authorization Code flow with Proof Key of Code Exchange (PKCE), so to login with the faas-cli you can use either the Device Authorization flow or the Implicit Id flow.
+Google does not support the Authorization Code flow with Proof Key for Code Exchange (PKCE), so to login with the faas-cli you can use either the Device Authorization flow or the Implicit Id flow.
 
 See [SSO with the faas-cli](/openfaas-pro/sso/cli/) for how to install the CLI and a full reference of the available login flags and flows.
 

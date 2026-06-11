@@ -15,7 +15,7 @@ To configure your identity provider:
 
     Authentication flows supported by the OpenFaaS CLI:
 
-    - Authorization Code flow with Proof Key of Code Exchange (PKCE) - (recommended)
+    - Authorization Code flow with Proof Key for Code Exchange (PKCE) - (recommended)
     - Device Authorization Grant
     - Implicit flow
     - Client Credentials flow
@@ -23,7 +23,7 @@ To configure your identity provider:
     Authentication flows supported by the OpenFaaS dashboard:
 
     - Authorization Code Flow
-    - Authorization Code Flow with Proof Key of Code Exchange (PKCE)
+    - Authorization Code Flow with Proof Key for Code Exchange (PKCE)
 
     For the CLI we recommend the Authorization Code flow with PKCE or the Device Authorization Grant if your provider supports it. One of the other flows can be used if your provider does not support PKCE.
 
