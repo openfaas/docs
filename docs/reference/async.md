@@ -54,6 +54,8 @@ If you would like to receive a value from an asynchronous call you should pass a
 $ faas invoke figlet -H "X-Callback-Url=https://request.bin/mybin"
 ```
 
+For production use it is recommended to [restrict async callback URLs](#whitelist-callback-urls) to trusted endpoints.
+
 It will pass back the X-Call-Id you had when you sent the initial request.
 
 You can use `netcat` to check the Call Id during invocation:
@@ -83,6 +85,25 @@ X-Start-Time: 1543915495384346700
 ```
 
 Alternatively you can specify another asynchronous or synchronous function to run instead.
+
+### Whitelist callback URLs
+
+For production use, restrict async callbacks to trusted endpoints. The queue-worker accepts a list of callback URL glob patterns and will only send callbacks to matching URLs. In the OpenFaaS Helm chart this is configured with `queueWorkerPro.allowedCallbackURLs`:
+
+```yaml
+queueWorkerPro:
+  allowedCallbackURLs:
+    - "http://gateway.openfaas:8080/function/printer"
+    - "https://example.com/callback"
+```
+
+Common patterns include:
+
+- `http://gateway.openfaas:8080/function/*` allows callbacks to any function through the gateway.
+- `http://gateway.openfaas:8080/function/*.dev` allows callbacks to any function in the `dev` namespace.
+- `https://example.com/callback` allows callbacks to one specific external endpoint.
+
+The default value is `["*"]`, which allows all callback URLs. Explicitly set `allowedCallbackURLs` to an empty list, `[]`, to deny all callbacks.
 
 ### Cancel async invocations
 
@@ -115,7 +136,7 @@ For a synchronous call, use `http://gateway.openfaas.svc.cluster.local:8080/func
 
 The same URL applies for any `X-Callback-Url` that you wish to pass.
 
-#### Configuration & Limits
+### Configuration & Limits
 
 There are limits for asynchronous functions, which you should understand before using them:
 
@@ -129,7 +150,7 @@ The maximum execution time for an asynchronous function is controlled by the gat
 
 `ack_wait` (default `60s`) is the NATS acknowledgement timeout. If NATS does not receive an ACK or progress signal from the queue-worker within this window, the message is redelivered. While a function is in flight, the queue-worker sends progress signals to NATS, extending the ACK deadline automatically. So async functions can run for as long as the gateway and function timeouts allow (effectively indefinitely). **Leave `ack_wait` at its default.** Increasing it does not extend how long your function may run; it only delays redelivery in the event that a queue-worker fails mid-invocation.
 
-#### Parallelism
+### Parallelism
 
 > OpenFaaS CE supports max_inflight of 1, OpenFaaS Pro supports a custom value.
 
@@ -145,7 +166,7 @@ Kubernetes users can tune this in the values.yaml file of the openfaas helm char
 
 The official eBook for OpenFaaS has more details on the async system in OpenFaaS. See also: [Training](/tutorials/training/)
 
-#### Dedicated queues
+### Dedicated queues
 
 > OpenFaaS Pro supports a single shared queue for asynchronous requests. OpenFaaS Enterprise supports dedicated queues per function.
 
@@ -174,11 +195,11 @@ Then, you can invoke the function asynchronously and the queue's name will be lo
 faas-cli invoke --async figlet <<< "OpenFaaS"
 ```
 
-#### Verbose Output
+### Verbose Output
 
 The Queue Worker component enables asynchronous processing of function requests. The default verbosity level hides the message content, but this can be viewed by setting write_debug to true when deploying.
 
-#### Callback request headers
+### Callback request headers
 
 The following additional request headers will be set when invoking the callback URL:
 
@@ -193,4 +214,3 @@ The following additional request headers will be set when invoking the callback 
 | X-Retry-Max        | The maximum number of retries allowed for the original function or queue-worker (whichever is set) |
 
 If the X-Retry value is the same as the X-Retry-Max value, then the function has been retried the maximum number of times and will not be retried again.
-
