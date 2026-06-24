@@ -143,6 +143,12 @@ OpenFaaS ships with a “mixed queue”, where all invocations run in the same q
 
 See: [multiple queues](/reference/async/#multiple-queues)
 
+### Whitelist callback URLs
+
+The queue-worker can restrict async callback URLs to trusted endpoints only, helping prevent untrusted callback destinations in production.
+
+See: [restrict async callback URLs](/reference/async/#whitelist-callback-urls)
+
 ### Retries
 
 Users can specify a list of HTTP codes that should be retried a number of times using an exponential back-off algorithm to mitigate the impact associated with retrying messages.
