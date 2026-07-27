@@ -52,11 +52,10 @@ This guide will cover how to configure Google as an identity provider for OpenFa
 !!! note "SSO with the faas-cli"
 
     Google does not support the Authorization Code flow with Proof Key of Code Exchange (PKCE).
-    To login with the faas-cli use the Implicit Id flow. 
+    When the faas-cli detects a Google client ID, it automatically uses the Implicit Id flow and the authority `https://accounts.google.com`.
+    These defaults can be overridden with the `--grant` and `--authority` flags.
 
     ```sh
     faas-cli pro auth \
-      --grant implicit-id \
-      --authority https://accounts.google.com \
-      --client-id CLIENT_ID
+      --client-id CLIENT_ID.apps.googleusercontent.com
     ```

@@ -68,7 +68,8 @@ This guide covers how to configure [Microsoft Entra]() as an identity provider f
 
 !!! Note "SSO with the faas-cli"
 
-    By default the faas-cli pro auth listens for OAuth callbacks on the address `http://127.0.0.1`. Entra does not support using the loopback address for redirect URIs. You need to explicitly set the flag `--redirect-host=http://localhost` to override the default value.
+    The faas-cli defaults to `--redirect-host=http://localhost` when a Microsoft Entra authority is configured because Entra does not support using a loopback IP address for redirect URIs.
+    The callback address can be overridden with the `--redirect-host` flag.
     
     To login with the faas-cli when using Azure Entra as the identity provider we recommend using the Implicit Id flow.
 
@@ -76,6 +77,5 @@ This guide covers how to configure [Microsoft Entra]() as an identity provider f
     faas-cli pro auth \
       --grant=implicit-id \
       --authority=https://login.microsoftonline.com/1fe3798478-5987-2564-b4aa-99e587365024/v2.0 \
-      --client-id=068cb5cb-8cc3-4d57-8263-d6c6ce52ddff \
-      --redirect-host=http://localhost
+      --client-id=068cb5cb-8cc3-4d57-8263-d6c6ce52ddff
     ```
