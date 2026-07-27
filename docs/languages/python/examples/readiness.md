@@ -2,6 +2,8 @@ Some functions need to do work before they can serve traffic: load a machine-lea
 
 A readiness check lets OpenFaaS hold traffic back until the function signals it is ready. This matters every time a new Pod joins the service — a first deployment, a scale-up to add replicas, a rolling update, a restart, or a scale-from-zero. Without it, the first request to a Pod that is up but still initialising fails with a 500 or a timeout.
 
+The watchdog ships a default readiness check, but it only reports that the watchdog process has started — not that your handler, or the dependencies behind it, can actually serve a request. Closing that gap is the developer's job: expose your own readiness path and have OpenFaaS probe it.
+
 Use-cases:
 
 * Loading an ML model or embeddings at start-up
@@ -47,6 +49,17 @@ def handle(event, context):
 ```
 
 The flag is a plain boolean, which is safe here: the background thread only ever sets it to `True`, and the handler only reads it.
+
+## Readiness is not health
+
+Readiness and health (liveness) are different signals, and the difference matters:
+
+* A failing **readiness** check takes the Pod out of the load-balancer rotation but leaves it running. Returning `503` from `/ready` for a while is a normal, deliberate signal — during start-up, or later if a downstream dependency drops out — and the Pod is put back as soon as the check passes again.
+* A failing **health** check restarts the container.
+
+So return not-ready from your readiness path, never from health, when the function is merely warming up or temporarily unable to serve. Otherwise a slow start becomes a restart loop.
+
+Keep the check on its own path, and keep it cheap. Do not point the probe at `/`: a probe-shaped request can fail what your handler expects, and it would run your real work on every probe — every couple of seconds — for nothing. A good check is a light touch: the init flag above, a quick `db.ping()`, or confirming the model object is loaded.
 
 ## Scaffold the function
 
