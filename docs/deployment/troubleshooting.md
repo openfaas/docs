@@ -229,7 +229,7 @@ If the queue-worker keeps retrying your function, the cause is almost always one
 * The function's `exec_timeout` is shorter than its actual runtime, so the watchdog kills it before it completes.
 * The gateway's `upstream_timeout` is shorter than the function's runtime, so the gateway cuts the call short.
 
-Check those first. **Do not adjust `ack_wait`**. It defaults to `60s` and is a NATS heartbeat, not an execution timeout. The queue-worker extends the lease automatically for the duration of the invocation.
+Check those first. **Do not adjust `ack_wait`**. It defaults to `60s` and is the NATS acknowledgement timeout for a message, not an execution timeout. The queue-worker sends progress signals to NATS while the function runs, extending the ACK deadline automatically for the duration of the invocation.
 
 See [Extended timeouts](/tutorials/expanded-timeouts)
 

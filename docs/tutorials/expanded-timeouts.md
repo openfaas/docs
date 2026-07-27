@@ -73,7 +73,7 @@ Note: setting `exec_timeout: 10m` on a function when the gateway's `upstream_tim
 
 !!! note "`ack_wait` is not a function timeout"
 
-    The NATS `ack_wait` value used by the JetStream queue-worker is a heartbeat for detecting a dead queue-worker, not a maximum function execution time. The queue-worker extends the lease automatically for the duration of the invocation, so async functions can run for as long as `upstream_timeout` / `exec_timeout` allow. **Leave `ack_wait` at its `60s` default.** Increasing it does not extend how long your function may run.
+    The NATS `ack_wait` value used by the JetStream queue-worker is the acknowledgement timeout for a message, not a maximum function execution time. The queue-worker sends progress signals to NATS while a function runs, extending the ACK deadline automatically for the duration of the invocation. So async functions can run for as long as `upstream_timeout` / `exec_timeout` allow. **Leave `ack_wait` at its `60s` default.** Increasing it does not extend how long your function may run.
 
 ## Configure your function's timeout
 

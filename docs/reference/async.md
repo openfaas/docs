@@ -127,7 +127,7 @@ There are limits for asynchronous functions, which you should understand before 
 
 The maximum execution time for an asynchronous function is controlled by the gateway's `upstream_timeout` and the function's `exec_timeout`. See [Extended timeouts](/tutorials/expanded-timeouts/). It is **not** set by the NATS `ack_wait` value.
 
-`ack_wait` (default `60s`) is a NATS-level heartbeat that lets the JetStream server detect a dead queue-worker and redeliver the message. While a function is in flight, the queue-worker extends the lease automatically, so the function can run for as long as the gateway and function timeouts allow (effectively indefinitely). **Leave `ack_wait` at its default.** Increasing it does not extend how long your function may run; it only delays redelivery if a queue-worker dies mid-invocation.
+`ack_wait` (default `60s`) is the NATS acknowledgement timeout. If NATS does not receive an ACK or progress signal from the queue-worker within this window, the message is redelivered. While a function is in flight, the queue-worker sends progress signals to NATS, extending the ACK deadline automatically. So async functions can run for as long as the gateway and function timeouts allow (effectively indefinitely). **Leave `ack_wait` at its default.** Increasing it does not extend how long your function may run; it only delays redelivery in the event that a queue-worker fails mid-invocation.
 
 #### Parallelism
 
