@@ -12,7 +12,7 @@ Use-cases:
 !!! info "OpenFaaS Pro feature"
     Custom readiness checks are configured with the `com.openfaas.ready.http.*` annotations, which are part of the [OpenFaaS Pro](/openfaas-pro/introduction) distribution. On Community Edition the readiness probe always uses `/_/health` and these annotations are ignored.
 
-## Handler
+## Overview
 
 Run the slow initialisation off the request path — in a background thread started at module load — and set a flag when it finishes. The handler returns `200` from `/ready` once the flag is set, and `503` while it is still initialising.
 
@@ -48,16 +48,25 @@ def handle(event, context):
 
 The flag is a plain boolean, which is safe here: the background thread only ever sets it to `True`, and the handler only reads it.
 
-## stack.yaml
+## Scaffold the function
 
-Point the readiness probe at the `/ready` path with an annotation:
+Pull the template and scaffold a new function:
+
+```bash
+faas-cli template store pull python3-http
+faas-cli new --lang python3-http ready-example \
+  --prefix ttl.sh/openfaas-examples
+```
+
+The example uses the public [ttl.sh](https://ttl.sh) registry — replace the prefix with your own registry for production use.
+
+Update `ready-example/handler.py` with the code from the overview above.
+
+## Configure the readiness probe
+
+Point the readiness probe at the `/ready` path by adding these annotations to the function in `ready-example.yml`:
 
 ```yaml
-functions:
-  ready-example:
-    lang: python3-http
-    handler: ./ready-example
-    image: ${REGISTRY}/ready-example:latest
     annotations:
       com.openfaas.ready.http.path: /ready
       com.openfaas.ready.http.initialDelaySeconds: 2
@@ -77,17 +86,21 @@ The full set of probe annotations (`timeoutSeconds`, `successThreshold`, `failur
 
 ## Deploy and verify
 
+Build, push and deploy the function with `faas-cli up`:
+
 ```bash
-faas-cli up
+faas-cli up \
+ --filter ready-example \
+ --tag digest
 ```
 
-Confirm the function reports `Ready` before treating it as available:
+The function reports `Not Ready` until `initialize()` finishes, then `Ready`. Confirm before treating it as available:
 
 ```bash
 faas-cli describe ready-example
 ```
 
-To see the check working, scale to zero and invoke it — the first request must succeed rather than return a 500:
+Because the readiness probe holds traffic back until then, the first request to any freshly started Pod — after a cold start, a rolling update, or a scale-from-zero — succeeds rather than returning a 500:
 
 ```bash
 curl https://$OPENFAAS_URL/function/ready-example
