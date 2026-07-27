@@ -493,3 +493,4 @@ def handle(event, context):
 * [OpenTelemetry zero-code instrumentation](examples/opentelemetry.md)
 * [Use AWS IAM Roles for Service Accounts (IRSA)](examples/ecr-irsa.md)
 * [Stream Server-Sent Events (SSE)](examples/sse.md)
+* [Readiness checks for slow start-up](examples/readiness.md)

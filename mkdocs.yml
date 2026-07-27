@@ -144,6 +144,7 @@ nav:
             - OpenTelemetry zero-code instrumentation: ./languages/python/examples/opentelemetry.md
             - AWS IAM Roles (IRSA): ./languages/python/examples/ecr-irsa.md
             - Stream Server-Sent Events (SSE): ./languages/python/examples/sse.md
+            - Readiness checks for slow start-up: ./languages/python/examples/readiness.md
     - Node: ./languages/node.md
     - Go: ./languages/go.md
     - C#: ./languages/csharp.md
