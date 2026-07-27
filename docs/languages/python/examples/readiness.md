@@ -1,6 +1,6 @@
 Some functions need to do work before they can serve traffic: load a machine-learning model, warm a cache, open a database connection pool, or download a dataset. Until that work finishes, the function is running but not yet able to answer requests.
 
-A readiness check lets OpenFaaS hold traffic back until the function signals it is ready. Without one, the first request after a cold start or a scale-from-zero lands on a Pod that is up but still initialising, and fails with a 500 or a timeout.
+A readiness check lets OpenFaaS hold traffic back until the function signals it is ready. This matters every time a new Pod joins the service — a first deployment, a scale-up to add replicas, a rolling update, a restart, or a scale-from-zero. Without it, the first request to a Pod that is up but still initialising fails with a 500 or a timeout.
 
 Use-cases:
 
@@ -100,11 +100,17 @@ The function reports `Not Ready` until `initialize()` finishes, then `Ready`. Co
 faas-cli describe ready-example
 ```
 
-Because the readiness probe holds traffic back until then, the first request to any freshly started Pod — after a cold start, a rolling update, or a scale-from-zero — succeeds rather than returning a 500:
+Because the readiness probe holds traffic back until then, the first request to any freshly started Pod — whether from a first deployment, a scale-up, a rolling update, a restart, or a scale-from-zero — succeeds rather than returning a 500:
 
 ```bash
 curl https://$OPENFAAS_URL/function/ready-example
 ```
+
+## The other half: draining on the way down
+
+Readiness governs a Pod joining the load balancer on the way up. Coming back down — a scale-down, a rolling update replacing the Pod, or a scale-to-zero — is a separate concern: the Pod should finish any in-flight requests before it is removed, rather than dropping them.
+
+That is handled by the watchdog's graceful shutdown, not by the readiness check. On OpenFaaS Pro, the `write_timeout` environment variable sets how long Kubernetes waits for in-flight work to drain before removing the Pod. See [Custom TerminationGracePeriod](/reference/workloads/#custom-terminationgraceperiod-for-long-running-functions).
 
 ## See also
 
