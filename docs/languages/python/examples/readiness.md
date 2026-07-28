@@ -11,8 +11,8 @@ Use-cases:
 * Opening a database or SDK connection pool
 * Downloading reference data before the first request
 
-!!! info "OpenFaaS Pro feature"
-    Custom readiness checks are configured with the `com.openfaas.ready.http.*` annotations, which are part of the [OpenFaaS Pro](/openfaas-pro/introduction) distribution. On Community Edition the readiness probe always uses `/_/health` and these annotations are ignored.
+!!! info "OpenFaaS Pro"
+    Wiring the Kubernetes readiness probe to a custom path with the `com.openfaas.ready.http.*` annotations is part of [OpenFaaS Pro](/openfaas-pro/introduction). The `/ready` endpoint itself is ordinary handler code and runs anywhere.
 
 ## Overview
 
@@ -57,7 +57,7 @@ Readiness and health (liveness) are different signals, and the difference matter
 * A failing **readiness** check takes the Pod out of the load-balancer rotation but leaves it running. Returning `503` from `/ready` for a while is a normal, deliberate signal — during start-up, or later if a downstream dependency drops out — and the Pod is put back as soon as the check passes again.
 * A failing **health** check restarts the container.
 
-So return not-ready from your readiness path, never from health, when the function is merely warming up or temporarily unable to serve. Otherwise a slow start becomes a restart loop.
+You rarely need a custom health check — the watchdog's built-in liveness is enough — so put the effort into readiness. And return not-ready from your readiness path, never from health, when the function is merely warming up or temporarily unable to serve. Otherwise a slow start becomes a restart loop.
 
 Keep the check on its own path, and keep it cheap. Do not point the probe at `/`: a probe-shaped request can fail what your handler expects, and it would run your real work on every probe — every couple of seconds — for nothing. A good check is a light touch: the init flag above, a quick `db.ping()`, or confirming the model object is loaded.
 
