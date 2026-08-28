@@ -1,4 +1,4 @@
-Use Python's `requests` library to interact with the [OpenFaaS REST API](/reference/rest-api/) and manage functions and namespaces programmatically — useful for CI/CD pipelines, functions that manage other functions, or building self-service platforms on top of OpenFaaS.
+Use the [OpenFaaS Python SDK](https://github.com/openfaas/python-sdk) to interact with the [OpenFaaS REST API](/reference/rest-api/) and manage functions and namespaces programmatically, useful for CI/CD pipelines, functions that manage other functions, or building self-service platforms on top of OpenFaaS.
 
 Use-cases:
 
@@ -15,47 +15,43 @@ handler.py:
 ```python
 import os
 import json
-import requests
+from openfaas_sdk import Client, BasicAuth
+from openfaas_sdk.models import FunctionDeployment, FunctionNamespace
+from openfaas_sdk.exceptions import APIStatusError
 
 def handle(event, context):
     gateway = os.getenv("gateway_url", "http://gateway.openfaas:8080")
     password = read_secret("openfaas-password")
-    auth = ("admin", password)
 
     body = json.loads(event.body)
     ns = body.get("namespace", "openfaas-fn")
 
-    namespaces = requests.get(
-        f"{gateway}/system/namespaces",
-        auth=auth,
-    ).json()
+    try:
+        with Client(gateway_url=gateway, auth=BasicAuth("admin", password)) as client:
+            namespaces = client.get_namespaces()
 
-    if ns not in namespaces:
-        r = requests.post(
-            f"{gateway}/system/namespace/",
-            json={"name": ns, "annotations": {"openfaas": "1"}},
-            auth=auth,
-        )
-        if r.status_code not in (200, 201):
-            return {
-                "statusCode": r.status_code,
-                "body": f"Failed to create namespace: {r.text}",
-            }
+            if ns not in namespaces:
+                client.create_namespace(FunctionNamespace(
+                    name=ns,
+                ))
 
-    r = requests.put(
-        f"{gateway}/system/functions",
-        json={
-            "service": body["name"],
-            "image": body["image"],
-            "namespace": ns,
-        },
-        auth=auth,
-    )
+            status_code = client.deploy(FunctionDeployment(
+                service=body["name"],
+                image=body["image"],
+                namespace=ns,
+            ))
 
-    return {
-        "statusCode": r.status_code,
-        "body": r.text,
-    }
+            return {"statusCode": status_code, "body": ""}
+    except APIStatusError as e:
+        return {
+            "statusCode": e.status_code,
+            "body": f"API error: {e}",
+        }
+    except Exception as e:
+        return {
+            "statusCode": 500,
+            "body": f"Unexpected error: {e}",
+        }
 
 def read_secret(name):
     with open("/var/openfaas/secrets/" + name, "r") as f:
@@ -65,7 +61,7 @@ def read_secret(name):
 requirements.txt:
 
 ```
-requests
+git+https://github.com/openfaas/python-sdk.git
 ```
 
 stack.yaml:
@@ -76,15 +72,20 @@ functions:
     lang: python3-http
     handler: ./deploy-function
     image: ttl.sh/openfaas-examples/deploy-function:latest
+    build_args:
+      ADDITIONAL_PACKAGE: git
     secrets:
     - openfaas-password
+    environment:
+      gateway_url: http://gateway.openfaas:8080
 ```
 
-The `requests` package is pure Python, so the Alpine-based `python3-http` template works here.
+The `python3-http` template is Alpine-based and does not include `git` by default. The `ADDITIONAL_PACKAGE: git` build arg installs it during the image build so that `pip` can clone the SDK from GitHub.
 
 - The gateway URL defaults to `http://gateway.openfaas:8080`, the in-cluster address when running on Kubernetes. Override it with the `gateway_url` environment variable if needed.
-- The handler authenticates with HTTP Basic Auth using the `admin` username and the password read from the `openfaas-password` secret.
+- The `Client` is initialised with `BasicAuth`, which handles HTTP Basic Auth using the `admin` username and the password read from the `openfaas-password` secret.
 - Namespace creation is idempotent — the handler checks whether the namespace exists before attempting to create it.
+- Any non-2xx response from the gateway raises an `APIStatusError`, which is caught and returned as a structured error response.
 
 Because this function can manage other functions and namespaces, its own endpoint should be protected. See [Add authentication](#add-authentication) for how to do this.
 
@@ -172,7 +173,9 @@ Add the `valid_bearer` helper and a token check at the top of the handler:
 ```diff
  import os
  import json
- import requests
+ from openfaas_sdk import Client, BasicAuth
+ from openfaas_sdk.models import FunctionDeployment, FunctionNamespace
+ from openfaas_sdk.exceptions import APIStatusError
  
  def handle(event, context):
 +    token = read_secret("deploy-function-token")
@@ -181,7 +184,6 @@ Add the `valid_bearer` helper and a token check at the top of the handler:
 +
      gateway = os.getenv("gateway_url", "http://gateway.openfaas:8080")
      password = read_secret("openfaas-password")
-     auth = ("admin", password)
 @@ ...
  
 +def valid_bearer(token, headers):
