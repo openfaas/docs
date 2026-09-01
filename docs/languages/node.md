@@ -353,3 +353,8 @@ functions:
 - The `NODE_OPTIONS` environment variable needs to have the value `--require @opentelemetry/auto-instrumentations-node/register` to register and initialize the auto instrumentation module.
 
 To see the full range of configuration options, see [Module Configuration](https://opentelemetry.io/docs/zero-code/js/configuration/).
+
+## Examples
+
+* [The director pattern](/languages/patterns/director/)
+* [The fan-out pattern](/languages/patterns/fan-out/)

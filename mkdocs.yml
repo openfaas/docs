@@ -53,6 +53,7 @@ theme:
     tabs: false
   features:
     - content.code.copy
+    - content.tabs.link
   palette:
     primary: blue
     accent: indigo
@@ -132,6 +133,11 @@ nav:
       - Shell auto completion: ./cli/completion.md
   - Languages:
     - Overview: ./languages/overview.md
+    - Function patterns:
+        - Overview: ./languages/patterns/index.md
+        - Director: ./languages/patterns/director.md
+        - Fan-out: ./languages/patterns/fan-out.md
+        - Singleton: ./languages/patterns/singleton.md
     - Python:
         - Overview: ./languages/python/index.md
         - Examples:
@@ -146,7 +152,7 @@ nav:
             - Stream Server-Sent Events (SSE): ./languages/python/examples/sse.md
             - Readiness checks for slow start-up: ./languages/python/examples/readiness.md
     - Node: ./languages/node.md
-    - Go: ./languages/go.md
+    - Go: ./languages/go/index.md
     - C#: ./languages/csharp.md
     - PHP: ./languages/php.md
     - Dockerfile: ./languages/dockerfile.md
