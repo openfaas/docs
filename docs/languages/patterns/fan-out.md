@@ -1,102 +1,154 @@
-The [Fan-out pattern](/languages/patterns/#fan-out-pattern) splits a larger
-task into smaller, independent items that can be processed in parallel.
+The [Fan-out pattern](/languages/patterns/#fan-out-pattern) can be used to split
+a batch into independent items and submit each item to a worker function for
+asynchronous processing.
 
-Use-cases:
-
-* Processing a batch of independent items without keeping the caller waiting
-* Absorbing bursts of work through a queue and processing them as capacity
-  becomes available
-* Scaling the target function independently and sending each result to a
-  callback endpoint
-
-This page implements the pattern as a batch of URL health checks. The
-`fan-out` function accepts one trusted URL per line and submits each URL as an
-asynchronous invocation of the `url-check` function:
+This page builds a deliberately small example: `fan-out` accepts a JSON array
+of strings, queues one invocation of `batch-worker` for each item, and returns
+the number of submitted items.
 
 ```text
-       [ Client ]
-            │
-            ▼ POST /function/fan-out
-┌──────────────────────┐
-│       fan-out        │ ◄── splits the batch and returns a summary
-└──────────┬───────────┘
-           │
-           ▼
-┌──────────────────────┐
-│     queue-worker     │ ◄── drains the queue as capacity becomes available
-└──────────┬───────────┘
-           ├── URL 1 / async ──► [ url-check ] ──┐
-           ├── URL 2 / async ──► [ url-check ] ──┤
-           └── URL N / async ──► [ url-check ] ──┘
-                                                 │ optional callback
-                                                 ▼
-                                        [ Result endpoint ]
+        [ Client ]
+            │ batch with three items
+            ▼
+      [ fan-out ] ──► [ Async queue ] ──► [ Queue-worker ]
+            │                                  ├── "one" ───► [ batch-worker ]
+            │                                  ├── "two" ───► [ batch-worker ]
+            │                                  └── "three" ─► [ batch-worker ]
+            ▼
+[ Response: 202 {"submitted": 3} ]
 ```
 
-The example demonstrates three parts of fan-out:
+This simple batch highlights several properties of the Fan-out pattern:
 
-* **Submission:** the caller receives call IDs without waiting for the URL
-  checks to finish.
-* **Queued processing:** the queue-worker invokes `url-check` as capacity
-  becomes available, and OpenFaaS can scale the function across replicas.
-* **Result delivery:** an optional callback URL receives each health-check
-  result independently.
+* **Batch splitting:** `fan-out` creates one asynchronous invocation for each
+  item in the input batch.
+* **Asynchronous response:** the caller receives a response after the items
+  have been accepted by the queue, without waiting for processing to finish.
+* **Independent processing:** items can be processed concurrently and may
+  complete in a different order from the input.
+* **Independent scaling:** the queue provides back pressure while OpenFaaS can
+  scale the `batch-worker` function to handle the load.
 
 ## Create the functions
 
-Choose a language and scaffold both functions in a single `stack.yaml` file:
+Choose a language and scaffold both functions in one `stack.yaml` file:
 
 === "Go"
 
     ```bash
     faas-cli template store pull golang-middleware
-
     faas-cli new --lang golang-middleware fan-out \
       --prefix ttl.sh/openfaas-examples
-
-    faas-cli new --lang golang-middleware url-check \
+    faas-cli new --lang golang-middleware batch-worker \
       --append stack.yaml --prefix ttl.sh/openfaas-examples
     ```
-
-    Replace the generated handler files and `stack.yaml` with the Go files from
-    the implementation section below.
 
 === "Python"
 
     ```bash
     faas-cli template store pull python3-http
-
     faas-cli new --lang python3-http fan-out \
       --prefix ttl.sh/openfaas-examples
-
-    faas-cli new --lang python3-http url-check \
+    faas-cli new --lang python3-http batch-worker \
       --append stack.yaml --prefix ttl.sh/openfaas-examples
     ```
-
-    Replace the generated handler files, both `requirements.txt` files, and
-    `stack.yaml` with the Python files from the implementation section below.
 
 === "Node.js"
 
     ```bash
     faas-cli template store pull node24
-
     faas-cli new --lang node24 fan-out \
       --prefix ttl.sh/openfaas-examples
-
-    faas-cli new --lang node24 url-check \
+    faas-cli new --lang node24 batch-worker \
       --append stack.yaml --prefix ttl.sh/openfaas-examples
     ```
-
-    Replace the generated handler files and `stack.yaml` with the Node.js files
-    from the implementation section below.
 
 The example uses the public [ttl.sh](https://ttl.sh) registry. Replace the
 prefix with your own registry for production use.
 
-## Implement the functions
+The full source code and `stack.yaml` files are available on GitHub for
+[Go](https://github.com/openfaas/function-patterns/tree/master/go/fan-out),
+[Python](https://github.com/openfaas/function-patterns/tree/master/python/fan-out),
+and [Node.js](https://github.com/openfaas/function-patterns/tree/master/node/fan-out).
 
-### Submitting function: fan-out
+## Implement the worker
+
+The worker receives one string from the batch and returns a JSON result. A real
+worker could transform a record, generate a report, or process a file stored in
+object storage.
+
+=== "Go"
+
+    `batch-worker/handler.go`:
+
+    ```go
+    package function
+
+    import (
+        "encoding/json"
+        "io"
+        "net/http"
+    )
+
+    func Handle(w http.ResponseWriter, r *http.Request) {
+        defer r.Body.Close()
+
+        item, err := io.ReadAll(r.Body)
+        if err != nil {
+            http.Error(w, "unable to read item", http.StatusBadRequest)
+            return
+        }
+
+        w.Header().Set("Content-Type", "application/json")
+        json.NewEncoder(w).Encode(map[string]interface{}{
+            "item":      string(item),
+            "processed": true,
+        })
+    }
+    ```
+
+=== "Python"
+
+    `batch-worker/handler.py`:
+
+    ```python
+    def handle(event, context):
+        item = (
+            event.body.decode()
+            if isinstance(event.body, bytes)
+            else str(event.body)
+        )
+
+        return {
+            "statusCode": 200,
+            "body": {"item": item, "processed": True},
+        }
+    ```
+
+=== "Node.js"
+
+    `batch-worker/handler.js`:
+
+    ```javascript
+    'use strict'
+
+    module.exports = async (event, context) => {
+      const item = Buffer.isBuffer(event.body)
+        ? event.body.toString()
+        : String(event.body || '')
+
+      return context
+        .status(200)
+        .headers({ 'Content-Type': 'application/json' })
+        .succeed({ item, processed: true })
+    }
+    ```
+
+## Implement fan-out
+
+The `fan-out` function decodes the batch and posts each item to the gateway's
+`/async-function/batch-worker` route. Each `202 Accepted` response confirms
+that an item was queued, not that the worker has completed it.
 
 === "Go"
 
@@ -110,7 +162,6 @@ prefix with your own registry for production use.
         "context"
         "encoding/json"
         "fmt"
-        "io"
         "net/http"
         "os"
         "strings"
@@ -118,118 +169,56 @@ prefix with your own registry for production use.
     )
 
     const (
-        targetFunction = "url-check"
-        submitTimeout  = 30 * time.Second
+        workerFunction = "batch-worker"
+        submitTimeout  = 5 * time.Second
     )
 
-    type Response struct {
-        Submitted int      `json:"submitted"`
-        Function  string   `json:"function"`
-        Callback  bool     `json:"callback"`
-        CallIDs   []string `json:"call_ids,omitempty"`
-    }
-
-    // Handle takes a HTTP request body and splits it into one record per line.
-    // Each record is submitted as an asynchronous invocation of the target
-    // function, then a summary is returned to the caller without waiting for
-    // the function invocations to complete.
     func Handle(w http.ResponseWriter, r *http.Request) {
-        input, err := io.ReadAll(r.Body)
-        if err != nil {
-            http.Error(w, "unable to read request body", http.StatusBadRequest)
+        defer r.Body.Close()
+
+        var batch []string
+        if err := json.NewDecoder(r.Body).Decode(&batch); err != nil {
+            http.Error(w, "expected a JSON array of strings", http.StatusBadRequest)
             return
         }
-        defer r.Body.Close()
+        if len(batch) == 0 {
+            http.Error(w, "batch must contain at least one item", http.StatusBadRequest)
+            return
+        }
 
         gateway := os.Getenv("gateway_url")
         if gateway == "" {
             gateway = "http://gateway.openfaas:8080"
         }
+        endpoint := strings.TrimRight(gateway, "/") +
+            "/async-function/" + workerFunction
+        callback := r.Header.Get("X-Callback-Url")
 
-        // Forward the callback URL to every asynchronous invocation. A header on
-        // the batch request overrides the environment variable.
-        callback := strings.TrimSpace(r.Header.Get("X-Callback-Url"))
-        if callback == "" {
-            callback = strings.TrimSpace(os.Getenv("callback_url"))
-        }
-
-        records := recordsFromInput(string(input))
-        if len(records) == 0 {
-            http.Error(
-                w,
-                "expected one record per line in the request body",
-                http.StatusBadRequest,
-            )
-            return
-        }
-
-        submitted := 0
-        var callIDs []string
-
-        for i, record := range records {
-            callID, err := submit(
-                r.Context(), gateway, targetFunction, record, callback,
-            )
-            if err != nil {
-                message := fmt.Sprintf(
-                    "record %d of %d: %s",
-                    i+1,
-                    len(records),
-                    err,
-                )
-                http.Error(w, message, http.StatusBadGateway)
+        // Submit one asynchronous invocation for each item in the batch.
+        for i, item := range batch {
+            if err := submit(r.Context(), endpoint, item, callback); err != nil {
+                http.Error(w, fmt.Sprintf("item %d: %s", i+1, err), http.StatusBadGateway)
                 return
             }
-
-            submitted++
-            if callID != "" {
-                callIDs = append(callIDs, callID)
-            }
-        }
-
-        res := Response{
-            Submitted: submitted,
-            Function:  targetFunction,
-            Callback:  callback != "",
-            CallIDs:   callIDs,
         }
 
         w.Header().Set("Content-Type", "application/json")
-        json.NewEncoder(w).Encode(res)
+        w.WriteHeader(http.StatusAccepted)
+        json.NewEncoder(w).Encode(map[string]int{"submitted": len(batch)})
     }
 
-    func recordsFromInput(input string) []string {
-        var records []string
-
-        for _, record := range strings.Split(strings.TrimSpace(input), "\n") {
-            record = strings.TrimSpace(record)
-            if record != "" {
-                records = append(records, record)
-            }
-        }
-
-        return records
-    }
-
-    func submit(
-        ctx context.Context,
-        gateway string,
-        targetFunction string,
-        record string,
-        callback string,
-    ) (string, error) {
-        ctx, cancel := context.WithTimeout(ctx, submitTimeout)
+    func submit(parent context.Context, endpoint, item, callback string) error {
+        ctx, cancel := context.WithTimeout(parent, submitTimeout)
         defer cancel()
 
-        url := strings.TrimRight(gateway, "/") + "/async-function/" + targetFunction
         req, err := http.NewRequestWithContext(
             ctx,
             http.MethodPost,
-            url,
-            bytes.NewReader([]byte(record)),
+            endpoint,
+            bytes.NewBufferString(item),
         )
         if err != nil {
-            return "", fmt.Errorf("unable to invoke %s: %w", targetFunction, err)
+            return err
         }
         req.Header.Set("Content-Type", "text/plain")
         if callback != "" {
@@ -238,30 +227,15 @@ prefix with your own registry for production use.
 
         res, err := http.DefaultClient.Do(req)
         if err != nil {
-            return "", fmt.Errorf("error invoking %s: %w", targetFunction, err)
+            return err
         }
         defer res.Body.Close()
 
         if res.StatusCode != http.StatusAccepted {
-            out, err := io.ReadAll(res.Body)
-            if err != nil {
-                return "", fmt.Errorf(
-                    "unexpected status %d from %s",
-                    res.StatusCode,
-                    targetFunction,
-                )
-            }
-
-            return "", fmt.Errorf(
-                "unexpected status %d from %s: %s",
-                res.StatusCode,
-                targetFunction,
-                string(out),
-            )
+            return fmt.Errorf("queue returned %s", res.Status)
         }
 
-        // the X-Call-Id header can be used to track or cancel the record
-        return res.Header.Get("X-Call-Id"), nil
+        return nil
     }
     ```
 
@@ -270,86 +244,63 @@ prefix with your own registry for production use.
     `fan-out/handler.py`:
 
     ```python
+    import json
     import os
 
     import requests
 
 
-    TARGET_FUNCTION = "url-check"
-    SUBMIT_TIMEOUT = 30
+    WORKER_FUNCTION = "batch-worker"
+    SUBMIT_TIMEOUT = 5
 
 
     def handle(event, context):
-        body = (
-            event.body.decode()
-            if isinstance(event.body, bytes)
-            else str(event.body)
-        )
-        records = [
-            record.strip()
-            for record in body.strip().splitlines()
-            if record.strip()
-        ]
-        if not records:
-            return error(400, "expected one record per line in the request body")
+        try:
+            batch = json.loads(event.body)
+        except (TypeError, ValueError):
+            return error(400, "expected a JSON array of strings")
+
+        if (
+            not isinstance(batch, list)
+            or not batch
+            or not all(isinstance(item, str) for item in batch)
+        ):
+            return error(400, "expected a non-empty JSON array of strings")
 
         gateway = os.getenv("gateway_url", "http://gateway.openfaas:8080")
-        callback = event.headers.get("X-Callback-Url", "").strip()
-        if not callback:
-            callback = os.getenv("callback_url", "").strip()
+        endpoint = f"{gateway.rstrip('/')}/async-function/{WORKER_FUNCTION}"
+        callback = event.headers.get("X-Callback-Url", "")
 
-        call_ids = []
-        for index, record in enumerate(records):
+        # Submit one asynchronous invocation for each item in the batch.
+        for index, item in enumerate(batch):
+            headers = {"Content-Type": "text/plain"}
+            if callback:
+                headers["X-Callback-Url"] = callback
+
             try:
-                call_id = submit(gateway, record, callback)
+                response = requests.post(
+                    endpoint,
+                    data=item.encode(),
+                    headers=headers,
+                    timeout=SUBMIT_TIMEOUT,
+                )
             except requests.RequestException as err:
-                return error(502, f"record {index + 1} of {len(records)}: {err}")
-            except RuntimeError as err:
-                return error(502, f"record {index + 1} of {len(records)}: {err}")
+                return error(502, f"item {index + 1}: {err}")
 
-            if call_id:
-                call_ids.append(call_id)
+            if response.status_code != 202:
+                return error(
+                    502,
+                    f"item {index + 1}: queue returned {response.status_code}",
+                )
 
-        response = {
-            "submitted": len(records),
-            "function": TARGET_FUNCTION,
-            "callback": bool(callback),
-        }
-        if call_ids:
-            response["call_ids"] = call_ids
-
-        return {"statusCode": 200, "body": response}
-
-
-    def submit(gateway, record, callback):
-        headers = {"Content-Type": "text/plain"}
-        if callback:
-            headers["X-Callback-Url"] = callback
-
-        response = requests.post(
-            f"{gateway.rstrip('/')}/async-function/{TARGET_FUNCTION}",
-            data=record.encode(),
-            headers=headers,
-            timeout=SUBMIT_TIMEOUT,
-        )
-        if response.status_code != 202:
-            raise RuntimeError(
-                f"unexpected status {response.status_code} "
-                f"from {TARGET_FUNCTION}: {response.text}"
-            )
-
-        return response.headers.get("X-Call-Id", "")
+        return {"statusCode": 202, "body": {"submitted": len(batch)}}
 
 
     def error(status_code, message):
         return {"statusCode": status_code, "body": message}
     ```
 
-    `fan-out/requirements.txt`:
-
-    ```text
-    requests
-    ```
+    Add `requests` to `fan-out/requirements.txt`.
 
 === "Node.js"
 
@@ -358,90 +309,61 @@ prefix with your own registry for production use.
     ```javascript
     'use strict'
 
-    const targetFunction = 'url-check'
-    const submitTimeout = 30000
+    const workerFunction = 'batch-worker'
+    const submitTimeout = 5000
 
     module.exports = async (event, context) => {
-      const input = requestBody(event.body)
-      const records = input
-        .trim()
-        .split('\n')
-        .map((record) => record.trim())
-        .filter(Boolean)
+      let batch
+      try {
+        batch = JSON.parse(requestBody(event.body))
+      } catch (error) {
+        return fail(context, 400, 'expected a JSON array of strings')
+      }
 
-      if (records.length === 0) {
-        return fail(
-          context,
-          400,
-          'expected one record per line in the request body'
-        )
+      if (!Array.isArray(batch) || batch.length === 0 ||
+          !batch.every(item => typeof item === 'string')) {
+        return fail(context, 400, 'expected a non-empty JSON array of strings')
       }
 
       const gateway = process.env.gateway_url ||
         'http://gateway.openfaas:8080'
-      const headers = event.headers || {}
+      const endpoint = `${gateway.replace(/\/$/, '')}/async-function/${workerFunction}`
       const callback = String(
-        headers['x-callback-url'] || process.env.callback_url || ''
-      ).trim()
+        (event.headers || {})['x-callback-url'] || ''
+      )
 
-      const callIDs = []
-      for (const [index, record] of records.entries()) {
-        let callID
+      // Submit one asynchronous invocation for each item in the batch.
+      for (const [index, item] of batch.entries()) {
+        const headers = { 'Content-Type': 'text/plain' }
+        if (callback) {
+          headers['X-Callback-Url'] = callback
+        }
+
+        let response
         try {
-          callID = await submit(gateway, record, callback)
+          response = await fetch(endpoint, {
+            method: 'POST',
+            headers,
+            body: item,
+            signal: AbortSignal.timeout(submitTimeout)
+          })
         } catch (error) {
+          return fail(context, 502, `item ${index + 1}: ${error.message}`)
+        }
+
+        if (response.status !== 202) {
           return fail(
             context,
             502,
-            `record ${index + 1} of ${records.length}: ${error.message}`
+            `item ${index + 1}: queue returned ${response.status}`
           )
         }
-        if (callID) {
-          callIDs.push(callID)
-        }
-      }
-
-      const response = {
-        submitted: records.length,
-        function: targetFunction,
-        callback: Boolean(callback)
-      }
-      if (callIDs.length > 0) {
-        response.call_ids = callIDs
       }
 
       return context
-        .status(200)
+        .status(202)
         .headers({ 'Content-Type': 'application/json' })
-        .succeed(response)
-    }
-
-    async function submit (gateway, record, callback) {
-      const headers = { 'Content-Type': 'text/plain' }
-      if (callback) {
-        headers['X-Callback-Url'] = callback
-      }
-
-      const baseURL = gateway.replace(/\/$/, '')
-      const response = await fetch(
-        `${baseURL}/async-function/${targetFunction}`,
-        {
-          method: 'POST',
-          headers,
-          body: record,
-          signal: AbortSignal.timeout(submitTimeout)
-        }
-      )
-
-      if (response.status !== 202) {
-        const body = await response.text()
-        throw new Error(
-          `unexpected status ${response.status} ` +
-          `from ${targetFunction}: ${body}`
-        )
-      }
-
-      return response.headers.get('X-Call-Id') || ''
+        .succeed({ submitted: batch.length })
     }
 
     function requestBody (body) {
@@ -459,321 +381,12 @@ prefix with your own registry for production use.
     }
     ```
 
-The submitting function:
+The five-second submission timeout belongs to the `fan-out` implementation in
+this example. It limits how long the function waits for the gateway to accept
+each item; it does not limit how long `batch-worker` may run after the item has
+been queued.
 
-* Uses the in-cluster gateway URL by default and submits each URL through
-  `/async-function/url-check`.
-* Forwards `X-Callback-Url` from the batch request to every asynchronous
-  invocation. The `callback_url` environment variable can provide a default.
-* Returns the `X-Call-Id` from each accepted submission so individual checks
-  can be tracked or cancelled.
-* Stops and returns `502 Bad Gateway` if the gateway does not accept one of the
-  submissions. Checks accepted before that failure remain queued.
-
-### Fanned-out function: url-check
-
-The function performs an HTTP `GET` with a configurable timeout and returns a
-structured health result.
-
-=== "Go"
-
-    `url-check/handler.go`:
-
-    ```go
-    package function
-
-    import (
-        "context"
-        "encoding/json"
-        "fmt"
-        "io"
-        "net/http"
-        "net/url"
-        "os"
-        "strings"
-        "time"
-    )
-
-    const (
-        defaultRequestTimeout = 5 * time.Second
-        maxURLLength          = 4096
-    )
-
-    var requestTimeout = defaultRequestTimeout
-
-    func init() {
-        value := os.Getenv("request_timeout")
-        if value == "" {
-            return
-        }
-
-        timeout, err := time.ParseDuration(value)
-        if err != nil || timeout <= 0 {
-            panic(fmt.Sprintf("invalid request_timeout %q", value))
-        }
-
-        requestTimeout = timeout
-    }
-
-    type Response struct {
-        URL         string `json:"url"`
-        Reachable   bool   `json:"reachable"`
-        Healthy     bool   `json:"healthy"`
-        StatusCode  int    `json:"status_code,omitempty"`
-        ContentType string `json:"content_type,omitempty"`
-        DurationMs  int64  `json:"duration_ms"`
-        Error       string `json:"error,omitempty"`
-    }
-
-    func Handle(w http.ResponseWriter, r *http.Request) {
-        defer r.Body.Close()
-
-        input, err := io.ReadAll(io.LimitReader(r.Body, maxURLLength+1))
-        if err != nil {
-            http.Error(w, "unable to read request body", http.StatusBadRequest)
-            return
-        }
-        if len(input) > maxURLLength {
-            http.Error(w, "URL is too long", http.StatusBadRequest)
-            return
-        }
-
-        target := strings.TrimSpace(string(input))
-        parsed, err := url.ParseRequestURI(target)
-        if err != nil || parsed.Host == "" {
-            http.Error(
-                w,
-                "expected an absolute HTTP or HTTPS URL",
-                http.StatusBadRequest,
-            )
-            return
-        }
-        if parsed.Scheme != "http" && parsed.Scheme != "https" {
-            http.Error(
-                w,
-                "expected an absolute HTTP or HTTPS URL",
-                http.StatusBadRequest,
-            )
-            return
-        }
-
-        start := time.Now()
-        ctx, cancel := context.WithTimeout(r.Context(), requestTimeout)
-        defer cancel()
-
-        req, err := http.NewRequestWithContext(ctx, http.MethodGet, target, nil)
-        if err != nil {
-            http.Error(
-                w,
-                "unable to create health-check request",
-                http.StatusBadRequest,
-            )
-            return
-        }
-        req.Header.Set("User-Agent", "OpenFaaS URL health check")
-
-        res, requestErr := http.DefaultClient.Do(req)
-        result := Response{
-            URL:        target,
-            DurationMs: time.Since(start).Milliseconds(),
-        }
-        if requestErr != nil {
-            result.Error = requestErr.Error()
-            writeJSON(w, result)
-            return
-        }
-        defer res.Body.Close()
-        io.Copy(io.Discard, io.LimitReader(res.Body, 1024))
-
-        result.Reachable = true
-        result.Healthy = res.StatusCode >= 200 && res.StatusCode < 400
-        result.StatusCode = res.StatusCode
-        result.ContentType = res.Header.Get("Content-Type")
-        writeJSON(w, result)
-    }
-
-    func writeJSON(w http.ResponseWriter, result Response) {
-        w.Header().Set("Content-Type", "application/json")
-        json.NewEncoder(w).Encode(result)
-    }
-    ```
-
-=== "Python"
-
-    `url-check/handler.py`:
-
-    ```python
-    import os
-    import time
-    from urllib.parse import urlparse
-
-    import requests
-
-
-    MAX_URL_LENGTH = 4096
-    REQUEST_TIMEOUT = float(os.getenv("request_timeout", "5"))
-    if REQUEST_TIMEOUT <= 0:
-        raise ValueError("request_timeout must be greater than zero")
-
-
-    def handle(event, context):
-        body = (
-            event.body
-            if isinstance(event.body, bytes)
-            else str(event.body).encode()
-        )
-        if len(body) > MAX_URL_LENGTH:
-            return error("URL is too long")
-
-        target = body.decode().strip()
-        parsed = urlparse(target)
-        if parsed.scheme not in ("http", "https") or not parsed.netloc:
-            return error("expected an absolute HTTP or HTTPS URL")
-
-        started = time.monotonic()
-        result = {
-            "url": target,
-            "reachable": False,
-            "healthy": False,
-        }
-
-        try:
-            with requests.get(
-                target,
-                headers={"User-Agent": "OpenFaaS URL health check"},
-                timeout=REQUEST_TIMEOUT,
-                stream=True,
-            ) as response:
-                response.raw.read(1024)
-                result.update(
-                    {
-                        "reachable": True,
-                        "healthy": 200 <= response.status_code < 400,
-                        "status_code": response.status_code,
-                        "content_type": response.headers.get("Content-Type", ""),
-                        "duration_ms": int((time.monotonic() - started) * 1000),
-                    }
-                )
-        except requests.RequestException as err:
-            result["duration_ms"] = int((time.monotonic() - started) * 1000)
-            result["error"] = str(err)
-            return {"statusCode": 200, "body": result}
-
-        return {"statusCode": 200, "body": result}
-
-
-    def error(message):
-        return {"statusCode": 400, "body": message}
-    ```
-
-    `url-check/requirements.txt`:
-
-    ```text
-    requests
-    ```
-
-=== "Node.js"
-
-    `url-check/handler.js`:
-
-    ```javascript
-    'use strict'
-
-    const { performance } = require('node:perf_hooks')
-
-    const maxURLLength = 4096
-    const requestTimeout = configuredTimeout(
-      process.env.request_timeout || '5',
-      'request_timeout'
-    )
-
-    module.exports = async (event, context) => {
-      const target = requestBody(event.body).trim()
-      if (Buffer.byteLength(target) > maxURLLength) {
-        return fail(context, 'URL is too long')
-      }
-
-      let parsed
-      try {
-        parsed = new URL(target)
-      } catch (error) {
-        return fail(context, 'expected an absolute HTTP or HTTPS URL')
-      }
-      if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
-        return fail(context, 'expected an absolute HTTP or HTTPS URL')
-      }
-
-      const started = performance.now()
-      const result = {
-        url: target,
-        reachable: false,
-        healthy: false
-      }
-
-      let response
-      try {
-        response = await fetch(target, {
-          headers: { 'User-Agent': 'OpenFaaS URL health check' },
-          signal: AbortSignal.timeout(requestTimeout)
-        })
-      } catch (error) {
-        result.duration_ms = Math.round(performance.now() - started)
-        result.error = error.message
-        return succeed(context, result)
-      }
-
-      if (response.body) {
-        await response.body.cancel()
-      }
-      result.reachable = true
-      result.healthy = response.status >= 200 && response.status < 400
-      result.status_code = response.status
-      result.content_type = response.headers.get('Content-Type') || ''
-      result.duration_ms = Math.round(performance.now() - started)
-      return succeed(context, result)
-    }
-
-    function requestBody (body) {
-      if (Buffer.isBuffer(body)) {
-        return body.toString()
-      }
-      return String(body || '')
-    }
-
-    function configuredTimeout (value, name) {
-      const seconds = Number(value)
-      if (!Number.isFinite(seconds) || seconds <= 0) {
-        throw new Error(`${name} must be greater than zero`)
-      }
-      return seconds * 1000
-    }
-
-    function succeed (context, body) {
-      return context
-        .status(200)
-        .headers({ 'Content-Type': 'application/json' })
-        .succeed(body)
-    }
-
-    function fail (context, message) {
-      return context
-        .status(400)
-        .headers({ 'Content-Type': 'text/plain' })
-        .succeed(message)
-    }
-    ```
-
-Each URL produces a structured result, including unreachable targets and
-timeouts, so every outcome can be delivered to the callback endpoint.
-
-!!! warning
-
-    Only submit URLs from a trusted source. Fetching arbitrary user-provided
-    URLs can expose internal services through server-side request forgery
-    (SSRF). For a public endpoint, enforce an allow-list and validate resolved
-    addresses before making the request.
-
-### Stack file
+## Configure the functions
 
 === "Go"
 
@@ -790,12 +403,10 @@ timeouts, so every outcome can be delivered to the callback endpoint.
         handler: ./fan-out
         image: ttl.sh/openfaas-examples/fan-out:latest
 
-      url-check:
+      batch-worker:
         lang: golang-middleware
-        handler: ./url-check
-        image: ttl.sh/openfaas-examples/url-check:latest
-        environment:
-          request_timeout: 5s
+        handler: ./batch-worker
+        image: ttl.sh/openfaas-examples/batch-worker:latest
     ```
 
 === "Python"
@@ -815,14 +426,12 @@ timeouts, so every outcome can be delivered to the callback endpoint.
         build_args:
           TEST_ENABLED: "true"
 
-      url-check:
+      batch-worker:
         lang: python3-http
-        handler: ./url-check
-        image: ttl.sh/openfaas-examples/python-url-check:latest
+        handler: ./batch-worker
+        image: ttl.sh/openfaas-examples/python-batch-worker:latest
         build_args:
           TEST_ENABLED: "true"
-        environment:
-          request_timeout: "5"
     ```
 
 === "Node.js"
@@ -840,56 +449,51 @@ timeouts, so every outcome can be delivered to the callback endpoint.
         handler: ./fan-out
         image: ttl.sh/openfaas-examples/node-fan-out:latest
 
-      url-check:
+      batch-worker:
         lang: node24
-        handler: ./url-check
-        image: ttl.sh/openfaas-examples/node-url-check:latest
-        environment:
-          request_timeout: "5"
+        handler: ./batch-worker
+        image: ttl.sh/openfaas-examples/node-batch-worker:latest
     ```
 
 ## Deploy and submit a batch
 
-Build, push, and deploy both functions:
+Build and deploy both functions:
 
 ```bash
 faas-cli up --tag=sha
 ```
 
-The handler splits the request body on newlines, so use `--data-binary` with `curl`:
+Submit a batch:
 
 ```bash
-printf 'https://www.openfaas.com/\nhttps://docs.openfaas.com/\n' | \
-  curl -s --data-binary @- -H "Content-Type: text/plain" \
-  http://127.0.0.1:8080/function/fan-out | jq
+curl -i http://127.0.0.1:8080/function/fan-out \
+  -H "Content-Type: application/json" \
+  -d '["one", "two", "three"]'
 ```
 
-The response confirms that both checks were accepted without waiting for them
-to finish:
+The function confirms that all three items have been accepted by the queue:
+
+```text
+HTTP/1.1 202 Accepted
+Content-Type: application/json
+
+{"submitted":3}
+```
+
+The queue-worker then invokes `batch-worker` once for each item. Its response
+for the first item is:
 
 ```json
 {
-  "submitted": 2,
-  "function": "url-check",
-  "callback": false,
-  "call_ids": [
-    "9c0b1a12-fdea-4f01-baff-c5d9f50435ea",
-    "4111d512-cdf3-4b8f-96b3-1b7f1f376bd7"
-  ]
+  "item": "one",
+  "processed": true
 }
 ```
 
-## Collect individual results with a callback
-
-By default, the queue-worker discards the response from each `url-check`
-invocation. To receive the responses, set `X-Callback-Url` on the request to
-`fan-out`. The submitting function copies that URL to every queued invocation,
-and the queue-worker posts each result to the callback endpoint.
-
-Callbacks are independent and may arrive in a different order from the input.
-This example delivers each result but does not wait for or combine the whole
-batch. When that is required, the callback endpoint can use shared storage to
-track progress and [fan the results back in](https://www.openfaas.com/blog/fan-out-and-back-in-using-functions/).
+By default, responses from asynchronous invocations are discarded. To receive
+each result, set `X-Callback-Url` on the request to `fan-out`. The function
+forwards the header to each queued invocation, and the queue-worker sends each
+result to that endpoint. Callbacks are independent and may arrive out of order.
 
 ### Receive callback results
 
@@ -903,55 +507,37 @@ faas-cli logs printer -t
 In another terminal, submit the batch with a callback URL:
 
 ```bash
-printf 'https://www.openfaas.com/\nhttps://docs.openfaas.com/\n' | \
-  curl -s --data-binary @- \
-  -H "Content-Type: text/plain" \
+curl -s http://127.0.0.1:8080/function/fan-out \
+  -H "Content-Type: application/json" \
   -H "X-Callback-Url: http://gateway.openfaas:8080/function/printer" \
-  http://127.0.0.1:8080/function/fan-out | jq
+  -d '["one", "two", "three"]'
 ```
 
-The batch response now contains `"callback": true`. The `printer` logs receive
-one callback per URL, with a body similar to:
+The `printer` logs receive one callback per item, with a body similar to:
 
 ```json
 {
-  "url": "https://www.openfaas.com/",
-  "reachable": true,
-  "healthy": true,
-  "status_code": 200,
-  "content_type": "text/html; charset=utf-8",
-  "duration_ms": 84
+  "item": "one",
+  "processed": true
 }
 ```
 
-The `printer` function is useful for demonstrating callback delivery. Replace
-it with an application endpoint when results need to be persisted or acted on.
+When one action should run only after the complete batch has finished, use the
+[fan-in pattern](/languages/patterns/fan-in/) to collect and combine the individual
+results.
 
-## Track and cancel checks
+## Fan-out considerations
 
-Each call ID in the batch response identifies one queued check. Cancel it with
-a `DELETE` request to the async endpoint:
-
-```bash
-curl -i -X DELETE \
-  http://127.0.0.1:8080/async-function/9c0b1a12-fdea-4f01-baff-c5d9f50435ea
-```
-
-A `202 Accepted` response indicates that the cancellation request was
-accepted. See [asynchronous functions](/reference/async/) for the complete
-lifecycle.
-
-## Operational considerations
-
-* The queue-worker processes records up to its configured `max_inflight`
-  concurrency, while OpenFaaS can
-  [autoscale the function](/architecture/autoscaling/) across replicas. See
-  [parallelism](/reference/async/#parallelism).
-* A target that cannot be reached produces a successful function invocation
-  with `"reachable": false`. This allows the failure result to reach the
-  callback rather than being retried as a function error.
-* Queue-worker retries apply when the function invocation itself fails. See
-  [retries](/openfaas-pro/retries/).
-* The maximum payload size for each queued item is 1MB. For larger inputs,
-  store the data externally and submit an identifier. See
-  [configuration and limits](/reference/async/#configuration-limits).
+* Batch items must be independent. If one item needs another item's result,
+  coordinate them in sequence instead.
+* The gateway returns an `X-Call-Id` for each accepted asynchronous
+  invocation. Retain these IDs when individual items need to be tracked or
+  cancelled with `DELETE /async-function/<call-id>`. See
+  [cancel asynchronous invocations](/reference/async/#cancel-async-invocations)
+  for more information.
+* The queue-worker controls how many items it
+  [processes concurrently](/reference/async/#parallelism), and OpenFaaS can
+  [autoscale](/architecture/autoscaling/) `batch-worker` when the load increases.
+* The queue-worker handles
+  [retries for failed invocations](/openfaas-pro/retries/), allowing individual
+  batch items to recover from temporary errors.
