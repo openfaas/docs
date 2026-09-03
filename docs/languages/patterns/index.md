@@ -19,9 +19,9 @@ A director is an OpenFaaS function that coordinates a workflow. It invokes
 other functions through the gateway, passes results between them, decides what
 runs next, and returns or stores the final result.
 
-The functions invoked by the director are deployed independently, so each can
-use a different language, scale separately, and be updated without moving the
-workflow logic out of the director.
+A director can invoke functions in sequence, choose the next function from an
+earlier result, or run independent functions in parallel. It owns the workflow
+and presents a single endpoint to the caller.
 
 ```text
       [ Client ]
@@ -49,10 +49,15 @@ workflow logic out of the director.
 [ Return response / persist result ]
 ```
 
+The functions invoked by the director are deployed independently, so each can
+use a different language, scale separately, and be updated without moving the
+workflow logic out of the director
+
 **Useful when:**
 
-* Several independently deployed functions form one logical operation.
-* The caller needs one endpoint and one combined response.
+* Exposing a single endpoint for an operation that involves several functions
+* Hiding the coordination between functions from the caller
+* Coordinating functions that are developed, deployed, or scaled independently
 * A workflow needs sequencing, branching, or independent functions to run
   in parallel.
 
@@ -168,7 +173,7 @@ results can be fanned back in. One way to implement this is to:
   results, send a notification, or start the next step in the workflow.
 
 When results do not need to be combined, each callback can be handled
-independently.
+independently. See [fan-in](/languages/patterns/fan-in/) for the implementation.
 
 **Examples:**
 
