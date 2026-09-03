@@ -191,7 +191,7 @@ run concurrently, or must limit access to an external resource.
              │
              ▼ HTTP / invoke
 ┌──────────────────────────┐
-│    Singleton Function    │ ◄── Fixed at one replica
+│    Singleton Function    │
 │                          │
 │       [ Replica 1 ]      │
 └──────────────────────────┘
@@ -210,10 +210,12 @@ functions:
 
 **Useful when:**
 
-* Connections or subscribers are stored in the function process.
-* Software or an external resource requires a fixed number of function
-  replicas.
-* Horizontal scaling is intentionally undesirable.
+* Reusing an expensive process-local resource, such as a database client,
+  downloaded dataset, or machine-learning model.
+* Keeping stateful connections or subscribers in the same process.
+* Running software that permits only one active instance.
+* Maintaining a single session with an upstream service that limits active
+  clients.
 
 **Design considerations:**
 
