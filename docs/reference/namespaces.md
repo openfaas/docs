@@ -108,6 +108,21 @@ faas-cli deploy --namespace staging-fn
 openssl rand -base64 32 | faas-cli invoke --namespace staging-fn stronghash
 ```
 
+## Set a default namespace with `OPENFAAS_NS`
+
+You can set a default function namespace for the `faas-cli` with the `OPENFAAS_NS` environment variable. This is useful when you have access to a non-default namespace and do not want to pass the `--namespace` flag on every command.
+
+```sh
+export OPENFAAS_NS=staging-fn
+```
+
+The namespace is resolved with the following precedence (highest first):
+
+1. The `--namespace` flag
+2. The `namespace` field in the `stack.yml`
+3. The `OPENFAAS_NS` environment variable
+4. The default namespace (`openfaas-fn`)
+
 ## Controlling network access
 
 You should consider whether network policies or service mesh policies are required to restrict traffic between namespaces.

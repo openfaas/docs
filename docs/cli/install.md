@@ -111,6 +111,7 @@ Several overrides exist which will be used by default if set and no other comman
 * `OPENFAAS_TEMPLATE_URL` - to set the default URL to pull templates from
 * `OPENFAAS_PREFIX` - for use with `faas-cli new` - this can act in place of `--prefix`
 * `OPENFAAS_URL` - to override the default gateway URL
+* `OPENFAAS_NS` - to set the default function namespace
 
 ## Running `faas-cli` with sudo
 
