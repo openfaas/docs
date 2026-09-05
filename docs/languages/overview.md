@@ -12,7 +12,7 @@ There are many community templates, of varying levels of support and maintenance
 
 There are a number of official templates maintained and recommended by OpenFaaS Ltd, the following are currently documented:
 
-* [Go](./go.md)
+* [Go](./go/index.md)
 * [Node](./node.md)
 * [Python](./python/index.md)
 * [Dockerfile](./dockerfile.md)
@@ -34,3 +34,9 @@ You can also [create your own custom templates](./custom.md), or fork an existin
 
 You can bring along your own [pre-existing Dockerfiles and container images](/languages/dockerfile), so long as they conform to the [OpenFaaS workloads contract](/reference/workloads). You may need to add a health or readiness endpoint to make sure that no requests are lost during scaling up and down of your function.
 
+### Function patterns
+
+After choosing a language, see the
+[common function design patterns](/languages/patterns/) for ways to coordinate
+functions into workflows, process work in parallel, or run a function with a
+fixed replica count.
