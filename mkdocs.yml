@@ -219,6 +219,7 @@ nav:
       - Jenkins: ./reference/cicd/jenkins.md
     - Namespaces: ./reference/namespaces.md
     - Authentication: ./reference/authentication.md
+    - OAuth login for functions: ./reference/function-oauth.md
     - CORS: ./reference/cors.md
     - Profiles: ./reference/profiles.md
   - Design & Architecture:
