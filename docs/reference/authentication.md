@@ -34,6 +34,8 @@ Websites, portals and dashboards can be built using OpenFaaS.
 
 For authentication and authorization, signing on can be implemented using OAuth and many languages and frameworks have middleware to automate that for you.
 
+The of-watchdog can also run the OAuth / OIDC login flow on your function's behalf, keeping the session in a signed cookie that is validated before each request. Your function only needs to read the verified cookie, so you can add login without writing authentication code. See: [OAuth and OIDC login for functions](/reference/function-oauth/)
+
 As an example of this, see [Alex Ellis' Sponsors Portal](https://insiders.alexellis.io/), it's authenticates users using GitHub and authorizes them if their sponsorship amount covers the minimum amount.
 
 ### Bearer tokens and API keys
