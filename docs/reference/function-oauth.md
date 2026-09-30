@@ -84,9 +84,7 @@ This walkthrough deploys a function that requires visitors to sign in through an
 
     The watchdog checks for a valid session cookie from a successful login with the provider. It does not decide whether that visitor's identity may access the function or specific resources.
 
-    The handler must enforce those rules by verifying the [session cookie](#session-cookie) and checking the identity claims it contains, such as `sub` or `email`.
-
-For complete implementations, see the [examples on GitHub](https://github.com/welteki/of-watchdog-oauth-examples).
+    The handler must enforce those rules by verifying the [session cookie](#session-cookie) and checking the identity claims it contains, such as `sub`.
 
 ## Reference
 
