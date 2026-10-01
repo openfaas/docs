@@ -178,25 +178,25 @@ See: [Node template](/languages/node)
 
 #### Java
 
-Two Java templates are provided `java11` and `java11-vertx`, both of which use Gradle as the build system. Please note that the `java8` template is deprecated, and should not be used.
+Three Java templates are provided: `java11`, `java11-vert-x`, and `java17`, all of which use Gradle as the build system.
 
-> If you need a different version, then please fork the templates repository, or contact sales@openfaas.com to access additional templates via your OpenFaaS Premium Subscription.
+> Contact sales@openfaas.com for access to additional templates through an OpenFaaS Premium Subscription.
 
 Support is made available for external code repositories via the build.gradle file where you specify dependencies to fetch from repositories or JAR files to be added via the build.
 
 * Write a function `java-function`:
 
 ```
-$ faas-cli new --lang java11 java-function
+$ faas-cli new --lang java17 java-function
 ```
 
 * Write your code in:
 
-./src/main/Handler.java
+./src/main/java/com/openfaas/function/Handler.java
 
 * Write `junit` tests in:
 
-./src/tests/
+./src/test/java/
 
 * Update gradle config if needed in:
 
@@ -214,7 +214,7 @@ To set a header such as content-type you can use `setHeader(k, v)` on the Respon
 You can also run the following to create a function using Vert.x
 
 ```bash
-$ faas-cli new --lang java11-vertx java-vertx-function
+$ faas-cli new --lang java11-vert-x java-vertx-function
 ```
 
 #### Bash
