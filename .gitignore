@@ -1,3 +1,5 @@
 .idea
-# Local Netlify folder
-.netlify
+.venv/
+# Generated documentation
+_site/
+site/

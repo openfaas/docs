@@ -16,7 +16,7 @@ docker run --rm -it -p 8000:8000 -v `pwd`:/docs squidfunk/mkdocs-material:latest
 
 ## Published page
 
-This page is published through the use of `mkdocs` and is hosted on https://netlify.com/ with a TLS cert from LetsEncrypt.
+GitHub Actions builds the docs with `mkdocs` and publishes them to GitHub Pages.
 
 * https://docs.openfaas.com/
 
