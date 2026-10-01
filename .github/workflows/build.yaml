@@ -1,0 +1,21 @@
+name: Build docs
+
+on:
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: actuated-4cpu-8gb
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: python3 -m pip install -r requirements.txt
+      - name: Build docs
+        run: python3 -m mkdocs build --site-dir _site
