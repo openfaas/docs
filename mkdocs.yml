@@ -246,3 +246,5 @@ nav:
   - Contributing:
       - Get Started: ./contributing/get-started.md
       - Code Repositories: ./contributing/code-repositories.md
+  - Signet:
+      - Overview: ./signet/overview.md
