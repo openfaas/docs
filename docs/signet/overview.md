@@ -56,6 +56,12 @@ helm template signet oci://ghcr.io/openfaasltd/signet-provider \
   -f ./values.yaml
 ```
 
+To download and unpack the chart source for inspection:
+
+```bash
+helm pull oci://ghcr.io/openfaasltd/signet-provider --untar
+```
+
 Add the `--version` flag to get a specific chart version. See the [package page](https://github.com/orgs/openfaasltd/packages/container/package/signet-provider)
 for available chart versions.
 
@@ -120,6 +126,19 @@ If you set `issuer` to an external URL, use that instead of the port-forward:
 export SIGNET_URL=https://signet.example.com
 ```
 
+## Supported OAuth flows
+
+Signet supports the following flows for applications and CLI clients:
+
+| Flow | Use case | Client requirements |
+| --- | --- | --- |
+| Authorization Code | Browser login for web applications, dashboards, and CLIs | A registered redirect URL. Public clients must use PKCE with `S256`. Confidential clients must authenticate with their client secret. |
+| Client Credentials | Services and automation authenticating without a user | A client ID and secret. Tokens represent the client. |
+| Device Authorization (device flow) | CLIs and headless devices where the user approves login in a browser | Enable `--device-flow` when creating the client. Public clients use only their client ID. Confidential clients also require their secret. No redirect URL or PKCE is required. |
+
+For Authorization Code and Device Authorization, users can sign in with local
+credentials or [GitHub federation](#federated-login-with-github-optional).
+
 ## Provisioning identities
 
 Signet starts with an empty store. Add users and OAuth clients by seeding them
@@ -148,7 +167,9 @@ Create a user and an OAuth client:
 
 ```sh
 signet user add --groups admin admin
-signet client add --redirect-url https://dashboard.openfaas.example.com/auth/callback openfaas
+signet client add \
+  --redirect-url https://dashboard.openfaas.example.com/auth/callback \
+  openfaas
 ```
 
 Replace the redirect URL with the callback URL of the application that will
@@ -163,12 +184,26 @@ signet client list
 ```
 
 Use a public client for browser, mobile, or desktop apps that cannot keep a
-client secret private. These apps must support Proof Key for Code Exchange
-(PKCE):
+client secret private. For the Authorization Code flow, these apps must support
+Proof Key for Code Exchange (PKCE) with `S256`:
 
 ```sh
-signet client add --public --redirect-url https://app.example.com/callback web
+signet client add --public \
+  --redirect-url https://app.example.com/callback \
+  web
 ```
+
+For a CLI or headless device that uses device flow, create a public client with
+`--device-flow` enabled:
+
+```sh
+signet client add --public \
+  --device-flow \
+  device-cli
+```
+
+This client needs no client secret, redirect URL, or PKCE. The user opens
+Signet's verification page in a browser to sign in and approve the request.
 
 Use `signet user rm <username>` or `signet client rm <id>` to remove an
 identity. Run `signet user add --help` or `signet client add --help` for the
