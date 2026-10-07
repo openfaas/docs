@@ -58,9 +58,9 @@ Install the [Signet CLI](/signet/overview/#option-a-signet-cli) and provision at
 
 3. Create Roles and Policies
 
-    Follow [Create Roles and Policies](/openfaas-pro/iam/example-auth0/#define-a-role) to grant your users access to OpenFaaS. Use your Signet issuer URL in the Role's `jwt:iss` condition and match the user's token claims, such as `sub` or `groups`.
+    Registering a JwtIssuer enables OpenFaaS to trust tokens from Signet. Users also need a matching Role and Policy to access OpenFaaS resources.
 
-    Registering a JwtIssuer enables OpenFaaS to trust tokens from Signet. Users also need a matching Role and Policy to access OpenFaaS resources. For dashboard users, see the [required dashboard permissions](/openfaas-pro/dashboard/#configure-the-dashboard-with-iam).
+    For an example, see the [IAM walkthrough with Signet IdP](/openfaas-pro/iam/signet-idp/).
 
 ## SSO with faas-cli
 
