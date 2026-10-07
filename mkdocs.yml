@@ -171,6 +171,7 @@ nav:
           - Keycloak: ./openfaas-pro/sso/keycloak.md
           - Microsoft Entra: ./openfaas-pro/sso/microsoft-entra.md
           - Okta: ./openfaas-pro/sso/okta.md
+          - Signet: ./openfaas-pro/sso/signet.md
           - SSO with the CLI: ./openfaas-pro/sso/cli.md
       - Function CRD: ./openfaas-pro/function-crd.md
       - Queue Worker: ./openfaas-pro/jetstream.md
