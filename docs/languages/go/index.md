@@ -406,3 +406,8 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
+## Examples
+
+* [The director pattern](/languages/patterns/director/)
+* [The fan-out pattern](/languages/patterns/fan-out/)
+* [The singleton pattern](/languages/patterns/singleton/)

@@ -484,6 +484,9 @@ def handle(event, context):
 
 ## Examples
 
+* [The director pattern](/languages/patterns/director/)
+* [The fan-out pattern](/languages/patterns/fan-out/)
+* [The singleton pattern](/languages/patterns/singleton/)
 * [Deploy a function via the OpenFaaS API](examples/openfaas-api.md)
 * [Access AWS S3 with boto3](examples/s3-boto3.md)
 * [Call the OpenAI Chat API](examples/openai.md)
