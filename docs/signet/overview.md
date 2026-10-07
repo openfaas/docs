@@ -56,6 +56,12 @@ helm template signet oci://ghcr.io/openfaasltd/signet-provider \
   -f ./values.yaml
 ```
 
+To download and unpack the chart source for inspection:
+
+```bash
+helm pull oci://ghcr.io/openfaasltd/signet-provider --untar
+```
+
 Add the `--version` flag to get a specific chart version. See the [package page](https://github.com/orgs/openfaasltd/packages/container/package/signet-provider)
 for available chart versions.
 
@@ -233,6 +239,9 @@ config: |
 ## Exposing the issuer
 
 Signet is both an IdP and a web UI, so the issuer URL must be reachable from browsers. The in-cluster Service DNS name like `http://signet.signet.svc:8080` only works for in-cluster callers such as OpenFaaS, not for browsers.
+
+This also applies to device flow: the user still needs to open the verification
+page in a browser to approve the login, even if the client runs on a headless device.
 
 * For CI, agents, and e2e tests, port-forwarding is the quickest option:
   `kubectl -n signet port-forward svc/signet 8080:8080` and use
