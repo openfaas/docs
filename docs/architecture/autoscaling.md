@@ -373,6 +373,16 @@ The latency between accepting a request for an unavailable function and serving 
 
     For an overview of cold-starts in OpenFaaS see: [Dude where's my coldstart?](https://www.openfaas.com/blog/what-serverless-coldstart/)
 
+* What if my function takes time to start?
+
+    The OpenFaaS watchdog provides a built-in readiness check by default. Some workloads aren't ready as soon as the process starts, so scale from zero may require a custom readiness endpoint to let the gateway know when it's fully ready before sending traffic to the function. This is especially important if your function takes some time to start, for example to:
+
+    * Establish a connection pool to a database or message broker
+    * Load a large machine-learning model or dataset into memory
+    * Warm an in-memory cache before serving requests
+
+    In this case you can configure a custom readiness endpoint with the `com.openfaas.ready.http.*` annotations on your function, see: [Workloads: custom HTTP health checks](/reference/workloads#custom-http-health-checks). Read more on the blog: [Custom health and readiness checks for your functions](https://www.openfaas.com/blog/health-and-readiness-for-functions/).
+
 * What if my function is still running when it gets scaled down?
 
     That shouldn't happen, providing that you've set an adequate value for the idle detection for your function. But if it does, the OpenFaaS watchdog and our official function templates will allow a graceful termination of the function. See also: [Improving long-running jobs for OpenFaaS users](https://www.openfaas.com/blog/long-running-jobs/)
