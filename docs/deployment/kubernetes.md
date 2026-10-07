@@ -74,7 +74,7 @@ There are three recommended ways to install OpenFaaS and you can pick whatever m
 
 #### 1) Deploy the Chart with `arkade` (fastest option)
 
-The `arkade install` command installs OpenFaaS using its official helm chart. arkade can also install other important software for OpenFaaS users such as `cert-manager` and `nginx-ingress`. It's the easiest and quickest way to get up and running.
+The `arkade install` command installs OpenFaaS using its official helm chart. arkade can also install other important software for OpenFaaS users such as `cert-manager` and `traefik`. It's the easiest and quickest way to get up and running.
 
 You can use [arkade](https://arkade.dev/) to install OpenFaaS to a regular cloud cluster, your laptop, a VM, a Raspberry Pi, or a 64-bit Arm machine.
 
@@ -197,7 +197,7 @@ Also, ensure any [default load-balancer timeouts within GKE](https://cloud.googl
 To enable TLS while using Helm, try one of the following references:
 
 * [Get TLS for OpenFaaS the easy way with arkade](https://blog.alexellis.io/tls-the-easy-way-with-openfaas-and-k3sup/)
-* [Configure TLS with nginx-ingress and cert-manager](/reference/tls-openfaas)
+* [Configure TLS with Traefik and cert-manager](/reference/tls-openfaas)
 
 ### Setting an Image Pull Policy for your functions
 
