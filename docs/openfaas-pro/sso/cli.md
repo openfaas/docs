@@ -49,7 +49,11 @@ sudo apt update -qy && sudo apt install -qy wslu --no-install-recommends
 Then, whenever a browser is launched, it will open on your Windows host, and the result will come back to the WSL environment.
 
 !!! note "Note for Windows Subsystem for Linux (WSL) users"
-        When authenticating from WSL, the redirect address will be changed from `http://127.0.0.1` to `http://localhost`. Make sure that the address: `http://localhost:31111/oauth/callback` is added as a callback URL for the IdP app for OpenFaaS.
+
+    When authenticating from WSL, the redirect address will be changed from
+    `http://127.0.0.1` to `http://localhost`. Make sure that the address:
+    `http://localhost:31111/oauth/callback` is added as a callback URL for the
+    IdP app for OpenFaaS.
 
 #### View the token for debugging purposes
 
