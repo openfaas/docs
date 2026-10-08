@@ -108,6 +108,7 @@ Set `oauth_enabled=true` and configure the function's public URL, OIDC client ID
 | ------ | ----- |
 | `oauth_client_secret` | Name of an OpenFaaS secret containing the client secret. Omit for public clients without a secret that support PKCE. |
 | `oauth_scopes` | Space- or comma-separated scopes. Default: `openid`. OIDC always includes `openid`. |
+| `oauth_groups` | Optional comma-separated list of exact, case-sensitive provider group names to copy into `fed:groups`. Entries are trimmed and de-duplicated. Unset or blank imports all groups. |
 | `oauth_cookie_name` | Session cookie name. Default: `of_session`. Must be a valid cookie name and differ from the login cookie name. |
 | `oauth_login_cookie_name` | Temporary login cookie name. Default: `of_login`. Must be a valid cookie name and differ from the session cookie name. |
 | `oauth_login_redirect` | Destination after successful login. Defaults to `oauth_base_url`. |
@@ -135,21 +136,21 @@ The login page has a button that starts the provider flow. After successful logi
 
 After a successful login, the watchdog forwards the session cookie with each authenticated request. The cookie contains a JWT issued by the watchdog and signed with HS256 using the key in `oauth_signing_key`.
 
-The provider's access and ID tokens are discarded once login completes and are never stored in the cookie. When the provider returns an ID token, only a few identity claims are kept, following the same convention as [OpenFaaS IAM](/openfaas-pro/iam/overview/). The decoded payload looks like this:
+The provider's access and ID tokens are discarded once login completes and are never stored in the cookie. In OIDC mode, the watchdog verifies the ID token before retaining a few identity claims, following the same convention as [OpenFaaS IAM](/openfaas-pro/iam/overview/). The decoded payload looks like this:
 
 ```json
 {
   "iss": "https://gateway.example.com/function/profile",
+  "sub": "fed:8a2f6c1e-4d7b-4f0a-9c3e-2b5d7e9f1a4c",
   "aud": ["https://gateway.example.com/function/profile"],
   "exp": 1800003600,
   "iat": 1800000000,
-  "cookie_name": "of_session",
-  "value": {
-    "sub": "fed:8a2f6c1e-4d7b-4f0a-9c3e-2b5d7e9f1a4c",
-    "fed:iss": "https://keycloak.example.com/realms/openfaas",
-    "email": "alice@example.com",
-    "name": "Alice"
-  }
+  "typ": "session",
+  "fed:iss": "https://keycloak.example.com/realms/openfaas",
+  "fed:email": "alice@example.com",
+  "fed:email_verified": true,
+  "fed:name": "Alice",
+  "fed:groups": ["admins", "staff"]
 }
 ```
 
@@ -157,17 +158,28 @@ The provider's access and ID tokens are discarded once login completes and are n
 | ----- | ------- |
 | `iss`, `aud` | The function's public URL from `oauth_base_url`. These identify the watchdog-issued session, not the OIDC provider. |
 | `iat`, `exp` | Unix timestamps for when the session was issued and when it expires. |
-| `cookie_name` | The session cookie's name, `of_session` by default. |
-| `value.sub` | The provider's subject, prefixed with `fed:`. Use this as the stable user identifier. |
-| `value["fed:iss"]` | The provider's issuer URL. |
-| `value.email`, `value.name` | Copied from the ID token when present. |
+| `typ` | The watchdog token type. A session JWT always has the value `session`. |
+| `sub` | The provider's subject, prefixed with `fed:`. Use this as the stable user identifier. |
+| `fed:iss` | The provider's issuer URL. |
+| `fed:email`, `fed:email_verified`, `fed:name` | Copied from the ID token when present. Only use the email for authorization when `fed:email_verified` is `true` and the provider's email semantics are suitable. |
+| `fed:groups` | Provider groups, optionally selected with `oauth_groups`, in provider order. |
+| `fed:groups_truncated` | When `true`, the group information is incomplete because the provider claim contained unusable values or the selected groups did not all fit in the cookie. Absence from `fed:groups` is then not proof of non-membership. |
 
-With plain OAuth, for example a GitHub OAuth App, there is no ID token, so `value` is empty (`{}`). The cookie then only proves that the visitor signed in with the provider, not who they are. If the function needs the visitor's identity, use an OIDC provider.
+With plain OAuth, for example a GitHub OAuth App, the session contains only the watchdog's registered claims and `typ: session`; it proves that the visitor signed in with the provider, but not who they are. Any unexpected `id_token` returned in this mode is ignored because it has not passed OIDC verification. If the function needs the visitor's identity, configure an OIDC provider with `oauth_issuer_url`.
+
+By default, the watchdog copies all string values from the provider's `groups` claim. Non-string entries are omitted; if the claim is not an array or contains a non-string entry, the watchdog sets `fed:groups_truncated: true`. If the handler only needs a small set, configure it explicitly:
+
+```yaml
+environment:
+  oauth_groups: admins, staff
+```
+
+Selection happens before cookie sizing, so the required groups are retained even when they appeared near the end of a large provider claim. If the selected groups still make the JWT exceed the cookie budget, the watchdog removes groups from the end, sets the same truncation marker, and logs only the included and omitted counts. Presence in `fed:groups` can support an allow decision. When the marker is true, treat the group set as unknown and deny the request if the decision depends on a group that is absent.
 
 The function never receives the provider's access token, so it cannot call the provider's APIs on the visitor's behalf. If it needs to, the function must implement its own OAuth flow instead of using the watchdog.
 
-!!! warning "Use of-watchdog 0.12.3 or later"
-    Earlier releases stored the provider's tokens in the cookie in readable form. After upgrading, rotate `oauth_signing_key` to invalidate cookies issued by those releases.
+!!! warning "Use of-watchdog 0.12.5 or later"
+    Version 0.12.4 introduced the flat session format, but explicit plain-OAuth endpoint mode could promote claims from an unverified `id_token`. Version 0.12.5 ignores identity data in plain OAuth and only copies claims returned by OIDC verification. The session schema is unchanged from 0.12.4. If explicit endpoints returned an ID token under 0.12.4, rotate `oauth_signing_key` during the upgrade to invalidate those sessions immediately. Version 0.12.3 used an intermediate nested format, and 0.12.2 and earlier stored provider tokens in the cookie; rotate the signing key when upgrading from those versions too.
 
 #### Read the session in a handler
 
@@ -177,24 +189,23 @@ Verify the cookie with the same signing key the watchdog uses. Mount the secret,
 
 * the HS256 signature
 * the issuer and audience, which must both equal `oauth_base_url`
-* the expiry
-* the `cookie_name` claim
+* the expiry and issued-at time
+* the `typ` claim, which must equal `session`
 
 The `oauth_base_url` environment variable is available to the handler as well as the watchdog.
 
 For Go, using [golang-jwt](https://github.com/golang-jwt/jwt):
 
 ```go
-// Session is the payload of the watchdog's of_session cookie.
 type Session struct {
 	jwt.RegisteredClaims
-	CookieName string `json:"cookie_name"`
-	Value      struct {
-		Subject string `json:"sub"`
-		Issuer  string `json:"fed:iss"`
-		Email   string `json:"email"`
-		Name    string `json:"name"`
-	} `json:"value"`
+	Type            string   `json:"typ"`
+	FederatedIssuer string   `json:"fed:iss,omitempty"`
+	FederatedEmail  string   `json:"fed:email,omitempty"`
+	EmailVerified   *bool    `json:"fed:email_verified,omitempty"`
+	FederatedName   string   `json:"fed:name,omitempty"`
+	FederatedGroups []string `json:"fed:groups,omitempty"`
+	GroupsTruncated bool     `json:"fed:groups_truncated,omitempty"`
 }
 
 var (
@@ -216,18 +227,21 @@ func mustReadKey(path string) []byte {
 
 // readSession verifies the cookie with the function's signing key.
 func readSession(r *http.Request) (*Session, error) {
-	cookie, err := r.Cookie("of_session")
-	if err != nil {
-		return nil, err
+	cookies := r.CookiesNamed("of_session")
+	if len(cookies) != 1 || cookies[0].Value == "" {
+		return nil, errors.New("missing or duplicate session cookie")
 	}
 	session := &Session{}
-	_, err = jwt.ParseWithClaims(cookie.Value, session,
+	_, err := jwt.ParseWithClaims(cookies[0].Value, session,
 		func(*jwt.Token) (any, error) { return signingKey, nil },
 		jwt.WithValidMethods([]string{"HS256"}),
 		jwt.WithIssuer(baseURL),
 		jwt.WithAudience(baseURL),
-		jwt.WithExpirationRequired())
-	if err != nil || session.CookieName != "of_session" {
+		jwt.WithExpirationRequired(),
+		jwt.WithIssuedAt(),
+		jwt.WithStrictDecoding())
+	if err != nil || session.IssuedAt == nil || session.Type != "session" ||
+		len(session.Audience) != 1 || session.Audience[0] != baseURL {
 		return nil, errors.New("invalid session")
 	}
 	return session, nil
@@ -239,7 +253,7 @@ For Python, using [PyJWT](https://pyjwt.readthedocs.io/):
 ```python
 import base64
 import os
-from http.cookies import SimpleCookie
+from http.cookies import CookieError, SimpleCookie
 
 import jwt
 
@@ -251,28 +265,37 @@ with open("/var/openfaas/secrets/profile-signing-key") as f:
 
 def read_session(cookie_header):
     """Verify the watchdog's of_session cookie and return its claims."""
-    cookie = SimpleCookie(cookie_header).get("of_session")
-    if cookie is None:
+    values = []
+    try:
+        for part in (cookie_header or "").split(";"):
+            parsed = SimpleCookie()
+            parsed.load(part)
+            cookie = parsed.get("of_session")
+            if cookie is not None:
+                values.append(cookie.value)
+    except CookieError:
+        return None
+    if len(values) != 1 or not values[0]:
         return None
     try:
         claims = jwt.decode(
-            cookie.value,
+            values[0],
             SIGNING_KEY,
             algorithms=["HS256"],
             issuer=BASE_URL,
             audience=BASE_URL,
-            options={"require": ["exp", "iss", "aud"]},
+            options={"require": ["exp", "iat", "iss", "aud", "typ"]},
         )
     except jwt.InvalidTokenError:
         return None
-    if claims.get("cookie_name") != "of_session":
+    if claims.get("typ") != "session" or claims.get("aud") != [BASE_URL]:
         return None
-    return claims["value"]
+    return claims
 ```
 
 With the `python3-http` template, pass `event.headers.get("Cookie")` to `read_session`. If `oauth_cookie_name` is set, use that name instead of `of_session`.
 
-Base authorization decisions on `value.sub`, not on `email` or `name`, which the provider may allow users to change. Do not log the raw cookie or return it to browser code.
+Base authorization decisions on `sub`, not on `fed:email` or `fed:name`, which the provider may allow users to change. If group membership is used, prefer an `oauth_groups` selection containing only the groups the handler needs, and account for `fed:groups_truncated`. Do not log the raw cookie or return it to browser code.
 
 ## Related
 
