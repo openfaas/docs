@@ -109,7 +109,7 @@ bash-streaming           [x]         openfaas-incubator Bash Streaming template
 dockerfile               [x]         openfaas           Classic Dockerfile template
 dotnet8-csharp           [x]         openfaas           C# template using WebApplication
 golang-middleware        [x]         openfaas           HTTP middleware interface in Go
-java11-vert-x            [x]         openfaas           Java 11 Vert.x template
+java21-vertx             [x]         openfaas           Java 21 Vert.x template
 node22                   [x]         openfaas           HTTP-based Node 22 template
 php8                     [x]         openfaas           Classic PHP 8 template
 python3-http             [x]         openfaas           Python 3 with Flask and HTTP
@@ -178,44 +178,7 @@ See: [Node template](/languages/node)
 
 #### Java
 
-Two Java templates are provided `java11` and `java11-vertx`, both of which use Gradle as the build system. Please note that the `java8` template is deprecated, and should not be used.
-
-> If you need a different version, then please fork the templates repository, or contact sales@openfaas.com to access additional templates via your OpenFaaS Premium Subscription.
-
-Support is made available for external code repositories via the build.gradle file where you specify dependencies to fetch from repositories or JAR files to be added via the build.
-
-* Write a function `java-function`:
-
-```
-$ faas-cli new --lang java11 java-function
-```
-
-* Write your code in:
-
-./src/main/Handler.java
-
-* Write `junit` tests in:
-
-./src/tests/
-
-* Update gradle config if needed in:
-
-./build.gradle
-./settings.gradle
-
-* Working with headers (advanced)
-
-You can view the code for the IRequest and IResponse in [the OpenFaaS templates-sdk](https://github.com/openfaas/templates-sdk/tree/master/java11/model/src/main/java/com/openfaas/model)
-
-You can use `getHeader(k)` on the Request interface to query a header.
-
-To set a header such as content-type you can use `setHeader(k, v)` on the Response interface.
-
-You can also run the following to create a function using Vert.x
-
-```bash
-$ faas-cli new --lang java11-vertx java-vertx-function
-```
+See the [Java template](/languages/java)
 
 #### Bash
 
