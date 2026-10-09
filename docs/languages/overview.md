@@ -13,12 +13,13 @@ There are many community templates, of varying levels of support and maintenance
 There are a number of official templates maintained and recommended by OpenFaaS Ltd, the following are currently documented:
 
 * [Go](./go.md)
+* [Java](./java.md)
 * [Node](./node.md)
 * [Python](./python/index.md)
 * [Dockerfile](./dockerfile.md)
 * [CSharp](./csharp.md)
 
-See also: [other templates information - C#, Java, Ruby, Rust and Bash](/cli/templates)
+See also: [other templates information - C#, Ruby, Rust and Bash](/cli/templates)
 
 Community support:
 
