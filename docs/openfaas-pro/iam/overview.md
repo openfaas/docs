@@ -236,6 +236,7 @@ OpenFaaS IAM objects are defined in the `openfaas` namespace, and need to be cre
 ## Examples
 
 * [Create Roles and Policies](/openfaas-pro/iam/example-auth0)
+* [IAM walkthrough with Signet IdP](/openfaas-pro/iam/signet-idp/)
 
 ### Authenticate using Kubernetes JWT tokens
 

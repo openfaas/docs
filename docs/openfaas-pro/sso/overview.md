@@ -64,5 +64,6 @@ For more details on how to configure Single Sign-On for OpenFaaS, follow one of 
 - [Google](/openfaas-pro/sso/google/) - Configure Google for OpenFaaS IAM.
 - [Microsoft Entra](/openfaas-pro/sso/microsoft-entra) - Configure Microsoft Entra for OpenFaaS IAM.
 - [Okta](/openfaas-pro/sso/okta) - Configure Okta for OpenFaaS IAM.
+- [Signet](/openfaas-pro/sso/signet/) - Configure Signet for OpenFaaS IAM.
 
 Some providers may need an additional patch or configuration. Feel free to reach out to us.
