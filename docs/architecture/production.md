@@ -25,6 +25,15 @@ OpenFaaS Standard and For Enterprises can also be installed into an airgapped Ku
 
     The default configuration for Kubernetes is to store secrets in base64 which is equivalent to plaintext and is not a form of encryption. Kubernetes supports encrypting secrets at rest and because OpenFaaS uses Kubernetes secrets, its secrets will also be encrypted at rest.
 
+#### Protect the installation namespace
+
+Use Kubernetes RBAC to prevent unprivileged users and function service accounts from creating, modifying, or deleting resources in the OpenFaaS installation namespace (usually `openfaas`). Restrict management of these resources to trusted administrators. This includes IAM resources (`JwtIssuer`, `Role`, and `Policy`), Profiles, and core deployments such as the gateway and queue-worker.
+
+We recommend keeping function namespaces separate from the installation namespace.
+
+!!! warning "Sharing the installation namespace"
+    If you use the same namespace for functions and the OpenFaaS installation, take particular care when granting permissions to function users and service accounts. Broad permissions in that namespace can allow them to change [OpenFaaS IAM resources](/openfaas-pro/iam/overview/#concepts), function [Profiles](/reference/profiles/) or the OpenFaaS installation itself.
+
 ### Helm Charts
 
 The `helm` chart is the most flexible way to deploy OpenFaaS and allows you to customize many different options such as whether scale-to-zero is enabled, how many replicas to have of each component and what kind of healthchecks or probes to use.
