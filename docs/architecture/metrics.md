@@ -42,8 +42,8 @@ Advanced metrics for OpenFaaS Pro users:
 
 | Metric                              | Type       | Description                         | Labels                     | Edition            |
 | ----------------------------------- | ---------- | ----------------------------------- | -------------------------- |--------------------|
-| `gateway_invocation_function_started`             | counter    | Invocations started, including async | `function_name`            | Pro Edition  |
-| `gateway_invocation_function_invocation_inflight`             | gauge    | Total connections inflight for function invocations | `function_name`            | Pro Edition  |
+| `gateway_function_invocation_started`             | counter    | Invocations started, including async | `function_name`            | Pro Edition  |
+| `gateway_function_invocation_inflight`             | gauge    | Total connections inflight for function invocations | `function_name`, [`source`](#the-source-label)            | Pro Edition  |
 | `gateway_service_ready_count`             | gauge    | Number of function replicas which are in a ready state | `function_name`            | Pro Edition  |
 | `gateway_service_target`            | gauge      | Target load for the function        | `function_name`            | Pro Edition  |
 | `gateway_service_min`               | gauge      |  Min number of function replicas    | `function_name`            | Pro Edition  |
@@ -53,6 +53,23 @@ Advanced metrics for OpenFaaS Pro users:
 | `gateway_nats_reconnect_total`      | counter    | Total number of times the NATS client has reconnected |                            | Pro Edition  |
 
 The `http_request*` metrics record the latency and statistics of `/system/*` routes to monitor the OpenFaaS gateway and its provider. The `/async-function` route is also recorded in these metrics to observe asynchronous ingestion rate and latency.
+
+### The `source` label
+
+The `source` label identifies which OpenFaaS component initiated an invocation, so that inflight requests can be broken down by traffic source (for example, when writing [custom autoscaling rules](/architecture/autoscaling/#custom-autoscaling-rules)).
+
+Currently the only source that is identified is the async queue-worker, labelled `queue-worker`. All other traffic, including direct synchronous calls, is recorded as `unknown`.
+
+| Source         | Description                          |
+| -------------- | ------------------------------------ |
+| `queue-worker` | Asynchronous invocation dispatched by the NATS queue-worker |
+| `unknown`      | Any other traffic that is not attributed to a known source, such as a direct synchronous call |
+
+!!! info "Migration note when upgrading to gateway 0.5.22 or later"
+    The `source` label was added to `gateway_function_invocation_inflight` in gateway version `0.5.22`, which increases the metric's cardinality. Existing queries, dashboard panels and alerts that select this metric without aggregating away the new label will now return one series per source where they previously returned a single series per function. To keep the previous behaviour, aggregate the `source` label away, for example with `sum by (function_name) (gateway_function_invocation_inflight)`.
+
+!!! note "Gateway and queue-worker inflight counts can differ"
+    `gateway_function_invocation_inflight{source="queue-worker"}` is measured by the gateway, while `queue_worker_function_invocation_inflight` (see [JetStream for OpenFaaS](#jetstream-for-openfaas)) is measured by the queue-worker itself. The two count the same traffic at different points and will not always match exactly.
 
 Additional metrics from the Operator:
 
